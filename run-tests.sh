@@ -93,3 +93,5 @@ run_checked --headless --path . --script tests/painted_battle_integration_test.g
 run_checked --headless --path . --script tests/painted_rival_test.gd
 
 run_checked --headless --path . --script tests/ferry_backdrop_test.gd
+
+run_checked --headless --path . --script tests/pause_menu_test.gd
