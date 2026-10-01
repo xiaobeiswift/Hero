@@ -12,3 +12,4 @@ ENGINE="${GODOT_BIN:-godot}"
 "$ENGINE" --headless --path . --script tests/audit_progression_test.gd
 
 "$ENGINE" --headless --path . --script tests/audit_second_region_test.gd
+"$ENGINE" --headless --path . --script tests/economy_test.gd
