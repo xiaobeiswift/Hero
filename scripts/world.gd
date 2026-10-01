@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const CampShelter=preload("res://scripts/painted_camp_shelter.gd")
 const Noticeboard=preload("res://scripts/painted_noticeboard.gd")
 const Civilians=preload("res://scripts/painted_village_civilians.gd")
 const FerryProps=preload("res://scripts/qingwei_ferry_props.gd")
@@ -20,6 +21,7 @@ signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
 var ui_scale:float=1.0
+var painted_camp_enabled:bool=true
 var painted_board_enabled:bool=true
 var painted_props_enabled:bool=true
 var painted_water_enabled:bool=true
@@ -394,8 +396,8 @@ func _draw() -> void:
 	_draw_old_ferry()
 	if _world_rect_visible(Rect2(1360,850,240,190)):Islet.draw(self)
 	_draw_memorial()
-	_draw_camp()
-	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"}]
+	_draw_camp_fire()
+	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"},{"y":735.0,"kind":"camp"}]
 	for b in buildings:
 		layers.append({"y": b["pos"].y + b["size"].y, "kind": "building", "data": b})
 	for tree in trees:
@@ -410,6 +412,7 @@ func _draw() -> void:
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
+			"camp": _draw_camp()
 			"noticeboard": _draw_board(Vector2(720,480))
 			"building": _draw_building(item["data"])
 			"tree": _draw_tree(item["data"])
@@ -765,12 +768,20 @@ func _draw_memorial() -> void:
 
 func _draw_camp() -> void:
 	if not _world_rect_visible(Rect2(1240,650,170,180)):return
+	if painted_camp_enabled:
+		_ellipse(CampShelter.WORLD_FOOT+Vector2(0,1),Vector2(46,7),Color(.1,.2,.15,.16))
+		var actors=[player_pos]
+		if companion_active:actors.append(companion_pos)
+		if CampShelter.draw(self,CampShelter.opacity_for(actors)):return
 	var p := Vector2(1328, 733)
 	_poly([p + Vector2(-38, -6), p + Vector2(2, -64), p + Vector2(62, -2)], Color("727653"))
 	_poly([p + Vector2(2, -64), p + Vector2(7, -6), p + Vector2(62, -2)], Color("8e8c5c"))
 	_poly([p + Vector2(-9, -23), p + Vector2(2, -59), p + Vector2(10, -7), p + Vector2(-11, -5)], Color("4c6450"))
 	for offset in [Vector2(-25, 8), Vector2(54, 7)]:
 		draw_line(p + offset, p + offset + Vector2(3, -17), Color("6d7051"), 2)
+
+func _draw_camp_fire() -> void:
+	if not _world_rect_visible(Rect2(1278,762,52,50)):return
 	var fire := Vector2(1303, 795)
 	for i in range(7):
 		var a := i * TAU / 7.0
