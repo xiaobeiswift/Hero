@@ -54,6 +54,9 @@ var portrait: Label
 var overlay: Control
 var battle_layer: Control
 var battle_art
+var battle_presentation_generation:=0
+var battle_busy:=false
+var battle_presentation_enabled:=DisplayServer.get_name()!="headless"
 var battle_hp: ProgressBar
 var battle_player_hp: ProgressBar
 var battle_status:Label
@@ -648,6 +651,9 @@ func _build_battle_ui() -> void:
 		battle_buttons.append(_button(battle_layer,names[i],Rect2(25+i*180,476,167,56),_battle_action.bind(actions[i])))
 
 func _start_battle(kind: String) -> void:
+	battle_presentation_generation+=1
+	battle_busy=false
+	battle_art.reset_presentation()
 	_close_modal()
 	current_screen = "battle"
 	story_battle = kind=="story"
@@ -665,10 +671,12 @@ func _start_battle(kind: String) -> void:
 	battle_art.companion_name=state.current_companion()
 	battle_art.region_style="training" if kind=="sect_trial" else state.map_id
 	battle_layer.visible = true
-	battle_art.flash = 0
+	battle_busy=false
+	battle_art.reset_presentation()
 	_refresh_battle()
 
 func _refresh_battle() -> void:
+	for button in battle_buttons:button.disabled=false
 	battle_hp.max_value = state.enemy_max_hp
 	battle_hp.value = state.enemy_hp
 	battle_player_hp.max_value = state.max_hp
@@ -687,13 +695,21 @@ func _refresh_battle() -> void:
 	_refresh()
 
 func _battle_action(action: String) -> void:
-	if not state.battle_active or active_modal: return
+	if not state.battle_active or active_modal or battle_busy: return
 	var result = state.battle_action(action)
 	if not result.get("valid",false):
 		_toast(result.get("message","此刻无法使用。"))
 		return
-	battle_art.hit(action)
+	battle_art.hit(action,result)
 	if audio_on: sfx.play()
+	if battle_presentation_enabled and battle_art.is_presenting():
+		var generation=battle_presentation_generation
+		battle_busy=true
+		for button in battle_buttons:button.disabled=true
+		battle_status.text="招式演绎中 · 稍候片刻"
+		await battle_art.presentation_finished
+		if generation!=battle_presentation_generation:return
+		battle_busy=false
 	_refresh_battle()
 	if result.get("finished",false):
 		current_screen = "explore"

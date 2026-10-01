@@ -1,11 +1,14 @@
 class_name VillageWorld
 extends Node2D
+const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
+const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
+const Traveler=preload("res://scripts/traveler_visual.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Islet=preload("res://scripts/reed_islet.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 const Frost=preload("res://scripts/frostbridge_region.gd")
 
-## Original, vector-drawn wuxia village. No imported art or physics assets required.
+## Original layered wuxia village with painted architecture and articulated travellers.
 signal interacted(id: String)
 signal moved(position: Vector2)
 signal location_changed(name: String)
@@ -32,6 +35,9 @@ var companion_name:String="沈青"
 var shen_target_id:String=""
 var personal_target_id:String=""
 var companion_pos: Vector2 = Vector2(429, 451)
+var companion_facing:=Vector2.DOWN
+var companion_walk_time:=0.0
+var companion_moving:=false
 
 const WORLD_SIZE := Vector2(1600, 1050)
 const SPEED := 185.0
@@ -191,9 +197,16 @@ func _process(delta: float) -> void:
 		if _can_step(player_pos,next_y):
 			player_pos.y = next_y.y
 		moved.emit(player_pos)
+	companion_moving=false
 	if companion_active:
+		var old_companion_pos=companion_pos
 		var companion_target := _islet_companion_target() if map_id=="qingwei" and Lightness.on_islet(player_pos) else player_pos - facing * 34.0 + Vector2(-10, 10)
 		companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
+		var companion_step=companion_pos-old_companion_pos
+		companion_moving=companion_step.length()>delta*5
+		if companion_moving:
+			companion_facing=companion_step.normalized()
+			companion_walk_time+=companion_step.length()*0.060
 	camera_pos = camera_pos.lerp(_camera_target(), minf(delta * 9.0, 1.0))
 	_update_nearby()
 	var new_location := _location_for_position()
@@ -355,6 +368,8 @@ func _draw_ground() -> void:
 	_ellipse(Vector2(271, 664), Vector2(380, 370), Color("a4b191"))
 	_ellipse(Vector2(1338, 800), Vector2(320, 275), Color("93a485"))
 	_ellipse(Vector2(1264, 330), Vector2(250, 245), Color("9eaf8b"))
+	# One continuous low-contrast painted patch avoids tile edge seams.
+	draw_texture_rect(GroundTexture,Rect2(Vector2.ZERO,WORLD_SIZE),false,Color(1,1,1,0.42))
 	for grass in grasses:
 		var p: Vector2 = grass["pos"]
 		var length: float = grass["length"]
@@ -392,6 +407,19 @@ func _path(points: Array[Vector2], width: float) -> void:
 	for p in points:
 		draw_circle(p, width * 0.5, Color("c2be9c"))
 		draw_circle(p, (width - 9) * 0.5, Color("cbc4a1"))
+	# Broken flagstones and small grit follow the path rather than covering lawns.
+	for segment in range(points.size()-1):
+		var a:Vector2=points[segment]
+		var b:Vector2=points[segment+1]
+		var tangent=(b-a).normalized()
+		var normal=Vector2(-tangent.y,tangent.x)
+		var count=maxi(1,int(a.distance_to(b)/17.0))
+		for i in range(count):
+			var p=a.lerp(b,(i+0.5)/count)+normal*sin(i*2.37+a.x)*width*0.22
+			var pale=Color(0.87,0.84,0.69,0.18)
+			_ellipse(p,Vector2(4.0+fmod(i*7.0,7.0),2.4),pale)
+			draw_line(p+normal*width*0.18,p+normal*(width*0.18+2),Color(0.35,0.38,0.27,0.16),1,true)
+
 
 func _draw_pond() -> void:
 	_ellipse(Vector2(998, 488), Vector2(174, 124), Color("6e8e79"))
@@ -463,6 +491,10 @@ func _fence(a: Vector2, b: Vector2, posts: int) -> void:
 		draw_line(p - Vector2(1, 23), p - Vector2(1, 2), Color("9aa27b"), 1, true)
 
 func _draw_building(b: Dictionary) -> void:
+	if map_id=="qingwei" and EnvironmentArt.draw_building(self,b):
+		var plaque:Rect2=EnvironmentArt.plaque_rect(b)
+		_label(plaque.position+Vector2(0,plaque.size.y*0.78),b["name"],11,Color("ebd7a4"),plaque.size.x,HORIZONTAL_ALIGNMENT_CENTER)
+		return
 	var p: Vector2 = b["pos"]
 	var size: Vector2 = b["size"]
 	var name_text: String = b["name"]
@@ -520,6 +552,7 @@ func _draw_building(b: Dictionary) -> void:
 		_label(flag_p + Vector2(-15, 12), "茶", 24, Color("576a51"), 28, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _draw_tree(tree: Dictionary) -> void:
+	if map_id=="qingwei" and EnvironmentArt.draw_willow(self,tree["pos"],tree["scale"]):return
 	var p: Vector2 = tree["pos"]
 	var s: float = tree["scale"]
 	var variant: int = tree["variant"]
@@ -666,63 +699,14 @@ func _draw_npc(id: String) -> void:
 	_draw_person(p, robe, false, id)
 
 func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> void:
-	var bob := sin(walk_time) * 1.6 if is_player and moving else sin(time_passed * 2.0 + p.x) * 0.35
-	var stride := sin(walk_time) * 4.0 if is_player and moving else 0.0
-	_ellipse(p + Vector2(1, 2), Vector2(12, 5), Color(0.12, 0.25, 0.22, 0.24))
 	if is_player:
-		_ellipse_arc(p + Vector2(0, 2), Vector2(17, 7), Color(0.85, 0.76, 0.49, 0.55))
-	var q := p + Vector2(0, bob)
-	# Boots, trailing cloak and folded robe.
-	draw_line(q + Vector2(-4, -10), q + Vector2(-5, stride), Color("314842"), 4.5, true)
-	draw_line(q + Vector2(4, -10), q + Vector2(5, -stride), Color("314842"), 4.5, true)
-	if is_player:
-		_poly([q + Vector2(-8, -29), q + Vector2(6, -27), q + Vector2(14 + sin(walk_time) * 2, -4), q + Vector2(0, -9), q + Vector2(-15 - sin(walk_time) * 2, -3)], Color("315d58"))
-	_poly([q + Vector2(-7, -28), q + Vector2(7, -28), q + Vector2(11, -7), q + Vector2(-10, -7)], robe)
-	_poly([q + Vector2(-5, -27), q + Vector2(5, -22), q + Vector2(-2, -10), q + Vector2(-8, -8)], robe.lightened(0.17))
-	draw_line(q + Vector2(-7, -15), q + Vector2(8, -15), Color("bca774") if is_player else Color("6d785b"), 2.4, true)
-	draw_line(q + Vector2(-7, -24), q + Vector2(-11, -12 - stride * 0.3), robe, 5, true)
-	draw_line(q + Vector2(7, -24), q + Vector2(11, -12 + stride * 0.3), robe, 5, true)
-	draw_circle(q + Vector2(0, -33), 7, Color("d5b78c"))
-	# Ink-black tied hair and topknot silhouette.
-	draw_arc(q + Vector2(0, -34), 6.5, PI, TAU + 0.25, 12, Color("314741"), 4, true)
-	draw_circle(q + Vector2(-1, -42), 3.3, Color("314741"))
-	if is_player:
-		draw_line(q + Vector2(-3, -41), q + Vector2(4, -41), C_GOLD, 1.3, true)
-		# Diagonal scabbard, gold guard and light pommel.
-		draw_line(q + Vector2(-10, -5), q + Vector2(13, -35), Color("213f3c"), 3.8, true)
-		draw_line(q + Vector2(7, -32), q + Vector2(15, -26), C_GOLD, 2.1, true)
-		draw_line(q + Vector2(11, -32), q + Vector2(16, -39), Color("d7c79d"), 2.5, true)
-		_poly([q + Vector2(-6, -29), q + Vector2(-12, -24), q + Vector2(-16 - sin(time_passed * 2) * 2, -15), q + Vector2(-9, -20)], Color("74a391"))
-	elif kind == "elder":
-		draw_line(q + Vector2(16, 0), q + Vector2(16, -31), Color("796b4d"), 2.5, true)
-		_poly([q + Vector2(-4, -31), q + Vector2(4, -31), q + Vector2(1, -21)], Color("ddd8bd"))
-		draw_arc(q + Vector2(0, -35), 7.0, PI, TAU, 12, Color("c0c6ab"), 3, true)
-	elif kind == "healer":
-		draw_line(q + Vector2(-7, -32), q + Vector2(7, -32), Color("5f866b"), 2)
-		draw_rect(Rect2(q + Vector2(7, -15), Vector2(8, 9)), Color("927d57"))
-	elif kind == "bandit":
-		_poly([q + Vector2(-12, -34), q + Vector2(0, -42), q + Vector2(13, -34)], Color("7d7454"))
-		draw_line(q + Vector2(13, -8), q + Vector2(19, -29), Color("bfc0a2"), 3, true)
-		draw_line(q + Vector2(9, -10), q + Vector2(17, -8), Color("656b51"), 2)
+		Traveler.draw_actor(self,p,Color("398f7d"),facing,walk_time if moving else time_passed,moving)
+		return
+	var role="shen" if kind=="healer" else kind
+	Traveler.draw_actor(self,p,robe,Vector2.DOWN,time_passed+p.x*0.03,false,role,0.96)
 
 func _draw_companion() -> void:
-	# A compact travelling healer: pale robe, jade scarf and medicine satchel.
-	draw_set_transform(-camera_pos + companion_pos, 0, Vector2(0.87, 0.87))
-	if companion_name=="唐栖":
-		_draw_person(Vector2.ZERO,Color("82978c"),false,"companion")
-		draw_line(Vector2(-8,-28),Vector2(9,-12),Color("715b43"),3)
-		draw_rect(Rect2(6,-22,6,17),Color("c2a976"))
-		for y in range(-20,-6,3):draw_line(Vector2(6,y),Vector2(9,y),Color("786246"),1)
-		draw_set_transform(-camera_pos)
-		return
-	_draw_person(Vector2.ZERO, Color("cbd0b0"), false, "companion")
-	_poly([Vector2(-7, -28), Vector2(6, -26), Vector2(3, -21), Vector2(-4, -23), Vector2(-8, -13), Vector2(-10, -20)], Color("619483"))
-	draw_line(Vector2(-4, -27), Vector2(10, -13), Color("7c8060"), 1.7, true)
-	draw_style_box(_round_box(Color("e3d8b8"), 2), Rect2(6, -17, 12, 12))
-	draw_line(Vector2(9, -11), Vector2(15, -11), Color("548575"), 1.7)
-	draw_line(Vector2(12, -14), Vector2(12, -8), Color("548575"), 1.7)
-	draw_circle(Vector2(-6, -37), 2, C_GOLD)
-	draw_set_transform(-camera_pos)
+	Traveler.draw_actor(self,companion_pos,Color("82978c") if companion_name=="唐栖" else Color("cbd0b0"),companion_facing,companion_walk_time if companion_moving else time_passed+2.0,companion_moving,"tang" if companion_name=="唐栖" else "shen",1.03)
 
 func _draw_lantern_post(p: Vector2) -> void:
 	draw_line(p, p - Vector2(0, 61), Color("617359"), 4, true)
@@ -749,8 +733,9 @@ func _draw_nameplates() -> void:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
 		var width := 80.0
 		var display_name: String = get_npc_name(id)
-		var display_color := Color("e9dfbc") if map_id == "sluice" else C_INK
-		_label(p + Vector2(-width * 0.5, -83 if id=="mist_guide" else -53), display_name, 13, display_color, width, HORIZONTAL_ALIGNMENT_CENTER, true)
+		var name_y=-83.0 if id=="mist_guide" else -57.0
+		draw_style_box(_round_box(Color(0.08,0.18,0.17,0.80),3),Rect2(p+Vector2(-width*0.5,name_y-15),Vector2(width,20)))
+		_label(p+Vector2(-width*0.5,name_y),display_name,13,Color("f0e5c3"),width,HORIZONTAL_ALIGNMENT_CENTER,true)
 	var target_id := _quest_target_id()
 	if not target_id.is_empty():
 		var target_p: Vector2 = interactables[target_id]["pos"]
