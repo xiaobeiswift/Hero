@@ -127,3 +127,5 @@ run_checked --headless --path . --script tests/painted_tang_walk_test.gd
 run_checked --headless --path . --script tests/tang_support_presentation_test.gd
 
 run_checked --headless --path . --script tests/view_detail_test.gd
+
+run_checked --headless --path . --script tests/building_visibility_test.gd
