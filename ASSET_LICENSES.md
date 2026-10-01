@@ -29,3 +29,7 @@
 ### 沈青交锋支援（2026-10-01）
 
 本项目沈青方向图作为唯一身份参考，原创生成四种支援姿态，再经Blender同尺度UV卡片整理。来源、完整提示、透明边缘检查、脚底与仅沈青生效的范围见 assets/generated/characters/PAINTED_COMBAT_SHEN_PROVENANCE.md。
+
+### 青苇渡水面材质（2026-10-01）
+
+原始日间青绿水纹由独立文字提示生成，未引用其他图像。原图保持不变，游戏用既有池塘/河道多边形和等比UV取样；原始提示、摘要和静态材质限制见 assets/generated/environment/WATER_PROVENANCE.md。
