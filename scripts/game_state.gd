@@ -5,6 +5,7 @@ extends RefCounted
 const SAVE_VERSION: int = 2
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
+const Sects=preload("res://scripts/sect_rules.gd")
 const Chapter = preload("res://scripts/chapter_rules.gd")
 const Items = preload("res://scripts/item_catalog.gd")
 const Economy = preload("res://scripts/economy_rules.gd")
@@ -24,6 +25,9 @@ var medicine: int = 3
 var herbs: int = 0
 var quest_stage: int = 0
 var sect: String = "未入门"
+var sect_rank:int=0
+var sect_merit:int=0
+var sect_trial_won:bool=false
 var ending: String = ""
 var position: Vector2 = Vector2(460, 430)
 var victories: int = 0
@@ -61,6 +65,9 @@ var enemy_base_attack: int = 9
 var enemy_strong_attack: int = 19
 var exposed_turns: int = 0
 var _companion_attack_count: int = 0
+var _trial_art_used:bool=false
+var _trial_healing:int=0
+var _trial_guarded_heavy:bool=false
 
 
 func reset_game() -> void:
@@ -78,6 +85,7 @@ func reset_game() -> void:
 	herbs = 0
 	quest_stage = 0
 	sect = "未入门"
+	sect_rank=0;sect_merit=0;sect_trial_won=false
 	ending = ""
 	position = Vector2(460, 430)
 	victories = 0
@@ -144,6 +152,7 @@ func choose_sect(id: String) -> void:
 	if sect != "未入门" or not SECTS.has(id):
 		return
 	sect = id
+	sect_rank=1
 	match id:
 		"听潮阁":
 			attack += 4
@@ -265,6 +274,7 @@ func finish_side_quest() -> bool:
 
 
 func start_battle(kind: String = "story") -> void:
+	if kind=="sect_trial" and not can_take_sect_trial():return
 	if battle_active:
 		return
 	_clear_battle()
@@ -278,6 +288,11 @@ func start_battle(kind: String = "story") -> void:
 			enemy_max_hp = 85
 			enemy_base_attack = 11
 			enemy_strong_attack = 22
+		"sect_trial":
+			enemy_name="岑远 · 代试游师"
+			enemy_max_hp=180
+			enemy_base_attack=18
+			enemy_strong_attack=30
 		"archive_boss":
 			enemy_name="韩砚 · 仓门执事"
 			enemy_max_hp=205
@@ -328,6 +343,7 @@ func battle_action(action: String) -> Dictionary:
 			var definition: Dictionary = _active_art_definition()
 			var art_id: String = String(definition["id"])
 			var rank_before: int = art_rank(art_id)
+			if battle_kind=="sect_trial" and art_id==sect_art():_trial_art_used=true
 			qi -= int(definition["cost"])
 			skill_cooldown = int(definition["cooldown"])
 			var damage: int = attack * int(definition["attack_multiplier"]) + int(definition["damage_bonus"]) + 3 * (rank_before - 1)
@@ -336,6 +352,7 @@ func battle_action(action: String) -> Dictionary:
 			if int(definition["healing"]) > 0:
 				var before_hp: int = hp
 				hp = mini(max_hp, hp + int(definition["healing"]))
+				if battle_kind=="sect_trial" and art_id==sect_art():_trial_healing+=hp-before_hp
 				messages.append("%s续接伤脉，恢复 %d 点气血。" % [art_id, hp - before_hp])
 			if bool(definition["guard"]):
 				guard = true
@@ -380,6 +397,11 @@ func battle_action(action: String) -> Dictionary:
 		if battle_kind == "sluice_scout":
 			reward_xp = 25
 			reward_coins = 14
+		elif battle_kind=="sect_trial":
+			reward_xp=45
+			reward_coins=20
+			sect_trial_won=Sects.met(self)
+			messages.append("门中考法已验明。" if sect_trial_won else "切磋虽胜，门中考法尚未验明。")
 		elif battle_kind == "archive_boss":
 			reward_xp=80
 			reward_coins=40
@@ -392,6 +414,7 @@ func battle_action(action: String) -> Dictionary:
 		return _finish_result(messages, true, true)
 
 	# Intent describes the next accepted turn, including each enemy's own damage.
+	if battle_kind=="sect_trial" and guard and action=="skill" and equipped_art==sect_art() and turn%2==0:_trial_guarded_heavy=true
 	var raw_damage: int = enemy_base_attack if turn % 2 == 1 else enemy_strong_attack
 	var incoming: int = maxi(1, raw_damage - defense)
 	if exposed_turns > 0:
@@ -457,6 +480,7 @@ func to_dict() -> Dictionary:
 		"hp": hp, "max_hp": max_hp, "qi": qi, "max_qi": max_qi,
 		"attack": attack, "defense": defense, "medicine": medicine,
 		"herbs": herbs, "quest_stage": quest_stage, "sect": sect,
+		"sect_rank":sect_rank,"sect_merit":sect_merit,"sect_trial_won":sect_trial_won,
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
 		"formation": formation, "equipment": equipment,
@@ -553,6 +577,9 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
 	sect = saved_sect if SECTS.has(saved_sect) else "未入门"
+	sect_rank=_bounded_int(data,"sect_rank",1,1,2) if sect!="未入门" else 0
+	sect_merit=_bounded_int(data,"sect_merit",0,0,9999)
+	sect_trial_won=bool(data.get("sect_trial_won",false)) or sect_rank==2
 	# Early version-one builds saved a chosen sect at the pre-completion stage.
 	if quest_stage == 5 and sect != "未入门":
 		quest_stage = 6
@@ -581,7 +608,7 @@ func _valid_save_data(data: Dictionary) -> bool:
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi",
-		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage"]:
+		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit"]:
 		if data.has(key) and not _is_number(data[key]):
 			return false
 	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending"]:
@@ -603,6 +630,7 @@ func _valid_save_data(data: Dictionary) -> bool:
 		for clue: Variant in data["side_found"]:
 			if not clue is String:
 				return false
+	if data.has("sect_trial_won") and not data["sect_trial_won"] is bool:return false
 	if data.has("bridge_repaired") and not data["bridge_repaired"] is bool:return false
 	for key in ["archive_clues","seal_sequence"]:
 		if data.has(key) and not data[key] is Array:return false
@@ -685,6 +713,7 @@ func _clear_battle() -> void:
 	enemy_strong_attack = 19
 	exposed_turns = 0
 	_companion_attack_count = 0
+	_trial_art_used=false;_trial_healing=0;_trial_guarded_heavy=false
 
 
 func _update_intent() -> void:
@@ -734,3 +763,9 @@ func resolve_chapter_two(choice:String) -> bool:
 	return Chapter.resolve(self,choice)
 func repair_bridge() -> bool:
 	return Chapter.repair_bridge(self)
+
+func sect_art() -> String:return Sects.art(self)
+func sect_trial_requirement() -> String:return Sects.requirement(self)
+func can_take_sect_trial() -> bool:return Sects.eligible(self) and not battle_active
+func complete_sect_trial() -> bool:return Sects.complete(self)
+func sect_rank_name() -> String:return ["未入门","门下弟子","内门弟子"][sect_rank]
