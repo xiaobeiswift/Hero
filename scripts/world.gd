@@ -13,6 +13,11 @@ signal interacted(id: String)
 signal moved(position: Vector2)
 signal location_changed(name: String)
 
+var render_culling_enabled:bool=true
+var terrain_cache_enabled:bool=true
+var terrain_bake_only:bool=false
+var _terrain_texture:Texture2D
+var _terrain_viewport:SubViewport
 var active: bool = true
 var player_pos: Vector2 = Vector2(460, 430)
 var quest_stage: int = 0
@@ -123,6 +128,11 @@ func _ready() -> void:
 	camera_pos = _camera_target()
 	_update_nearby()
 	queue_redraw()
+	if terrain_bake_only:
+		active=false
+		set_process(false)
+	elif DisplayServer.get_name()!="headless":
+		_prepare_terrain_cache.call_deferred()
 
 func change_map(id: String, spawn: Vector2) -> void:
 	if _village_points.is_empty():
@@ -299,7 +309,42 @@ func _can_walk(p: Vector2) -> bool:
 			return false
 	return true
 
+func _prepare_terrain_cache()->void:
+	if not is_inside_tree() or _terrain_viewport!=null:return
+	# Static soil/paths/mountains are rendered once. Actors, water, flames,
+	# leaves, interactions and occlusion remain live and sorted every frame.
+	_terrain_viewport=SubViewport.new()
+	_terrain_viewport.size=Vector2i(WORLD_SIZE)
+	_terrain_viewport.disable_3d=true
+	_terrain_viewport.render_target_update_mode=SubViewport.UPDATE_ONCE
+	var painter=get_script().new()
+	painter.terrain_bake_only=true
+	painter.active=false
+	_terrain_viewport.add_child(painter)
+	add_child(_terrain_viewport)
+	await RenderingServer.frame_post_draw
+	if not is_inside_tree() or not is_instance_valid(_terrain_viewport):return
+	_terrain_viewport.render_target_update_mode=SubViewport.UPDATE_DISABLED
+	_terrain_texture=_terrain_viewport.get_texture()
+	queue_redraw()
+
+func terrain_cache_ready()->bool:
+	return _terrain_texture!=null and is_instance_valid(_terrain_viewport)
+
+func _world_rect_visible(rect:Rect2)->bool:
+	if terrain_bake_only or not render_culling_enabled or map_id!="qingwei":return true
+	return rect.intersects(Rect2(camera_pos,viewport_rect.size).grow(24),true)
+
+func _draw_terrain_layer()->void:
+	_draw_ground()
+	_draw_mountains()
+	_draw_paths()
+	_path([Vector2(1239,543),Vector2(1350,530),Vector2(1480,560),Vector2(1580,560)],43)
+
 func _draw() -> void:
+	if terrain_bake_only:
+		_draw_terrain_layer()
+		return
 	if map_id=="mistwood":
 		Mist.draw(self);return
 	if map_id=="frostbridge":
@@ -310,10 +355,10 @@ func _draw() -> void:
 		return
 	draw_rect(Rect2(Vector2.ZERO, viewport_rect.size), Color("aeb99b"))
 	draw_set_transform(-camera_pos)
-	_draw_ground()
-	_draw_mountains()
-	_draw_paths()
-	_path([Vector2(1239, 543), Vector2(1350, 530), Vector2(1480, 560), Vector2(1580, 560)], 43)
+	if terrain_cache_enabled and terrain_cache_ready():
+		draw_texture(_terrain_texture,Vector2.ZERO)
+	else:
+		_draw_terrain_layer()
 	_draw_region_sign(Vector2(1480, 560), "废闸古道", 1)
 	_draw_pond()
 	_draw_gardens()
@@ -329,7 +374,7 @@ func _draw() -> void:
 	_draw_board(Vector2(720, 480))
 	_draw_herb(Vector2(1260, 350))
 	_draw_old_ferry()
-	Islet.draw(self)
+	if _world_rect_visible(Rect2(1360,850,240,190)):Islet.draw(self)
 	_draw_memorial()
 	_draw_camp()
 	var layers: Array[Dictionary] = []
@@ -451,6 +496,7 @@ func _draw_pond() -> void:
 	draw_line(Vector2(950, 431), Vector2(969, 459), Color(0.9, 0.85, 0.7, 0.6), 0.7, true)
 
 func _draw_gardens() -> void:
+	if not _world_rect_visible(Rect2(145,293,665,373)):return
 	# Carefully tended medicinal herb beds beside the clinic.
 	for y in range(3):
 		draw_rect(Rect2(167, 324 + y * 21, 69, 14), Color("8f9871"))
@@ -491,6 +537,8 @@ func _fence(a: Vector2, b: Vector2, posts: int) -> void:
 		draw_line(p - Vector2(1, 23), p - Vector2(1, 2), Color("9aa27b"), 1, true)
 
 func _draw_building(b: Dictionary) -> void:
+	var bounds:Rect2=EnvironmentArt.building_rect(b) if map_id=="qingwei" else Rect2(b["pos"]-Vector2(50,70),b["size"]+Vector2(110,135))
+	if not _world_rect_visible(bounds.grow(10)):return
 	if map_id=="qingwei" and EnvironmentArt.draw_building(self,b):
 		var plaque:Rect2=EnvironmentArt.plaque_rect(b)
 		_label(plaque.position+Vector2(0,plaque.size.y*0.78),b["name"],11,Color("ebd7a4"),plaque.size.x,HORIZONTAL_ALIGNMENT_CENTER)
@@ -558,6 +606,7 @@ func _tree_opacity(tree:Dictionary)->float:
 	return 0.40 if offset.y<0 and offset.y>-106*tree_scale and absf(offset.x)<45*tree_scale else 1.0
 
 func _draw_tree(tree: Dictionary) -> void:
+	if not _world_rect_visible(Rect2(tree["pos"]-Vector2(95,185)*tree["scale"],Vector2(190,210)*tree["scale"])):return
 	if map_id=="qingwei" and EnvironmentArt.draw_willow(self,tree["pos"],tree["scale"],_tree_opacity(tree)):return
 	var p: Vector2 = tree["pos"]
 	var s: float = tree["scale"]
@@ -579,6 +628,7 @@ func _draw_tree(tree: Dictionary) -> void:
 		draw_line(dot, dot + Vector2(6, -2) * s, Color(0.76, 0.79, 0.57, 0.22), 1.4, true)
 
 func _draw_bamboo(p: Vector2, count: int) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2(count*6.5+32,145),Vector2(count*13+64,175))):return
 	for i in range(count):
 		var base := p + Vector2((i - count * 0.5) * 13, sin(i * 4.1) * 17)
 		var height := 69 + fmod(i * 13.0, 61)
@@ -593,6 +643,7 @@ func _draw_bamboo(p: Vector2, count: int) -> void:
 			_poly([node + Vector2(12 * side, -10), node + Vector2(14 * side, -27), node + Vector2(20 * side, -16)], Color("648e62"))
 
 func _draw_stone(p: Vector2, size: float) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2.ONE*(size+3),Vector2.ONE*(size+3)*2)):return
 	_poly([p + Vector2(-size, 0), p + Vector2(-size * 0.7, -size * 0.5), p + Vector2(size * 0.2, -size * 0.8), p + Vector2(size, -size * 0.2), p + Vector2(size * 0.7, size * 0.35), p + Vector2(-size * 0.4, size * 0.4)], Color("929f83"))
 	draw_line(p + Vector2(-size * 0.65, -size * 0.5), p + Vector2(size * 0.2, -size * 0.8), Color("b8bda0"), 1, true)
 
@@ -611,6 +662,7 @@ func _draw_training_ground() -> void:
 	draw_line(Vector2(563, 717), Vector2(616, 717), Color("8a815c"), 4)
 
 func _draw_board(p: Vector2) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2(42,70),Vector2(84,90))):return
 	_ellipse(p + Vector2(5, 3), Vector2(29, 7), Color(0.2, 0.3, 0.23, 0.13))
 	for x in [-20, 20]:
 		draw_line(p + Vector2(x, 0), p + Vector2(x, -52), Color("687255"), 4)
@@ -624,6 +676,7 @@ func _draw_board(p: Vector2) -> void:
 		draw_circle(sheet + Vector2(7, 2), 1.1, C_GOLD)
 
 func _draw_herb(p: Vector2) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2(40,65),Vector2(80,85))):return
 	_ellipse(p, Vector2(29, 13), Color("879e74"))
 	for i in range(5):
 		var offset := Vector2(sin(i * 2.3) * 15, cos(i * 1.7) * 6)
@@ -641,6 +694,7 @@ func _draw_herb(p: Vector2) -> void:
 			draw_circle(q, 1.7, Color(0.73, 0.97, 0.76, 0.6))
 
 func _draw_old_ferry() -> void:
+	if not _world_rect_visible(Rect2(1320,510,280,540)):return
 	# Reeds, river channel and the timber landing behind the ferryman.
 	_poly([Vector2(1440,602),Vector2(1600,540),Vector2(1600,1050),Vector2(1440,1050)], Color("75998a"))
 	_poly([Vector2(1451,620),Vector2(1600,558),Vector2(1600,1050),Vector2(1451,1050)], Color("82a594"))
@@ -678,6 +732,7 @@ func _draw_memorial() -> void:
 		draw_circle(p + Vector2(-6 + i * 6, -15), 1, Color("d7b678"))
 
 func _draw_camp() -> void:
+	if not _world_rect_visible(Rect2(1240,650,170,180)):return
 	var p := Vector2(1328, 733)
 	_poly([p + Vector2(-38, -6), p + Vector2(2, -64), p + Vector2(62, -2)], Color("727653"))
 	_poly([p + Vector2(2, -64), p + Vector2(7, -6), p + Vector2(62, -2)], Color("8e8c5c"))
@@ -705,6 +760,7 @@ func _draw_npc(id: String) -> void:
 	_draw_person(p, robe, false, id)
 
 func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2(45,90),Vector2(90,115))):return
 	if is_player:
 		Traveler.draw_actor(self,p,Color("398f7d"),facing,walk_time if moving else time_passed,moving)
 		return
@@ -758,6 +814,7 @@ func _draw_nameplates() -> void:
 		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _draw_world_caption(p: Vector2, title: String, subtitle: String) -> void:
+	if not _world_rect_visible(Rect2(p-Vector2(5,30),Vector2(250,60))):return
 	_label(p, title, 17, Color(0.2, 0.35, 0.28, 0.52), 240, HORIZONTAL_ALIGNMENT_CENTER)
 	_label(p + Vector2(0, 18), subtitle, 8, Color(0.2, 0.35, 0.28, 0.42), 240, HORIZONTAL_ALIGNMENT_CENTER)
 

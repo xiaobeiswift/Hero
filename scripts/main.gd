@@ -281,6 +281,8 @@ func _toggle_audio() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
+	# Opaque title/combat layers must not redraw an invisible village underneath.
+	world.visible=current_screen=="explore"
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
 	state.position = world.player_pos
@@ -331,6 +333,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_F9: _load()
 
 func _refresh() -> void:
+	world.visible=current_screen=="explore"
 	region_header.text = state.current_region_name()
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
 	chapter_header.text = "第二章  ·  印下有声" if state.map_id=="frostbridge" else ("江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人")
