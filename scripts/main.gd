@@ -28,6 +28,8 @@ const JADE = Color("69b6a3")
 var state = StateModel.new()
 var view_preferences=ViewPreferences.new()
 var view_zoom:float=1.0
+var world_detail_font:Font
+var display_settings_warning:String=""
 var workshop
 var chapter_story
 var sect_progress
@@ -412,9 +414,17 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 func _apply_view_zoom()->void:
 	view_zoom=view_preferences.zoom()
 	var dimensions:Vector2i=view_preferences.canvas_size()
-	world_view.size=dimensions
+	world_view.size=view_preferences.render_size()
 	var container:SubViewportContainer=world_view.get_parent()
-	container.size=Vector2(dimensions);container.scale=Vector2.ONE*view_zoom
+	container.size=Vector2(world_view.size)
+	container.scale=Vector2.ONE if view_preferences.full_resolution else Vector2.ONE*view_zoom
+	world.scale=Vector2.ONE*view_zoom if view_preferences.full_resolution else Vector2.ONE
+	if view_preferences.full_resolution:
+		if world_detail_font==null:
+			world_detail_font=font.duplicate()
+			if world_detail_font is FontFile:world_detail_font.oversampling=2.0
+		world.ui_font=world_detail_font
+	else:world.ui_font=font
 	world.viewport_rect=Rect2(Vector2.ZERO,Vector2(dimensions));world.ui_scale=view_zoom
 	world.camera_pos=world._camera_target();world.queue_redraw()
 	if hud!=null:
@@ -427,7 +437,17 @@ func _change_view_zoom(step:int,cycle:bool=false)->void:
 	if next==view_preferences.zoom_index:return
 	view_preferences.zoom_index=next;_apply_view_zoom()
 	var error=view_preferences.save_settings()
+	display_settings_warning="" if error==OK else "本次画面设置未能保存，退出后可能恢复旧设置。"
 	_toast("视野 · "+view_preferences.caption() if error==OK else "视野已调整，本次设置未能保存。")
+	if active_modal:PauseMenu.show(self)
+
+func _toggle_view_detail()->void:
+	if current_screen!="explore" or quit_pending:return
+	if active_modal and not overlay.get_meta("pause_menu",false):return
+	view_preferences.full_resolution=not view_preferences.full_resolution;_apply_view_zoom()
+	var error=view_preferences.save_settings()
+	display_settings_warning="" if error==OK else "本次画面设置未能保存，退出后可能恢复旧设置。"
+	_toast("画面 · "+view_preferences.quality_caption() if error==OK else "画面已调整，本次设置未能保存。")
 	if active_modal:PauseMenu.show(self)
 
 func _show_pause()->void:
