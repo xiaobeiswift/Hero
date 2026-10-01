@@ -85,3 +85,5 @@ run_checked --headless --path . --script tests/screenshot_feedback_test.gd
 run_checked --headless --path . --script tests/painted_shen_walk_test.gd
 
 run_checked --headless --path . --script tests/inventory_layout_test.gd
+
+run_checked --headless --path . --script tests/painted_battle_hero_test.gd
