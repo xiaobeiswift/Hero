@@ -104,7 +104,7 @@ func _run() -> void:
 	_check(art.presentation_details.enemy_damage==22 and art.presentation_details.companion_damage==4, "Bonus descriptions cannot inflate direct damage; companion damage stays separate")
 	_check(art.presentation_details.healing==2, "Unspaced companion healing parses correctly")
 	art._process(2)
-	_check(impacts.slice(-4)==[["healing",2],["enemy",22],["companion",4],["player",3]], "A long frame emits crossed impacts once in chronological order")
+	_check(impacts.slice(-4)==[["enemy",22],["companion",4],["support_healing",2],["player",3]], "A long frame emits crossed impacts once in chronological order")
 
 	model = State.new(); model.start_battle("training");model.enemy_hp=1;model.hp=10;model.xp=50
 	result=model.battle_action("attack")

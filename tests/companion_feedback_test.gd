@@ -1,0 +1,21 @@
+extends SceneTree
+const Feedback=preload("res://scripts/companion_battle_feedback.gd")
+const Model=preload("res://scripts/game_state.gd")
+func _initialize()->void:
+	assert(Feedback.read({})=={"name":"","damage":0,"healing":0,"cover":0,"qi":0})
+	var data={"log":["回春散恢复45点气血。","沈青与你并肩出手，追加 7 点伤害。","沈青与你换步照应，恢复2点气血。"]}
+	var support=Feedback.read(data)
+	assert(support.name=="沈青" and support.damage==7 and support.healing==2 and support.qi==0)
+	assert(Feedback.pose_for(support,.49,true)=="assist")
+	assert(Feedback.pose_for(support,.56,true)=="heal")
+	assert(Feedback.pose_for(support,.2,true)=="idle" and Feedback.pose_for(support,.49,false)=="idle")
+	var model=Model.new();model.reset_game();model.quest_stage=3;model.recruit_companion();model.set_formation("护后");model.start_battle("training")
+	var accepted=model.battle_action("attack");support=Feedback.read(accepted)
+	assert(support.name=="沈青" and support.cover==2 and support.damage==0 and support.healing==0)
+	assert(Feedback.pose_for(support,.89,true)=="cover" and Feedback.pose_for(support,1.2,true)=="idle")
+	var before=model.to_dict().duplicate(true);Feedback.read(accepted);assert(model.to_dict()==before)
+	support=Feedback.read({"log":["唐栖以短尺拆招，追加4点伤害；为你赢得换气空隙，回复1真气。"]})
+	assert(support.name=="唐栖" and support.damage==4 and support.qi==1)
+	support=Feedback.read({"log":["沈青护住后路，替你分担 0 点伤害。"]})
+	assert(Feedback.pose_for(support,.9,true)=="idle")
+	print("PASS: identity-specific support amounts and action/contact timing without state mutation");quit()
