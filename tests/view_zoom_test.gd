@@ -29,7 +29,7 @@ func run()->void:
 	app._new_game();app._stop_audio();app.audio_on=false
 	var before=app.state.to_dict();var initial:Vector2=app.world.player_pos
 	await key(KEY_EQUAL)
-	assert(app.view_zoom==1.25 and app.world_view.size==Vector2i(1024,640))
+	assert(app.view_zoom==1.25 and app.world.viewport_rect.size==Vector2(1024,640) and app.world_view.size==Vector2i(1280,800))
 	assert(app.world_view.get_parent().size*app.world_view.get_parent().scale==Vector2(1280,800))
 	assert(app.state.to_dict()==before and app.world.player_pos==initial)
 	await key(KEY_E);assert(app.active_modal)
