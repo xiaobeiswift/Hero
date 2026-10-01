@@ -17,6 +17,7 @@ signal moved(position: Vector2)
 signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
+var ui_scale:float=1.0
 var painted_props_enabled:bool=true
 var painted_water_enabled:bool=true
 var render_culling_enabled:bool=true
@@ -869,13 +870,14 @@ func _navigation_target_covered(target:Vector2)->bool:
 
 func _compass_edge(target:Vector2)->Vector2:
 	var s=viewport_rect.size
-	var edge=Vector2(clampf(target.x,68,s.x-68),clampf(target.y,80,s.y-100))
+	var unit=1.0/maxf(.01,ui_scale)
+	var edge=Vector2(clampf(target.x,68*unit,s.x-68*unit),clampf(target.y,80*unit,s.y-100*unit))
 	# Keep the complete arrow/name bubble clear of compact HUD surfaces.
 	for pass_index in range(4):
 		for rect in hud_exclusion_rects:
-			if Rect2(edge-Vector2(58,21),Vector2(116,72)).intersects(rect):
-				edge.y=rect.end.y+23 if rect.position.y<s.y*.5 else rect.position.y-53
-		edge.y=clampf(edge.y,55,s.y-60)
+			if Rect2(edge-Vector2(58,21)*unit,Vector2(116,72)*unit).intersects(rect):
+				edge.y=rect.end.y+23*unit if rect.position.y<s.y*.5 else rect.position.y-53*unit
+		edge.y=clampf(edge.y,55*unit,s.y-60*unit)
 	return edge
 
 func _draw_view_framing() -> void:
@@ -888,20 +890,23 @@ func _draw_view_framing() -> void:
 	if target_id.is_empty():
 		return
 	var target: Vector2 = interactables[target_id]["pos"] - camera_pos
-	if Rect2(35,45,s.x-70,s.y-115).has_point(target) and not _navigation_target_covered(target):
+	var unit=1.0/maxf(.01,ui_scale)
+	if Rect2(35*unit,45*unit,s.x-70*unit,s.y-115*unit).has_point(target) and not _navigation_target_covered(target):
 		return
 	var edge:=_compass_edge(target)
 	var direction := (target - s * 0.5).normalized()
 	var angle := direction.angle()
+	draw_set_transform(edge,0,Vector2.ONE*unit)
 	var arrow := PackedVector2Array()
 	for point: Vector2 in [Vector2(11, 0), Vector2(-5, -6), Vector2(-2, 0), Vector2(-5, 6)]:
-		arrow.append(edge + point.rotated(angle))
-	draw_circle(edge, 19, Color(0.13, 0.27, 0.23, 0.88))
-	draw_arc(edge, 19, 0, TAU, 32, Color(0.84, 0.7, 0.43, 0.8), 1.2, true)
+		arrow.append(point.rotated(angle))
+	draw_circle(Vector2.ZERO, 19, Color(0.13, 0.27, 0.23, 0.88))
+	draw_arc(Vector2.ZERO, 19, 0, TAU, 32, Color(0.84, 0.7, 0.43, 0.8), 1.2, true)
 	draw_colored_polygon(arrow, C_GOLD)
-	var label_p := edge + Vector2(-56, 26)
+	var label_p := Vector2(-56, 26)
 	draw_style_box(_round_box(Color(0.13, 0.27, 0.23, 0.9), 4), Rect2(label_p - Vector2(0, 1), Vector2(112, 23)))
 	_label(label_p + Vector2(0, 15), get_npc_name(target_id) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
+	draw_set_transform(Vector2.ZERO)
 
 func _quest_target_id() -> String:
 	if interactables.has(shen_target_id):return shen_target_id

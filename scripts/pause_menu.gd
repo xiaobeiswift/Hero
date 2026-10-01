@@ -31,7 +31,9 @@ static func show(host)->void:
 		Paper.text(host,frame,rows[i][1],Rect2(365,y+48,430,19),12,Color("a1b19f"))
 	var sound=host._button(frame,"乐声 · "+("开" if host.audio_on else "关"),Rect2(360,508,139,37),guarded(host,generation,func():host._toggle_audio();show(host)))
 	sound.name="PauseSound"
-	Paper.text(host,frame,"1—5 选择  ·  Esc 继续",Rect2(519,515,281,28),14,Color("d1bc8d"))
+	var view=host._button(frame,"视野 · "+host.view_preferences.caption(),Rect2(515,508,286,37),guarded(host,generation,func():host._change_view_zoom(1,true)))
+	view.name="PauseView";view.tooltip_text="探索时也可按 + / − 调整，界面字号保持不变"
+	Paper.text(host,frame,"1—5 选择  ·  Esc 继续  ·  + / − 调整视野",Rect2(361,551,442,20),12,Color("d1bc8d"))
 static func request_exit(host,to_title:bool)->void:
 	if host.current_screen!="explore" or host.quit_pending:return
 	var generation:int=host.modal_generation+1

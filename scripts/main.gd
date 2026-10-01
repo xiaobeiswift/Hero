@@ -1,5 +1,6 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
+const ViewPreferences=preload("res://scripts/view_preferences.gd")
 const PauseMenu=preload("res://scripts/pause_menu.gd")
 const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
@@ -24,6 +25,8 @@ const GOLD = Color("d3b276")
 const MUTED = Color("8caaa6")
 const JADE = Color("69b6a3")
 var state = StateModel.new()
+var view_preferences=ViewPreferences.new()
+var view_zoom:float=1.0
 var workshop
 var chapter_story
 var sect_progress
@@ -93,10 +96,12 @@ var last_screenshot_path := ""
 
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
+	view_preferences.load_settings()
 	font = load("res://assets/fonts/NotoSansSC.otf")
 	_setup_inputs()
 	_build_theme()
 	_build_interface()
+	_apply_view_zoom()
 	workshop=Workshop.new(self)
 	chapter_story=ChapterStory.new(self)
 	sect_progress=SectProgress.new(self)
@@ -283,6 +288,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_F10: _show_load_slots()
 		KEY_F5: _save()
 		KEY_F9: _load()
+		KEY_EQUAL,KEY_PLUS,KEY_KP_ADD: _change_view_zoom(1)
+		KEY_MINUS,KEY_KP_SUBTRACT: _change_view_zoom(-1)
 
 func _refresh() -> void:
 	world.visible=current_screen=="explore"
@@ -334,7 +341,9 @@ func _sync_hud_navigation(force:bool=false)->void:
 	var reserved:Array[Rect2]=[hud.identity_wash.get_rect(),hud.place_wash.get_rect(),hud.quest_wash.get_rect().merge(weather_label.get_rect()),Rect2(0,660,1280,140)]
 	if hud.toast_wash.visible:reserved.append(hud.toast_wash.get_rect())
 	if hud.quest_notice.visible:reserved.append(hud.quest_notice.get_rect())
-	world.hud_exclusion_rects=reserved
+	var projected:Array[Rect2]=[]
+	for area in reserved:projected.append(Rect2(area.position/view_zoom,area.size/view_zoom))
+	world.hud_exclusion_rects=projected
 	world.queue_redraw()
 
 func _toast(text: String) -> void:
@@ -395,6 +404,27 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	for i in range(options.size()):
 		modal_actions.append(options[i][1])
 		_button(panel,options[i][0],Rect2(30+i*(button_width+gap),443 if wide else 353,button_width,48),options[i][1])
+
+func _apply_view_zoom()->void:
+	view_zoom=view_preferences.zoom()
+	var dimensions:Vector2i=view_preferences.canvas_size()
+	world_view.size=dimensions
+	var container:SubViewportContainer=world_view.get_parent()
+	container.size=Vector2(dimensions);container.scale=Vector2.ONE*view_zoom
+	world.viewport_rect=Rect2(Vector2.ZERO,Vector2(dimensions));world.ui_scale=view_zoom
+	world.camera_pos=world._camera_target();world.queue_redraw()
+	if hud!=null:
+		hud.tick(0);_sync_hud_navigation(true)
+
+func _change_view_zoom(step:int,cycle:bool=false)->void:
+	if current_screen!="explore" or quit_pending:return
+	if active_modal and not overlay.get_meta("pause_menu",false):return
+	var next=(view_preferences.zoom_index+1)%3 if cycle else clampi(view_preferences.zoom_index+step,0,2)
+	if next==view_preferences.zoom_index:return
+	view_preferences.zoom_index=next;_apply_view_zoom()
+	var error=view_preferences.save_settings()
+	_toast("视野 · "+view_preferences.caption() if error==OK else "视野已调整，本次设置未能保存。")
+	if active_modal:PauseMenu.show(self)
 
 func _show_pause()->void:
 	PauseMenu.show(self)

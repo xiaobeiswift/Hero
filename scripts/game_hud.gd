@@ -242,8 +242,8 @@ func tick(delta: float) -> void:
 	exploration.visible=host.current_screen=="explore"
 	host.location_label.visible=host.location_label.text!=host.region_header.text
 	if exploration.visible:
-		var point: Vector2=host.world.player_pos-host.world.camera_pos
-		var actor_rect:=Rect2(point-Vector2(27,80),Vector2(54,90))
+		var point: Vector2=(host.world.player_pos-host.world.camera_pos)*host.view_zoom
+		var actor_rect:=Rect2(point-Vector2(27,80)*host.view_zoom,Vector2(54,90)*host.view_zoom)
 		for item in [identity_wash,quest_wash,place_wash]:
 			var target_alpha: float=.23 if Rect2(item.position,item.size).intersects(actor_rect) else 1.0
 			item.modulate.a=move_toward(item.modulate.a,target_alpha,delta*5.0)
