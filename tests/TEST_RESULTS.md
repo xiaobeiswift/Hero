@@ -2,6 +2,14 @@
 
 引擎：Godot 4.6.3.stable.official.7d41c59c4
 
+## 本轮表现验收
+
+- environment_visual_test.gd：35项门槛/贴图/四向姿态/跟随步态检查
+- battle_choreography_test.gd：46项时序/真实结算数字/特效数据检查
+- battle_presentation_ui_test.gd：25项真实主界面演出、重复输入、胜负延迟与中断检查
+- 70–72：原生Godot绘制的准备场景，已检查贴图裁切、标牌、树木、地表与NPC姓名可读性
+- 引擎Movie Maker已生成384帧/12.8秒准备场景短片；完整动作细查与附件记录另补，不以无头检查替代运动验收
+
 ## 自动化
 
 通过 `bash run-tests.sh` 在独立、可写的临时 XDG 目录执行：
