@@ -33,3 +33,14 @@ The follower uses cached atlas crops. Reachable trailing targets provide lateral
 Motion evidence: Hero-painted-party-walk.mp4, 120 frames, 4.000 seconds, 1280×800, H.264, 2,691,361 bytes. SHA-256: b3541f14dea65f6b60d82891160debcf96076d845c128b89cc4b454437ac1f30. Godot Movie Maker used fixed 30 FPS simulation, taking 18 seconds to record (20 seconds with startup). This is a prepared in-engine animation preview, not a real-time frame-rate benchmark or a clip from released 0.0.11.
 
 Limits: no fully articulated upper-body/cloth rig; Tang Qi and combat actors remain procedural. No claim of fresh full-game manual completion.
+
+
+## Matched painted duel · 2026-10-01 17:29 UTC
+
+Hero and Pu Heng use separate, direction-correct key-pose atlases. The rival is selected only for three exact Pu Heng identity strings; other enemies retain their existing renderer. Measured Blender UV outlines remove neighboring-pose contamination without repainting the source. The initial wrong-facing and clipped-boot candidates were rejected before integration.
+
+The complete runtime regression suite passed. Actual engine images 121–128 include outgoing contact, incoming counter, guard, healing, kneel and the real result modal. The final prepared scenario starts a level 3 character at 70/124 HP with the standard 64 HP sparring rival. Attack, guard, medicine and a finishing skill then resolve through the ordinary controller. No mid-battle HP edits are used in the final recording.
+
+Final clip: Hero-painted-duel.mp4, 189 frames, 6.300 seconds, 1280×800, H.264, 940,352 bytes. SHA-256: fd527e07bc2fadd6d7c8ab0c388335ee2f77337bc15e202596b60184220d4e1f. Fixed 30 FPS Movie Maker simulation took 12 seconds to record (13 seconds including startup). This is animation evidence, not a real-time performance benchmark or footage from released 0.0.12.
+
+Limits: key-pose artwork with procedural stage movement, not fully articulated skeletal animation; other opponents and battle companions are not yet all painted. No new manual full-story completion claim.
