@@ -39,3 +39,6 @@ run_checked --headless --path . --script tests/advanced_balance_test.gd
 
 run_checked --headless --path . --script tests/advanced_martial_rules_test.gd
 run_checked --headless --path . --script tests/advanced_martial_ui_test.gd
+
+run_checked --headless --path . --script tests/mistwood_rules_test.gd
+run_checked --headless --path . --script tests/mistwood_geometry_test.gd
