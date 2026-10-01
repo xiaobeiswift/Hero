@@ -30,5 +30,8 @@ func run()->void:
 	world.companion_pos=world.player_pos-world.facing*34+Vector2(-10,10)
 	world._process(.05)
 	check(not world.companion_moving,"Follower rests at destination without sliding gait")
+	world.player_pos=Vector2(500,670)
+	check(world._tree_opacity({"pos":Vector2(510,740),"scale":1.0})<.5,"Foreground canopy fades over traveller")
+	check(world._tree_opacity({"pos":Vector2(510,620),"scale":1.0})==1.0,"Background trees remain opaque")
 	world.queue_free();await process_frame
 	print("PASS: %d painted environment/actor invariants"%count);quit()
