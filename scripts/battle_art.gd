@@ -5,6 +5,9 @@ extends Control
 signal presentation_finished
 signal impact_presented(target: String, amount: int)
 
+const SupportFeedback=preload("res://scripts/companion_battle_feedback.gd")
+const PaintedShen=preload("res://scripts/painted_battle_shen.gd")
+const SUPPORT_HOME=Vector2(126,266)
 const FerryBackdrop=preload("res://scripts/ferry_battle_backdrop.gd")
 const PaintedPuHeng=preload("res://scripts/painted_battle_puheng.gd")
 const PaintedHero=preload("res://scripts/painted_battle_hero.gd")
@@ -13,6 +16,7 @@ const FINISH_DURATION: float = 1.18
 const HERO_HOME = Vector2(229, 274)
 const ENEMY_HOME = Vector2(721, 274)
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
+var painted_support_enabled:bool=true
 var painted_backdrop_enabled:bool=true
 var painted_hero_enabled:bool=true
 var painted_enemy_enabled:bool=true
@@ -71,9 +75,10 @@ func _process(delta: float) -> void:
 		var previous: float = action_time
 		action_time = minf(action_time + maxf(0.0, delta), presentation_duration)
 		flash = 1.0 - action_time / maxf(0.001, presentation_duration)
-		_emit_impact("healing", "healing", 0.25, previous)
+		_emit_impact("healing", "self_healing", 0.25, previous)
 		_emit_impact("enemy", "enemy_damage", 0.32, previous)
 		_emit_impact("companion", "companion_damage", 0.49, previous)
+		_emit_impact("support_healing", "support_healing", 0.56, previous)
 		_emit_impact("player", "player_damage", 0.88, previous)
 		if action_time >= presentation_duration:
 			_presenting = false
@@ -118,7 +123,13 @@ func _read_details(kind: String, details: Dictionary) -> Dictionary:
 		parsed["counter"] = int(details["player_damage"]) > 0
 	if parsed["enemy_defeated"] or kind == "flee":
 		parsed["counter"] = false
+	parsed["support"]=SupportFeedback.read(details)
+	parsed["support_healing"]=mini(int(parsed.get("healing",0)),int(parsed.support.healing))
+	parsed["self_healing"]=maxi(0,int(parsed.get("healing",0))-int(parsed.support_healing))
 	return parsed
+
+func support_visual_pose()->String:
+	return SupportFeedback.pose_for(presentation_details.get("support",{}),action_time,_presenting)
 
 func _ease(a: float, b: float, t: float) -> float:
 	var x: float = clampf((t-a)/maxf(0.001,b-a), 0.0, 1.0)
@@ -152,6 +163,7 @@ func _pose(enemy: bool = false) -> Dictionary:
 			p["defeat"] = _ease(0.94,1.22,t)
 	else:
 		p["recoil"] = _pulse(0.32,0.355,0.58,t) if action in ["attack","skill"] else 0.0
+		if int(presentation_details.get("companion_damage",0))>0:p["recoil"]=maxf(float(p["recoil"]),_pulse(.49,.52,.71,t))
 		p["x"] = float(p["recoil"])*22.0
 		if presentation_details.get("counter",false):
 			p["windup"] = _pulse(0.60,0.71,0.84,t)
@@ -161,7 +173,7 @@ func _pose(enemy: bool = false) -> Dictionary:
 			p["strike"] = _ease(0.82,0.88,t)*(1.0-_ease(0.97,1.10,t))
 			p["lean"] = 0.20*approach - 0.12*float(p["windup"])
 		if presentation_details.get("enemy_defeated",false):
-			p["defeat"] = _ease(0.43,1.06,t)
+			p["defeat"] = _ease(.53 if int(presentation_details.get("companion_damage",0))>0 else .43,1.06,t)
 	return p
 
 func uses_painted_enemy()->bool:
@@ -193,7 +205,11 @@ func _draw() -> void:
 		if _presenting and int(presentation_details.get("companion_damage",0)) > 0:
 			support["strike"] = _pulse(0.36,0.46,0.66,action_time)
 			support["x"] = float(support["strike"])*35.0
-		_draw_fighter(Vector2(126+float(support.x),266),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,support,companion_name=="唐栖",0.90,0.91)
+		if painted_support_enabled and companion_name=="沈青":
+			_ellipse(SUPPORT_HOME+Vector2(0,4),Vector2(30,6),Color(.02,.06,.06,.30))
+			PaintedShen.draw(self,SUPPORT_HOME+Vector2(0,sin(phase*2.4)*.65),support_visual_pose(),.96)
+		else:
+			_draw_fighter(SUPPORT_HOME+Vector2(float(support.x),0),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,support,companion_name=="唐栖",0.90,0.91)
 	_draw_fighter(enemy_pos, Color("aa7864"), false, phase+2, enemy,false,1.0,1.0,"enemy")
 	_draw_fighter(hero_pos, Color("4f9c8b"), true, phase, hero,false,1.0,1.0,"hero")
 	if _presenting:
@@ -343,7 +359,7 @@ func _draw_auras(hero_pos: Vector2) -> void:
 		for i in range(3):
 			draw_arc(center,43+i*5,-1.42,1.42,28,Color(0.53,0.91,0.83,strength*(0.47-i*0.13)+impact*0.13),2.0+impact*2,true)
 		draw_line(center+Vector2(16,-40),center+Vector2(37,-25),Color(0.81,0.96,0.84,strength*0.7),2,true)
-	if action=="item" or int(presentation_details.get("healing",0))>0:
+	if action=="item" or int(presentation_details.get("self_healing",0))>0:
 		var strength: float = _pulse(0.05,0.32,0.83,t)
 		for i in range(12):
 			var a: float = i*2.4+t*3.0
@@ -368,7 +384,10 @@ func _draw_action_effects(hero_pos: Vector2, enemy_pos: Vector2) -> void:
 			_draw_slash(Vector2(686,227),-2.1+swing*0.4,1.48,62,Color(0.50,0.90,0.81,cut*0.60),true)
 	if int(presentation_details.get("companion_damage",0))>0:
 		var support: float = _pulse(0.40,0.49,0.68,t)
-		draw_line(Vector2(167,220),ENEMY_HOME+Vector2(1,-35),Color(0.68,0.85,0.64,support*0.6),2,true)
+		if companion_name=="沈青":
+			var tip:Vector2=(SUPPORT_HOME+Vector2(31,-45)).lerp(ENEMY_HOME+Vector2(1,-35),_ease(.38,.49,t))
+			for offset in [-4,0,4]:draw_line(tip+Vector2(-19,offset),tip+Vector2(0,offset),Color(.86,.95,.80,support*.86),1.3,true)
+		else:draw_line(Vector2(167,220),ENEMY_HOME+Vector2(1,-35),Color(0.68,0.85,0.64,support*0.6),2,true)
 		_draw_impact(ENEMY_HOME+Vector2(6,-34),0.49,Color("a6cfa5"),false)
 	if presentation_details.get("counter",false):
 		var swing: float = _ease(0.82,0.94,t)
@@ -380,7 +399,18 @@ func _draw_action_effects(hero_pos: Vector2, enemy_pos: Vector2) -> void:
 			_draw_word("格挡",HERO_HOME+Vector2(43,-105),Color("a8e2c6"),0.88,17,0.39)
 	_draw_number("enemy_damage",ENEMY_HOME+Vector2(2,-113),0.32,Color("f4dea0"),"−",27 if action=="skill" else 24)
 	_draw_number("companion_damage",ENEMY_HOME+Vector2(38,-87),0.49,Color("b8d9ae"),"−",18)
-	_draw_number("healing",HERO_HOME+Vector2(-25,-111),0.25,Color("b8e2a0"),"+",23)
+	_draw_number("self_healing",HERO_HOME+Vector2(-25,-111),0.25,Color("b8e2a0"),"+",23)
+	_draw_number("support_healing",HERO_HOME+Vector2(-27,-97),0.56,Color("b8e2a0"),"+",19)
+	var support_fact:Dictionary=presentation_details.get("support",{})
+	var covered:int=int(support_fact.get("cover",0))
+	if covered>0:
+		var strength:float=_pulse(.67,.88,1.2,t)
+		draw_arc(HERO_HOME+Vector2(0,-45),47,-1.3,1.3,22,Color(.65,.85,.64,strength*.55),2,true)
+		_draw_word(companion_name+"分担 "+str(covered),SUPPORT_HOME+Vector2(6,32),Color("c5dab4"),.82,14,.48)
+	if int(support_fact.get("healing",0))>0:
+		_draw_word(companion_name+"照应",SUPPORT_HOME+Vector2(1,29),Color("c5dab4"),.52,14,.35)
+	if int(support_fact.get("qi",0))>0:
+		_draw_word("回气 +"+str(support_fact.qi),SUPPORT_HOME+Vector2(1,29),Color("d5d6a0"),.49,14,.40)
 	_draw_number("player_damage",HERO_HOME+Vector2(-9,-111),0.88,Color("f1ba8f"),"−",23)
 	if action=="skill" and presentation_details.has("art_name"):
 		_draw_word(String(presentation_details.art_name),Vector2(470,163),Color("dfdec1"),0.06,18,0.66)

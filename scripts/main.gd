@@ -635,6 +635,9 @@ func _start_battle(kind: String) -> void:
 	battle_art.reset_presentation()
 	_close_modal()
 	current_screen = "battle"
+	# Exploration tips must not cover a new duel; persistent save failures survive.
+	toast_time=0
+	if not save_warning:status_label.text=""
 	story_battle = kind=="story"
 	encounter_kind = kind
 	state.start_battle(kind)
@@ -693,7 +696,7 @@ func _present_battle_health_impact(target: String, amount: int) -> void:
 			key = "player"
 			bar = battle_player_hp
 			_battle_health_values[key] = maxf(0.0, float(_battle_health_values[key]) - amount)
-		"healing":
+		"healing", "support_healing":
 			key = "player"
 			bar = battle_player_hp
 			_battle_health_values[key] = minf(float(_battle_health_values.player_max), float(_battle_health_values[key]) + amount)
