@@ -105,3 +105,5 @@ run_checked --headless --path . --script tests/ferry_props_test.gd
 
 run_checked --headless --path . --script tests/view_zoom_test.gd
 run_checked --headless --path . --script tests/village_civilians_test.gd
+
+run_checked --headless --path . --script tests/noticeboard_art_test.gd
