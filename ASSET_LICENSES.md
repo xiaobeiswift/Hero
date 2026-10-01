@@ -57,3 +57,7 @@
 ### 听雨茶肆桌凳（2026-10-01）
 
 项目环境图集作为材质/视角参考，独立生成一组桌凳与茶器，透明原图保持不变。裁切、脚底、原始提示和范围见 assets/generated/environment/TEA_TABLE_PROVENANCE.md。
+
+### 青苇渡木灯杆（2026-10-01）
+
+本项目环境图集作风格参考，独立生成木架与悬灯两个组件，透明原图不修改。引擎缓存裁切并只让灯体绕挂环摆动；原始提示、摘要和范围见 assets/generated/environment/LANTERN_POST_PROVENANCE.md。
