@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const Workshop = preload("res://scripts/workshop_ui.gd")
 const Chart = preload("res://scripts/map_chart.gd")
 const INK = Color("102e32")
 const DEEP = Color("0b2026")
@@ -11,6 +12,7 @@ const GOLD = Color("d3b276")
 const MUTED = Color("8caaa6")
 const JADE = Color("69b6a3")
 var state = StateModel.new()
+var workshop
 var world
 var world_view: SubViewport
 var font: Font
@@ -53,12 +55,15 @@ var sfx: AudioStreamPlayer
 var audio_on = true
 var last_near = ""
 var save_warning = false
+var quit_pending = false
 
 func _ready() -> void:
+	get_tree().auto_accept_quit = false
 	font = load("res://assets/fonts/NotoSansSC.otf")
 	_setup_inputs()
 	_build_theme()
 	_build_interface()
+	workshop=Workshop.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -204,7 +209,7 @@ func _build_interface() -> void:
 	_button(quest_card,"查看江湖志  →",Rect2(22,168,226,34),_show_journal)
 	var guide = _panel(self,Rect2(986,583,270,97))
 	_label(guide,"一盏灯，一段未完的江湖。",Rect2(17,12,238,26),14,GOLD)
-	_label(guide,"探索 · 见闻 · 抉择 · 修行",Rect2(17,49,238,24),12,MUTED)
+	_button(guide,"行囊工艺  B",Rect2(17,49,236,34),_show_workshop)
 	status_label = _label(self,"",Rect2(30,700,1215,28),15,GOLD)
 	_label(self,"WASD / 方向键  行走     E / Enter  交互     M  舆图     K  武学     I  行囊     J  江湖志     F5 / F9  存读档",Rect2(30,752,1200,23),13,MUTED)
 	_label(self,"HERO   /   原创内容 · 离线单人 · 开发中",Rect2(890,710,360,25),11,Color("597c76"))
@@ -222,14 +227,14 @@ func _build_interface() -> void:
 func _setup_audio() -> void:
 	music = AudioStreamPlayer.new()
 	add_child(music)
-	if ResourceLoader.exists("res://assets/river_theme.wav"):
+	if DisplayServer.get_name()!="headless" and ResourceLoader.exists("res://assets/river_theme.wav"):
 		music.stream = load("res://assets/river_theme.wav")
 		music.volume_db = -14
 		music.finished.connect(func(): music.play())
 		music.play()
 	sfx = AudioStreamPlayer.new()
 	add_child(sfx)
-	if ResourceLoader.exists("res://assets/chime.wav"): sfx.stream = load("res://assets/chime.wav")
+	if DisplayServer.get_name()!="headless" and ResourceLoader.exists("res://assets/chime.wav"): sfx.stream = load("res://assets/chime.wav")
 	sfx.volume_db = -14
 
 func _toggle_audio() -> void:
@@ -241,7 +246,7 @@ func _toggle_audio() -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
-	world.active = not active_modal and current_screen == "explore"
+	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	world.quest_stage = state.quest_stage
 	world.companion_active = state.companion_unlocked
 	world.side_stage = state.side_stage
@@ -255,6 +260,7 @@ func _process(delta: float) -> void:
 		if toast_time <= 0: status_label.text = "⚠ 自动存档失败，请按 F5 重试。" if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if quit_pending: return
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if event.physical_keycode == KEY_F12:
 		_capture_screenshot()
@@ -265,7 +271,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if active_modal:
 		var choice = -1
 		if event.physical_keycode in [KEY_ENTER,KEY_SPACE]: choice = 0
-		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_4: choice = event.physical_keycode-KEY_1
+		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_5: choice = event.physical_keycode-KEY_1
 		if choice>=0 and choice<modal_actions.size():
 			var selected = modal_actions[choice]
 			selected.call()
@@ -282,6 +288,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			if not world.nearby_id.is_empty():
 				_interact(world.nearby_id)
 				get_viewport().set_input_as_handled()
+		KEY_B: _show_workshop()
 		KEY_M: _show_map()
 		KEY_K: _show_martials()
 		KEY_I: _show_inventory()
@@ -474,7 +481,7 @@ func _shrine_dialogue() -> void:
 func _show_inventory() -> void:
 	if current_screen == "battle": return
 	var companion_text = "沈青 · " + state.formation if state.companion_unlocked else "暂无同行人（调查药铺后可邀请沈青）"
-	var body = "[color=#d3b276]随身物品与装备[/color]\n%s   ·   粗布行衣   ·   铜钱 %d 文\n回春散 ×%d（恢复45，照野堂55）   ·   青穗草 ×%d\n\n[color=#d3b276]武学[/color]\n普攻积攒2气，守势减伤并回复1气。\n按 K 查看当前绝招、门派武学与修习心得。\n\n同行：%s\n门派：%s   ·   历战 %d 次" % [state.equipment,state.coins,state.medicine,state.herbs,companion_text,state.sect,state.victories]
+	var body = "[color=#d3b276]随身物品与装备[/color]\n%s   ·   %s   ·   铜钱 %d 文\n回春散 ×%d（恢复45，照野堂55）   ·   青穗草 ×%d\n\n[color=#d3b276]武学[/color]\n普攻积攒2气，守势减伤并回复1气。\n按 K 查看当前绝招、门派武学与修习心得。\n\n同行：%s\n门派：%s   ·   历战 %d 次" % [state.equipment,state.armor,state.coins,state.medicine,state.herbs,companion_text,state.sect,state.victories]
 	_modal("行囊与修行", "旅人 / 随身物品",body,[["回春散",_use_medicine],["切换阵型",_switch_formation],["青钢剑 · 45文",_buy_sword],["返回江湖",_close_modal]],true)
 
 func _switch_formation() -> void:
@@ -622,9 +629,27 @@ func _battle_action(action: String) -> void:
 			_modal("胜负之外，江湖仍在","暂败 / 可再次挑战","你力竭倒下，被路过的船工带回村中。休息后已恢复气血，途中遗失了少量铜钱。\n\n先在药铺或无名碑调息；面对敌人蓄力时使用守势。用普攻蓄气，再以绝招破敌。\n\n机缘与已得物品不会丢失。")
 		_refresh()
 
+func _stop_audio() -> void:
+	for player in [music,sfx]:
+		if is_instance_valid(player):
+			player.stop()
+			player.stream=null
+
 func _exit_tree() -> void:
-	if is_instance_valid(music): music.stop()
-	if is_instance_valid(sfx): sfx.stop()
+	_stop_audio()
+
+func _notification(what:int) -> void:
+	if what==NOTIFICATION_WM_CLOSE_REQUEST:
+		_quit_cleanly()
+
+func _quit_cleanly() -> void:
+	if quit_pending: return
+	quit_pending=true
+	world.active=false
+	if current_screen=="explore": _autosave()
+	_stop_audio()
+	await get_tree().create_timer(0.25).timeout
+	get_tree().quit()
 
 func _capture_screenshot() -> void:
 	await RenderingServer.frame_post_draw
@@ -721,3 +746,7 @@ func _equip_art(id: String) -> void:
 		_toast("已修习"+id+"，战斗中按2施展。")
 	else:
 		_toast("暂未习得这门武学。")
+
+func _show_workshop() -> void:
+	if current_screen=="battle": return
+	workshop.show()
