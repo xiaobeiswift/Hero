@@ -1,0 +1,57 @@
+{
+  "size": [
+    1024,
+    1024
+  ],
+  "cell_size": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    224,
+    470
+  ],
+  "source_scale": 0.65,
+  "source_sha256": "ef3f208b73ee265b92aff835e8623e227ce4310e7740a70b83e848dd4e0a932d",
+  "runtime_sha256": "15c888915a83b427692411fb1ec4afc2919e8b948edfc5f47b27b9f7e3eaf8a9",
+  "all_cells_match_singles": true,
+  "all_cell_borders_transparent": true,
+  "poses": [
+    {
+      "pose": "idle",
+      "foreground_bounds": [
+        110,
+        61,
+        337,
+        471
+      ]
+    },
+    {
+      "pose": "assist",
+      "foreground_bounds": [
+        57,
+        91,
+        447,
+        471
+      ]
+    },
+    {
+      "pose": "cover",
+      "foreground_bounds": [
+        69,
+        73,
+        379,
+        471
+      ]
+    },
+    {
+      "pose": "recover",
+      "foreground_bounds": [
+        97,
+        52,
+        345,
+        471
+      ]
+    }
+  ]
+}
