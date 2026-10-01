@@ -1,0 +1,18 @@
+# Tang Qi exploration art
+
+Created 2026-10-01 for Hero · 渡灯录 with the built-in image generator, referencing only the bottom-left Tang Qi portrait in this project's original `hero-character-portraits-atlas.png`. No external character or game artwork was used. The existing portrait's provenance and generated-art rights limitations remain applicable.
+
+The unchanged generated directional source is 1774×887 RGBA. Four separately authored views preserve the blue-grey work robe, green collar, leather carpenter apron, moustache/goatee and measuring tools. The left-hip tool pouch is not swapped by mirroring. These source views are idle references, not an image-generated walk cycle.
+
+Blender transparent UV cards map the robe/apron and independently sampled boots into a deterministic eight-frame contact cycle. The body has a restrained bob; feet alternate contact and lift. Runtime atlas is 2048×1024 RGBA, eight columns and four rows front/right/back/left, 256px cells, fixed foot anchor (128,241). All32 cells match the rendered singles exactly, all four-pixel cell borders are transparent, and opposed contact frames differ. Measurements are in `tests/tang_walk_pixel_qa.json`.
+
+This is a painted cutout motion pass. Arms, apron and hair do not have a complete skeletal/cloth rig. Side boot overlaps need continued motion review. Gameplay position, collision, formation, stats and save format remain independent of the artwork. This asset covers exploration/following; Tang's combat support retains its previous renderer.
+
+The original source, exact UV card definitions, reproducible Blender script, editable scene and32 individual frames are retained with the project authoring files. Only the runtime atlas/helper are required to play.
+
+- Unchanged generated source SHA256: `bdcdf7d4acc0d88007754cf79837f415399e90a25607ac35e7f59c8473b9359d`
+- Runtime atlas SHA256: `792a1acbfb32d2759cb3b42b58aeab093e18168ffe8c14a152c614e5324c0cb5`
+
+## Exact generation prompt
+
+Use case: identity-preserve. Transform the BOTTOM-LEFT original character from the supplied four-portrait atlas into a transparent gameplay directional sprite reference sheet for our original Chinese wuxia RPG Hero. Only that bottom-left man, Tang Qi, is the subject; do not depict the other three people. Preserve his recognizable mature face, tied dark hair, small moustache and short goatee, blue-grey work robe, muted green inner collar, leather craft apron and modest wooden carpenter tools. Full-body practical bridge carpenter, cloth leg wraps and dark brown boots, a small wooden measuring ruler and tool pouch on his anatomical LEFT hip; no sword or fighting pose. Painterly ink-and-gouache treatment with detailed fabric folds and warm natural highlights, grounded proportions, consistent with the supplied original painting. Make FOUR full-body isolated views in ONE horizontal row, from left to right: front, strict right-facing side, back, strict left-facing side. Same character, clothing construction, height, lighting and ground level in all four. Upright relaxed neutral stance, two separate boots clearly visible beneath the split knee-length work robe; hands relaxed at sides, arms separated slightly from torso. His tool pouch stays on the same anatomical left hip across views, never mirror the asymmetric costume. Full silhouettes completely inside four equal separate columns with generous completely transparent gutters; no overlaps, no labels, no text, no borders, no floor/shadow, no props outside the costume. Genuine alpha transparency, no checkerboard. This is a directional idle reference sheet, not a walk cycle.
