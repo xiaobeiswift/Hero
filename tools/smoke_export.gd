@@ -117,6 +117,7 @@ func _run() -> void:
 	print("Retained story/traversal pack coverage: %d checks"%checks)
 	await _test_visual_runtime()
 	await _test_painted_hud_pack()
+	await _test_party_inventory_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1123,3 +1124,40 @@ func _test_painted_hud_pack() -> void:
 	game.state.qi=0;game._refresh_battle()
 	_check(game.battle_buttons[1].disabled and game.battle_buttons[1].tooltip_text.contains("真气"),"Packed unavailable skill explains qi requirement")
 	game._battle_action("flee");game._close_modal()
+
+func _test_party_inventory_pack()->void:
+	game._new_game();game._process(0)
+	var shen=load("res://scripts/painted_shen_sprite.gd")
+	_check(shen!=null and ResourceLoader.exists("res://scripts/inventory_panel.gd"),"Packed travelling Shen and paper inventory helpers retained")
+	if shen==null:return
+	_check(ResourceLoader.exists(shen.PATH) and shen.texture_for("front",0).atlas.get_size()==Vector2(2048,1024),"Packed painted Shen atlas has all32 cells")
+	var crop_valid=true
+	for direction in shen.ROWS:
+		for frame in range(8):
+			crop_valid=crop_valid and shen.texture_for(direction,frame).region==Rect2(frame*256,shen.ROWS[direction]*256,256,256)
+	_check(crop_valid,"Packed Shen directional crops remain distinct and bounded")
+	game._show_inventory()
+	_check(game.overlay.find_child("InventoryFrame",true,false)!=null and game.overlay.find_child("InventoryTraveller",true,false)!=null,"Packed paper inventory displays its illustrated identity and structured layout")
+	_check(_find_button(game.overlay,"回春散").disabled and _find_button(game.overlay,"切换阵型").disabled and _find_button(game.overlay,"青钢剑 · 45文").disabled,"Packed unavailable inventory actions are visibly disabled")
+	var before=game.state.to_dict();var stale=game.modal_actions[2]
+	await _key(KEY_3)
+	_check(game.state.to_dict()==before and _gather_text(game.overlay).contains("还需 21 文"),"Packed blocked numeric shortcut explains price without spending")
+	await _key(KEY_K)
+	_check(game.active_modal and not game.overlay.get_meta("inventory",false) and _gather_text(game.overlay).contains("武学"),"Packed inventory K shortcut opens real martial screen")
+	stale.call()
+	_check(game.state.to_dict()==before,"Packed dismissed inventory callback cannot purchase equipment")
+	game._close_modal();game._show_inventory();await _key(KEY_B)
+	_check(game.active_modal and not game.overlay.get_meta("inventory",false) and _gather_text(game.overlay).contains("工艺"),"Packed inventory B shortcut opens actual crafting")
+	game._close_modal();game.state.quest_stage=6;game.state.recruit_companion();game._sync_world_state();game.world.teleport(Vector2(435,650))
+	var valid_spacing=true
+	for facing in [Vector2.UP,Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT]:
+		game.world.facing=facing
+		var target=game.world._companion_follow_target()
+		valid_spacing=valid_spacing and game.world._can_step(game.world.player_pos,target) and target.distance_to(game.world.player_pos)>35
+	_check(valid_spacing,"Packed party trailing space keeps both figures on reachable ground")
+	game.world.player_pos=Vector2(600,650);game.world.companion_pos=Vector2(500,670)
+	_check(game.world._tree_opacity({"pos":Vector2(510,740),"scale":1.0})==.4,"Packed foreground canopy also preserves painted follower readability")
+	game._show_inventory();await _key(KEY_2)
+	_check(game.state.formation=="护后" and _gather_text(game.overlay).contains("护后"),"Packed structured inventory retains formation action and current display")
+	await _key(KEY_4)
+	_check(not game.active_modal,"Packed fourth inventory shortcut still returns to exploration")
