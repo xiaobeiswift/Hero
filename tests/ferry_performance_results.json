@@ -1,0 +1,66 @@
+{
+	"cases": [
+		{
+			"draw_calls_mean": 69.0,
+			"editor_binary": true,
+			"frames": 56,
+			"max_ms": 143.141666666667,
+			"method": "gl_compatibility",
+			"p95_ms": 133.191666666667,
+			"painted_backdrop": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.215127,
+			"stage": "(938.0, 568.0)",
+			"texture_memory_bytes": 91302168.0,
+			"wall_fps": 13.2854834504393,
+			"window": "(1180, 812)"
+		},
+		{
+			"draw_calls_mean": 46.7080745341615,
+			"editor_binary": true,
+			"frames": 161,
+			"max_ms": 130.398333333334,
+			"method": "gl_compatibility",
+			"p95_ms": 36.47,
+			"painted_backdrop": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.011214,
+			"stage": "(938.0, 568.0)",
+			"texture_memory_bytes": 91302168.0,
+			"wall_fps": 40.137474589987,
+			"window": "(1180, 812)"
+		},
+		{
+			"draw_calls_mean": 46.0,
+			"editor_binary": true,
+			"frames": 151,
+			"max_ms": 88.9163333333333,
+			"method": "gl_compatibility",
+			"p95_ms": 46.929,
+			"painted_backdrop": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.001848,
+			"stage": "(938.0, 568.0)",
+			"texture_memory_bytes": 91302168.0,
+			"wall_fps": 37.7325675537901,
+			"window": "(1180, 812)"
+		},
+		{
+			"draw_calls_mean": 66.0,
+			"editor_binary": true,
+			"frames": 150,
+			"max_ms": 94.0316666666667,
+			"method": "gl_compatibility",
+			"p95_ms": 41.7450000000002,
+			"painted_backdrop": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.03902,
+			"stage": "(938.0, 568.0)",
+			"texture_memory_bytes": 91302168.0,
+			"wall_fps": 37.1377215265089,
+			"window": "(1180, 812)"
+		}
+	],
+	"scope": "Idle duel with identical painted actors, HUD and viewport. Background only toggled in ABBA order. Real wall clock, no Movie Maker. Short shared-host llvmpipe diagnostic, not stable hardware performance or action/input latency.",
+	"source_base": "9ab9b7a + ferry helper"
+}
