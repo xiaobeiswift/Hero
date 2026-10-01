@@ -2,6 +2,13 @@
 
 引擎：Godot 4.6.3.stable.official.7d41c59c4
 
+## 截图反馈与资源扫描 · 16:12 UTC
+
+- 完整 `bash run-tests.sh` 通过，新增唯一文件名、不覆盖、重复排队、无头/退出安全检查
+- 原生 `visual_screenshot_feedback.gd` 生成并解码两张不同PNG，验证同帧双请求合并；107实际图像已检查
+- 首次导入因构建QA目录内一张中断PNG失败；加入builds/.gdignore后全量重跑通过，未删除或伪造原始诊断证据
+- 本次为0.0.12源码后续修整，不修改已发布0.0.11归档
+
 ## 精确包后续验证 · 15:52 UTC
 
 开发Linux导出PCK通过642项检查，原620项完整保留；独立release可执行程序另通过60迭代无头启动。开发包记录dirty源码，不冒充正式版本。新候选的三平台导出、原生LinuxGUI与哈希映射另行记录。全景原生性能样本及限制见RENDER_PERFORMANCE.md与fullworld_performance_results.json。
