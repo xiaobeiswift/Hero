@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const CompanionStory=preload("res://scripts/companion_story.gd")
@@ -23,6 +24,7 @@ var sect_progress
 var companion_story
 var advanced_martial
 var mist_story
+var save_slots
 var world
 var world_view: SubViewport
 var font: Font
@@ -53,6 +55,7 @@ var battle_status:Label
 var battle_info: Label
 var battle_log: RichTextLabel
 var battle_buttons: Array[Button] = []
+var modal_generation:int=0
 var active_modal = false
 var modal_actions: Array[Callable] = []
 var current_screen = "explore"
@@ -81,6 +84,7 @@ func _ready() -> void:
 	companion_story=CompanionStory.new(self)
 	advanced_martial=AdvancedMartialUI.new(self)
 	mist_story=MistwoodStory.new(self)
+	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -184,8 +188,8 @@ func _build_interface() -> void:
 	_button(self, "武学 K", Rect2(674,29,96,42),_show_martials)
 	_button(self, "行囊  I", Rect2(778, 29, 96, 42), _show_inventory)
 	_button(self, "江湖志  J", Rect2(882, 29, 106, 42), _show_journal)
-	_button(self, "存档", Rect2(1000, 29, 68, 42), _save)
-	_button(self, "读档", Rect2(1078, 29, 68, 42), _load)
+	_button(self, "存档", Rect2(1000, 29, 68, 42), _show_save_slots)
+	_button(self, "读档", Rect2(1078, 29, 68, 42), _show_load_slots)
 	_button(self, "♫  开", Rect2(1156, 29, 96, 42), _toggle_audio.bind())
 	_panel(self, Rect2(22, 106, 944, 574), INK, Color("66877b"))
 	var container = SubViewportContainer.new()
@@ -307,6 +311,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_K: _show_martials()
 		KEY_I: _show_inventory()
 		KEY_J: _show_journal()
+		KEY_F6: _show_save_slots()
+		KEY_F10: _show_load_slots()
 		KEY_F5: _save()
 		KEY_F9: _load()
 
@@ -357,6 +363,9 @@ func _clear_overlay() -> void:
 		child.queue_free()
 
 func _close_modal() -> void:
+	if current_screen=="title":
+		_show_title();return
+	modal_generation+=1
 	_clear_overlay()
 	active_modal = false
 	if current_screen == "title": current_screen = "explore"
@@ -364,6 +373,7 @@ func _close_modal() -> void:
 	if current_screen == "explore": _autosave()
 
 func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
+	modal_generation+=1
 	_clear_overlay()
 	active_modal = true
 	var veil = ColorRect.new()
@@ -401,11 +411,12 @@ func _show_title() -> void:
 	current_screen = "title"
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
+	if save_slots.store.has_manual_saves():choices.append(["查阅手记",_show_load_slots])
 	_modal("渡灯录", "H E R O  ·  原创武侠角色扮演", "[color=#d3b276]第一章 · 灯火不问归人[/color]\n\n你带着一封没有署名的旧信，来到水路尽头的青苇渡。\n今夜，渡口的引航灯没有亮。\n\n江湖未必始于名山大派，也可能始于一盏被人摘走的灯。", choices)
 
 func _request_new_game() -> void:
 	if state.has_save():
-		_modal("另启一段江湖", "新旅程 / 将替换当前本地存档", "继续新旅程将替换现有存档。\n\n若要接着之前的经历，请选择返回，再点‘续写前缘’。",[["确认新旅程",_new_game],["返回",_show_title]])
+		_modal("另启一段江湖", "新旅程 / 将替换当前本地存档", "继续新旅程将替换当前自动存档，三份手动手记不会删除。\n\n若要接着之前的经历，请选择返回，再点‘续写前缘’。",[["确认新旅程",_new_game],["返回",_show_title]])
 	else:
 		_new_game()
 
@@ -577,11 +588,14 @@ func _load() -> void:
 	if error != OK:
 		_toast("存档版本不受支持，请使用兼容的新版本。" if error==ERR_FILE_UNRECOGNIZED else "未能读取存档：文件不存在或格式损坏。")
 		return
+	_apply_loaded_state()
+
+func _apply_loaded_state(message:String="前缘已续 · 读档成功。")->void:
 	current_screen = "explore"
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
 	_close_modal()
-	_toast("前缘已续 · 读档成功。")
+	_toast(message)
 	if state.quest_stage==5 and state.sect=="未入门": _choose_sect()
 
 func _build_battle_ui() -> void:
@@ -826,3 +840,6 @@ func _sync_world_state() -> void:
 	world.resource_depleted=state.gathered_nodes
 	world.side_stage = state.side_stage
 	world.side_target_id = ("ledger_runner" if state.side_found.has("boatman") else "stranded_boatman") if state.side_stage<2 else ""
+
+func _show_save_slots()->void:save_slots.save_page()
+func _show_load_slots()->void:save_slots.load_page()
