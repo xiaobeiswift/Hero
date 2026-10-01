@@ -81,12 +81,12 @@ static func plaque_rect(b: Dictionary) -> Rect2:
 	var plaque: Rect2 = PLAQUES[id]
 	return Rect2(target.position + plaque.position * scale_factor, plaque.size * scale_factor)
 
-static func draw_willow(canvas: CanvasItem, foot: Vector2, scale_factor: float = 1.0) -> bool:
+static func draw_willow(canvas: CanvasItem, foot: Vector2, scale_factor: float = 1.0, opacity:float=1.0) -> bool:
 	var texture := texture_for("willow")
 	if texture == null:
 		return false
 	var draw_scale := (132.0 / 481.0) * scale_factor
 	var anchor: Vector2 = ANCHORS["willow"]
 	var source: Rect2 = REGIONS["willow"]
-	canvas.draw_texture_rect(texture, Rect2(foot - anchor * draw_scale, source.size * draw_scale), false)
+	canvas.draw_texture_rect(texture, Rect2(foot - anchor * draw_scale, source.size * draw_scale), false,Color(1,1,1,opacity))
 	return true

@@ -551,8 +551,14 @@ func _draw_building(b: Dictionary) -> void:
 		_poly([flag_p + Vector2(-18, -16), flag_p + Vector2(14, -16), flag_p + Vector2(14, 34), flag_p + Vector2(-2, 26), flag_p + Vector2(-18, 34)], Color("c7bd91"))
 		_label(flag_p + Vector2(-15, 12), "茶", 24, Color("576a51"), 28, HORIZONTAL_ALIGNMENT_CENTER)
 
+func _tree_opacity(tree:Dictionary)->float:
+	# Fade only an occluding foreground crown, keeping the traveller readable.
+	var offset:Vector2=player_pos-tree["pos"]
+	var tree_scale:float=tree["scale"]
+	return 0.40 if offset.y<0 and offset.y>-106*tree_scale and absf(offset.x)<45*tree_scale else 1.0
+
 func _draw_tree(tree: Dictionary) -> void:
-	if map_id=="qingwei" and EnvironmentArt.draw_willow(self,tree["pos"],tree["scale"]):return
+	if map_id=="qingwei" and EnvironmentArt.draw_willow(self,tree["pos"],tree["scale"],_tree_opacity(tree)):return
 	var p: Vector2 = tree["pos"]
 	var s: float = tree["scale"]
 	var variant: int = tree["variant"]
