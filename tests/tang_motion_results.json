@@ -1,0 +1,45 @@
+{
+  "scope": "Fixed-step Godot Movie Maker capture from exact clean source; scripted held movement, not real-time FPS or native release video.",
+  "source_commit": "9aa58ca940ce74732a1270bb55f630850eece58d",
+  "all_tracked_files_unchanged_after_capture": true,
+  "source_files_checked": 615,
+  "movie_sha256": "740ebed8103fa10edd5407e2405f77d004b5a881c5135b20cb3c1bc3b308c700",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 800,
+        "pix_fmt": "yuvj420p",
+        "r_frame_rate": "24/1",
+        "nb_frames": "96"
+      }
+    ],
+    "format": {
+      "duration": "4.000000",
+      "size": "3801182"
+    }
+  },
+  "raw_frames": 101,
+  "raw_fps": 24,
+  "raw_wall_seconds": 8,
+  "selected_seconds": 4,
+  "decoded_frames": 96,
+  "visual_sample_frames": 8,
+  "capture_scope": [
+    "Painted Tang follows the actual world movement loop",
+    "Directional changes and distance-driven cutout gait",
+    "Party occlusion transparency at noticeboard and willow"
+  ],
+  "limits": [
+    "Prepared recruited-companion scenario, not a manual quest playthrough",
+    "Upper body and arms remain restrained cutout artwork",
+    "No new combat or independent-binary verification",
+    "Fixed-step output does not establish real-time performance"
+  ],
+  "transform": "First4seconds transcoded toH264; silent audio and final teardown omitted. No frame interpolation or compositing.",
+  "renderer": "Godot4.6.3 OpenGLCompatibility Mesa25.0.7 llvmpipeLLVM19.1.7",
+  "record_log": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nWARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.\n     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)\nOpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)\n\nMovie Maker mode enabled, recording movie in 1280×800 @ 24 FPS...\nWARNING: Current available space on disk is low (1.04 GiB). MovieWriter will fail during movie recording if the disk runs out of available space.\n     at: begin (servers/movie_writer/movie_writer.cpp:113)\n{\"companion\":\"唐栖\",\"companion_end\":\"(628.1534, 507.7238)\",\"companion_walk_phase\":30.6588789081573,\"duration_simulated\":4.03333333333333,\"end\":\"(600.0, 455.4167)\",\"scope\":\"scripted held movement in clean9aa58ca runtime source, fixed24FPS recording\",\"start\":\"(600.0, 440.0)\",\"viewport\":\"(1280, 800)\",\"world_view\":\"(800, 500)\"}\n--------------------------------------------------------------------------------\nDone recording movie at path: /workspace/scratch/61762639b34b/Hero/builds/tang-motion-9aa58ca/tang-walk.avi\n101 frames at 24 FPS (movie length: 00:00:04:05), recorded in 00:00:08 (50% of real-time speed).\nCPU render time: 1.15 seconds (average: 11.40 ms/frame)\nGPU render time: 1.08 seconds (average: 10.70 ms/frame)\nEncoding time: 1.85 seconds (average: 18.29 ms/frame)\n--------------------------------------------------------------------------------\nEXIT_CODE=0\nWALL_SECONDS=8\n"
+}
