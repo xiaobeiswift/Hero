@@ -114,6 +114,8 @@ func _run() -> void:
 	await _test_shen_care_route("shore", "rescue", "守望")
 	await _test_shen_care_route("mobile", "pursuit", "秉公")
 	await _test_lightness_exploration()
+	print("Retained story/traversal pack coverage: %d checks"%checks)
+	await _test_visual_runtime()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1033,3 +1035,42 @@ func _test_lightness_exploration() -> void:
 	game.state.save_game()
 	game._load()
 	_check(game.world._can_walk(game.world.player_pos), "Packed saved water coordinate is repaired onto safe ground")
+
+func _test_visual_runtime() -> void:
+	# These are checks of shipped runtime bytes, not the editable source directory.
+	_check(ResourceLoader.exists("res://assets/generated/environment/qingwei_environment_atlas.png"), "Painted village atlas is shipped")
+	_check(ResourceLoader.exists("res://assets/generated/environment/qingwei_moss_earth.png"), "Continuous ground painting is shipped")
+	var environment=load("res://scripts/qingwei_environment_art.gd")
+	var traveler=load("res://scripts/traveler_visual.gd")
+	_check(environment!=null and traveler!=null,"Painted asset and articulated actor modules load from pack")
+	if environment==null or traveler==null:return
+	for b in game.world.buildings:
+		var rect:Rect2=environment.building_rect(b)
+		var scale_factor=rect.size.x/environment.REGIONS[b.type].size.x
+		var anchor:Vector2=rect.position+environment.ANCHORS[b.type]*scale_factor
+		_check(environment.texture_for(b.type)!=null,"Packed measured crop loads: "+b.type)
+		_check(anchor.distance_to(b.pos+Vector2(b.size.x*.5,b.size.y))<.001 and rect.encloses(environment.plaque_rect(b)),"Packed doorstep/plaque anchors preserved: "+b.type)
+	for pair in [[Vector2.DOWN,0],[Vector2.RIGHT,1],[Vector2.UP,2],[Vector2.LEFT,3]]:
+		_check(traveler.direction_index(pair[0])==pair[1] and traveler.pose(pair[0],PI*.5,true).gait>.99,"Packed directional pose and walking contact")
+	game._new_game();game._start_battle("spar")
+	game.battle_presentation_enabled=true
+	_check(game.battle_art.has_signal("impact_presented") and game.battle_art.has_signal("presentation_finished"),"Packed impact and completion contract")
+	var before_turn:int=game.state.turn
+	game._battle_action("attack")
+	_check(game.battle_busy and game.battle_art.is_presenting(),"Packed action enters presentation lock")
+	_check(game.battle_art.presentation_details.get("enemy_damage",0)>0,"Packed accepted result provides real damage number")
+	var spent_turn:int=game.state.turn
+	game._battle_action("attack")
+	_check(spent_turn==before_turn+1 and game.state.turn==spent_turn,"Packed repeat input cannot spend another turn")
+	await game.battle_art.presentation_finished
+	await process_frame
+	_check(not game.battle_busy and not game.battle_buttons[0].disabled,"Packed action releases controls after animation")
+	_check(is_equal_approx(game.battle_hp.value,game.state.enemy_hp) and is_equal_approx(game.battle_player_hp.value,game.state.hp),"Packed end pose reconciles health display")
+	game.state.enemy_hp=1
+	game._battle_action("attack")
+	_check(game.current_screen=="battle" and not game.active_modal,"Packed winning blow remains on stage")
+	await game.battle_art.presentation_finished
+	await process_frame
+	_check(game.current_screen=="explore" and game.active_modal,"Packed finishing pose hands off to real result modal")
+	game.battle_presentation_enabled=false
+	game._close_modal()
