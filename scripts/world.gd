@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const BambooArt=preload("res://scripts/painted_bamboo.gd")
 const CampShelter=preload("res://scripts/painted_camp_shelter.gd")
 const Noticeboard=preload("res://scripts/painted_noticeboard.gd")
 const Civilians=preload("res://scripts/painted_village_civilians.gd")
@@ -21,6 +22,7 @@ signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
 var ui_scale:float=1.0
+var painted_bamboo_enabled:bool=true
 var painted_camp_enabled:bool=true
 var painted_board_enabled:bool=true
 var painted_props_enabled:bool=true
@@ -658,6 +660,7 @@ func _draw_tree(tree: Dictionary) -> void:
 
 func _draw_bamboo(p: Vector2, count: int) -> void:
 	if not _world_rect_visible(Rect2(p-Vector2(count*6.5+32,145),Vector2(count*13+64,175))):return
+	if map_id=="qingwei" and painted_bamboo_enabled and BambooArt.draw(self,p,count,time_passed):return
 	for i in range(count):
 		var base := p + Vector2((i - count * 0.5) * 13, sin(i * 4.1) * 17)
 		var height := 69 + fmod(i * 13.0, 61)
