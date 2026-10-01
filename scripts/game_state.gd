@@ -2,11 +2,12 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 7
+const SAVE_VERSION: int = 8
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
 const Mist=preload("res://scripts/mistwood_rules.gd")
+const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
 const Sects=preload("res://scripts/sect_rules.gd")
@@ -37,6 +38,8 @@ var ending: String = ""
 var position: Vector2 = Vector2(460, 430)
 var victories: int = 0
 var companion_unlocked: bool = false
+var lightness_unlocked:bool=false
+var lightness_relics:Array[String]=[]
 var shen_care_stage:int=0
 var shen_care_choice:String=""
 var tangqi_unlocked:bool=false
@@ -110,6 +113,7 @@ func reset_game() -> void:
 	position = Vector2(460, 430)
 	victories = 0
 	companion_unlocked = false
+	lightness_unlocked=false;lightness_relics.clear()
 	shen_care_stage=0;shen_care_choice=""
 	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
 	formation = "并肩"
@@ -273,6 +277,9 @@ func current_companion() -> String:return Companions.active(self)
 func available_companions() -> Array[String]:return Companions.available(self)
 func select_companion(id:String) -> bool:return Companions.select(self,id)
 func companion_description() -> String:return Companions.description(self)
+func learn_lightness() -> bool:return Lightness.learn(self)
+func cross_reed_water(outward:bool) -> bool:return Lightness.cross(self,outward)
+func discover_reed_islet() -> bool:return Lightness.discover(self)
 func begin_shen_care() -> bool:return ShenCare.begin(self)
 func consult_shen_patient() -> bool:return ShenCare.consult(self)
 func inspect_shen_shelter() -> bool:return ShenCare.inspect(self)
@@ -568,6 +575,7 @@ func to_dict() -> Dictionary:
 		"sect_rank":sect_rank,"sect_merit":sect_merit,"sect_trial_won":sect_trial_won,
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
+		"lightness_unlocked":lightness_unlocked,"lightness_relics":lightness_relics.duplicate(),
 		"shen_care_stage":shen_care_stage,"shen_care_choice":shen_care_choice,
 		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
 		"formation": formation, "equipment": equipment,
@@ -626,7 +634,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -666,6 +674,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	Mist.restore(self,data)
 	Companions.restore(self,data)
 	ShenCare.restore(self,data)
+	Lightness.restore(self,data)
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
 	sect = saved_sect if SECTS.has(saved_sect) else "未入门"
@@ -717,6 +726,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Mist.valid(data,version):return false
 	if not Companions.valid(data):return false
 	if not ShenCare.valid(data,version):return false
+	if not Lightness.valid(data,version):return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
 		return false
 	if data.has("side_reward_claimed") and not data["side_reward_claimed"] is bool:
