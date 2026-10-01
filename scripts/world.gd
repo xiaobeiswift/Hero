@@ -701,11 +701,16 @@ func _draw_training_ground() -> void:
 		draw_line(p + Vector2(-4, -22), p + Vector2(4, -22), C_GOLD, 2)
 	draw_line(Vector2(563, 717), Vector2(616, 717), Color("8a815c"), 4)
 
+func _noticeboard_opacity(p:Vector2)->float:
+	var actors=[player_pos]
+	if companion_active:actors.append(companion_pos)
+	return Noticeboard.opacity_for(p,actors)
+
 func _draw_board(p: Vector2) -> void:
 	if not _world_rect_visible(Rect2(p-Vector2(44,74),Vector2(88,94))):return
 	if painted_board_enabled:
 		_ellipse(p+Vector2(1,2),Vector2(31,6),Color(.1,.2,.16,.18))
-		if Noticeboard.draw(self,p):return
+		if Noticeboard.draw(self,p,_noticeboard_opacity(p)):return
 	_ellipse(p + Vector2(5, 3), Vector2(29, 7), Color(0.2, 0.3, 0.23, 0.13))
 	for x in [-20, 20]:
 		draw_line(p + Vector2(x, 0), p + Vector2(x, -52), Color("687255"), 4)
