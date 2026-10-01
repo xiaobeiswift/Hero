@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const TeaTable=preload("res://scripts/painted_tea_table.gd")
 const BambooArt=preload("res://scripts/painted_bamboo.gd")
 const CampShelter=preload("res://scripts/painted_camp_shelter.gd")
 const Noticeboard=preload("res://scripts/painted_noticeboard.gd")
@@ -22,6 +23,7 @@ signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
 var ui_scale:float=1.0
+var painted_tea_tables_enabled:bool=true
 var painted_bamboo_enabled:bool=true
 var painted_camp_enabled:bool=true
 var painted_board_enabled:bool=true
@@ -400,6 +402,7 @@ func _draw() -> void:
 	_draw_memorial()
 	_draw_camp_fire()
 	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"},{"y":735.0,"kind":"camp"}]
+	for p:Vector2 in TeaTable.POSITIONS:layers.append({"y":p.y+8,"kind":"tea_table","pos":p})
 	for b in buildings:
 		layers.append({"y": b["pos"].y + b["size"].y, "kind": "building", "data": b})
 	for tree in trees:
@@ -414,6 +417,7 @@ func _draw() -> void:
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
+			"tea_table": _draw_tea_table(item["pos"])
 			"camp": _draw_camp()
 			"noticeboard": _draw_board(Vector2(720,480))
 			"building": _draw_building(item["data"])
@@ -539,15 +543,19 @@ func _draw_gardens() -> void:
 		_ellipse(p + Vector2(2, 2), Vector2(9, 4), Color(0.12, 0.24, 0.21, 0.14))
 		_ellipse(p + Vector2(0, -6), Vector2(7, 10), Color("9b7958"))
 		_ellipse(p + Vector2(0, -14), Vector2(4, 2), Color("596251"))
-	# Tea tables and cushions outside the tea house.
-	for p: Vector2 in [Vector2(578, 338), Vector2(710, 355)]:
-		_ellipse(p + Vector2(3, 5), Vector2(22, 8), Color(0.18, 0.27, 0.2, 0.15))
-		draw_rect(Rect2(p + Vector2(-3, -4), Vector2(6, 12)), Color("62634d"))
-		_ellipse(p + Vector2(0, -8), Vector2(20, 9), Color("a88c62"))
-		draw_circle(p + Vector2(-5, -10), 3, C_PAPER)
-		draw_circle(p + Vector2(7, -8), 2.5, C_PAPER)
-		_ellipse(p + Vector2(-27, 2), Vector2(9, 4), Color("738b73"))
-		_ellipse(p + Vector2(27, 2), Vector2(9, 4), Color("738b73"))
+
+func _draw_tea_table(p:Vector2)->void:
+	if not _world_rect_visible(Rect2(p-Vector2(42,34),Vector2(84,54))):return
+	if painted_tea_tables_enabled:
+		_ellipse(p+Vector2(1,9),Vector2(34,5),Color(.12,.2,.15,.13))
+		if TeaTable.draw(self,p):return
+	_ellipse(p + Vector2(3, 5), Vector2(22, 8), Color(0.18, 0.27, 0.2, 0.15))
+	draw_rect(Rect2(p + Vector2(-3, -4), Vector2(6, 12)), Color("62634d"))
+	_ellipse(p + Vector2(0, -8), Vector2(20, 9), Color("a88c62"))
+	draw_circle(p + Vector2(-5, -10), 3, C_PAPER)
+	draw_circle(p + Vector2(7, -8), 2.5, C_PAPER)
+	_ellipse(p + Vector2(-27, 2), Vector2(9, 4), Color("738b73"))
+	_ellipse(p + Vector2(27, 2), Vector2(9, 4), Color("738b73"))
 
 func _draw_fences() -> void:
 	_fence(Vector2(82, 483), Vector2(296, 470), 9)
