@@ -17,3 +17,7 @@
 ### 绘制探索主角（2026-10-01）
 
 本项目原创生成的角色纹理，通过自行编写的Blender分层卡片动画渲染为32帧四向步态。仅探索主角已接入，其他NPC、同伴和战斗角色尚未替换。来源、输入链、动画限制与当前仅发布运行时素材的范围，见 assets/generated/characters/PAINTED_TRAVELER_PROVENANCE.md。
+
+### 青苇渡主要人物闲置姿态（2026-10-01）
+
+四位村中人物及沈青的四向预备素材，由本项目原创图像经Blender透明卡片定尺渲染。完整提示、来源范围与当前闲置姿态限制见 assets/generated/characters/PAINTED_VILLAGE_PROVENANCE.md。角色身份与原有任务不变，不将方向闲置图说成行走动画。
