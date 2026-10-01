@@ -943,6 +943,11 @@ func _navigation_target_covered(target:Vector2)->bool:
 		if rect.has_point(target):return true
 	return false
 
+func _navigation_target_visible(target: Vector2) -> bool:
+	var unit := 1.0 / maxf(.01, ui_scale)
+	var area := Rect2(Vector2(35, 45) * unit, viewport_rect.size - Vector2(70, 80) * unit)
+	return area.has_point(target) and not _navigation_target_covered(target)
+
 func _compass_edge(target:Vector2)->Vector2:
 	var s=viewport_rect.size
 	var unit=1.0/maxf(.01,ui_scale)
@@ -966,7 +971,7 @@ func _draw_view_framing() -> void:
 		return
 	var target: Vector2 = interactables[target_id]["pos"] - camera_pos
 	var unit=1.0/maxf(.01,ui_scale)
-	if Rect2(35*unit,45*unit,s.x-70*unit,s.y-115*unit).has_point(target) and not _navigation_target_covered(target):
+	if _navigation_target_visible(target):
 		return
 	var edge:=_compass_edge(target)
 	var direction := (target - s * 0.5).normalized()

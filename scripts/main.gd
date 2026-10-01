@@ -341,7 +341,14 @@ func _sync_hud_navigation(force:bool=false)->void:
 	var flags=int(hud.toast_wash.visible)+2*int(hud.quest_notice.visible)
 	if not force and flags==_hud_navigation_flags:return
 	_hud_navigation_flags=flags
-	var reserved:Array[Rect2]=[hud.identity_wash.get_rect(),hud.place_wash.get_rect(),hud.quest_wash.get_rect().merge(weather_label.get_rect()),Rect2(0,660,1280,140)]
+	var reserved:Array[Rect2]=[hud.identity_wash.get_rect(),hud.place_wash.get_rect(),hud.quest_wash.get_rect().merge(weather_label.get_rect()),hud.interaction.get_rect().merge(hud.movement_hint.get_rect())]
+	# The bottom ink wash is transparent scenery, not a solid HUD obstruction.
+	# Reserve the real controls so visible targets in the gaps need no duplicate arrow.
+	for button: Button in hud.nav_buttons:
+		reserved.append(button.get_rect())
+	for button in hud.system_bar.get_children():
+		if button is Button:
+			reserved.append(button.get_rect())
 	if hud.toast_wash.visible:reserved.append(hud.toast_wash.get_rect())
 	if hud.quest_notice.visible:reserved.append(hud.quest_notice.get_rect())
 	var projected:Array[Rect2]=[]
