@@ -39,7 +39,7 @@ godot --headless --path "$PWD" --script tools/export_licenses.gd -- "$PWD/licens
 python3 tools/export_desktop.py --target linux --label test-linux-001
 
 # 同一份源码快照导出全部桌面目标
-python3 tools/export_desktop.py --target all --label v0.0.16 --transient-platforms
+python3 tools/export_desktop.py --target all --label v0.0.17 --sequential-platforms
 ```
 
 可选 `--target windows`、`--target macos`；`--godot /absolute/path/to/godot` 可指定编辑器。脚本严格检查完整引擎版本，版本不匹配会停止。
@@ -51,7 +51,7 @@ python3 tools/export_desktop.py --target all --label v0.0.16 --transient-platfor
 1. 把游戏资源、代码、场景、导出预设和许可复制到独立快照；复制前后校验，源文件在复制期间变化即停止
 2. 在独立配置/缓存目录重新导入资源，从同一快照导出所有选定平台
 3. 输出未嵌入的 PCK、平台运行程序、压缩发行包、源码 SHA-256 清单、发行包 SHA-256 清单及 JSON 构建报告
-4. 拒绝覆盖已有标签；所有产物、日志、临时配置和测试存档保留在 `builds/<标签>/`
+4. 拒绝覆盖已有标签；最终产物、源码、日志、临时配置和测试存档保留在 `builds/<标签>/`。仅显式顺序模式会处理本次新建且已核验的外平台临时输出
 5. 为 Linux 单独运行实际 release 可执行文件的 60 帧 headless 启动检查
 6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 761 项资源/游戏流程/表现检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
 7. 把本次外置 PCK 测试驱动保存为 `builds/<标签>/smoke_export.gd`，每个平台使用同一副本，并在报告记录其 SHA-256 与预期检查数；该驱动不进入发行 PCK 或压缩包
@@ -116,7 +116,7 @@ godot --headless --path "$PWD" --export-release "Linux x86_64" "$PWD/builds/manu
 
 新增 `verify_export_archives.py` 会逐项比较压缩包内成员与实际未压缩文件，包括Linux/Windows的PCK、macOS应用内文件和审计用PCK。构建完成时必须通过，生成ARCHIVE-VERIFICATION.json；损坏包、错误成员、缺失PCK、越界路径与符号链接重定向均会拒绝。该工具只读取，绝不删除文件，也不证明原生进程已关闭。
 
-每个新临时构建有TRANSIENT-WORKSPACE.json。只有在最终包散列和成员再次核对、约定的原生验证完成、实际游戏进程已关闭且发布方不再读取临时文件后，才可单独处理其中标明的 `transient/` 与 `source/.godot/`。脚本不自动清理；其他源码、存档、日志、截图、最终包和所有旧版本目录均不在该范围。临时程序删除后，可从原版本压缩包解出逐字节相同的程序/PCK继续复验。
+每个新临时构建有TRANSIENT-WORKSPACE.json。只有在最终包散列和成员再次核对、约定的原生验证完成、实际游戏进程已关闭且发布方不再读取临时文件后，才可单独处理其中标明的 `transient/` 与 `source/.godot/`。单独使用此标记时脚本不自动清理；其他源码、存档、日志、截图、最终包和所有旧版本目录均不在该范围。临时程序删除后，可从原版本压缩包解出逐字节相同的程序/PCK继续复验。
 
 可随时在未清理的构建上执行只读复验：
 
@@ -125,3 +125,13 @@ python3 tools/verify_export_archives.py builds/v0.0.16
 ```
 
 真正需要节省空间的开发预检可以仅导出PCK再运行外置驱动，不必先重复创建一套完整Linux程序/源码副本。任何预检都不能替代最终平台压缩包、原生GUI与确切来源验收。
+
+## 空间受限时的顺序导出
+
+`--sequential-platforms` 隐含临时平台目录，并按macOS → Windows → Linux构建。Mac/Windows每个平台的导出和实际PCK审计进程返回后，先逐成员与最终压缩包比较，保存绑定源码提交、源码清单和压缩包摘要的 `ARCHIVE-MEMBERS-<平台>.json`。只有通过后才处理本次进程刚创建的对应临时输出；Linux始终保留给后续图形验证。代码要求新构建所有权标记、相同进程及固定目录，不能借此处理旧版本或任意路径。
+
+完成报告记录成员清单摘要；即使临时输出已处理，`verify_export_archives.py`仍会重新读取压缩包的每个文件，与此前已经对照实际输出的成员清单比较。记录缺失、摘要/来源不同、成员变化或归档PCK缺失都拒绝。验证工具自身始终只读。最终压缩包、源码、所有清单、日志、截图及存档资料不清理。
+
+根据0.0.16实际文件，三份压缩包合计约239MB；未压缩Linux109MB、Windows142MB、macOS应用224MB，官方Mac模板完整解压约385MB。顺序模式预检要求至少1,100MiB可用空间，再按超过53MiB的源码增长增加预算。每个平台前另检查900/460/420MiB门槛，保留至少192MiB的保守余量；不足时给出字节差额并停止，不自行删除其他资料。这是基于当前素材规模的保守空间策略，不是跨机器磁盘峰值保证。共享主机在构建途中仍可能发生其他空间变化。
+
+当前新增流程已通过合成临时文件处理、篡改、来源与低空间检查，并只读复验旧版真实三平台归档；首次新的三平台顺序导出和原生验收另行记录，不能从工具单测宣称发行完成。
