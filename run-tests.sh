@@ -79,3 +79,5 @@ run_checked --headless --path . --script tests/painted_cast_test.gd
 
 run_checked --headless --path . --script tests/hud_layout_test.gd
 run_checked --headless --path . --script tests/hud_navigation_test.gd
+
+run_checked --headless --path . --script tests/screenshot_feedback_test.gd
