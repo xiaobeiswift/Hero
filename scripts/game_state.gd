@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 4
+const SAVE_VERSION: int = 5
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Companions=preload("res://scripts/companion_rules.gd")
@@ -11,6 +11,7 @@ const Chapter = preload("res://scripts/chapter_rules.gd")
 const Items = preload("res://scripts/item_catalog.gd")
 const Economy = preload("res://scripts/economy_rules.gd")
 const Arts = preload("res://scripts/martial_catalog.gd")
+const Advanced = preload("res://scripts/advanced_martial_rules.gd")
 
 var player_name: String = "无名客"
 var level: int = 1
@@ -55,6 +56,8 @@ var side_reward_claimed: bool = false
 var side_found: Array[String] = []
 var equipped_art: String = "照夜一线"
 var art_uses: Dictionary = {"照夜一线": 0}
+var learned_arts: Array[String] = []
+var claimed_deeds: Array[String] = []
 
 var enemy_name: String = ""
 var enemy_hp: int = 0
@@ -69,6 +72,9 @@ var skill_cooldown: int = 0
 var enemy_base_attack: int = 9
 var enemy_strong_attack: int = 19
 var exposed_turns: int = 0
+var enemy_weaken_amount: int = 0
+var enemy_weaken_strikes: int = 0
+var focused_damage: int = 0
 var _companion_attack_count: int = 0
 var _trial_art_used:bool=false
 var _trial_healing:int=0
@@ -114,6 +120,8 @@ func reset_game() -> void:
 	side_found.clear()
 	equipped_art = Arts.BASE_ART
 	art_uses = {Arts.BASE_ART: 0}
+	learned_arts.clear()
+	claimed_deeds.clear()
 	_clear_battle()
 
 
@@ -169,15 +177,35 @@ func choose_sect(id: String) -> void:
 			defense += 3
 
 
-func available_arts() -> Array[String]:
+func school_art_ids() -> Array[String]:
 	return Arts.available_for(sect)
 
 
+func available_arts() -> Array[String]:
+	return Advanced.available(self)
+
+
+func can_learn_art(id: String) -> bool:
+	return Advanced.can_learn(self, id)
+
+
+func learn_art(id: String) -> bool:
+	return Advanced.learn(self, id)
+
+
+func eligible_sect_deeds() -> Array[String]:
+	return Advanced.eligible_deeds(self)
+
+
+func claim_sect_deed(id: String) -> bool:
+	return Advanced.claim_deed(self, id)
+
+
 func equip_art(id: String) -> bool:
-	if not available_arts().has(id):
+	if battle_active or not available_arts().has(id):
 		return false
 	equipped_art = id
-	# Equipping does not reset cooldown, qi, or stats, even during a battle.
+	# Equipping is pre-battle only and never resets cooldown, qi, or stats.
 	return true
 
 
@@ -185,12 +213,17 @@ func art_description(id: String) -> String:
 	var definition: Dictionary = Arts.definition(id)
 	if definition.is_empty():
 		return ""
-	var damage: int = attack * int(definition["attack_multiplier"]) + int(definition["damage_bonus"]) + 3 * (art_rank(id) - 1)
+	var damage: int = Advanced.direct_damage(definition, attack, art_rank(id))
 	var effects: Array[String] = ["造成 %d 点伤害" % damage]
 	if int(definition["healing"]) > 0:
 		effects.append("恢复 %d 点气血" % int(definition["healing"]))
 	if bool(definition["guard"]):
 		effects.append("进入守势并清除破绽")
+	if int(definition.get("weaken_amount", 0)) > 0:
+		effects.append("卸劲：敌方基础伤害 -%d，持续 %d 次攻击" % [int(definition["weaken_amount"]), int(definition["weaken_strikes"])])
+	var focus: int = Advanced.focus_damage(definition, attack)
+	if focus > 0:
+		effects.append("蓄锋：下一次平击额外 +%d" % focus)
 	return "%s\n%s · 真气 %d · 调息 %d 回合 · %s" % [
 		String(definition["description"]), "，".join(effects), int(definition["cost"]),
 		int(definition["cooldown"]), Arts.rank_name(art_rank(id)),
@@ -350,10 +383,15 @@ func battle_action(action: String) -> Dictionary:
 		skill_cooldown = maxi(0, skill_cooldown - 1)
 	match action:
 		"attack":
-			var damage: int = attack
+			var focus: int = focused_damage
+			var damage: int = attack + focus
+			focused_damage = 0
 			enemy_hp = maxi(0, enemy_hp - damage)
 			qi = mini(max_qi, qi + 2)
-			messages.append("你使出平击，造成 %d 点伤害，凝聚 2 点真气。" % damage)
+			if focus > 0:
+				messages.append("你使出平击，基础 %d + 蓄锋 %d，共造成 %d 点伤害，凝聚 2 点真气。" % [attack, focus, damage])
+			else:
+				messages.append("你使出平击，造成 %d 点伤害，凝聚 2 点真气。" % damage)
 		"skill":
 			var definition: Dictionary = _active_art_definition()
 			var art_id: String = String(definition["id"])
@@ -361,7 +399,7 @@ func battle_action(action: String) -> Dictionary:
 			if battle_kind=="sect_trial" and art_id==sect_art():_trial_art_used=true
 			qi -= int(definition["cost"])
 			skill_cooldown = int(definition["cooldown"])
-			var damage: int = attack * int(definition["attack_multiplier"]) + int(definition["damage_bonus"]) + 3 * (rank_before - 1)
+			var damage: int = Advanced.direct_damage(definition, attack, rank_before)
 			enemy_hp = maxi(0, enemy_hp - damage)
 			messages.append("%s！造成 %d 点伤害。" % [art_id, damage])
 			if int(definition["healing"]) > 0:
@@ -373,6 +411,7 @@ func battle_action(action: String) -> Dictionary:
 				guard = true
 				exposed_turns = 0
 				messages.append("%s稳住架势：进入守势、清除破绽，抵御本回合的七成伤害。" % art_id)
+			Advanced.apply_effects(self, definition, messages)
 			art_uses[art_id] = mini(9999, _bounded_int(art_uses, art_id, 0, 0, 9999) + 1)
 			if art_rank(art_id) > rank_before:
 				messages.append("%s熟练精进，已达%s。" % [art_id, Arts.rank_name(art_rank(art_id))])
@@ -391,6 +430,7 @@ func battle_action(action: String) -> Dictionary:
 			turn += 1
 			battle_active = false
 			exposed_turns = 0
+			Advanced.clear_effects(self)
 			enemy_intent = "已脱离战斗"
 			messages.append("你收势退开，暂避锋芒。")
 			return _finish_result(messages, true, false)
@@ -402,6 +442,7 @@ func battle_action(action: String) -> Dictionary:
 		battle_active = false
 		exposed_turns = 0
 		guard = false
+		Advanced.clear_effects(self)
 		enemy_intent = "已被击败"
 		victories += 1
 		var reward_xp: int = 30 if battle_kind == "training" else 60
@@ -428,7 +469,11 @@ func battle_action(action: String) -> Dictionary:
 	# Intent describes the next accepted turn, including each enemy's own damage.
 	if battle_kind=="sect_trial" and guard and action=="skill" and equipped_art==sect_art() and turn%2==0:_trial_guarded_heavy=true
 	var raw_damage: int = enemy_base_attack if turn % 2 == 1 else enemy_strong_attack
-	var incoming: int = maxi(1, raw_damage - defense)
+	var without_weaken: int = maxi(1, raw_damage - defense)
+	var weaken: int = enemy_weaken_amount if enemy_weaken_strikes > 0 else 0
+	var incoming: int = maxi(1, raw_damage - defense - weaken)
+	if enemy_weaken_strikes > 0:
+		messages.append("卸劲使本次基础伤害实际减少 %d 点。" % (without_weaken - incoming))
 	if exposed_turns > 0:
 		incoming += 3
 		exposed_turns -= 1
@@ -438,6 +483,7 @@ func battle_action(action: String) -> Dictionary:
 	if not current_companion().is_empty() and formation=="护后":
 		incoming=Companions.cover(self,incoming,messages)
 	hp = maxi(0, hp - incoming)
+	Advanced.consume_weaken(self)
 	var move_name: String = "疾刃" if turn % 2 == 1 else "蓄势重斩"
 	if battle_kind in ["sluice_boss","archive_boss"]:
 		move_name = "闸刀横扫" if turn % 2 == 1 else "碎潮重劈"
@@ -449,6 +495,7 @@ func battle_action(action: String) -> Dictionary:
 	if hp <= 0:
 		battle_active = false
 		exposed_turns = 0
+		Advanced.clear_effects(self)
 		enemy_intent = "已结束"
 		var lost_coins: int = mini(coins, 8)
 		coins -= lost_coins
@@ -501,6 +548,7 @@ func to_dict() -> Dictionary:
 		"side_clues": side_clues, "side_reward_claimed": side_reward_claimed,
 		"side_found": side_found.duplicate(),
 		"equipped_art": equipped_art, "art_uses": art_uses.duplicate(true),
+		"learned_arts": learned_arts.duplicate(), "claimed_deeds": claimed_deeds.duplicate(),
 	}
 
 
@@ -548,12 +596,12 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0,2.0,3.0,float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
 	var data: Dictionary = document["player"]
-	if not _valid_save_data(data):
+	if not _valid_save_data(data, int(document["version"])):
 		return ERR_FILE_CORRUPT
 	# Validation completes before touching the current game.
 	reset_game()
@@ -592,13 +640,15 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	sect_rank=_bounded_int(data,"sect_rank",1,1,2) if sect!="未入门" else 0
 	sect_merit=_bounded_int(data,"sect_merit",0,0,9999)
 	sect_trial_won=bool(data.get("sect_trial_won",false)) or sect_rank==2
+	learned_arts = Advanced.ordered_arts(data.get("learned_arts", []))
+	claimed_deeds = Advanced.ordered_deeds(data.get("claimed_deeds", []))
 	# Early version-one builds saved a chosen sect at the pre-completion stage.
 	if quest_stage == 5 and sect != "未入门":
 		quest_stage = 6
 	art_uses = {Arts.BASE_ART: 0}
 	var saved_uses: Dictionary = data.get("art_uses", {})
 	for art_id: String in Arts.all_ids():
-		if saved_uses.has(art_id):
+		if saved_uses.has(art_id) and (not Advanced.is_advanced(art_id) or learned_arts.has(art_id)):
 			art_uses[art_id] = _bounded_int(saved_uses, art_id, 0, 0, 9999)
 	var saved_art: String = String(data.get("equipped_art", Arts.BASE_ART))
 	equipped_art = saved_art if available_arts().has(saved_art) else Arts.BASE_ART
@@ -611,7 +661,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	return OK
 
 
-func _valid_save_data(data: Dictionary) -> bool:
+func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	# All original version-one fields are required. Only later feature fields
 	# receive compatibility defaults, so truncated saves cannot strand a quest.
 	for key: String in ["player_name", "level", "xp", "coins", "hp", "max_hp",
@@ -626,6 +676,12 @@ func _valid_save_data(data: Dictionary) -> bool:
 	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending", "tangqi_choice", "active_companion"]:
 		if data.has(key) and not data[key] is String:
 			return false
+	var saved_sect: String = String(data.get("sect", "未入门"))
+	if not SECTS.has(saved_sect):
+		saved_sect = "未入门"
+	var saved_rank: int = _bounded_int(data, "sect_rank", 1, 1, 2) if saved_sect != "未入门" else 0
+	if not Advanced.valid_save(data, version, saved_sect, saved_rank):
+		return false
 	if not Companions.valid(data):return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
 		return false
@@ -726,6 +782,7 @@ func _clear_battle() -> void:
 	enemy_strong_attack = 19
 	exposed_turns = 0
 	_companion_attack_count = 0
+	Advanced.clear_effects(self)
 	_trial_art_used=false;_trial_healing=0;_trial_guarded_heavy=false
 
 
