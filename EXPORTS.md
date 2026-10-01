@@ -39,7 +39,7 @@ godot --headless --path "$PWD" --script tools/export_licenses.gd -- "$PWD/licens
 python3 tools/export_desktop.py --target linux --label test-linux-001
 
 # 同一份源码快照导出全部桌面目标
-python3 tools/export_desktop.py --target all --label v0.0.15
+python3 tools/export_desktop.py --target all --label v0.0.16 --transient-platforms
 ```
 
 可选 `--target windows`、`--target macos`；`--godot /absolute/path/to/godot` 可指定编辑器。脚本严格检查完整引擎版本，版本不匹配会停止。
@@ -53,7 +53,7 @@ python3 tools/export_desktop.py --target all --label v0.0.15
 3. 输出未嵌入的 PCK、平台运行程序、压缩发行包、源码 SHA-256 清单、发行包 SHA-256 清单及 JSON 构建报告
 4. 拒绝覆盖已有标签；所有产物、日志、临时配置和测试存档保留在 `builds/<标签>/`
 5. 为 Linux 单独运行实际 release 可执行文件的 60 帧 headless 启动检查
-6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 737 项资源/游戏流程/表现检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
+6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 761 项资源/游戏流程/表现检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
 7. 把本次外置 PCK 测试驱动保存为 `builds/<标签>/smoke_export.gd`，每个平台使用同一副本，并在报告记录其 SHA-256 与预期检查数；该驱动不进入发行 PCK 或压缩包
 
 任何导入/导出/运行的非零状态、Godot `ERROR` 或 `SCRIPT ERROR` 都会使构建失败，即使 Godot 本身返回 0。构建报告只会把实际完成的步骤记为通过。完整回归测试仍应另外执行 `bash run-tests.sh`。
@@ -72,7 +72,7 @@ python3 tools/export_desktop.py --target all --label v0.0.15
 
 ## 验收范围
 
-当前外置驱动为737项：保留此前711项，新增绘制水面/木栈台/小舟/三名平民资源、旧地形通行、探索缩放键盘与菜单、独立偏好持久化、固定HUD、交互与战斗门控、药铺身份和交锋页脚通知。计数是导出完整性回归，不代表人工游玩质量或性能。
+当前外置驱动为761项：保留此前737项并补充本轮告示/布棚/竹丛/茶桌/悬灯资源与锚点、真实阅读/提示避让；此前阶段覆盖绘制水面/木栈台/小舟/三名平民资源、旧地形通行、探索缩放键盘与菜单、独立偏好持久化、固定HUD、交互与战斗门控、药铺身份和交锋页脚通知。计数是导出完整性回归，不代表人工游玩质量或性能。
 
 `BUILD-REPORT.json` 区分：
 
@@ -108,3 +108,20 @@ godot --headless --path "$PWD" --export-release "Linux x86_64" "$PWD/builds/manu
 以上手动命令不自动附加发行包旁置许可或进行验收；正式交付优先使用完整脚本。
 
 参考：[Godot 导出流程](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_projects.html)、[Linux 导出](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_linux.html)、[macOS 导出](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_macos.html)
+
+
+## 后续构建的临时平台工作区
+
+可选 `--transient-platforms` 只作用于一个全新的构建标签。默认行为不变，已有版本目录一律拒绝覆盖。此选项把未压缩的平台程序、PCK与macOS检查副本放到 `builds/<标签>/transient/`；版本化最终压缩包、完整源码快照、SHA256清单、原始日志、测试存档和后续GUI截图/报告继续保存在该版本目录。
+
+新增 `verify_export_archives.py` 会逐项比较压缩包内成员与实际未压缩文件，包括Linux/Windows的PCK、macOS应用内文件和审计用PCK。构建完成时必须通过，生成ARCHIVE-VERIFICATION.json；损坏包、错误成员、缺失PCK、越界路径与符号链接重定向均会拒绝。该工具只读取，绝不删除文件，也不证明原生进程已关闭。
+
+每个新临时构建有TRANSIENT-WORKSPACE.json。只有在最终包散列和成员再次核对、约定的原生验证完成、实际游戏进程已关闭且发布方不再读取临时文件后，才可单独处理其中标明的 `transient/` 与 `source/.godot/`。脚本不自动清理；其他源码、存档、日志、截图、最终包和所有旧版本目录均不在该范围。临时程序删除后，可从原版本压缩包解出逐字节相同的程序/PCK继续复验。
+
+可随时在未清理的构建上执行只读复验：
+
+```sh
+python3 tools/verify_export_archives.py builds/v0.0.16
+```
+
+真正需要节省空间的开发预检可以仅导出PCK再运行外置驱动，不必先重复创建一套完整Linux程序/源码副本。任何预检都不能替代最终平台压缩包、原生GUI与确切来源验收。
