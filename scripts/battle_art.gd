@@ -5,6 +5,7 @@ extends Control
 signal presentation_finished
 signal impact_presented(target: String, amount: int)
 
+const FerryBackdrop=preload("res://scripts/ferry_battle_backdrop.gd")
 const PaintedPuHeng=preload("res://scripts/painted_battle_puheng.gd")
 const PaintedHero=preload("res://scripts/painted_battle_hero.gd")
 const ACTION_DURATION: float = 1.34
@@ -12,6 +13,7 @@ const FINISH_DURATION: float = 1.18
 const HERO_HOME = Vector2(229, 274)
 const ENEMY_HOME = Vector2(721, 274)
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
+var painted_backdrop_enabled:bool=true
 var painted_hero_enabled:bool=true
 var painted_enemy_enabled:bool=true
 var enemy_identity:String=""
@@ -199,6 +201,7 @@ func _draw() -> void:
 	_draw_ambient()
 
 func _draw_stage() -> void:
+	if painted_backdrop_enabled and FerryBackdrop.applies(region_style) and FerryBackdrop.draw(self,size,phase):return
 	var frost: bool = region_style == "frostbridge"
 	draw_rect(Rect2(Vector2.ZERO,size),Color("172f3a") if frost else Color("0c252d"))
 	for i in range(10):
