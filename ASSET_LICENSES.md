@@ -45,3 +45,7 @@
 ### 青苇渡告示牌（2026-10-01）
 
 项目建筑图集仅作风格与视角参考，独立生成木框瓦顶告示牌；原始透明PNG不改动，运行时等比裁切并按脚底排序。完整提示、摘要与使用范围见 assets/generated/environment/NOTICEBOARD_PROVENANCE.md。
+
+### 旧渡口布棚（2026-10-01）
+
+项目环境图集仅作材质与视角参考，独立生成布棚，保留透明原图并由引擎缓存裁切。来源、摘要、脚底与静态/遮挡范围见 assets/generated/environment/CAMP_SHELTER_PROVENANCE.md；篝火仍用项目原创程序动画。
