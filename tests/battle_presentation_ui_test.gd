@@ -158,6 +158,7 @@ func _test_health_impact_beats() -> void:
 	_check(game.battle_player_hp.value==40, "Recovery bar waits for the healing beat")
 	game.battle_art._process(0.02);_settle_health_tweens()
 	_check(game.battle_player_hp.value==85, "Medicine first visibly restores its full actual 45 health")
+	_check(game.hp_bar.value==85 and game.hp_caption.text.contains("85 / 100"),"Sidebar shares the same presented healing amount")
 	game.battle_art._process(0.63);_settle_health_tweens()
 	_check(game.battle_player_hp.value==80, "Later counter independently subtracts five instead of presenting a false net heal")
 	_finish()
@@ -165,6 +166,7 @@ func _test_health_impact_beats() -> void:
 	_fresh_health_battle(95)
 	game._battle_action("item")
 	game.battle_art._process(0.26);_settle_health_tweens()
+	_check(game.hp_bar.value==100 and game.hp_caption.text.contains("100 / 100"),"Sidebar shares capped healing maximum")
 	_check(game.battle_player_hp.value==100 and game._battle_health_values.player==100, "Capped healing uses the actual five-point recovery and never exceeds maximum health")
 	_finish()
 
@@ -183,6 +185,7 @@ func _test_health_impact_beats() -> void:
 	game.battle_art._process(0.33);_settle_health_tweens()
 	_check(game.battle_hp.value==0 and game.battle_player_hp.value==7, "Finishing damage clamps to zero without inventing a combat heal from level-up")
 	_finish()
+	_check(game.hp_bar.value==112 and game.hp_bar.max_value==112 and game.hp_caption.text.contains("112 / 112"),"Sidebar reconciles level-up maximum after the final pose")
 	_check(game.battle_player_hp.value==112 and game.battle_player_hp.max_value==112, "Final reconciliation shows exact new level and full health")
 
 	_fresh_health_battle(65)
