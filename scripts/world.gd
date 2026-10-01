@@ -1,5 +1,7 @@
 class_name VillageWorld
 extends Node2D
+const Lightness=preload("res://scripts/lightness_rules.gd")
+const Islet=preload("res://scripts/reed_islet.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 const Frost=preload("res://scripts/frostbridge_region.gd")
 
@@ -58,6 +60,9 @@ var buildings: Array[Dictionary] = [
 	{"pos": Vector2(826, 715), "size": Vector2(152, 80), "name": "山神祠", "type": "shrine"},
 ]
 var interactables: Dictionary = {
+	"reed_cross":{"pos":Lightness.SHORE,"name":"苇心浮石","kind":"lightness"},
+	"reed_return":{"pos":Vector2(1487,917),"name":"回岸浮石","kind":"lightness","islet":true},
+	"reed_relic":{"pos":Lightness.RELIC_POSITION,"name":"苇心残碑","kind":"relic","islet":true},
 	"mentor":{"pos":Vector2(650,720),"name":"岑远","kind":"elder"},
 	"elder": {"pos": Vector2(520, 440), "name": "陆伯", "kind": "elder"},
 	"healer": {"pos": Vector2(330, 330), "name": "沈青", "kind": "healer"},
@@ -155,13 +160,14 @@ func teleport(position: Vector2) -> void:
 		if not found:
 			destination = _safe_spawn()
 	player_pos = destination
-	companion_pos = player_pos + Vector2(-31, 21)
+	companion_pos = _islet_companion_target() if map_id=="qingwei" and Lightness.on_islet(player_pos) else player_pos + Vector2(-31, 21)
 	camera_pos = _camera_target()
 	_update_nearby()
 	moved.emit(player_pos)
 	queue_redraw()
 
 func get_npc_name(id: String) -> String:
+	if id=="stranded_boatman" and (side_stage>=2 or side_target_id=="ledger_runner"):return "许照川"
 	if companion_active and companion_name=="沈青" and id=="healer":return "药铺伙计"
 	if companion_active and companion_name=="唐栖" and id=="bridge_worker":return "修桥工位"
 	return String(interactables.get(id, {}).get("name", id))
@@ -179,14 +185,14 @@ func _process(delta: float) -> void:
 		walk_time += delta * 10.5
 		var target := player_pos + direction * SPEED * delta
 		var next_x := Vector2(target.x, player_pos.y)
-		if _can_walk(next_x):
+		if _can_step(player_pos,next_x):
 			player_pos.x = next_x.x
 		var next_y := Vector2(player_pos.x, target.y)
-		if _can_walk(next_y):
+		if _can_step(player_pos,next_y):
 			player_pos.y = next_y.y
 		moved.emit(player_pos)
 	if companion_active:
-		var companion_target := player_pos - facing * 34.0 + Vector2(-10, 10)
+		var companion_target := _islet_companion_target() if map_id=="qingwei" and Lightness.on_islet(player_pos) else player_pos - facing * 34.0 + Vector2(-10, 10)
 		companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
 	camera_pos = camera_pos.lerp(_camera_target(), minf(delta * 9.0, 1.0))
 	_update_nearby()
@@ -236,12 +242,25 @@ func _update_nearby() -> void:
 	nearby_name = ""
 	var closest := 75.0
 	for id: String in interactables:
+		if map_id=="qingwei":
+			if bool(interactables[id].get("islet",false)) and not Lightness.on_islet(player_pos):continue
+			if id=="reed_cross" and Lightness.on_islet(player_pos):continue
 		var point: Vector2 = interactables[id]["pos"]
 		var distance := player_pos.distance_to(point)
 		if distance < closest:
 			closest = distance
 			nearby_id = id
 			nearby_name = get_npc_name(id)
+
+func _islet_companion_target()->Vector2:
+	return player_pos.lerp(Lightness.ISLET_CENTER,0.45)+Vector2(-8,4)
+
+func _can_step(start:Vector2,finish:Vector2)->bool:
+	if not start.is_finite() or not finish.is_finite() or not _can_walk(start) or not _can_walk(finish):return false
+	var steps=maxi(1,int(ceil(start.distance_to(finish)/8.0)))
+	for i in range(1,steps+1):
+		if not _can_walk(start.lerp(finish,float(i)/steps)):return false
+	return true
 
 func _can_walk(p: Vector2) -> bool:
 	if not p.is_finite():
@@ -252,6 +271,7 @@ func _can_walk(p: Vector2) -> bool:
 		return _can_walk_sluice(p)
 	if p.x < 30 or p.y < 155 or p.x > 1570 or p.y > 1015:
 		return false
+	if Lightness.on_islet(p):return true
 	for b in buildings:
 		var rect := Rect2(b["pos"], b["size"]).grow(9)
 		if rect.has_point(p):
@@ -296,6 +316,7 @@ func _draw() -> void:
 	_draw_board(Vector2(720, 480))
 	_draw_herb(Vector2(1260, 350))
 	_draw_old_ferry()
+	Islet.draw(self)
 	_draw_memorial()
 	_draw_camp()
 	var layers: Array[Dictionary] = []
@@ -582,8 +603,8 @@ func _draw_herb(p: Vector2) -> void:
 
 func _draw_old_ferry() -> void:
 	# Reeds, river channel and the timber landing behind the ferryman.
-	_poly([Vector2(1388, 602), Vector2(1600, 540), Vector2(1600, 1025), Vector2(1510, 955), Vector2(1451, 846), Vector2(1433, 729)], Color("75998a"))
-	_poly([Vector2(1410, 618), Vector2(1600, 558), Vector2(1600, 1009), Vector2(1532, 941), Vector2(1474, 842), Vector2(1450, 731)], Color("82a594"))
+	_poly([Vector2(1440,602),Vector2(1600,540),Vector2(1600,1050),Vector2(1440,1050)], Color("75998a"))
+	_poly([Vector2(1451,620),Vector2(1600,558),Vector2(1600,1050),Vector2(1451,1050)], Color("82a594"))
 	for i in range(9):
 		var p := Vector2(1480 + fmod(i * 21.0, 104), 645 + i * 31)
 		_ellipse_arc(p, Vector2(12 + sin(time_passed + i) * 3, 3), Color(0.78, 0.85, 0.72, 0.35))
@@ -739,6 +760,8 @@ func _draw_nameplates() -> void:
 	if not nearby_id.is_empty() and active:
 		var p: Vector2 = interactables[nearby_id]["pos"]
 		var label_text := "E  " + ("采集" if (nearby_id == "herb" or nearby_id.begins_with("frost_")) else "前往" if nearby_id in ["exit_sluice", "return_village", "exit_frostbridge", "return_sluice"] else "查看" if nearby_id in ["board", "shrine", "sluice_cache"] else "交谈")
+		if nearby_id in ["reed_cross","reed_return"]:label_text="E  轻身"
+		elif nearby_id=="reed_relic":label_text="E  查看"
 		var r := Rect2(p + Vector2(-36, 16), Vector2(72, 23))
 		draw_style_box(_round_box(Color("294942"), 5), r)
 		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)

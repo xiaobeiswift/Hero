@@ -1,5 +1,6 @@
 class_name MapChart
 extends Control
+const Lightness=preload("res://scripts/lightness_rules.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 
 ## Read-only cartographic overview. Marker names and positions come from the world.
@@ -81,7 +82,8 @@ func _draw_village_map() -> void:
 	_ellipse(_point(Vector2(998, 484)), Vector2(174, 124) / WORLD_SIZE * MAP_RECT.size, Color("718e77"))
 	_ellipse(_point(Vector2(998, 484)), Vector2(163, 115) / WORLD_SIZE * MAP_RECT.size, WATER)
 	_ellipse_arc(_point(Vector2(1014, 479)), Vector2(104, 62) / WORLD_SIZE * MAP_RECT.size, Color(0.89, 0.91, 0.74, 0.5))
-	_polygon_world([Vector2(1388, 602), Vector2(1600, 540), Vector2(1600, 1025), Vector2(1510, 955), Vector2(1451, 846), Vector2(1433, 729)], WATER)
+	_polygon_world([Vector2(1440,602),Vector2(1600,540),Vector2(1600,1050),Vector2(1440,1050)], WATER)
+	_ellipse(_point(Lightness.ISLET_CENTER),Lightness.ISLET_RADIUS/WORLD_SIZE*MAP_RECT.size,Color("adb28b"))
 	draw_rect(_world_rect(Vector2(823, 435), Vector2(117, 37)), Color("a9996b"))
 	draw_rect(_world_rect(Vector2(1353, 746), Vector2(184, 65)), Color("a9996b"))
 	_building(Vector2(186, 199), Vector2(228, 100), "药")
@@ -166,7 +168,10 @@ func _draw_markers() -> void:
 		else:
 			draw_circle(p, 4.2, marker_color)
 			draw_circle(p, 1.5, PAPER_LIGHT)
-		var marker_name := String(data.get("name", id))
+		# The tiny islet has one place label; return remains a dot so its
+		# label cannot cover the player arrow or the neighbouring discovery.
+		if id=="reed_return":continue
+		var marker_name := "苇心小洲" if id=="reed_relic" else String(data.get("name", id))
 		# Keep even unexpected long labels inside the chart and prevent collisions.
 		var font := _font()
 		while font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > 135 and marker_name.length() > 2:
@@ -179,6 +184,8 @@ func _draw_markers() -> void:
 			offset = Vector2(-text_width - 10, -11)
 		if id == "return_village":
 			offset = Vector2(10, -11)
+		if id=="reed_cross":offset=Vector2(-text_width-12,4)
+		if id=="reed_relic":offset=Vector2(-text_width*0.5,-43)
 		var rect := Rect2(p + offset, Vector2(text_width, 22))
 		rect.position.x = clampf(rect.position.x, MAP_RECT.position.x + 3, MAP_RECT.end.x - rect.size.x - 3)
 		rect.position.y = clampf(rect.position.y, MAP_RECT.position.y + 3, MAP_RECT.end.y - rect.size.y - 3)

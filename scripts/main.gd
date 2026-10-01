@@ -7,6 +7,7 @@ const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
+const LightnessStory=preload("res://scripts/lightness_story.gd")
 const ShenCareStory=preload("res://scripts/shen_care_story.gd")
 const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
@@ -23,6 +24,7 @@ var state = StateModel.new()
 var workshop
 var chapter_story
 var sect_progress
+var lightness_story
 var shen_story
 var companion_story
 var advanced_martial
@@ -86,6 +88,7 @@ func _ready() -> void:
 	sect_progress=SectProgress.new(self)
 	companion_story=CompanionStory.new(self)
 	shen_story=ShenCareStory.new(self)
+	lightness_story=LightnessStory.new(self)
 	advanced_martial=AdvancedMartialUI.new(self)
 	mist_story=MistwoodStory.new(self)
 	save_slots=SaveSlotsUI.new(self)
@@ -443,6 +446,9 @@ func _interact(id: String) -> void:
 	match id:
 		"mentor": sect_progress.show()
 		"elder": _elder_dialogue()
+		"reed_cross": lightness_story.shore()
+		"reed_return": lightness_story.return_bank()
+		"reed_relic": lightness_story.relic()
 		"healer": _healer_dialogue()
 		"herb": _herb_dialogue()
 		"bandit": _bandit_dialogue()
@@ -579,6 +585,7 @@ func _show_journal() -> void:
 	if state.chapter_two_stage>=4:body+=companion_story.journal()
 	if state.mist_stage>0:body+=mist_story.journal()
 	body+=shen_story.journal()
+	body+=lightness_story.journal()
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
