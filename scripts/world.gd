@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const WaterMaterial=preload("res://scripts/qingwei_water_material.gd")
 const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
 const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
 const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
@@ -15,6 +16,7 @@ signal moved(position: Vector2)
 signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
+var painted_water_enabled:bool=true
 var render_culling_enabled:bool=true
 var terrain_cache_enabled:bool=true
 var terrain_bake_only:bool=false
@@ -478,10 +480,12 @@ func _path(points: Array[Vector2], width: float) -> void:
 
 
 func _draw_pond() -> void:
-	_ellipse(Vector2(998, 488), Vector2(174, 124), Color("6e8e79"))
+	if not _world_rect_visible(Rect2(812,350,370,280)):return
+	_ellipse(Vector2(998, 488), Vector2(174, 124), Color(.22,.34,.26,.30) if painted_water_enabled else Color("6e8e79"))
 	_ellipse(Vector2(998, 484), Vector2(163, 115), Color("729d91"))
-	_ellipse(Vector2(1010, 478), Vector2(148, 100), Color("80aa9b"))
-	_ellipse(Vector2(1031, 462), Vector2(126, 69), Color("8bb09e"))
+	if not painted_water_enabled or not WaterMaterial.pond(self):
+		_ellipse(Vector2(1010, 478), Vector2(148, 100), Color("80aa9b"))
+		_ellipse(Vector2(1031, 462), Vector2(126, 69), Color("8bb09e"))
 	for i in range(12):
 		var p := Vector2(911 + fmod(i * 37.0, 180), 414 + fmod(i * 29.0, 137))
 		var ripple_width := 10 + sin(time_passed * 1.3 + i) * 4
@@ -713,6 +717,7 @@ func _draw_old_ferry() -> void:
 	# Reeds, river channel and the timber landing behind the ferryman.
 	_poly([Vector2(1440,602),Vector2(1600,540),Vector2(1600,1050),Vector2(1440,1050)], Color("75998a"))
 	_poly([Vector2(1451,620),Vector2(1600,558),Vector2(1600,1050),Vector2(1451,1050)], Color("82a594"))
+	if painted_water_enabled:WaterMaterial.river(self)
 	for i in range(9):
 		var p := Vector2(1480 + fmod(i * 21.0, 104), 645 + i * 31)
 		_ellipse_arc(p, Vector2(12 + sin(time_passed + i) * 3, 3), Color(0.78, 0.85, 0.72, 0.35))
