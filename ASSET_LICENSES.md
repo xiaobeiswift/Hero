@@ -37,3 +37,7 @@
 ### 旧木甲板与小舟（2026-10-01）
 
 两个独立文字提示生成的原创PNG保留原始像素；甲板按原矩形等比取样，小舟按实测透明裁切取样。准确提示、尺寸、摘要与使用范围见 assets/generated/environment/FERRY_PROPS_PROVENANCE.md。
+
+### 青苇渡平民人物（2026-10-01）
+
+三名原创成年村民由项目风格参考生成，再经Blender透明卡片同尺度整理；只替换两位背景居民和沈青同行时的药铺伙计。原始提示、摘要、脚底与静态闲置范围见 assets/generated/characters/VILLAGE_CIVILIANS_PROVENANCE.md。
