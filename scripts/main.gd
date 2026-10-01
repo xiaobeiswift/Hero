@@ -1,5 +1,6 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
+const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
@@ -248,6 +249,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_close_modal()
 		return
 	if active_modal:
+		if overlay.get_meta("inventory",false):
+			if event.physical_keycode==KEY_K:_show_martials();get_viewport().set_input_as_handled();return
+			if event.physical_keycode==KEY_B:workshop.show();get_viewport().set_input_as_handled();return
 		var choice = -1
 		if event.physical_keycode in [KEY_ENTER,KEY_SPACE]: choice = 0
 		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_5: choice = event.physical_keycode-KEY_1
@@ -335,6 +339,7 @@ func _toast(text: String) -> void:
 	toast_time = 7.0
 
 func _clear_overlay() -> void:
+	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
 	modal_actions.clear()
 	for child in overlay.get_children():
 		overlay.remove_child(child)
@@ -512,11 +517,7 @@ func _shrine_dialogue() -> void:
 	_modal("无名碑","见闻 / 此心安处","碑上的字早被雨水磨平，只剩一个浅浅的‘归’字。\n\n你坐在碑边，听见远处船橹破水的声音。许多故事没有写在史书里，只留在愿意记得的人心中。",[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("你在碑前调息，气血与真气已恢复。")],["起身离开",_close_modal]])
 
 func _show_inventory() -> void:
-	if current_screen == "battle": return
-	var companion_text = state.current_companion()+" · "+state.formation if not state.current_companion().is_empty() else "暂无同行人（调查药铺后可邀请沈青）"
-	var body = "[color=#d3b276]随身物品与装备[/color]\n%s   ·   %s   ·   铜钱 %d 文\n回春散 ×%d（恢复45，照野堂55）   ·   青穗草 ×%d\n\n[color=#d3b276]武学[/color]\n普攻积攒2气，守势减伤并回复1气。\n按 K 查看当前绝招、门派武学与修习心得。\n\n同行：%s\n门派：%s   ·   历战 %d 次" % [state.equipment,state.armor,state.coins,state.medicine,state.herbs,companion_text,state.sect,state.victories]
-	body="[color=#d3b276]旅人修为[/color]\n攻击 %d · 防御 %d · 修为 %d / %d\n\n"%[state.attack,state.defense,state.xp,state.xp_to_next()]+body
-	_modal("行囊与修行", "旅人 / 随身物品",body,[["回春散",_use_medicine],["切换阵型",_switch_formation],["青钢剑 · 45文",_buy_sword],["返回江湖",_close_modal],["同行册",companion_story.roster]],true)
+	InventoryPanel.show(self)
 
 func _switch_formation() -> void:
 	if state.current_companion().is_empty():
