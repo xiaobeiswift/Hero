@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const LanternPost=preload("res://scripts/painted_lantern_post.gd")
 const TeaTable=preload("res://scripts/painted_tea_table.gd")
 const BambooArt=preload("res://scripts/painted_bamboo.gd")
 const CampShelter=preload("res://scripts/painted_camp_shelter.gd")
@@ -23,6 +24,7 @@ signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
 var ui_scale:float=1.0
+var painted_lanterns_enabled:bool=true
 var painted_tea_tables_enabled:bool=true
 var painted_bamboo_enabled:bool=true
 var painted_camp_enabled:bool=true
@@ -403,6 +405,7 @@ func _draw() -> void:
 	_draw_camp_fire()
 	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"},{"y":735.0,"kind":"camp"}]
 	for p:Vector2 in TeaTable.POSITIONS:layers.append({"y":p.y+8,"kind":"tea_table","pos":p})
+	for p:Vector2 in LanternPost.POSITIONS:layers.append({"y":p.y,"kind":"lantern_post","pos":p})
 	for b in buildings:
 		layers.append({"y": b["pos"].y + b["size"].y, "kind": "building", "data": b})
 	for tree in trees:
@@ -417,6 +420,7 @@ func _draw() -> void:
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
+			"lantern_post": _draw_lantern_post(item["pos"])
 			"tea_table": _draw_tea_table(item["pos"])
 			"camp": _draw_camp()
 			"noticeboard": _draw_board(Vector2(720,480))
@@ -426,10 +430,6 @@ func _draw() -> void:
 			"player": _draw_person(player_pos, Color("356d66"), true, "player")
 			"companion": _draw_companion()
 			"extra": _draw_person(item["pos"], item["robe"], false, item["role"])
-	_draw_lantern_post(Vector2(429, 343))
-	_draw_lantern_post(Vector2(782, 350))
-	_draw_lantern_post(Vector2(366, 687))
-	_draw_lantern_post(Vector2(808, 846))
 	_draw_particles()
 	_draw_nameplates()
 	draw_set_transform(Vector2.ZERO)
@@ -842,6 +842,10 @@ func _draw_companion() -> void:
 	Traveler.draw_actor(self,companion_pos,Color("82978c") if companion_name=="唐栖" else Color("cbd0b0"),companion_facing,companion_walk_time if companion_moving else time_passed+2.0,companion_moving,"tang" if companion_name=="唐栖" else "shen",1.03)
 
 func _draw_lantern_post(p: Vector2) -> void:
+	if map_id=="qingwei" and painted_lanterns_enabled:
+		if not _world_rect_visible(Rect2(p-Vector2(12,72),Vector2(48,78))):return
+		_ellipse(p+Vector2(1,1),Vector2(8,3),Color(.1,.2,.15,.16))
+		if LanternPost.draw(self,p,time_passed):return
 	draw_line(p, p - Vector2(0, 61), Color("617359"), 4, true)
 	draw_line(p - Vector2(0, 60), p + Vector2(20, -60), Color("617359"), 3, true)
 	_draw_lantern(p + Vector2(17, -42), 0.9)
