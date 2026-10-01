@@ -2,9 +2,10 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 3
+const SAVE_VERSION: int = 4
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
+const Companions=preload("res://scripts/companion_rules.gd")
 const Sects=preload("res://scripts/sect_rules.gd")
 const Chapter = preload("res://scripts/chapter_rules.gd")
 const Items = preload("res://scripts/item_catalog.gd")
@@ -32,6 +33,10 @@ var ending: String = ""
 var position: Vector2 = Vector2(460, 430)
 var victories: int = 0
 var companion_unlocked: bool = false
+var tangqi_unlocked:bool=false
+var tangqi_stage:int=0
+var tangqi_choice:String=""
+var active_companion:String=""
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var chapter_two_stage:int=0
@@ -90,6 +95,7 @@ func reset_game() -> void:
 	position = Vector2(460, 430)
 	victories = 0
 	companion_unlocked = false
+	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
 	formation = "并肩"
 	equipment = "旧铁剑"
 	chapter_two_stage=0
@@ -219,8 +225,17 @@ func recruit_companion() -> bool:
 	return true
 
 
+func current_companion() -> String:return Companions.active(self)
+func available_companions() -> Array[String]:return Companions.available(self)
+func select_companion(id:String) -> bool:return Companions.select(self,id)
+func companion_description() -> String:return Companions.description(self)
+func begin_tangqi_quest() -> bool:return Companions.begin(self)
+func recover_craft_notes() -> bool:return Companions.recover(self)
+func resolve_tangqi_quest(choice:String) -> bool:return Companions.resolve(self,choice)
+func recruit_tangqi() -> bool:return Companions.recruit(self)
+
 func set_formation(id: String) -> bool:
-	if not companion_unlocked or not ["并肩", "护后"].has(id):
+	if current_companion().is_empty() or not ["并肩", "护后"].has(id):
 		return false
 	if formation != id:
 		formation = id
@@ -380,11 +395,8 @@ func battle_action(action: String) -> Dictionary:
 			messages.append("你收势退开，暂避锋芒。")
 			return _finish_result(messages, true, false)
 
-	if companion_unlocked and formation == "并肩" and action in ["attack", "skill"]:
-		_companion_attack_count += 1
-		if _companion_attack_count % 2 == 0 and enemy_hp > 0:
-			enemy_hp = maxi(0, enemy_hp - 7)
-			messages.append("沈青与你并肩出手，追加 7 点伤害。")
+	if not current_companion().is_empty() and formation=="并肩" and action in ["attack","skill"]:
+		Companions.assist(self,messages)
 	turn += 1
 	if enemy_hp <= 0:
 		battle_active = false
@@ -423,10 +435,8 @@ func battle_action(action: String) -> Dictionary:
 		messages.append("破绽未收，本次额外受到 3 点伤害。")
 	if guard:
 		incoming = maxi(1, int(ceil(float(incoming) * 0.3)))
-	if companion_unlocked and formation == "护后":
-		var damage_before_cover: int = incoming
-		incoming = maxi(1, incoming - 2)
-		messages.append("沈青护住后路，替你分担 %d 点伤害。" % (damage_before_cover - incoming))
+	if not current_companion().is_empty() and formation=="护后":
+		incoming=Companions.cover(self,incoming,messages)
 	hp = maxi(0, hp - incoming)
 	var move_name: String = "疾刃" if turn % 2 == 1 else "蓄势重斩"
 	if battle_kind in ["sluice_boss","archive_boss"]:
@@ -483,6 +493,7 @@ func to_dict() -> Dictionary:
 		"sect_rank":sect_rank,"sect_merit":sect_merit,"sect_trial_won":sect_trial_won,
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
+		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
 		"formation": formation, "equipment": equipment,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
@@ -537,7 +548,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0,2.0,float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0,2.0,3.0,float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -574,6 +585,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 		if Items.GATHER_NODES.has(id) and not gathered_nodes.has(id): gathered_nodes.append(id)
 	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge"] else "qingwei"
 	Chapter.restore(self,data)
+	Companions.restore(self,data)
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
 	sect = saved_sect if SECTS.has(saved_sect) else "未入门"
@@ -608,12 +620,13 @@ func _valid_save_data(data: Dictionary) -> bool:
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi",
-		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit"]:
+		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage"]:
 		if data.has(key) and not _is_number(data[key]):
 			return false
-	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending"]:
+	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending", "tangqi_choice", "active_companion"]:
 		if data.has(key) and not data[key] is String:
 			return false
+	if not Companions.valid(data):return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
 		return false
 	if data.has("side_reward_claimed") and not data["side_reward_claimed"] is bool:
