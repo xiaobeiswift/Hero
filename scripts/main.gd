@@ -1,5 +1,6 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
+const GameHUD=preload("res://scripts/game_hud.gd")
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
@@ -30,6 +31,8 @@ var companion_story
 var advanced_martial
 var mist_story
 var save_slots
+var hud
+var _hud_navigation_flags:int=-1
 var world
 var world_view: SubViewport
 var font: Font
@@ -189,75 +192,10 @@ func _bar(parent: Node, rect: Rect2, color: Color) -> ProgressBar:
 	return bar
 
 func _build_interface() -> void:
-	var bg = ColorRect.new()
-	bg.color = DEEP
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
-	_label(self, "渡 灯 录", Rect2(28, 17, 235, 49), 34, PAPER)
-	_label(self, "H E R O  /  原 创 武 侠", Rect2(32, 67, 254, 22), 11, GOLD)
-	region_header = _label(self, "青 苇 渡", Rect2(318, 25, 220, 30), 22, GOLD)
-	chapter_header = _label(self, "第一章  ·  灯火不问归人", Rect2(318, 59, 340, 26), 14, MUTED)
-	_button(self, "舆图 M", Rect2(565,29,96,42),_show_map)
-	_button(self, "武学 K", Rect2(674,29,96,42),_show_martials)
-	_button(self, "行囊  I", Rect2(778, 29, 96, 42), _show_inventory)
-	_button(self, "江湖志  J", Rect2(882, 29, 106, 42), _show_journal)
-	_button(self, "存档", Rect2(1000, 29, 68, 42), _show_save_slots)
-	_button(self, "读档", Rect2(1078, 29, 68, 42), _show_load_slots)
-	_button(self, "♫  开", Rect2(1156, 29, 96, 42), _toggle_audio.bind())
-	_panel(self, Rect2(22, 106, 944, 574), INK, Color("66877b"))
-	var container = SubViewportContainer.new()
-	container.position = Vector2(25,109)
-	container.size = Vector2(938,568)
-	container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(container)
-	world_view = SubViewport.new()
-	world_view.size = Vector2i(938,568)
-	world_view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	container.add_child(world_view)
-	world = WorldScene.new()
-	world.viewport_rect = Rect2(0,0,938,568)
-	world.ui_font = font
-	world.interacted.connect(_interact)
-	world_view.add_child(world)
-	world.location_changed.connect(func(place):
-		if is_instance_valid(location_label): location_label.text=place)
-	var location = _panel(self, Rect2(43,127,205,58), Color(0.04,0.16,0.18,0.88), Color("59766b"))
-	location_label = _label(location,"青苇渡 · 南街",Rect2(14,4,185,27),18,PAPER)
-	weather_label = _label(location,"暮春  /  酉时  /  微风",Rect2(14,32,185,20),11,MUTED)
-	var help_panel = _panel(self,Rect2(44,625,900,36),Color(0.04,0.14,0.16,0.88),Color("53716a"))
-	near_label = _label(help_panel,"WASD / 方向键行走，靠近人物按 E 交谈",Rect2(12,4,877,26),14,PAPER)
-	var player_card = _panel(self, Rect2(986, 106, 270, 232))
-	portrait = _label(player_card,"侠",Rect2(22,11,60,62),42,GOLD)
-	if Portraits.attach(player_card,"hero",Rect2(-2,-10,104,92))!=null:portrait.visible=false
-	name_label = _label(player_card,"无名客",Rect2(100,15,160,34),23)
-	sect_label = _label(player_card,"初入江湖 · 未入门",Rect2(100,51,160,25),12,MUTED)
-	hp_bar = _bar(player_card,Rect2(22,108,226,10),JADE)
-	qi_bar = _bar(player_card,Rect2(22,146,226,7),GOLD)
-	hp_caption = _label(player_card,"",Rect2(22,81,230,22),12,MUTED)
-	qi_caption = _label(player_card,"",Rect2(22,122,230,22),12,MUTED)
-	stat_label = _label(player_card,"",Rect2(22,168,230,24),12,MUTED)
-	exp_label = _label(player_card,"",Rect2(22,203,230,24),12,GOLD)
-	var quest_card = _panel(self,Rect2(986,352,270,217))
-	_label(quest_card,"当 前 机 缘",Rect2(22,16,220,24),12,GOLD)
-	quest_label = _label(quest_card,"",Rect2(22,48,226,32),21)
-	hint_label = _label(quest_card,"",Rect2(22,90,226,83),14,MUTED)
-	_button(quest_card,"查看江湖志  →",Rect2(22,168,226,34),_show_journal)
-	var guide = _panel(self,Rect2(986,583,270,97))
-	_label(guide,"一盏灯，一段未完的江湖。",Rect2(17,12,238,26),14,GOLD)
-	_button(guide,"行囊工艺  B",Rect2(17,49,236,34),_show_workshop)
-	status_label = _label(self,"",Rect2(30,700,1215,28),15,GOLD)
-	_label(self,"WASD / 方向键  行走     E / Enter  交互     M  舆图     K  武学     I  行囊     J  江湖志     F5 / F9  存读档",Rect2(30,752,1200,23),13,MUTED)
-	_label(self,"HERO   /   单机  ·  "+str(ProjectSettings.get_setting("application/config/version","dev")),Rect2(890,710,360,25),11,Color("597c76"))
-	battle_layer = Control.new()
-	battle_layer.position = Vector2(25,109)
-	battle_layer.size = Vector2(938,568)
-	battle_layer.visible = false
-	add_child(battle_layer)
+	hud=GameHUD.new()
+	hud.build(self)
 	_build_battle_ui()
-	overlay = Control.new()
-	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(overlay)
+	hud.reflow_battle()
 
 func _setup_audio() -> void:
 	music = AudioStreamPlayer.new()
@@ -292,6 +230,10 @@ func _process(delta: float) -> void:
 	if toast_time > 0:
 		toast_time -= delta
 		if toast_time <= 0: status_label.text = "⚠ 自动存档失败，请按 F5 重试。" if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
+
+	if hud!=null:
+		hud.tick(delta)
+		_sync_hud_navigation()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if quit_pending: return
@@ -370,6 +312,20 @@ func _refresh() -> void:
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
+
+	if hud!=null:
+		hud.refresh()
+		_sync_hud_navigation(true)
+
+func _sync_hud_navigation(force:bool=false)->void:
+	var flags=int(hud.toast_wash.visible)+2*int(hud.quest_notice.visible)
+	if not force and flags==_hud_navigation_flags:return
+	_hud_navigation_flags=flags
+	var reserved:Array[Rect2]=[hud.identity_wash.get_rect(),hud.place_wash.get_rect(),hud.quest_wash.get_rect().merge(weather_label.get_rect()),Rect2(0,660,1280,140)]
+	if hud.toast_wash.visible:reserved.append(hud.toast_wash.get_rect())
+	if hud.quest_notice.visible:reserved.append(hud.quest_notice.get_rect())
+	world.hud_exclusion_rects=reserved
+	world.queue_redraw()
 
 func _toast(text: String) -> void:
 	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning else "")
@@ -556,6 +512,7 @@ func _show_inventory() -> void:
 	if current_screen == "battle": return
 	var companion_text = state.current_companion()+" · "+state.formation if not state.current_companion().is_empty() else "暂无同行人（调查药铺后可邀请沈青）"
 	var body = "[color=#d3b276]随身物品与装备[/color]\n%s   ·   %s   ·   铜钱 %d 文\n回春散 ×%d（恢复45，照野堂55）   ·   青穗草 ×%d\n\n[color=#d3b276]武学[/color]\n普攻积攒2气，守势减伤并回复1气。\n按 K 查看当前绝招、门派武学与修习心得。\n\n同行：%s\n门派：%s   ·   历战 %d 次" % [state.equipment,state.armor,state.coins,state.medicine,state.herbs,companion_text,state.sect,state.victories]
+	body="[color=#d3b276]旅人修为[/color]\n攻击 %d · 防御 %d · 修为 %d / %d\n\n"%[state.attack,state.defense,state.xp,state.xp_to_next()]+body
 	_modal("行囊与修行", "旅人 / 随身物品",body,[["回春散",_use_medicine],["切换阵型",_switch_formation],["青钢剑 · 45文",_buy_sword],["返回江湖",_close_modal],["同行册",companion_story.roster]],true)
 
 func _switch_formation() -> void:

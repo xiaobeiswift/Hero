@@ -14,6 +14,7 @@ signal interacted(id: String)
 signal moved(position: Vector2)
 signal location_changed(name: String)
 
+var hud_exclusion_rects:Array[Rect2]=[]
 var render_culling_enabled:bool=true
 var terrain_cache_enabled:bool=true
 var terrain_bake_only:bool=false
@@ -838,6 +839,22 @@ func _draw_particles() -> void:
 		var alpha := 0.15 + sin(time_passed * 1.5 + i) * 0.12
 		_poly([p + Vector2(-3, 0), p + Vector2(0, -2), p + Vector2(4, 0), p + Vector2(0, 2)], Color(0.88, 0.81, 0.51, alpha))
 
+func _navigation_target_covered(target:Vector2)->bool:
+	for rect in hud_exclusion_rects:
+		if rect.has_point(target):return true
+	return false
+
+func _compass_edge(target:Vector2)->Vector2:
+	var s=viewport_rect.size
+	var edge=Vector2(clampf(target.x,68,s.x-68),clampf(target.y,80,s.y-100))
+	# Keep the complete arrow/name bubble clear of compact HUD surfaces.
+	for pass_index in range(4):
+		for rect in hud_exclusion_rects:
+			if Rect2(edge-Vector2(58,21),Vector2(116,72)).intersects(rect):
+				edge.y=rect.end.y+23 if rect.position.y<s.y*.5 else rect.position.y-53
+		edge.y=clampf(edge.y,55,s.y-60)
+	return edge
+
 func _draw_view_framing() -> void:
 	var s := viewport_rect.size
 	# Subtle scene-edge ink wash, like a moving painted scroll.
@@ -848,9 +865,9 @@ func _draw_view_framing() -> void:
 	if target_id.is_empty():
 		return
 	var target: Vector2 = interactables[target_id]["pos"] - camera_pos
-	if Rect2(35, 45, s.x - 70, s.y - 115).has_point(target):
+	if Rect2(35,45,s.x-70,s.y-115).has_point(target) and not _navigation_target_covered(target):
 		return
-	var edge := Vector2(clampf(target.x, 68, s.x - 68), clampf(target.y, 80, s.y - 100))
+	var edge:=_compass_edge(target)
 	var direction := (target - s * 0.5).normalized()
 	var angle := direction.angle()
 	var arrow := PackedVector2Array()
