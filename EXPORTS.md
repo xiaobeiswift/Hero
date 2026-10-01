@@ -39,7 +39,7 @@ godot --headless --path "$PWD" --script tools/export_licenses.gd -- "$PWD/licens
 python3 tools/export_desktop.py --target linux --label test-linux-001
 
 # 同一份源码快照导出全部桌面目标
-python3 tools/export_desktop.py --target all --label v0.0.7
+python3 tools/export_desktop.py --target all --label v0.0.8
 ```
 
 可选 `--target windows`、`--target macos`；`--godot /absolute/path/to/godot` 可指定编辑器。脚本严格检查完整引擎版本，版本不匹配会停止。
@@ -53,7 +53,7 @@ python3 tools/export_desktop.py --target all --label v0.0.7
 3. 输出未嵌入的 PCK、平台运行程序、压缩发行包、源码 SHA-256 清单、发行包 SHA-256 清单及 JSON 构建报告
 4. 拒绝覆盖已有标签；所有产物、日志、临时配置和测试存档保留在 `builds/<标签>/`
 5. 为 Linux 单独运行实际 release 可执行文件的 60 帧 headless 启动检查
-6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 303 项资源/游戏流程检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
+6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 412 项资源/游戏流程检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
 7. 把本次外置 PCK 测试驱动保存为 `builds/<标签>/smoke_export.gd`，每个平台使用同一副本，并在报告记录其 SHA-256 与预期检查数；该驱动不进入发行 PCK 或压缩包
 
 任何导入/导出/运行的非零状态、Godot `ERROR` 或 `SCRIPT ERROR` 都会使构建失败，即使 Godot 本身返回 0。构建报告只会把实际完成的步骤记为通过。完整回归测试仍应另外执行 `bash run-tests.sh`。
@@ -79,7 +79,7 @@ python3 tools/export_desktop.py --target all --label v0.0.7
 - `pack_audit`：导出 PCK 的资源和流程检查
 - `graphical_runtime`：图形运行是否由该脚本验证（本脚本不做 GUI 测试）
 
-303 项 PCK 检查保留先前 177 项覆盖（存档版本断言随当前格式升级为 schema6）。其中最早 37 项为：测试/工具/截图排除、字体/图像/音乐和许可存在、主场景/脚本加载、标题、新游戏、对话、行囊、武学、舆图、战斗行动与撤退、第二与第三地图、本地存档读写、三印机关、文书线索、采集及修桥碰撞。
+412 项 PCK 检查保留先前 303 项覆盖（存档版本断言随当前格式升级为 schema6）。新增109项验证手记存储/恢复界面与人物图集；导出测试在操作前检查隔离路径。其余历史覆盖如下。最早37项为：测试/工具/截图排除、字体/图像/音乐和许可存在、主场景/脚本加载、标题、新游戏、对话、行囊、武学、舆图、战斗行动与撤退、第二与第三地图、本地存档读写、三印机关、文书线索、采集及修桥碰撞。
 
 后续 140 项覆盖：门派与同行规则/界面模块保留，三派实战验艺、实际本门考法、暂缓领奖与重载、准确晋升收益及重复领取保护，未验艺胜利的重试与撤退，唐栖工册任务的两种结局、跨区寻物、暂缓决策和邀请、一次性经验/分支材料、任务日志、同行册与快捷键、后招募沈青、无消耗换人、驻地身份更新、战中换人限制、唐栖实际协击回气及同行身份存读档。
 
