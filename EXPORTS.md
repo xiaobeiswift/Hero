@@ -39,7 +39,7 @@ godot --headless --path "$PWD" --script tools/export_licenses.gd -- "$PWD/licens
 python3 tools/export_desktop.py --target linux --label test-linux-001
 
 # 同一份源码快照导出全部桌面目标
-python3 tools/export_desktop.py --target all --label v0.0.12
+python3 tools/export_desktop.py --target all --label v0.0.15
 ```
 
 可选 `--target windows`、`--target macos`；`--godot /absolute/path/to/godot` 可指定编辑器。脚本严格检查完整引擎版本，版本不匹配会停止。
@@ -53,7 +53,7 @@ python3 tools/export_desktop.py --target all --label v0.0.12
 3. 输出未嵌入的 PCK、平台运行程序、压缩发行包、源码 SHA-256 清单、发行包 SHA-256 清单及 JSON 构建报告
 4. 拒绝覆盖已有标签；所有产物、日志、临时配置和测试存档保留在 `builds/<标签>/`
 5. 为 Linux 单独运行实际 release 可执行文件的 60 帧 headless 启动检查
-6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 655 项资源/游戏流程/表现检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
+6. 由 Linux 编辑器分别加载**每个平台实际导出的 PCK**，各执行 737 项资源/游戏流程/表现检查。该检查不是目标平台可执行文件内运行的测试；release 模板不支持 `--script`
 7. 把本次外置 PCK 测试驱动保存为 `builds/<标签>/smoke_export.gd`，每个平台使用同一副本，并在报告记录其 SHA-256 与预期检查数；该驱动不进入发行 PCK 或压缩包
 
 任何导入/导出/运行的非零状态、Godot `ERROR` 或 `SCRIPT ERROR` 都会使构建失败，即使 Godot 本身返回 0。构建报告只会把实际完成的步骤记为通过。完整回归测试仍应另外执行 `bash run-tests.sh`。
@@ -71,6 +71,8 @@ python3 tools/export_desktop.py --target all --label v0.0.12
 - Windows 原型未作 Authenticode 签名，系统可能显示发行者/信誉提示；这里不宣称已完成发行认证
 
 ## 验收范围
+
+当前外置驱动为737项：保留此前711项，新增绘制水面/木栈台/小舟/三名平民资源、旧地形通行、探索缩放键盘与菜单、独立偏好持久化、固定HUD、交互与战斗门控、药铺身份和交锋页脚通知。计数是导出完整性回归，不代表人工游玩质量或性能。
 
 `BUILD-REPORT.json` 区分：
 
