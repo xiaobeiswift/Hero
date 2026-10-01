@@ -105,17 +105,20 @@ func _test_world_navigation() -> void:
 		cursor += 1
 		for offset: Vector2 in [Vector2(20, 0), Vector2(-20, 0), Vector2(0, 20), Vector2(0, -20)]:
 			var next := point + offset
-			if not visited.has(next) and game.world._can_walk(next):
+			if not visited.has(next) and game.world._can_step(point,next):
 				visited[next] = true
 				queue.append(next)
 	for id: String in game.world.interactables:
 		var target: Vector2 = game.world.interactables[id]["pos"]
 		var reachable := false
 		for point: Vector2 in visited:
-			if point.distance_to(target) < 70:
+			if point.distance_to(target) < 70 and (not bool(game.world.interactables[id].get("islet",false)) or game.world.Lightness.on_islet(point)):
 				reachable = true
 				break
-		_check(reachable, "Walkable route reaches interaction: " + id)
+		if bool(game.world.interactables[id].get("islet",false)):
+			_check(not reachable and game.world._can_walk(target), "Intentional islet target is safe but not reachable by ordinary mainland walking: "+id)
+		else:
+			_check(reachable, "Walkable route reaches interaction: " + id)
 	for unsafe: Vector2 in [Vector2(300, 250), Vector2(300, 0), Vector2(998, 484), Vector2(9999, 9999)]:
 		game.world.teleport(unsafe)
 		_check(game.world._can_walk(game.world.player_pos), "Loaded/teleported location is repaired to walkable terrain: " + str(unsafe))
