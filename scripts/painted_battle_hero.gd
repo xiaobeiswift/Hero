@@ -23,8 +23,8 @@ static func pose_for(pose:Dictionary)->String:
 	if float(pose.get("defeat",0))>.25:return "kneel"
 	if float(pose.get("recoil",0))>.12:return "hurt"
 	if float(pose.get("guard",0))>.12:return "guard"
-	if float(pose.get("strike",0))>.14:return "strike"
-	if float(pose.get("windup",0))>.18:return "windup"
+	if float(pose.get("strike",0))>.005:return "strike"
+	if float(pose.get("windup",0))>.005:return "windup"
 	return "idle"
 static func drawing_rect(foot:Vector2,cell_size:float=208)->Rect2:
 	return Rect2(foot-FOOT*(cell_size/512.0),Vector2.ONE*cell_size)

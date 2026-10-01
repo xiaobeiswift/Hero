@@ -5,11 +5,13 @@ extends Control
 signal presentation_finished
 signal impact_presented(target: String, amount: int)
 
+const PaintedHero=preload("res://scripts/painted_battle_hero.gd")
 const ACTION_DURATION: float = 1.34
 const FINISH_DURATION: float = 1.18
 const HERO_HOME = Vector2(229, 274)
 const ENEMY_HOME = Vector2(721, 274)
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
+var painted_hero_enabled:bool=true
 var phase: float = 0.0
 var flash: float = 0.0
 var action: String = ""
@@ -157,6 +159,9 @@ func _pose(enemy: bool = false) -> Dictionary:
 			p["defeat"] = _ease(0.43,1.06,t)
 	return p
 
+func hero_visual_pose()->String:
+	return PaintedHero.pose_for(_pose())
+
 func _draw() -> void:
 	_draw_stage()
 	var hero: Dictionary = _pose()
@@ -170,7 +175,7 @@ func _draw() -> void:
 			# Hand-painted motion echoes follow the actual dash, rather than a flash.
 			for i in range(3,0,-1):
 				var echo: Dictionary = hero.duplicate()
-				_draw_fighter(hero_pos-Vector2(i*31,0), Color("6bb3a6"), true, phase, echo, false, (0.11-i*0.022)*(1.0-_ease(0.35,0.55,action_time)))
+				_draw_fighter(hero_pos-Vector2(i*31,0), Color("6bb3a6"), true, phase, echo, false, (0.11-i*0.022)*(1.0-_ease(0.35,0.55,action_time)),1.0,"hero")
 	if companion_active:
 		var support: Dictionary = _pose()
 		for key in support: support[key] = 0.0
@@ -179,7 +184,7 @@ func _draw() -> void:
 			support["x"] = float(support["strike"])*35.0
 		_draw_fighter(Vector2(126+float(support.x),266),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,support,companion_name=="唐栖",0.90,0.91)
 	_draw_fighter(enemy_pos, Color("aa7864"), false, phase+2, enemy)
-	_draw_fighter(hero_pos, Color("4f9c8b"), true, phase, hero)
+	_draw_fighter(hero_pos, Color("4f9c8b"), true, phase, hero,false,1.0,1.0,"hero")
 	if _presenting:
 		_draw_action_effects(hero_pos, enemy_pos)
 	_draw_ambient()
@@ -221,7 +226,7 @@ func _ink(hex: String, alpha: float) -> Color:
 	c.a *= alpha
 	return c
 
-func _draw_fighter(p: Vector2, robe: Color, facing_right: bool, t: float, pose: Dictionary, short_ruler: bool = false, alpha: float = 1.0, actor_scale: float = 1.0) -> void:
+func _draw_fighter(p: Vector2, robe: Color, facing_right: bool, t: float, pose: Dictionary, short_ruler: bool = false, alpha: float = 1.0, actor_scale: float = 1.0, actor_id:String="") -> void:
 	var dir: float = 1.0 if facing_right else -1.0
 	var strike: float = float(pose.get("strike",0.0))
 	var windup: float = float(pose.get("windup",0.0))
@@ -235,6 +240,12 @@ func _draw_fighter(p: Vector2, robe: Color, facing_right: bool, t: float, pose: 
 	robe.a = alpha
 	draw_set_transform(p,0.0,Vector2(actor_scale,actor_scale))
 	_ellipse(Vector2(0,3),Vector2(36+strike*13,7),Color(0.02,0.06,0.07,0.42*alpha))
+	if painted_hero_enabled and actor_id=="hero":
+		# Key poses already contain anatomical lean; retain only subtle stage breathing.
+		draw_set_transform(p+Vector2(0,bob),dir*(float(pose.get("lean",0))-recoil*.10)*.25,Vector2.ONE*actor_scale)
+		var drawn=PaintedHero.draw(self,Vector2.ZERO,pose,alpha)
+		draw_set_transform(Vector2.ZERO)
+		if drawn:return
 	draw_set_transform(p+Vector2(0,bob+defeat*17),dir*lean,Vector2(dir*actor_scale,actor_scale))
 	# Articulated feet, layered split robe and trailing sash.
 	var back_foot: Vector2 = Vector2(-16-strike*19,-1-defeat*9)
