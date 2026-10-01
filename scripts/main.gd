@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
@@ -215,6 +216,7 @@ func _build_interface() -> void:
 	near_label = _label(help_panel,"WASD / 方向键行走，靠近人物按 E 交谈",Rect2(12,4,877,26),14,PAPER)
 	var player_card = _panel(self, Rect2(986, 106, 270, 232))
 	portrait = _label(player_card,"侠",Rect2(22,11,60,62),42,GOLD)
+	if Portraits.attach(player_card,"hero",Rect2(-2,-10,104,92))!=null:portrait.visible=false
 	name_label = _label(player_card,"无名客",Rect2(100,15,160,34),23)
 	sect_label = _label(player_card,"初入江湖 · 未入门",Rect2(100,51,160,25),12,MUTED)
 	hp_bar = _bar(player_card,Rect2(22,108,226,10),JADE)
@@ -391,6 +393,8 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	var width = 840 if wide else 710
 	var x = (1280-width)/2.0
 	var panel = _panel(overlay,Rect2(x,140 if wide else 185,width,520 if wide else 430),Color("112f33"),GOLD)
+	var portrait_id=Portraits.id_for_title(title)
+	if not portrait_id.is_empty():Portraits.attach(panel,portrait_id,Rect2(width-156,-6,142,122))
 	_label(panel,subtitle,Rect2(30,22,width-60,24),12,GOLD)
 	_label(panel,title,Rect2(30,55,width-60,45),28,PAPER)
 	var text = RichTextLabel.new()
