@@ -637,6 +637,7 @@ func _build_battle_ui() -> void:
 	battle_player_hp = _bar(battle_layer,Rect2(75,116,245,10),JADE)
 	battle_hp = _bar(battle_layer,Rect2(609,116,245,10),Color("c68a76"))
 	battle_player_hp.step = 0.01
+	hp_bar.step = 0.01
 	battle_hp.step = 0.01
 	_label(battle_layer,"无名客",Rect2(76,83,245,24),18,PAPER)
 	enemy_title = _label(battle_layer,"蒲横 · 河帮执事",Rect2(609,83,245,24),18,PAPER)
@@ -701,6 +702,8 @@ func _begin_battle_health_presentation(before: Dictionary) -> void:
 	battle_hp.value = float(before.enemy)
 	battle_player_hp.max_value = float(before.player_max)
 	battle_player_hp.value = float(before.player)
+	hp_bar.max_value=float(before.player_max)
+	_set_presented_player_hp(float(before.player))
 
 func _present_battle_health_impact(target: String, amount: int) -> void:
 	if not battle_presentation_enabled or not battle_busy or current_screen != "battle":
@@ -732,7 +735,15 @@ func _present_battle_health_impact(target: String, amount: int) -> void:
 	var tween: Tween = create_tween()
 	_battle_health_tweens[key] = tween
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(bar, "value", float(_battle_health_values[key]), 0.16)
+	if key=="player":
+		tween.tween_method(_set_presented_player_hp,battle_player_hp.value,float(_battle_health_values[key]),0.16)
+	else:
+		tween.tween_property(bar,"value",float(_battle_health_values[key]),0.16)
+
+func _set_presented_player_hp(value:float)->void:
+	battle_player_hp.value=value
+	hp_bar.value=value
+	hp_caption.text="气血  %d / %d"%[roundi(value),roundi(battle_player_hp.max_value)]
 
 func _refresh_battle() -> void:
 	_stop_battle_health_tweens()
