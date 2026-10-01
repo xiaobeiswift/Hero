@@ -57,6 +57,9 @@ var battle_art
 var battle_presentation_generation:=0
 var battle_busy:=false
 var battle_presentation_enabled:=DisplayServer.get_name()!="headless"
+var _battle_health_generation: int = -1
+var _battle_health_values: Dictionary = {}
+var _battle_health_tweens: Dictionary = {}
 var battle_hp: ProgressBar
 var battle_player_hp: ProgressBar
 var battle_status:Label
@@ -628,10 +631,13 @@ func _build_battle_ui() -> void:
 	battle_art = BattleArt.new()
 	battle_art.size = Vector2(938,568)
 	battle_layer.add_child(battle_art)
+	battle_art.impact_presented.connect(_present_battle_health_impact)
 	battle_title = _label(battle_layer,"旧 渡 口  ·  问 剑",Rect2(24,14,600,32),22,GOLD)
 	_label(battle_layer,"回合制交锋   /   观势、蓄气、出剑",Rect2(26,50,700,25),13,MUTED)
 	battle_player_hp = _bar(battle_layer,Rect2(75,116,245,10),JADE)
 	battle_hp = _bar(battle_layer,Rect2(609,116,245,10),Color("c68a76"))
+	battle_player_hp.step = 0.01
+	battle_hp.step = 0.01
 	_label(battle_layer,"无名客",Rect2(76,83,245,24),18,PAPER)
 	enemy_title = _label(battle_layer,"蒲横 · 河帮执事",Rect2(609,83,245,24),18,PAPER)
 	_panel(battle_layer,Rect2(25,309,888,47),Color(0.025,0.09,0.11,0.94),Color("3f6260"))
@@ -652,6 +658,7 @@ func _build_battle_ui() -> void:
 
 func _start_battle(kind: String) -> void:
 	battle_presentation_generation+=1
+	_stop_battle_health_tweens()
 	battle_busy=false
 	battle_art.reset_presentation()
 	_close_modal()
@@ -675,7 +682,60 @@ func _start_battle(kind: String) -> void:
 	battle_art.reset_presentation()
 	_refresh_battle()
 
+func _stop_battle_health_tweens() -> void:
+	# Killed tweens cannot write old health into a refreshed or replacement battle.
+	for tween: Tween in _battle_health_tweens.values():
+		if tween != null and tween.is_valid():
+			tween.kill()
+	_battle_health_tweens.clear()
+	_battle_health_values.clear()
+	_battle_health_generation = -1
+
+func _begin_battle_health_presentation(before: Dictionary) -> void:
+	_stop_battle_health_tweens()
+	_battle_health_generation = battle_presentation_generation
+	_battle_health_values = before.duplicate()
+	# Rules can already have restored health after defeat or increased its maximum
+	# after leveling. Those changes belong to the final reconciliation, not a hit.
+	battle_hp.max_value = float(before.enemy_max)
+	battle_hp.value = float(before.enemy)
+	battle_player_hp.max_value = float(before.player_max)
+	battle_player_hp.value = float(before.player)
+
+func _present_battle_health_impact(target: String, amount: int) -> void:
+	if not battle_presentation_enabled or not battle_busy or current_screen != "battle":
+		return
+	if _battle_health_generation != battle_presentation_generation or _battle_health_values.is_empty() or amount <= 0:
+		return
+	var key: String
+	var bar: ProgressBar
+	match target:
+		"enemy", "companion":
+			key = "enemy"
+			bar = battle_hp
+			_battle_health_values[key] = maxf(0.0, float(_battle_health_values[key]) - amount)
+		"player":
+			key = "player"
+			bar = battle_player_hp
+			_battle_health_values[key] = maxf(0.0, float(_battle_health_values[key]) - amount)
+		"healing":
+			key = "player"
+			bar = battle_player_hp
+			_battle_health_values[key] = minf(float(_battle_health_values.player_max), float(_battle_health_values[key]) + amount)
+		_:
+			return
+	# Accumulate on exact presentation targets, never on a half-finished tween.
+	# This keeps support damage correct even when a slow frame crosses both hits.
+	var previous: Tween = _battle_health_tweens.get(key)
+	if previous != null and previous.is_valid():
+		previous.kill()
+	var tween: Tween = create_tween()
+	_battle_health_tweens[key] = tween
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(bar, "value", float(_battle_health_values[key]), 0.16)
+
 func _refresh_battle() -> void:
+	_stop_battle_health_tweens()
 	for button in battle_buttons:button.disabled=false
 	battle_hp.max_value = state.enemy_max_hp
 	battle_hp.value = state.enemy_hp
@@ -696,6 +756,10 @@ func _refresh_battle() -> void:
 
 func _battle_action(action: String) -> void:
 	if not state.battle_active or active_modal or battle_busy: return
+	var health_before: Dictionary = {
+		"player": state.hp, "player_max": state.max_hp,
+		"enemy": state.enemy_hp, "enemy_max": state.enemy_max_hp,
+	}
 	var result = state.battle_action(action)
 	if not result.get("valid",false):
 		_toast(result.get("message","此刻无法使用。"))
@@ -703,6 +767,7 @@ func _battle_action(action: String) -> void:
 	battle_art.hit(action,result)
 	if audio_on: sfx.play()
 	if battle_presentation_enabled and battle_art.is_presenting():
+		_begin_battle_health_presentation(health_before)
 		var generation=battle_presentation_generation
 		battle_busy=true
 		for button in battle_buttons:button.disabled=true
@@ -746,6 +811,7 @@ func _stop_audio() -> void:
 			player.stream=null
 
 func _exit_tree() -> void:
+	_stop_battle_health_tweens()
 	_stop_audio()
 
 func _notification(what:int) -> void:
