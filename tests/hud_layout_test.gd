@@ -70,5 +70,16 @@ func run()->void:
 	app.battle_busy=true;app.hud.tick(0)
 	check(app.hud.battle_hint.text.contains("请稍候"),"Presentation lock is visibly acknowledged")
 	app.battle_busy=false
+	app._toast("截图已保存 · 本地 screenshots 文件夹");app.hud.tick(0)
+	var notice:Rect2=app.hud.toast_wash.get_global_rect()
+	check(app.hud.toast_wash.visible and Rect2(0,0,1280,800).encloses(notice),"Battle notice stays within viewport")
+	check(not notice.intersects(Rect2(0,145,1280,340)),"Screenshot notice never covers duel actor silhouettes")
+	var clear_buttons=true
+	for button in app.battle_buttons:clear_buttons=clear_buttons and not notice.intersects(button.get_global_rect())
+	check(clear_buttons,"Battle notice never obscures available action buttons")
+	app.save_warning=true;app.toast_time=0;app.hud.tick(0)
+	check(app.status_label.text.contains("F5") and app.hud.toast_wash.visible and app.status_label.tooltip_text==app.status_label.text,"Persistent save warning survives compact battle presentation")
+	app.save_warning=false;app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal();app._toast("江湖已续");app.hud.tick(0)
+	check(app.hud.toast_wash.position==Vector2(330,182) and not app.status_label.clip_text,"Exploration restores wrapping notice placement")
 	app._stop_audio();app.queue_free();await process_frame
 	print("%s: %d full-world wuxia HUD checks"%["PASS" if failures==0 else "FAIL",checks]);quit(0 if failures==0 else 1)
