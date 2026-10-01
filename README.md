@@ -17,7 +17,7 @@
 godot --path .
 ```
 
-Godot 源码工程可以直接运行；Linux 独立发行程序也已在云桌面启动验证。桌面导出流程仍在完善，最新验证范围见 `PROGRESS.md`。未在真实 Windows/macOS 硬件做兼容性验收。
+Godot 源码工程可以直接运行；Linux 独立发行程序也已在云桌面启动验证。三个桌面目标的导出预设、官方模板校验和构建流程见 `EXPORTS.md`；最新验证范围见 `PROGRESS.md`。未在真实 Windows/macOS 硬件做兼容性验收。
 
 ## 操作
 
