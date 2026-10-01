@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const ChapterStory = preload("res://scripts/frostbridge_story.gd")
 const Workshop = preload("res://scripts/workshop_ui.gd")
 const Chart = preload("res://scripts/map_chart.gd")
 const INK = Color("102e32")
@@ -13,6 +14,7 @@ const MUTED = Color("8caaa6")
 const JADE = Color("69b6a3")
 var state = StateModel.new()
 var workshop
+var chapter_story
 var world
 var world_view: SubViewport
 var font: Font
@@ -20,6 +22,7 @@ var ui: Theme
 var hp_caption: Label
 var qi_caption: Label
 var location_label: Label
+var weather_label: Label
 var region_header: Label
 var chapter_header: Label
 var hp_bar: ProgressBar
@@ -64,6 +67,7 @@ func _ready() -> void:
 	_build_theme()
 	_build_interface()
 	workshop=Workshop.new(self)
+	chapter_story=ChapterStory.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -189,7 +193,7 @@ func _build_interface() -> void:
 		if is_instance_valid(location_label): location_label.text=place)
 	var location = _panel(self, Rect2(43,127,205,58), Color(0.04,0.16,0.18,0.88), Color("59766b"))
 	location_label = _label(location,"青苇渡 · 南街",Rect2(14,4,185,27),18,PAPER)
-	_label(location,"暮春  /  酉时  /  微风",Rect2(14,32,185,20),11,MUTED)
+	weather_label = _label(location,"暮春  /  酉时  /  微风",Rect2(14,32,185,20),11,MUTED)
 	var help_panel = _panel(self,Rect2(44,625,900,36),Color(0.04,0.14,0.16,0.88),Color("53716a"))
 	near_label = _label(help_panel,"WASD / 方向键行走，靠近人物按 E 交谈",Rect2(12,4,877,26),14,PAPER)
 	var player_card = _panel(self, Rect2(986, 106, 270, 232))
@@ -212,7 +216,7 @@ func _build_interface() -> void:
 	_button(guide,"行囊工艺  B",Rect2(17,49,236,34),_show_workshop)
 	status_label = _label(self,"",Rect2(30,700,1215,28),15,GOLD)
 	_label(self,"WASD / 方向键  行走     E / Enter  交互     M  舆图     K  武学     I  行囊     J  江湖志     F5 / F9  存读档",Rect2(30,752,1200,23),13,MUTED)
-	_label(self,"HERO   /   原创内容 · 离线单人 · 开发中",Rect2(890,710,360,25),11,Color("597c76"))
+	_label(self,"HERO   /   单机  ·  "+str(ProjectSettings.get_setting("application/config/version","dev")),Rect2(890,710,360,25),11,Color("597c76"))
 	battle_layer = Control.new()
 	battle_layer.position = Vector2(25,109)
 	battle_layer.size = Vector2(938,568)
@@ -247,10 +251,7 @@ func _toggle_audio() -> void:
 func _process(delta: float) -> void:
 	elapsed += delta
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
-	world.quest_stage = state.quest_stage
-	world.companion_active = state.companion_unlocked
-	world.side_stage = state.side_stage
-	world.side_target_id = ("ledger_runner" if state.side_found.has("boatman") else "stranded_boatman") if state.side_stage<2 else ""
+	_sync_world_state()
 	state.position = world.player_pos
 	if world.nearby_id != last_near:
 		last_near = world.nearby_id
@@ -298,7 +299,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _refresh() -> void:
 	region_header.text = state.current_region_name()
-	chapter_header.text = "江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人"
+	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
+	chapter_header.text = "第二章  ·  印下有声" if state.map_id=="frostbridge" else ("江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人")
 	name_label.text = state.player_name + "  " + str(state.level) + "级"
 	sect_label.text = "初入江湖 · " + state.sect
 	hp_bar.max_value = state.max_hp
@@ -316,6 +318,9 @@ func _refresh() -> void:
 		var side_hints = ["沿村东古道前往废闸，追查账册上的水纹印记。", "救下船工，并夺回传令人的账页。行动先后将改变收获。", "证言与账页已齐，去旧闸东南找闸首对质。", "旧闸的水令已寻回。回村休整，继续切磋与修行。"]
 		hint_label.text = side_hints[state.side_stage]
 		if state.map_id=="sluice" and state.side_stage==0: hint_label.text = "南岸有人呼救，东北有人携卷而去。先救人，还是先追线索？"
+	if state.chapter_two_stage>0 or (state.quest_stage>=6 and state.side_stage>=3):
+		quest_label.text=chapter_story.quest_title()
+		hint_label.text=chapter_story.quest_hint()
 
 func _toast(text: String) -> void:
 	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning else "")
@@ -382,6 +387,7 @@ func _request_new_game() -> void:
 
 func _new_game() -> void:
 	state.reset_game()
+	_sync_world_state()
 	world.change_map(state.map_id,state.position)
 	current_screen = "explore"
 	_close_modal()
@@ -403,6 +409,7 @@ func _interact(id: String) -> void:
 		"ledger_runner": _runner_dialogue()
 		"sluice_boss": _sluice_boss_dialogue()
 		"sluice_cache": _sluice_cache_dialogue()
+		_: chapter_story.handle(id)
 
 func _elder_dialogue() -> void:
 	if state.quest_stage == 5 and state.sect == "未入门":
@@ -516,6 +523,7 @@ func _show_journal() -> void:
 	if not state.ending.is_empty(): body += "\n你的抉择：[color=#d3b276]"+state.ending+"[/color]。这条河会记得。"
 	if state.quest_stage>=6:
 		body = "[color=#d3b276]主线 · 渡口失灯：已完成[/color]\n证据归处：%s  /  修行方向：%s\n\n[color=#d3b276]江湖行纪 · 废闸疑云[/color]\n%s 船工的证言（南岸）\n%s 传令人的账页（东北）\n%s 闸首罗沉与伪造水令（东南）\n\n先行之路：%s" % [state.ending,state.sect,"✓" if state.side_found.has("boatman") else "◇","✓" if state.side_found.has("ledger") else "◇","✓" if state.side_stage>=3 else "◇","先救船工" if state.side_choice=="rescue" else ("先追账页" if state.side_choice=="pursuit" else "尚未决定")]
+	if state.chapter_two_stage>0:body=chapter_story.journal()
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
@@ -539,9 +547,10 @@ func _load() -> void:
 		return
 	var error = state.load_game()
 	if error != OK:
-		_toast("未能读取存档：文件不存在或格式损坏。")
+		_toast("存档版本不受支持，请使用兼容的新版本。" if error==ERR_FILE_UNRECOGNIZED else "未能读取存档：文件不存在或格式损坏。")
 		return
 	current_screen = "explore"
+	_sync_world_state()
 	world.change_map(state.map_id,state.position)
 	_close_modal()
 	_toast("前缘已续 · 读档成功。")
@@ -578,8 +587,9 @@ func _start_battle(kind: String) -> void:
 	encounter_kind = kind
 	state.start_battle(kind)
 	enemy_title.text = state.enemy_name
-	battle_title.text = "废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"
+	battle_title.text = "霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑")
 	battle_art.companion_active = state.companion_unlocked
+	battle_art.region_style=state.map_id
 	battle_layer.visible = true
 	battle_art.flash = 0
 	_refresh_battle()
@@ -611,7 +621,9 @@ func _battle_action(action: String) -> void:
 		current_screen = "explore"
 		battle_layer.visible = false
 		if result.get("won",false):
-			if encounter_kind == "sluice_scout":
+			if encounter_kind == "archive_boss":
+				chapter_story.battle_victory()
+			elif encounter_kind == "sluice_scout":
 				state.find_side_clue("ledger")
 				_modal("半页水令", "废闸疑云 / 线索已得", "传令人仓促间遗下账页。上面记录的不是渡税，而是开闸时辰。\n\n有人故意把放水的时刻改到了粮船入港之后。你收好账页。"+("证言与账页已经齐备，可以找东南闸首对质。" if state.side_found.has("boatman") else "接下来需要听听南岸船工的证言。"), [["收起账页",func(): _close_modal(); _autosave()]])
 			elif encounter_kind == "sluice_boss":
@@ -662,6 +674,7 @@ func _capture_screenshot() -> void:
 func _travel(destination: String, spawn: Vector2) -> void:
 	_close_modal()
 	state.map_id = destination
+	_sync_world_state()
 	world.change_map(destination,spawn)
 	state.position = world.player_pos
 	location_label.text = world.current_location
@@ -726,6 +739,7 @@ func _show_map() -> void:
 	chart.markers = world.interactables
 	chart.ui_font = font
 	chart.current_target = world._quest_target_id()
+	chart.bridge_repaired=state.bridge_repaired
 	panel.add_child(chart)
 
 func _show_martials() -> void:
@@ -750,3 +764,14 @@ func _equip_art(id: String) -> void:
 func _show_workshop() -> void:
 	if current_screen=="battle": return
 	workshop.show()
+
+func _sync_world_state() -> void:
+	world.quest_stage = state.quest_stage
+	world.companion_active = state.companion_unlocked
+	world.chapter_stage=state.chapter_two_stage
+	world.chapter_ending=state.chapter_two_ending
+	world.chapter_target_id=chapter_story.target_id()
+	world.bridge_repaired=state.bridge_repaired
+	world.resource_depleted=state.gathered_nodes
+	world.side_stage = state.side_stage
+	world.side_target_id = ("ledger_runner" if state.side_found.has("boatman") else "stranded_boatman") if state.side_stage<2 else ""

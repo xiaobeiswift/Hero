@@ -4,6 +4,7 @@ var phase = 0.0
 var flash = 0.0
 var action = ""
 var companion_active = false
+var region_style = "qingwei"
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -19,7 +20,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO,size),Color("0e2b32"))
+	draw_rect(Rect2(Vector2.ZERO,size),Color("1a3540") if region_style=="frostbridge" else Color("0e2b32"))
 	# Distant water and mountains remain legible under the combat interface.
 	for i in range(8):
 		var points = PackedVector2Array([Vector2(-50,210+i*13),Vector2(140+i*23,130+i*9),Vector2(270+i*35,190+i*6),Vector2(480+i*21,125+i*11),Vector2(940,185+i*13),Vector2(940,360),Vector2(-50,360)])
@@ -31,11 +32,11 @@ func _draw() -> void:
 		var y = 203+i*5.8
 		draw_line(Vector2(x,y),Vector2(x+38,y),Color(0.40,0.62,0.58,0.13),1)
 	# Weathered old wharf.
-	draw_colored_polygon(PackedVector2Array([Vector2(0,275),Vector2(938,275),Vector2(938,355),Vector2(0,355)]),Color("5d604e"))
+	draw_colored_polygon(PackedVector2Array([Vector2(0,275),Vector2(938,275),Vector2(938,355),Vector2(0,355)]),Color("7e9391") if region_style=="frostbridge" else Color("5d604e"))
 	for i in range(24):
 		var x = i*41
-		draw_line(Vector2(x,278),Vector2(x-14,354),Color("343f3a"),2)
-	draw_line(Vector2(0,281),Vector2(938,281),Color("9c9570"),4)
+		draw_line(Vector2(x,278),Vector2(x-14,354),Color("506b70") if region_style=="frostbridge" else Color("343f3a"),2)
+	draw_line(Vector2(0,281),Vector2(938,281),Color("cbd3c6") if region_style=="frostbridge" else Color("9c9570"),4)
 	for x in [39,450,894]:
 		draw_rect(Rect2(x,219,9,86),Color("3e453d"))
 		draw_circle(Vector2(x+4,219),7,Color("958664"))

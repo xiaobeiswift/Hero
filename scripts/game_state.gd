@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 1
+const SAVE_VERSION: int = 2
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Chapter = preload("res://scripts/chapter_rules.gd")
@@ -513,7 +513,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if float(document["version"]) != float(SAVE_VERSION):
+	if not [1.0,float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT

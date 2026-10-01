@@ -7,6 +7,7 @@ var player_position: Vector2 = Vector2(460, 430)
 var markers: Dictionary = {}
 var ui_font: Font
 var current_target: String = ""
+var bridge_repaired:bool=false
 
 const CHART_SIZE := Vector2(780, 330)
 const MAP_RECT := Rect2(Vector2(40, 20), Vector2(690, 270))
@@ -39,7 +40,9 @@ func _draw() -> void:
 		var y := MAP_RECT.position.y + i * MAP_RECT.size.y / 5.0
 		draw_line(Vector2(MAP_RECT.position.x, y), Vector2(MAP_RECT.end.x, y), Color(0.39, 0.51, 0.4, 0.10), 1)
 	_draw_terrain_hatching()
-	if map_id == "sluice":
+	if map_id=="frostbridge":
+		_draw_frost_map()
+	elif map_id == "sluice":
 		_draw_sluice_map()
 	else:
 		_draw_village_map()
@@ -205,7 +208,7 @@ func _draw_legend() -> void:
 	_text(Vector2(162, y + 4), "人物 / 地点", 11, INK)
 	draw_arc(Vector2(272, y), 6, 0, TAU, 24, GOLD, 1.7, true)
 	_text(Vector2(285, y + 4), "当前机缘", 11, INK)
-	var title := "废闸古道 · 两岸图" if map_id == "sluice" else "青苇渡 · 渡口图"
+	var title := "霜桥驿 · 印台图" if map_id=="frostbridge" else ("废闸古道 · 两岸图" if map_id == "sluice" else "青苇渡 · 渡口图")
 	_text(Vector2(505, y + 4), title + "  /  仅供览图", 11, Color("68795f"), 225, HORIZONTAL_ALIGNMENT_RIGHT)
 
 func _font() -> Font:
@@ -241,3 +244,17 @@ func _ellipse_arc(center: Vector2, radii: Vector2, color: Color) -> void:
 		var angle := i * TAU / 32.0
 		points.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
 	draw_polyline(points, color, 1, true)
+
+func _draw_frost_map() -> void:
+	_road([Vector2(40,500),Vector2(405,500),Vector2(405,365),Vector2(835,388),Vector2(1150,385),Vector2(1500,385)],8)
+	_road([Vector2(405,500),Vector2(405,760),Vector2(835,800),Vector2(1080,800),Vector2(1320,745)],8)
+	_road([Vector2(1080,385),Vector2(1080,800)],6)
+	draw_rect(_world_rect(Vector2(733,120),Vector2(204,930)),Color("779b9b"))
+	draw_rect(_world_rect(Vector2(703,350),Vector2(264,80)),Color("c8c2a2"))
+	if bridge_repaired:draw_rect(_world_rect(Vector2(703,760),Vector2(264,80)),Color("c8c2a2"))
+	else:
+		draw_rect(_world_rect(Vector2(703,760),Vector2(66,80)),Color("a1ac99"))
+		draw_rect(_world_rect(Vector2(901,760),Vector2(66,80)),Color("a1ac99"))
+	_building(Vector2(290,205),Vector2(248,110),"驿馆")
+	_building(Vector2(1030,205),Vector2(246,120),"文书")
+	_building(Vector2(1160,565),Vector2(250,132),"封仓")

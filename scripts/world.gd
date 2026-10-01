@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const Frost=preload("res://scripts/frostbridge_region.gd")
 
 ## Original, vector-drawn wuxia village. No imported art or physics assets required.
 signal interacted(id: String)
@@ -10,6 +11,11 @@ var active: bool = true
 var player_pos: Vector2 = Vector2(460, 430)
 var quest_stage: int = 0
 var map_id: String = "qingwei"
+var chapter_stage:int=0
+var chapter_ending:String=""
+var chapter_target_id:String="chapter_host"
+var bridge_repaired:bool=false
+var resource_depleted:Array[String]=[]
 var side_stage: int = 0
 var side_target_id: String = ""
 var nearby_id: String = ""
@@ -56,6 +62,7 @@ var interactables: Dictionary = {
 }
 var _village_points: Dictionary = {}
 var _sluice_points: Dictionary = {
+	"exit_frostbridge":{"pos":Vector2(1450,250),"name":"霜桥古道","kind":"exit"},
 	"return_village": {"pos": Vector2(150, 520), "name": "返回青苇渡", "kind": "exit"},
 	"stranded_boatman": {"pos": Vector2(560, 760), "name": "受困船工", "kind": "elder"},
 	"ledger_runner": {"pos": Vector2(1210, 350), "name": "传令人", "kind": "villager"},
@@ -102,14 +109,15 @@ func _ready() -> void:
 func change_map(id: String, spawn: Vector2) -> void:
 	if _village_points.is_empty():
 		_village_points = interactables.duplicate(true)
-	map_id = id if id in ["qingwei", "sluice"] else "qingwei"
-	interactables = (_sluice_points if map_id == "sluice" else _village_points).duplicate(true)
+	map_id = id if id in ["qingwei", "sluice", "frostbridge"] else "qingwei"
+	interactables = Frost.points() if map_id=="frostbridge" else (_sluice_points if map_id == "sluice" else _village_points).duplicate(true)
 	teleport(spawn)
 	current_location = _location_for_position()
 	location_changed.emit(current_location)
 	queue_redraw()
 
 func get_region_hint() -> String:
+	if map_id=="frostbridge":return "北桥通行，南桥待修；驿馆、碑文与文书房藏着三印的来历。"
 	if map_id == "qingwei":
 		return "村东古道通向废闸。" if quest_stage >= 6 else "沿土路拜访村人，寻回渡灯。"
 	match side_stage:
@@ -119,7 +127,7 @@ func get_region_hint() -> String:
 		_: return "废闸已重归安宁。旧仓尚有遗物，可以继续探索。"
 
 func _safe_spawn() -> Vector2:
-	return Vector2(190, 520) if map_id == "sluice" else Vector2(460, 430)
+	return Vector2(190,500) if map_id=="frostbridge" else (Vector2(190, 520) if map_id == "sluice" else Vector2(460, 430))
 
 func teleport(position: Vector2) -> void:
 	var destination := position if position.is_finite() else _safe_spawn()
@@ -179,6 +187,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _location_for_position() -> String:
+	if map_id=="frostbridge":return "霜桥驿 · 西街" if player_pos.x<835 else ("霜桥驿 · 文书房" if player_pos.y<550 else "霜桥驿 · 封仓")
 	if map_id == "sluice":
 		if player_pos.x < 760:
 			return "废闸 · 旧仓岸" if player_pos.y < 530 else "废闸 · 断舟滩"
@@ -226,6 +235,7 @@ func _update_nearby() -> void:
 func _can_walk(p: Vector2) -> bool:
 	if not p.is_finite():
 		return false
+	if map_id=="frostbridge":return Frost.walkable(p,bridge_repaired)
 	if map_id == "sluice":
 		return _can_walk_sluice(p)
 	if p.x < 30 or p.y < 155 or p.x > 1570 or p.y > 1015:
@@ -245,6 +255,9 @@ func _can_walk(p: Vector2) -> bool:
 	return true
 
 func _draw() -> void:
+	if map_id=="frostbridge":
+		Frost.draw(self)
+		return
 	if map_id == "sluice":
 		_draw_sluice()
 		return
@@ -684,7 +697,7 @@ func _draw_lantern(p: Vector2, scale_factor: float) -> void:
 	draw_line(q + Vector2(0, 10) * scale_factor, q + Vector2(0, 18) * scale_factor, Color("b48f52"), 1.5)
 
 func _draw_nameplates() -> void:
-	var visible_ids: Array = ["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit"]
+	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit"])
 	for id: String in visible_ids:
 		var p: Vector2 = interactables[id]["pos"]
 		var selected := nearby_id == id
@@ -692,17 +705,17 @@ func _draw_nameplates() -> void:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
 		var width := 80.0
 		var display_name: String = "药铺伙计" if id == "healer" and companion_active else interactables[id]["name"]
-		var display_color := Color("e9dfbc") if selected or map_id == "sluice" else C_INK
+		var display_color := Color("e9dfbc") if map_id == "sluice" else C_INK
 		_label(p + Vector2(-width * 0.5, -53), display_name, 13, display_color, width, HORIZONTAL_ALIGNMENT_CENTER, true)
 	var target_id := _quest_target_id()
 	if not target_id.is_empty():
 		var target_p: Vector2 = interactables[target_id]["pos"]
-		var yy := (-47.0 if target_id in ["herb", "exit_sluice", "return_village", "sluice_cache"] else -73.0) + sin(time_passed * 2.5) * 3
+		var yy := (-47.0 if target_id in ["herb", "exit_sluice", "return_village", "sluice_cache", "exit_frostbridge", "return_sluice"] else -73.0) + sin(time_passed * 2.5) * 3
 		_poly([target_p + Vector2(0, yy - 7), target_p + Vector2(6, yy), target_p + Vector2(0, yy + 7), target_p + Vector2(-6, yy)], C_GOLD)
 		draw_line(target_p + Vector2(0, yy - 3), target_p + Vector2(0, yy + 1), C_INK, 1.4)
 	if not nearby_id.is_empty() and active:
 		var p: Vector2 = interactables[nearby_id]["pos"]
-		var label_text := "E  " + ("采集" if nearby_id == "herb" else "前往" if nearby_id in ["exit_sluice", "return_village"] else "查看" if nearby_id in ["board", "shrine", "sluice_cache"] else "交谈")
+		var label_text := "E  " + ("采集" if (nearby_id == "herb" or nearby_id.begins_with("frost_")) else "前往" if nearby_id in ["exit_sluice", "return_village", "exit_frostbridge", "return_sluice"] else "查看" if nearby_id in ["board", "shrine", "sluice_cache"] else "交谈")
 		var r := Rect2(p + Vector2(-36, 16), Vector2(72, 23))
 		draw_style_box(_round_box(Color("294942"), 5), r)
 		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)
@@ -745,6 +758,7 @@ func _draw_view_framing() -> void:
 	_label(label_p + Vector2(0, 15), get_npc_name(target_id) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _quest_target_id() -> String:
+	if map_id=="frostbridge":return chapter_target_id if interactables.has(chapter_target_id) else "chapter_host"
 	if map_id == "sluice":
 		if interactables.has(side_target_id):
 			return side_target_id
@@ -752,7 +766,7 @@ func _quest_target_id() -> String:
 			0: return "stranded_boatman"
 			1: return "ledger_runner"
 			2: return "sluice_boss"
-			_: return "return_village"
+			_: return "exit_frostbridge" if chapter_stage<4 else "return_village"
 	match quest_stage:
 		0, 4, 5: return "elder"
 		1: return "herb"
@@ -853,6 +867,7 @@ func _draw_sluice() -> void:
 		draw_circle(p, 1.6, Color(0.92, 0.81, 0.48, maxf(0, sin(time_passed * 1.2 + i)) * 0.6))
 	_label(Vector2(263, 155), "废  闸  ·  旧  河  仓", 20, Color(0.85, 0.84, 0.68, 0.6), 345, HORIZONTAL_ALIGNMENT_CENTER)
 	_label(Vector2(1120, 948), "水 落 石 出  /  THE ABANDONED SLUICE", 11, Color(0.85, 0.84, 0.68, 0.48), 340, HORIZONTAL_ALIGNMENT_CENTER)
+	_draw_region_sign(Vector2(1450,250),"霜桥古道",1)
 	_draw_nameplates()
 	draw_set_transform(Vector2.ZERO)
 	_draw_view_framing()
