@@ -38,6 +38,7 @@ func roster() -> void:
  var body="每次只带一名同行人。切换不消耗物品，也不重置气血或真气。\n\n[color=#d3b276]当前：%s · %s[/color]\n%s\n\n沈青：%s\n唐栖：%s" % [s.current_companion() if not s.current_companion().is_empty() else "独行",s.formation,s.companion_description(),"已结伴" if s.companion_unlocked else "青苇药铺可结识","已结伴" if s.tangqi_unlocked else "完成霜桥原账、修桥后，向唐栖询问旧事"]
  var options:Array=[]
  for id in s.available_companions():options.append(["与"+id+"同行",select.bind(id)])
+ if s.companion_unlocked:options.append(["沈青的近况",host.shen_story.route_info])
  options.append(["返回行囊",host._show_inventory])
  host._modal("同行册","队伍 / 各有所长",body,options,true)
 func select(id:String) -> void:

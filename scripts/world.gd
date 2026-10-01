@@ -27,6 +27,7 @@ var viewport_rect: Rect2 = Rect2(24, 108, 910, 568)
 var ui_font: Font
 var companion_active: bool = false
 var companion_name:String="沈青"
+var shen_target_id:String=""
 var personal_target_id:String=""
 var companion_pos: Vector2 = Vector2(429, 451)
 
@@ -780,6 +781,7 @@ func _draw_view_framing() -> void:
 	_label(label_p + Vector2(0, 15), get_npc_name(target_id) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _quest_target_id() -> String:
+	if interactables.has(shen_target_id):return shen_target_id
 	if map_id=="mistwood":return mist_target_id if interactables.has(mist_target_id) else "mist_guide"
 	if map_id=="qingwei" and mentor_pending:return "mentor"
 	if interactables.has(personal_target_id):return personal_target_id

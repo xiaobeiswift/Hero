@@ -7,6 +7,7 @@ const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
+const ShenCareStory=preload("res://scripts/shen_care_story.gd")
 const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
 const ChapterStory = preload("res://scripts/frostbridge_story.gd")
@@ -22,6 +23,7 @@ var state = StateModel.new()
 var workshop
 var chapter_story
 var sect_progress
+var shen_story
 var companion_story
 var advanced_martial
 var mist_story
@@ -83,6 +85,7 @@ func _ready() -> void:
 	chapter_story=ChapterStory.new(self)
 	sect_progress=SectProgress.new(self)
 	companion_story=CompanionStory.new(self)
+	shen_story=ShenCareStory.new(self)
 	advanced_martial=AdvancedMartialUI.new(self)
 	mist_story=MistwoodStory.new(self)
 	save_slots=SaveSlotsUI.new(self)
@@ -350,6 +353,8 @@ func _refresh() -> void:
 		hint_label.text=companion_story.hint()
 	if state.mist_stage>0 and (state.map_id=="mistwood" or (state.mist_stage<4 and not companion_story.pending())):
 		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
+	if _track_shen():
+		quest_label.text="药箱之外";hint_label.text=shen_story.hint()
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
@@ -475,7 +480,9 @@ func _healer_dialogue() -> void:
 	if state.quest_stage == 2 and state.herbs > 0:
 		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，记得守势。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
 	else:
-		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散可恢复 45 点气血，战斗中使用也算一回合。",[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]])
+		var choices:Array=[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]]
+		if shen_story.visible():choices.append(["药箱之外",shen_story.pharmacy])
+		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散可恢复45点气血，战斗中使用也算一回合。",choices,true)
 
 func _buy_medicine() -> void:
 	if state.coins < 12:
@@ -521,7 +528,11 @@ func _join_sect(id: String) -> void:
 	_toast("第一章完成 · 已获 %s 荐帖。可向练武堂南庭的岑远受试，或继续探索。" % id)
 
 func _show_board() -> void:
-	_modal("青苇渡告示","村中见闻","[color=#d3b276]渡口地图[/color]\n西北：沈青药铺  /  中央：陆伯与告示牌\n东北：青穗草苇岸  /  东南：旧渡口与蒲横\n南边：无名碑，可免费调息\n练武堂南庭：岑远，代验门派考法\n\n[color=#d3b276]乡约[/color]\n过河不问来处，点灯不收借火钱。",[],true)
+	if state.shen_care_stage==4:shen_story.board()
+	else:_show_board_base()
+
+func _show_board_base() -> void:
+	_modal("青苇渡告示","村中见闻","[color=#d3b276]渡口地图[/color]\n西北：沈青药铺  /  中央：陆伯与告示牌\n东北：青穗草苇岸  /  东南：旧渡口与蒲横\n南边：无名碑，可免费调息\n练武堂南庭：岑远，代验门派考法\n\n[color=#d3b276]乡约[/color]\n过河不问来处，点灯不收借火钱。"+shen_story.board_append(),[["查看照护约",shen_story.board],["收起告示",_close_modal]] if state.shen_care_stage==4 else [],true)
 
 func _shrine_dialogue() -> void:
 	_modal("无名碑","见闻 / 此心安处","碑上的字早被雨水磨平，只剩一个浅浅的‘归’字。\n\n你坐在碑边，听见远处船橹破水的声音。许多故事没有写在史书里，只留在愿意记得的人心中。",[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("你在碑前调息，气血与真气已恢复。")],["起身离开",_close_modal]])
@@ -567,6 +578,7 @@ func _show_journal() -> void:
 	if state.chapter_two_stage>0:body=chapter_story.journal()
 	if state.chapter_two_stage>=4:body+=companion_story.journal()
 	if state.mist_stage>0:body+=mist_story.journal()
+	body+=shen_story.journal()
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
@@ -752,6 +764,8 @@ func _exit_sluice_dialogue() -> void:
 	_modal("沿水纹而行", "新机缘 / 废闸疑云", "蒲横的账册里夹着一张水纹印。陆伯认得，那是三里外旧闸的调水凭证。\n\n古道尽头，一边传来船工的呼救，一边有传令人带着纸卷匆匆离去。先救人，还是先追线索？\n\n两边都能调查，行动先后将改变这一程的收获。", [["前往废闸",func(): _travel("sluice",Vector2(190,520))],["留在村中",_close_modal]],true)
 
 func _boatman_dialogue() -> void:
+	if state.shen_care_stage>0:
+		shen_story.patient();return
 	if state.side_found.has("boatman"):
 		_modal("许照川 · 船工", "废闸 / 已得证言", "‘那天有人换了水令，命我们在逆流时入港。不是天灾，是有人在等粮船翻。’\n\n他的证言你已记下。沈青留下的药，让他能撑着走回村里。")
 		return
@@ -788,9 +802,13 @@ func _finish_sluice() -> void:
 	if not awarded: _toast("此机缘奖励已领取，不会重复结算。")
 
 func _sluice_cache_dialogue() -> void:
+	if state.shen_care_stage==2:
+		if state.tangqi_stage==1:shen_story.shared_shelter()
+		else:shen_story.shelter()
+		return
 	if state.tangqi_stage==1:
 		companion_story.notebook();return
-	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。",[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
+	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。"+shen_story.shelter_append(),[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
 
 func _show_map() -> void:
 	if current_screen=="battle": return
@@ -835,6 +853,7 @@ func _sync_world_state() -> void:
 	world.companion_active = not state.current_companion().is_empty()
 	world.companion_name=state.current_companion()
 	world.personal_target_id=companion_story.target_id()
+	world.shen_target_id=shen_story.target_id() if _track_shen() else ""
 	world.mist_target_id=mist_story.target_id()
 	world.mentor_pending=state.sect_trial_won and state.sect_rank==1
 	world.chapter_stage=state.chapter_two_stage
@@ -847,3 +866,6 @@ func _sync_world_state() -> void:
 
 func _show_save_slots()->void:save_slots.save_page()
 func _show_load_slots()->void:save_slots.load_page()
+
+func _track_shen()->bool:
+	return shen_story.pending() and not companion_story.pending() and not (state.map_id=="mistwood" and state.mist_stage<4) and not (state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1)
