@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const Civilians=preload("res://scripts/painted_village_civilians.gd")
 const FerryProps=preload("res://scripts/qingwei_ferry_props.gd")
 const WaterMaterial=preload("res://scripts/qingwei_water_material.gd")
 const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
@@ -403,8 +404,8 @@ func _draw() -> void:
 	layers.append({"y": player_pos.y, "kind": "player"})
 	if companion_active:
 		layers.append({"y": companion_pos.y, "kind": "companion"})
-	layers.append({"y": 410.0, "kind": "extra", "pos": Vector2(656, 410), "robe": Color("a8754e")})
-	layers.append({"y": 561.0, "kind": "extra", "pos": Vector2(379, 561), "robe": Color("727e62")})
+	layers.append({"y": 410.0, "kind": "extra", "pos": Vector2(656, 410), "robe": Color("a8754e"), "role":"porter"})
+	layers.append({"y": 561.0, "kind": "extra", "pos": Vector2(379, 561), "robe": Color("727e62"), "role":"resident"})
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
@@ -413,7 +414,7 @@ func _draw() -> void:
 			"npc": _draw_npc(item["id"])
 			"player": _draw_person(player_pos, Color("356d66"), true, "player")
 			"companion": _draw_companion()
-			"extra": _draw_person(item["pos"], item["robe"], false, "villager")
+			"extra": _draw_person(item["pos"], item["robe"], false, item["role"])
 	_draw_lantern_post(Vector2(429, 343))
 	_draw_lantern_post(Vector2(782, 350))
 	_draw_lantern_post(Vector2(366, 687))
@@ -789,17 +790,24 @@ func _draw_npc(id: String) -> void:
 	var robe := Color("8d8163")
 	if id == "healer": robe = Color("c1c4a5")
 	if id == "healer" and companion_active and companion_name=="沈青":
-		_draw_person(p, Color("9a9676"), false, "villager")
+		_draw_person(p, Color("9a9676"), false, "clerk")
 		return
 	if id == "bandit": robe = Color("8e6853")
 	if id == "mentor": robe=Color("6b7e94")
 	_draw_person(p, robe, false, id)
+
+func _painted_civilian_role(kind:String)->String:
+	return kind if map_id=="qingwei" and Civilians.ROLES.has(kind) else ""
 
 func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> void:
 	if not _world_rect_visible(Rect2(p-Vector2(45,90),Vector2(90,115))):return
 	if is_player:
 		Traveler.draw_actor(self,p,Color("398f7d"),facing,walk_time if moving else time_passed,moving)
 		return
+	var civilian=_painted_civilian_role(kind)
+	if not civilian.is_empty():
+		_ellipse(p+Vector2(1,2),Vector2(11,4),Color(.05,.14,.12,.27))
+		if Civilians.draw_idle(self,p,civilian):return
 	var role="shen" if kind=="healer" else kind
 	Traveler.draw_actor(self,p,robe,Vector2.DOWN,time_passed+p.x*0.03,false,role,0.96)
 

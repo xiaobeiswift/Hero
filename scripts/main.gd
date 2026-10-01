@@ -498,7 +498,7 @@ func _healer_dialogue() -> void:
 	else:
 		var choices:Array=[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]]
 		if shen_story.visible():choices.append(["药箱之外",shen_story.pharmacy])
-		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散可恢复45点气血，战斗中使用也算一回合。",choices,true)
+		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散通常恢复45点气血，照野堂弟子为55点；战斗中使用也算一回合。",choices,true)
 
 func _buy_medicine() -> void:
 	if state.coins < 12:
