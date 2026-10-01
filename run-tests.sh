@@ -122,3 +122,5 @@ python3 -m unittest discover -s tests -p test_sequential_exports.py
 run_checked --headless --path . --script tests/dialogue_sheet_test.gd
 
 run_checked --headless --path . --script tests/painted_tang_walk_test.gd
+
+run_checked --headless --path . --script tests/tang_support_presentation_test.gd

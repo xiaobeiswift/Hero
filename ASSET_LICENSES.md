@@ -65,3 +65,7 @@
 ### 唐栖探索形象（2026-10-01）
 
 本项目原头像为唯一身份参考，生成四个独立方向的工匠形象，Blender透明UV卡片生成分脚触地步态。原始提示、摘要、裁切锚点与探索范围见 assets/generated/characters/PAINTED_TANG_WALK_PROVENANCE.md。
+
+### 唐栖交锋支援（2026-10-01）
+
+项目原创唐栖探索方向图为唯一身份参考，生成四个短尺支援关键姿态，Blender按共同尺度与脚底整理。来源、提示、摘要、像素检查和真实回气/减伤表现范围见 assets/generated/characters/PAINTED_COMBAT_TANG_PROVENANCE.md。
