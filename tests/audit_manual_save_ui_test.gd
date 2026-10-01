@@ -107,14 +107,14 @@ func _test_input_routes() -> void:
 	var loads_before: int = state_probe.autosave_reads
 	await _key(KEY_F9)
 	_check(state_probe.autosave_reads == loads_before + 1 and state_probe.coins == 24 and not game.active_modal, "F9 still quick-loads autosave without a slot chooser")
-	await _click_top("存档")
-	_check(game.active_modal and _modal_text().contains("留住不同的江湖"), "Actual top save button opens manual slots")
+	await _click_hud("存卷  F6")
+	_check(game.active_modal and _modal_text().contains("留住不同的江湖"), "Actual HUD save button opens manual slots")
 	_check(game.modal_actions.size() == 4, "Save chooser has exactly three manual slots plus return")
 	await _key(KEY_3)
 	_check(store.describe(3).status == "valid" and not FileAccess.file_exists(store.path_for(1)), "Third keyboard choice writes only manual slot 3")
 	await _key(KEY_ESCAPE)
-	await _click_top("读档")
-	_check(game.active_modal and game.modal_actions.size() == 5, "Actual top load button opens autosave plus all three manual slots")
+	await _click_hud("读卷  F10")
+	_check(game.active_modal and game.modal_actions.size() == 5, "Actual HUD load button opens autosave plus all three manual slots")
 	await _key(KEY_4)
 	_check(_find_button(game.overlay, "读取当前版本") != null and _modal_text().contains("手记三"), "Fourth load choice targets manual slot 3")
 	await _key(KEY_ESCAPE)
@@ -286,10 +286,11 @@ func _test_stale_callback_guards() -> void:
 	_check(_manual_snapshot() == before, "Completed overwrite token cannot be replayed against a changed live branch")
 	game._close_modal()
 
-func _click_top(caption: String) -> void:
+func _click_hud(caption: String) -> void:
 	var button: Button = _find_button(game, caption)
-	_check(button != null, "Top button exists: " + caption)
+	_check(button != null, "Visible HUD action exists: " + caption)
 	if button == null: return
+	_check(button.is_visible_in_tree(),"Save/load action is visible in the redesigned HUD")
 	var motion := InputEventMouseMotion.new()
 	motion.position = button.get_global_rect().get_center()
 	root.push_input(motion, true)
