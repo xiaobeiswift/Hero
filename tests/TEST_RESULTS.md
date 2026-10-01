@@ -2,6 +2,10 @@
 
 引擎：Godot 4.6.3.stable.official.7d41c59c4
 
+## 精确包后续验证 · 15:52 UTC
+
+开发Linux导出PCK通过642项检查，原620项完整保留；独立release可执行程序另通过60迭代无头启动。开发包记录dirty源码，不冒充正式版本。新候选的三平台导出、原生LinuxGUI与哈希映射另行记录。全景原生性能样本及限制见RENDER_PERFORMANCE.md与fullworld_performance_results.json。
+
 ## 全景 HUD 验收 · 15:46 UTC
 
 - `bash run-tests.sh` 完整源代码回归通过；包含47项HUD布局、60项战斗演出、指南避让/临时区域释放/行囊属性及真实鼠标存卷/读卷流程
