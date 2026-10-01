@@ -116,6 +116,7 @@ func _run() -> void:
 	await _test_lightness_exploration()
 	print("Retained story/traversal pack coverage: %d checks"%checks)
 	await _test_visual_runtime()
+	await _test_painted_hud_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1074,3 +1075,51 @@ func _test_visual_runtime() -> void:
 	_check(game.current_screen=="explore" and game.active_modal,"Packed finishing pose hands off to real result modal")
 	game.battle_presentation_enabled=false
 	game._close_modal()
+
+func _test_painted_hud_pack() -> void:
+	game._new_game();game._process(0)
+	var hero=load("res://scripts/painted_traveler_sprite.gd")
+	var cast=load("res://scripts/painted_village_sprite.gd")
+	_check(hero!=null and cast!=null and ResourceLoader.exists("res://scripts/game_hud.gd"),"Packed painted cast and full-world HUD modules retained")
+	if hero==null or cast==null:return
+	_check(ResourceLoader.exists(hero.PATH) and ResourceLoader.exists(cast.CAST_PATH) and ResourceLoader.exists(cast.SHEN_PATH),"All three character atlases survive export filtering")
+	var frame_contract=true
+	for direction in ["front","right","back","left"]:
+		for frame in range(8):
+			var texture=hero.texture_for(direction,frame)
+			frame_contract=frame_contract and texture!=null and texture.region==Rect2(frame*256,hero.ROWS[direction]*256,256,256)
+	_check(frame_contract,"Packed32-frame atlas retains all measured crops")
+	var anchor=Vector2(350,650)
+	_check((hero.drawing_rect(anchor).position+hero.FOOT*(72.0/256.0)).distance_to(anchor)<.001,"Packed hero foot is invariant under sprite scale")
+	_check((cast.drawing_rect(anchor).position+cast.FOOT*(72.0/256.0)).distance_to(anchor)<.001,"Packed village cast shares the collision foot")
+	var cast_contract=true
+	for role in ["elder","healer","bandit","mentor"]:
+		cast_contract=cast_contract and cast.texture_for(role)!=null and game.world._painted_npc_role(role)==role
+	_check(cast_contract,"Packed key village cast resolves its original identities")
+	game.world.companion_active=true;game.world.companion_name="沈青"
+	_check(game.world._painted_npc_role("healer").is_empty() and game.world.get_npc_name("healer")=="药铺伙计","Packed travelling Shen is not duplicated inside pharmacy")
+	game.world.companion_active=false
+	_check(game.hud!=null and game.world_view.size==Vector2i(1280,800) and game.world.viewport_rect==Rect2(0,0,1280,800),"Packed HUD and world use the full1280x800 canvas")
+	_check(game.hud.nav_buttons.size()==5 and game.hud.exploration.visible,"Packed exploration quick actions are visible")
+	for key in [KEY_M,KEY_K,KEY_I,KEY_J,KEY_B]:
+		await _key(key)
+		_check(game.active_modal,"Packed HUD keeps real keyboard shortcut: "+OS.get_keycode_string(key))
+		game._close_modal()
+	game._show_inventory()
+	_check(_gather_text(game.overlay).contains("攻击 16") and _gather_text(game.overlay).contains("防御 4") and _gather_text(game.overlay).contains("修为 0 / 60"),"Packed inventory retains secondary stats hidden from the minimal HUD")
+	game._close_modal();game.toast_time=0;game.hud.quest_notice_time=0;game._process(0)
+	_check(not game.world._navigation_target_covered(Vector2(520,220)),"Packed hidden toast releases its compass exclusion")
+	game.save_warning=true;game._process(0)
+	_check(game.hud.toast_wash.visible and game.status_label.text.contains("自动存档失败") and game.status_label.text.contains("F5"),"Packed failed autosave remains explicit and actionable")
+	game.save_warning=false;game.toast_time=0;game._process(0)
+	game.world.teleport(Vector2(70,160));game.hud.tick(1.0)
+	_check(game.hud.identity_wash.modulate.a<.3,"Packed HUD fades rather than conceals the traveller")
+	game._start_battle("spar");game._process(0)
+	_check(not game.hud.exploration.visible and not game.world.visible and game.battle_art.scale.x>1.3,"Packed combat switches to full-width stage without drawing the village")
+	game.battle_player_hp.max_value=180;game.battle_player_hp.value=37.25
+	_check(game.hud.battle_player_value.text=="气血  37 / 180","Packed player digits follow presented health")
+	game.battle_hp.max_value=96;game.battle_hp.value=23.9
+	_check(game.hud.battle_enemy_value.text=="气血  24 / 96","Packed enemy digits follow tween rather than final model")
+	game.state.qi=0;game._refresh_battle()
+	_check(game.battle_buttons[1].disabled and game.battle_buttons[1].tooltip_text.contains("真气"),"Packed unavailable skill explains qi requirement")
+	game._battle_action("flee");game._close_modal()
