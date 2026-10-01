@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-01T18:09:00Z",
+  "scope": "Source 0.0.14, Godot 4.6.3 editor, cloud Linux native controls; frozen0.0.13release does not include this menu",
+  "full_source_suite": "passed",
+  "headless_cases": [
+    "actual key events and movement blocked in menu",
+    "old single-Escape modal dismissal retained",
+    "manual save/load entries, audio toggle and return-to-title",
+    "write failure retains running game",
+    "successful retry exits without a redundant second save",
+    "discard requires another confirmation and does not delete/write previous save",
+    "stale callbacks and battle gate"
+  ],
+  "native_session": {
+    "new_game": true,
+    "opened_by": "Escape",
+    "audio_changed_by": "mouse click",
+    "exit_requested_by": "5",
+    "confirmed_by": "mouse click 保存并离开",
+    "window_disappeared": true,
+    "process_exit_code": 0,
+    "saved_position": [
+      460,
+      430
+    ],
+    "saved_hp": 100,
+    "log_errors": []
+  },
+  "captures": [
+    {
+      "file": "137-journey-rest.png",
+      "sha256": "2b3ed3b58a2c3d3878d08eaa15b35ef2a66a7beb2faadc2f5c413ce309f76acd"
+    },
+    {
+      "file": "138-rest-exit-confirm.png",
+      "sha256": "8fbba6048a9089ec67aaf4ffa42cb49a073f34f9ff5e4a26b8e02b59b0da080e"
+    },
+    {
+      "file": "139-rest-save-failed.png",
+      "sha256": "1b576a5580557e37ed675ffb135925a3e97b6bd63ca7676c5f43a76e3923bdbb"
+    },
+    {
+      "file": "140-rest-discard-confirm.png",
+      "sha256": "670790870f8f2a6e5a9203dd9434c8d75b5491e2c5697b4ad0738fb988ae86c2"
+    },
+    {
+      "file": "141-journey-rest-compact.png",
+      "sha256": "46f556e157074c665e96076e6eaaf419ce73dece5ca8effc217b3249d158df4e"
+    }
+  ],
+  "limits": [
+    "Failure screen uses an injected write error, not a physically full disk",
+    "No new release export, Windows/macOS native run or audio listening test",
+    "Normal window-manager close remains separate from the verified game menu exit"
+  ]
+}
