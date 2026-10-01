@@ -8,3 +8,8 @@
 - **Godot**：运行依赖 Godot Engine 4.6.x（MIT）。当前源码交付不含引擎二进制；发行包导出时须保留引擎许可证与第三方许可
 
 游戏采用通用的探索、任务、队友、装备和回合制玩法，项目名称为 Hero · 渡灯录。
+
+
+### 青苇渡环境（2026-10-01）
+
+原创生成的建筑/垂柳图集与苔土地表，原始PNG未修改。来源、提示与具体使用限制见 assets/generated/environment/ART_PROVENANCE.md 与 GROUND_PROVENANCE.md。运行时只做裁切、定位和透明混合，不引用其他游戏素材。
