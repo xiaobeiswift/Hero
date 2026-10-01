@@ -21,3 +21,7 @@
 ### 青苇渡主要人物闲置姿态（2026-10-01）
 
 四位村中人物及沈青的四向预备素材，由本项目原创图像经Blender透明卡片定尺渲染。完整提示、来源范围与当前闲置姿态限制见 assets/generated/characters/PAINTED_VILLAGE_PROVENANCE.md。角色身份与原有任务不变，不将方向闲置图说成行走动画。
+
+### 绘制战斗角色与渡口背景（2026-10-01）
+
+主角/蒲横六姿态及渡口月夜背景为本项目原创生成素材；人物经Blender透明卡片整理。准确提示、输入链、固定锚点及使用范围分别见 assets/generated/characters/PAINTED_COMBAT_HERO_PROVENANCE.md、PAINTED_COMBAT_PUHENG_PROVENANCE.md 和 assets/generated/environment/FERRY_BATTLE_PROVENANCE.md。渡口绘画保持原始像素，只在引擎中等比定位与叠加水光。
