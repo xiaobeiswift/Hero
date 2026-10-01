@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 2
+const SAVE_VERSION: int = 3
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Sects=preload("res://scripts/sect_rules.gd")
@@ -290,7 +290,7 @@ func start_battle(kind: String = "story") -> void:
 			enemy_strong_attack = 22
 		"sect_trial":
 			enemy_name="岑远 · 代试游师"
-			enemy_max_hp=180
+			enemy_max_hp=maxi(180,attack*4+30)
 			enemy_base_attack=18
 			enemy_strong_attack=30
 		"archive_boss":
@@ -377,7 +377,7 @@ func battle_action(action: String) -> Dictionary:
 			battle_active = false
 			exposed_turns = 0
 			enemy_intent = "已脱离战斗"
-			messages.append("你借芦影退回渡口，保全气力。")
+			messages.append("你收势退开，暂避锋芒。")
 			return _finish_result(messages, true, false)
 
 	if companion_unlocked and formation == "并肩" and action in ["attack", "skill"]:
@@ -537,7 +537,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0,float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0,2.0,float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT

@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const SectProgress = preload("res://scripts/sect_progress_ui.gd")
 const ChapterStory = preload("res://scripts/frostbridge_story.gd")
 const Workshop = preload("res://scripts/workshop_ui.gd")
 const Chart = preload("res://scripts/map_chart.gd")
@@ -15,6 +16,7 @@ const JADE = Color("69b6a3")
 var state = StateModel.new()
 var workshop
 var chapter_story
+var sect_progress
 var world
 var world_view: SubViewport
 var font: Font
@@ -68,6 +70,7 @@ func _ready() -> void:
 	_build_interface()
 	workshop=Workshop.new(self)
 	chapter_story=ChapterStory.new(self)
+	sect_progress=SectProgress.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -302,7 +305,7 @@ func _refresh() -> void:
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
 	chapter_header.text = "第二章  ·  印下有声" if state.map_id=="frostbridge" else ("江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人")
 	name_label.text = state.player_name + "  " + str(state.level) + "级"
-	sect_label.text = "初入江湖 · " + state.sect
+	sect_label.text = ("初入江湖" if state.sect=="未入门" else state.sect_rank_name())+" · "+state.sect
 	hp_bar.max_value = state.max_hp
 	hp_bar.value = state.hp
 	qi_bar.max_value = state.max_qi
@@ -321,6 +324,9 @@ func _refresh() -> void:
 	if state.chapter_two_stage>0 or (state.quest_stage>=6 and state.side_stage>=3):
 		quest_label.text=chapter_story.quest_title()
 		hint_label.text=chapter_story.quest_hint()
+	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
+		quest_label.text="待领门中荐记"
+		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
 
 func _toast(text: String) -> void:
 	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning else "")
@@ -397,6 +403,7 @@ func _interact(id: String) -> void:
 	if active_modal or current_screen != "explore": return
 	if audio_on: sfx.play()
 	match id:
+		"mentor": sect_progress.show()
 		"elder": _elder_dialogue()
 		"healer": _healer_dialogue()
 		"herb": _herb_dialogue()
@@ -477,10 +484,10 @@ func _join_sect(id: String) -> void:
 	state.quest_stage = 6
 	_close_modal()
 	_autosave()
-	_toast("第一章完成 · 已获 %s 荐帖。继续探索、切磋，或存档留待下次。" % id)
+	_toast("第一章完成 · 已获 %s 荐帖。可向练武堂南庭的岑远受试，或继续探索。" % id)
 
 func _show_board() -> void:
-	_modal("青苇渡告示","村中见闻","[color=#d3b276]渡口地图[/color]\n西北：沈青药铺  /  中央：陆伯与告示牌\n东北：青穗草苇岸  /  东南：旧渡口与蒲横\n南边：无名碑，可免费调息\n\n[color=#d3b276]乡约[/color]\n过河不问来处，点灯不收借火钱。")
+	_modal("青苇渡告示","村中见闻","[color=#d3b276]渡口地图[/color]\n西北：沈青药铺  /  中央：陆伯与告示牌\n东北：青穗草苇岸  /  东南：旧渡口与蒲横\n南边：无名碑，可免费调息\n练武堂南庭：岑远，代验门派考法\n\n[color=#d3b276]乡约[/color]\n过河不问来处，点灯不收借火钱。",[],true)
 
 func _shrine_dialogue() -> void:
 	_modal("无名碑","见闻 / 此心安处","碑上的字早被雨水磨平，只剩一个浅浅的‘归’字。\n\n你坐在碑边，听见远处船橹破水的声音。许多故事没有写在史书里，只留在愿意记得的人心中。",[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("你在碑前调息，气血与真气已恢复。")],["起身离开",_close_modal]])
@@ -586,10 +593,15 @@ func _start_battle(kind: String) -> void:
 	story_battle = kind=="story"
 	encounter_kind = kind
 	state.start_battle(kind)
+	if not state.battle_active:
+		current_screen="explore"
+		battle_layer.visible=false
+		_toast("此刻尚不满足交锋条件。")
+		return
 	enemy_title.text = state.enemy_name
-	battle_title.text = "霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑")
+	battle_title.text = "南 庭  ·  验 艺" if kind=="sect_trial" else ("霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"))
 	battle_art.companion_active = state.companion_unlocked
-	battle_art.region_style=state.map_id
+	battle_art.region_style="training" if kind=="sect_trial" else state.map_id
 	battle_layer.visible = true
 	battle_art.flash = 0
 	_refresh_battle()
@@ -621,7 +633,9 @@ func _battle_action(action: String) -> void:
 		current_screen = "explore"
 		battle_layer.visible = false
 		if result.get("won",false):
-			if encounter_kind == "archive_boss":
+			if encounter_kind=="sect_trial":
+				sect_progress.victory()
+			elif encounter_kind == "archive_boss":
 				chapter_story.battle_victory()
 			elif encounter_kind == "sluice_scout":
 				state.find_side_clue("ledger")
@@ -744,7 +758,7 @@ func _show_map() -> void:
 
 func _show_martials() -> void:
 	if current_screen=="battle": return
-	var body = "[color=#d3b276]当前修习：%s[/color]\n普攻蓄气，绝招施展积累心得。5次升至熟习，15次升至通明。\n\n" % state.equipped_art
+	var body = "[color=#d3b276]当前修习：%s[/color]\n%s · 考绩%d\n普攻蓄气，绝招施展积累心得。5次升至熟习，15次升至通明。\n\n" % [state.equipped_art,state.sect_rank_name(),state.sect_merit]
 	var options: Array = []
 	for art in state.available_arts():
 		var rank_names = ["初窥","熟习","通明"]
@@ -768,6 +782,7 @@ func _show_workshop() -> void:
 func _sync_world_state() -> void:
 	world.quest_stage = state.quest_stage
 	world.companion_active = state.companion_unlocked
+	world.mentor_pending=state.sect_trial_won and state.sect_rank==1
 	world.chapter_stage=state.chapter_two_stage
 	world.chapter_ending=state.chapter_two_ending
 	world.chapter_target_id=chapter_story.target_id()

@@ -13,6 +13,7 @@ var quest_stage: int = 0
 var map_id: String = "qingwei"
 var chapter_stage:int=0
 var chapter_ending:String=""
+var mentor_pending:bool=false
 var chapter_target_id:String="chapter_host"
 var bridge_repaired:bool=false
 var resource_depleted:Array[String]=[]
@@ -52,6 +53,7 @@ var buildings: Array[Dictionary] = [
 	{"pos": Vector2(826, 715), "size": Vector2(152, 80), "name": "山神祠", "type": "shrine"},
 ]
 var interactables: Dictionary = {
+	"mentor":{"pos":Vector2(650,720),"name":"岑远","kind":"elder"},
 	"elder": {"pos": Vector2(520, 440), "name": "陆伯", "kind": "elder"},
 	"healer": {"pos": Vector2(330, 330), "name": "沈青", "kind": "healer"},
 	"herb": {"pos": Vector2(1260, 350), "name": "青穗草", "kind": "herb"},
@@ -289,7 +291,7 @@ func _draw() -> void:
 		layers.append({"y": b["pos"].y + b["size"].y, "kind": "building", "data": b})
 	for tree in trees:
 		layers.append({"y": tree["pos"].y, "kind": "tree", "data": tree})
-	for id: String in ["elder", "healer", "bandit"]:
+	for id: String in ["elder", "healer", "bandit", "mentor"]:
 		layers.append({"y": interactables[id]["pos"].y, "kind": "npc", "id": id})
 	layers.append({"y": player_pos.y, "kind": "player"})
 	if companion_active:
@@ -627,6 +629,7 @@ func _draw_npc(id: String) -> void:
 		_draw_person(p, Color("9a9676"), false, "villager")
 		return
 	if id == "bandit": robe = Color("8e6853")
+	if id == "mentor": robe=Color("6b7e94")
 	_draw_person(p, robe, false, id)
 
 func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> void:
@@ -697,7 +700,7 @@ func _draw_lantern(p: Vector2, scale_factor: float) -> void:
 	draw_line(q + Vector2(0, 10) * scale_factor, q + Vector2(0, 18) * scale_factor, Color("b48f52"), 1.5)
 
 func _draw_nameplates() -> void:
-	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit"])
+	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	for id: String in visible_ids:
 		var p: Vector2 = interactables[id]["pos"]
 		var selected := nearby_id == id
@@ -758,6 +761,7 @@ func _draw_view_framing() -> void:
 	_label(label_p + Vector2(0, 15), get_npc_name(target_id) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _quest_target_id() -> String:
+	if map_id=="qingwei" and mentor_pending:return "mentor"
 	if map_id=="frostbridge":return chapter_target_id if interactables.has(chapter_target_id) else "chapter_host"
 	if map_id == "sluice":
 		if interactables.has(side_target_id):

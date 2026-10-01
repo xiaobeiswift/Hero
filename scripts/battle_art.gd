@@ -77,7 +77,7 @@ func _draw_fighter(p:Vector2,robe:Color,facing_right:bool,t:float,pulse:float) -
 	draw_circle(Vector2(-5,-93),7,Color("202e2d"))
 	draw_line(Vector2(-10,-82),Vector2(11,-82),Color("283a35"),5)
 	draw_circle(Vector2(5*dir,-77),1.4,Color("1e302e"))
-	draw_line(Vector2(41*dir,-40),Vector2(86*dir,-76),Color("dbdfc5"),4)
+	draw_line(Vector2(41*dir,-40),Vector2(86*dir,-76),Color("baa57b") if region_style=="training" and not facing_right else Color("dbdfc5"),4)
 	draw_line(Vector2(38*dir,-46),Vector2(46*dir,-32),Color("c4a464"),5)
 	if facing_right:
 		draw_colored_polygon(PackedVector2Array([Vector2(-13,-63),Vector2(-33,-53),Vector2(-47,-10),Vector2(-22,-17)]),robe.darkened(.2))
