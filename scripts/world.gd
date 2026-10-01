@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
 const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
 const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
 const Traveler=preload("res://scripts/traveler_visual.gd")
@@ -748,8 +749,18 @@ func _draw_camp() -> void:
 	_poly([fire + Vector2(-7, 0), fire + Vector2(-2, -13 - sin(time_passed * 8) * 3), fire + Vector2(2, -6), fire + Vector2(5, -19), fire + Vector2(8, 0)], Color("d59a52"))
 	draw_circle(fire + Vector2(0, -3), 4, Color("e5bf71"))
 
+func _painted_npc_role(id:String)->String:
+	if map_id!="qingwei" or not PaintedCast.CAST.has(id):return ""
+	if id=="healer" and companion_active and companion_name=="沈青":return ""
+	return id
+
 func _draw_npc(id: String) -> void:
 	var p: Vector2 = interactables[id]["pos"]
+	if not _world_rect_visible(Rect2(p-Vector2(45,90),Vector2(90,115))):return
+	var painted_role=_painted_npc_role(id)
+	if not painted_role.is_empty():
+		_ellipse(p+Vector2(1,2),Vector2(12,5),Color(0.05,0.14,0.12,0.27))
+		if PaintedCast.draw_idle(self,p,painted_role):return
 	var robe := Color("8d8163")
 	if id == "healer": robe = Color("c1c4a5")
 	if id == "healer" and companion_active and companion_name=="沈青":
@@ -795,13 +806,14 @@ func _draw_nameplates() -> void:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
 		var width := 80.0
 		var display_name: String = get_npc_name(id)
-		var name_y=-83.0 if id=="mist_guide" else -57.0
+		var name_y=-83.0 if id=="mist_guide" else (-78.0 if not _painted_npc_role(id).is_empty() else -57.0)
 		draw_style_box(_round_box(Color(0.08,0.18,0.17,0.80),3),Rect2(p+Vector2(-width*0.5,name_y-15),Vector2(width,20)))
 		_label(p+Vector2(-width*0.5,name_y),display_name,13,Color("f0e5c3"),width,HORIZONTAL_ALIGNMENT_CENTER,true)
 	var target_id := _quest_target_id()
 	if not target_id.is_empty():
 		var target_p: Vector2 = interactables[target_id]["pos"]
 		var yy := (-47.0 if target_id in ["herb", "exit_sluice", "return_village", "sluice_cache", "exit_frostbridge", "return_sluice"] else -73.0) + sin(time_passed * 2.5) * 3
+		if not _painted_npc_role(target_id).is_empty():yy=-107.0+sin(time_passed*2.5)*3
 		_poly([target_p + Vector2(0, yy - 7), target_p + Vector2(6, yy), target_p + Vector2(0, yy + 7), target_p + Vector2(-6, yy)], C_GOLD)
 		draw_line(target_p + Vector2(0, yy - 3), target_p + Vector2(0, yy + 1), C_INK, 1.4)
 	if not nearby_id.is_empty() and active:
