@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
 const ChapterStory = preload("res://scripts/frostbridge_story.gd")
@@ -19,6 +20,7 @@ var workshop
 var chapter_story
 var sect_progress
 var companion_story
+var advanced_martial
 var world
 var world_view: SubViewport
 var font: Font
@@ -45,6 +47,7 @@ var battle_layer: Control
 var battle_art
 var battle_hp: ProgressBar
 var battle_player_hp: ProgressBar
+var battle_status:Label
 var battle_info: Label
 var battle_log: RichTextLabel
 var battle_buttons: Array[Button] = []
@@ -74,6 +77,7 @@ func _ready() -> void:
 	chapter_story=ChapterStory.new(self)
 	sect_progress=SectProgress.new(self)
 	companion_story=CompanionStory.new(self)
+	advanced_martial=AdvancedMartialUI.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -580,7 +584,9 @@ func _build_battle_ui() -> void:
 	battle_hp = _bar(battle_layer,Rect2(609,116,245,10),Color("c68a76"))
 	_label(battle_layer,"无名客",Rect2(76,83,245,24),18,PAPER)
 	enemy_title = _label(battle_layer,"蒲横 · 河帮执事",Rect2(609,83,245,24),18,PAPER)
-	battle_info = _label(battle_layer,"",Rect2(43,316,855,32),15,GOLD)
+	_panel(battle_layer,Rect2(25,309,888,47),Color(0.025,0.09,0.11,0.94),Color("3f6260"))
+	battle_info = _label(battle_layer,"",Rect2(43,313,855,23),15,GOLD)
+	battle_status=_label(battle_layer,"",Rect2(43,335,855,18),13,JADE)
 	var log_panel = _panel(battle_layer,Rect2(25,357,888,100),Color(0.025,0.09,0.11,0.94),Color("3f6260"))
 	battle_log = RichTextLabel.new()
 	battle_log.position = Vector2(15,9)
@@ -621,6 +627,10 @@ func _refresh_battle() -> void:
 	battle_player_hp.value = state.hp
 	battle_info.text = "第 %d 回合    你的真气 %d/%d    ·    敌方意图：%s" % [state.turn+1,state.qi,state.max_qi,state.enemy_intent]
 	if state.exposed_turns > 0: battle_info.text += "  破绽%d（守势可解）" % state.exposed_turns
+	var statuses:Array[String]=[]
+	if state.enemy_weaken_strikes>0:statuses.append("敌方卸劲 -%d · 余%d次来击" % [state.enemy_weaken_amount,state.enemy_weaken_strikes])
+	if state.focused_damage>0:statuses.append("蓄锋 +%d · 下次平击" % state.focused_damage)
+	battle_status.text="    |    ".join(statuses)
 	battle_log.text = "\n".join(state.battle_log.slice(maxi(0,state.battle_log.size()-4)))
 	battle_buttons[1].disabled = state.qi<state.active_art_cost() or state.skill_cooldown>0
 	battle_buttons[1].text = "2 %s -%d气" % [state.equipped_art,state.active_art_cost()] if state.skill_cooldown==0 else "%s 冷却%d" % [state.equipped_art,state.skill_cooldown]
@@ -768,11 +778,11 @@ func _show_map() -> void:
 
 func _show_martials() -> void:
 	if current_screen=="battle": return
-	var body = "[color=#d3b276]当前修习：%s[/color]\n%s · 考绩%d\n普攻蓄气，绝招施展积累心得。5次升至熟习，15次升至通明。\n\n" % [state.equipped_art,state.sect_rank_name(),state.sect_merit]
+	var body = "[color=#d3b276]当前修习：%s[/color]\n%s · 考绩%d\n5次熟习，15次通明。卸劲减来击；蓄锋强化下次平击。\n\n" % [state.equipped_art,state.sect_rank_name(),state.sect_merit]
 	var options: Array = []
 	for art in state.available_arts():
 		var rank_names = ["初窥","熟习","通明"]
-		body += "[color=#d3b276]%s · %s[/color]（已施展%d次）\n%s\n\n" % [art,rank_names[state.art_rank(art)-1],int(state.art_uses.get(art,0)),state.art_description(art)]
+		body += "[color=#d3b276]%s · %s[/color]（已施展%d次）\n%s\n" % [art,rank_names[state.art_rank(art)-1],int(state.art_uses.get(art,0)),advanced_martial.summary(art)]
 		options.append(["修习 "+art,_equip_art.bind(art)])
 	if state.sect=="未入门": body += "完成青苇渡机缘后，门派荐帖将带来新的武学。"
 	options.append(["返回江湖",_close_modal])
