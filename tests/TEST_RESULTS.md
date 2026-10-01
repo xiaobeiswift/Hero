@@ -4,23 +4,23 @@
 
 ## 自动化
 
-通过 `./run-tests.sh` 在独立、可写的临时 XDG 目录执行：
+通过 `bash run-tests.sh` 在独立、可写的临时 XDG 目录执行：
 
 - 项目编辑器导入：通过
-- `state_test.gd`：217 断言通过
+- `state_test.gd`：218 断言通过
 - `audit_progression_test.gd`：65 断言通过
 - `audit_second_region_test.gd`：143断言通过（新增古道可达性）
 - `economy_test.gd`：63 断言通过
 - `workshop_ui_test.gd`：26 断言通过
 - `chapter_rules_test.gd`：64个独立下一章规则断言通过
 - `frostbridge_ui_test.gd`：89个实际场景流程断言通过
-- `save_version_test.gd`：9个存档版本断言通过
+- `save_version_test.gd`：10个存档版本断言通过
 - `sect_rules_test.gd`：57项门派考核规则通过
 - sect_ui_test.gd：54项真实导师界面流程断言通过
 - audit_companion_rules_test.gd：105个独立同行规则断言通过
 - audit_companion_increment_test.gd：134个独立同行场景检查通过
 - full_journey_test.gd：57个从新档连续推进检查通过（三个门派各一轮）
-- 当前合计：1083断言通过
+- 当前合计：1085断言通过；另有216个进阶武学战斗组合通过
 - `main.gd --check-only`：通过
 
 关键覆盖：
@@ -64,3 +64,5 @@
 完整连续流程：从默认等级1/24文/3药开始，经真实场景选择完成全部已实现主线、门派考核与个人故事。未通过夹具注入成长资源或任务进度。三派均自然到达5级/304文/7药，完成唐栖结伴并存读档一致；流程调用交互入口而非逐步模拟行走。另补齐工艺/材料商两张实际渲染截图，累计29张。
 
 发行预检：精确开发版Linux PCK通过177项检查（保留37项原检查，新增140项导师/同行覆盖）。三个正式目标的v0.0.6构建尚未完成；结果以对应BUILD-REPORT为准。外置测试驱动固定副本及SHA-256，不进入玩家发行包。
+
+进阶武学规则小提交：六门新招数据与设计JSON逐字段一致，旧四门所有旧字段保持不变。216组实际Godot规则模拟覆盖3/5级、基础/制作装备、无同伴/沈青/唐栖、并肩/护后；这不是图形或完整试玩验收。新招界面与全面边界测试仍在接入。已用精确v0.0.6发行PCK读取版本5夹具，确认拒绝未知版本且旧状态不变。
