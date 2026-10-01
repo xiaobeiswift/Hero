@@ -102,3 +102,5 @@ run_checked --headless --path . --script tests/shen_support_presentation_test.gd
 
 run_checked --headless --path . --script tests/water_material_test.gd
 run_checked --headless --path . --script tests/ferry_props_test.gd
+
+run_checked --headless --path . --script tests/view_zoom_test.gd
