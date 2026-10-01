@@ -22,6 +22,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
+PACK_SMOKE_CHECKS = 177
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
@@ -141,12 +142,20 @@ def main() -> None:
         raise RuntimeError("Source changed while snapshotting. Choose a new label and rerun after edits settle.")
     source_text = "".join(f"{sha}  {name}\n" for name, sha in manifest.items())
     (build / "SOURCE-SHA256SUMS.txt").write_text(source_text, encoding="utf-8")
+    # Preserve the exact external test driver used for every platform. It stays
+    # outside the source snapshot/PCK so no development tools ship to players.
+    smoke_driver = build / "smoke_export.gd"
+    shutil.copyfile(ROOT / "tools/smoke_export.gd", smoke_driver)
+    if digest(smoke_driver) != digest(ROOT / "tools/smoke_export.gd"):
+        raise RuntimeError("Smoke driver changed while snapshotting. Choose a new label and rerun.")
     run([godot, "--headless", "--path", str(snapshot), "--editor", "--import", "--quit"],
         logs / "import.log", env, cwd=build)
     report = {"created_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "engine": version,
               "build_status": "incomplete", "build_host": platform.platform(), **provenance,
               "source_manifest_sha256": hashlib.sha256(source_text.encode()).hexdigest(),
               "build_script_sha256": digest(Path(__file__)),
+              "smoke_script_sha256": digest(smoke_driver),
+              "expected_pack_checks": PACK_SMOKE_CHECKS,
               "template_sha256": {}, "platforms": {}, "archives": {}}
     for target in targets:
         preset, template, filename = TARGETS[target]
@@ -184,10 +193,10 @@ def main() -> None:
                 with z.open(packs[0]) as src, pack.open("wb") as dst:
                     shutil.copyfileobj(src, dst)
         text = run([godot, "--headless", "--audio-driver", "Dummy", "--main-pack", str(pack),
-                    "--script", str(ROOT / "tools/smoke_export.gd")], logs / f"{target}-smoke.log", smoke_env, cwd=directory)
-        if "PASS: 37 exported-pack checks; 0 failures" not in text:
+                    "--script", str(smoke_driver)], logs / f"{target}-smoke.log", smoke_env, cwd=directory)
+        if f"PASS: {PACK_SMOKE_CHECKS} exported-pack checks; 0 failures" not in text:
             raise RuntimeError(f"Expected smoke assertion summary missing: {logs / f'{target}-smoke.log'}")
-        status["pack_audit"] = "Exact exported PCK loaded by Linux editor: 37 checks passed"
+        status["pack_audit"] = f"Exact exported PCK loaded by Linux editor: {PACK_SMOKE_CHECKS} checks passed"
         add_notices(directory, snapshot, source_text, target)
         if target == "macos":
             # Notices are adjacent to the signed .app, so signing is not invalidated.

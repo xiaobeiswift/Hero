@@ -90,6 +90,12 @@ func _run() -> void:
 	_check(game.state.chapter_two_stage==2, "Packed seal puzzle opens archive")
 	game._close_modal()
 	_check(game.state.save_game()==OK and game.state.load_game()==OK and game.state.bridge_repaired, "Packed schema2 chapter progress saves and reloads")
+	# Keep the original 37 assertions above intact. All later checks use only
+	# shipped resources; no test adapters or production classes are preloaded here.
+	_test_modules()
+	await _test_mentor_trials()
+	await _test_companion_route("teach", false)
+	await _test_companion_route("preserve", true)
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -99,3 +105,244 @@ func _run() -> void:
 	await process_frame
 	print("%s: %d exported-pack checks; %d failures" % ["PASS" if failures == 0 else "FAIL", checks, failures])
 	quit(0 if failures == 0 else 1)
+
+func _test_modules() -> void:
+	for module in ["sect_rules", "sect_progress_ui", "companion_rules", "companion_story"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "New packed module retained: " + module)
+	_check(game.sect_progress != null and game.companion_story != null, "New packed story controllers instantiated")
+
+func _test_mentor_trials() -> void:
+	game._new_game()
+	game._interact("mentor")
+	_check(_find_button(game.overlay, "开始受试") == null, "Packed mentor gates unjoined hero")
+	game._close_modal()
+	for school in ["听潮阁", "照野堂", "问石门"]:
+		game._new_game()
+		game.state.gain_xp(180)
+		game.state.choose_sect(school)
+		game.state.quest_stage = 6
+		game.state.ending = "守望"
+		game.world.teleport(Vector2(650, 720))
+		game._refresh()
+		await _key(KEY_E)
+		_press("开始受试")
+		_check(game.state.battle_active and game.state.battle_kind == "sect_trial" and game.state.equipped_art == game.state.sect_art(), "Packed mentor starts and equips trial: " + school)
+		_check(game.battle_title.text.contains("验"), "Packed trial displays mentor heading: " + school)
+		game._battle_action("attack")
+		game._battle_action("skill")
+		for step in range(80):
+			if not game.state.battle_active:
+				break
+			if game.state.hp < 45 and game.state.medicine > 0:
+				game._battle_action("item")
+			elif game.state.qi >= game.state.active_art_cost() and game.state.skill_cooldown == 0:
+				game._battle_action("skill")
+			elif game.state.turn % 2 == 1:
+				game._battle_action("guard")
+			else:
+				game._battle_action("attack")
+		_check(not game.state.battle_active and game.state.sect_trial_won and game.state.sect_rank == 1, "Packed battle earns unclaimed promotion: " + school)
+		var proof: bool = game.state._trial_art_used if school == "听潮阁" else (game.state._trial_healing > 0 if school == "照野堂" else game.state._trial_guarded_heavy)
+		_check(proof, "Packed trial requires actual school-specific evidence: " + school)
+		_press("稍后领取")
+		game._load()
+		_check(game.state.sect_rank == 1 and game.state.sect_trial_won, "Packed earned promotion survives deferral and reload: " + school)
+		_check(game.world._quest_target_id() == "mentor" and game.quest_label.text.contains("荐记"), "Packed pending promotion retains navigation: " + school)
+		var defense: int = game.state.defense
+		var qi: int = game.state.max_qi
+		var merit: int = game.state.sect_merit
+		game._interact("mentor")
+		_press("领取内门荐记")
+		_check(game.state.sect_rank == 2 and game.state.defense == defense + 1 and game.state.max_qi == qi + 1 and game.state.sect_merit == merit + 3, "Packed promotion grants exact permanent rewards: " + school)
+		_check(game.sect_label.text.contains("内门"), "Packed character panel reflects promoted rank: " + school)
+		var before: Dictionary = game.state.to_dict()
+		game._interact("mentor")
+		_check(_find_button(game.overlay, "开始受试") == null and _find_button(game.overlay, "领取内门荐记") == null, "Packed completed mentor cannot duplicate rewards: " + school)
+		_press("研读武学")
+		_check(_gather_text(game.overlay).contains("内门") and _gather_text(game.overlay).contains("考绩3"), "Packed martial panel displays rank and merit: " + school)
+		game._close_modal()
+		game._load()
+		_check(game.state.to_dict() == before, "Packed promoted state persists without duplication: " + school)
+	game._new_game()
+	game.state.gain_xp(180)
+	game.state.choose_sect("照野堂")
+	game.state.attack = 999
+	game._interact("mentor")
+	_press("开始受试")
+	for step in range(8):
+		if not game.state.battle_active:
+			break
+		game._battle_action("attack")
+	_check(not game.state.sect_trial_won and game.state.sect_rank == 1, "Packed brute-force victory does not earn rank")
+	_press("再试一次")
+	_check(game.state.battle_active and game.state.hp == game.state.max_hp, "Packed failed proof supports a restored retry")
+	game._battle_action("flee")
+	_check(not game.state.battle_active and not game.state.sect_trial_won and game.state.sect_rank == 1, "Packed retreat cannot promote")
+
+func _prepare_companion_chapter(shen: bool) -> void:
+	game._new_game()
+	var s = game.state
+	s.quest_stage = 6
+	s.ending = "守望"
+	s.choose_sect("听潮阁")
+	s.side_stage = 3
+	s.side_choice = "rescue"
+	s.side_reward_claimed = true
+	s.side_found.assign(["boatman", "ledger"])
+	s.side_clues = 2
+	s.chapter_two_stage = 4
+	s.chapter_two_ending = "protect_witness"
+	s.archive_clues.assign(["clerk", "inscription"])
+	s.seal_sequence.assign([2, 0, 1])
+	s.bridge_repaired = true
+	s.level = 5
+	s.xp = 0
+	if shen:
+		s.recruit_companion()
+	game._travel("frostbridge", Vector2(650, 760))
+	game._process(0)
+	game._refresh()
+
+func _test_companion_route(choice: String, shen: bool) -> void:
+	_prepare_companion_chapter(shen)
+	game.state.chapter_two_stage = 3
+	game._interact("bridge_worker")
+	_check(_find_button(game.overlay, "去找旧工册") == null, "Packed personal quest requires chapter completion: " + choice)
+	game._close_modal()
+	game.state.chapter_two_stage = 4
+	await _key(KEY_E)
+	_press("以后再谈")
+	_check(game.state.tangqi_stage == 0 and not game.active_modal, "Packed initial quest offer can be deferred: " + choice)
+	await _key(KEY_E)
+	_press("去找旧工册")
+	game._load()
+	_check(game.state.tangqi_stage == 1 and game.state.xp == 0 and game.world.map_id == "frostbridge", "Packed accepted quest saves without reward: " + choice)
+	_check(game.world._quest_target_id() == "return_sluice", "Packed personal quest points back to sluice: " + choice)
+	game._interact("return_sluice")
+	_check(game.world.map_id == "sluice" and game.world._quest_target_id() == "sluice_cache", "Packed quest uses actual inter-region exit: " + choice)
+	game.world.teleport(Vector2(570, 320))
+	await _key(KEY_E)
+	await _key(KEY_ESCAPE)
+	_check(game.state.tangqi_stage == 1, "Packed notebook dismissal does not collect: " + choice)
+	await _key(KEY_E)
+	_press("收好工册")
+	game._load()
+	_check(game.state.tangqi_stage == 2 and game.world.map_id == "sluice", "Packed notebook collection persists: " + choice)
+	game._interact("sluice_cache")
+	_check(_find_button(game.overlay, "收好工册") == null and _find_button(game.overlay, "静坐调息") != null, "Packed notebook cannot be collected twice: " + choice)
+	game._close_modal()
+	game._interact("exit_frostbridge")
+	_press("前往霜桥驿")
+	game.world.teleport(Vector2(650, 760))
+	await _key(KEY_E)
+	_check(_find_button(game.overlay, "传给学徒") != null and _find_button(game.overlay, "留存原稿") != null, "Packed notebook offers both resolutions: " + choice)
+	_press("再想想")
+	game._load()
+	_check(game.state.tangqi_stage == 2 and game.state.tangqi_choice == "", "Packed decision deferral remains unresolved after reload: " + choice)
+	game._interact("bridge_worker")
+	_press("传给学徒" if choice == "teach" else "留存原稿")
+	_check(game.state.tangqi_stage == 3 and game.state.tangqi_choice == choice and game.state.xp == 50, "Packed personal quest grants exact one-time XP: " + choice)
+	_check(game.state.resources.cloth == (2 if choice == "teach" else 0) and game.state.resources.iron == (2 if choice == "preserve" else 0), "Packed personal quest grants branch-specific materials: " + choice)
+	_press("稍后再说")
+	game._load()
+	_check(not game.state.tangqi_unlocked and game.state.tangqi_stage == 3 and game.state.tangqi_choice == choice, "Packed recruitment deferral persists: " + choice)
+	game._show_journal()
+	_check(_gather_text(game.overlay).contains("尺上旧痕") and _gather_text(game.overlay).contains("邀请唐栖"), "Packed journal retains pending invitation: " + choice)
+	game._close_modal()
+	game._interact("bridge_worker")
+	_press("邀请同行")
+	game._load()
+	await process_frame
+	_check(game.state.tangqi_unlocked and game.state.current_companion() == "唐栖" and game.world.companion_active and game.world.companion_name == "唐栖", "Packed recruitment and follower identity survive reload: " + choice)
+	var before: Dictionary = game.state.to_dict()
+	game._interact("bridge_worker")
+	_check(_find_button(game.overlay, "邀请同行") == null and _find_button(game.overlay, "传给学徒") == null, "Packed completed quest cannot replay rewards: " + choice)
+	game._close_modal()
+	_check(game.state.to_dict() == before, "Packed completed quest revisit is resource-neutral: " + choice)
+	game._show_inventory()
+	await _key(KEY_5)
+	_check(_find_button(game.overlay, "与唐栖同行") != null and (_find_button(game.overlay, "与沈青同行") != null) == shen, "Packed roster contains only recruited companions: " + choice)
+	_press("返回行囊")
+	await _key(KEY_4)
+	_check(not game.active_modal, "Packed original fourth inventory shortcut still closes: " + choice)
+	game._travel("qingwei", Vector2(330, 330))
+	game._process(0)
+	_check(game.world.nearby_name == "沈青", "Packed inactive Shen remains at clinic: " + choice)
+	if not shen:
+		await _key(KEY_E)
+		_press("邀请同行")
+		_check(game.state.current_companion() == "唐栖" and game.state.available_companions() == ["沈青", "唐栖"], "Packed later Shen recruitment preserves active Tang")
+	game._show_inventory()
+	_press("切换阵型")
+	await _key(KEY_5)
+	var hp: int = game.state.hp
+	var qi: int = game.state.qi
+	_press("与沈青同行")
+	game._process(0)
+	await process_frame
+	await process_frame
+	_check(game.state.current_companion() == "沈青" and game.state.hp == hp and game.state.qi == qi, "Packed roster selection preserves resources: " + choice)
+	_check(game.world.nearby_name == "药铺伙计" and game.near_label.text.contains("药铺伙计"), "Packed selection refreshes clinic prompt: " + choice)
+	game._show_inventory()
+	await _key(KEY_5)
+	_press("与唐栖同行")
+	game._save()
+	game._load()
+	game._process(0)
+	await process_frame
+	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
+	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
+	_check(saved is Dictionary and saved.get("version") == 4 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema4 and active party identity: " + choice)
+	game._show_inventory()
+	_press("切换阵型")
+	game._close_modal()
+	game._start_battle("spar")
+	game.state.enemy_hp = 1000
+	game.state.enemy_max_hp = 1000
+	game.state.hp = 1000
+	game.state.max_hp = 1000
+	game.state.qi = 0
+	_check(game.battle_art.companion_active and game.battle_art.companion_name == "唐栖", "Packed combat art follows selected Tang: " + choice)
+	await _key(KEY_I)
+	_check(not game.active_modal and not game.state.select_companion("沈青") and game.state.current_companion() == "唐栖", "Packed combat locks roster and inventory: " + choice)
+	game._battle_action("attack")
+	game._battle_action("attack")
+	_check(game.state.qi == 5 and game.state.battle_log.any(func(line): return line.contains("唐栖") and line.contains("4点伤害")), "Packed Tang support grants distinct damage and qi: " + choice)
+	game._battle_action("flee")
+	game._show_journal()
+	_check(_gather_text(game.overlay).contains("工册已传给学徒" if choice == "teach" else "原稿与水令一同留存"), "Packed journal preserves personal quest ending: " + choice)
+	game._close_modal()
+
+func _press(text: String) -> void:
+	var button := _find_button(game.overlay, text)
+	_check(button != null, "Packed dialogue button exists: " + text)
+	if button != null:
+		button.pressed.emit()
+
+func _find_button(node: Node, text: String) -> Button:
+	if node is Button and node.text == text:
+		return node
+	for child in node.get_children():
+		var button := _find_button(child, text)
+		if button != null:
+			return button
+	return null
+
+func _gather_text(node: Node) -> String:
+	var result := ""
+	if node is Label or node is RichTextLabel:
+		result += node.text
+	for child in node.get_children():
+		result += _gather_text(child)
+	return result
+
+func _key(key: Key) -> void:
+	game._process(0)
+	var event := InputEventKey.new()
+	event.physical_keycode = key
+	event.keycode = key
+	event.pressed = true
+	Input.parse_input_event(event)
+	await process_frame
+	event.pressed = false
+	Input.parse_input_event(event)
