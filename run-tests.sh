@@ -70,3 +70,5 @@ run_checked --headless --path . --script tests/heting_rules_test.gd
 run_checked --headless --path . --script tests/environment_visual_test.gd
 run_checked --headless --path . --script tests/battle_choreography_test.gd
 run_checked --headless --path . --script tests/battle_presentation_ui_test.gd
+
+run_checked --headless --path . --script tests/painted_traveler_asset_test.gd
