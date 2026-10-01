@@ -16,6 +16,14 @@ func run()->void:
 	var foot=Vector2(720,480);var draw:Rect2=Art.drawing_rect(foot)
 	assert((draw.position+Art.FOOT*Art.WIDTH/Art.REGION.size.x).distance_to(foot)<.001)
 	assert(draw.size.x==84 and is_equal_approx(draw.size.x/draw.size.y,Art.REGION.size.x/Art.REGION.size.y))
+	var release_repro=Vector2(720.63916015625,469.580535888672)
+	assert(Art.opacity_for(foot,[release_repro])==.38)
+	assert(Art.opacity_for(foot,[Vector2(770,470)])==.38) # body overlaps at the side
+	assert(Art.opacity_for(foot,[Vector2(780,470)])==1.0)
+	assert(Art.opacity_for(foot,[Vector2(720,400)])==1.0)
+	assert(Art.opacity_for(foot,[Vector2(720,480)])==1.0)
+	assert(Art.opacity_for(foot,[Vector2(720,520)])==1.0)
+	assert(Art.opacity_for(foot,[])==1.0)
 	var app=Scene.instantiate();app.state=NoSave.new();root.add_child(app);await process_frame
 	app._new_game();app._stop_audio();app.audio_on=false;app.world.teleport(Vector2(715,540));await create_timer(.1).timeout
 	assert(app.world.nearby_id=="board" and app.world.interactables.board.pos==foot)
@@ -26,6 +34,14 @@ func run()->void:
 	prompt=app.world._interaction_prompt_rect(foot)
 	assert(not prompt.intersects(Rect2(app.world.player_pos-Vector2(20,62),Vector2(40,70))))
 	assert(not prompt.intersects(Rect2(app.world.companion_pos-Vector2(20,62),Vector2(40,70))))
+	app.world.companion_active=false
+	app.world.teleport(release_repro);await process_frame
+	assert(app.world.player_pos.distance_to(release_repro)<.01)
+	assert(app.world._noticeboard_opacity(foot)==.38 and app.world.nearby_id=="board")
+	app.world.teleport(Vector2(715,540));app.world.companion_pos=release_repro
+	assert(app.world._noticeboard_opacity(foot)==1.0)
+	app.world.companion_active=true
+	assert(app.world._noticeboard_opacity(foot)==.38)
 	app.world.companion_active=false
 	var progress=app.state.to_dict();var before=[]
 	for p in [Vector2(715,540),Vector2(720,460),Vector2(720,480)]:before.append(app.world._can_walk(p))
@@ -38,5 +54,12 @@ func run()->void:
 	for n in app.overlay.find_children("*","RichTextLabel",true,false):words+=n.text
 	assert(words.contains("青苇渡告示") and words.contains("过河不问来处"))
 	await key(KEY_ESCAPE);assert(not app.active_modal and app.state.to_dict()==progress)
+	app.world.teleport(release_repro);await process_frame
+	app._autosave();progress=app.state.to_dict()
+	await key(KEY_E);assert(app.active_modal)
+	await key(KEY_ESCAPE);assert(not app.active_modal and app.state.to_dict()==progress)
+	assert(app.world._noticeboard_opacity(foot)==.38)
+	Input.action_press("move_down");await create_timer(.15).timeout;Input.action_release("move_down")
+	assert(app.world.player_pos.y>480 and app.world._noticeboard_opacity(foot)==1.0)
 	app.queue_free();await create_timer(.25).timeout
-	print("PASS: painted board asset, cached crop/ground anchor, party-visible interaction prompt, unchanged traversal and real E notice interaction");quit()
+	print("PASS: painted board crop/anchor, released-position party occlusion, front/side/absent-party cases, prompt avoidance, unchanged traversal and real E/ESC reading from both sides");quit()
