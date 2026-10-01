@@ -577,7 +577,7 @@ func _test_manual_slots() -> void:
 		_check(store.path_for(id) == "user://hero_slot_%d.json" % id and store.describe(id).status == "empty", "Packed manual slot starts empty at its own path: %d" % id)
 	_check(store.save_slot(game.state, 0) == ERR_INVALID_PARAMETER, "Packed manual-save API cannot overwrite autosave")
 	_check(store.path_for("../escape").is_empty() and store.save_slot(game.state, 4) == ERR_INVALID_PARAMETER, "Packed invalid slot IDs cannot address other paths")
-	_check(_find_button(game, "存档") != null and _find_button(game, "读档") != null, "Packed top-bar save and load buttons are discoverable")
+	_check(_find_button(game, "存卷  F6") != null and _find_button(game, "读卷  F10") != null, "Packed HUD save and load buttons are discoverable")
 	await _key(KEY_F6)
 	_check(game.active_modal and game.modal_actions.size() == 4 and _gather_text(game.overlay).contains("手记三"), "Packed F6 opens all three manual slots and return")
 	await _key(KEY_1)
