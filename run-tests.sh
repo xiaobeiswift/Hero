@@ -95,3 +95,7 @@ run_checked --headless --path . --script tests/painted_rival_test.gd
 run_checked --headless --path . --script tests/ferry_backdrop_test.gd
 
 run_checked --headless --path . --script tests/pause_menu_test.gd
+
+run_checked --headless --path . --script tests/companion_feedback_test.gd
+run_checked --headless --path . --script tests/painted_shen_combat_test.gd
+run_checked --headless --path . --script tests/shen_support_presentation_test.gd

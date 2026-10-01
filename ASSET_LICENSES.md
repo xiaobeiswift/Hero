@@ -25,3 +25,7 @@
 ### 绘制战斗角色与渡口背景（2026-10-01）
 
 主角/蒲横六姿态及渡口月夜背景为本项目原创生成素材；人物经Blender透明卡片整理。准确提示、输入链、固定锚点及使用范围分别见 assets/generated/characters/PAINTED_COMBAT_HERO_PROVENANCE.md、PAINTED_COMBAT_PUHENG_PROVENANCE.md 和 assets/generated/environment/FERRY_BATTLE_PROVENANCE.md。渡口绘画保持原始像素，只在引擎中等比定位与叠加水光。
+
+### 沈青交锋支援（2026-10-01）
+
+本项目沈青方向图作为唯一身份参考，原创生成四种支援姿态，再经Blender同尺度UV卡片整理。来源、完整提示、透明边缘检查、脚底与仅沈青生效的范围见 assets/generated/characters/PAINTED_COMBAT_SHEN_PROVENANCE.md。
