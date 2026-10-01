@@ -24,6 +24,8 @@ var nearby_name: String = ""
 var viewport_rect: Rect2 = Rect2(24, 108, 910, 568)
 var ui_font: Font
 var companion_active: bool = false
+var companion_name:String="沈青"
+var personal_target_id:String=""
 var companion_pos: Vector2 = Vector2(429, 451)
 
 const WORLD_SIZE := Vector2(1600, 1050)
@@ -119,7 +121,7 @@ func change_map(id: String, spawn: Vector2) -> void:
 	queue_redraw()
 
 func get_region_hint() -> String:
-	if map_id=="frostbridge":return "北桥通行，南桥待修；驿馆、碑文与文书房藏着三印的来历。"
+	if map_id=="frostbridge":return ("南北两桥皆可通行。" if bridge_repaired else "北桥通行，南桥待修。")+"驿馆、碑文与文书房藏着三印的来历。"
 	if map_id == "qingwei":
 		return "村东古道通向废闸。" if quest_stage >= 6 else "沿土路拜访村人，寻回渡灯。"
 	match side_stage:
@@ -156,6 +158,8 @@ func teleport(position: Vector2) -> void:
 	queue_redraw()
 
 func get_npc_name(id: String) -> String:
+	if companion_active and companion_name=="沈青" and id=="healer":return "药铺伙计"
+	if companion_active and companion_name=="唐栖" and id=="bridge_worker":return "修桥工位"
 	return String(interactables.get(id, {}).get("name", id))
 
 func _process(delta: float) -> void:
@@ -232,7 +236,7 @@ func _update_nearby() -> void:
 		if distance < closest:
 			closest = distance
 			nearby_id = id
-			nearby_name = "药铺伙计" if id == "healer" and companion_active else interactables[id]["name"]
+			nearby_name = get_npc_name(id)
 
 func _can_walk(p: Vector2) -> bool:
 	if not p.is_finite():
@@ -625,7 +629,7 @@ func _draw_npc(id: String) -> void:
 	var p: Vector2 = interactables[id]["pos"]
 	var robe := Color("8d8163")
 	if id == "healer": robe = Color("c1c4a5")
-	if id == "healer" and companion_active:
+	if id == "healer" and companion_active and companion_name=="沈青":
 		_draw_person(p, Color("9a9676"), false, "villager")
 		return
 	if id == "bandit": robe = Color("8e6853")
@@ -675,6 +679,13 @@ func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> voi
 func _draw_companion() -> void:
 	# A compact travelling healer: pale robe, jade scarf and medicine satchel.
 	draw_set_transform(-camera_pos + companion_pos, 0, Vector2(0.87, 0.87))
+	if companion_name=="唐栖":
+		_draw_person(Vector2.ZERO,Color("82978c"),false,"companion")
+		draw_line(Vector2(-8,-28),Vector2(9,-12),Color("715b43"),3)
+		draw_rect(Rect2(6,-22,6,17),Color("c2a976"))
+		for y in range(-20,-6,3):draw_line(Vector2(6,y),Vector2(9,y),Color("786246"),1)
+		draw_set_transform(-camera_pos)
+		return
 	_draw_person(Vector2.ZERO, Color("cbd0b0"), false, "companion")
 	_poly([Vector2(-7, -28), Vector2(6, -26), Vector2(3, -21), Vector2(-4, -23), Vector2(-8, -13), Vector2(-10, -20)], Color("619483"))
 	draw_line(Vector2(-4, -27), Vector2(10, -13), Color("7c8060"), 1.7, true)
@@ -707,7 +718,7 @@ func _draw_nameplates() -> void:
 		if selected:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
 		var width := 80.0
-		var display_name: String = "药铺伙计" if id == "healer" and companion_active else interactables[id]["name"]
+		var display_name: String = get_npc_name(id)
 		var display_color := Color("e9dfbc") if map_id == "sluice" else C_INK
 		_label(p + Vector2(-width * 0.5, -53), display_name, 13, display_color, width, HORIZONTAL_ALIGNMENT_CENTER, true)
 	var target_id := _quest_target_id()
@@ -762,6 +773,7 @@ func _draw_view_framing() -> void:
 
 func _quest_target_id() -> String:
 	if map_id=="qingwei" and mentor_pending:return "mentor"
+	if interactables.has(personal_target_id):return personal_target_id
 	if map_id=="frostbridge":return chapter_target_id if interactables.has(chapter_target_id) else "chapter_host"
 	if map_id == "sluice":
 		if interactables.has(side_target_id):

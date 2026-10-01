@@ -4,6 +4,7 @@ var phase = 0.0
 var flash = 0.0
 var action = ""
 var companion_active = false
+var companion_name="沈青"
 var region_style = "qingwei"
 
 func _ready() -> void:
@@ -45,7 +46,7 @@ func _draw() -> void:
 	var lunge = sin(flash*PI)*34 if action in ["attack","skill"] else 0.0
 	_draw_fighter(Vector2(229+lunge,274),Color("4f9c8b"),true,phase,flash)
 	if companion_active:
-		_draw_fighter(Vector2(126,266),Color("9cba9d"),true,phase+1,0)
+		_draw_fighter(Vector2(126,266),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,0,companion_name=="唐栖")
 	_draw_fighter(Vector2(721,274),Color("aa7864"),false,phase+2,flash)
 	if flash>0 and action in ["attack","skill"]:
 		var alpha=flash*0.9
@@ -59,7 +60,7 @@ func _draw() -> void:
 		var pos = Vector2(fmod(i*107+phase*9,938),165+sin(i+phase*.4)*68)
 		draw_circle(pos,1.2,Color(0.90,0.75,0.46,0.3+sin(phase+i)*0.2))
 
-func _draw_fighter(p:Vector2,robe:Color,facing_right:bool,t:float,pulse:float) -> void:
+func _draw_fighter(p:Vector2,robe:Color,facing_right:bool,t:float,pulse:float,short_ruler:bool=false) -> void:
 	var dir = 1 if facing_right else -1
 	var bob = sin(t*2)*1.5
 	draw_set_transform(p+Vector2(0,bob))
@@ -78,7 +79,7 @@ func _draw_fighter(p:Vector2,robe:Color,facing_right:bool,t:float,pulse:float) -
 	draw_circle(Vector2(-5,-93),7,Color("202e2d"))
 	draw_line(Vector2(-10,-82),Vector2(11,-82),Color("283a35"),5)
 	draw_circle(Vector2(5*dir,-77),1.4,Color("1e302e"))
-	draw_line(Vector2(41*dir,-40),Vector2(86*dir,-76),Color("baa57b") if region_style=="training" and not facing_right else Color("dbdfc5"),4)
+	draw_line(Vector2(41*dir,-40),Vector2(63*dir,-47) if short_ruler else Vector2(86*dir,-76),Color("baa57b") if short_ruler or (region_style=="training" and not facing_right) else Color("dbdfc5"),5 if short_ruler else 4)
 	draw_line(Vector2(38*dir,-46),Vector2(46*dir,-32),Color("c4a464"),5)
 	if facing_right:
 		draw_colored_polygon(PackedVector2Array([Vector2(-13,-63),Vector2(-33,-53),Vector2(-47,-10),Vector2(-22,-17)]),robe.darkened(.2))

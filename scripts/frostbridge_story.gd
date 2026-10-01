@@ -67,6 +67,8 @@ func finish(choice:String) -> void:
 	host._close_modal()
 	if success:host._toast("第二章完成 · 修为 +100、铜钱 +65。霜桥驿留下了你的选择。")
 func bridge() -> void:
+	if host.state.bridge_repaired and host.state.chapter_two_stage>=4:
+		host.companion_story.bridge();return
 	if host.state.bridge_repaired:
 		host._modal("唐栖 · 修桥匠","支线 / 一桥两岸","南桥已修好。唐栖把刨子收进布包：‘走近路的人，也别忘了是谁把木头一块块搭上去的。’\n\n两岸之间已多出一条可通行的近路。")
 		return

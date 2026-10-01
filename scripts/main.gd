@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
 const ChapterStory = preload("res://scripts/frostbridge_story.gd")
 const Workshop = preload("res://scripts/workshop_ui.gd")
@@ -17,6 +18,7 @@ var state = StateModel.new()
 var workshop
 var chapter_story
 var sect_progress
+var companion_story
 var world
 var world_view: SubViewport
 var font: Font
@@ -71,6 +73,7 @@ func _ready() -> void:
 	workshop=Workshop.new(self)
 	chapter_story=ChapterStory.new(self)
 	sect_progress=SectProgress.new(self)
+	companion_story=CompanionStory.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -256,9 +259,9 @@ func _process(delta: float) -> void:
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
 	state.position = world.player_pos
-	if world.nearby_id != last_near:
-		last_near = world.nearby_id
-		near_label.text = "[ E ]  " + world.nearby_name if last_near != "" else "WASD / 方向键行走，靠近人物或物品按 E 交互"
+	if world.nearby_id+"|"+world.nearby_name != last_near:
+		last_near = world.nearby_id+"|"+world.nearby_name
+		near_label.text = "[ E ]  " + world.nearby_name if not world.nearby_id.is_empty() else "WASD / 方向键行走，靠近人物或物品按 E 交互"
 	if toast_time > 0:
 		toast_time -= delta
 		if toast_time <= 0: status_label.text = "⚠ 自动存档失败，请按 F5 重试。" if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
@@ -324,6 +327,9 @@ func _refresh() -> void:
 	if state.chapter_two_stage>0 or (state.quest_stage>=6 and state.side_stage>=3):
 		quest_label.text=chapter_story.quest_title()
 		hint_label.text=chapter_story.quest_hint()
+	if companion_story.pending():
+		quest_label.text="尺上旧痕"
+		hint_label.text=companion_story.hint()
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
@@ -441,7 +447,7 @@ func _healer_dialogue() -> void:
 	if state.quest_stage == 2 and state.herbs > 0:
 		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，记得守势。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
 	else:
-		_modal("沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散可恢复 45 点气血，战斗中使用也算一回合。",[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]])
+		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散可恢复 45 点气血，战斗中使用也算一回合。",[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]])
 
 func _buy_medicine() -> void:
 	if state.coins < 12:
@@ -494,17 +500,17 @@ func _shrine_dialogue() -> void:
 
 func _show_inventory() -> void:
 	if current_screen == "battle": return
-	var companion_text = "沈青 · " + state.formation if state.companion_unlocked else "暂无同行人（调查药铺后可邀请沈青）"
+	var companion_text = state.current_companion()+" · "+state.formation if not state.current_companion().is_empty() else "暂无同行人（调查药铺后可邀请沈青）"
 	var body = "[color=#d3b276]随身物品与装备[/color]\n%s   ·   %s   ·   铜钱 %d 文\n回春散 ×%d（恢复45，照野堂55）   ·   青穗草 ×%d\n\n[color=#d3b276]武学[/color]\n普攻积攒2气，守势减伤并回复1气。\n按 K 查看当前绝招、门派武学与修习心得。\n\n同行：%s\n门派：%s   ·   历战 %d 次" % [state.equipment,state.armor,state.coins,state.medicine,state.herbs,companion_text,state.sect,state.victories]
-	_modal("行囊与修行", "旅人 / 随身物品",body,[["回春散",_use_medicine],["切换阵型",_switch_formation],["青钢剑 · 45文",_buy_sword],["返回江湖",_close_modal]],true)
+	_modal("行囊与修行", "旅人 / 随身物品",body,[["回春散",_use_medicine],["切换阵型",_switch_formation],["青钢剑 · 45文",_buy_sword],["返回江湖",_close_modal],["同行册",companion_story.roster]],true)
 
 func _switch_formation() -> void:
-	if not state.companion_unlocked:
+	if state.current_companion().is_empty():
 		_toast("尚无同行人。调查药铺后，可再次与沈青交谈。")
 		return
 	state.set_formation("护后" if state.formation=="并肩" else "并肩")
 	_show_inventory()
-	_toast("阵型改为"+state.formation+"："+("沈青每两次出招助攻。" if state.formation=="并肩" else "沈青照应后路，来袭伤害减少2。"))
+	_toast("阵型改为"+state.formation+"："+state.companion_description())
 
 func _buy_sword() -> void:
 	if state.buy_equipment():
@@ -531,6 +537,7 @@ func _show_journal() -> void:
 	if state.quest_stage>=6:
 		body = "[color=#d3b276]主线 · 渡口失灯：已完成[/color]\n证据归处：%s  /  修行方向：%s\n\n[color=#d3b276]江湖行纪 · 废闸疑云[/color]\n%s 船工的证言（南岸）\n%s 传令人的账页（东北）\n%s 闸首罗沉与伪造水令（东南）\n\n先行之路：%s" % [state.ending,state.sect,"✓" if state.side_found.has("boatman") else "◇","✓" if state.side_found.has("ledger") else "◇","✓" if state.side_stage>=3 else "◇","先救船工" if state.side_choice=="rescue" else ("先追账页" if state.side_choice=="pursuit" else "尚未决定")]
 	if state.chapter_two_stage>0:body=chapter_story.journal()
+	if state.chapter_two_stage>=4:body+=companion_story.journal()
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
@@ -600,7 +607,8 @@ func _start_battle(kind: String) -> void:
 		return
 	enemy_title.text = state.enemy_name
 	battle_title.text = "南 庭  ·  验 艺" if kind=="sect_trial" else ("霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"))
-	battle_art.companion_active = state.companion_unlocked
+	battle_art.companion_active = not state.current_companion().is_empty()
+	battle_art.companion_name=state.current_companion()
 	battle_art.region_style="training" if kind=="sect_trial" else state.map_id
 	battle_layer.visible = true
 	battle_art.flash = 0
@@ -739,6 +747,8 @@ func _finish_sluice() -> void:
 	if not awarded: _toast("此机缘奖励已领取，不会重复结算。")
 
 func _sluice_cache_dialogue() -> void:
+	if state.tangqi_stage==1:
+		companion_story.notebook();return
 	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。",[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
 
 func _show_map() -> void:
@@ -781,7 +791,9 @@ func _show_workshop() -> void:
 
 func _sync_world_state() -> void:
 	world.quest_stage = state.quest_stage
-	world.companion_active = state.companion_unlocked
+	world.companion_active = not state.current_companion().is_empty()
+	world.companion_name=state.current_companion()
+	world.personal_target_id=companion_story.target_id()
 	world.mentor_pending=state.sect_trial_won and state.sect_rank==1
 	world.chapter_stage=state.chapter_two_stage
 	world.chapter_ending=state.chapter_two_ending
