@@ -1,0 +1,66 @@
+{
+	"cases": [
+		{
+			"draw_calls_mean": 945.0,
+			"editor_binary": true,
+			"frames": 88,
+			"max_ms": 115.169666666667,
+			"method": "gl_compatibility",
+			"p95_ms": 66.6666666666667,
+			"painted_water": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.026021,
+			"texture_memory_bytes": 74088897.0,
+			"wall_fps": 21.8578094848487,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 945.0,
+			"editor_binary": true,
+			"frames": 91,
+			"max_ms": 69.805,
+			"method": "gl_compatibility",
+			"p95_ms": 54.1666666666667,
+			"painted_water": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.03057,
+			"texture_memory_bytes": 74088897.0,
+			"wall_fps": 22.5774518244318,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 945.0,
+			"editor_binary": true,
+			"frames": 89,
+			"max_ms": 115.839333333333,
+			"method": "gl_compatibility",
+			"p95_ms": 58.9433333333333,
+			"painted_water": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.035727,
+			"texture_memory_bytes": 74088897.0,
+			"wall_fps": 22.053027868337,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 945.0,
+			"editor_binary": true,
+			"frames": 47,
+			"max_ms": 144.072333333334,
+			"method": "gl_compatibility",
+			"p95_ms": 133.333333333333,
+			"painted_water": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 4.118134,
+			"texture_memory_bytes": 74088897.0,
+			"wall_fps": 11.4129360530765,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		}
+	],
+	"scope": "Stationary village view at(1020,643), same HUD and viewport. Water material only toggled in ABBA order. Real wall clock, no Movie Maker. Short shared-host llvmpipe diagnostic, not stable hardware performance or action/input latency.",
+	"source_base": "3ee7d27 + painted water"
+}
