@@ -307,7 +307,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 6 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema6 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 7 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema7 and active party identity: " + choice)
 	game._show_inventory()
 	_press("切换阵型")
 	game._close_modal()
@@ -498,7 +498,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 6 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema6 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 7 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema7 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -577,7 +577,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 6 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 7 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
