@@ -72,3 +72,5 @@ run_checked --headless --path . --script tests/battle_choreography_test.gd
 run_checked --headless --path . --script tests/battle_presentation_ui_test.gd
 
 run_checked --headless --path . --script tests/painted_traveler_asset_test.gd
+
+run_checked --headless --path . --script tests/render_visibility_test.gd
