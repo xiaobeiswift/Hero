@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const Noticeboard=preload("res://scripts/painted_noticeboard.gd")
 const Civilians=preload("res://scripts/painted_village_civilians.gd")
 const FerryProps=preload("res://scripts/qingwei_ferry_props.gd")
 const WaterMaterial=preload("res://scripts/qingwei_water_material.gd")
@@ -19,6 +20,7 @@ signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
 var ui_scale:float=1.0
+var painted_board_enabled:bool=true
 var painted_props_enabled:bool=true
 var painted_water_enabled:bool=true
 var render_culling_enabled:bool=true
@@ -388,13 +390,12 @@ func _draw() -> void:
 	_draw_world_caption(Vector2(1190, 180), "东  北  苇  岸", "REEDBANK PATH")
 	_draw_world_caption(Vector2(1130, 890), "旧  渡  口", "THE OLD FERRY")
 	_draw_training_ground()
-	_draw_board(Vector2(720, 480))
 	_draw_herb(Vector2(1260, 350))
 	_draw_old_ferry()
 	if _world_rect_visible(Rect2(1360,850,240,190)):Islet.draw(self)
 	_draw_memorial()
 	_draw_camp()
-	var layers: Array[Dictionary] = []
+	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"}]
 	for b in buildings:
 		layers.append({"y": b["pos"].y + b["size"].y, "kind": "building", "data": b})
 	for tree in trees:
@@ -409,6 +410,7 @@ func _draw() -> void:
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
+			"noticeboard": _draw_board(Vector2(720,480))
 			"building": _draw_building(item["data"])
 			"tree": _draw_tree(item["data"])
 			"npc": _draw_npc(item["id"])
@@ -686,7 +688,10 @@ func _draw_training_ground() -> void:
 	draw_line(Vector2(563, 717), Vector2(616, 717), Color("8a815c"), 4)
 
 func _draw_board(p: Vector2) -> void:
-	if not _world_rect_visible(Rect2(p-Vector2(42,70),Vector2(84,90))):return
+	if not _world_rect_visible(Rect2(p-Vector2(44,74),Vector2(88,94))):return
+	if painted_board_enabled:
+		_ellipse(p+Vector2(1,2),Vector2(31,6),Color(.1,.2,.16,.18))
+		if Noticeboard.draw(self,p):return
 	_ellipse(p + Vector2(5, 3), Vector2(29, 7), Color(0.2, 0.3, 0.23, 0.13))
 	for x in [-20, 20]:
 		draw_line(p + Vector2(x, 0), p + Vector2(x, -52), Color("687255"), 4)
@@ -829,6 +834,28 @@ func _draw_lantern(p: Vector2, scale_factor: float) -> void:
 	draw_line(q - Vector2(5, -10) * scale_factor, q + Vector2(5, 10) * scale_factor, Color("82734d"), 2)
 	draw_line(q + Vector2(0, 10) * scale_factor, q + Vector2(0, 18) * scale_factor, Color("b48f52"), 1.5)
 
+func _interaction_prompt_rect(target:Vector2)->Rect2:
+	# Keep the local action prompt near its target without covering party bodies.
+	var size=Vector2(72,23)
+	var view=Rect2(camera_pos+Vector2(8,8),viewport_rect.size-Vector2(16,16))
+	var bodies=[Rect2(player_pos-Vector2(20,62),Vector2(40,70))]
+	if companion_active:bodies.append(Rect2(companion_pos-Vector2(20,62),Vector2(40,70)))
+	var best=Rect2(target+Vector2(-36,16),size)
+	var best_score=INF
+	var offsets=[Vector2(-36,16),Vector2(48,8),Vector2(-120,8),Vector2(-36,-106)]
+	for i in range(offsets.size()):
+		var position:Vector2=target+offsets[i]
+		position.x=clampf(position.x,view.position.x,view.end.x-size.x)
+		position.y=clampf(position.y,view.position.y,view.end.y-size.y)
+		var candidate=Rect2(position,size)
+		var score=float(i)
+		for body:Rect2 in bodies:
+			if candidate.intersects(body):score+=1000
+		for reserved:Rect2 in hud_exclusion_rects:
+			if candidate.intersects(Rect2(reserved.position+camera_pos,reserved.size)):score+=20
+		if score<best_score:best=candidate;best_score=score
+	return best
+
 func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
@@ -854,7 +881,7 @@ func _draw_nameplates() -> void:
 		var label_text := "E  " + ("采集" if (nearby_id == "herb" or nearby_id.begins_with("frost_")) else "前往" if nearby_id in ["exit_sluice", "return_village", "exit_frostbridge", "return_sluice"] else "查看" if nearby_id in ["board", "shrine", "sluice_cache"] else "交谈")
 		if nearby_id in ["reed_cross","reed_return"]:label_text="E  轻身"
 		elif nearby_id=="reed_relic":label_text="E  查看"
-		var r := Rect2(p + Vector2(-36, 16), Vector2(72, 23))
+		var r := _interaction_prompt_rect(p)
 		draw_style_box(_round_box(Color("294942"), 5), r)
 		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)
 
