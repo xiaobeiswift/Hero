@@ -6,7 +6,7 @@ The unchanged generated directional source is 1774×887 RGBA. Four separately au
 
 Blender transparent UV cards map the robe/apron and independently sampled boots into a deterministic eight-frame contact cycle. The body has a restrained bob; feet alternate contact and lift. Runtime atlas is 2048×1024 RGBA, eight columns and four rows front/right/back/left, 256px cells, fixed foot anchor (128,241). All32 cells match the rendered singles exactly, all four-pixel cell borders are transparent, and opposed contact frames differ. Measurements are in `tests/tang_walk_pixel_qa.json`.
 
-This is a painted cutout motion pass. Arms, apron and hair do not have a complete skeletal/cloth rig. Side boot overlaps need continued motion review. Gameplay position, collision, formation, stats and save format remain independent of the artwork. This asset covers exploration/following; Tang's combat support retains its previous renderer.
+This is a painted cutout motion pass. Arms, apron and hair do not have a complete skeletal/cloth rig. Side boot overlaps need continued motion review. Gameplay position, collision, formation, stats and save format remain independent of the artwork. This asset covers exploration/following; combat support uses its own separate art and renderer, documented in PAINTED_COMBAT_TANG_PROVENANCE.md.
 
 The original source, exact UV card definitions, reproducible Blender script, editable scene and32 individual frames are retained with the project authoring files. Only the runtime atlas/helper are required to play.
 
