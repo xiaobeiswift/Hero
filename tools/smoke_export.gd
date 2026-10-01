@@ -1277,7 +1277,7 @@ func _test_village_finish_pack()->void:
 	_check(not game.world._can_walk(Vector2(998,484)) and not game.world._can_walk(Vector2(1540,831)),"Packed painted pond and skiff do not create false routes")
 	var before=game.state.to_dict();var position:Vector2=game.world.player_pos
 	await _key(KEY_EQUAL)
-	_check(game.view_zoom==1.25 and game.world_view.size==Vector2i(1024,640),"Packed plus key enters closer exploration view")
+	_check(game.view_zoom==1.25 and game.world.viewport_rect.size==Vector2(1024,640),"Packed plus key enters closer logical exploration view")
 	_check(game.state.to_dict()==before and game.world.player_pos==position,"Packed display choice leaves progress and world position intact")
 	await _key(KEY_EQUAL)
 	_check(game.view_zoom==1.6 and game.world.viewport_rect.size==Vector2(800,500),"Packed detailed view uses correct camera extent")
