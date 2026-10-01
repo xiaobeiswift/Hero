@@ -25,7 +25,7 @@ func fight()->void:
  for i in range(120):
   if not app.state.battle_active:break
   if app.state.hp<45 and app.state.medicine>0:app._battle_action("item")
-  elif app.state.turn%2==1:
+  elif bool(app.state.Patterns.phase(app.state.battle_kind,app.state.turn).get("heavy",app.state.turn%2==1)):
    if app.state.qi>=app.state.active_art_cost() and app.state.skill_cooldown==0:app._battle_action("skill")
    else:app._battle_action("guard")
   else:app._battle_action("attack")
@@ -61,7 +61,7 @@ func _run()->void:
   interact("chapter_host");choose()
   interact("chapter_archive");choose(2);choose(0);choose(1)
   choose();fight()
-  interact("chapter_host");choose(1)
+  interact("chapter_host");choose(0 if school==0 else 1)
   check(app.state.chapter_two_stage==4,"Full archive story resolved")
   interact("frost_timber");choose()
   interact("bridge_worker");choose()
@@ -72,6 +72,27 @@ func _run()->void:
   interact("exit_frostbridge");choose()
   interact("bridge_worker");choose(school%2);choose()
   check(app.state.tangqi_unlocked and app.state.current_companion()=="唐栖","Natural chapter rewards unlock complete personal quest")
+  # Learn both advanced arts from earned promotion/deed merit, then use a real build.
+  interact("return_sluice");interact("return_village")
+  interact("mentor");choose();choose(1);choose();choose(2);choose();choose();choose();choose();choose()
+  check(app.state.learned_arts.size()==2 and app.state.sect_merit==0,"Actual story deeds fund both advanced arts without injected merit")
+  app._close_modal();app._show_martials();choose(3)
+  check(app.state.equipped_art==app.state.school_art_ids()[3],"Advanced focus art equipped through real four-move menu")
+  interact("exit_sluice");choose();interact("exit_frostbridge");choose();interact("exit_mistwood");choose()
+  check(app.state.map_id=="mistwood","Natural journey enters fourth region")
+  interact("mist_rain_gauge");choose();interact("mist_basin");choose()
+  if school==0:
+   interact("mist_scout");choose(2)
+  elif school==1:
+   app._show_workshop();choose(3);choose();choose(2);app._close_modal()
+   interact("mist_scout");choose(1)
+  else:
+   interact("mist_scout");choose();fight()
+  check(not app.state.mist_approach.is_empty(),"All three patrol routes work using actual earlier choices and earned materials")
+  interact("mist_stone_gauge");choose();interact("mist_camp");choose()
+  interact("mist_gate");choose();fight()
+  interact("mist_guide");choose(school%2)
+  check(app.state.mist_stage==4,"Third chapter completed with natural progression and advanced art")
   app._save();var before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before,"Complete organic journey round-trips local save")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
