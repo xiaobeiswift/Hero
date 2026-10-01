@@ -55,6 +55,9 @@ func decision()->void:
 func choose(id:String)->void:
 	if host.state.choose_shen_care(id):
 		host._autosave();host._refresh();draft()
+	elif not host.state.battle_active and host.state.shen_care_stage==4 and host.state.shen_care_choice==id and host.state.ShenCare.CHOICES.has(id):
+		# Keeping an existing draft is navigation, not another state mutation.
+		draft()
 func draft()->void:
 	var text="“先让愿意上岸的人，真有个能停下来的地方。”\n\n轮值会在药棚照看行装、联系替班；能否再出工，留给本人和复诊时商议。外埠船只仍须等靠岸再来。" if host.state.shen_care_choice=="shore" else "“有些人不到药铺，并不是他们不需要人问。”\n\n轮值船工会随短渡探问伤者，留下求助的去处；遇上需要歇工的人，再联系送回岸上。旧药棚仍可歇脚，暂时没有固定照看。"
 	host._modal("沈青","药箱之外 / 未贴出的照护约",text+"\n\n这张约只写轮值办法，不写病人的姓名与伤情。\n\n到村中告示牌张贴后得40修为，并启用：\n"+benefit()+"\n张贴前还可回来改议。",[["带去告示牌",host._close_modal],["重新商议",decision],["先去调息",host._healer_dialogue]],true)
