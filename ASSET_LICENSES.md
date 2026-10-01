@@ -49,3 +49,7 @@
 ### 旧渡口布棚（2026-10-01）
 
 项目环境图集仅作材质与视角参考，独立生成布棚，保留透明原图并由引擎缓存裁切。来源、摘要、脚底与静态/遮挡范围见 assets/generated/environment/CAMP_SHELTER_PROVENANCE.md；篝火仍用项目原创程序动画。
+
+### 青苇渡竹丛（2026-10-01）
+
+项目环境图集仅作风格参考，原创生成独立竹丛，PNG原样保存；缓存纹理与小幅四边形变形保留根部位置。完整提示、原始尺寸、摘要与整丛轻摆限制见 assets/generated/environment/BAMBOO_PROVENANCE.md。

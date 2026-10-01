@@ -109,3 +109,5 @@ run_checked --headless --path . --script tests/village_civilians_test.gd
 run_checked --headless --path . --script tests/noticeboard_art_test.gd
 
 run_checked --headless --path . --script tests/camp_shelter_test.gd
+
+run_checked --headless --path . --script tests/painted_bamboo_test.gd
