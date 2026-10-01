@@ -50,3 +50,5 @@ run_checked --headless --path . --script tests/local_save_slots_test.gd
 run_checked --headless --path . --script tests/save_slots_ui_test.gd
 
 run_checked --headless --path . --script tests/audit_manual_save_ui_test.gd -- --exercise-stale-callback-replay
+
+run_checked --headless --path . --script tests/portrait_ui_test.gd
