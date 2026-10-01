@@ -53,3 +53,7 @@
 ### 青苇渡竹丛（2026-10-01）
 
 项目环境图集仅作风格参考，原创生成独立竹丛，PNG原样保存；缓存纹理与小幅四边形变形保留根部位置。完整提示、原始尺寸、摘要与整丛轻摆限制见 assets/generated/environment/BAMBOO_PROVENANCE.md。
+
+### 听雨茶肆桌凳（2026-10-01）
+
+项目环境图集作为材质/视角参考，独立生成一组桌凳与茶器，透明原图保持不变。裁切、脚底、原始提示和范围见 assets/generated/environment/TEA_TABLE_PROVENANCE.md。
