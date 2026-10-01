@@ -12,7 +12,8 @@
 - `audit_second_region_test.gd`：142 断言通过
 - `economy_test.gd`：63 断言通过
 - `workshop_ui_test.gd`：26 断言通过
-- 合计：512 断言通过
+- `chapter_rules_test.gd`：64个独立下一章规则断言通过
+- 此模型提交合计：576 断言（新地图/剧情UI尚未包含）
 - `main.gd --check-only`：通过
 
 关键覆盖：
