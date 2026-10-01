@@ -118,6 +118,8 @@ func _run() -> void:
 	await _test_visual_runtime()
 	await _test_painted_hud_pack()
 	await _test_party_inventory_pack()
+	print("Retained party/inventory pack coverage: %d checks"%checks)
+	_test_painted_combat_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1161,3 +1163,33 @@ func _test_party_inventory_pack()->void:
 	_check(game.state.formation=="护后" and _gather_text(game.overlay).contains("护后"),"Packed structured inventory retains formation action and current display")
 	await _key(KEY_4)
 	_check(not game.active_modal,"Packed fourth inventory shortcut still returns to exploration")
+
+func _test_painted_combat_pack()->void:
+	var hero=load("res://scripts/painted_battle_hero.gd")
+	var rival=load("res://scripts/painted_battle_puheng.gd")
+	var plate=load("res://scripts/ferry_battle_backdrop.gd")
+	_check(hero!=null and rival!=null and plate!=null,"Packed painted combat helpers retained")
+	if hero==null or rival==null or plate==null:return
+	for helper in [hero,rival]:
+		_check(ResourceLoader.exists(helper.PATH) and helper.texture_for("idle").atlas.get_size()==Vector2(1536,1024),"Packed six-pose combat atlas retained")
+		for name in helper.POSES:
+			var i:int=helper.POSES[name]
+			_check(helper.texture_for(name).region==Rect2((i%3)*512,(i/3)*512,512,512),"Packed combat crop: "+name)
+		var foot=Vector2(229,274)
+		_check((helper.drawing_rect(foot,208).position+helper.FOOT*(208.0/512.0)).distance_to(foot)<.001,"Packed combat pose keeps fixed foot")
+		_check(helper.texture_for("idle")==helper.texture_for("idle"),"Packed combat crops are cached")
+	_check(ResourceLoader.exists(plate.PATH) and plate.texture()!=null,"Packed original ferry painting retained")
+	var rect:Rect2=plate.cover_rect(plate.texture().get_size(),Vector2(938,plate.FIGHTING_HEIGHT))
+	var deck_y=rect.position.y+567.0*rect.size.y/plate.texture().get_height()
+	_check(deck_y<274 and 274-deck_y<40 and plate.FIGHTING_HEIGHT==356,"Packed scenery fighting plane supports unchanged actor feet")
+	_check(plate.applies("qingwei") and not plate.applies("sluice") and not plate.applies("frostbridge") and not plate.applies("mistwood"),"Packed regional backdrop scope remains exact")
+	game._new_game();game._start_battle("training")
+	_check(game.battle_art.uses_painted_enemy() and game.battle_art.enemy_identity==game.state.enemy_name,"Packed battle connects Pu Heng identity to painted rival")
+	_check(game.battle_art.painted_hero_enabled and game.battle_art.painted_enemy_enabled and game.battle_art.painted_backdrop_enabled,"Packed combat presentation enabled by default")
+	for row in [[{},"idle"],[{"windup":.7},"windup"],[{"strike":.8},"strike"],[{"guard":.8},"guard"],[{"recoil":.8},"hurt"],[{"defeat":.8},"kneel"]]:
+		_check(hero.pose_for(row[0])==row[1] and rival.pose_for(row[0])==row[1],"Packed accepted pose mapping: "+row[1])
+	for identity in ["闸首罗沉","岑远","蒲横的徒弟"]:
+		game.battle_art.enemy_identity=identity
+		_check(not game.battle_art.uses_painted_enemy(),"Packed rival does not impersonate another identity: "+identity)
+	game.battle_art.enemy_identity=game.state.enemy_name
+	game._battle_action("flee");game._close_modal()
