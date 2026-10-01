@@ -48,7 +48,7 @@ func _run() -> void:
 	var all_text=""
 	for child in game.overlay.get_children():
 		for part in child.get_children():
-			if part is RichTextLabel:all_text+=part.text
+			if (part is Label or part is RichTextLabel) and part.is_visible_in_tree():all_text+=part.text
 	_check(all_text.contains("轻纱内甲") and all_text.contains("精锻青钢剑"),"Inventory reflects crafted gear")
 	game._close_modal()
 	game._start_battle("training")
