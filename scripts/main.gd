@@ -637,6 +637,7 @@ func _start_battle(kind: String) -> void:
 		_toast("此刻尚不满足交锋条件。")
 		return
 	enemy_title.text = state.enemy_name
+	battle_art.enemy_identity=state.enemy_name
 	battle_title.text = "南 庭  ·  验 艺" if kind=="sect_trial" else ("霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"))
 	if kind.begins_with("mist_"):battle_title.text="雾 竹 坡  ·  听 雨"
 	battle_art.companion_active = not state.current_companion().is_empty()

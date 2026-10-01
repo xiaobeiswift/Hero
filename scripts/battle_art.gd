@@ -5,6 +5,7 @@ extends Control
 signal presentation_finished
 signal impact_presented(target: String, amount: int)
 
+const PaintedPuHeng=preload("res://scripts/painted_battle_puheng.gd")
 const PaintedHero=preload("res://scripts/painted_battle_hero.gd")
 const ACTION_DURATION: float = 1.34
 const FINISH_DURATION: float = 1.18
@@ -12,6 +13,8 @@ const HERO_HOME = Vector2(229, 274)
 const ENEMY_HOME = Vector2(721, 274)
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
 var painted_hero_enabled:bool=true
+var painted_enemy_enabled:bool=true
+var enemy_identity:String=""
 var phase: float = 0.0
 var flash: float = 0.0
 var action: String = ""
@@ -159,6 +162,12 @@ func _pose(enemy: bool = false) -> Dictionary:
 			p["defeat"] = _ease(0.43,1.06,t)
 	return p
 
+func uses_painted_enemy()->bool:
+	return painted_enemy_enabled and enemy_identity in ["蒲横","蒲横 · 切磋","蒲横 · 河帮执事"]
+
+func enemy_visual_pose()->String:
+	return PaintedPuHeng.pose_for(_pose(true))
+
 func hero_visual_pose()->String:
 	return PaintedHero.pose_for(_pose())
 
@@ -183,7 +192,7 @@ func _draw() -> void:
 			support["strike"] = _pulse(0.36,0.46,0.66,action_time)
 			support["x"] = float(support["strike"])*35.0
 		_draw_fighter(Vector2(126+float(support.x),266),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,support,companion_name=="唐栖",0.90,0.91)
-	_draw_fighter(enemy_pos, Color("aa7864"), false, phase+2, enemy)
+	_draw_fighter(enemy_pos, Color("aa7864"), false, phase+2, enemy,false,1.0,1.0,"enemy")
 	_draw_fighter(hero_pos, Color("4f9c8b"), true, phase, hero,false,1.0,1.0,"hero")
 	if _presenting:
 		_draw_action_effects(hero_pos, enemy_pos)
@@ -240,10 +249,10 @@ func _draw_fighter(p: Vector2, robe: Color, facing_right: bool, t: float, pose: 
 	robe.a = alpha
 	draw_set_transform(p,0.0,Vector2(actor_scale,actor_scale))
 	_ellipse(Vector2(0,3),Vector2(36+strike*13,7),Color(0.02,0.06,0.07,0.42*alpha))
-	if painted_hero_enabled and actor_id=="hero":
+	if (painted_hero_enabled and actor_id=="hero") or (uses_painted_enemy() and actor_id=="enemy"):
 		# Key poses already contain anatomical lean; retain only subtle stage breathing.
 		draw_set_transform(p+Vector2(0,bob),dir*(float(pose.get("lean",0))-recoil*.10)*.25,Vector2.ONE*actor_scale)
-		var drawn=PaintedHero.draw(self,Vector2.ZERO,pose,alpha)
+		var drawn=PaintedHero.draw(self,Vector2.ZERO,pose,alpha) if actor_id=="hero" else PaintedPuHeng.draw(self,Vector2.ZERO,pose,alpha)
 		draw_set_transform(Vector2.ZERO)
 		if drawn:return
 	draw_set_transform(p+Vector2(0,bob+defeat*17),dir*lean,Vector2(dir*actor_scale,actor_scale))
