@@ -56,3 +56,5 @@ run_checked --headless --path . --script tests/portrait_ui_test.gd
 run_checked --headless --path . --script tests/shen_care_rules_test.gd
 
 run_checked --headless --path . --script tests/shen_care_ui_test.gd
+
+run_checked --headless --path . --script tests/lightness_rules_test.gd
