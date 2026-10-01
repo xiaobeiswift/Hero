@@ -95,6 +95,19 @@ func _run()->void:
   check(app.state.mist_stage==4,"Third chapter completed with natural progression and advanced art")
   app._save();var before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before,"Complete organic journey round-trips local save")
+  # Complete Shen's follow-up using existing roads and earned party, without spending supplies.
+  var saved_coins=app.state.coins
+  interact("return_frostbridge");interact("return_sluice");interact("return_village")
+  interact("healer");choose(3);choose()
+  check(app.state.shen_care_stage==1,"Natural journey discovers and accepts Shen follow-up")
+  interact("exit_sluice");choose();interact("stranded_boatman");choose()
+  interact("sluice_cache");choose();interact("return_village")
+  interact("healer");choose(3);choose(school%2);choose()
+  interact("board");choose();app._close_modal()
+  check(app.state.shen_care_stage==5 and app.state.shen_care_choice==("shore" if school%2==0 else "mobile"),"Natural journey completes care-pact branch")
+  check(app.state.coins==saved_coins and app.state.current_companion()=="唐栖","Care quest needs no purchase or forced follower change")
+  app._save();before=app.state.to_dict();app.state.reset_game();app._load()
+  check(app.state.to_dict()==before,"Care pact round-trips after full journey")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
  app._stop_audio();await create_timer(0.25).timeout;app.queue_free();await process_frame
  if failures==0:print("PASS: %d full fresh-start journey checks across three schools" % checks)
