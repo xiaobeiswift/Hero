@@ -5,6 +5,7 @@ extends RefCounted
 const SAVE_VERSION: int = 1
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
+const Chapter = preload("res://scripts/chapter_rules.gd")
 const Items = preload("res://scripts/item_catalog.gd")
 const Economy = preload("res://scripts/economy_rules.gd")
 const Arts = preload("res://scripts/martial_catalog.gd")
@@ -29,6 +30,11 @@ var victories: int = 0
 var companion_unlocked: bool = false
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
+var chapter_two_stage:int=0
+var archive_clues:Array[String]=[]
+var seal_sequence:Array[int]=[]
+var chapter_two_ending:String=""
+var bridge_repaired:bool=false
 var armor: String = "粗布行衣"
 var resources: Dictionary = {"iron":0,"timber":0,"cloth":0,"herb":0}
 var gathered_nodes: Array[String] = []
@@ -78,6 +84,11 @@ func reset_game() -> void:
 	companion_unlocked = false
 	formation = "并肩"
 	equipment = "旧铁剑"
+	chapter_two_stage=0
+	archive_clues.clear()
+	seal_sequence.clear()
+	chapter_two_ending=""
+	bridge_repaired=false
 	armor = "粗布行衣"
 	resources = {"iron":0,"timber":0,"cloth":0,"herb":0}
 	gathered_nodes.clear()
@@ -218,7 +229,7 @@ func buy_equipment() -> bool:
 
 
 func current_region_name() -> String:
-	return "旧闸" if map_id == "sluice" else "青苇渡"
+	return "霜桥驿" if map_id=="frostbridge" else ("旧闸" if map_id == "sluice" else "青苇渡")
 
 
 func choose_side_route(choice: String) -> bool:
@@ -267,6 +278,11 @@ func start_battle(kind: String = "story") -> void:
 			enemy_max_hp = 85
 			enemy_base_attack = 11
 			enemy_strong_attack = 22
+		"archive_boss":
+			enemy_name="韩砚 · 仓门执事"
+			enemy_max_hp=205
+			enemy_base_attack=17
+			enemy_strong_attack=31
 		"sluice_boss":
 			enemy_name = "河帮闸首"
 			enemy_max_hp = 150
@@ -364,7 +380,10 @@ func battle_action(action: String) -> Dictionary:
 		if battle_kind == "sluice_scout":
 			reward_xp = 25
 			reward_coins = 14
-		elif battle_kind == "sluice_boss":
+		elif battle_kind == "archive_boss":
+			reward_xp=80
+			reward_coins=40
+		elif battle_kind in ["sluice_boss","archive_boss"]:
 			reward_xp = 70
 			reward_coins = 35
 		coins += reward_coins
@@ -387,10 +406,10 @@ func battle_action(action: String) -> Dictionary:
 		messages.append("沈青护住后路，替你分担 %d 点伤害。" % (damage_before_cover - incoming))
 	hp = maxi(0, hp - incoming)
 	var move_name: String = "疾刃" if turn % 2 == 1 else "蓄势重斩"
-	if battle_kind == "sluice_boss":
+	if battle_kind in ["sluice_boss","archive_boss"]:
 		move_name = "闸刀横扫" if turn % 2 == 1 else "碎潮重劈"
 	messages.append("%s使出%s，你受到 %d 点伤害。" % [enemy_name, move_name, incoming])
-	if battle_kind == "sluice_boss" and turn % 2 == 0 and not guard and hp > 0:
+	if battle_kind in ["sluice_boss","archive_boss"] and turn % 2 == 0 and not guard and hp > 0:
 		exposed_turns = 2
 		messages.append("碎潮重劈震乱了你的架势：破绽 2 回合。使用守势可立即化解。")
 	guard = false
@@ -441,6 +460,7 @@ func to_dict() -> Dictionary:
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
 		"formation": formation, "equipment": equipment,
+		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
 		"map_id": map_id, "side_stage": side_stage, "side_choice": side_choice,
 		"side_clues": side_clues, "side_reward_claimed": side_reward_claimed,
@@ -528,7 +548,8 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	for id in Items.material_ids(): resources[id]=_bounded_int(saved_resources,id,0,0,9999)
 	for id in data.get("gathered_nodes",[]):
 		if Items.GATHER_NODES.has(id) and not gathered_nodes.has(id): gathered_nodes.append(id)
-	map_id = "sluice" if String(data.get("map_id", "qingwei")) == "sluice" else "qingwei"
+	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge"] else "qingwei"
+	Chapter.restore(self,data)
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
 	sect = saved_sect if SECTS.has(saved_sect) else "未入门"
@@ -560,10 +581,10 @@ func _valid_save_data(data: Dictionary) -> bool:
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi",
-		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues"]:
+		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage"]:
 		if data.has(key) and not _is_number(data[key]):
 			return false
-	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor"]:
+	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending"]:
 		if data.has(key) and not data[key] is String:
 			return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
@@ -582,6 +603,14 @@ func _valid_save_data(data: Dictionary) -> bool:
 		for clue: Variant in data["side_found"]:
 			if not clue is String:
 				return false
+	if data.has("bridge_repaired") and not data["bridge_repaired"] is bool:return false
+	for key in ["archive_clues","seal_sequence"]:
+		if data.has(key) and not data[key] is Array:return false
+	for id in data.get("archive_clues",[]):
+		if not id is String:return false
+	for index in data.get("seal_sequence",[]):
+		if not _is_number(index):return false
+	if _bounded_int(data,"chapter_two_stage",0,0,4)==4 and not ["open_records","protect_witness"].has(data.get("chapter_two_ending","")):return false
 	if data.has("resources"):
 		if not data["resources"] is Dictionary: return false
 		for id in data["resources"]:
@@ -659,7 +688,7 @@ func _clear_battle() -> void:
 
 
 func _update_intent() -> void:
-	if battle_kind == "sluice_boss":
+	if battle_kind in ["sluice_boss","archive_boss"]:
 		enemy_intent = "闸刀横扫 · 快击（%d）" % enemy_base_attack if turn % 2 == 0 else "碎潮重劈 · 重击（%d）+ 破绽 2 回合" % enemy_strong_attack
 	else:
 		enemy_intent = "疾刃 · 轻击（%d）" % enemy_base_attack if turn % 2 == 0 else "蓄势重斩 · 重击（%d）" % enemy_strong_attack
@@ -692,3 +721,16 @@ func craft(id:String) -> Dictionary:
 
 func gather_resource(id:String) -> Dictionary:
 	return Economy.gather(self,id)
+
+func begin_chapter_two() -> bool:
+	return Chapter.begin(self)
+func add_archive_clue(id:String) -> bool:
+	return Chapter.clue(self,id)
+func try_seal(index:int) -> Dictionary:
+	return Chapter.seal(self,index)
+func mark_archive_victory() -> bool:
+	return Chapter.victory(self)
+func resolve_chapter_two(choice:String) -> bool:
+	return Chapter.resolve(self,choice)
+func repair_bridge() -> bool:
+	return Chapter.repair_bridge(self)
