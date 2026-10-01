@@ -15,6 +15,15 @@ func _check(condition: bool, message: String) -> void:
 		push_error("Export smoke: " + message)
 
 func _run() -> void:
+	# Fail closed before instantiating gameplay or reading/writing any user data.
+	# export_desktop.py creates a fresh platform-specific directory for every label.
+	var data_root := OS.get_environment("XDG_DATA_HOME").simplify_path()
+	var user_root := ProjectSettings.globalize_path("user://").simplify_path()
+	var isolated := data_root.is_absolute_path() and data_root.get_file().ends_with("-smoke-data") and user_root.begins_with(data_root + "/")
+	_check(isolated, "PCK audit requires build-owned isolated writable storage")
+	if not isolated:
+		quit(1)
+		return
 	_check(FileAccess.file_exists("res://project.binary"), "Must load the exported binary project")
 	_check(not DirAccess.dir_exists_absolute("res://tests"), "Test scripts excluded")
 	_check(not DirAccess.dir_exists_absolute("res://tools"), "Build tools excluded")
@@ -98,6 +107,8 @@ func _run() -> void:
 	await _test_companion_route("preserve", true)
 	await _test_advanced_martials()
 	await _test_mistwood()
+	await _test_manual_slots()
+	await _test_portraits()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -546,3 +557,200 @@ func _key(key: Key) -> void:
 	await process_frame
 	event.pressed = false
 	Input.parse_input_event(event)
+
+func _test_manual_slots() -> void:
+	for module in ["local_save_slots", "save_slots_ui", "character_portraits"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "Packed save/portrait module retained: " + module)
+	_check(game.save_slots != null and game.save_slots.store != null, "Packed manual-save controller and store instantiated")
+	game._new_game()
+	var store = game.save_slots.store
+	_check(not store.has_manual_saves(), "Fresh isolated pack audit has no pre-existing manual saves")
+	_check(store.path_for(0) == "user://hero_save.json", "Packed slot zero points to the existing autosave")
+	for id in [1, 2, 3]:
+		_check(store.path_for(id) == "user://hero_slot_%d.json" % id and store.describe(id).status == "empty", "Packed manual slot starts empty at its own path: %d" % id)
+	_check(store.save_slot(game.state, 0) == ERR_INVALID_PARAMETER, "Packed manual-save API cannot overwrite autosave")
+	_check(store.path_for("../escape").is_empty() and store.save_slot(game.state, 4) == ERR_INVALID_PARAMETER, "Packed invalid slot IDs cannot address other paths")
+	_check(_find_button(game, "存档") != null and _find_button(game, "读档") != null, "Packed top-bar save and load buttons are discoverable")
+	await _key(KEY_F6)
+	_check(game.active_modal and game.modal_actions.size() == 4 and _gather_text(game.overlay).contains("手记三"), "Packed F6 opens all three manual slots and return")
+	await _key(KEY_1)
+	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
+	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
+	var first_doc = JSON.parse_string(first.get_string_from_utf8())
+	_check(first_doc is Dictionary and first_doc.get("version") == 6 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
+	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
+	game.state.coins = 55
+	await _key(KEY_1)
+	_check(_find_button(game.overlay, "确认重写") != null and _gather_text(game.overlay).contains("备份"), "Packed occupied slot requires informed overwrite confirmation")
+	var stale_save: Callable = game.modal_actions[0]
+	await _key(KEY_2)
+	stale_save.call()
+	_check(FileAccess.get_file_as_bytes(store.path_for(1)) == first and not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed cancelled and stale overwrite cannot change files")
+	await _key(KEY_1)
+	var used_save: Callable = game.modal_actions[0]
+	await _key(KEY_ENTER)
+	_check(FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == first, "Packed confirmed overwrite preserves exact preceding bytes")
+	var primary: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
+	var backup: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1) + ".bak")
+	_check(JSON.parse_string(primary.get_string_from_utf8()).player.coins == 55 and primary != first, "Packed overwrite writes the changed branch")
+	used_save.call()
+	_check(FileAccess.get_file_as_bytes(store.path_for(1)) == primary and FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == backup, "Packed repeated confirmation cannot rotate meaningful backup")
+	_check(store.save_slot(game.state, 1) == OK and FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == backup, "Packed identical manual save is a backup-preserving no-op")
+	await _key(KEY_ESCAPE)
+	await _key(KEY_F10)
+	_check(game.active_modal and game.modal_actions.size() == 5 and _gather_text(game.overlay).contains("自动续写"), "Packed F10 lists autosave, three manual slots and return")
+	await _key(KEY_2)
+	_check(_find_button(game.overlay, "读取当前版本") != null and _find_button(game.overlay, "读取备份") != null, "Packed slot detail exposes primary and validated backup")
+	await _key(KEY_2)
+	_check(_gather_text(game.overlay).contains("替换当前内存") and _gather_text(game.overlay).contains("更新自动存档"), "Packed load confirmation explains replacement and autosave update")
+	var stale_load: Callable = game.modal_actions[0]
+	await _key(KEY_2)
+	stale_load.call()
+	_check(game.state.coins == 55 and FileAccess.get_file_as_bytes(store.path_for(1)) == primary, "Packed cancelled and stale load leave the branch unchanged")
+	game.state.coins = 99
+	_press("读取当前版本")
+	_press("确认读取")
+	_check(game.state.coins == 55 and game.current_screen == "explore" and not game.active_modal, "Packed confirmed primary load restores exploration")
+	_check(JSON.parse_string(FileAccess.get_file_as_string(store.path_for(0))).player.coins == 55, "Packed manual load refreshes autosave with restored branch")
+	await _key(KEY_F10)
+	await _key(KEY_2)
+	_press("读取备份")
+	_press("确认读取")
+	_check(game.state.coins == 24 and game.world.map_id == "qingwei", "Packed backup UI restores the preceding branch")
+	_check(FileAccess.get_file_as_bytes(store.path_for(1)) == primary and FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == backup, "Packed primary and backup reads do not rewrite manual files")
+	_check(JSON.parse_string(FileAccess.get_file_as_string(store.path_for(0))).player.coins == 24, "Packed backup recovery updates quick-continue autosave")
+	# Later-region prerequisites are fixtures; all file and UI work uses shipped scripts.
+	_prepare_companion_chapter(false, "问石门")
+	game.state.begin_mistwood()
+	game.state.record_mist_gauge("rain")
+	game._travel("mistwood", Vector2(410, 425))
+	await _key(KEY_F6)
+	await _key(KEY_2)
+	_check(store.describe(2).status == "valid" and store.describe(2).location == "mistwood", "Packed second slot holds an independent fourth-region branch")
+	_check(_gather_text(game.overlay).contains("雾竹坡") and _gather_text(game.overlay).contains("UTC"), "Packed preview translates location and labels timestamp zone")
+	var second: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(2))
+	await _key(KEY_ESCAPE)
+	game.state.coins = 83
+	await _key(KEY_F6)
+	await _key(KEY_3)
+	_check(store.describe(3).status == "valid" and JSON.parse_string(FileAccess.get_file_as_string(store.path_for(3))).player.coins == 83, "Packed third slot stores a distinct branch through UI")
+	var third: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(3))
+	_check(FileAccess.get_file_as_bytes(store.path_for(1)) == primary and FileAccess.get_file_as_bytes(store.path_for(2)) == second, "Packed third-slot write preserves both other primaries")
+	game._show_title()
+	_press("踏入江湖")
+	_check(_gather_text(game.overlay).contains("手动手记不会删除"), "Packed new-game confirmation explains manual-save preservation")
+	_press("确认新旅程")
+	_check(game.state.quest_stage == 0 and FileAccess.get_file_as_bytes(store.path_for(1)) == primary and FileAccess.get_file_as_bytes(store.path_for(2)) == second and FileAccess.get_file_as_bytes(store.path_for(3)) == third, "Packed new game preserves all three manual branches")
+	# The isolation preflight makes this audit-owned autosave safe to remove.
+	_check(DirAccess.remove_absolute(ProjectSettings.globalize_path(store.path_for(0))) == OK, "Packed audit removes only its isolated autosave for title-discovery test")
+	game._show_title()
+	_check(_find_button(game.overlay, "续写前缘") == null and _find_button(game.overlay, "查阅手记") != null, "Packed title discovers manual saves without any autosave")
+	_press("查阅手记")
+	await _key(KEY_3)
+	_press("读取当前版本")
+	_press("确认读取")
+	_check(game.current_screen == "explore" and game.world.map_id == "mistwood" and game.state.mist_gauges.has("rain"), "Packed title load restores actual map and chapter progress")
+	_check(game.world._can_walk(game.world.player_pos), "Packed manual restore uses common safe-position recovery")
+	var corrupt := FileAccess.open(store.path_for(1), FileAccess.WRITE)
+	corrupt.store_string("{bad")
+	corrupt.close()
+	await _key(KEY_F10)
+	await _key(KEY_2)
+	_check(store.describe(1).status == "corrupt" and _find_button(game.overlay, "读取当前版本") == null and _find_button(game.overlay, "读取备份") != null, "Packed damaged primary is disabled while valid backup stays selectable")
+	var before: Dictionary = game.state.to_dict()
+	game.save_slots.perform_load(1, false)
+	_check(game.state.to_dict() == before and game.status_label.text.contains("未改变"), "Packed failed primary load preserves active branch and explains failure")
+	_press("读取备份")
+	_press("确认读取")
+	_check(game.state.coins == 24 and game.world.map_id == "qingwei", "Packed valid backup recovers from corrupt primary through confirmation UI")
+	_check(FileAccess.get_file_as_string(store.path_for(1)) == "{bad" and FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == backup, "Packed recovery preserves damaged primary and exact good backup")
+	game.state.coins = 77
+	await _key(KEY_F6)
+	await _key(KEY_1)
+	_press("确认重写")
+	_check(store.describe(1).status == "valid" and FileAccess.get_file_as_bytes(store.path_for(1) + ".bak") == backup, "Packed replacing corrupt primary preserves existing recovery copy")
+	var blocked: String = store.path_for(2) + ".bak.tmp"
+	_check(DirAccess.make_dir_recursive_absolute(blocked) == OK, "Packed audit creates an isolated backup-failure fixture")
+	await _key(KEY_2)
+	_press("确认重写")
+	_check(FileAccess.get_file_as_bytes(store.path_for(2)) == second and game.status_label.text.contains("未能保存"), "Packed backup-write failure remains visible and preserves primary")
+	_check(DirAccess.remove_absolute(ProjectSettings.globalize_path(blocked)) == OK, "Packed audit releases only its backup-failure fixture")
+	await _key(KEY_ESCAPE)
+	game.state.coins = 91
+	await _key(KEY_F5)
+	game.state.coins = 92
+	await _key(KEY_F9)
+	_check(game.state.coins == 91, "Packed F5 and F9 retain quick-autosave compatibility")
+	_check(FileAccess.get_file_as_bytes(store.path_for(2)) == second and FileAccess.get_file_as_bytes(store.path_for(3)) == third, "Packed quick save/load never rewrites independent manual slots")
+	game._start_battle("spar")
+	var battle_state: Dictionary = game.state.to_dict()
+	var battle_files := _manual_file_snapshot(store)
+	await _key(KEY_F6)
+	await _key(KEY_F10)
+	_check(game.state.battle_active and game.current_screen == "battle" and not game.active_modal, "Packed manual shortcuts are blocked in combat")
+	game.save_slots.save_page()
+	game.save_slots.load_page()
+	game.save_slots.detail(1)
+	game.save_slots.request_save(1)
+	game.save_slots.request_load(1, false)
+	game.save_slots.perform_save(1)
+	game.save_slots.perform_load(1, true)
+	_check(not game.active_modal and game.state.to_dict() == battle_state, "Packed direct slot UI entry points cannot change combat state")
+	_check(store.save_slot(game.state, 1) == ERR_BUSY and store.load_slot(game.state, 1) == ERR_BUSY and store.load_backup(game.state, 1) == ERR_BUSY, "Packed storage API blocks battle saves, primary loads and backups")
+	_check(_manual_file_snapshot(store) == battle_files, "Packed blocked battle actions leave all primary and backup bytes unchanged")
+	game._battle_action("flee")
+	game._close_modal()
+
+func _manual_file_snapshot(store) -> Dictionary:
+	var result := {}
+	for id in [0, 1, 2, 3]:
+		for suffix in ["", ".bak"]:
+			var path: String = store.path_for(id) + suffix
+			result[path] = FileAccess.get_file_as_bytes(path) if FileAccess.file_exists(path) else null
+	return result
+
+func _test_portraits() -> void:
+	const ATLAS_PATH := "res://assets/generated/characters/hero-character-portraits-atlas.png"
+	const PROVENANCE_PATH := "res://assets/generated/characters/ART_PROVENANCE.md"
+	_check(ResourceLoader.exists(ATLAS_PATH), "Packed original character atlas retained")
+	_check(FileAccess.file_exists(PROVENANCE_PATH), "Packed original portrait provenance retained")
+	var provenance := FileAccess.get_file_as_string(PROVENANCE_PATH)
+	_check(provenance.contains("1254") and provenance.contains("627") and provenance.contains("OpenAI") and provenance.contains("Top-left"), "Packed portrait provenance is readable with generation method and cell layout")
+	var portraits = load("res://scripts/character_portraits.gd")
+	var atlas = load(ATLAS_PATH)
+	_check(atlas is Texture2D and atlas.get_size() == Vector2(1254, 1254), "Packed portrait atlas preserves original resolution")
+	var cells := {"hero": Vector2(0, 0), "shen": Vector2(627, 0), "tang": Vector2(0, 627), "qin": Vector2(627, 627)}
+	for id in cells:
+		var texture = portraits.texture_for(id)
+		_check(texture is AtlasTexture and texture.region == Rect2(cells[id], Vector2(627, 627)), "Packed portrait uses correct exact quadrant: " + id)
+		_check(texture.atlas == atlas and texture.filter_clip, "Packed portrait shares atlas and clips texture sampling: " + id)
+	_check(portraits.texture_for("unknown") == null and portraits.id_for_title("药铺伙计").is_empty(), "Packed unknown characters safely omit portraits")
+	# Validate actual shipped pixels at both cuts, not only declared crop geometry.
+	var pixels: Image = atlas.get_image()
+	if pixels != null and pixels.is_compressed():
+		pixels.decompress()
+	_check(pixels != null and not pixels.is_empty() and not pixels.is_compressed() and pixels.detect_alpha() != Image.ALPHA_NONE, "Packed atlas retains readable transparent pixels")
+	if pixels != null and not pixels.is_empty() and not pixels.is_compressed():
+		var clear_cuts := true
+		for index in range(1254):
+			for edge in [626, 627]:
+				clear_cuts = clear_cuts and pixels.get_pixel(index, edge).a <= 8.0 / 255.0 and pixels.get_pixel(edge, index).a <= 8.0 / 255.0
+		_check(clear_cuts, "Packed meaningful portrait pixels do not cross either atlas cut")
+	else:
+		_check(false, "Packed meaningful portrait pixels do not cross either atlas cut")
+	var hero = game.find_child("Portrait_hero", true, false)
+	_check(hero is TextureRect and hero.texture is AtlasTexture and not game.portrait.visible, "Packed hero card uses original portrait instead of fallback glyph")
+	_check(hero.mouse_filter == Control.MOUSE_FILTER_IGNORE and hero.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED, "Packed hero portrait preserves aspect and never intercepts mouse input")
+	for pair in [["沈青 · 药师", "shen"], ["唐栖 · 修桥匠", "tang"], ["秦禾 · 旧监水吏", "qin"]]:
+		_check(portraits.id_for_title(pair[0]) == pair[1], "Packed dialogue title selects correct portrait: " + pair[1])
+		for wide in [false, true]:
+			game._modal(pair[0], "Export portrait audit", "Packed dialogue remains usable", [["继续", game._close_modal]], wide)
+			var node = game.overlay.find_child("Portrait_" + pair[1], true, false)
+			_check(node is TextureRect and node.texture.region == Rect2(cells[pair[1]], Vector2(627, 627)) and node.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Packed dialogue attaches correct non-intercepting portrait: %s wide=%s" % [pair[1], wide])
+			_check(node.position.x >= 500 and node.position.y + node.size.y <= 120 and node.position.x + node.size.x <= node.get_parent().size.x, "Packed portrait stays inside header and outside dialogue body: %s wide=%s" % [pair[1], wide])
+			await _key(KEY_ENTER)
+			_check(not game.active_modal, "Packed portrait allows actual dialogue input: %s wide=%s" % [pair[1], wide])
+	game._show_inventory()
+	_check(game.overlay.find_child("Portrait_shen", true, false) == null and game.overlay.find_child("Portrait_tang", true, false) == null and game.overlay.find_child("Portrait_qin", true, false) == null, "Packed generic inventory never misidentifies a character")
+	game._close_modal()

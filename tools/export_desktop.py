@@ -22,7 +22,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
-PACK_SMOKE_CHECKS = 303
+PACK_SMOKE_CHECKS = 412
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
@@ -77,6 +77,8 @@ def add_notices(directory: Path, snapshot: Path, source_text: str, platform: str
     shutil.copytree(snapshot / "licenses", directory / "licenses", dirs_exist_ok=True)
     shutil.copyfile(snapshot / "assets/fonts/LICENSE.txt", directory / "licenses/FONT-LICENSE.txt")
     shutil.copyfile(snapshot / "assets/generated/ART_PROVENANCE.md", directory / "ART_PROVENANCE.md")
+    shutil.copyfile(snapshot / "assets/generated/characters/ART_PROVENANCE.md",
+                    directory / "CHARACTER-ART-PROVENANCE.md")
     (directory / "SOURCE-SHA256SUMS.txt").write_text(source_text, encoding="utf-8")
     launch = {"linux": "Keep Hero.x86_64 and Hero.pck together. Run ./Hero.x86_64.",
               "windows": "Extract the complete ZIP. Keep Hero.exe and Hero.pck together. Run Hero.exe.",
@@ -87,7 +89,8 @@ def add_notices(directory: Path, snapshot: Path, source_text: str, platform: str
         "\nThis is a work-in-progress prototype, not a finished commercial game.\n"
         "No Godot editor, account, network connection or credentials are required at runtime.\n"
         "WASD / arrows: walk; E / Enter: interact; I: inventory; J: journal;\n"
-        "M: map; K: martial arts; B: workshop; F5/F9: save/load; Esc: close dialogue.\n"
+        "M: map; K: martial arts; B: workshop;\n"
+        "F5/F9: quick save/load; F6/F10: manual save/load slots; Esc: close dialogue.\n"
         "The included engine and font license notices must remain with redistributions.\n",
         encoding="utf-8")
 
