@@ -2,11 +2,12 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 8
+const SAVE_VERSION: int = 9
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
 const Mist=preload("res://scripts/mistwood_rules.gd")
+const Heting=preload("res://scripts/heting_rules.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
@@ -48,6 +49,12 @@ var tangqi_choice:String=""
 var active_companion:String=""
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
+var heting_stage:int=0
+var heting_bridge:String=""
+var heting_delivered:Array[String]=[]
+var heting_cargo:String=""
+var heting_draft:String=""
+var heting_ending:String=""
 var mist_stage:int=0
 var mist_gauges:Array[String]=[]
 var mist_approach:String=""
@@ -118,6 +125,7 @@ func reset_game() -> void:
 	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
 	formation = "并肩"
 	equipment = "旧铁剑"
+	heting_stage=0;heting_bridge="";heting_delivered.clear();heting_cargo="";heting_draft="";heting_ending=""
 	mist_stage=0;mist_gauges.clear();mist_approach="";mist_ending=""
 	chapter_two_stage=0
 	archive_clues.clear()
@@ -309,6 +317,7 @@ func buy_equipment() -> bool:
 
 
 func current_region_name() -> String:
+	if map_id=="heting":return "鹤汀埠"
 	return "雾竹坡" if map_id=="mistwood" else ("霜桥驿" if map_id=="frostbridge" else ("旧闸" if map_id == "sluice" else "青苇渡"))
 
 
@@ -579,6 +588,8 @@ func to_dict() -> Dictionary:
 		"shen_care_stage":shen_care_stage,"shen_care_choice":shen_care_choice,
 		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
 		"formation": formation, "equipment": equipment,
+		"heting_stage":heting_stage,"heting_bridge":heting_bridge,"heting_delivered":heting_delivered.duplicate(),
+		"heting_cargo":heting_cargo,"heting_draft":heting_draft,"heting_ending":heting_ending,
 		"mist_stage":mist_stage,"mist_gauges":mist_gauges.duplicate(),"mist_approach":mist_approach,"mist_ending":mist_ending,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
@@ -634,7 +645,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -669,9 +680,10 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	for id in Items.material_ids(): resources[id]=_bounded_int(saved_resources,id,0,0,9999)
 	for id in data.get("gathered_nodes",[]):
 		if Items.GATHER_NODES.has(id) and not gathered_nodes.has(id): gathered_nodes.append(id)
-	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge","mistwood"] else "qingwei"
+	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge","mistwood","heting"] else "qingwei"
 	Chapter.restore(self,data)
 	Mist.restore(self,data)
+	Heting.restore(self,data)
 	Companions.restore(self,data)
 	ShenCare.restore(self,data)
 	Lightness.restore(self,data)
@@ -724,6 +736,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Advanced.valid_save(data, version, saved_sect, saved_rank):
 		return false
 	if not Mist.valid(data,version):return false
+	if not Heting.valid(data,version):return false
 	if not Companions.valid(data):return false
 	if not ShenCare.valid(data,version):return false
 	if not Lightness.valid(data,version):return false
@@ -898,3 +911,12 @@ func begin_mistwood()->bool:return Mist.begin(self)
 func obtain_mist_access(route:String)->bool:return Mist.access(self,route)
 func record_mist_gauge(id:String)->bool:return Mist.record(self,id)
 func resolve_mistwood(choice:String)->bool:return Mist.resolve(self,choice)
+
+func begin_heting()->bool:return Heting.begin(self)
+func set_heting_bridge(side:String)->bool:return Heting.set_bridge(self,side)
+func available_heting_cargo(source:String)->Array[String]:return Heting.available_cargo(self,source)
+func take_heting_cargo(id:String)->bool:return Heting.take_cargo(self,id)
+func park_heting_cargo()->bool:return Heting.park_cargo(self)
+func deliver_heting_base(receiver:String)->bool:return Heting.deliver_base(self,receiver)
+func choose_heting_plan(id:String)->bool:return Heting.choose_plan(self,id)
+func finish_heting_delivery(receiver:String,expected_plan:String)->bool:return Heting.finish_delivery(self,receiver,expected_plan)
