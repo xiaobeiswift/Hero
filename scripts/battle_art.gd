@@ -41,6 +41,7 @@ func _draw() -> void:
 		draw_rect(Rect2(x,219,9,86),Color("3e453d"))
 		draw_circle(Vector2(x+4,219),7,Color("958664"))
 	draw_line(Vector2(43,233),Vector2(899,233),Color("807956"),2)
+	if region_style=="training":_draw_training_court()
 	var lunge = sin(flash*PI)*34 if action in ["attack","skill"] else 0.0
 	_draw_fighter(Vector2(229+lunge,274),Color("4f9c8b"),true,phase,flash)
 	if companion_active:
@@ -89,3 +90,20 @@ func _ellipse(center:Vector2,radii:Vector2,color:Color) -> void:
 		var a=TAU*i/32.0
 		points.append(center+Vector2(cos(a)*radii.x,sin(a)*radii.y))
 	draw_colored_polygon(points,color)
+
+func _draw_training_court()	-> void:
+	# Original south court: slate paving, limewashed boundary and timber racks.
+	draw_rect(Rect2(0,130,938,226),Color("3e5952"))
+	draw_rect(Rect2(0,130,938,103),Color("83937a"))
+	draw_rect(Rect2(0,130,938,12),Color("385b53"))
+	for y in [237,272,318,355]:draw_line(Vector2(0,y),Vector2(938,y),Color("465f55"),2)
+	for x in range(0,970,94):draw_line(Vector2(469+(x-469)*0.65,231),Vector2(x,356),Color("506a60"),2)
+	for side in [70,790]:
+		draw_line(Vector2(side,167),Vector2(side,230),Color("544f3b"),6)
+		draw_line(Vector2(side+74,167),Vector2(side+74,230),Color("544f3b"),6)
+		draw_line(Vector2(side-8,184),Vector2(side+82,184),Color("6d6043"),6)
+		for i in range(4):
+			draw_line(Vector2(side+9+i*18,157),Vector2(side+3+i*18,220),Color("c2b186"),4)
+			draw_line(Vector2(side+3+i*18,171),Vector2(side+16+i*18,173),Color("786b4e"),3)
+	draw_arc(Vector2(476,285),69,0,TAU,48,Color("b6b69a"),2)
+	draw_arc(Vector2(476,285),64,0,TAU,48,Color("526d60"),1)
