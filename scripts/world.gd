@@ -212,7 +212,7 @@ func _process(delta: float) -> void:
 	companion_moving=false
 	if companion_active:
 		var old_companion_pos=companion_pos
-		var companion_target := _islet_companion_target() if map_id=="qingwei" and Lightness.on_islet(player_pos) else player_pos - facing * 34.0 + Vector2(-10, 10)
+		var companion_target := _companion_follow_target()
 		companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
 		var companion_step=companion_pos-old_companion_pos
 		companion_moving=companion_step.length()>delta*5
@@ -276,6 +276,15 @@ func _update_nearby() -> void:
 			closest = distance
 			nearby_id = id
 			nearby_name = get_npc_name(id)
+
+func _companion_follow_target()->Vector2:
+	if map_id=="qingwei" and Lightness.on_islet(player_pos):return _islet_companion_target()
+	# Adult-proportion figures need lateral separation to remain individually readable.
+	var side=Vector2(-facing.y,facing.x)*28.0
+	var rear=player_pos-facing*42.0+Vector2(0,10)
+	for candidate in [rear+side,rear-side,rear]:
+		if _can_step(player_pos,candidate):return candidate
+	return player_pos
 
 func _islet_companion_target()->Vector2:
 	return player_pos.lerp(Lightness.ISLET_CENTER,0.45)+Vector2(-8,4)
@@ -602,10 +611,14 @@ func _draw_building(b: Dictionary) -> void:
 		_label(flag_p + Vector2(-15, 12), "茶", 24, Color("576a51"), 28, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _tree_opacity(tree:Dictionary)->float:
-	# Fade only an occluding foreground crown, keeping the traveller readable.
-	var offset:Vector2=player_pos-tree["pos"]
+	# Foreground crowns fade for either visible party member, preserving depth context.
+	var actors=[player_pos]
+	if companion_active:actors.append(companion_pos)
 	var tree_scale:float=tree["scale"]
-	return 0.40 if offset.y<0 and offset.y>-106*tree_scale and absf(offset.x)<45*tree_scale else 1.0
+	for actor:Vector2 in actors:
+		var offset:Vector2=actor-tree["pos"]
+		if offset.y<0 and offset.y>-106*tree_scale and absf(offset.x)<45*tree_scale:return 0.40
+	return 1.0
 
 func _draw_tree(tree: Dictionary) -> void:
 	if not _world_rect_visible(Rect2(tree["pos"]-Vector2(95,185)*tree["scale"],Vector2(190,210)*tree["scale"])):return
