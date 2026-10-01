@@ -64,3 +64,5 @@ run_checked --headless --path . --script tests/audit_shen_care_test.gd
 run_checked --headless --path . --script tests/lightness_ui_test.gd
 
 run_checked --headless --path . --script tests/audit_lightness_geometry_test.gd
+
+run_checked --headless --path . --script tests/heting_rules_test.gd
