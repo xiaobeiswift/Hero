@@ -29,14 +29,43 @@ def contained_file(base: Path, relative: str) -> Path:
     return path
 
 
-def verify_build(base: Path) -> dict:
+def archive_inventory(archive: Path) -> dict:
+    """Hash every ordinary member without extraction; reject ambiguous names."""
+    result = {}
+    def add(name, size, stream):
+        path = PurePosixPath(name)
+        if path.is_absolute() or ".." in path.parts or name in result:
+            raise RuntimeError(f"Unsafe or duplicate archive member: {name}")
+        result[name] = {"bytes": size, "sha256": digest_stream(stream)}
+    if archive.name.endswith(".tar.gz"):
+        with tarfile.open(archive, "r:gz") as packed:
+            for member in packed.getmembers():
+                if member.isdir(): continue
+                if not member.isfile(): raise RuntimeError("Expected ordinary archive member")
+                with packed.extractfile(member) as stream: add(member.name, member.size, stream)
+    else:
+        with zipfile.ZipFile(archive) as packed:
+            for member in packed.infolist():
+                if member.is_dir(): continue
+                if (member.external_attr >> 16) & 0o170000 == 0o120000:
+                    raise RuntimeError("Symlink archive member is not supported")
+                with packed.open(member) as stream: add(member.filename, member.file_size, stream)
+    if len([name for name in result if name.endswith(".pck")]) != 1:
+        raise RuntimeError("Expected exactly one archived PCK")
+    return result
+
+
+def verify_build(base: Path, only_target: str | None = None) -> dict:
     base = base.resolve()
     report = json.loads((base / "BUILD-REPORT.json").read_text())
-    if report.get("build_status") != "complete":
+    if only_target is None and report.get("build_status") != "complete":
         raise RuntimeError("Build is not complete")
     suffixes = {"linux": "-linux-x86_64.tar.gz", "windows": "-windows-x86_64.zip", "macos": "-macos-universal.zip"}
     rows = []
+    if only_target is not None and only_target not in report["platforms"]:
+        raise RuntimeError("Requested platform is not exported")
     for target, status in report["platforms"].items():
+        if only_target is not None and target != only_target: continue
         if target not in suffixes or status.get("export") != "passed":
             raise RuntimeError("Unknown or incomplete platform")
         names = [name for name in report["archives"] if name.endswith(suffixes[target])]
@@ -47,6 +76,23 @@ def verify_build(base: Path) -> dict:
         expected = report["archives"][name]
         if digest(archive) != expected["sha256"] or archive.stat().st_size != expected["bytes"]:
             raise RuntimeError(f"Final archive differs from build report: {name}")
+        if "retired_member_manifest" in status:
+            record_file = contained_file(base, status["retired_member_manifest"])
+            if digest(record_file) != status.get("retired_member_manifest_sha256"):
+                raise RuntimeError("Retired member manifest digest differs")
+            record = json.loads(record_file.read_text())
+            if (record.get("format") != 1 or record.get("live_output_verified") is not True
+                    or record.get("platform") != target or record.get("archive") != name
+                    or record.get("source_git_commit") != report.get("source_git_commit")
+                    or record.get("source_manifest_sha256") != report["source_manifest_sha256"]
+                    or record.get("archive_sha256") != expected["sha256"]):
+                raise RuntimeError("Retired member manifest provenance differs")
+            if archive_inventory(archive) != record.get("members"):
+                raise RuntimeError("Archive members differ from retained live-output manifest")
+            rows.append({"platform": target, "archive": name, "sha256": expected["sha256"],
+                         "members_compared": record["members_compared"],
+                         "comparison": "Retained manifest previously verified against live output"})
+            continue
         binary = contained_file(base, status["binary"])
         directory = binary.parent
         if target != "macos":
@@ -100,7 +146,14 @@ def verify_build(base: Path) -> dict:
                             if digest_stream(stream) != digest(audit):
                                 raise RuntimeError("macOS audit PCK differs from shipped PCK")
                         checked += 1
-        rows.append({"platform": target, "archive": name, "sha256": expected["sha256"], "members_compared": checked})
+        row = {"platform": target, "archive": name, "sha256": expected["sha256"], "members_compared": checked}
+        if only_target is not None:
+            row["member_manifest"] = {"format": 1, "platform": target, "archive": name,
+                "source_git_commit": report.get("source_git_commit"),
+                "source_manifest_sha256": report["source_manifest_sha256"],
+                "archive_sha256": expected["sha256"], "live_output_verified": True,
+                "members_compared": checked, "members": archive_inventory(archive)}
+        rows.append(row)
     if not rows:
         raise RuntimeError("No verified platform archives")
     return {"verified_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -114,8 +167,9 @@ def verify_build(base: Path) -> dict:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("build", type=Path)
+    parser.add_argument("--platform", choices=["linux", "windows", "macos"], help="Verify only a completed platform while the overall build remains in progress")
     args = parser.parse_args()
     try:
-        print(json.dumps(verify_build(args.build), ensure_ascii=False, indent=2))
+        print(json.dumps(verify_build(args.build, args.platform), ensure_ascii=False, indent=2))
     except (OSError, ValueError, RuntimeError, KeyError, tarfile.TarError, zipfile.BadZipFile) as error:
         parser.exit(1, f"ARCHIVE VERIFICATION FAILED: {error}\n")

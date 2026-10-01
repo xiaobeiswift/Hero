@@ -30,6 +30,54 @@ TARGETS = {
     "windows": ("Windows x86_64", "windows_release_x86_64.exe", "Hero.exe"),
     "macos": ("macOS Universal", "macos.zip", "Hero.zip"),
 }
+MIB = 1024 * 1024
+
+
+def require_space(base: Path, needed: int, stage: str) -> int:
+    free = shutil.disk_usage(base).free
+    if free < needed:
+        raise RuntimeError(f"Insufficient space before {stage}: need {needed} bytes, have {free}; shortfall {needed-free}. No further export started.")
+    return free
+
+
+def retire_verified_platform(build: Path, target: str, report: dict,
+                             env: dict[str, str], logs: Path) -> None:
+    """Retire only this process's new Windows/Mac temporary output after proof.
+
+    Linux is intentionally retained for later native graphical verification.
+    Final archives, source, manifests, logs and player/test profiles are never removed.
+    """
+    owner = json.loads((build / "TRANSIENT-OWNER.json").read_text())
+    if (target not in ("windows", "macos") or not report.get("sequential_platforms")
+            or owner != {"process_id": os.getpid(), "build": str(build.resolve())}):
+        raise RuntimeError("Temporary retirement is restricted to this new sequential build")
+    directory = build / "transient" / target
+    if directory.is_symlink() or directory.resolve().parent != (build / "transient").resolve():
+        raise RuntimeError("Unsafe temporary platform directory")
+    verified = json.loads(run([sys.executable, str(ROOT / "tools/verify_export_archives.py"),
+                               str(build), "--platform", target],
+                              logs / f"archive-members-{target}.log", env, cwd=build))
+    manifest = verified["archives"][0]["member_manifest"]
+    record_path = build / f"ARCHIVE-MEMBERS-{target}.json"
+    if record_path.exists(): raise RuntimeError("Refusing to replace an existing member record")
+    record_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    status = report["platforms"][target]
+    status.update(retired_member_manifest=record_path.name,
+                  retired_member_manifest_sha256=digest(record_path),
+                  transient_files="retirement_in_progress")
+    paths = [directory]
+    if target == "macos": paths.append(build / "transient/macos-audit.pck")
+    status["retired_bytes"] = sum(sum(p.stat().st_size for p in path.rglob("*") if p.is_file())
+                                  if path.is_dir() else path.stat().st_size for path in paths)
+    (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    # All exporter/audit subprocesses have returned synchronously; these two
+    # foreign-platform outputs have never been handed to a native GUI reader.
+    for path in paths:
+        if path.is_dir(): shutil.rmtree(path)
+        else: path.unlink()
+    status["transient_files"] = "retired_after_live_member_verification"
+    status["free_bytes_after_retirement"] = shutil.disk_usage(build).free
+    (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
 
 
 def digest(path: Path) -> str:
@@ -102,8 +150,10 @@ def main() -> None:
     parser.add_argument("--label", default=dt.datetime.now(dt.timezone.utc).strftime("build-%Y%m%d-%H%M%S"))
     parser.add_argument("--allow-dirty-source", action="store_true", help="Development exports only: allow uncommitted game resources; report remains marked dirty")
     parser.add_argument("--transient-platforms", action="store_true", help="New builds only: mark unpacked platform files as temporary, retained until archive/native verification and explicit cleanup")
+    parser.add_argument("--sequential-platforms", action="store_true", help="New builds only: export Mac/Windows/Linux in order; verify and retire completed Mac/Windows temporary output, retain Linux for native GUI")
     parser.add_argument("--godot", default=os.environ.get("GODOT", "godot"))
     args = parser.parse_args()
+    if args.sequential_platforms: args.transient_platforms = True
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", args.label):
         parser.error("label must contain only letters, numbers, dot, dash and underscore")
     godot = shutil.which(args.godot)
@@ -115,6 +165,7 @@ def main() -> None:
     export_data = Path(os.environ.get("HERO_EXPORT_DATA", str(ROOT / "builds/export-data"))).resolve()
     templates = export_data / "godot/export_templates/4.6.3.stable"
     targets = list(TARGETS) if args.target == "all" else [args.target]
+    if args.sequential_platforms and args.target == "all": targets = ["macos", "windows", "linux"]
     for target in targets:
         required = templates / TARGETS[target][1]
         if not required.is_file():
@@ -124,7 +175,18 @@ def main() -> None:
     provenance = git_provenance()
     if provenance["source_git_clean"] is False and not args.allow_dirty_source:
         parser.error("Game resources have uncommitted changes. Commit them first, or use --allow-dirty-source for a development-only export.")
+    source_bytes = sum(p.stat().st_size for name in SOURCE_DIRS for p in (ROOT / name).rglob("*") if p.is_file())
+    # Conservative baseline from actual v0.0.16 artifacts, including the full
+    # 385 MB Mac template expansion and at least 192 MiB of reserve. Scale up
+    # for future source growth instead of silently using a stale asset budget.
+    extra_budget = max(0, source_bytes - 53 * MIB) * 3
+    storage = {"source_bytes": source_bytes, "additional_source_budget": extra_budget,
+               "reserve_mib": 192, "stage_minimum_mib": {"macos": 900, "windows": 460, "linux": 420}}
+    if args.sequential_platforms:
+        storage["free_before_snapshot"] = require_space(ROOT, (1100 if args.target == "all" else storage["stage_minimum_mib"][targets[0]] + 100) * MIB + extra_budget, "new sequential build")
     build.mkdir(parents=True)
+    if args.sequential_platforms:
+        (build / "TRANSIENT-OWNER.json").write_text(json.dumps({"process_id": os.getpid(), "build": str(build.resolve())}) + "\n")
     platform_work = build / "transient" if args.transient_platforms else build
     if args.transient_platforms:
         platform_work.mkdir()
@@ -166,9 +228,13 @@ def main() -> None:
               "expected_pack_checks": PACK_SMOKE_CHECKS,
               "platform_work_directory": "transient" if args.transient_platforms else ".",
               "transient_platforms": args.transient_platforms,
+              "sequential_platforms": args.sequential_platforms, "storage_policy": storage,
               "archive_verifier_sha256": digest(ROOT / "tools/verify_export_archives.py"),
               "template_sha256": {}, "platforms": {}, "archives": {}}
+    (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for target in targets:
+        if args.sequential_platforms:
+            storage[f"free_before_{target}"] = require_space(build, storage["stage_minimum_mib"][target] * MIB + extra_budget, target)
         preset, template, filename = TARGETS[target]
         directory = platform_work / target
         directory.mkdir()
@@ -241,6 +307,8 @@ def main() -> None:
         report["archives"][archive.name] = {"sha256": digest(archive), "bytes": archive.stat().st_size}
         (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"PASS: {target} export at {output}", flush=True)
+        if args.sequential_platforms and target != "linux":
+            retire_verified_platform(build, target, report, env, logs)
     sums = "".join(f"{item['sha256']}  {name}\n" for name, item in report["archives"].items())
     report["build_status"] = "complete"
     (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -259,7 +327,7 @@ def main() -> None:
             "temporary_paths": ["transient", "source/.godot"],
             "retained": ["final archives", "source snapshot", "source manifest", "all reports/logs", "smoke profiles", "screenshots"],
             "state": "awaiting native verification and process closure",
-            "cleanup_gate": "Recheck archive bytes; complete native verification; verify no native process is using this build; coordinate publication readers before removing only the two temporary paths. This script never cleans them automatically."
+            "cleanup_gate": "Recheck archive bytes; complete native verification; verify no native process is using this build; coordinate publication readers before removing only the remaining two temporary paths. Sequential mode already retired only its new Mac/Windows outputs after recording and verifying each live member; Linux remains for native GUI."
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Build complete: {build}\n{sums}", flush=True)
 
