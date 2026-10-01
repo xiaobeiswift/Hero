@@ -16,5 +16,6 @@ static func pose_for(details:Dictionary,time:float,presenting:bool)->String:
 	if not presenting:return "idle"
 	if int(details.get("cover",0))>0 and time>=.66 and time<1.18:return "cover"
 	if int(details.get("healing",0))>0 and time>=.51 and time<.80:return "heal"
+	if details.get("name","")=="唐栖" and int(details.get("qi",0))>0 and time>=.65 and time<.82:return "recover"
 	if int(details.get("damage",0))>0 and time>=.36 and time<.65:return "assist"
 	return "idle"

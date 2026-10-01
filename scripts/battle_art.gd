@@ -7,6 +7,7 @@ signal impact_presented(target: String, amount: int)
 
 const SupportFeedback=preload("res://scripts/companion_battle_feedback.gd")
 const PaintedShen=preload("res://scripts/painted_battle_shen.gd")
+const PaintedTang=preload("res://scripts/painted_battle_tang.gd")
 const SUPPORT_HOME=Vector2(126,266)
 const FerryBackdrop=preload("res://scripts/ferry_battle_backdrop.gd")
 const PaintedPuHeng=preload("res://scripts/painted_battle_puheng.gd")
@@ -205,9 +206,11 @@ func _draw() -> void:
 		if _presenting and int(presentation_details.get("companion_damage",0)) > 0:
 			support["strike"] = _pulse(0.36,0.46,0.66,action_time)
 			support["x"] = float(support["strike"])*35.0
-		if painted_support_enabled and companion_name=="沈青":
-			_ellipse(SUPPORT_HOME+Vector2(0,4),Vector2(30,6),Color(.02,.06,.06,.30))
-			PaintedShen.draw(self,SUPPORT_HOME+Vector2(0,sin(phase*2.4)*.65),support_visual_pose(),.96)
+		if painted_support_enabled and companion_name in ["沈青","唐栖"]:
+			var support_foot=SUPPORT_HOME+Vector2(float(support.x) if companion_name=="唐栖" else 0.0,0)
+			_ellipse(support_foot+Vector2(0,4),Vector2(30,6),Color(.02,.06,.06,.30))
+			var painted=PaintedTang if companion_name=="唐栖" else PaintedShen
+			painted.draw(self,support_foot+Vector2(0,sin(phase*2.4)*.65),support_visual_pose(),.96)
 		else:
 			_draw_fighter(SUPPORT_HOME+Vector2(float(support.x),0),Color("82978c") if companion_name=="唐栖" else Color("9cba9d"),true,phase+1,support,companion_name=="唐栖",0.90,0.91)
 	_draw_fighter(enemy_pos, Color("aa7864"), false, phase+2, enemy,false,1.0,1.0,"enemy")
