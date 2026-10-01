@@ -1,6 +1,7 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
 const ViewPreferences=preload("res://scripts/view_preferences.gd")
+const DialogueSheet=preload("res://scripts/dialogue_sheet.gd")
 const PauseMenu=preload("res://scripts/pause_menu.gd")
 const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
@@ -376,6 +377,9 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	veil.color = Color(0.01,0.06,0.08,0.62)
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(veil)
+	if current_screen!="title":
+		DialogueSheet.build(self,title,subtitle,body,options,wide)
+		return
 	if current_screen == "title" and ResourceLoader.exists("res://assets/generated/qingwei_ferry_title.png"):
 		var art = TextureRect.new()
 		art.texture = load("res://assets/generated/qingwei_ferry_title.png")
