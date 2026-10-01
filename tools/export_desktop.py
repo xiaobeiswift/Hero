@@ -185,9 +185,9 @@ def main() -> None:
                     shutil.copyfileobj(src, dst)
         text = run([godot, "--headless", "--audio-driver", "Dummy", "--main-pack", str(pack),
                     "--script", str(ROOT / "tools/smoke_export.gd")], logs / f"{target}-smoke.log", smoke_env, cwd=directory)
-        if "PASS: 25 exported-pack checks; 0 failures" not in text:
+        if "PASS: 37 exported-pack checks; 0 failures" not in text:
             raise RuntimeError(f"Expected smoke assertion summary missing: {logs / f'{target}-smoke.log'}")
-        status["pack_audit"] = "Exact exported PCK loaded by Linux editor: 25 checks passed"
+        status["pack_audit"] = "Exact exported PCK loaded by Linux editor: 37 checks passed"
         add_notices(directory, snapshot, source_text, target)
         if target == "macos":
             # Notices are adjacent to the signed .app, so signing is not invalidated.
