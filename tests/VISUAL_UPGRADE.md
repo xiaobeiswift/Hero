@@ -68,3 +68,9 @@ Native ABBA diagnostic: stationary village at(1020,643),1280×800 world view,118
 ## Timber landing and skiff · 2026-10-01 19:19 UTC
 
 Two original unchanged PNG assets supply weathered planks and a shallow moored skiff. Deck UVs preserve source aspect within the existing fishing/ferry rectangles; the measured skiff crop preserves aspect and stays inside the river. Cached geometry/resources replace the flat surfaces without changing navigation. Captures152–155 show both walkable decks, the same-version fallback and a compact window. The player still cannot walk into the boat's water. Other props and regions retain their previous art. Full source regressions pass; this increment has no separate native performance or release-build claim.
+
+## Adjustable exploration view · 2026-10-01 19:44 UTC
+
+Three discrete world views use1280×800,1024×640 and800×500 world viewports, scaled to the same full window. HUD/dialogue and compass artwork keep their screen size; camera limits and HUD exclusions are projected into world-view coordinates. This changes field of view, not interaction distances or quest state. Local display preferences are separate from game saves; malformed values are rejected and write failure remains explicit.
+
+Final engine captures156–160 were inspected at standard,125%,160%, rest-menu and compact map-edge conditions. A separate native Linux editor session used actual +key input, saved exit, restart,160%restoration and mouse control to restore100%; both sessions ended with code0. This is source GUI evidence, not a new release, full manual walkthrough, controller test, Windows/macOS native run or performance benchmark. The closer view exposes remaining procedural background villagers, which are still pending visual replacement.
