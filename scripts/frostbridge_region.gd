@@ -70,7 +70,7 @@ static func draw(w) -> void:
 				if layer.id=="bridge_worker" and w.companion_active and w.companion_name=="唐栖":
 					w.draw_rect(Rect2(w.interactables[layer.id].pos-Vector2(20,15),Vector2(40,16)),Color("796b50"))
 					w.draw_line(w.interactables[layer.id].pos+Vector2(-12,-18),w.interactables[layer.id].pos+Vector2(15,-14),Color("c7b38a"),4)
-				else:w._draw_person(w.interactables[layer.id].pos,colors[layer.id],false,w.interactables[layer.id].kind)
+				else:w._draw_person(w.interactables[layer.id].pos,colors[layer.id],false,"tang" if layer.id=="bridge_worker" else w.interactables[layer.id].kind)
 			"resource":_resource(w,layer.id,w.interactables[layer.id].pos,w.resource_depleted.has(layer.id))
 			"player":w._draw_person(w.player_pos,Color("326e69"),true,"player")
 			"companion":w._draw_companion()

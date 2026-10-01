@@ -3,6 +3,7 @@ extends RefCounted
 ## Original articulated, direction-aware exploration figures. Coordinates remain visual only.
 const Painted=preload("res://scripts/painted_traveler_sprite.gd")
 const PaintedShen=preload("res://scripts/painted_shen_sprite.gd")
+const PaintedTang=preload("res://scripts/painted_tang_sprite.gd")
 const INK=Color("203a38")
 const SKIN=Color("e2bc91")
 const GOLD=Color("d9b570")
@@ -27,6 +28,7 @@ static func draw_actor(c:CanvasItem,foot:Vector2,robe:Color,direction:Vector2,cl
 	_ellipse(c,foot+Vector2(1,2),Vector2(13,5),Color(0.05,0.14,0.12,0.27))
 	if kind=="hero" and Painted.draw(c,foot,direction,walking,clock,72.0*scale_factor/1.12):return
 	if kind=="shen" and PaintedShen.draw(c,foot,direction,walking,clock,72.0*scale_factor/1.03):return
+	if kind=="tang" and PaintedTang.draw(c,foot,direction,walking,clock,72.0*scale_factor/1.03):return
 	if kind=="hero":
 		_ellipse(c,foot+Vector2(0,2),Vector2(17,6),Color(0.85,0.72,0.37,0.09))
 	# Feet alternate clear contact/lift; the foot origin remains the collision anchor.
