@@ -5,13 +5,15 @@ var checks=0
 func _init() -> void:
 	var state=State.new()
 	var path="user://hero-schema-audit.json"
-	check(state.save_game(path)==OK,"Save v2")
+	check(state.save_game(path)==OK,"Save current schema")
 	var file=FileAccess.open(path,FileAccess.READ);var doc=JSON.parse_string(file.get_as_text());file.close()
 	check(doc.version==State.SAVE_VERSION,"New saves identify the current schema")
 	doc.version=1;write(path,doc)
 	check(state.load_game(path)==OK,"Version1 remains readable")
 	doc.version=2;write(path,doc)
 	check(state.load_game(path)==OK,"Version2 remains readable")
+	doc.version=3;write(path,doc)
+	check(state.load_game(path)==OK,"Version3 remains readable")
 	for invalid in [0,1.5,State.SAVE_VERSION+1,99]:
 		var before=state.to_dict()
 		doc.version=invalid;write(path,doc)
