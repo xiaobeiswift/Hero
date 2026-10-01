@@ -1,0 +1,67 @@
+{
+	"cases": [
+		{
+			"draw_calls_mean": 902.0,
+			"editor_binary": true,
+			"frames": 108,
+			"max_ms": 136.701,
+			"method": "gl_compatibility",
+			"p95_ms": 87.7133333333335,
+			"painted_bamboo": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 5.135235,
+			"texture_memory_bytes": 114968799.0,
+			"wall_fps": 21.0311699464581,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 582.0,
+			"editor_binary": true,
+			"frames": 139,
+			"max_ms": 76.7053333333333,
+			"method": "gl_compatibility",
+			"p95_ms": 41.7576666666669,
+			"painted_bamboo": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 5.015053,
+			"texture_memory_bytes": 114968799.0,
+			"wall_fps": 27.716556534896,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 582.0,
+			"editor_binary": true,
+			"frames": 137,
+			"max_ms": 65.336,
+			"method": "gl_compatibility",
+			"p95_ms": 52.862,
+			"painted_bamboo": true,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 5.00933,
+			"texture_memory_bytes": 114968799.0,
+			"wall_fps": 27.3489668278991,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		},
+		{
+			"draw_calls_mean": 902.0,
+			"editor_binary": true,
+			"frames": 95,
+			"max_ms": 133.532333333334,
+			"method": "gl_compatibility",
+			"p95_ms": 113.367666666667,
+			"painted_bamboo": false,
+			"renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+			"seconds": 5.105403,
+			"texture_memory_bytes": 114968799.0,
+			"wall_fps": 18.6077377241327,
+			"window": "(1180, 812)",
+			"world_view": "(1280, 800)"
+		}
+	],
+	"scope": "Stationary village view at(1260,500), same HUD and viewport. Bamboo renderer only toggled in ABBA order. Real wall clock, no Movie Maker. Short shared-host llvmpipe diagnostic, not stable hardware performance or action/input latency.",
+	"source_base": "cf15c1a + painted bamboo",
+	"source_git_commit": "cdff34cbce2cd1a3ad527b5566d924cc34212220"
+}
