@@ -16,6 +16,8 @@ func _init() -> void:
 	check(state.load_game(path)==OK,"Version3 remains readable")
 	doc.version=4;write(path,doc)
 	check(state.load_game(path)==OK,"Version4 remains readable")
+	doc.version=5;write(path,doc)
+	check(state.load_game(path)==OK,"Version5 remains readable")
 	for invalid in [0,1.5,State.SAVE_VERSION+1,99]:
 		var before=state.to_dict()
 		doc.version=invalid;write(path,doc)

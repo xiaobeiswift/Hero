@@ -611,7 +611,7 @@ func _test_legacy_saves() -> void:
 		check(again.complete_sect_trial() and again.sect_merit == 3 and again.learn_art("束潮削势") and again.claim_sect_deed("sluice"), "S03: old pending promotion resumes normal purchase/deed flow")
 
 func _test_current_saves() -> void:
-	check(State.SAVE_VERSION == 5, "S04: current schema is exactly version five")
+	check(State.SAVE_VERSION >= 5, "S04: current schema retains version-five martial fields")
 	for school: String in SCHOOLS:
 		var s = _inner(school)
 		_events(s)
@@ -635,7 +635,7 @@ func _test_current_saves() -> void:
 		var file = FileAccess.open(TEST_SAVE, FileAccess.READ)
 		var document: Dictionary = JSON.parse_string(file.get_as_text())
 		file.close()
-		check(document.version == 5 and document.player.has("learned_arts") and document.player.has("claimed_deeds"), "S04: exact canonical v5 keys persisted")
+		check(document.version == State.SAVE_VERSION and document.player.has("learned_arts") and document.player.has("claimed_deeds"), "S04: exact canonical v5 keys persisted")
 		for transient: String in ["enemy_weaken_amount", "enemy_weaken_strikes", "focused_damage", "battle_active", "turn", "skill_cooldown"]:
 			check(not document.player.has(transient), "S04: transient field omitted " + transient)
 		check(not document.player.has("claimed_merit_awards"), "S04: obsolete plan receipt key is not serialized")
@@ -716,7 +716,7 @@ func _test_bad_saves_and_atomicity() -> void:
 		malformed.claimed_deeds = ids
 		for version: int in [1, 2, 3, 4, 5]:
 			_reject_load(live, malformed, "S05: unknown/obsolete receipt ID rejected " + str(ids), version)
-	for version: Variant in [0, -1, 1.5, 4.5, 5.5, 6, 99]:
+	for version: Variant in [0, -1, 1.5, 4.5, 5.5, State.SAVE_VERSION+1, 99]:
 		_reject_load(live, valid, "S08: unknown/fractional schema rejected atomically " + str(version), version, ERR_FILE_UNRECOGNIZED)
 	for version: Variant in [null, "5", true, []]:
 		_reject_load(live, valid, "S08: nonnumeric schema rejected atomically", version)
