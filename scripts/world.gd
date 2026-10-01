@@ -571,12 +571,21 @@ func _fence(a: Vector2, b: Vector2, posts: int) -> void:
 		draw_line(p, p - Vector2(0, 24), Color("646f55"), 4, true)
 		draw_line(p - Vector2(1, 23), p - Vector2(1, 2), Color("9aa27b"), 1, true)
 
+func _building_opacity(b: Dictionary) -> float:
+	var actors := [player_pos]
+	if companion_active:
+		actors.append(companion_pos)
+	return EnvironmentArt.building_opacity(b, actors)
+
 func _draw_building(b: Dictionary) -> void:
 	var bounds:Rect2=EnvironmentArt.building_rect(b) if map_id=="qingwei" else Rect2(b["pos"]-Vector2(50,70),b["size"]+Vector2(110,135))
 	if not _world_rect_visible(bounds.grow(10)):return
-	if map_id=="qingwei" and EnvironmentArt.draw_building(self,b):
+	var opacity: float = _building_opacity(b) if map_id == "qingwei" else 1.0
+	if map_id=="qingwei" and EnvironmentArt.draw_building(self,b,opacity):
 		var plaque:Rect2=EnvironmentArt.plaque_rect(b)
-		_label(plaque.position+Vector2(0,plaque.size.y*0.78),b["name"],11,Color("ebd7a4"),plaque.size.x,HORIZONTAL_ALIGNMENT_CENTER)
+		var ink := Color("ebd7a4")
+		ink.a = opacity
+		_label(plaque.position+Vector2(0,plaque.size.y*0.78),b["name"],11,ink,plaque.size.x,HORIZONTAL_ALIGNMENT_CENTER)
 		return
 	var p: Vector2 = b["pos"]
 	var size: Vector2 = b["size"]

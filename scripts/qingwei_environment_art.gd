@@ -63,12 +63,25 @@ static func building_rect(b: Dictionary) -> Rect2:
 	var threshold := p + Vector2(size.x * 0.5, size.y)
 	return Rect2(threshold - anchor * scale_factor, source.size * scale_factor)
 
-static func draw_building(canvas: CanvasItem, b: Dictionary) -> bool:
+static func building_opacity(b: Dictionary, actors: Array) -> float:
+	var bounds := building_rect(b)
+	if not bounds.has_area():
+		return 1.0
+	var threshold: float = b["pos"].y + b["size"].y
+	for actor: Vector2 in actors:
+		# Painted eaves extend beyond the collision footprint. Keep party bodies
+		# readable behind them without changing feet, y-sort or walkable space.
+		var body := Rect2(actor - Vector2(16, 60), Vector2(32, 64))
+		if actor.y < threshold and bounds.intersects(body):
+			return 0.35
+	return 1.0
+
+static func draw_building(canvas: CanvasItem, b: Dictionary, opacity: float = 1.0) -> bool:
 	var id: String = String(b.get("type", ""))
 	var texture := texture_for(id)
 	if texture == null:
 		return false
-	canvas.draw_texture_rect(texture, building_rect(b), false)
+	canvas.draw_texture_rect(texture, building_rect(b), false, Color(1, 1, 1, opacity))
 	return true
 
 static func plaque_rect(b: Dictionary) -> Rect2:
