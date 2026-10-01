@@ -1,0 +1,24 @@
+extends SceneTree
+const Art=preload("res://scripts/painted_village_sprite.gd")
+const World=preload("res://scripts/world.gd")
+func _initialize()->void:run.call_deferred()
+func run()->void:
+	var world=World.new();root.add_child(world);world.set_process(false)
+	for role in ["elder","healer","bandit","mentor"]:
+		assert(Art.texture_for(role)!=null)
+		assert(Art.texture_for(role).region.size==Vector2(256,256))
+		assert(world._painted_npc_role(role)==role)
+	for direction in [Vector2.DOWN,Vector2.RIGHT,Vector2.UP,Vector2.LEFT]:
+		assert(Art.texture_for("shen",direction).region.position.x==Art.direction_column(direction)*256)
+	var anchor=Vector2(320,430)
+	assert((Art.drawing_rect(anchor).position+Art.FOOT*(72.0/256.0)).distance_to(anchor)<.001)
+	world.companion_active=true;world.companion_name="沈青"
+	assert(world._painted_npc_role("healer").is_empty())
+	assert(world.get_npc_name("healer")=="药铺伙计")
+	world.companion_name="唐栖"
+	assert(world._painted_npc_role("healer")=="healer")
+	world.change_map("sluice",Vector2(190,520))
+	assert(world._painted_npc_role("elder").is_empty())
+	assert(Art.texture_for("unknown")==null)
+	world.queue_free();await process_frame
+	print("PASS: painted cast resources, 4 Shen views, fixed feet and travelling-healer identity");quit()

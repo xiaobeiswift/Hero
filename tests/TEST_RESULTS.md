@@ -20,6 +20,8 @@
 - visual_render_cache.gd：六处实际图形A/B对照通过，缓存只烘焙一次且绘制不改状态；最大通道误差1/255
 - 性能数据及噪声/显存限制见RENDER_PERFORMANCE.md，不能以固定时间步影片宣称实时帧率
 
+- painted_cast_test.gd：四角色素材、沈青四向、固定脚底与已同行沈青不重复出现检查通过；95–98实际引擎画面已复验
+
 ## 自动化
 
 通过 `bash run-tests.sh` 在独立、可写的临时 XDG 目录执行：
