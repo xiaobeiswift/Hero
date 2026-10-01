@@ -51,14 +51,14 @@ static func assist(s,messages:Array[String]) -> void:
  if s._companion_attack_count%2!=0 or s.enemy_hp<=0:return
  var id=active(s)
  var damage=4 if id==TANG else 7
- s.enemy_hp=maxi(0,s.enemy_hp-damage)
+ damage=s.deal_enemy_damage(damage,true)
  if id==TANG:
   var before=s.qi;s.qi=mini(s.max_qi,s.qi+1)
-  messages.append("唐栖以短尺拆招，追加4点伤害；为你赢得换气空隙，回复%d真气。" % (s.qi-before))
- else:messages.append("沈青与你并肩出手，追加 7 点伤害。")
+  messages.append("唐栖以短尺拆招，追加%d点伤害；为你赢得换气空隙，回复%d真气。" % [damage,s.qi-before])
+ else:messages.append("沈青与你并肩出手，追加 %d 点伤害。" % damage)
 static func cover(s,incoming:int,messages:Array[String]) -> int:
  var id=active(s)
- var reduction=5 if id==TANG and s.turn%2==0 else (2 if id==SHEN else 0)
+ var reduction=5 if id==TANG and s.enemy_strike_is_heavy() else (2 if id==SHEN else 0)
  if reduction==0:return incoming
  var result=maxi(1,incoming-reduction)
  messages.append("%s护住后路，替你分担 %d 点伤害。" % [id,incoming-result])

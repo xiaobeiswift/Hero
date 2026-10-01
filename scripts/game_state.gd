@@ -2,9 +2,11 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 5
+const SAVE_VERSION: int = 6
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
+const Patterns=preload("res://scripts/battle_patterns.gd")
+const Mist=preload("res://scripts/mistwood_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
 const Sects=preload("res://scripts/sect_rules.gd")
 const Chapter = preload("res://scripts/chapter_rules.gd")
@@ -40,6 +42,10 @@ var tangqi_choice:String=""
 var active_companion:String=""
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
+var mist_stage:int=0
+var mist_gauges:Array[String]=[]
+var mist_approach:String=""
+var mist_ending:String=""
 var chapter_two_stage:int=0
 var archive_clues:Array[String]=[]
 var seal_sequence:Array[int]=[]
@@ -104,6 +110,7 @@ func reset_game() -> void:
 	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
 	formation = "并肩"
 	equipment = "旧铁剑"
+	mist_stage=0;mist_gauges.clear();mist_approach="";mist_ending=""
 	chapter_two_stage=0
 	archive_clues.clear()
 	seal_sequence.clear()
@@ -286,7 +293,7 @@ func buy_equipment() -> bool:
 
 
 func current_region_name() -> String:
-	return "霜桥驿" if map_id=="frostbridge" else ("旧闸" if map_id == "sluice" else "青苇渡")
+	return "雾竹坡" if map_id=="mistwood" else ("霜桥驿" if map_id=="frostbridge" else ("旧闸" if map_id == "sluice" else "青苇渡"))
 
 
 func choose_side_route(choice: String) -> bool:
@@ -322,6 +329,8 @@ func finish_side_quest() -> bool:
 
 
 func start_battle(kind: String = "story") -> void:
+	if kind=="mist_scout" and (mist_stage!=1 or not mist_approach.is_empty()):return
+	if kind=="mist_keeper" and mist_stage!=2:return
 	if kind=="sect_trial" and not can_take_sect_trial():return
 	if battle_active:
 		return
@@ -336,6 +345,10 @@ func start_battle(kind: String = "story") -> void:
 			enemy_max_hp = 85
 			enemy_base_attack = 11
 			enemy_strong_attack = 22
+		"mist_scout":
+			enemy_name="探路巡哨";enemy_max_hp=155
+		"mist_keeper":
+			enemy_name="听雨关守令使";enemy_max_hp=300
 		"sect_trial":
 			enemy_name="岑远 · 代试游师"
 			enemy_max_hp=maxi(180,attack*4+30)
@@ -386,10 +399,10 @@ func battle_action(action: String) -> Dictionary:
 			var focus: int = focused_damage
 			var damage: int = attack + focus
 			focused_damage = 0
-			enemy_hp = maxi(0, enemy_hp - damage)
+			damage=deal_enemy_damage(damage)
 			qi = mini(max_qi, qi + 2)
 			if focus > 0:
-				messages.append("你使出平击，基础 %d + 蓄锋 %d，共造成 %d 点伤害，凝聚 2 点真气。" % [attack, focus, damage])
+				messages.append("你使出平击，基础 %d + 蓄锋 %d，经敌方架势后造成 %d 点伤害，凝聚 2 点真气。" % [attack, focus, damage])
 			else:
 				messages.append("你使出平击，造成 %d 点伤害，凝聚 2 点真气。" % damage)
 		"skill":
@@ -400,7 +413,7 @@ func battle_action(action: String) -> Dictionary:
 			qi -= int(definition["cost"])
 			skill_cooldown = int(definition["cooldown"])
 			var damage: int = Advanced.direct_damage(definition, attack, rank_before)
-			enemy_hp = maxi(0, enemy_hp - damage)
+			damage=deal_enemy_damage(damage)
 			messages.append("%s！造成 %d 点伤害。" % [art_id, damage])
 			if int(definition["healing"]) > 0:
 				var before_hp: int = hp
@@ -447,7 +460,11 @@ func battle_action(action: String) -> Dictionary:
 		victories += 1
 		var reward_xp: int = 30 if battle_kind == "training" else 60
 		var reward_coins: int = 12 if battle_kind == "training" else 26
-		if battle_kind == "sluice_scout":
+		if battle_kind=="mist_scout":
+			reward_xp=40;reward_coins=18;Mist.access(self,"duel")
+		elif battle_kind=="mist_keeper":
+			reward_xp=90;reward_coins=48;Mist.victory(self)
+		elif battle_kind == "sluice_scout":
 			reward_xp = 25
 			reward_coins = 14
 		elif battle_kind=="sect_trial":
@@ -468,7 +485,8 @@ func battle_action(action: String) -> Dictionary:
 
 	# Intent describes the next accepted turn, including each enemy's own damage.
 	if battle_kind=="sect_trial" and guard and action=="skill" and equipped_art==sect_art() and turn%2==0:_trial_guarded_heavy=true
-	var raw_damage: int = enemy_base_attack if turn % 2 == 1 else enemy_strong_attack
+	var enemy_phase=Patterns.phase(battle_kind,turn-1)
+	var raw_damage: int = int(enemy_phase.damage) if not enemy_phase.is_empty() else (enemy_base_attack if turn % 2 == 1 else enemy_strong_attack)
 	var without_weaken: int = maxi(1, raw_damage - defense)
 	var weaken: int = enemy_weaken_amount if enemy_weaken_strikes > 0 else 0
 	var incoming: int = maxi(1, raw_damage - defense - weaken)
@@ -487,10 +505,11 @@ func battle_action(action: String) -> Dictionary:
 	var move_name: String = "疾刃" if turn % 2 == 1 else "蓄势重斩"
 	if battle_kind in ["sluice_boss","archive_boss"]:
 		move_name = "闸刀横扫" if turn % 2 == 1 else "碎潮重劈"
+	if not enemy_phase.is_empty():move_name=enemy_phase.name
 	messages.append("%s使出%s，你受到 %d 点伤害。" % [enemy_name, move_name, incoming])
-	if battle_kind in ["sluice_boss","archive_boss"] and turn % 2 == 0 and not guard and hp > 0:
+	if ((battle_kind in ["sluice_boss","archive_boss"] and turn % 2 == 0) or bool(enemy_phase.get("exposes",false))) and not guard and hp > 0:
 		exposed_turns = 2
-		messages.append("碎潮重劈震乱了你的架势：破绽 2 回合。使用守势可立即化解。")
+		messages.append(move_name+"震乱了你的架势：破绽 2 回合。使用守势可立即化解。")
 	guard = false
 	if hp <= 0:
 		battle_active = false
@@ -502,7 +521,7 @@ func battle_action(action: String) -> Dictionary:
 		hp = max_hp
 		qi = maxi(qi, 2)
 		skill_cooldown = 0
-		messages.append("你力竭败退，遗落 %d 文钱。渡口乡亲将你救起，气血已恢复。" % lost_coins)
+		messages.append("你力竭败退，遗落 %d 文钱。附近行旅将你救起，气血已恢复。" % lost_coins)
 		return _finish_result(messages, true, false)
 	_update_intent()
 	return _finish_result(messages, false, false)
@@ -542,6 +561,7 @@ func to_dict() -> Dictionary:
 		"victories": victories, "companion_unlocked": companion_unlocked,
 		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
 		"formation": formation, "equipment": equipment,
+		"mist_stage":mist_stage,"mist_gauges":mist_gauges.duplicate(),"mist_approach":mist_approach,"mist_ending":mist_ending,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
 		"map_id": map_id, "side_stage": side_stage, "side_choice": side_choice,
@@ -596,7 +616,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -631,8 +651,9 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	for id in Items.material_ids(): resources[id]=_bounded_int(saved_resources,id,0,0,9999)
 	for id in data.get("gathered_nodes",[]):
 		if Items.GATHER_NODES.has(id) and not gathered_nodes.has(id): gathered_nodes.append(id)
-	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge"] else "qingwei"
+	map_id=String(data.get("map_id","qingwei")) if data.get("map_id","") in ["qingwei","sluice","frostbridge","mistwood"] else "qingwei"
 	Chapter.restore(self,data)
+	Mist.restore(self,data)
 	Companions.restore(self,data)
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
@@ -670,10 +691,10 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi",
-		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage"]:
+		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:
 		if data.has(key) and not _is_number(data[key]):
 			return false
-	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending", "tangqi_choice", "active_companion"]:
+	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor", "chapter_two_ending", "tangqi_choice", "active_companion", "mist_approach", "mist_ending"]:
 		if data.has(key) and not data[key] is String:
 			return false
 	var saved_sect: String = String(data.get("sect", "未入门"))
@@ -682,6 +703,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	var saved_rank: int = _bounded_int(data, "sect_rank", 1, 1, 2) if saved_sect != "未入门" else 0
 	if not Advanced.valid_save(data, version, saved_sect, saved_rank):
 		return false
+	if not Mist.valid(data,version):return false
 	if not Companions.valid(data):return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
 		return false
@@ -787,6 +809,9 @@ func _clear_battle() -> void:
 
 
 func _update_intent() -> void:
+	var pattern_intent=Patterns.intent(battle_kind,turn)
+	if not pattern_intent.is_empty():
+		enemy_intent=pattern_intent;return
 	if battle_kind in ["sluice_boss","archive_boss"]:
 		enemy_intent = "闸刀横扫 · 快击（%d）" % enemy_base_attack if turn % 2 == 0 else "碎潮重劈 · 重击（%d）+ 破绽 2 回合" % enemy_strong_attack
 	else:
@@ -839,3 +864,15 @@ func sect_trial_requirement() -> String:return Sects.requirement(self)
 func can_take_sect_trial() -> bool:return Sects.eligible(self) and not battle_active
 func complete_sect_trial() -> bool:return Sects.complete(self)
 func sect_rank_name() -> String:return ["未入门","门下弟子","内门弟子"][sect_rank]
+
+func deal_enemy_damage(amount:int,support:bool=false)->int:
+	var actual=Patterns.outgoing(battle_kind,turn,amount,support)
+	enemy_hp=maxi(0,enemy_hp-actual)
+	return actual
+func enemy_strike_is_heavy()->bool:
+	var phase=Patterns.phase(battle_kind,turn-1)
+	return bool(phase.heavy) if not phase.is_empty() else turn%2==0
+func begin_mistwood()->bool:return Mist.begin(self)
+func obtain_mist_access(route:String)->bool:return Mist.access(self,route)
+func record_mist_gauge(id:String)->bool:return Mist.record(self,id)
+func resolve_mistwood(choice:String)->bool:return Mist.resolve(self,choice)
