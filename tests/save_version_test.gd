@@ -7,10 +7,12 @@ func _init() -> void:
 	var path="user://hero-schema-audit.json"
 	check(state.save_game(path)==OK,"Save v2")
 	var file=FileAccess.open(path,FileAccess.READ);var doc=JSON.parse_string(file.get_as_text());file.close()
-	check(doc.version==2,"New chapter saves identify schema2")
+	check(doc.version==State.SAVE_VERSION,"New saves identify the current schema")
 	doc.version=1;write(path,doc)
 	check(state.load_game(path)==OK,"Version1 remains readable")
-	for invalid in [0,1.5,3,99]:
+	doc.version=2;write(path,doc)
+	check(state.load_game(path)==OK,"Version2 remains readable")
+	for invalid in [0,1.5,State.SAVE_VERSION+1,99]:
 		var before=state.to_dict()
 		doc.version=invalid;write(path,doc)
 		check(state.load_game(path)==ERR_FILE_UNRECOGNIZED and state.to_dict()==before,"Unknown schema rejected atomically: "+str(invalid))

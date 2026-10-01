@@ -36,7 +36,10 @@ func _init() -> void:
 		check(t.to_dict()==again.to_dict(),"Rank and bonuses survive reload without reapplication")
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 		# Pure force does not satisfy a school-specific examination.
-		s=State.new();s.gain_xp(180);s.choose_sect(school);s.attack=1000;s.start_battle("sect_trial");s.battle_action("attack")
+		s=State.new();s.gain_xp(180);s.choose_sect(school);s.attack=1000;s.start_battle("sect_trial")
+		for step in range(8):
+			if not s.battle_active:break
+			s.battle_action("attack")
 		check(s.enemy_hp==0 and not s.sect_trial_won and not s.complete_sect_trial(),"Winning without school technique does not promote")
 		check(s.can_take_sect_trial(),"Unqualified win remains retryable")
 		# Defeat/flee discard in-battle proof; they never award a promotion.
@@ -50,6 +53,10 @@ func _init() -> void:
 	check(healer._trial_healing==0,"Full-health skill does not count as healing")
 	var guarder=State.new();guarder.gain_xp(180);guarder.choose_sect("问石门");guarder.start_battle("sect_trial");guarder.battle_action("attack");guarder.battle_action("guard")
 	check(not guarder._trial_guarded_heavy,"Generic guard is not school-art proof")
+	var veteran=State.new();veteran.gain_xp(180);veteran.choose_sect("问石门");veteran.attack=900;veteran.equip_art(veteran.sect_art());veteran.start_battle("sect_trial");veteran.battle_action("attack");veteran.battle_action("skill")
+	check(veteran.enemy_hp>0 and veteran._trial_guarded_heavy,"Trial HP scales so powerful heroes can still demonstrate heavy defense")
+	veteran.enemy_hp=1;veteran.battle_action("attack")
+	check(veteran.sect_trial_won and veteran.complete_sect_trial(),"Late-game power cannot softlock promotion")
 	if failures==0:print("PASS: %d sect progression checks" % checks)
 	else:push_error("FAIL: %d of %d sect checks" % [failures,checks])
 	quit(0 if failures==0 else 1)
