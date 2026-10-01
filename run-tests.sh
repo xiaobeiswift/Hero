@@ -44,3 +44,5 @@ run_checked --headless --path . --script tests/mistwood_rules_test.gd
 run_checked --headless --path . --script tests/mistwood_geometry_test.gd
 
 run_checked --headless --path . --script tests/mistwood_ui_test.gd
+
+run_checked --headless --path . --script tests/local_save_slots_test.gd
