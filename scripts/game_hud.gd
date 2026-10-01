@@ -151,7 +151,8 @@ func _build_actions() -> void:
 	var save: Button = host._button(system_bar,"存卷  F6",Rect2(21,745,87,30),host._show_save_slots);_flat_button(save,13)
 	var load_save: Button = host._button(system_bar,"读卷  F10",Rect2(114,745,95,30),host._show_load_slots);_flat_button(load_save,13)
 	music_button=host._button(system_bar,"乐音 开",Rect2(216,745,77,30),host._toggle_audio);_flat_button(music_button,13)
-	_text(exploration,"渡 灯 录",Rect2(364,747,150,27),17,GOLD)
+	var rest:Button=host._button(system_bar,"小憩 Esc",Rect2(312,745,107,30),host._show_pause);_flat_button(rest,13)
+	rest.tooltip_text="休整、手记与安全离开"
 	var items: Array = [["舆图","M","map",host._show_map],["武学","K","sword",host._show_martials],["行囊","I","bag",host._show_inventory],["行纪","J","journal",host._show_journal],["工艺","B","craft",host._show_workshop]]
 	for i in range(items.size()):
 		var button: Button = host._button(exploration,"",Rect2(821+i*88,713,80,73),items[i][3])

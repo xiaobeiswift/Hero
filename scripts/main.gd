@@ -1,5 +1,6 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
+const PauseMenu=preload("res://scripts/pause_menu.gd")
 const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
 const StateModel = preload("res://scripts/game_state.gd")
@@ -245,6 +246,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.physical_keycode == KEY_F12:
 		_capture_screenshot()
 		return
+	if event.physical_keycode == KEY_ESCAPE and not active_modal and current_screen=="explore":
+		_show_pause();get_viewport().set_input_as_handled();return
 	if event.physical_keycode == KEY_ESCAPE and active_modal and current_screen != "title":
 		_close_modal()
 		return
@@ -340,6 +343,7 @@ func _toast(text: String) -> void:
 
 func _clear_overlay() -> void:
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
+	if overlay.has_meta("pause_menu"):overlay.remove_meta("pause_menu")
 	modal_actions.clear()
 	for child in overlay.get_children():
 		overlay.remove_child(child)
@@ -391,6 +395,9 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	for i in range(options.size()):
 		modal_actions.append(options[i][1])
 		_button(panel,options[i][0],Rect2(30+i*(button_width+gap),443 if wide else 353,button_width,48),options[i][1])
+
+func _show_pause()->void:
+	PauseMenu.show(self)
 
 func _show_title() -> void:
 	current_screen = "title"
@@ -794,11 +801,11 @@ func _notification(what:int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		_quit_cleanly()
 
-func _quit_cleanly() -> void:
+func _quit_cleanly(save_progress:bool=true) -> void:
 	if quit_pending: return
 	quit_pending=true
 	world.active=false
-	if current_screen=="explore": _autosave()
+	if save_progress and current_screen=="explore": _autosave()
 	_stop_audio()
 	await get_tree().create_timer(0.25).timeout
 	get_tree().quit()
