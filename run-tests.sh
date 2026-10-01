@@ -76,3 +76,6 @@ run_checked --headless --path . --script tests/painted_traveler_asset_test.gd
 run_checked --headless --path . --script tests/render_visibility_test.gd
 
 run_checked --headless --path . --script tests/painted_cast_test.gd
+
+run_checked --headless --path . --script tests/hud_layout_test.gd
+run_checked --headless --path . --script tests/hud_navigation_test.gd
