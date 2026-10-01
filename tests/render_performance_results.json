@@ -1,0 +1,340 @@
+{
+  "environment": "Godot 4.6.3 Linux editor binary, OpenGL Compatibility, Mesa llvmpipe LLVM19.1.7 256-bit,1180x812 native window; no Movie Maker",
+  "baseline_packs": {
+    "procedural": "v0.0.9 exact PCK",
+    "painted": "v0.0.10 exact PCK"
+  },
+  "measurements": {
+    "benchmark.log": {
+      "sha256": "253ac328a9d4730b60ce347eec07155c8ad2bf9492660499720dd9ce17cd8cc3",
+      "samples": [
+        {
+          "elapsed_real_seconds": 5.899241,
+          "last_engine_fps": 10.0,
+          "mode": "Native Godot without Movie Maker; prepared Qingwei movement; cloud only",
+          "observed_fps": 6.10247996310034,
+          "process_frames": 36,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)"
+        }
+      ]
+    },
+    "benchmark-cached.log": {
+      "sha256": "4f040afee304b0aea4fc174096de7a609654ba44e0ffef27e4a54fc5f502800d",
+      "samples": [
+        {
+          "cache": false,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "draw_calls_mean": 1720.58620689655,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.017934,
+          "end_position": "(435.0, 642.2309)",
+          "frame_delta_max_ms": 150.0,
+          "frame_delta_p95_ms": 130.178,
+          "frames": 29,
+          "main_process_ms_mean": 141.916448275862,
+          "method": "gl_compatibility",
+          "observed_fps": 9.60922273316779,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 372.5001)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": true,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "draw_calls_mean": 1012.68571428571,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.177928,
+          "end_position": "(435.0, 665.0195)",
+          "frame_delta_max_ms": 140.566666666667,
+          "frame_delta_p95_ms": 138.266,
+          "frames": 35,
+          "main_process_ms_mean": 135.254942857143,
+          "method": "gl_compatibility",
+          "observed_fps": 11.0134653774409,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 384.7126)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": false,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "draw_calls_mean": 1720.6,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.014899,
+          "end_position": "(435.0, 638.3282)",
+          "frame_delta_max_ms": 150.0,
+          "frame_delta_p95_ms": 148.707333333333,
+          "frames": 25,
+          "main_process_ms_mean": 194.06436,
+          "method": "gl_compatibility",
+          "observed_fps": 8.29215174372342,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 378.6666)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": true,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "draw_calls_mean": 1012.52631578947,
+          "editor_binary": true,
+          "elapsed_real_seconds": 4.911469,
+          "end_position": "(435.0, 658.1433)",
+          "frame_delta_max_ms": 147.496333333333,
+          "frame_delta_p95_ms": 141.203666666667,
+          "frames": 38,
+          "main_process_ms_mean": 232.456657894737,
+          "method": "gl_compatibility",
+          "observed_fps": 7.73699274086836,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 379.3)",
+          "viewport": "(1180, 812)"
+        }
+      ]
+    },
+    "benchmark-v009.log": {
+      "sha256": "0f8e4a5fd6252917f1e69c6a252368a81819fb8431ecdf3a7e48f47c462ef70d",
+      "samples": [
+        {
+          "cache": false,
+          "cache_ready": false,
+          "case": "procedural-v009",
+          "draw_calls_mean": 1566.0,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.501924,
+          "end_position": "(435.0, 665.337)",
+          "frame_delta_max_ms": 146.270333333333,
+          "frame_delta_p95_ms": 140.854666666667,
+          "frames": 26,
+          "main_process_ms_mean": 200.015692307692,
+          "method": "gl_compatibility",
+          "observed_fps": 7.42449008031014,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 22472479.0,
+          "up_position": "(435.0, 389.2035)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": false,
+          "cache_ready": false,
+          "case": "procedural-v009",
+          "draw_calls_mean": 1566.0,
+          "editor_binary": true,
+          "elapsed_real_seconds": 2.868545,
+          "end_position": "(435.0, 657.6975)",
+          "frame_delta_max_ms": 148.492,
+          "frame_delta_p95_ms": 140.769666666667,
+          "frames": 27,
+          "main_process_ms_mean": 198.916444444445,
+          "method": "gl_compatibility",
+          "observed_fps": 9.41243731578204,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 22472479.0,
+          "up_position": "(435.0, 390.66)",
+          "viewport": "(1180, 812)"
+        }
+      ]
+    },
+    "benchmark-v010.log": {
+      "sha256": "3d9ae0cf14ec8b6ef63eed23713033b22b798ef7b275f3f8804ae78299ab15ab",
+      "samples": [
+        {
+          "cache": false,
+          "cache_ready": false,
+          "case": "painted-v010",
+          "draw_calls_mean": 1735.75,
+          "editor_binary": true,
+          "elapsed_real_seconds": 4.744322,
+          "end_position": "(435.0, 665.1581)",
+          "frame_delta_max_ms": 144.367333333333,
+          "frame_delta_p95_ms": 140.901,
+          "frames": 24,
+          "main_process_ms_mean": 568.589083333334,
+          "method": "gl_compatibility",
+          "observed_fps": 5.0586785635545,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 36974375.0,
+          "up_position": "(435.0, 390.7414)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": false,
+          "cache_ready": false,
+          "case": "painted-v010",
+          "draw_calls_mean": 1735.72,
+          "editor_binary": true,
+          "elapsed_real_seconds": 4.164946,
+          "end_position": "(435.0, 665.3286)",
+          "frame_delta_max_ms": 147.582,
+          "frame_delta_p95_ms": 145.484,
+          "frames": 25,
+          "main_process_ms_mean": 308.07884,
+          "method": "gl_compatibility",
+          "observed_fps": 6.00247878363849,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 36974375.0,
+          "up_position": "(435.0, 385.9055)",
+          "viewport": "(1180, 812)"
+        }
+      ]
+    },
+    "benchmark-cached-culling.log": {
+      "sha256": "d2d264252c4ea296b95afa0c686e8c57d273e3b19102fa34683f7f22545e77f5",
+      "samples": [
+        {
+          "cache": false,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "culling": false,
+          "draw_calls_mean": 1720.52173913043,
+          "editor_binary": true,
+          "elapsed_real_seconds": 10.299377,
+          "end_position": "(435.0, 634.0156)",
+          "frame_delta_max_ms": 148.928666666667,
+          "frame_delta_p95_ms": 148.234,
+          "frames": 23,
+          "main_process_ms_mean": 478.422826086957,
+          "method": "gl_compatibility",
+          "observed_fps": 2.23314478147562,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 375.0155)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": true,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "culling": false,
+          "draw_calls_mean": 1012.56756756757,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.046647,
+          "end_position": "(435.0, 651.8575)",
+          "frame_delta_max_ms": 149.673333333333,
+          "frame_delta_p95_ms": 146.436,
+          "frames": 37,
+          "main_process_ms_mean": 186.569081081081,
+          "method": "gl_compatibility",
+          "observed_fps": 12.1444985257563,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 390.8999)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": true,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "culling": true,
+          "draw_calls_mean": 447.674418604651,
+          "editor_binary": true,
+          "elapsed_real_seconds": 2.974182,
+          "end_position": "(435.0, 642.213)",
+          "frame_delta_max_ms": 134.711,
+          "frame_delta_p95_ms": 128.383,
+          "frames": 43,
+          "main_process_ms_mean": 161.967720930232,
+          "method": "gl_compatibility",
+          "observed_fps": 14.457756788253,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 382.5073)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": false,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "culling": true,
+          "draw_calls_mean": 1154.38461538462,
+          "editor_binary": true,
+          "elapsed_real_seconds": 2.884113,
+          "end_position": "(435.0, 635.243)",
+          "frame_delta_max_ms": 104.905,
+          "frame_delta_p95_ms": 103.496333333333,
+          "frames": 39,
+          "main_process_ms_mean": 98.7486666666666,
+          "method": "gl_compatibility",
+          "observed_fps": 13.5223550533561,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 375.997)",
+          "viewport": "(1180, 812)"
+        },
+        {
+          "cache": true,
+          "cache_ready": true,
+          "case": "painted-source-ab",
+          "culling": true,
+          "draw_calls_mean": 447.934782608696,
+          "editor_binary": true,
+          "elapsed_real_seconds": 3.122852,
+          "end_position": "(435.0, 638.6707)",
+          "frame_delta_max_ms": 142.860333333333,
+          "frame_delta_p95_ms": 136.492333333333,
+          "frames": 46,
+          "main_process_ms_mean": 143.058826086956,
+          "method": "gl_compatibility",
+          "observed_fps": 14.7301248986503,
+          "renderer": "llvmpipe (LLVM 19.1.7, 256 bits)",
+          "texture_memory_bytes": 61599187.0,
+          "up_position": "(435.0, 379.6706)",
+          "viewport": "(1180, 812)"
+        }
+      ]
+    }
+  },
+  "pixel_pairs": [
+    {
+      "view": 0,
+      "mean_absolute_channel_error": 1.648153684581714e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    },
+    {
+      "view": 1,
+      "mean_absolute_channel_error": 5.3660817637544175e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    },
+    {
+      "view": 2,
+      "mean_absolute_channel_error": 3.756257234628092e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    },
+    {
+      "view": 3,
+      "mean_absolute_channel_error": 1.9547869282248236e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    },
+    {
+      "view": 4,
+      "mean_absolute_channel_error": 1.1882038191170496e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    },
+    {
+      "view": 5,
+      "mean_absolute_channel_error": 1.1882038191170496e-05,
+      "maximum_channel_error": 1,
+      "pixels_different_over_1": 0
+    }
+  ],
+  "limits": [
+    "Shared cloud scheduling/load was not fully controlled",
+    "Short trials; one baseline trial stalled for10.30s and is retained",
+    "Fixed-step movie FPS was not used",
+    "Not a user-hardware or release-native FPS guarantee",
+    "Frame-delta/input movement and draw-call evidence do not establish low latency on all systems",
+    "Cache adds a1600x1050 render target and associated graphics memory; observed total texture-memory monitor was61.60MB in current A/B (cache stays allocated even when bypassed)"
+  ]
+}

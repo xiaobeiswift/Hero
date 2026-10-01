@@ -32,6 +32,8 @@ func _run() -> void:
 	game.battle_presentation_enabled=true
 	game.battle_art.set_process(false)
 	game._start_battle("training")
+	game._process(0.0)
+	_check(not game.world.visible,"Opaque combat hides the unused exploration canvas")
 	_check(not game.battle_busy and not game.battle_art.is_presenting(), "New battle starts with no stale presentation")
 	game.state.qi=0
 	game._battle_action("skill")
@@ -66,6 +68,8 @@ func _run() -> void:
 	_check(game.battle_layer.visible and not game.active_modal, "Finisher recoil remains visible during the result delay")
 	_finish()
 	_check(game.current_screen=="explore" and not game.battle_layer.visible and game.active_modal, "Victory modal appears only after the final animation")
+	game._process(0.0)
+	_check(game.world.visible,"Returning from combat restores the exploration canvas")
 	game._close_modal()
 
 	game._start_battle("training")
