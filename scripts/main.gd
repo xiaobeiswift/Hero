@@ -85,6 +85,9 @@ var audio_on = true
 var last_near = ""
 var save_warning = false
 var quit_pending = false
+var screenshot_pending := false
+var screenshot_sequence := 0
+var last_screenshot_path := ""
 
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
@@ -798,13 +801,34 @@ func _quit_cleanly() -> void:
 	await get_tree().create_timer(0.25).timeout
 	get_tree().quit()
 
+func _screenshot_target(folder:String,stamp:String)->String:
+	# Keep two deliberate captures in the same second; never overwrite an existing image.
+	var safe_stamp=stamp.replace(":","-")
+	while true:
+		screenshot_sequence+=1
+		var target=folder+"/hero-"+safe_stamp+"-%03d.png"%screenshot_sequence
+		if not FileAccess.file_exists(target):return target
+	return ""
+
 func _capture_screenshot() -> void:
+	if screenshot_pending or quit_pending:return
+	if DisplayServer.get_name()=="headless":
+		_toast("当前无图形画面，无法截图。")
+		return
+	screenshot_pending=true
 	await RenderingServer.frame_post_draw
+	if quit_pending:
+		screenshot_pending=false
+		return
 	var folder = "res://screenshots" if OS.has_feature("editor") else "user://screenshots"
-	DirAccess.make_dir_recursive_absolute(folder)
-	var target = folder + "/hero-" + Time.get_datetime_string_from_system().replace(":", "-") + ".png"
-	var error = get_viewport().get_texture().get_image().save_png(target)
-	_toast("截图已保存："+ProjectSettings.globalize_path(target) if error==OK else "截图保存失败。")
+	var error=DirAccess.make_dir_recursive_absolute(folder)
+	if error==OK:
+		var target=_screenshot_target(folder,Time.get_datetime_string_from_system())
+		error=get_viewport().get_texture().get_image().save_png(target)
+		if error==OK:last_screenshot_path=ProjectSettings.globalize_path(target)
+	screenshot_pending=false
+	# A long filesystem path used to cover the combat action with two lines of debug text.
+	_toast("截图已保存 · 本地 screenshots 文件夹" if error==OK else "截图保存失败，请检查可用空间。")
 
 func _travel(destination: String, spawn: Vector2) -> void:
 	_close_modal()
