@@ -10,7 +10,9 @@
 - `state_test.gd`：217 断言通过
 - `audit_progression_test.gd`：64 断言通过
 - `audit_second_region_test.gd`：142 断言通过
-- 合计：423 断言通过
+- `economy_test.gd`：63 断言通过
+- `workshop_ui_test.gd`：26 断言通过
+- 合计：512 断言通过
 - `main.gd --check-only`：通过
 
 关键覆盖：
@@ -35,5 +37,6 @@
 
 - 不是完整人工连贯通关或跨平台兼容性验收
 - 云桌面没有可用声卡，引擎退回 dummy audio，不能证明实际听感
-- 未导出独立发行包，未在真实 Windows/macOS 硬件运行
+- Linux独立发行包已实际启动并检查标题/探索入口/工艺/材料交易；这不是整章人工通关
+- Windows/macOS导出工作进行中，未在真实对应硬件运行
 - 测试通过说明已覆盖流程正常，不代表不存在其他缺陷或已达到商业内容量
