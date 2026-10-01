@@ -10,7 +10,7 @@ ENGINE="${GODOT_BIN:-godot}"
 run_checked() {
   local log
   log="$(mktemp "$TEST_ROOT/check.XXXXXX.log")"
-  "$ENGINE" "$@" 2>&1 | tee "$log"
+  python3 tools/run_godot_check.py "$ENGINE" "$@" 2>&1 | tee "$log"
   if grep -Eq '^(SCRIPT ERROR|ERROR):' "$log"; then
     echo "Godot reported an error; see $log" >&2
     return 1
@@ -118,6 +118,7 @@ run_checked --headless --path . --script tests/lantern_post_art_test.gd
 
 python3 -m unittest discover -s tests -p test_export_archives.py
 python3 -m unittest discover -s tests -p test_sequential_exports.py
+python3 -m unittest discover -s tests -p test_check_timeout.py
 
 run_checked --headless --path . --script tests/dialogue_sheet_test.gd
 
