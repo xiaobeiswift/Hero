@@ -22,7 +22,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
-PACK_SMOKE_CHECKS = 737
+PACK_SMOKE_CHECKS = 761
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
@@ -90,7 +90,8 @@ def add_notices(directory: Path, snapshot: Path, source_text: str, platform: str
         "No Godot editor, account, network connection or credentials are required at runtime.\n"
         "WASD / arrows: walk; E / Enter: interact; I: inventory; J: journal;\n"
         "M: map; K: martial arts; B: workshop;\n"
-        "F5/F9: quick save/load; F6/F10: manual save/load slots; Esc: close dialogue.\n"
+        "F5/F9: quick save/load; F6/F10: manual save/load slots; Esc: close dialogue or rest.\n"
+        "+/-: exploration view; rest menu also changes view and safely saves before exit.\n"
         "The included engine and font license notices must remain with redistributions.\n",
         encoding="utf-8")
 
@@ -100,6 +101,7 @@ def main() -> None:
     parser.add_argument("--target", choices=["all", *TARGETS], default="linux")
     parser.add_argument("--label", default=dt.datetime.now(dt.timezone.utc).strftime("build-%Y%m%d-%H%M%S"))
     parser.add_argument("--allow-dirty-source", action="store_true", help="Development exports only: allow uncommitted game resources; report remains marked dirty")
+    parser.add_argument("--transient-platforms", action="store_true", help="New builds only: mark unpacked platform files as temporary, retained until archive/native verification and explicit cleanup")
     parser.add_argument("--godot", default=os.environ.get("GODOT", "godot"))
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", args.label):
@@ -123,6 +125,9 @@ def main() -> None:
     if provenance["source_git_clean"] is False and not args.allow_dirty_source:
         parser.error("Game resources have uncommitted changes. Commit them first, or use --allow-dirty-source for a development-only export.")
     build.mkdir(parents=True)
+    platform_work = build / "transient" if args.transient_platforms else build
+    if args.transient_platforms:
+        platform_work.mkdir()
     logs = build / "logs"
     logs.mkdir()
     env = os.environ.copy()
@@ -159,10 +164,13 @@ def main() -> None:
               "build_script_sha256": digest(Path(__file__)),
               "smoke_script_sha256": digest(smoke_driver),
               "expected_pack_checks": PACK_SMOKE_CHECKS,
+              "platform_work_directory": "transient" if args.transient_platforms else ".",
+              "transient_platforms": args.transient_platforms,
+              "archive_verifier_sha256": digest(ROOT / "tools/verify_export_archives.py"),
               "template_sha256": {}, "platforms": {}, "archives": {}}
     for target in targets:
         preset, template, filename = TARGETS[target]
-        directory = build / target
+        directory = platform_work / target
         directory.mkdir()
         output = directory / filename
         run([godot, "--headless", "--path", str(snapshot), "--export-release", preset, str(output)],
@@ -192,7 +200,7 @@ def main() -> None:
                 packs = [n for n in z.namelist() if n.endswith(".pck")]
                 if len(packs) != 1:
                     raise RuntimeError(f"Expected one macOS PCK; got {packs}")
-                pack = build / "macos-audit.pck"
+                pack = platform_work / "macos-audit.pck"
                 with z.open(packs[0]) as src, pack.open("wb") as dst:
                     shutil.copyfileobj(src, dst)
         text = run([godot, "--headless", "--audio-driver", "Dummy", "--main-pack", str(pack),
@@ -237,6 +245,22 @@ def main() -> None:
     report["build_status"] = "complete"
     (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (build / "SHA256SUMS.txt").write_text(sums, encoding="utf-8")
+    try:
+        result = run([sys.executable, str(ROOT / "tools/verify_export_archives.py"), str(build)],
+                     logs / "archive-members.log", env, cwd=build)
+        (build / "ARCHIVE-VERIFICATION.json").write_text(result, encoding="utf-8")
+    except (OSError, RuntimeError, subprocess.TimeoutExpired):
+        report["build_status"] = "archive_verification_failed"
+        (build / "BUILD-REPORT.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        raise
+    if args.transient_platforms:
+        (build / "TRANSIENT-WORKSPACE.json").write_text(json.dumps({
+            "format": 1, "label": args.label, "source_git_commit": provenance["source_git_commit"],
+            "temporary_paths": ["transient", "source/.godot"],
+            "retained": ["final archives", "source snapshot", "source manifest", "all reports/logs", "smoke profiles", "screenshots"],
+            "state": "awaiting native verification and process closure",
+            "cleanup_gate": "Recheck archive bytes; complete native verification; verify no native process is using this build; coordinate publication readers before removing only the two temporary paths. This script never cleans them automatically."
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Build complete: {build}\n{sums}", flush=True)
 
 

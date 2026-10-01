@@ -124,6 +124,8 @@ func _run() -> void:
 	await _test_rest_support_pack()
 	print("Retained rest/support pack coverage: %d checks"%checks)
 	await _test_village_finish_pack()
+	print("Retained village/view pack coverage: %d checks"%checks)
+	await _test_courtyard_props_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1302,3 +1304,40 @@ func _test_village_finish_pack()->void:
 	await _key(KEY_EQUAL)
 	_check(game.view_zoom==1.0,"Packed battle blocks exploration zoom")
 	game.battle_presentation_enabled=false;game._battle_action("flee");game._close_modal()
+
+func _test_courtyard_props_pack()->void:
+	var board=load("res://scripts/painted_noticeboard.gd")
+	var camp=load("res://scripts/painted_camp_shelter.gd")
+	var bamboo=load("res://scripts/painted_bamboo.gd")
+	var tables=load("res://scripts/painted_tea_table.gd")
+	var lamps=load("res://scripts/painted_lantern_post.gd")
+	_check(board!=null and camp!=null and bamboo!=null and tables!=null and lamps!=null,"Packed courtyard presentation helpers retained")
+	if board==null or camp==null or bamboo==null or tables==null or lamps==null:return
+	for helper in [board,camp,bamboo,tables,lamps]:
+		_check(ResourceLoader.exists(helper.PATH) and helper.texture()!=null,"Packed original prop resource retained")
+	_check(board.texture()==board.texture() and board.texture().region==Rect2(35,139,1201,992),"Packed board crop stays cached and bounded")
+	var foot=Vector2(720,480)
+	_check((board.drawing_rect(foot).position+board.FOOT*board.WIDTH/board.REGION.size.x).distance_to(foot)<.001,"Packed board keeps its interaction foot")
+	_check(camp.opacity_for([Vector2(1315,785),Vector2(1339,720)])==.45,"Packed canvas preserves a party member behind it")
+	_check((camp.drawing_rect().position+camp.FOOT*camp.WIDTH/camp.REGION.size.x).distance_to(camp.WORLD_FOOT)<.001,"Packed shelter remains grounded")
+	for height in [132.0,146.0]:
+		var data=bamboo.geometry(foot,height,1.5,true);var p=data.points;var u=bamboo.FOOT.x/bamboo.REGION.size.x;var v=bamboo.FOOT.y/bamboo.REGION.size.y
+		var anchor=p[0]*(1-u)*(1-v)+p[1]*u*(1-v)+p[2]*u*v+p[3]*(1-u)*v
+		_check(anchor.distance_to(foot)<.001 and Geometry2D.triangulate_polygon(p).size()==6,"Packed bamboo sway keeps root on valid geometry")
+	_check(bamboo.texture().get_size()==Vector2(1286,1223),"Packed bamboo texture preserves measured UV dimensions")
+	for p in tables.POSITIONS:
+		var rect:Rect2=tables.drawing_rect(p)
+		_check((rect.position+tables.FOOT*tables.WIDTH/tables.REGION.size.x).distance_to(p+Vector2(0,8))<.001,"Packed tea arrangement preserves courtyard anchor")
+	for p in lamps.POSITIONS:
+		var data=lamps.lamp_geometry(p,1.0);var points=data.points;var u=lamps.LOOP.x/lamps.LAMP_REGION.size.x;var v=lamps.LOOP.y/lamps.LAMP_REGION.size.y
+		var pivot=points[0]*(1-u)*(1-v)+points[1]*u*(1-v)+points[2]*u*v+points[3]*(1-u)*v
+		_check(pivot.distance_to(lamps.lamp_pivot(p))<.001,"Packed suspended lantern remains attached to its hook")
+	_check(lamps.post_texture()==lamps.post_texture() and lamps.texture().get_size()==Vector2(1774,887),"Packed lantern components share cached original art")
+	game._new_game()
+	_check(game.world.painted_board_enabled and game.world.painted_camp_enabled and game.world.painted_bamboo_enabled and game.world.painted_tea_tables_enabled and game.world.painted_lanterns_enabled,"Packed courtyard art enabled by default")
+	game.world.teleport(Vector2(715,540));await create_timer(.05).timeout;await _key(KEY_E)
+	_check(game.active_modal and _gather_text(game.overlay).contains("青苇渡告示"),"Packed E reaches original notice reading")
+	await _key(KEY_ESCAPE)
+	_check(not game.active_modal and game.state.quest_stage==0,"Packed notice dismissal preserves opening quest state")
+	var prompt:Rect2=game.world._interaction_prompt_rect(Vector2(720,480))
+	_check(not prompt.intersects(Rect2(game.world.player_pos-Vector2(20,62),Vector2(40,70))),"Packed local prompt leaves the traveller visible")
