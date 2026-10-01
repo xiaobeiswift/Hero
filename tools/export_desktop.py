@@ -22,7 +22,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
-PACK_SMOKE_CHECKS = 177
+PACK_SMOKE_CHECKS = 303
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
@@ -81,7 +81,7 @@ def add_notices(directory: Path, snapshot: Path, source_text: str, platform: str
     launch = {"linux": "Keep Hero.x86_64 and Hero.pck together. Run ./Hero.x86_64.",
               "windows": "Extract the complete ZIP. Keep Hero.exe and Hero.pck together. Run Hero.exe.",
               "macos": "Extract the ZIP, then open the Hero application. This prototype is ad-hoc signed, not notarized."}[platform]
-    native_status = "Linux exported runtime is smoke-tested in the build environment." if platform == "linux" else "This artifact is cross-exported only; native platform execution has NOT been tested."
+    native_status = "Linux release executable passed headless startup in the build environment; graphical playtesting is separate." if platform == "linux" else "This artifact is cross-exported only; native platform execution has NOT been tested."
     (directory / "READ-ME.txt").write_text(
         "Hero · 渡灯录 — offline single-player desktop prototype\n\n" + launch + "\n\n" + native_status +
         "\nThis is a work-in-progress prototype, not a finished commercial game.\n"
