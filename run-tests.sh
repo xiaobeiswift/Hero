@@ -26,3 +26,4 @@ run_checked --headless --path . --script tests/workshop_ui_test.gd
 run_checked --headless --path . --script tests/chapter_rules_test.gd
 run_checked --headless --path . --script tests/frostbridge_ui_test.gd
 run_checked --headless --path . --script tests/save_version_test.gd
+run_checked --headless --path . --script tests/sect_rules_test.gd
