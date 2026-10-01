@@ -51,6 +51,7 @@ func target_id() -> String:
  match host.state.map_id:
   "qingwei":return "exit_sluice"
   "sluice":return "sluice_cache" if host.state.tangqi_stage==1 else "exit_frostbridge"
+  "mistwood":return "return_frostbridge"
   "frostbridge":return "return_sluice" if host.state.tangqi_stage==1 else "bridge_worker"
  return ""
 func journal() -> String:

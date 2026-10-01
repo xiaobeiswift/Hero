@@ -65,7 +65,7 @@ func battle_victory() -> void:
 func finish(choice:String) -> void:
 	var success=host.state.resolve_chapter_two(choice)
 	host._close_modal()
-	if success:host._toast("第二章完成 · 修为 +100、铜钱 +65。霜桥驿留下了你的选择。")
+	if success:host._toast("第二章完成 · 修为 +100、铜钱 +65。东北竹坡道通往雾竹坡。")
 func bridge() -> void:
 	if host.state.bridge_repaired and host.state.chapter_two_stage>=4:
 		host.companion_story.bridge();return
@@ -86,7 +86,7 @@ func collect(id:String) -> void:
 func quest_title() -> String:
 	return ["霜桥来信","三印问路","封仓问剑","原账与姓名","霜桥余响"][host.state.chapter_two_stage]
 func quest_hint() -> String:
-	return ["沿废闸东北古道，前往霜桥驿。","调查北桥碑文和东北文书房，按口诀解开东南印台。","机关已开，去东南印台向韩砚索取原账。","回西岸驿馆，与温行舟决定证据的公开方式。","原账已有归处。可采集、制作、修复南桥或返回旧地。"][host.state.chapter_two_stage]
+	return ["沿废闸东北古道，前往霜桥驿。","调查北桥碑文和东北文书房，按口诀解开东南印台。","机关已开，去东南印台向韩砚索取原账。","回西岸驿馆，与温行舟决定证据的公开方式。","原账已有归处。可修南桥、返回研艺，或沿东北竹坡道追查雨令。"][host.state.chapter_two_stage]
 func target_id() -> String:
 	match host.state.chapter_two_stage:
 		1:
@@ -95,7 +95,7 @@ func target_id() -> String:
 			return "chapter_archive"
 		2:return "chapter_archive"
 		3:return "chapter_host"
-		4:return "bridge_worker" if not host.state.bridge_repaired else "return_sluice"
+		4:return "bridge_worker" if not host.state.bridge_repaired else ("exit_mistwood" if host.state.mist_stage==0 else "return_sluice")
 	return "chapter_host"
 func journal() -> String:
 	var s=host.state

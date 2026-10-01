@@ -1,5 +1,6 @@
 class_name MapChart
 extends Control
+const Mist=preload("res://scripts/mistwood_region.gd")
 
 ## Read-only cartographic overview. Marker names and positions come from the world.
 var map_id: String = "qingwei"
@@ -40,7 +41,9 @@ func _draw() -> void:
 		var y := MAP_RECT.position.y + i * MAP_RECT.size.y / 5.0
 		draw_line(Vector2(MAP_RECT.position.x, y), Vector2(MAP_RECT.end.x, y), Color(0.39, 0.51, 0.4, 0.10), 1)
 	_draw_terrain_hatching()
-	if map_id=="frostbridge":
+	if map_id=="mistwood":
+		_draw_mistwood_map()
+	elif map_id=="frostbridge":
 		_draw_frost_map()
 	elif map_id == "sluice":
 		_draw_sluice_map()
@@ -208,7 +211,7 @@ func _draw_legend() -> void:
 	_text(Vector2(162, y + 4), "人物 / 地点", 11, INK)
 	draw_arc(Vector2(272, y), 6, 0, TAU, 24, GOLD, 1.7, true)
 	_text(Vector2(285, y + 4), "当前机缘", 11, INK)
-	var title := "霜桥驿 · 印台图" if map_id=="frostbridge" else ("废闸古道 · 两岸图" if map_id == "sluice" else "青苇渡 · 渡口图")
+	var title:String={"qingwei":"青苇渡 · 渡口图","sluice":"废闸古道 · 两岸图","frostbridge":"霜桥驿 · 印台图","mistwood":"雾竹坡 · 听雨图"}.get(map_id,"江湖舆图")
 	_text(Vector2(505, y + 4), title + "  /  仅供览图", 11, Color("68795f"), 225, HORIZONTAL_ALIGNMENT_RIGHT)
 
 func _font() -> Font:
@@ -258,3 +261,16 @@ func _draw_frost_map() -> void:
 	_building(Vector2(290,205),Vector2(248,110),"驿馆")
 	_building(Vector2(1030,205),Vector2(246,120),"文书")
 	_building(Vector2(1160,565),Vector2(250,132),"封仓")
+
+func _draw_mistwood_map()->void:
+	for path in Mist.PATHS:
+		var route:Array[Vector2]=[];route.assign(path);_road(route,6)
+	_ellipse(_point(Mist.POND_CENTER),Mist.POND_RADII/WORLD_SIZE*MAP_RECT.size,WATER)
+	for terrace in Mist.TERRACES:
+		draw_rect(_world_rect(terrace.position,terrace.size),Color("86987b"))
+	for p in Mist.BAMBOO:
+		var at=_point(p)
+		draw_line(at+Vector2(-2,4),at+Vector2(-2,-6),Color("638a61"),2)
+		draw_line(at+Vector2(2,3),at+Vector2(2,-8),Color("638a61"),2)
+	draw_rect(_world_rect(Mist.CAMP_FOOTPRINT.position,Mist.CAMP_FOOTPRINT.size),Color("b8a67c"))
+	_text(_point(Vector2(710,635)),"叠石坡",11,INK,70,HORIZONTAL_ALIGNMENT_CENTER)

@@ -3,6 +3,7 @@ extends Control
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
+const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
@@ -21,6 +22,7 @@ var chapter_story
 var sect_progress
 var companion_story
 var advanced_martial
+var mist_story
 var world
 var world_view: SubViewport
 var font: Font
@@ -78,6 +80,7 @@ func _ready() -> void:
 	sect_progress=SectProgress.new(self)
 	companion_story=CompanionStory.new(self)
 	advanced_martial=AdvancedMartialUI.new(self)
+	mist_story=MistwoodStory.new(self)
 	_setup_audio()
 	_refresh()
 	_show_title()
@@ -311,6 +314,9 @@ func _refresh() -> void:
 	region_header.text = state.current_region_name()
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
 	chapter_header.text = "第二章  ·  印下有声" if state.map_id=="frostbridge" else ("江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人")
+	if state.map_id=="mistwood":
+		weather_label.text="暮春  /  竹风  /  细雨"
+		chapter_header.text="第三章  ·  听雨辨令"
 	name_label.text = state.player_name + "  " + str(state.level) + "级"
 	sect_label.text = ("初入江湖" if state.sect=="未入门" else state.sect_rank_name())+" · "+state.sect
 	hp_bar.max_value = state.max_hp
@@ -334,6 +340,8 @@ func _refresh() -> void:
 	if companion_story.pending():
 		quest_label.text="尺上旧痕"
 		hint_label.text=companion_story.hint()
+	if state.mist_stage>0 and (state.map_id=="mistwood" or (state.mist_stage<4 and not companion_story.pending())):
+		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
@@ -426,7 +434,8 @@ func _interact(id: String) -> void:
 		"ledger_runner": _runner_dialogue()
 		"sluice_boss": _sluice_boss_dialogue()
 		"sluice_cache": _sluice_cache_dialogue()
-		_: chapter_story.handle(id)
+		_:
+			if not mist_story.handle(id):chapter_story.handle(id)
 
 func _elder_dialogue() -> void:
 	if state.quest_stage == 5 and state.sect == "未入门":
@@ -542,6 +551,7 @@ func _show_journal() -> void:
 		body = "[color=#d3b276]主线 · 渡口失灯：已完成[/color]\n证据归处：%s  /  修行方向：%s\n\n[color=#d3b276]江湖行纪 · 废闸疑云[/color]\n%s 船工的证言（南岸）\n%s 传令人的账页（东北）\n%s 闸首罗沉与伪造水令（东南）\n\n先行之路：%s" % [state.ending,state.sect,"✓" if state.side_found.has("boatman") else "◇","✓" if state.side_found.has("ledger") else "◇","✓" if state.side_stage>=3 else "◇","先救船工" if state.side_choice=="rescue" else ("先追账页" if state.side_choice=="pursuit" else "尚未决定")]
 	if state.chapter_two_stage>0:body=chapter_story.journal()
 	if state.chapter_two_stage>=4:body+=companion_story.journal()
+	if state.mist_stage>0:body+=mist_story.journal()
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
@@ -613,6 +623,7 @@ func _start_battle(kind: String) -> void:
 		return
 	enemy_title.text = state.enemy_name
 	battle_title.text = "南 庭  ·  验 艺" if kind=="sect_trial" else ("霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"))
+	if kind.begins_with("mist_"):battle_title.text="雾 竹 坡  ·  听 雨"
 	battle_art.companion_active = not state.current_companion().is_empty()
 	battle_art.companion_name=state.current_companion()
 	battle_art.region_style="training" if kind=="sect_trial" else state.map_id
@@ -653,6 +664,8 @@ func _battle_action(action: String) -> void:
 		if result.get("won",false):
 			if encounter_kind=="sect_trial":
 				sect_progress.victory()
+			elif encounter_kind.begins_with("mist_"):
+				mist_story.battle_victory(encounter_kind)
 			elif encounter_kind == "archive_boss":
 				chapter_story.battle_victory()
 			elif encounter_kind == "sluice_scout":
@@ -804,6 +817,7 @@ func _sync_world_state() -> void:
 	world.companion_active = not state.current_companion().is_empty()
 	world.companion_name=state.current_companion()
 	world.personal_target_id=companion_story.target_id()
+	world.mist_target_id=mist_story.target_id()
 	world.mentor_pending=state.sect_trial_won and state.sect_rank==1
 	world.chapter_stage=state.chapter_two_stage
 	world.chapter_ending=state.chapter_two_ending

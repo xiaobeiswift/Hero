@@ -43,6 +43,7 @@ func _draw() -> void:
 		draw_circle(Vector2(x+4,219),7,Color("958664"))
 	draw_line(Vector2(43,233),Vector2(899,233),Color("807956"),2)
 	if region_style=="training":_draw_training_court()
+	if region_style=="mistwood":_draw_mistwood_stage()
 	var lunge = sin(flash*PI)*34 if action in ["attack","skill"] else 0.0
 	_draw_fighter(Vector2(229+lunge,274),Color("4f9c8b"),true,phase,flash)
 	if companion_active:
@@ -108,3 +109,20 @@ func _draw_training_court()	-> void:
 			draw_line(Vector2(side+3+i*18,171),Vector2(side+16+i*18,173),Color("786b4e"),3)
 	draw_arc(Vector2(476,285),69,0,TAU,48,Color("b6b69a"),2)
 	draw_arc(Vector2(476,285),64,0,TAU,48,Color("526d60"),1)
+
+func _draw_mistwood_stage()->void:
+	draw_rect(Rect2(0,260,938,96),Color("49664f"))
+	for i in range(8):
+		var x=i*117.0
+		draw_colored_polygon(PackedVector2Array([Vector2(x,285),Vector2(x+61,278),Vector2(x+83,305),Vector2(x+12,313)]),Color("788c70"))
+	for base in [45,108,815,884]:
+		for offset in [0,16,29]:
+			var x=base+offset
+			draw_line(Vector2(x,273),Vector2(x-7,126+offset),Color("4c7757"),6)
+			for y in [160,194,226]:
+				draw_line(Vector2(x-8,y),Vector2(x+4,y),Color("a4b28a"),2)
+				draw_line(Vector2(x,y),Vector2(x+27,y-19),Color("709767"),3)
+	for i in range(14):
+		var x=fmod(i*83+phase*17,938)
+		var y=144+fmod(i*53+phase*47,170)
+		draw_line(Vector2(x,y),Vector2(x-4,y+13),Color(0.74,0.85,0.72,0.24),1)

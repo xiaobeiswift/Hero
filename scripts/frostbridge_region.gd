@@ -9,6 +9,7 @@ const BUILDINGS=[
 const TREES=[Vector2(155,230),Vector2(220,390),Vector2(185,725),Vector2(484,855),Vector2(585,530),Vector2(652,190),Vector2(975,210),Vector2(1432,268),Vector2(1490,538),Vector2(1040,955),Vector2(1350,905)]
 static func points() -> Dictionary:
 	return {
+		"exit_mistwood":{"pos":Vector2(1450,200),"name":"雾竹坡古道","kind":"exit"},
 		"return_sluice":{"pos":Vector2(140,500),"name":"返回废闸","kind":"exit"},
 		"chapter_host":{"pos":Vector2(405,365),"name":"温行舟","kind":"elder"},
 		"chapter_clerk":{"pos":Vector2(1150,385),"name":"纪小砚","kind":"healer"},
@@ -50,6 +51,7 @@ static func draw(w) -> void:
 	_bridge(w,Rect2(703,350,264,80),true)
 	_bridge(w,Rect2(703,760,264,80),w.bridge_repaired)
 	w._draw_region_sign(Vector2(140,500),"废闸古道",-1)
+	w._draw_region_sign(Vector2(1450,200),"雾竹坡",1)
 	w._draw_board(Vector2(685,320))
 	var layers:Array=[]
 	for b in BUILDINGS:layers.append({"y":b.pos.y+b.size.y,"kind":"building","data":b})

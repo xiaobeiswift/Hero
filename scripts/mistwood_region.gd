@@ -34,7 +34,7 @@ static func points() -> Dictionary:
 		"mist_basin":{"pos":Vector2(1250,765),"name":"分水石盂","kind":"clue"},
 		"mist_camp":{"pos":Vector2(290,790),"name":"避雨营地","kind":"rest"},
 		"mist_scout":{"pos":Vector2(1030,560),"name":"巡坡斥候","kind":"bandit"},
-		"mist_gate":{"pos":Vector2(1320,500),"name":"守坡人","kind":"bandit"},
+		"mist_gate":{"pos":Vector2(1320,500),"name":"守令使","kind":"bandit"},
 	}
 
 static func walkable(p:Vector2,_optional_flag:bool=false) -> bool:

@@ -346,7 +346,7 @@ func start_battle(kind: String = "story") -> void:
 			enemy_base_attack = 11
 			enemy_strong_attack = 22
 		"mist_scout":
-			enemy_name="探路巡哨";enemy_max_hp=155
+			enemy_name="巡坡斥候";enemy_max_hp=155
 		"mist_keeper":
 			enemy_name="听雨关守令使";enemy_max_hp=300
 		"sect_trial":
