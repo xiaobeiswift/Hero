@@ -1,0 +1,157 @@
+{
+  "atlas": "qingwei_environment_atlas.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "source_unchanged": true,
+  "alpha_min": 0,
+  "alpha_max": 254,
+  "sprites": {
+    "clinic": {
+      "source_rect_xywh": [
+        18,
+        114,
+        486,
+        330
+      ],
+      "door_or_root_anchor_xy": [
+        243,
+        297
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        8,
+        8,
+        477,
+        322
+      ],
+      "edge_max_alpha": {
+        "left": 0,
+        "top": 1,
+        "right": 1,
+        "bottom": 1
+      }
+    },
+    "tea": {
+      "source_rect_xywh": [
+        520,
+        94,
+        500,
+        357
+      ],
+      "door_or_root_anchor_xy": [
+        239,
+        317
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        8,
+        8,
+        498,
+        348
+      ],
+      "edge_max_alpha": {
+        "left": 0,
+        "top": 0,
+        "right": 4,
+        "bottom": 1
+      }
+    },
+    "inn": {
+      "source_rect_xywh": [
+        1020,
+        56,
+        499,
+        401
+      ],
+      "door_or_root_anchor_xy": [
+        249,
+        345
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        1,
+        8,
+        491,
+        392
+      ],
+      "edge_max_alpha": {
+        "left": 9,
+        "top": 0,
+        "right": 1,
+        "bottom": 0
+      }
+    },
+    "hall": {
+      "source_rect_xywh": [
+        14,
+        546,
+        568,
+        397
+      ],
+      "door_or_root_anchor_xy": [
+        281,
+        340
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        8,
+        8,
+        560,
+        388
+      ],
+      "edge_max_alpha": {
+        "left": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 1
+      }
+    },
+    "shrine": {
+      "source_rect_xywh": [
+        612,
+        563,
+        345,
+        379
+      ],
+      "door_or_root_anchor_xy": [
+        177,
+        314
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        8,
+        8,
+        337,
+        371
+      ],
+      "edge_max_alpha": {
+        "left": 1,
+        "top": 0,
+        "right": 0,
+        "bottom": 1
+      }
+    },
+    "willow": {
+      "source_rect_xywh": [
+        1042,
+        508,
+        481,
+        458
+      ],
+      "door_or_root_anchor_xy": [
+        263,
+        438
+      ],
+      "visible_local_bounds_alpha_gt_16": [
+        8,
+        8,
+        472,
+        450
+      ],
+      "edge_max_alpha": {
+        "left": 2,
+        "top": 0,
+        "right": 1,
+        "bottom": 0
+      }
+    }
+  }
+}
