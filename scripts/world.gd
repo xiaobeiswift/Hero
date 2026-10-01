@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const FerryProps=preload("res://scripts/qingwei_ferry_props.gd")
 const WaterMaterial=preload("res://scripts/qingwei_water_material.gd")
 const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
 const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
@@ -16,6 +17,7 @@ signal moved(position: Vector2)
 signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
+var painted_props_enabled:bool=true
 var painted_water_enabled:bool=true
 var render_culling_enabled:bool=true
 var terrain_cache_enabled:bool=true
@@ -502,8 +504,9 @@ func _draw_pond() -> void:
 	# Wooden fishing pier, connected to the west shore.
 	draw_rect(Rect2(823, 439, 117, 37), Color("4a6256"))
 	draw_rect(Rect2(823, 435, 117, 34), Color("a18c64"))
-	for i in range(12):
-		draw_line(Vector2(825 + i * 10, 436), Vector2(825 + i * 10, 468), Color("6d7155"), 1)
+	if not painted_props_enabled or not FerryProps.draw_deck(self,FerryProps.FISHING_DECK):
+		for i in range(12):
+			draw_line(Vector2(825 + i * 10, 436), Vector2(825 + i * 10, 468), Color("6d7155"), 1)
 	for p: Vector2 in [Vector2(831, 439), Vector2(930, 439), Vector2(831, 469), Vector2(930, 469)]:
 		draw_rect(Rect2(p - Vector2(3, 14), Vector2(6, 18)), Color("5e654d"))
 	_ellipse(Vector2(920, 455), Vector2(8, 6), Color("887c56"))
@@ -723,16 +726,18 @@ func _draw_old_ferry() -> void:
 		_ellipse_arc(p, Vector2(12 + sin(time_passed + i) * 3, 3), Color(0.78, 0.85, 0.72, 0.35))
 	draw_rect(Rect2(1356, 751, 184, 67), Color("596d57"))
 	draw_rect(Rect2(1353, 746, 184, 65), Color("a38f64"))
-	for i in range(18):
-		draw_line(Vector2(1357 + i * 10, 747), Vector2(1357 + i * 10, 810), Color("7d7c55"), 1.2)
+	if not painted_props_enabled or not FerryProps.draw_deck(self,FerryProps.FERRY_DECK):
+		for i in range(18):
+			draw_line(Vector2(1357 + i * 10, 747), Vector2(1357 + i * 10, 810), Color("7d7c55"), 1.2)
 	for p: Vector2 in [Vector2(1361, 748), Vector2(1444, 748), Vector2(1525, 748), Vector2(1361, 812), Vector2(1444, 812), Vector2(1525, 812)]:
 		draw_line(p, p - Vector2(0, 29), Color("5e6c51"), 5)
 		draw_circle(p - Vector2(0, 29), 3.2, Color("a49a71"))
 	draw_line(Vector2(1361, 728), Vector2(1525, 728), Color("a69768"), 2)
 	# Small moored skiff, painted as an asymmetric tapered silhouette.
-	_poly([Vector2(1502, 829), Vector2(1552, 811), Vector2(1574, 825), Vector2(1542, 845), Vector2(1516, 846)], Color("526d58"))
-	_poly([Vector2(1509, 829), Vector2(1552, 817), Vector2(1565, 825), Vector2(1537, 840), Vector2(1517, 840)], Color("a79668"))
-	draw_line(Vector2(1528, 824), Vector2(1537, 838), Color("6c7757"), 3)
+	if not painted_props_enabled or not FerryProps.draw_skiff(self):
+		_poly([Vector2(1502, 829), Vector2(1552, 811), Vector2(1574, 825), Vector2(1542, 845), Vector2(1516, 846)], Color("526d58"))
+		_poly([Vector2(1509, 829), Vector2(1552, 817), Vector2(1565, 825), Vector2(1537, 840), Vector2(1517, 840)], Color("a79668"))
+		draw_line(Vector2(1528, 824), Vector2(1537, 838), Color("6c7757"), 3)
 	draw_line(Vector2(1507, 829), Vector2(1485, 809), Color("c6ba86"), 1)
 	# River grass along the far bank.
 	for i in range(12):
