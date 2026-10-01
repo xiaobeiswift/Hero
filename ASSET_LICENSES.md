@@ -61,3 +61,7 @@
 ### 青苇渡木灯杆（2026-10-01）
 
 本项目环境图集作风格参考，独立生成木架与悬灯两个组件，透明原图不修改。引擎缓存裁切并只让灯体绕挂环摆动；原始提示、摘要和范围见 assets/generated/environment/LANTERN_POST_PROVENANCE.md。
+
+### 唐栖探索形象（2026-10-01）
+
+本项目原头像为唯一身份参考，生成四个独立方向的工匠形象，Blender透明UV卡片生成分脚触地步态。原始提示、摘要、裁切锚点与探索范围见 assets/generated/characters/PAINTED_TANG_WALK_PROVENANCE.md。
