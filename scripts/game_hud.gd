@@ -82,6 +82,7 @@ var last_warning: int = -1
 var last_audio: int = -1
 var last_near_hint: String = ""
 var last_status_text: String = ""
+var toast_in_battle:bool=false
 
 func build(game) -> void:
 	host = game
@@ -262,10 +263,24 @@ func tick(delta: float) -> void:
 		host.status_label.add_theme_color_override("font_color",Color("f0b594") if host.save_warning else GOLD)
 		last_warning=int(host.save_warning)
 	if host.save_warning and host.toast_time<=0:host.status_label.text="自动存档失败 · 按 F5 重试；离开前请确认存档"
+	var next_toast_battle:bool=host.current_screen=="battle"
+	if next_toast_battle!=toast_in_battle:
+		toast_in_battle=next_toast_battle
+		toast_wash.position=Vector2(140,774) if toast_in_battle else Vector2(330,182)
+		toast_wash.size=Vector2(1000,26) if toast_in_battle else Vector2(620,58)
+		host.status_label.position=Vector2(10,3) if toast_in_battle else Vector2(18,9)
+		host.status_label.size=Vector2(980,20) if toast_in_battle else Vector2(584,40)
+		host.status_label.autowrap_mode=TextServer.AUTOWRAP_OFF if toast_in_battle else TextServer.AUTOWRAP_WORD_SMART
+		host.status_label.clip_text=toast_in_battle
+		host.status_label.mouse_filter=Control.MOUSE_FILTER_PASS if toast_in_battle else Control.MOUSE_FILTER_IGNORE
+		host.status_label.add_theme_font_size_override("font_size",13 if toast_in_battle else 15)
+		last_status_text=""
+		toast_wash.queue_redraw()
 	if last_status_text!=host.status_label.text:
 		last_status_text=host.status_label.text
-		host.status_label.size.y=maxf(40.0,host.status_label.get_minimum_size().y)
-		toast_wash.size.y=host.status_label.size.y+18
+		host.status_label.tooltip_text=host.status_label.text
+		host.status_label.size.y=20.0 if toast_in_battle else maxf(40.0,host.status_label.get_minimum_size().y)
+		toast_wash.size.y=26.0 if toast_in_battle else host.status_label.size.y+18
 		toast_wash.queue_redraw()
 	toast_wash.modulate.a=1.0 if host.save_warning else minf(1.0,host.toast_time)
 	battle_hint.text="剑招未尽 · 请稍候" if host.battle_busy else "观敌势，择一招  ·  1—5"
