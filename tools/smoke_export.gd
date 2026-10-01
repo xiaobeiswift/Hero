@@ -120,6 +120,8 @@ func _run() -> void:
 	await _test_party_inventory_pack()
 	print("Retained party/inventory pack coverage: %d checks"%checks)
 	_test_painted_combat_pack()
+	print("Retained painted combat pack coverage: %d checks"%checks)
+	await _test_rest_support_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1193,3 +1195,56 @@ func _test_painted_combat_pack()->void:
 		_check(not game.battle_art.uses_painted_enemy(),"Packed rival does not impersonate another identity: "+identity)
 	game.battle_art.enemy_identity=game.state.enemy_name
 	game._battle_action("flee");game._close_modal()
+
+func _test_rest_support_pack()->void:
+	var shen=load("res://scripts/painted_battle_shen.gd")
+	var feedback=load("res://scripts/companion_battle_feedback.gd")
+	_check(shen!=null and feedback!=null and ResourceLoader.exists("res://scripts/pause_menu.gd"),"Packed rest and support presentation modules retained")
+	if shen==null or feedback==null:return
+	game._new_game();await _key(KEY_ESCAPE)
+	_check(game.active_modal and game.overlay.get_meta("pause_menu",false),"Packed Escape opens rest menu from exploration")
+	var frame=game.overlay.find_child("JourneyPause",true,false)
+	_check(frame!=null and Rect2(0,0,1280,800).encloses(frame.get_rect()) and game.modal_actions.size()==5,"Packed rest menu fits viewport with five real actions")
+	var position:Vector2=game.world.player_pos
+	Input.action_press("move_right");await create_timer(.08).timeout;Input.action_release("move_right")
+	_check(game.world.player_pos==position,"Packed rest menu blocks walking")
+	var stale:Callable=game.modal_actions[4];await _key(KEY_ESCAPE);stale.call()
+	_check(not game.active_modal and not game.quit_pending,"Packed dismissed rest callback cannot request exit")
+	await _key(KEY_ESCAPE);await _key(KEY_4)
+	_check(_gather_text(game.overlay).contains("保存成功才会离开"),"Packed title-return explains actual save gate")
+	await _key(KEY_2)
+	_check(game.overlay.get_meta("pause_menu",false),"Packed leave cancellation returns to rest")
+	await _key(KEY_4);await _key(KEY_1)
+	_check(game.current_screen=="title" and game.state.has_save(),"Packed title-return saves into isolated profile before leaving")
+	_check(shen.texture_for("idle").atlas.get_size()==Vector2(1024,1024),"Packed four-pose Shen atlas survives filters")
+	for name in shen.POSES:
+		var i:int=shen.POSES[name]
+		_check(shen.texture_for(name).region==Rect2((i%2)*512,(i/2)*512,512,512),"Packed support crop: "+name)
+	var foot=Vector2(126,266)
+	_check((shen.drawing_rect(foot).position+shen.FOOT*(156.0/512.0)).distance_to(foot)<.001,"Packed support foot retains scale and placement")
+	_check(shen.texture_for("assist")==shen.texture_for("assist"),"Packed support textures remain cached")
+	var parsed=feedback.read({"log":["沈青与你并肩出手，追加 7 点伤害。","沈青与你换步照应，恢复2点气血。"]})
+	_check(parsed.damage==7 and parsed.healing==2 and feedback.pose_for(parsed,.56,true)=="heal","Packed support facts preserve actual amount and healing beat")
+	game._new_game();game.state.quest_stage=3;game.state.recruit_companion();game.state.shen_care_stage=5;game.state.shen_care_choice="mobile"
+	game._start_battle("training");game.state.hp=50;game.state._companion_attack_count=1;game._refresh_battle()
+	game.battle_presentation_enabled=true;game.battle_art.set_process(false);game._battle_action("attack")
+	_check(game.state.hp==47 and game.battle_player_hp.value==50,"Packed accepted result does not show support healing early")
+	game.battle_art._process(.5);_settle_support_pack()
+	_check(game.battle_art.support_visual_pose()=="assist" and game.battle_player_hp.value==50 and game.battle_hp.value==41,"Packed assist contact precedes recovery")
+	game.battle_art._process(.061);_settle_support_pack()
+	_check(game.battle_art.support_visual_pose()=="heal" and game.battle_player_hp.value==52,"Packed companion recovery reaches health bar at its own beat")
+	game.battle_art._process(.33);_settle_support_pack()
+	_check(game.battle_player_hp.value==47,"Packed enemy response follows recovery truthfully")
+	game.battle_art._process(2)
+	_check(not game.battle_busy and not game.battle_art.is_presenting(),"Packed support presentation releases action lock")
+	game.battle_presentation_enabled=false;game._battle_action("flee");game._close_modal();game.state.set_formation("护后");game._start_battle("training")
+	game.battle_presentation_enabled=true;game._battle_action("guard");game.battle_art._process(.9)
+	_check(game.battle_art.presentation_details.support.cover>0 and game.battle_art.support_visual_pose()=="cover","Packed rear guard shows actual covered damage")
+	game.battle_art._process(2);game.battle_presentation_enabled=false;game._battle_action("flee");game._close_modal()
+	game._new_game();game._start_battle("training")
+	_check(not game.battle_art.companion_active and game.battle_art.support_visual_pose()=="idle","Packed fresh solo encounter cannot retain prior support cue")
+	game._battle_action("flee");game._close_modal();game.battle_art.set_process(true)
+
+func _settle_support_pack()->void:
+	for tween in game._battle_health_tweens.values():
+		if tween.is_valid():tween.custom_step(.25)
