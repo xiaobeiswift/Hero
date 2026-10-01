@@ -5,6 +5,8 @@ extends RefCounted
 const SAVE_VERSION: int = 1
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
+const Items = preload("res://scripts/item_catalog.gd")
+const Economy = preload("res://scripts/economy_rules.gd")
 const Arts = preload("res://scripts/martial_catalog.gd")
 
 var player_name: String = "无名客"
@@ -27,6 +29,9 @@ var victories: int = 0
 var companion_unlocked: bool = false
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
+var armor: String = "粗布行衣"
+var resources: Dictionary = {"iron":0,"timber":0,"cloth":0,"herb":0}
+var gathered_nodes: Array[String] = []
 var map_id: String = "qingwei"
 var side_stage: int = 0
 var side_choice: String = ""
@@ -73,6 +78,9 @@ func reset_game() -> void:
 	companion_unlocked = false
 	formation = "并肩"
 	equipment = "旧铁剑"
+	armor = "粗布行衣"
+	resources = {"iron":0,"timber":0,"cloth":0,"herb":0}
+	gathered_nodes.clear()
 	map_id = "qingwei"
 	side_stage = 0
 	side_choice = ""
@@ -201,7 +209,7 @@ func set_formation(id: String) -> bool:
 
 
 func buy_equipment() -> bool:
-	if equipment == "青钢剑" or coins < 45:
+	if equipment != "旧铁剑" or coins < 45:
 		return false
 	coins -= 45
 	equipment = "青钢剑"
@@ -433,6 +441,7 @@ func to_dict() -> Dictionary:
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
 		"formation": formation, "equipment": equipment,
+		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
 		"map_id": map_id, "side_stage": side_stage, "side_choice": side_choice,
 		"side_clues": side_clues, "side_reward_claimed": side_reward_claimed,
 		"side_found": side_found.duplicate(),
@@ -513,7 +522,12 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var saved_formation: String = String(data.get("formation", "并肩"))
 	formation = saved_formation if ["并肩", "护后"].has(saved_formation) else "并肩"
 	var saved_equipment: String = String(data.get("equipment", "旧铁剑"))
-	equipment = "青钢剑" if saved_equipment == "青钢剑" else "旧铁剑"
+	equipment = saved_equipment if saved_equipment in ["青钢剑","精锻青钢剑"] else "旧铁剑"
+	armor = "轻纱内甲" if data.get("armor","")=="轻纱内甲" else "粗布行衣"
+	var saved_resources:Dictionary=data.get("resources",{})
+	for id in Items.material_ids(): resources[id]=_bounded_int(saved_resources,id,0,0,9999)
+	for id in data.get("gathered_nodes",[]):
+		if Items.GATHER_NODES.has(id) and not gathered_nodes.has(id): gathered_nodes.append(id)
 	map_id = "sluice" if String(data.get("map_id", "qingwei")) == "sluice" else "qingwei"
 	_restore_side_progress(data)
 	var saved_sect: String = String(data.get("sect", "未入门"))
@@ -549,7 +563,7 @@ func _valid_save_data(data: Dictionary) -> bool:
 		"attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues"]:
 		if data.has(key) and not _is_number(data[key]):
 			return false
-	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art"]:
+	for key: String in ["player_name", "sect", "ending", "formation", "equipment", "map_id", "side_choice", "equipped_art", "armor"]:
 		if data.has(key) and not data[key] is String:
 			return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
@@ -568,6 +582,14 @@ func _valid_save_data(data: Dictionary) -> bool:
 		for clue: Variant in data["side_found"]:
 			if not clue is String:
 				return false
+	if data.has("resources"):
+		if not data["resources"] is Dictionary: return false
+		for id in data["resources"]:
+			if not id is String or not _is_number(data["resources"][id]): return false
+	if data.has("gathered_nodes"):
+		if not data["gathered_nodes"] is Array: return false
+		for id in data["gathered_nodes"]:
+			if not id is String: return false
 	if data.has("position"):
 		if not data["position"] is Dictionary:
 			return false
@@ -655,3 +677,18 @@ func _finish_result(messages: Array[String], finished: bool, won: bool) -> Dicti
 		"valid": true, "message": "\n".join(messages), "finished": finished,
 		"won": won, "log": messages,
 	}
+
+func buy_material(id:String,quantity:int=1) -> bool:
+	return Economy.buy(self,id,quantity)
+
+func sell_material(id:String,quantity:int=1) -> bool:
+	return Economy.sell(self,id,quantity)
+
+func can_craft(id:String) -> bool:
+	return Economy.can_craft(self,id)
+
+func craft(id:String) -> Dictionary:
+	return Economy.craft(self,id)
+
+func gather_resource(id:String) -> Dictionary:
+	return Economy.gather(self,id)
