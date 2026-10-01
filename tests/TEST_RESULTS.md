@@ -15,7 +15,8 @@
 - `chapter_rules_test.gd`：64个独立下一章规则断言通过
 - `frostbridge_ui_test.gd`：89个实际场景流程断言通过
 - `save_version_test.gd`：7个存档版本断言通过
-- 当前合计：673断言通过
+- `sect_rules_test.gd`：55项门派考核规则通过（导师UI另行接入）
+- 当前合计：728断言通过
 - `main.gd --check-only`：通过
 
 关键覆盖：
