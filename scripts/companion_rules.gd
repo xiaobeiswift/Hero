@@ -44,7 +44,8 @@ static func recruit(s) -> bool:
  return true
 static func description(s) -> String:
  if active(s)==TANG:return "并肩：每两次出招追加4伤害，并回复1真气；护后：仅对重击减伤5。"
- if active(s)==SHEN:return "并肩：每两次出招追加7伤害；护后：每次来袭减伤2。"
+ if active(s)==SHEN:
+  return "并肩：每两次出招追加7伤害%s；护后：每次来袭减伤%d。" % ["并恢复2气血" if s.ShenCare.mobile_heal(s)>0 else "",2+s.ShenCare.shore_bonus(s)]
  return "暂无同行人。"
 static func assist(s,messages:Array[String]) -> void:
  s._companion_attack_count+=1
@@ -55,10 +56,14 @@ static func assist(s,messages:Array[String]) -> void:
  if id==TANG:
   var before=s.qi;s.qi=mini(s.max_qi,s.qi+1)
   messages.append("唐栖以短尺拆招，追加%d点伤害；为你赢得换气空隙，回复%d真气。" % [damage,s.qi-before])
- else:messages.append("沈青与你并肩出手，追加 %d 点伤害。" % damage)
+ else:
+  messages.append("沈青与你并肩出手，追加 %d 点伤害。" % damage)
+  if s.ShenCare.mobile_heal(s)>0:
+   var before=s.hp;s.hp=mini(s.max_hp,s.hp+s.ShenCare.mobile_heal(s))
+   if s.hp>before:messages.append("沈青与你换步照应，恢复%d点气血。" % (s.hp-before))
 static func cover(s,incoming:int,messages:Array[String]) -> int:
  var id=active(s)
- var reduction=5 if id==TANG and s.enemy_strike_is_heavy() else (2 if id==SHEN else 0)
+ var reduction=5 if id==TANG and s.enemy_strike_is_heavy() else (2+s.ShenCare.shore_bonus(s) if id==SHEN else 0)
  if reduction==0:return incoming
  var result=maxi(1,incoming-reduction)
  messages.append("%s护住后路，替你分担 %d 点伤害。" % [id,incoming-result])
