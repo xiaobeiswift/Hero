@@ -27,7 +27,7 @@ func run()->void:
 	world._process(.05)
 	check(world.player_pos==p,"Presentation does not move idle player")
 	check(world.companion_moving and world.companion_walk_time>old_phase,"Follower animates from real displacement")
-	world.companion_pos=world.player_pos-world.facing*34+Vector2(-10,10)
+	world.companion_pos=world._companion_follow_target()
 	world._process(.05)
 	check(not world.companion_moving,"Follower rests at destination without sliding gait")
 	world.player_pos=Vector2(500,670)

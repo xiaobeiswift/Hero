@@ -22,3 +22,14 @@
 ## 后续小修
 
 击中时气血条现按实际伤害/治疗量在0.16秒内变化，最终再同步升级、落败恢复等规则结果。58项界面检查覆盖重叠伤害、治疗上限、落败归零、升级恢复、连点及新战斗取消旧补间；上一短片仍是8cef96e，因此不把它当作新增气血条同步的视觉证据。88–90已另用原生Godot实际接受招式后拍摄，确认治疗阶段中央与侧栏共同显示155/180。
+
+
+## Painted Shen follow pass · 2026-10-01 16:22 UTC
+
+The existing project-original Shen directional art is now a deterministic Blender cutout walk atlas. Eight frames per direction contain independent boot contacts; torso motion remains restrained. No whole-character mirror switches the satchel side. The atlas has 32 measured 256px cells and the same (128,241) foot anchor as the protagonist.
+
+The follower uses cached atlas crops. Reachable trailing targets provide lateral separation; island-specific placement is unchanged. Foreground willows fade for either party member. The full source suite passed, including all prior traversal/save/quest tests. Screenshots 108–112 were rendered and inspected at game scale.
+
+Motion evidence: Hero-painted-party-walk.mp4, 120 frames, 4.000 seconds, 1280×800, H.264, 2,691,361 bytes. SHA-256: b3541f14dea65f6b60d82891160debcf96076d845c128b89cc4b454437ac1f30. Godot Movie Maker used fixed 30 FPS simulation, taking 18 seconds to record (20 seconds with startup). This is a prepared in-engine animation preview, not a real-time frame-rate benchmark or a clip from released 0.0.11.
+
+Limits: no fully articulated upper-body/cloth rig; Tang Qi and combat actors remain procedural. No claim of fresh full-game manual completion.
