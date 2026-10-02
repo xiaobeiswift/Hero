@@ -879,7 +879,11 @@ func _exit_tree() -> void:
 
 func _notification(what:int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
-		_quit_cleanly()
+		if quit_pending:return
+		# A desktop close must keep the same write-failure protection as the
+		# in-game exit. Do not mark quit_pending until a save or discard succeeds.
+		if current_screen=="explore":PauseMenu.save_and_leave(self,false)
+		else:_quit_cleanly(false)
 
 func _quit_cleanly(save_progress:bool=true) -> void:
 	if quit_pending: return
