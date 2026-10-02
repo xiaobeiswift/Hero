@@ -1,0 +1,31 @@
+{
+  "verified_at_utc": "2026-10-02T22:26:40Z",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.22",
+  "web_revision": 1,
+  "save_schema": 13,
+  "party_capacity": 4,
+  "source_commit": "13feb116a9d6672d3cb5c94f09573606152063ab",
+  "source_local_mapping": "7761262f83037f8d4061bf862896e59ccc8eb405",
+  "source_tree": "816dfc13c7f6ccdd7ab9faccc939a0f5816c9da7",
+  "windows": {
+    "exact_pck_checks": 2799,
+    "unified_checks": 1237,
+    "preserved_checks": 1471,
+    "pck_sha256": "98b6b40a7b205fd93414e80ed7b89525cebeac0dd2277c4d7f661f276b29e1ec",
+    "pck_bytes": 51081516,
+    "archive_bytes": 60483949,
+    "archive_sha256": "2aa42c81d64282981b07790b28d868bd6269740413f5e56379b14e0ae0671570",
+    "runtime_source_hashes": 286,
+    "isolated_test_profile": true
+  },
+  "deployment": {
+    "https_complete_asset_hashes": 14,
+    "checks_passed": 36,
+    "tls_mime_version_cache_headers_verified": true,
+    "caddy_configuration": "unchanged",
+    "unrelated_git_https_status": 200,
+    "retention": "Current0.0.22-web1 only; old0.0.21 retired after verified recoverability and zero readers. Saves and unique evidence retained."
+  },
+  "limits": "Actual browser graphics/audio/reload persistence remains unverified. Windows export and native-editor exact-PCK audit do not establish browser runtime validation. No GitHub package uploaded."
+}
