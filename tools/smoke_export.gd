@@ -49,8 +49,8 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _v22_prerequisites():
-		print("FAIL: v22 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+	if not _current_prerequisites():
+		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal):
 		quit(1); return
@@ -1332,9 +1332,9 @@ func _test_close_guard_pack() -> void:
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
 
-func _v22_prerequisites() -> bool:
+func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.22", "V22 unified automatic project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.23", "V23 contextual unified project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 13, "V22 requires save schema13")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
@@ -1345,7 +1345,7 @@ func _v22_prerequisites() -> bool:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V19 courtyard module retained before scene load: " + module)
 	for module in ["heting_receipt_rules", "heting_receipt_combat", "heting_receipt_story", "heting_receipt_ui", "heting_receipt_art"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V20 receipt module retained before scene load: " + module)
-	for module in ["automatic_party_combat", "unified_encounter_rules", "party_category_hud", "party_actor_catalog", "party_roster_rules", "party_combat_rules", "party_battle_art", "party_battle_ui", "party_command_hud", "party_roster_ui", "qin_companion_rules", "qin_companion_story", "painted_battle_qin"]:
+	for module in ["automatic_party_combat", "unified_encounter_rules", "party_category_hud", "party_actor_catalog", "party_roster_rules", "party_combat_rules", "party_battle_art", "party_battle_backdrop", "party_battle_ui", "party_command_hud", "party_roster_ui", "qin_companion_rules", "qin_companion_story", "painted_battle_qin"]:
 		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Schema12 party module retained before scene load: "+module)
 	for asset in ["res://assets/generated/characters/painted_qin_combat.png", "res://assets/ui/qin_commands_painted_atlas.png", "res://assets/ui/companion_commands_painted_atlas.png"]:
 		_check(ResourceLoader.exists(asset), "Four-actor original artwork retained: "+asset)
@@ -2238,7 +2238,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all10 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.22", "Packed actual title retains unified0.0.22 identity")
+	_check(title != null and title.text=="0.0.23", "Packed actual title retains contextual0.0.23 identity")
 	for kind: String in encounters.IDS: await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -2300,6 +2300,8 @@ func _test_unified_entry(kind: String) -> void:
 	_unified_prepare(kind,2 if kind == "story" else 1)
 	var panel = await _unified_enter(kind)
 	if panel == null: return
+	var expected_backdrop: String = "courtyard" if kind in ["training","sect_trial","courtyard_practice"] else "ferry"
+	_check(panel.art.backdrop_style == expected_backdrop, "Packed actual encounter chooses correct courtyard/ferry backdrop: " + kind)
 	for actor: Dictionary in panel.commands.snapshot.actors:
 		_check(panel.commands._slots(actor).size() == 3 and actor.actions.size() == 5, "Packed occupied actor has three fixed skills plus two separate utilities")
 		for category: String in ["martial","internal","lightness"]:
