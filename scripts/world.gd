@@ -51,6 +51,7 @@ var heting_ending:String=""
 var mist_ending:String=""
 var mist_completed:bool=false
 var heting_target_id:String=""
+var heting_stage:int=0
 var _cart_hint_shown:bool=false
 var chapter_stage:int=0
 var chapter_ending:String=""
@@ -914,15 +915,17 @@ func _draw_lantern(p: Vector2, scale_factor: float) -> void:
 	draw_line(q - Vector2(5, -10) * scale_factor, q + Vector2(5, 10) * scale_factor, Color("82734d"), 2)
 	draw_line(q + Vector2(0, 10) * scale_factor, q + Vector2(0, 18) * scale_factor, Color("b48f52"), 1.5)
 
-func _interaction_prompt_rect(target:Vector2)->Rect2:
+func _interaction_prompt_rect(target:Vector2,text:String="")->Rect2:
 	# Keep the local action prompt near its target without covering party bodies.
 	var size=Vector2(72,23)
+	if ui_font!=null and not text.is_empty():
+		size.x=maxf(size.x,ceilf(ui_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x)+20)
 	var view=Rect2(camera_pos+Vector2(8,8),viewport_rect.size-Vector2(16,16))
 	var bodies=[Rect2(player_pos-Vector2(20,62),Vector2(40,70))]
 	if companion_active:bodies.append(Rect2(companion_pos-Vector2(20,62),Vector2(40,70)))
-	var best=Rect2(target+Vector2(-36,16),size)
+	var best=Rect2(target+Vector2(-size.x*.5,16),size)
 	var best_score=INF
-	var offsets=[Vector2(-36,16),Vector2(48,8),Vector2(-120,8),Vector2(-36,-106)]
+	var offsets=[Vector2(-size.x*.5,16),Vector2(48,8),Vector2(-48-size.x,8),Vector2(-size.x*.5,-106)]
 	for i in range(offsets.size()):
 		var position:Vector2=target+offsets[i]
 		position.x=clampf(position.x,view.position.x,view.end.x-size.x)
@@ -937,9 +940,18 @@ func _interaction_prompt_rect(target:Vector2)->Rect2:
 	return best
 
 func interaction_verb(id: String) -> String:
-	if id in ["heting_dispatch","heting_relief","heting_scale"]:return "交谈"
-	if id=="heting_winch":return "改泊"
-	if id in ["heting_cargo","heting_lighter"]:return "查看"
+	# These verbs describe the sheet opened by E; delivery still needs its choice.
+	if id=="heting_dispatch":return "商议分粮" if heting_stage in [2,3] else "交谈"
+	if id=="heting_winch":return "调整浮桥"
+	if id in ["heting_cargo","heting_lighter"]:
+		if not heting_cargo.is_empty():return "查看货签"
+		if id=="heting_cargo" and heting_stage==1 and (not heting_delivered.has("meal") or not heting_delivered.has("sealed")):return "提货"
+		if id=="heting_lighter" and heting_stage==3:return "提货"
+		return "询问货物" if heting_stage<4 else "交谈"
+	if id in ["heting_relief","heting_scale"]:
+		if heting_cargo.is_empty():return "交谈"
+		var destination="heting_relief" if heting_cargo=="meal" or (heting_cargo=="reserve" and heting_draft=="short_ferries") else "heting_scale"
+		return "商议交粮" if id==destination else "询问去处"
 	var kind: String = String(interactables.get(id, {}).get("kind", ""))
 	if id == "herb":
 		return "采集" if quest_stage == 1 else "查看"
@@ -977,9 +989,9 @@ func _draw_nameplates() -> void:
 	if not nearby_id.is_empty() and active:
 		var p: Vector2 = interactables[nearby_id]["pos"]
 		var label_text := "E  " + interaction_verb(nearby_id)
-		var r := _interaction_prompt_rect(p)
+		var r := _interaction_prompt_rect(p,label_text)
 		draw_style_box(_round_box(Color("294942"), 5), r)
-		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)
+		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, r.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _draw_world_caption(p: Vector2, title: String, subtitle: String) -> void:
 	if not _world_rect_visible(Rect2(p-Vector2(5,30),Vector2(250,60))):return

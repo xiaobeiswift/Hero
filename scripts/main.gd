@@ -250,9 +250,11 @@ func _process(delta: float) -> void:
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
 	state.position = world.player_pos
-	if world.nearby_id+"|"+world.nearby_name != last_near:
-		last_near = world.nearby_id+"|"+world.nearby_name
-		near_label.text = "[ E ]  " + world.nearby_name if not world.nearby_id.is_empty() else "WASD / 方向键行走，靠近人物或物品按 E 交互"
+	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" else ""
+	var near_key: String = world.nearby_id+"|"+world.nearby_name+"|"+near_action
+	if near_key != last_near:
+		last_near = near_key
+		near_label.text = "[ E ]  " + (near_action+" · " if not near_action.is_empty() else "") + world.nearby_name if not world.nearby_id.is_empty() else "WASD / 方向键行走，靠近人物或物品按 E 交互"
 	if toast_time > 0:
 		toast_time -= delta
 		if toast_time <= 0: status_label.text = "⚠ 自动存档失败，请按 F5 重试。" if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
@@ -1040,6 +1042,7 @@ func _show_workshop() -> void:
 	workshop.show()
 
 func _sync_world_state() -> void:
+	world.heting_stage=state.heting_stage
 	world.heting_bridge=state.heting_bridge
 	world.heting_delivered=state.heting_delivered
 	world.heting_cargo=state.heting_cargo
