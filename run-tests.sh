@@ -66,6 +66,8 @@ run_checked --headless --path . --script tests/lightness_ui_test.gd
 run_checked --headless --path . --script tests/audit_lightness_geometry_test.gd
 
 run_checked --headless --path . --script tests/heting_rules_test.gd
+run_checked --headless --path . --script tests/heting_geometry_test.gd
+run_checked --headless --path . --script tests/heting_material_test.gd
 
 run_checked --headless --path . --script tests/environment_visual_test.gd
 run_checked --headless --path . --script tests/battle_choreography_test.gd
