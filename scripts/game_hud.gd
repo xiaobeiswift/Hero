@@ -3,6 +3,7 @@ extends RefCounted
 ## Host fields and action callbacks stay intact for saves, stories and combat.
 const Portraits = preload("res://scripts/character_portraits.gd")
 const WorldScene = preload("res://scripts/world.gd")
+const OpeningDuelHUD = preload("res://scripts/opening_duel_hud.gd")
 const IVORY = Color("f1e6ca")
 const GOLD = Color("dfbd7a")
 const SOFT = Color("b4c4b6")
@@ -83,6 +84,7 @@ var last_audio: int = -1
 var last_near_hint: String = ""
 var last_status_text: String = ""
 var toast_in_battle:bool=false
+var duel_hud
 
 func build(game) -> void:
 	host = game
@@ -209,6 +211,7 @@ func reflow_battle() -> void:
 		button.add_theme_stylebox_override("pressed",_action_style(Color("477662"),IVORY))
 		button.add_theme_stylebox_override("disabled",_action_style(Color("182b29"),Color("3c4b40")))
 		button.add_theme_color_override("font_disabled_color",Color("768679"))
+	duel_hud=OpeningDuelHUD.new();duel_hud.build(host)
 
 func _sync_player_battle_hp(_value:float=0) -> void:
 	if is_instance_valid(battle_player_value):battle_player_value.text="气血  %d / %d" % [roundi(host.battle_player_hp.value),roundi(host.battle_player_hp.max_value)]
@@ -289,6 +292,7 @@ func tick(delta: float) -> void:
 	# Reassert thin dimensions after deferred legacy bar sizing from _bar().
 	if host.battle_player_hp.size.x<282:host.battle_player_hp.size=Vector2(283,9)
 	if host.battle_hp.size.x<282:host.battle_hp.size=Vector2(283,9)
+	if duel_hud!=null:duel_hud.tick()
 
 func _group(parent: Node, title: String) -> Control:
 	var result := Control.new();result.name=title;result.size=Vector2(1280,800);result.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(result);return result

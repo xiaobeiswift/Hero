@@ -9,7 +9,7 @@ const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
 const StateModel = preload("res://scripts/game_state.gd")
 const WorldScene = preload("res://scripts/world.gd")
-const BattleArt = preload("res://scripts/battle_art.gd")
+const BattleArt = preload("res://scripts/opening_duel_formation_art.gd")
 const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
@@ -866,6 +866,7 @@ func _set_presented_player_hp(value:float)->void:
 
 func _refresh_battle() -> void:
 	_stop_battle_health_tweens()
+	battle_art.set_duel_context(state)
 	for button in battle_buttons:button.disabled=false
 	battle_hp.max_value = state.enemy_max_hp
 	battle_hp.value = state.enemy_hp
@@ -886,6 +887,7 @@ func _refresh_battle() -> void:
 
 func _battle_action(action: String) -> void:
 	if not state.battle_active or active_modal or battle_busy: return
+	battle_art.set_duel_context(state)
 	var health_before: Dictionary = {
 		"player": state.hp, "player_max": state.max_hp,
 		"enemy": state.enemy_hp, "enemy_max": state.enemy_max_hp,
