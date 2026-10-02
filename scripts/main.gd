@@ -260,6 +260,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_close_modal()
 		return
 	if active_modal:
+		if overlay.get_meta("pause_menu",false):
+			if event.physical_keycode in [KEY_EQUAL,KEY_PLUS,KEY_KP_ADD]:
+				_change_view_zoom(1);get_viewport().set_input_as_handled();return
+			if event.physical_keycode in [KEY_MINUS,KEY_KP_SUBTRACT]:
+				_change_view_zoom(-1);get_viewport().set_input_as_handled();return
 		if overlay.get_meta("inventory",false):
 			if event.physical_keycode==KEY_K:_show_martials();get_viewport().set_input_as_handled();return
 			if event.physical_keycode==KEY_B:workshop.show();get_viewport().set_input_as_handled();return
