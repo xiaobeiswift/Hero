@@ -1,0 +1,41 @@
+{
+  "build_source_commit": "10f82336f80bdd6f8b1770ad9f0972bfb4eeb23a",
+  "web_build": {
+    "game_version": "0.0.20",
+    "web_revision": 1,
+    "caption": "0.0.20 · Web 1"
+  },
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "runtime_entries": 275,
+  "source_unchanged": true,
+  "pck": {
+    "sha256": "4b7025afc9fe197a66fe93e965053bf58d98e363a08bc269d92de61c5986fbff",
+    "bytes": 48434500
+  },
+  "archive": {
+    "file": "Hero-Web-0.0.20-web1-party.zip",
+    "bytes": 57838350,
+    "sha256": "a0d085bb5645af9e62b601c6e8b97db3684f1a1bfa4c4861f4fd909ea5db152c"
+  },
+  "site_file_count": 14,
+  "audit": {
+    "source_commit": "10f82336f80bdd6f8b1770ad9f0972bfb4eeb23a",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "4b7025afc9fe197a66fe93e965053bf58d98e363a08bc269d92de61c5986fbff",
+    "audit_sha256": "0743924f7a080e7884ef53329589a56cdf03c881a4249583b2ea2d1c3ec24604",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "save_schema": 12,
+    "party_capacity": 4,
+    "log_sha256": "b8c7cae336f39302b3355d94792969355fecb590623c8e685fa92122ba60c04d",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 2352,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "limits": [
+    "Exact PCK under native pinned editor, not browser graphics/audio/persistence",
+    "Windows must build and audit its own output from matching published source",
+    "No deployment or GitHub package performed by this check"
+  ]
+}

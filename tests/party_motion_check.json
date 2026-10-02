@@ -1,0 +1,23 @@
+{
+  "runtime_source_commit": "3aa8c49f73f759dbfc4e9fc92131dd4f7903cf67",
+  "movie": {
+    "file": "Hero-four-party-3aa8c49.mp4",
+    "bytes": 1410684,
+    "sha256": "60f6a8c6575fa06ec51a52b7dede3c1ca8c7f8d5aba24eb7daebea39c1f03aa1",
+    "duration_seconds": 10.766667,
+    "frames": 323,
+    "fps": "fixed30",
+    "dimensions": [
+      1280,
+      800
+    ],
+    "audio": false
+  },
+  "capture_checks": 571,
+  "trace_checks_before_final_file_write": 570,
+  "failures": 0,
+  "runtime_hashes_verified_before_and_after": 275,
+  "trace": "tests/party_motion_trace.json",
+  "driver_sha256": "2a36a2f7eafabd2bdede0a3e32d58daff1dbc123f7d82c1f927367dfec1c1659",
+  "limits": "Prepared level5 source main-scene encounter, actual scripted mouse/keys and fixed-step motion; not manual/browser/real-time FPS/audio evidence. MP4 privately delivered, not included in source or GitHub releases."
+}
