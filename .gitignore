@@ -7,3 +7,16 @@ builds/*
 
 __pycache__/
 *.pyc
+
+# Generated distributions belong outside source history. Original art stays tracked.
+*.pck
+*.wasm
+*.tpz
+*.exe
+*.dll
+*.dylib
+Hero-Web-*.zip
+Hero-checkpoint-*.zip
+Hero-*-windows-*.zip
+Hero-*-macos-*.zip
+Hero-*-linux-*.tar.gz

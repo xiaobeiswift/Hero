@@ -1,0 +1,2 @@
+# Unified patch context must retain the original HTML whitespace.
+tools/web_shell_patch_v019_web2.diff -whitespace

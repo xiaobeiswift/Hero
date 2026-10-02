@@ -19,6 +19,11 @@ run_checked() {
 run_checked --headless --path . --editor --import --quit
 run_checked --headless --path . --script tests/state_test.gd
 run_checked --headless --path . --script tests/courtyard_exercise_rules_test.gd
+run_checked --headless --path . --script tests/heting_receipt_rules_test.gd
+run_checked --headless --path . --script tests/heting_receipt_combat_test.gd
+run_checked --headless --path . --script tests/heting_receipt_art_test.gd
+run_checked --headless --path . --script tests/heting_receipt_story_test.gd
+run_checked --headless --path . --script tests/audit_receipt_ui_test.gd
 run_checked --headless --path . --script tests/courtyard_rig_art_test.gd
 run_checked --headless --path . --script tests/courtyard_practice_art_test.gd
 run_checked --headless --path . --script tests/courtyard_practice_ui_test.gd
@@ -133,7 +138,7 @@ python3 -m unittest discover -s tests -p test_export_archives.py
 python3 -m unittest discover -s tests -p test_export_versions.py
 python3 -m unittest discover -s tests -p test_sequential_exports.py
 python3 -m unittest discover -s tests -p test_check_timeout.py
-python3 -m unittest discover -s tests -p test_web_shell.py
+python3 -m unittest discover -s tests -p 'test_web*.py'
 
 run_checked --headless --path . --script tests/dialogue_sheet_test.gd
 

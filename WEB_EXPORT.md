@@ -10,6 +10,7 @@
 - 刷新、关闭页签前先在小憩中保存或保存并返回首页。桌面版的窗口关闭恢复流程不能保证保护浏览器关闭/刷新
 - 若顶部提示没有持久存储，当前页内的进度可能在刷新后丢失。一次保存返回成功也不是跨刷新持久化证明，必须以实际重开验收为准
 - 当前仍需键盘，不把手机能够打开页面视为支持触控游玩；音频通常需要一次点击/按键后才启动
+- 新网页构建在顶部持续显示版本，例如`0.0.19 · Web 2`，启程页与游戏首页均可见。游戏版本来自实际运行包对应的工程配置；Web修订单独记录页面更新，避免只改HTML却仍显示同一构建号
 
 ## 可复现构建
 
@@ -21,10 +22,24 @@ https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot
 提交稳定源码后执行：
 
 ```sh
-python3 tools/export_web.py --label Hero-Web-preview-唯一标签
+python3 tools/export_web.py --label Hero-Web-0.0.20-web1 --revision 1
 ```
 
+引擎不在PATH时，可显式追加`--godot /绝对路径/官方Godot程序`；Windows可传带空格的完整`.exe`路径。构建使用工程内固定摘要的单线程Web模板，不依赖系统级Godot模板安装目录；配置、缓存与Windows的APPDATA仅对该子进程指向本次构建目录，不改变系统设置。Windows超时终止只作用于本次启动的Godot进程。仍须在真实Windows构建中核验输出，Python分支测试不等于平台运行证明。
+
+跨机器按固定Git提交获取源码时须保留原始换行及全部资源摘要，再全新导入工程。当前公开仓库只用于源码/素材/测试；1.0前不要向GitHub上传此命令生成的ZIP、PCK或WASM。通过已有授权的部署通道传送本机校验完成的站点，并在切换前核对每个静态文件摘要。
+
+构建后运行该机器生成的精确PCK审计：
+
+```sh
+python3 tools/audit_web_export.py builds/Hero-Web-0.0.20-web1 --godot /绝对路径/官方Godot程序
+```
+
+该命令先核对站点与ZIP的全部成员/摘要，再以单独测试存档加载实际`index.pck`。0.0.20要求1516项检查全过，旧0.0.19读取器夹具须匹配固定摘要；结果和原始日志写入构建目录的`exact-pack-audit`，拒绝覆盖已有证据。Windows同样传直接引擎EXE，通过Python启动，避免控制台包装器改变进程归属。此检查仍不是浏览器图形、音频或刷新持久性验收。
+
 构建要求768MiB起始工作区空间，运行期间保留512MiB，并限制导出大小与时间；这不改变桌面导出的1100MiB门槛。输出为`builds/<标签>/site/`及经过成员字节验证的ZIP，保留源码、引擎和模板摘要。单线程、无扩展、无PWA或第三方请求，不需要共享内存隔离头。
+
+构建工具从`project.godot`读取游戏版本，并将独立的正整数Web修订写入页面可见文字、DOM属性与构建报告，三者必须一致。页面补丁若复用原PCK，必须保留原运行时版本与摘要，单独注明页面源码提交和新的Web修订；不能把尚未发布的新工程版本写到旧PCK上。
 
 ## 部署交接
 
@@ -32,8 +47,10 @@ python3 tools/export_web.py --label Hero-Web-preview-唯一标签
 
 - 首先只读检查目标域名、HTTPS、现有站点根目录、Web服务器和路径权限。所有路径/域名由部署者明确选择；文档不包含真实服务器地址、用户或密钥
 - `.wasm`使用`application/wasm`；`.pck`使用`application/octet-stream`；JS/HTML使用正常类型。建议服务器对大资源启用已有的gzip/Brotli支持
-- 为整个版本使用独立目录，先验收后切换入口；保留上一版以便回退。HTML及版本入口应重新验证缓存，避免旧HTML配上新引擎/PCK。没有配置离线Service Worker
+- 使用临时目录暂存完整候选，校验后切换入口。确认新版本正常且旧包可从保留的原始交付按摘要恢复后，按已授权范围移除旧部署副本，线上只保留当前版本。HTML及版本入口应重新验证缓存，避免旧HTML配上新引擎/PCK。没有配置离线Service Worker
 - HTTPS是正式部署目标。不要覆盖无关站点配置、修改防火墙或账户权限；先确认已有配置和实际授权范围
 - 浏览器验收至少包括首次启程、移动/E、手记保存、视野/乐声偏好、刷新与重开恢复、返回首页/继续、窗口缩放、南庭演武；记录实际浏览器版本，不能把原生测试代替浏览器验证
 
-参考：[Godot4.6 Web导出](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_web.html)、[浏览器存储接口](https://docs.godotengine.org/en/4.6/classes/class_os.html#class-os-method-is-userfs-persistent)。当前未在此流程中连接、修改或部署任何用户服务器。
+当前项目在1.0之前仅向GitHub提交源码、素材和测试记录，不上传新的中间桌面/Web发行包；网页包通过受校验的直接交付滚动部署，已有历史发行不删除。构建脚本本身不连接或修改服务器。
+
+参考：[Godot4.6 Web导出](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_web.html)、[浏览器存储接口](https://docs.godotengine.org/en/4.6/classes/class_os.html#class-os-method-is-userfs-persistent)。
