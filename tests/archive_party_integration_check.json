@@ -1,0 +1,48 @@
+{
+  "scope": "Archive integration source checkpoint; superseded manual combat contract, not a deployment candidate",
+  "full_regression": {
+    "exit_code": 0,
+    "godot_commands": 112,
+    "python_tests": 61,
+    "pass_summaries": 110,
+    "engine_errors": 0,
+    "log_sha256": "bb88c51516a0ebf832717e48aca90032ea6941ca5c843d8ab77c2b45ecac295f"
+  },
+  "focused": {
+    "archive_ui": 84,
+    "frostbridge_ui": 175,
+    "natural_three_school_journey": 46792,
+    "two_person_geometry": 16899,
+    "existing_party_art": 11032
+  },
+  "source_audit": {
+    "passed": 3210,
+    "package_only_skipped": 5,
+    "actual_pck_tested": false
+  },
+  "native_capture": {
+    "files": [
+      "screenshots/313-archive-party-protect-rear.png",
+      "screenshots/314-archive-party-side-by-side.png",
+      "screenshots/315-archive-party-actual-contact.png",
+      "screenshots/316-archive-party-compact.png",
+      "screenshots/317-archive-party-victory.png",
+      "screenshots/318-archive-party-separate-choice.png",
+      "screenshots/319-archive-party-companion-hit.png"
+    ],
+    "scripted_controller_actions": true,
+    "manual_gameplay": false,
+    "browser_tested": false
+  },
+  "files": {
+    "scripts/frostbridge_story.gd": "b8794beda313c154e6dc17a6da626bb9376e6941f63a48c10bed06a4782b210d",
+    "scripts/party_battle_art.gd": "957c769e0f710614d75c947e1c5075fd8b06c1f0ecead0dd857152d2f0a42415",
+    "scripts/party_battle_ui.gd": "7da3171fd663d051b155462b2736aee3f37cc144d6adc92608f759d2b55df0a2",
+    "scripts/game_state.gd": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "scripts/party_combat_rules.gd": "95f49405e646a033fe45ad1cb6ab52f722522bb697f4627a140b7aa79ba5d4cc",
+    "project.godot": "35cca8c1d9710b683a5d0b90e925e34127fb8475de0e4ae50d5a84b11bc40b70",
+    "export_presets.cfg": "2a923525286bd36d7d8aa1d6d5e729a2f3a4956c772db175c7d511d1039aedda",
+    "tools/smoke_export.gd": "2743ca977bd4dba6c5cb4fa3e412c2759ae73283611a8be0966fd477be33706a",
+    "tools/audit_web_export.py": "46a322c0990327de0aaa3771b2e59bff5b0f5ad3925e01942393a2632cd9a05e"
+  }
+}

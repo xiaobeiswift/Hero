@@ -1,0 +1,110 @@
+{
+  "prepared_at_utc": "2026-10-02T20:06:02.485876+00:00",
+  "runtime_identity": "0.0.22 · Web 1",
+  "save_schema": 12,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "status": "source_rehearsal_passed; exact newly exported Web PCK still required",
+  "source_fingerprints": {
+    "project.godot": "35cca8c1d9710b683a5d0b90e925e34127fb8475de0e4ae50d5a84b11bc40b70",
+    "tools/smoke_export.gd": "2743ca977bd4dba6c5cb4fa3e412c2759ae73283611a8be0966fd477be33706a",
+    "tools/audit_web_export.py": "46a322c0990327de0aaa3771b2e59bff5b0f5ad3925e01942393a2632cd9a05e",
+    "tests/test_web_pack_audit.py": "17a7eb6c4b654236ea32cbd00f59918c7d4979cf5d0b6869f1f2df4d0dd04b7a",
+    "scripts/game_state.gd": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "scripts/main.gd": "273449287ac4ea9e9b6a072600433d9e7817aba165d584a6e2e076df1f434f74",
+    "scripts/frostbridge_story.gd": "b8794beda313c154e6dc17a6da626bb9376e6941f63a48c10bed06a4782b210d",
+    "scripts/party_combat_rules.gd": "95f49405e646a033fe45ad1cb6ab52f722522bb697f4627a140b7aa79ba5d4cc",
+    "scripts/party_battle_ui.gd": "7da3171fd663d051b155462b2736aee3f37cc144d6adc92608f759d2b55df0a2",
+    "scripts/party_battle_art.gd": "957c769e0f710614d75c947e1c5075fd8b06c1f0ecead0dd857152d2f0a42415",
+    "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30"
+  },
+  "full_source_rehearsal": {
+    "checks": 3210,
+    "failures": 0,
+    "exit_code": 0,
+    "retained_prior_checks": 2720,
+    "retained_party_checks": 815,
+    "retained_sluice_checks": 373,
+    "new_archive_checks": 490,
+    "stdout_sha256": "e73a42bda0b4ba0db0c5d7bcdc314cf1ed85628701bac9781384ae46d110561a",
+    "stdout": [
+      "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+      "",
+      "SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim",
+      "Retained exported-pack coverage: 452 checks",
+      "Retained story/traversal pack coverage: 635 checks",
+      "Retained party/inventory pack coverage: 695 checks",
+      "Retained painted combat pack coverage: 728 checks",
+      "Retained rest/support pack coverage: 751 checks",
+      "Retained village/view pack coverage: 777 checks",
+      "Courtyard runtime pack coverage: 115 added checks",
+      "Retained legacy-receipt-adapter exact-runtime coverage: 276 checks; external pinned historical reader included; successful native process quit intentionally not invoked",
+      "Schema12 four-actor exact-runtime coverage: 815 checks; actual default scene/controller/roster; both external frozen readers; native successful process exit intentionally not invoked",
+      "Schema12 sluice exact-runtime coverage: 373 checks; both clue orders; natural hero/Shen; actual E/number entry, event presentation, finite rewards, save failure/retry/close; no browser or physical desktop-close claim",
+      "Schema12 archive exact-runtime coverage: 490 checks; natural hero/optional Shen; guarded E/number entry and separate endings; shared vulnerability events; all3 legitimately recruited two-person formations; real save failure/retry/close; no browser or physical desktop-close claim",
+      "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+      "PASS: 3210 source-rehearsal checks; 0 failures"
+    ],
+    "isolated_xdg_root": "/tmp/hero-archive-audit-20261002-2004"
+  },
+  "focused_source_rehearsal": {
+    "checks": 541,
+    "new_archive_checks": 490,
+    "failures": 0,
+    "exit_code": 0,
+    "stdout_sha256": "7435d5d0462fba540644763dce80ac0cf6006e3133920744aa4f5c1f3626712b",
+    "stdout": [
+      "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+      "",
+      "SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim",
+      "Schema12 archive exact-runtime coverage: 490 checks; natural hero/optional Shen; guarded E/number entry and separate endings; shared vulnerability events; all3 legitimately recruited two-person formations; real save failure/retry/close; no browser or physical desktop-close claim",
+      "Audit scope: archive-only; prepared state/input only; no browser or physical desktop-close claim",
+      "PASS: 541 source-rehearsal checks; 0 failures"
+    ],
+    "scope": "archive-only; cannot satisfy complete exact-pack wrapper",
+    "isolated_xdg_root": "/tmp/hero-archive-audit-20261002-2003"
+  },
+  "wrapper_validation": {
+    "python_suite": "tests/test_web_pack_audit.py",
+    "tests": 6,
+    "passed": true,
+    "required_exported_pack_checks": 3215,
+    "retained_exported_pack_checks": 2725,
+    "required_party_checks": 815,
+    "required_sluice_checks": 373,
+    "required_archive_checks": 490,
+    "required_marker": "Schema12 archive exact-runtime coverage:",
+    "both_real_rehearsal_logs_rejected_as_exact_pack": true,
+    "rejects_old_partial_rehearsal_error_or_duplicate_logs": true,
+    "rejects_missing_wrong_or_duplicate_scope_and_each_coverage_marker": true
+  },
+  "pending_pack_assertions": [
+    "Exported project.binary is present",
+    "tests directory excluded",
+    "tools directory excluded",
+    "screenshots directory excluded",
+    "builds directory excluded"
+  ],
+  "coverage": [
+    "Exact archive_boss205HP/17/31 template, real party controller, title/location/formation and unique enemy plate",
+    "Canonical Frostbridge/stage2/solved-seal/previous-route gate with malformed scalar and array prerequisites rejected without normalization or mutation",
+    "Actual E/number entry; far, canceled, older-modal and moved-away callbacks; real isolated disk checkpoint failure and same-choice retry; all Chapter mutations and save/load/menu routes blocked during fight; old terminal token rejected on retry",
+    "Both endings crossed with natural hero-only and explicitly recruited optional Shen;180XP and completed earlier route establish eligibility; no early Tang/Qin recruitment or injected battle stats",
+    "Bounded120-action fights use owned available attacks, arts and medicines without changing enemy health or actor attack; terminal presentation precedes80XP40coins and stage3; later actual nearby numbered ending awards100XP65coins separately",
+    "Pending and duplicate battle/final rewards, remote/canceled/stale/moved-away ending callbacks, malformed/invalid final choice rejection and999999 coin cap",
+    "Shared actual heavy vulnerability2 event replay: applying hit is unamplified, subsequent light adds3 and consumes1, wrong actor guard/hit cannot clear or consume another actor status, own guard clears at actual event and prevents reapplication",
+    "Actual presentation input lock, enemy windup recipient focus, per-event status display and combat-only vulnerability exclusion from schema12 saves",
+    "Flee/win/defeat close requests with real failed writes, repeated close/input lock, correct accepted outcomes and Qingwei defeat recovery; stale retry cancellation, second discard choice and exact F5 recovery without process exit",
+    "Complete canonical schema12 checkpoint/reload before and after both endings; both unchanged exact historical readers reject actual new save before changing memory or bytes",
+    "All three real companions are tested in legitimate later training rosters: exact two-person parallel140,505 versus rear255,450, unchanged hero feet, actual different target policies and damage recipients, renderer windup focus and return homes",
+    "Unchanged actual three/four-person homes and commands in both formations",
+    "Original2720 source checks retained, including815 party/373 sluice; original clerk/inscription/archive audit interactions now use actual proximity; both runtime assertions require0.0.22"
+  ],
+  "limits": [
+    "Source rehearsal is not an exported-pack audit; five packaging assertions remain pending",
+    "Exact final Web PCK must execute this external driver through tools/audit_web_export.py before a package pass is claimed",
+    "Native pinned editor does not establish browser rendering/audio/IndexedDB persistence or actual physical desktop-window close",
+    "Successful process exit is intentionally not invoked by close scenarios",
+    "Preparation leaves deployed Web21 and frozen historical readers unchanged; no export, commit, publish or GitHub package performed by this audit task"
+  ]
+}

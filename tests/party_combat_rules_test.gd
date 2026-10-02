@@ -521,7 +521,7 @@ func _choose(index: int = 0) -> void:
 func _interact(id: String) -> void:
 	if app.active_modal:
 		app._close_modal()
-	if id in ["bandit", "ledger_runner", "sluice_boss"]:
+	if id in ["bandit", "ledger_runner", "sluice_boss", "chapter_archive", "chapter_host"]:
 		check(app.world.interactables.has(id), "Earned encounter exists on its actual map: " + id)
 		if not app.world.interactables.has(id):
 			return
@@ -530,9 +530,9 @@ func _interact(id: String) -> void:
 	app._interact(id)
 
 
-func _legacy_fight() -> void:
-	# Ordinary opening/training dialogue now enters the real party controller;
-	# later prerequisite encounters continue through their explicit legacy path.
+func _journey_fight() -> void:
+	# Follow the actual scene-selected controller; school trials and Mistwood
+	# remain legacy encounters while adapted story routes use PartyUI.
 	check(app.state.battle_active, "Earned journey starts real prerequisite combat")
 	var independent: bool = app.current_screen == "party_battle"
 	for index: int in 120:
@@ -553,15 +553,15 @@ func _legacy_fight() -> void:
 		app._close_modal()
 
 
-func _sluice_party_fight(kind: String) -> void:
-	check(app.current_screen == "party_battle" and app.state.party_battle_snapshot().get("encounter_id") == kind, "Earned sluice dialogue enters its actual party encounter: " + kind)
-	check(app.state.party_roster == ["hero", "shen"] and not app.state.tangqi_unlocked and not app.state.qin_recruited(), "Sluice prerequisites precede the late companions")
+func _earned_party_fight(kind: String) -> void:
+	check(app.current_screen == "party_battle" and app.state.party_battle_snapshot().get("encounter_id") == kind, "Earned chapter dialogue enters its actual party encounter: " + kind)
+	check(app.state.party_roster == ["hero", "shen"] and not app.state.tangqi_unlocked and not app.state.qin_recruited(), "Sluice and archive prerequisites precede the late companions")
 	for attempt: int in 120:
 		if not app.state.battle_active:
 			break
 		if app.current_screen != "party_battle" or not _drive_party_action():
 			break
-	check(not app.state.battle_active and app.state.party_settlement.get("outcome") == "win", "Natural sluice prerequisite wins through accepted actions and renderer completion: " + kind)
+	check(not app.state.battle_active and app.state.party_settlement.get("outcome") == "win", "Natural chapter prerequisite wins through accepted actions and renderer completion: " + kind)
 	if app.active_modal:
 		app._close_modal()
 
@@ -576,23 +576,28 @@ func _test_earned_three_party() -> void:
 	_interact("herb"); _choose()
 	_interact("healer"); _choose()
 	_interact("healer"); _choose()
-	_interact("bandit"); _choose(); _legacy_fight()
+	_interact("bandit"); _choose(); _journey_fight()
 	_interact("elder"); _choose(); _choose(0)
 	app._show_inventory(); _choose(2); app._close_modal()
-	_interact("mentor"); _choose(); _legacy_fight()
+	_interact("mentor"); _choose(); _journey_fight()
 	_interact("mentor"); _choose()
 	_interact("exit_sluice"); _choose()
 	_interact("stranded_boatman"); _choose(); app._close_modal()
-	_interact("ledger_runner"); _choose(); _sluice_party_fight("sluice_scout")
+	_interact("ledger_runner"); _choose(); _earned_party_fight("sluice_scout")
 	_interact("sluice_cache"); _choose()
-	_interact("sluice_boss"); _choose(); _sluice_party_fight("sluice_boss")
+	_interact("sluice_boss"); _choose(); _earned_party_fight("sluice_boss")
 	_interact("exit_frostbridge"); _choose()
 	_interact("chapter_clerk"); _choose()
 	_interact("chapter_inscription"); _choose()
 	_interact("chapter_host"); _choose()
 	_interact("chapter_archive"); _choose(2); _choose(0); _choose(1)
-	_choose(); _legacy_fight()
+	var archive_coins: int = app.state.coins
+	var archive_xp: int = app.state.xp + 30 * app.state.level * (app.state.level - 1)
+	_choose(); _earned_party_fight("archive_boss")
+	check(app.state.chapter_two_stage == 3 and app.state.chapter_two_ending.is_empty(), "Earned archive battle atomically reaches stage three before the ending choice")
+	check(app.state.coins == archive_coins + 40 and app.state.xp + 30 * app.state.level * (app.state.level - 1) == archive_xp + 80, "Natural archive battle grants exactly forty coins and eighty XP")
 	_interact("chapter_host"); _choose(0)
+	check(app.state.chapter_two_stage == 4 and app.state.chapter_two_ending == "open_records" and app.state.coins == archive_coins + 105 and app.state.xp + 30 * app.state.level * (app.state.level - 1) == archive_xp + 180, "Actual separate ending grants only its sixty-five coins and one hundred XP")
 	_interact("frost_timber"); _choose()
 	_interact("bridge_worker"); _choose()
 	_interact("bridge_worker"); _choose()
@@ -636,7 +641,7 @@ func _test_earned_four_party() -> void:
 	_interact("mist_scout"); _choose(2)
 	_interact("mist_stone_gauge"); _choose()
 	_interact("mist_camp"); _choose()
-	_interact("mist_gate"); _choose(); _legacy_fight()
+	_interact("mist_gate"); _choose(); _journey_fight()
 	_interact("mist_guide"); _choose(0)
 	check(app.state.mist_stage == 4 and app.state.mist_ending == "release_water" and not app.state.qin_unlocked, "Actual keeper victory and water-ending choice finish Mistwood without granting Qin")
 	var before_invitation: Dictionary = app.state.to_dict().duplicate(true)
@@ -785,12 +790,15 @@ func _drive_party_action() -> bool:
 	if chosen.is_empty():
 		check(false, "Selected actor has a legal journey action")
 		return false
+	var before: Dictionary = {"coins": app.state.coins, "xp": app.state.xp, "level": app.state.level, "stage": app.state.chapter_two_stage, "ending": app.state.chapter_two_ending}
 	panel.request_command(actor.id, chosen.id)
 	if not panel.pending_action.is_empty():
 		panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
 	check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
 	if panel.pending.is_empty():
 		return false
+	if snapshot.encounter_id == "archive_boss":
+		check(app.state.coins == before.coins and app.state.xp == before.xp and app.state.level == before.level and app.state.chapter_two_stage == before.stage and app.state.chapter_two_ending == before.ending, "Accepted earned archive action cannot award rewards or chapter progress before renderer completion")
 	# Complete the actual renderer timeline so its presentation-finished signal
 	# acknowledges the real epoch/token and performs the real state settlement.
 	panel.art._process(panel.art.get_presentation_duration() + 0.1)

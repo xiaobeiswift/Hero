@@ -18,29 +18,62 @@ class PackAuditTests(unittest.TestCase):
             self.assertEqual(dict(os.environ),before)
             with self.assertRaises(FileExistsError):audit.audit_environment(base,'nt')
 
+    def complete_log(self):
+        return (audit.COMPLETE_SCOPE + '\n'
+                + audit.PARTY_COVERAGE + f' {audit.EXPECTED_PARTY_CHECKS} checks; actual runtime\n'
+                + audit.SLUICE_COVERAGE + f' {audit.EXPECTED_SLUICE_CHECKS} checks; actual runtime\n'
+                + audit.ARCHIVE_COVERAGE + f' {audit.EXPECTED_ARCHIVE_CHECKS} checks; actual runtime\n'
+                + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
+
     def test_complete_schema12_pack_log_required(self):
+        complete = self.complete_log()
+        self.assertEqual(audit.completed_pack_checks(complete, 0), audit.EXPECTED_CHECKS)
+        invalid = [
+            (complete, 1),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2725 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '1516 exported-pack'), 0),
+            (complete.replace('exported-pack', 'source-rehearsal'), 0),
+            (complete.replace('scope: complete', 'scope: archive-only'), 0),
+            (complete + audit.COMPLETE_SCOPE + '\n', 0),
+            ('SOURCE REHEARSAL: pending package assertions\n' + complete, 0),
+            ('SCRIPT ERROR: interrupted assertion\n' + complete, 0),
+            ('ERROR: interrupted assertion\n' + complete, 0),
+            (complete + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n', 0),
+            (complete.replace('; 0 failures', '; 1 failures'), 0),
+            (complete.replace('PASS:', 'FAIL:'), 0),
+            (complete+complete, 0),
+        ]
+        for marker, count in ((audit.PARTY_COVERAGE,audit.EXPECTED_PARTY_CHECKS),
+                              (audit.SLUICE_COVERAGE,audit.EXPECTED_SLUICE_CHECKS),
+                              (audit.ARCHIVE_COVERAGE,audit.EXPECTED_ARCHIVE_CHECKS)):
+            line=marker+f' {count} checks; actual runtime\n'
+            invalid.extend([
+                (complete.replace(line,''),0),
+                (complete.replace(marker,'Old adapter only:'),0),
+                (complete.replace(line,marker+' 1 checks; partial runtime\n'),0),
+                (complete.replace(line,marker+f' {count+1} checks; unreviewed extension\n'),0),
+                (complete+line,0),
+                (complete+marker+' malformed duplicate\n',0),
+                (complete.replace(line,marker+f' {count} checks\n'),0),
+            ])
+        for text, code in invalid:
+            with self.subTest(text=text,code=code):
+                self.assertIsNone(audit.completed_pack_checks(text,code))
+
+    def test_runtime_version_count_and_new_scope_stay_pinned(self):
         from unittest.mock import patch
-        with patch.object(audit, 'EXPECTED_CHECKS', 2000):
-            complete = (audit.COMPLETE_SCOPE + '\n' + audit.PARTY_COVERAGE + ' 400 checks\n'
-                        + audit.SLUICE_COVERAGE + f' {audit.EXPECTED_SLUICE_CHECKS} checks; actual runtime\n'
-                        + 'PASS: 2000 exported-pack checks; 0 failures\n')
-            self.assertEqual(audit.completed_pack_checks(complete, 0), 2000)
-            for text, code in (
-                (complete, 1),
-                (complete.replace('2000 exported-pack', '1516 exported-pack'), 0),
-                (complete.replace('exported-pack', 'source-rehearsal'), 0),
-                (complete.replace('scope: complete', 'scope: party-only'), 0),
-                (complete.replace(audit.PARTY_COVERAGE, 'Old adapter only:'), 0),
-                (complete.replace(audit.SLUICE_COVERAGE, 'Old sluice adapter only:'), 0),
-                (complete.replace(f'{audit.EXPECTED_SLUICE_CHECKS} checks;', '1 checks;'), 0),
-                (complete + audit.SLUICE_COVERAGE + f' {audit.EXPECTED_SLUICE_CHECKS} checks; duplicate\n', 0),
-                ('SOURCE REHEARSAL: pending package assertions\n' + complete, 0),
-                ('SCRIPT ERROR: interrupted assertion\n' + complete, 0),
-                (complete + 'PASS: 2000 exported-pack checks; 0 failures\n', 0),
-                (complete.replace('; 0 failures', '; 1 failures'), 0),
-            ):
-                with self.subTest(text=text, code=code):
-                    self.assertIsNone(audit.completed_pack_checks(text, code))
+        root=Path(__file__).resolve().parents[1]
+        driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        self.assertEqual(audit.RETAINED_CHECKS,2725)
+        self.assertEqual(audit.EXPECTED_SLUICE_CHECKS,373)
+        self.assertGreater(audit.EXPECTED_ARCHIVE_CHECKS,0)
+        self.assertEqual(audit.EXPECTED_CHECKS,2725+audit.EXPECTED_ARCHIVE_CHECKS)
+        self.assertIn('== "0.0.22"',driver)
+        self.assertIn('title.text=="0.0.22"',driver)
+        self.assertNotIn('"0.0.21"',driver)
+        self.assertIn('await _test_sluice_pack()\n\tawait _test_archive_pack()\n\tawait _finish_run(rehearsal)',driver)
+        with patch.object(audit,'EXPECTED_ARCHIVE_CHECKS',0):
+            self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
     def test_frozen_historical_readers_are_byte_exact(self):
         root = Path(__file__).resolve().parents[1]

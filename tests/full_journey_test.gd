@@ -21,7 +21,7 @@ func choose(index:int=0)->void:
  app.modal_actions[index].call()
 func interact(id:String)->void:
  if app.active_modal:app._close_modal()
- if id in ["bandit","ledger_runner","sluice_boss"]:
+ if id in ["bandit","ledger_runner","sluice_boss","chapter_archive","chapter_host"]:
   check(app.world.interactables.has(id),"Guarded encounter exists on its actual map: "+id)
   if not app.world.interactables.has(id):return
   app.world.teleport(app.world.interactables[id].pos);app._process(0)
@@ -83,9 +83,20 @@ func _run()->void:
   interact("chapter_inscription");choose()
   interact("chapter_host");choose()
   interact("chapter_archive");choose(2);choose(0);choose(1)
-  choose();fight()
+  check(app.state.party_roster==["hero","shen"] and not app.state.tangqi_unlocked and not app.state.qin_recruited(),"Natural archive chronology still has only the earned hero and Shen")
+  var before_archive_coins:int=app.state.coins
+  var before_archive_xp:int=app.state.xp+30*app.state.level*(app.state.level-1)
+  choose()
+  var archive:Dictionary=app.state.party_battle_snapshot()
+  check(app.current_screen=="party_battle" and archive.get("encounter_id")=="archive_boss","Ordinary solved-seal choice enters the actual independent party archive boss")
+  if not archive.is_empty():
+   check(archive.enemies.size()==1 and archive.enemies[0].max_hp==205 and archive.enemies[0].attack==17 and archive.enemies[0].heavy_attack==31,"Natural archive encounter preserves its 205HP and light/heavy attack stats")
+  fight()
+  check(app.state.chapter_two_stage==3 and app.state.chapter_two_ending.is_empty() and app.state.coins==before_archive_coins+40 and app.state.xp+30*app.state.level*(app.state.level-1)==before_archive_xp+80,"Natural archive victory settles stage two to three with exactly eighty XP and forty coins")
+  check(app.state.party_settlement.get("reward_xp")==80 and app.state.party_settlement.get("coin_change")==40,"Archive party settlement excludes the later narrative choice reward")
   interact("chapter_host");choose(0 if school==0 else 1)
-  check(app.state.chapter_two_stage==4,"Full archive story resolved")
+  check(app.state.chapter_two_stage==4 and app.state.chapter_two_ending==("open_records" if school==0 else "protect_witness"),"Both actual innkeeper branches finish the full archive story")
+  check(app.state.coins==before_archive_coins+105 and app.state.xp+30*app.state.level*(app.state.level-1)==before_archive_xp+180,"Earned ending separately adds exactly one hundred XP and sixty-five coins")
   interact("frost_timber");choose()
   interact("bridge_worker");choose()
   check(app.state.bridge_repaired and app.state.resources.timber==1,"Gathering supports real bridge cost")
@@ -209,7 +220,7 @@ func _drive_party_action() -> bool:
  if chosen.is_empty():
   check(false, "Selected actor has a legal journey action")
   return false
- var progress_before:Dictionary={"coins":app.state.coins,"xp":app.state.xp,"level":app.state.level,"side_stage":app.state.side_stage,"side_found":app.state.side_found.duplicate(),"side_reward_claimed":app.state.side_reward_claimed}
+ var progress_before:Dictionary={"coins":app.state.coins,"xp":app.state.xp,"level":app.state.level,"side_stage":app.state.side_stage,"side_found":app.state.side_found.duplicate(),"side_reward_claimed":app.state.side_reward_claimed,"chapter_two_stage":app.state.chapter_two_stage,"chapter_two_ending":app.state.chapter_two_ending}
  panel.request_command(actor.id, chosen.id)
  if not panel.pending_action.is_empty():
   panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
@@ -218,6 +229,8 @@ func _drive_party_action() -> bool:
   return false
  if snapshot.encounter_id in ["sluice_scout","sluice_boss"]:
   check(app.state.coins==progress_before.coins and app.state.xp==progress_before.xp and app.state.level==progress_before.level and app.state.side_stage==progress_before.side_stage and app.state.side_found==progress_before.side_found and app.state.side_reward_claimed==progress_before.side_reward_claimed,"Accepted sluice action cannot award story or economy before renderer completion")
+ if snapshot.encounter_id=="archive_boss":
+  check(app.state.coins==progress_before.coins and app.state.xp==progress_before.xp and app.state.level==progress_before.level and app.state.chapter_two_stage==progress_before.chapter_two_stage and app.state.chapter_two_ending==progress_before.chapter_two_ending,"Accepted archive action cannot grant economy, progression or ending before renderer completion")
  # Complete the actual renderer timeline so its presentation-finished signal
  # acknowledges the real epoch/token and performs the real state settlement.
  panel.art._process(panel.art.get_presentation_duration() + 0.1)
