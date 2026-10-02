@@ -1,5 +1,6 @@
 class_name HetingRegion
 extends RefCounted
+const Machinery=preload("res://scripts/heting_machinery_art.gd")
 const MaterialTiles=preload("res://scripts/world_material_tiles.gd")
 const WOOD_TILE=160.0
 const WATER_TILE=480.0
@@ -450,6 +451,7 @@ static func _dispatch_board(w, delivered: Array, draft: String, ending: String) 
 		w._label(Vector2(557, 342), "已交割" if not ending.is_empty() else "夜工草案", 10, Color("706449"), 83, HORIZONTAL_ALIGNMENT_CENTER)
 
 static func _crane(w, p: Vector2) -> void:
+	if Machinery.draw(w,"timber_crane",p,1.0,_machine_opacity(w,"timber_crane",p)):return
 	# Crane feet sit against the east dock rim, leaving the island's routes open.
 	w._ellipse(p, Vector2(21, 7), Color(0.2, 0.29, 0.22, 0.18))
 	w.draw_line(p + Vector2(-12, 0), p + Vector2(0, -83), WOOD_DARK, 8, true)
@@ -464,6 +466,11 @@ static func _crane(w, p: Vector2) -> void:
 		w.draw_line(p + Vector2(-10, -28 + i * 4), p + Vector2(12, -28 + i * 4), Color("716a4e"), 3, true)
 
 static func _winch(w, bridge_side: String) -> void:
+	var foot=Vector2(820,690)
+	w.draw_line(foot+Vector2(-22,-15),Vector2(620 if bridge_side=="west" else 1010,687),Color("5b5e47"),2,true)
+	if Machinery.draw(w,"rope_winch",foot,1.0,_machine_opacity(w,"rope_winch",foot)):
+		w._label(Vector2(763,713),"浮栈接西" if bridge_side=="west" else "浮栈接东",12,PAPER,122,HORIZONTAL_ALIGNMENT_CENTER,true)
+		return
 	var p := Vector2(820, 681)
 	w._ellipse(p, Vector2(42, 12), Color(0.24, 0.29, 0.21, 0.18))
 	w.draw_rect(Rect2(p + Vector2(-34, -7), Vector2(68, 14)), WOOD_DARK)
@@ -580,6 +587,11 @@ static func _worker(w, p: Vector2, color: Color) -> void:
 	w.draw_line(p + Vector2(4, -4), p + Vector2(5, 1), WOOD_DARK, 3, true)
 
 static func _cart(w, p: Vector2, cargo: String) -> void:
+	if Machinery.draw(w,"loaded_grain_cart",p):
+		if cargo=="sealed":
+			w.draw_rect(Rect2(p+Vector2(8,-20),Vector2(5,9)),PAPER)
+			w.draw_circle(p+Vector2(10.5,-16),1.5,Color("ad654b"))
+		return
 	# Ground contact stays within 6 px of its owner's centre even on narrow decks.
 	w._ellipse(p + Vector2(0, 1), Vector2(11, 4), Color(0.2, 0.29, 0.22, 0.2))
 	w.draw_line(p + Vector2(-5, -2), p + Vector2(-5, 4), WOOD_DARK, 3, true)
@@ -592,6 +604,8 @@ static func _cart(w, p: Vector2, cargo: String) -> void:
 	w.draw_rect(Rect2(p + Vector2(10, -19), Vector2(7, 10)), Color("d8c591") if cargo != "sealed" else Color("dfd2ac"))
 
 static func _basket(w, p: Vector2, full: bool, sealed: bool, scale: float = 1.0) -> void:
+	var id="grain_basket_empty" if not full else ("cargo_hampers_sealed" if sealed else "grain_basket_full")
+	if Machinery.draw(w,id,p,scale):return
 	var rx := 15.0 * scale
 	var height := 20.0 * scale
 	w._ellipse(p, Vector2(rx + 2, 5 * scale), Color(0.29, 0.32, 0.23, 0.17))
@@ -624,3 +638,8 @@ static func _lantern(w, p: Vector2, lit: bool) -> void:
 
 static func _poly(w, vertices: Array, color: Color) -> void:
 	w.draw_colored_polygon(PackedVector2Array(vertices), color)
+
+static func _machine_opacity(w,id:String,foot:Vector2)->float:
+	var actors:Array=[w.player_pos]
+	if w.companion_active:actors.append(w.companion_pos)
+	return Machinery.opacity_for(id,foot,actors)
