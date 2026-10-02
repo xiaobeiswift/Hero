@@ -25,7 +25,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
 PACK_SMOKE_CHECKS = 1231
-SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
+SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses", "web")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
     "linux": ("Linux x86_64", "linux_release.x86_64", "Hero.x86_64"),
