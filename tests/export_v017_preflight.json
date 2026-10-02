@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "source_commit": "ffd6e2a3eeade8c0e76ed73baf61b6ba14124058",
+  "temporary_root": "/tmp/hero-v17-pack-audit-qrc2sx2p",
+  "expected_pack_checks": 872,
+  "minimum_overlay_free": 1295417344,
+  "minimum_tmp_free": 4527456256,
+  "minimum_mem_available": 5608587264,
+  "steps": [
+    {
+      "stage": "import",
+      "seconds": 6.9094601569959195,
+      "exit_code": 0
+    },
+    {
+      "stage": "export",
+      "seconds": 5.476241418000427,
+      "exit_code": 0
+    },
+    {
+      "stage": "pack-check",
+      "seconds": 17.08623309599352,
+      "exit_code": 0
+    }
+  ],
+  "pack_sha256": "7c2aad4c26823280787df54e20d61fbf04f69fbe29263fc5b0f941cee6727c17",
+  "pack_bytes": 38767596,
+  "source_entries": 196,
+  "source_manifest_sha256": "6a670b647d18d22861b8bf41461e9249a3bc54b48726d8a23377cef435cba5e3",
+  "driver_sha256": "878a70f660b4545c258c4a0e64202a9b51bf1bcaba64d1da827249acb9fda054",
+  "scope": "One temporary Linux-preset PCK, tested through official Linux editor. Not full three-platform export or native GUI."
+}
