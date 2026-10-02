@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 12
+const SAVE_VERSION: int = 13
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
@@ -45,6 +45,7 @@ var ending: String = ""
 var position: Vector2 = Vector2(460, 430)
 var victories: int = 0
 var companion_unlocked: bool = false
+var internal_unlocked: bool = false
 var lightness_unlocked:bool=false
 var lightness_relics:Array[String]=[]
 var shen_care_stage:int=0
@@ -141,6 +142,7 @@ func reset_game() -> void:
 	position = Vector2(460, 430)
 	victories = 0
 	companion_unlocked = false
+	internal_unlocked = false
 	lightness_unlocked=false;lightness_relics.clear()
 	shen_care_stage=0;shen_care_choice=""
 	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
@@ -363,6 +365,13 @@ func current_companion() -> String:return Companions.active(self)
 func available_companions() -> Array[String]:return Companions.available(self)
 func select_companion(id:String) -> bool:return Companions.select(self,id)
 func companion_description() -> String:return Companions.description(self)
+func learn_internal_skill() -> bool:
+	if battle_active or _party_gate() or internal_unlocked or level < 3 or not SECTS.has(sect):
+		return false
+	internal_unlocked = true
+	return true
+
+
 func learn_lightness() -> bool:return Lightness.learn(self)
 func cross_reed_water(outward:bool) -> bool:return Lightness.cross(self,outward)
 func discover_reed_islet() -> bool:return Lightness.discover(self)
@@ -684,6 +693,7 @@ func to_dict() -> Dictionary:
 		"sect_rank":sect_rank,"sect_merit":sect_merit,"sect_trial_won":sect_trial_won,
 		"ending": ending, "position": {"x": position.x, "y": position.y},
 		"victories": victories, "companion_unlocked": companion_unlocked,
+		"internal_unlocked": internal_unlocked,
 		"lightness_unlocked":lightness_unlocked,"lightness_relics":lightness_relics.duplicate(),
 		"shen_care_stage":shen_care_stage,"shen_care_choice":shen_care_choice,
 		"qin_stage": qin_stage, "qin_unlocked": qin_unlocked,
@@ -756,7 +766,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -779,13 +789,20 @@ func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
 	if not plan.ok:
 		return {"ok": false}
 	candidate._apply_party_plan(plan)
-	if version >= 12 and not _same_save_value(candidate.to_dict(), data):
-		return {"ok": false}
+	if version >= 12:
+		var normalized: Dictionary = candidate.to_dict()
+		var original: Dictionary = data.duplicate(true)
+		if version == 12:
+			normalized.erase("internal_unlocked")
+			original.erase("internal_unlocked")
+		if not _same_save_value(normalized, original):
+			return {"ok": false}
 	return {"ok": true, "state": candidate}
 
 
 func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> void:
 	# This method is used only on a fresh detached candidate, never live state.
+	internal_unlocked = bool(data.get("internal_unlocked", false)) if version >= 13 else false
 	player_name = String(data.get("player_name", "无名客")).strip_edges().left(18)
 	if player_name.is_empty():
 		player_name = "无名客"
@@ -849,7 +866,7 @@ func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> v
 
 
 func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
-	if version >= 12 and not _valid_schema12_core(data):
+	if version >= 12 and not _valid_schema12_core(data, version):
 		return false
 	# All original version-one fields are required. Only later feature fields
 	# receive compatibility defaults, so truncated saves cannot strand a quest.
@@ -878,6 +895,9 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if version >= 12 and not _valid_qin_progress(data):return false
 	if not ShenCare.valid(data,version):return false
 	if not Lightness.valid(data,version):return false
+	if version >= 13:
+		if not data.get("internal_unlocked") is bool: return false
+		if data.internal_unlocked and (float(data.get("level", 1)) < 3 or not SECTS.has(String(data.get("sect", "")))): return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
 		return false
 	if data.has("side_reward_claimed") and not data["side_reward_claimed"] is bool:
@@ -1486,11 +1506,12 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	return {"ok": true, "state": candidate, "settlement": settlement}
 
 
-func _valid_schema12_core(data: Dictionary) -> bool:
+func _valid_schema12_core(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	# Current saves are complete and canonical. Older versions retain their
 	# documented normalization policy; the schema12 reader never silently fixes
 	# malformed fields or incomplete party resources.
 	for key: String in to_dict():
+		if key == "internal_unlocked" and version < 13: continue
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:

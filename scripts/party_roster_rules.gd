@@ -5,7 +5,7 @@ extends RefCounted
 ## existing battle epoch/settlement gate. This does NOT change SAVE_VERSION.
 const Catalog = preload("res://scripts/party_actor_catalog.gd")
 const Companions = preload("res://scripts/companion_rules.gd")
-const PAYLOAD_VERSION: int = 12
+const PAYLOAD_VERSION: int = 13
 const PARTY_KEYS: Array[String] = ["party_roster", "party_resources"]
 const RESOURCE_KEYS: Array[String] = ["hp", "qi"]
 
@@ -24,13 +24,13 @@ static func load_plan(state, player_data: Variant, source_version: Variant) -> D
 	# revival through that normalization, so inspect present raw core resources.
 	# The whole-save validator owns required core fields; party-only callers may
 	# supply this isolated pair with an already validated normalized State.
-	if int(source_version) == PAYLOAD_VERSION:
+	if int(source_version) >= 12:
 		for key: String in RESOURCE_KEYS:
 			var minimum: int = 1 if key == "hp" else 0
 			if player_data.has(key) and not _integer(player_data[key], minimum, int(state.get("max_" + key))):
 				return _error("新存档的主角气血或真气无效。")
 	var present: int = int(player_data.has(PARTY_KEYS[0])) + int(player_data.has(PARTY_KEYS[1]))
-	if present == 1 or (int(source_version) == PAYLOAD_VERSION and present != 2):
+	if present == 1 or (int(source_version) >= 12 and present != 2):
 		return _error("出战名单与同行资源必须成对保存。")
 	if present == 2:
 		return validate_payload(state, {PARTY_KEYS[0]: player_data[PARTY_KEYS[0]], PARTY_KEYS[1]: player_data[PARTY_KEYS[1]]})

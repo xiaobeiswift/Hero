@@ -85,6 +85,9 @@ static func _hero(state) -> Dictionary:
 		if state.art_uses.has(key):
 			actor.art_uses[key] = clampi(int(state.art_uses[key]), 0, 9999)
 	actor.art_rank = rank_for_uses(int(actor.art_uses.get(art, 0)))
+	actor.internal_unlocked = bool(state.internal_unlocked)
+	actor.lightness_unlocked = bool(state.lightness_unlocked)
+	actor.recruited = true
 	actor.actions = action_definitions("hero", art)
 	actor.cooldowns["art:" + art] = 0
 	return actor
@@ -94,6 +97,7 @@ static func _companion(id: String, level: int) -> Dictionary:
 	var spec: Dictionary = COMPANIONS[id]
 	var growth: int = clampi(level - 1, 0, 98)
 	var actor: Dictionary = _actor(id, spec.name, int(spec.max_hp) + growth * int(spec.hp_per_level), int(spec.max_qi), int(spec.attack) + growth * int(spec.attack_per_level), int(spec.defense) + growth * int(spec.defense_per_level))
+	actor.recruited = true
 	actor.actions = action_definitions(id)
 	for action: Dictionary in actor.actions:
 		if action.category == "martial":

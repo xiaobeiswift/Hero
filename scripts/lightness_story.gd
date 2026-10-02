@@ -6,8 +6,31 @@ func _init(owner)->void:host=owner
 func _guard(action:Callable)->Callable:return _apply.bind(action,host.modal_generation+1)
 func _apply(action:Callable,generation:int)->void:
 	if host.current_screen=="explore" and host.active_modal and host.modal_generation==generation:action.call()
+func basics() -> void:
+	host._modal("岑远 · 根基功课", "内功与轻身", "主动武学、内功、轻功各占一栏。普攻每轮自动出手，修习技能后可自行择机安排，不会替代当轮普攻。\n\n内功与轻身均须3级且已有门派荐帖，修习不收费。", [["内功 · 调息归元", internal_lesson], ["轻功 · 踏苇行", lesson], ["返回门中功课", host.sect_progress.show], ["告辞", host._close_modal]], true)
+
+func internal_lesson() -> void:
+	var body = "岑远教你把散乱的呼吸收回丹田，再顺着伤处缓缓送出。\n\n调息归元：消耗2点真气，为自己恢复最多16点气血；不救起倒下者。用后调息3个完整后续回合，最早第4轮后再用；不会替代自动普攻。"
+	var choices: Array = []
+	if host.state.internal_unlocked:
+		body += "\n\n你已经习得这门内功。"
+	elif host.state.level >= 3 and host.state.sect in host.state.SECTS:
+		choices.append(["修习调息归元 · 免费", _guard(learn_internal)])
+	else:
+		body += "\n\n修习要求：至少3级，已获门派荐帖。"
+	choices.append(["返回根基功课", basics]); choices.append(["告辞", host._close_modal])
+	host._modal("岑远 · 调息课", "内功 / 调息归元", body, choices, true)
+
+func learn_internal() -> void:
+	if host.state.map_id != "qingwei" or host.world.map_id != "qingwei": return
+	if not host.world.interactables.has("mentor"): return
+	var teacher: Vector2 = host.world.interactables.mentor.pos
+	if host.world.player_pos.distance_to(teacher) >= 85: return
+	if host.state.learn_internal_skill():
+		host._close_modal(); host._toast("习得内功调息归元；交锋内功栏可安排自疗。")
+
 func lesson()->void:
-	var body="岑远将两枚石子放在地上，隔出一小段距离。\n\n“轻身不是忘了脚下。看准这一处借力，也要先替自己留好归路。”\n\n踏苇行可越过青苇渡东南浮石间的断水，抵达苇心小洲。\n只在标明的渡点使用，不改变普通行走碰撞。来回不耗真气或物品。"
+	var body="岑远将两枚石子放在地上，隔出一小段距离。\n\n“轻身不是忘了脚下。看准这一处借力，也要先替自己留好归路。”\n\n踏苇行可越过青苇渡东南浮石间的断水，抵达苇心小洲。\n只在标明的渡点使用，不改变普通行走碰撞。来回不耗真气或物品。\n\n交锋时，踏苇行消耗2真气，本轮下一次来击经防御后再少受10点伤害，用后调息2个完整后续回合。它不会替代自动普攻；未受击则本轮结束消散。"
 	var choices:Array=[]
 	if host.state.lightness_unlocked:
 		body+="\n\n你已经学会踏苇行。小洲的回岸浮石始终可以使用。"
