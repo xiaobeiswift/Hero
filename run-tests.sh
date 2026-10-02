@@ -139,3 +139,5 @@ run_checked --headless --path . --script tests/martial_folio_test.gd
 run_checked --headless --path . --script tests/audio_preferences_test.gd
 
 run_checked --headless --path . --script tests/interaction_verbs_test.gd
+
+run_checked --headless --path . --script tests/window_close_test.gd
