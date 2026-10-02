@@ -1,5 +1,6 @@
 extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
+const CourtyardPractice=preload("res://scripts/courtyard_practice_ui.gd")
 const ViewPreferences=preload("res://scripts/view_preferences.gd")
 const DialogueSheet=preload("res://scripts/dialogue_sheet.gd")
 const MartialPanel=preload("res://scripts/martial_panel.gd")
@@ -246,7 +247,7 @@ func _toggle_audio() -> void:
 func _process(delta: float) -> void:
 	elapsed += delta
 	# Opaque title/combat layers must not redraw an invisible village underneath.
-	world.visible=current_screen=="explore"
+	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
 	state.position = world.player_pos
@@ -315,7 +316,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_MINUS,KEY_KP_SUBTRACT: _change_view_zoom(-1)
 
 func _refresh() -> void:
-	world.visible=current_screen=="explore"
+	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	region_header.text = state.current_region_name()
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
 	chapter_header.text = "第二章  ·  印下有声" if state.map_id=="frostbridge" else ("江湖行纪  ·  废闸疑云" if state.map_id=="sluice" else "第一章  ·  灯火不问归人")
@@ -388,6 +389,7 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 	toast_time = 7.0 if save_warning else duration
 
 func _clear_overlay() -> void:
+	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
 	if overlay.has_meta("pause_menu"):overlay.remove_meta("pause_menu")
 	modal_actions.clear()
@@ -518,6 +520,7 @@ func _interact(id: String) -> void:
 	if active_modal or current_screen != "explore": return
 	if audio_on: sfx.play()
 	match id:
+		"courtyard_practice": CourtyardPractice.open(self)
 		"mentor": sect_progress.show()
 		"elder": _elder_dialogue()
 		"reed_cross": lightness_story.shore()

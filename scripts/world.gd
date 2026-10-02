@@ -1,5 +1,6 @@
 class_name VillageWorld
 extends Node2D
+const PracticeRigs=preload("res://scripts/courtyard_training_rigs.gd")
 const LanternPost=preload("res://scripts/painted_lantern_post.gd")
 const TeaTable=preload("res://scripts/painted_tea_table.gd")
 const BambooArt=preload("res://scripts/painted_bamboo.gd")
@@ -101,6 +102,7 @@ var buildings: Array[Dictionary] = [
 	{"pos": Vector2(826, 715), "size": Vector2(152, 80), "name": "山神祠", "type": "shrine"},
 ]
 var interactables: Dictionary = {
+	"courtyard_practice":{"pos":Vector2(721,733),"name":"南庭木人","kind":"practice"},
 	"reed_cross":{"pos":Lightness.SHORE,"name":"苇心浮石","kind":"lightness"},
 	"reed_return":{"pos":Vector2(1487,917),"name":"回岸浮石","kind":"lightness","islet":true},
 	"reed_relic":{"pos":Lightness.RELIC_POSITION,"name":"苇心残碑","kind":"relic","islet":true},
@@ -443,7 +445,7 @@ func _draw() -> void:
 	if _world_rect_visible(Rect2(1360,850,240,190)):Islet.draw(self)
 	_draw_memorial()
 	_draw_camp_fire()
-	var layers: Array[Dictionary] = [{"y":480.0,"kind":"noticeboard"},{"y":735.0,"kind":"camp"}]
+	var layers: Array[Dictionary] = [{"y":745.0,"kind":"practice_rigs"},{"y":480.0,"kind":"noticeboard"},{"y":735.0,"kind":"camp"}]
 	for p:Vector2 in TeaTable.POSITIONS:layers.append({"y":p.y+8,"kind":"tea_table","pos":p})
 	for p:Vector2 in LanternPost.POSITIONS:layers.append({"y":p.y,"kind":"lantern_post","pos":p})
 	for b in buildings:
@@ -460,6 +462,7 @@ func _draw() -> void:
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
 	for item in layers:
 		match item["kind"]:
+			"practice_rigs": _draw_practice_rigs()
 			"lantern_post": _draw_lantern_post(item["pos"])
 			"tea_table": _draw_tea_table(item["pos"])
 			"camp": _draw_camp()
@@ -740,15 +743,19 @@ func _draw_training_ground() -> void:
 	# Ring, wooden training dummy and a rack of practice swords.
 	_ellipse(Vector2(652, 751), Vector2(73, 31), Color(0.51, 0.58, 0.43, 0.13))
 	_ellipse_arc(Vector2(652, 751), Vector2(63, 26), Color(0.83, 0.8, 0.64, 0.7))
-	var p := Vector2(721, 733)
-	draw_line(p, p - Vector2(0, 41), Color("816e50"), 7)
-	draw_line(p - Vector2(19, 22), p + Vector2(19, -22), Color("816e50"), 5)
-	draw_circle(p - Vector2(0, 40), 7, Color("aa8e61"))
+	var p:Vector2
 	for i in range(4):
 		p = Vector2(570 + i * 13, 725)
 		draw_line(p, p - Vector2(0, 29), Color("536d5c"), 2)
 		draw_line(p + Vector2(-4, -22), p + Vector2(4, -22), C_GOLD, 2)
 	draw_line(Vector2(563, 717), Vector2(616, 717), Color("8a815c"), 4)
+
+func _draw_practice_rigs()->void:
+	if not _world_rect_visible(Rect2(680,668,107,92)):return
+	draw_set_transform(Vector2(710,733)-camera_pos,0,Vector2.ONE*.45)
+	PracticeRigs.draw(self,Vector2.ZERO,"striker",{},time_passed)
+	PracticeRigs.draw(self,Vector2(91,27),"bracer",{},time_passed)
+	draw_set_transform(-camera_pos)
 
 func _noticeboard_opacity(p:Vector2)->float:
 	var actors=[player_pos]
@@ -953,6 +960,7 @@ func interaction_verb(id: String) -> String:
 		var destination="heting_relief" if heting_cargo=="meal" or (heting_cargo=="reserve" and heting_draft=="short_ferries") else "heting_scale"
 		return "商议交粮" if id==destination else "询问去处"
 	var kind: String = String(interactables.get(id, {}).get("kind", ""))
+	if kind == "practice":return "演武"
 	if id == "herb":
 		return "采集" if quest_stage == 1 else "查看"
 	if kind == "resource":
@@ -967,6 +975,7 @@ func interaction_verb(id: String) -> String:
 
 func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
+	if map_id=="qingwei":visible_ids.append("courtyard_practice")
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
 	if map_id=="heting":visible_ids=["heting_dispatch","heting_relief","heting_scale"]
 	for id: String in visible_ids:
