@@ -39,7 +39,7 @@ godot --headless --path "$PWD" --script tools/export_licenses.gd -- "$PWD/licens
 python3 tools/export_desktop.py --target linux --label test-linux-001
 
 # 同一份源码快照导出全部桌面目标
-python3 tools/export_desktop.py --target all --label v0.0.17 --sequential-platforms
+python3 tools/export_desktop.py --target all --label v0.0.18 --sequential-platforms
 ```
 
 可选 `--target windows`、`--target macos`；`--godot /absolute/path/to/godot` 可指定编辑器。脚本严格检查完整引擎版本，版本不匹配会停止。
@@ -74,7 +74,7 @@ python3 tools/export_desktop.py --target all --label v0.0.17 --sequential-platfo
 
 macOS导出会先校验预设的 `application/short_version` 与 `application/version` 都等于项目版本，再只读核验实际包中的 `CFBundleShortVersionString` 与 `CFBundleVersion`。不匹配即停止，绝不在签名后改写Info.plist。此规则从当前0.0.17源码开始；旧0.0.16归档的应用版本标记为0.0.8，是已知历史元数据问题，不影响其文件摘要真实性，也没有被覆盖重发。
 
-0.0.16原包存在探索中系统关窗在保存失败时仍退出的问题；Windows/Linux最小PCK热修复已发布为 [v0.0.16.1](https://github.com/xiaobeiswift/Hero/releases/tag/v0.0.16.1)，基于冻结0.0.16且仅修改关窗保护。它已通过原761项PCK回归、专项流程和精确原Linux引擎的真实窗口验收，不含0.0.17新内容；Windows原生仍未测，macOS不提供直接PCK替换。未安装补丁或使用macOS时，应通过Esc → 暂别江湖 → 保存并离开。原0.0.16归档未修改，安装前备份及回滚步骤在修复包内。
+0.0.16原包存在探索中系统关窗在保存失败时仍退出的问题；Windows/Linux最小PCK热修复已发布为 [v0.0.16.1](https://github.com/xiaobeiswift/Hero/releases/tag/v0.0.16.1)，基于冻结0.0.16且仅修改关窗保护。它已通过原761项PCK回归、专项流程和精确原Linux引擎的真实窗口验收，不含0.0.17新内容；Windows原生仍未测，macOS不提供直接PCK替换。仍运行旧0.0.16且未安装补丁，或仍运行旧0.0.16的macOS包时，应通过Esc → 暂别江湖 → 保存并离开。原0.0.16归档未修改，安装前备份及回滚步骤在修复包内。
 
 当前外置驱动为872项：保留此前761项并补充111项纸面阅读/选项、唐栖探索与交锋图集/真实支援、清晰与轻量设置、屋檐/罗盘、武学比较页，以及真实临时文件写入故障下的关窗保护、返回、警告去重与恢复保存。此前覆盖告示/布棚/竹丛/茶桌/悬灯、水面/木栈台/小舟、平民、探索视野、持久化和战斗门控。计数是导出完整性回归，不代表人工游玩质量或性能。
 
@@ -139,3 +139,5 @@ python3 tools/verify_export_archives.py builds/v0.0.16
 根据0.0.16实际文件，三份压缩包合计约239MB；未压缩Linux109MB、Windows142MB、macOS应用224MB，官方Mac模板完整解压约385MB。顺序模式预检要求至少1,100MiB可用空间，再按超过53MiB的源码增长增加预算。每个平台前另检查900/460/420MiB门槛，保留至少192MiB的保守余量；不足时给出字节差额并停止，不自行删除其他资料。这是基于当前素材规模的保守空间策略，不是跨机器磁盘峰值保证。共享主机在构建途中仍可能发生其他空间变化。
 
 当前新增流程已通过合成临时文件处理、篡改、来源与低空间检查，并只读复验旧版真实三平台归档；首次新的三平台顺序导出和原生验收另行记录，不能从工具单测宣称发行完成。
+
+完整v0.0.17已发布并包含关窗修复；新源码0.0.18的鹤汀章节尚未冻结导出。其存档格式升级为10，可读1–9旧档；旧程序会明确拒绝新档，回退前需保留原存档副本。
