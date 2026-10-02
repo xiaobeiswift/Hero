@@ -623,3 +623,7 @@ Godot4.6.3 isolated bounded runs passed: party_sluice_rules_test 2082; party_slu
 ## 2026-10-02 — Integrated sluice party acceptance
 
 Full run-tests.sh exited0:109 Godot commands,60 Python tests,107PASS summaries, zero ERROR/SCRIPT ERROR. Source-only version bump to0.0.21 followed by96 browser-mode/native UI checks and six native captures. Detailed evidence/runtime hashes: sluice_party_integration_check.json. Focused checks: rules2082/state736/UI46/art7328 (96 headless frames), second-region300, full three-school natural journey46691, prior rules1486. Native prepared two-person chapter state preserves actual actor commands and heavy/guard status timing. No browser runtime/audio/FPS or new deployment claim.
+
+## 2026-10-02 — 0.0.21 exact-Web audit preparation
+
+Full source rehearsal2720PASS/0failures:2347 retained checks +373 new sluice checks, with5 explicit packaging-only skips. Exact PCK wrapper now requires2725 and the single373-check sluice marker. All28 Web Python tests pass; rehearsal/old/partial/duplicated coverage logs are rejected. Driver SHA256c8447366c081b981dbd062144f5b572b0c6835a70c9a5fe60e779adac72265b8. Actual export still pending in this source snapshot.

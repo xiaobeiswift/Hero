@@ -22,7 +22,8 @@ class PackAuditTests(unittest.TestCase):
         from unittest.mock import patch
         with patch.object(audit, 'EXPECTED_CHECKS', 2000):
             complete = (audit.COMPLETE_SCOPE + '\n' + audit.PARTY_COVERAGE + ' 400 checks\n'
-                        'PASS: 2000 exported-pack checks; 0 failures\n')
+                        + audit.SLUICE_COVERAGE + f' {audit.EXPECTED_SLUICE_CHECKS} checks; actual runtime\n'
+                        + 'PASS: 2000 exported-pack checks; 0 failures\n')
             self.assertEqual(audit.completed_pack_checks(complete, 0), 2000)
             for text, code in (
                 (complete, 1),
@@ -30,6 +31,9 @@ class PackAuditTests(unittest.TestCase):
                 (complete.replace('exported-pack', 'source-rehearsal'), 0),
                 (complete.replace('scope: complete', 'scope: party-only'), 0),
                 (complete.replace(audit.PARTY_COVERAGE, 'Old adapter only:'), 0),
+                (complete.replace(audit.SLUICE_COVERAGE, 'Old sluice adapter only:'), 0),
+                (complete.replace(f'{audit.EXPECTED_SLUICE_CHECKS} checks;', '1 checks;'), 0),
+                (complete + audit.SLUICE_COVERAGE + f' {audit.EXPECTED_SLUICE_CHECKS} checks; duplicate\n', 0),
                 ('SOURCE REHEARSAL: pending package assertions\n' + complete, 0),
                 ('SCRIPT ERROR: interrupted assertion\n' + complete, 0),
                 (complete + 'PASS: 2000 exported-pack checks; 0 failures\n', 0),

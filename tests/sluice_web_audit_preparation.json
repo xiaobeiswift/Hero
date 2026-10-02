@@ -1,0 +1,87 @@
+{
+  "prepared_at_utc": "2026-10-02T19:01:08.663218+00:00",
+  "runtime_identity": "0.0.21 · Web 1",
+  "save_schema": 12,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "status": "source_rehearsal_passed; exact newly exported Web PCK still required",
+  "source_fingerprints": {
+    "project.godot": "e8cb8acf0fd6a7872756ed716ada7c16f85e8560cc40b7ef362e0ef5e3c0ecc6",
+    "tools/smoke_export.gd": "c8447366c081b981dbd062144f5b572b0c6835a70c9a5fe60e779adac72265b8",
+    "tools/audit_web_export.py": "23dff271d55f7bcf9b41705c77eb3f7139fa6413e28c82f05c38bfc8c37c29cd",
+    "tests/test_web_pack_audit.py": "803a4f794ed0f8c73c11b9f50b6a918bf937e1e7f2dc6a93424bb798b5f3fd35",
+    "scripts/game_state.gd": "637ff7f6a4ecf03145a669c7410c5321adcb218a640282bda21d24b22fadd780",
+    "scripts/main.gd": "273449287ac4ea9e9b6a072600433d9e7817aba165d584a6e2e076df1f434f74",
+    "scripts/party_combat_rules.gd": "1d4079a870cca655263a80f973af617f7e3c583d4a13fcd6b04d6821ebf3b797",
+    "scripts/party_battle_ui.gd": "c02975e488df42838561466de190fcdf7d579e7709afad2e6342b290c464cb80",
+    "scripts/party_battle_art.gd": "78c76ad171c95fd1970852b83158c924835e158b7ef15db99bea34b0a67e3eb1"
+  },
+  "full_source_rehearsal": {
+    "checks": 2720,
+    "failures": 0,
+    "exit_code": 0,
+    "retained_prior_checks": 2347,
+    "new_sluice_checks": 373,
+    "stdout_sha256": "de13956b6081f23ab9d2fd1b1e3d8829044cfea46ea800d50a4c9c4ebd06998f",
+    "stdout": [
+      "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+      "",
+      "SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim",
+      "Retained exported-pack coverage: 452 checks",
+      "Retained story/traversal pack coverage: 635 checks",
+      "Retained party/inventory pack coverage: 695 checks",
+      "Retained painted combat pack coverage: 728 checks",
+      "Retained rest/support pack coverage: 751 checks",
+      "Retained village/view pack coverage: 777 checks",
+      "Courtyard runtime pack coverage: 115 added checks",
+      "Retained legacy-receipt-adapter exact-runtime coverage: 276 checks; external pinned historical reader included; successful native process quit intentionally not invoked",
+      "Schema12 four-actor exact-runtime coverage: 815 checks; actual default scene/controller/roster; both external frozen readers; native successful process exit intentionally not invoked",
+      "Schema12 sluice exact-runtime coverage: 373 checks; both clue orders; natural hero/Shen; actual E/number entry, event presentation, finite rewards, save failure/retry/close; no browser or physical desktop-close claim",
+      "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+      "PASS: 2720 source-rehearsal checks; 0 failures"
+    ],
+    "isolated_xdg_root": "/tmp/hero-sluice-audit-20261002-1859"
+  },
+  "focused_source_rehearsal": {
+    "checks": 424,
+    "new_sluice_checks": 373,
+    "failures": 0,
+    "exit_code": 0,
+    "stdout_sha256": "73dd3531c295fd0593a74e8cc0f99af44b71cdc09ac883bbb7336bf1e932a8f4",
+    "scope": "sluice-only; cannot satisfy complete exact-pack wrapper"
+  },
+  "wrapper_validation": {
+    "python_suite": "tests/test_web_pack_audit.py",
+    "tests": 5,
+    "passed": true,
+    "required_exported_pack_checks": 2725,
+    "required_sluice_checks": 373,
+    "required_marker": "Schema12 sluice exact-runtime coverage:",
+    "real_rehearsal_log_rejected_as_exact_pack": true,
+    "rejects_missing_incorrect_or_duplicate_sluice_markers": true
+  },
+  "pending_pack_assertions": [
+    "Exported project.binary is present",
+    "tests directory excluded",
+    "tools directory excluded",
+    "screenshots directory excluded",
+    "builds directory excluded"
+  ],
+  "coverage": [
+    "Both exact scout85HP/11/22 and boss150HP/16/28 templates and visible opponent identities",
+    "Actual E/number entry, nearby callback generation guards, checkpoint failure and same-choice retry, clue gate, active side-mutation/persistence guards, flee and old-token retry",
+    "Both rescue-first and pursuit-first clue orders crossed with natural hero-only and hero/Shen rosters; only completed opening eligibility and180XP are prepared",
+    "Bounded120-action actual fights use available owned arts/items and presentation acknowledgments; no attack or enemy-HP injection for victory",
+    "Scout25XP/14coins and ledger; boss70XP/35coins plus branch80XP/45coins and rescue2medicine or pursuit20coins; no reward before terminal presentation or on repeated settlement",
+    "Actual boss heavy windup/contact and per-actor vulnerability2; next hit +3; hero guard cannot clear Shen; struck actor own guard expires status at actual event and prevents heavy reapplication",
+    "Echo/command/actor/target/save/leave/menu inputs are locked during actual accepted presentation",
+    "Schema12 full-state persistence and reload, transient vulnerability/entry exclusion, real isolated filesystem write failure, exact F5 recovery",
+    "Both fights crossed with flee/win/defeat close requests; repeated close/input lock, correct actual outcome/recovery, stale callback invalidation, discard second choice and canceled-close save retry"
+  ],
+  "limits": [
+    "Source rehearsal is not an exported-pack audit; five explicit packaging assertions remain pending",
+    "Exact final Web PCK must execute this external audit through tools/audit_web_export.py before a package pass is claimed",
+    "Native pinned editor does not establish browser rendering/audio/IndexedDB persistence or actual physical desktop-window close",
+    "Successful process exit is intentionally not invoked by close scenarios",
+    "Deployed0.0.20 artifact and frozen historical readers were not changed; no export, commit, publish or GitHub package performed"
+  ]
+}
