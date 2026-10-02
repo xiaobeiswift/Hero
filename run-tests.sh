@@ -133,3 +133,5 @@ run_checked --headless --path . --script tests/building_visibility_test.gd
 run_checked --headless --path . --script tests/navigation_visibility_test.gd
 
 run_checked --headless --path . --script tests/map_layout_test.gd
+
+run_checked --headless --path . --script tests/martial_folio_test.gd
