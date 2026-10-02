@@ -631,3 +631,7 @@ Full source rehearsal2720PASS/0failures:2347 retained checks +373 new sluice che
 ## 2026-10-02 — Actual Web0.0.21 PCK acceptance
 
 Clean0c4012aca2fb28f0033a7b69f216c19c30a65c97 export:2725 exact exported-pack checks PASS/0failures, including373 sluice checks. All14 site files/archive members and275 runtime source hashes verified. PCK48,440,484bytes SHA256c4792c2680383463996f66feb535c697cedacbb684737425769789be7097dbc4; ZIP57,845,521bytes SHA256649476b66e791780f2bb6e0b1b7faeed3608b62b973628c45d3e8393b9453018. Exact raw result included in web21_candidate_check.json. This evidence-only delta changes no runtime or build/audit tools. Windows build, browser runtime and deployment are not claimed here.
+
+## 2026-10-02 — Windows Web21 and live deployment
+
+Independent Windows PCK7d2aa33a005b840d8e3d002c16b2e204fd03e7a794e7626d79dc3bc1b24c33c2 passed2725 checks and single373 sluice marker.275 runtime source hashes/14 site files/profile isolation verified. Live19:29:12 UTC:14 complete HTTPS hashes,36 checks, proper version/TLS/MIME/cache validation; Caddy unchanged/Git200. See web_deployment_021.json. Source capture wording now separates actual E/number entry and controller command playback from separately tested mouse dispatch. No runtime change or new test run in this docs-only checkpoint.

@@ -1,0 +1,27 @@
+{
+  "verified_at_utc": "2026-10-02T19:29:12Z",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.21",
+  "web_revision": 1,
+  "save_schema": 12,
+  "source_commit": "a3a5b91557ff01342a7d839ed587d4fc100675e7",
+  "source_local_mapping": "0c4012aca2fb28f0033a7b69f216c19c30a65c97",
+  "windows": {
+    "exact_pck_checks": 2725,
+    "sluice_checks": 373,
+    "pck_sha256": "7d2aa33a005b840d8e3d002c16b2e204fd03e7a794e7626d79dc3bc1b24c33c2",
+    "archive_bytes": 57845792,
+    "archive_sha256": "61a8f042afaa7cf116d5185fb89cf0488f2c12d9692e08eabceb6ce29b2fe36b",
+    "runtime_source_hashes": 275,
+    "isolated_test_profile": true
+  },
+  "deployment": {
+    "https_complete_asset_hashes": 14,
+    "checks_passed": 36,
+    "tls_mime_version_cache_headers_verified": true,
+    "caddy_configuration": "unchanged",
+    "unrelated_git_https_status": 200,
+    "retention": "Current0.0.21-web1 only; old0.0.20 retired after verified recoverability and zero readers. Saves and evidence retained."
+  },
+  "limits": "Actual browser graphics/audio/reload persistence remains unverified. Windows export and native-editor exact-PCK audit do not establish browser runtime validation. No GitHub package uploaded."
+}

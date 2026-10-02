@@ -56,7 +56,7 @@
       }
     },
     "log_sha256": "4570cfa7397d45c991a44573c629f2f5df595c48da5d7ac21ec619e41a1a987a",
-    "limits": "Prepared completion and two clue state, true E/number/mouse commands and accepted vulnerability/guard events; no earned native playthrough, browser, real-time FPS or listening claim."
+    "limits": "Prepared completion and two-clue state; actual E/numbered scene entry, then direct controller command calls for the captured attack/guard sequence and accepted event presentation. Native-style mouse dispatch was tested separately in the focused headless UI suite. No earned native playthrough, browser, real-time FPS or listening claim."
   },
   "runtime_sha256": {
     "assets/chime.wav": "784ab944d34e31f0fe52f74ba8cc7d09957b2d0f6957a08b73949bd615ae3ca2",
