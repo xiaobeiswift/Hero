@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "exact original produces reviewed 9095-byte HTML",
+    "modified input rejected",
+    "modified input rejected",
+    "modified input rejected",
+    "existing/same output rejected unchanged",
+    "existing/same output rejected unchanged"
+  ],
+  "original_sha256": "a4b1a6c642d0ac1d8ee448a12039dc7cf400acc986b613273d2c74bb32797d14",
+  "result_sha256": "dc43baa0bc3a6b870f50b5a288d45501cd5ec4b24764cfa729b2772abcf1e48f",
+  "result_bytes": 9095,
+  "script_sha256": "edb79cc8f24f088620904fb3c848786df4d0b0a4388e5be7f5eca001ee81f6d4",
+  "method": "Use the existing verified server HTML as source; no network, archive extraction or in-place write."
+}

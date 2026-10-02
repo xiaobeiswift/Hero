@@ -1,0 +1,55 @@
+{
+  "base_commit": "11cd1ae7a4f615c1b73666e81094d85625094d00",
+  "source_version": "0.0.20",
+  "save_schema": 11,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "full_suite": {
+    "exit_code": 0,
+    "godot_commands": 89,
+    "python_tests": 40,
+    "pass_summaries": 87,
+    "engine_errors": 0,
+    "log_sha256": "d60c2f5f17827907cc594a1a6f4a60ed796064858f278adbcc2e36fb10b8368c"
+  },
+  "focused": {
+    "progression_and_state_wrapper_checks": 2120,
+    "detached_combat_checks": 476
+  },
+  "organic_balance": {
+    "matrix_fights": 384,
+    "natural_level": 6,
+    "all_won": true,
+    "maximum_medicine_used": 1,
+    "bracer_first_turns": [
+      8,
+      19
+    ],
+    "striker_first_turns": [
+      12,
+      25
+    ],
+    "zero_medicine_attack_guard_recoveries": 24,
+    "tightest_recovery_hp": 4,
+    "original_journey_state_preserved": true,
+    "rows_sha256": "9ce8148f25e82c48cef5ff78f91286052af306fdb7073d41d99a2690dfcc1b28"
+  },
+  "migration": {
+    "accepted_versions": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "legacy_missing_progress_defaults": 0,
+    "v019_reader_fixture_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "older_reader_rejects_schema11_unchanged": true
+  },
+  "scope": "Isolated rules, state settlement and migration only. No player-facing entry, real-group renderer, native window-close integration or new package/browser gameplay validation in this checkpoint."
+}

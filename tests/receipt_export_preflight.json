@@ -1,0 +1,19 @@
+{
+  "source_base": "c39ffbc9d859457b671ca93b8a4f81cc6b363a2b",
+  "game_version": "0.0.20",
+  "save_schema": 11,
+  "source_rehearsal_checks": 1511,
+  "packaging_assertions_skipped": 5,
+  "expected_exact_pck_checks": 1516,
+  "new_receipt_checks": 276,
+  "rehearsal_exit": 0,
+  "audit_sha256": "ca13a8c9d0468187543c819f3251ddb269cb1fa2f519b75ee871acb5eff0ea9e",
+  "rehearsal_log_sha256": "9fc6bdfe86047d1290df90aa3cb9395d7e9b4f48c964b4b0896d7eccd014f449",
+  "legacy_reader_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+  "status": "Source rehearsal only; exact Web PCK pending",
+  "limits": [
+    "No browser persistence or audio claim",
+    "No physical close or successful native quit claim",
+    "No new desktop export"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "source": "Official Godot4.6.3 export_templates.tpz",
+  "archive_sha512": "da606b61c10157844f8300172df374472665f95015495cb1a7cd132c40ede404faa96cc1016a4b9662db9909ddea69632c4948b2cd11163438dad4808881fb68",
+  "installed": {
+    "web_nothreads_debug.zip": "4a8a8ef7519637f7898fad25f09d3e466965e99c04e441682e1bc2d97a548922",
+    "web_nothreads_release.zip": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9"
+  },
+  "acquired_at_utc": "2026-10-02T12:31:00Z",
+  "official_download_url": "https://downloads.godotengine.org/?flavor=stable&platform=templates&slug=export_templates.tpz&version=4.6.3",
+  "archive_bytes": 1255918323,
+  "start_overlay_free": 31065255936,
+  "start_tmp_free": 5193023488,
+  "after_download_tmp_free": 3937103872,
+  "initial_mem_available_kib": 7801180,
+  "installed_only": [
+    "web_nothreads_debug.zip",
+    "web_nothreads_release.zip"
+  ]
+}

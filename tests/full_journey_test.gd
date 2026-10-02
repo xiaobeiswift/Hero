@@ -1,6 +1,7 @@
 extends SceneTree
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
+const ReceiptJourneyChecks=preload("res://tests/receipt_journey_checks.gd")
 class JourneyState extends Model:
  const PATH="user://hero-full-journey.json"
  func save_game(path:String=SAVE_PATH)->Error:return super.save_game(PATH if path==SAVE_PATH else path)
@@ -9,6 +10,7 @@ class JourneyState extends Model:
 var app
 var checks=0
 var failures=0
+var receipt_checks=ReceiptJourneyChecks.new()
 func _initialize()->void:_run.call_deferred()
 func check(value:bool,label:String)->void:
  checks+=1
@@ -118,6 +120,7 @@ func _run()->void:
   app._save();before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before and app.world.player_pos==app.state.Lightness.SHORE,"Island discovery and safe return persist in full journey")
   # Continue existing organically earned party/resources into the harbor.
+  var receipt_before_harbor=app.state.to_dict().duplicate(true)
   var before_port_coins=app.state.coins
   var before_port_xp=app.state.xp+30*app.state.level*(app.state.level-1)
   var before_port_resources=app.state.resources.duplicate(true)
@@ -138,6 +141,7 @@ func _run()->void:
   app._close_modal();app._save();before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through schema10")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
+  receipt_checks.run(app.state,receipt_before_harbor,check)
  app._stop_audio();await create_timer(0.25).timeout;app.queue_free();await process_frame
  if failures==0:print("PASS: %d full fresh-start journey checks across three schools" % checks)
  else:push_error("FAIL: %d of %d full journey checks" % [failures,checks])

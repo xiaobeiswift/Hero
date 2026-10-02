@@ -1,0 +1,89 @@
+{
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source_version": "0.0.20",
+  "save_schema": 11,
+  "source_base": "b994afc2959c58d2ec9f8a50c4475a87787e5670",
+  "full_run": {
+    "exit_code": 0,
+    "godot_commands": 92,
+    "python_tests": 47,
+    "pass_summaries": 90,
+    "error_lines": 0,
+    "log_sha256": "881a6190717448235310989bf7fde974613bfda8476bf30e5efe4a76fdec64a6",
+    "qualification": "Full integrated source before final dialogue ordering/moonlit-transition and subtitle wording. Those final changes have focused rerun below."
+  },
+  "final_focused": {
+    "presentation_checks": 261,
+    "headless_draw_frames": 82,
+    "story_checks": 107,
+    "scene_input_checks": 254,
+    "exit_code": 0,
+    "log_sha256": "33592a717c5048aafc3be4a8b011b4989595145ae7ef944fd57d5dd3c981199f"
+  },
+  "native_capture": {
+    "exit_code": 0,
+    "renderer": "OpenGL Compatibility / Mesa llvmpipe 25.0.7",
+    "audio": "Explicit Dummy; no listening claim",
+    "input": "Prepared level-5 completed-harbor state, actual E/Tab/numeric InputEvent dispatch and dialogue callbacks",
+    "flows": [
+      "title version",
+      "optional offer",
+      "real-resource entry",
+      "target selection",
+      "skill impact",
+      "first victory",
+      "comparison",
+      "prepared defeat recovery",
+      "compact1180x737"
+    ],
+    "warnings": [
+      "Cloud graphics driver does not support changing V-Sync"
+    ],
+    "log_sha256": "e2bf6a2415325f1c5080b37f1cd7b329e35ac821babd8abfc95f7d046d7f6311",
+    "limits": [
+      "Not browser runtime or persistence acceptance",
+      "Not a fresh playthrough",
+      "Not physical window-close testing",
+      "No FPS or native Windows/macOS claim"
+    ],
+    "attempt1": "Driver incorrectly repeated skill during cooldown; corrected action eligibility. No combat-rule change. Failed log retained outside source."
+  },
+  "files": {
+    "screenshots/272-receipt-title-version.png": {
+      "bytes": 1320195,
+      "sha256": "ec250a40aa6afee47396436efd2b2b4058025c7d6979fd9dd5f1597e9d2390c8"
+    },
+    "screenshots/273-receipt-optional-offer.png": {
+      "bytes": 709809,
+      "sha256": "7fca173372a852af0968e5aa9cdeee64c264d6ab51981e14d5a446d5f06a5932"
+    },
+    "screenshots/274-receipt-real-stakes.png": {
+      "bytes": 638181,
+      "sha256": "74aaf7f3641b10779bc8e32b1c020f481ee1a378f7161cd377529509470054db"
+    },
+    "screenshots/275-receipt-waterfront-ready.png": {
+      "bytes": 1051771,
+      "sha256": "141276fa8d6cb953082c578b93090db42b8c5fb926377d31baae03b32b1ec6d5"
+    },
+    "screenshots/276-receipt-skill-contact.png": {
+      "bytes": 1048092,
+      "sha256": "b9fe5ad79eef8bc86fbde0fd9c727c0f79235b7b1aa9f481ae2413e55bde653f"
+    },
+    "screenshots/277-receipt-first-victory.png": {
+      "bytes": 780760,
+      "sha256": "8fd6d8891ce775278f5e1ca8a175147b60eca47993f793edc4dc6bbf888991db"
+    },
+    "screenshots/278-receipt-compared-record.png": {
+      "bytes": 718396,
+      "sha256": "58d0cc9251f4fe1d42bf85c0753a22a45f63929b68b6e7d61ca78dc5cf9965e7"
+    },
+    "screenshots/279-receipt-west-recovery.png": {
+      "bytes": 749785,
+      "sha256": "0921ecf1d21933299ef4d0c5b2fd168163bb5ffcfce5062971bd88e4c159f469"
+    },
+    "screenshots/280-receipt-compact-two-targets.png": {
+      "bytes": 938600,
+      "sha256": "68bf17ed409ad2575e876d502f197fafda053651d434dc2309d1c5450a7066a8"
+    }
+  }
+}

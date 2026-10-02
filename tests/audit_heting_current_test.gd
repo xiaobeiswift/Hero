@@ -99,7 +99,7 @@ func _migration_and_historical_reader() -> void:
 	game.save_slots.detail(1); _press("读取当前版本")
 	var writes: int = state_probe.writes
 	_press("确认读取")
-	_check(state_probe.to_dict() == old_state and _version(store.path_for(0)) == 10, "Current paper-slot flow upgrades legitimate v9 to v10 without altering old progress")
+	_check(state_probe.to_dict() == old_state and _version(store.path_for(0)) == Model.SAVE_VERSION, "Current paper-slot flow upgrades legitimate v9 to current schema without altering old progress")
 	_check(state_probe.writes == writes + 1 and _bytes(store.path_for(1)) == original and not FileAccess.file_exists(store.path_for(1) + ".bak"), "Migration performs one autosave and preserves manual source bytes")
 	# Old WIP-format v9 port data must still restore in the new reader.
 	_port(3, "reserve", "open_scale", "east")
@@ -110,7 +110,7 @@ func _migration_and_historical_reader() -> void:
 	_port(1, "meal", "", "west")
 	game.save_slots.detail(2); _press("读取当前版本"); _press("确认读取")
 	_check(state_probe.to_dict() == loaded_branch and game.world.player_pos == Vector2(1130,730) and game.world.heting_bridge == "east" and game.world.heting_cargo == "reserve", "V9 loaded bridge coordinate is kept because saved terrain is applied before repair")
-	_check(_bytes(store.path_for(2)) == original and _version(store.path_for(0)) == 10, "Latent v9 port source remains intact after migration")
+	_check(_bytes(store.path_for(2)) == original and _version(store.path_for(0)) == Model.SAVE_VERSION, "Latent v9 port source remains intact after migration")
 	# Exact frozen v0.0.17 bytes travel with source ZIPs. See the adjacent
 	# provenance note. Verify the bytes being compiled before removing only the
 	# global class declaration, avoiding conflict with the current HeroState.
@@ -130,7 +130,7 @@ func _migration_and_historical_reader() -> void:
 			old_reader.coins = 4242
 			var before: Dictionary = old_reader.to_dict()
 			original = _bytes(store.path_for(0))
-			_check(old_reader.load_game(store.path_for(0)) == ERR_FILE_UNRECOGNIZED and old_reader.to_dict() == before, "Exact v0.0.17 reader rejects schema10 before replacing any state")
+			_check(old_reader.load_game(store.path_for(0)) == ERR_FILE_UNRECOGNIZED and old_reader.to_dict() == before, "Exact v0.0.17 reader rejects newer schema before replacing any state")
 			_check(_bytes(store.path_for(0)) == original, "Rollback rejection leaves newer save bytes untouched")
 	# Corruption after the current confirmation appeared must leave everything live.
 	game.save_slots.detail(2); _press("读取当前版本")

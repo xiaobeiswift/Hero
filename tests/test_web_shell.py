@@ -1,7 +1,8 @@
-"""Static checks for the custom Godot Web export shell; no engine or browser."""
+"""Static and isolated JS checks for the Web shell; no engine or browser."""
 
 from html.parser import HTMLParser
 from pathlib import Path
+import json
 import re
 import shutil
 import subprocess
@@ -129,6 +130,119 @@ class WebShellTests(unittest.TestCase):
             script.write_text(generated, encoding="utf-8")
             result = subprocess.run([node, "--check", str(script)], capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_actual_shell_startup_branches_with_dom_stubs(self):
+        """Execute the exported shell logic; this is not a WebGL/browser test."""
+        node = shutil.which("node")
+        if node is None:
+            self.skipTest("Node is unavailable; shell branch execution not run")
+        generated = self.js.replace("$GODOT_CONFIG", '{"executable":"index","args":[]}')
+        generated = generated.replace("$GODOT_THREADS_ENABLED", "false")
+        runner = r"""
+const vm = require('node:vm');
+const shell = SHELL_SOURCE;
+async function run(missing, mode = 'ready') {
+    const nodes = {};
+    for (const id of ['canvas', 'storage-notice', 'build-notice', 'status', 'status-progress', 'status-notice', 'status-caption', 'status-start']) {
+        nodes[id] = {
+            style: {}, dataset: {}, textContent: '', children: [], events: {}, removed: false,
+            get lastChild() { return this.children.at(-1); },
+            appendChild(child) { this.children.push(child); },
+            removeChild(child) { this.children.splice(this.children.indexOf(child), 1); },
+            remove() { this.removed = true; }, focus() { this.focused = true; },
+            removeAttribute() {}, addEventListener(name, callback) { this.events[name] = callback; },
+        };
+    }
+    nodes['build-notice'].dataset = {gameVersion: '0.0.19', webRevision: '2'};
+    const pageWindow = {};
+    let constructed = 0, started = 0;
+    class Engine {
+        static getMissingFeatures() { return missing; }
+        constructor() { constructed++; }
+        startGame() {
+            started++;
+            if (mode === 'reject') return Promise.reject(new Error('index.pck download failed'));
+            if (mode === 'throw') throw new Error('engine initialization failed');
+            return Promise.resolve();
+        }
+    }
+    vm.runInNewContext(shell, {
+        Engine: mode === 'missing-script' ? undefined : Engine, Error,
+        window: pageWindow, console: { error() {} },
+        document: {
+            getElementById(id) { return nodes[id]; },
+            createTextNode(text) { return {text}; }, createElement() { return {text: '\n'}; },
+        },
+    });
+    const beforeClick = started;
+    if (mode !== 'ready' && nodes['status-start'].events.click) nodes['status-start'].events.click();
+    await new Promise(setImmediate);
+    return {
+        caption: nodes['status-caption'].textContent,
+        notice: nodes['status-notice'].children.map(child => child.text).join(''),
+        noticeDisplay: nodes['status-notice'].style.display,
+        startDisplay: nodes['status-start'].style.display,
+        overlayRemoved: nodes.status.removed, canvasFocused: !!nodes.canvas.focused,
+        storageRemoved: nodes['storage-notice'].removed,
+        buildRemoved: nodes['build-notice'].removed,
+        buildInfo: JSON.parse(pageWindow.HeroWeb.getBuildInfo()),
+        constructed, beforeClick, started,
+    };
+}
+(async () => console.log(JSON.stringify({
+    graphics: await run(['WebGL2 - Check web browser configuration and hardware support']),
+    other: await run(['WebAssembly']),
+    script: await run([], 'missing-script'),
+    download: await run([], 'reject'),
+    thrown: await run([], 'throw'),
+    ready: await run([]),
+    started: await run([], 'success'),
+})))();
+""".replace("SHELL_SOURCE", json.dumps(generated))
+        result = subprocess.run([node, "-e", runner], capture_output=True, text=True, timeout=15)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        cases = json.loads(result.stdout)
+        graphics = cases["graphics"]
+        self.assertIn("无法提供 WebGL 2 图形功能", graphics["caption"])
+        self.assertIn("支持 WebGL 2 的桌面浏览器", graphics["notice"])
+        self.assertIn("WebGL2 - Check web browser configuration", graphics["notice"])
+        for name in ("graphics", "other", "script"):
+            with self.subTest(branch=name):
+                self.assertEqual(cases[name]["constructed"], 0)
+                self.assertEqual(cases[name]["started"], 0)
+                self.assertEqual(cases[name]["startDisplay"], "none")
+                self.assertEqual(cases[name]["noticeDisplay"], "block")
+                self.assertFalse(cases[name]["storageRemoved"])
+        self.assertNotIn("WebGL", cases["other"]["caption"])
+        self.assertIn("WebAssembly", cases["other"]["notice"])
+        self.assertIn("启动脚本未能加载", cases["script"]["notice"])
+        for name in ("graphics", "other", "download", "thrown"):
+            with self.subTest(branch=name):
+                self.assertNotIn("上传", cases[name]["caption"])
+        for name, error in (("download", "index.pck download failed"), ("thrown", "engine initialization failed")):
+            with self.subTest(branch=name):
+                self.assertIn(error, cases[name]["notice"])
+                self.assertEqual(cases[name]["started"], 1)
+                self.assertEqual(cases[name]["noticeDisplay"], "block")
+                self.assertFalse(cases[name]["overlayRemoved"])
+        self.assertEqual(cases["ready"]["beforeClick"], 0)
+        self.assertEqual(cases["ready"]["startDisplay"], "inline-block")
+        self.assertEqual(cases["started"]["beforeClick"], 0)
+        self.assertEqual(cases["started"]["started"], 1)
+        self.assertTrue(cases["started"]["overlayRemoved"])
+        self.assertTrue(cases["started"]["canvasFocused"])
+        self.assertFalse(cases["started"]["storageRemoved"])
+        for result in cases.values():
+            self.assertFalse(result["buildRemoved"])
+            self.assertEqual(result["buildInfo"], {"game_version": "0.0.19", "web_revision": "2"})
+
+    def test_version_badge_is_outside_loading_overlay_and_controls(self):
+        self.assertLess(self.text.index('id="build-notice"'), self.text.index('<div id="status">'))
+        self.assertIn('padding: 0 156px 0 8px;', self.text)
+        style = re.search(r'#build-notice\s*\{([^}]+)\}', self.text).group(1)
+        for rule in ('position: fixed', 'top: 0', 'height: 20px', 'pointer-events: none'):
+            self.assertIn(rule, style)
+        self.assertNotRegex(self.js, r"buildNotice\.(?:remove|removeChild|replaceWith)\s*\(")
 
 
 if __name__ == "__main__":

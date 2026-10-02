@@ -1,0 +1,95 @@
+{
+  "source_commit": "ef63833d9fd100c42219fef7ce512dde9720c1f7",
+  "game_version": "0.0.20",
+  "web_revision": 1,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+  "runtime_entries": 237,
+  "runtime_source_unchanged": true,
+  "runtime_manifest_sha256": "8701272cf6600c6030f2cc32de9ce1edf81b15d439b9526197e6d4f15944f0af",
+  "archive": {
+    "file": "Hero-Web-0.0.20-web1.zip",
+    "bytes": 48980783,
+    "sha256": "29168abed03198f39f66d3fd55a3faeb7de8f9c3b98fe3aafb208044c3f26b56"
+  },
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "ed1e11fda733fcdb000238391f3b7004e9c4c8a4bf50be515300f9a120efcb92",
+      "bytes": 6736
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "cc9faceb98c1445dff2f987bd6e12ea1097c321fa23b536bb10f7f78a45b441b",
+      "bytes": 5387
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "8fa09a3d86f64844b4f5a476a8ccdd3e9f09033fbdf7249ff44303dd98e99620",
+      "bytes": 9095
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "80d206800312745bf1abdd9129b0eda1ae3251dbb2b40fc4dfa99cdfb58e565a",
+      "bytes": 39564352
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "minimum_overlay_free_bytes": 30914121728,
+  "exact_pack_audit": {
+    "source_commit": "ef63833d9fd100c42219fef7ce512dde9720c1f7",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "80d206800312745bf1abdd9129b0eda1ae3251dbb2b40fc4dfa99cdfb58e565a",
+    "audit_sha256": "ca13a8c9d0468187543c819f3251ddb269cb1fa2f519b75ee871acb5eff0ea9e",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "log_sha256": "d0f70bc4bf2b7e3cd458a95ca8f57471a8225a855b76eba401ad7d9567ce3f8f",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 1516,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "python_tool_tests": 58,
+  "portable_wrapper_sha256": "66de4ddfa974cd9acb4aee862ba2c96be326cd61d5fd8930fdb516db0d47addd",
+  "current_live": "0.0.19 Web2",
+  "status": "Cloud Web candidate verified locally; no GitHub package or new deployment",
+  "limits": [
+    "Actual Windows-built PCK still needs its own audit",
+    "Browser WebGL2 gameplay/audio/reload persistence unverified",
+    "Native successful close and physical WM-close not claimed"
+  ]
+}
