@@ -1,5 +1,6 @@
 class_name HetingRegion
 extends RefCounted
+const Worksites=preload("res://scripts/heting_worksites_art.gd")
 const Machinery=preload("res://scripts/heting_machinery_art.gd")
 const MaterialTiles=preload("res://scripts/world_material_tiles.gd")
 const WOOD_TILE=160.0
@@ -309,6 +310,7 @@ static func _rope_routes(w, bridge_side: String) -> void:
 	var island := Vector2(600, 672) if bridge_side == "west" else Vector2(1020, 672)
 	w.draw_polyline(PackedVector2Array([shore, shore.lerp(island, 0.5) + Vector2(0, 22), island]), Color("5c6250"), 1.8, true)
 	for p in [Vector2(623, 659), Vector2(1008, 687), Vector2(339, 856), Vector2(1303, 899)]:
+		if Worksites.draw_coil(w,p):continue
 		for i in range(3):
 			w._ellipse_arc(p, Vector2(12 - i * 3, 5 - i), Color("776e52"))
 
@@ -392,10 +394,7 @@ static func _dock_furniture(w, delivered: Array, cargo: String) -> void:
 	for i in range(3):
 		w.draw_line(Vector2(82, 918 + i * 10), Vector2(164, 918 + i * 10), Color("9a8863"), 7, true)
 		w.draw_circle(Vector2(166, 918 + i * 10), 3, Color("d8c598"))
-	w._ellipse(Vector2(1450, 871), Vector2(51, 19), Color(0.34, 0.39, 0.28, 0.12))
-	_poly(w, [Vector2(1404, 866), Vector2(1420, 843), Vector2(1489, 845), Vector2(1500, 866)], Color("8a9c86"))
-	for x in [1416, 1454, 1488]:
-		w.draw_line(Vector2(x, 849), Vector2(x + 4, 865), Color("596c58"), 2, true)
+	Worksites.draw(w,"folded_tarpaulin",Vector2(1450,871))
 
 static func warehouse_spec(index:int)->Dictionary:
 	var r:Rect2=BUILDINGS[index]
@@ -488,55 +487,39 @@ static func _winch(w, bridge_side: String) -> void:
 
 static func _relief(w, meal_delivered: bool, ending: String) -> void:
 	# Hearth and bowls are a distinct open-air space south of the solid kitchen.
-	var p := Vector2(146, 743)
-	w._ellipse(p + Vector2(0, 3), Vector2(29, 12), Color("827b5a"))
-	for x in [-17, 16]:
-		w.draw_line(p + Vector2(x, 0), p + Vector2(x, -20), Color("6c6950"), 7, true)
+	var p:=Vector2(146,743)
+	Worksites.draw(w,Worksites.pot_id(meal_delivered),p)
 	if meal_delivered:
-		w._ellipse(p - Vector2(0, 5), Vector2(13, 5), Color("d69c55"))
-		_poly(w, [p + Vector2(-9, -6), p + Vector2(-5, -18), p + Vector2(0, -9), p + Vector2(5, -20), p + Vector2(11, -5)], Color("ebc078"))
-	w._ellipse(p - Vector2(0, 21), Vector2(25, 12), Color("536257"))
-	w._ellipse(p - Vector2(0, 26), Vector2(24, 9), Color("8a9679"))
-	w._ellipse(p - Vector2(0, 27), Vector2(20, 6), Color("c6bd94") if meal_delivered else Color("546e63"))
-	if meal_delivered:
+		var origin=Worksites.steam_origin(p)
 		for i in range(3):
-			var lift := fmod(w.time_passed * 12 + i * 11, 37.0)
-			w._ellipse(p + Vector2(sin(w.time_passed + i) * 5 + i * 7 - 7, -36 - lift), Vector2(8 + lift * 0.14, 4 + lift * 0.11), Color(0.9, 0.88, 0.71, (1.0 - lift / 44.0) * 0.4))
+			var lift:=fmod(w.time_passed*12+i*11,37.0)
+			w._ellipse(origin+Vector2(sin(w.time_passed+i)*5+i*7-7,-lift),Vector2(8+lift*.14,4+lift*.11),Color(.9,.88,.71,(1.0-lift/44.0)*.4))
 		for i in range(5):
-			var bowl := Vector2(183 + i * 19, 749)
-			w._ellipse(bowl, Vector2(7, 4), Color("d2c8a4"))
-			w._ellipse(bowl - Vector2(0, 2), Vector2(7, 3), Color("f0deb1"))
-		for i in range(3):
-			w.draw_line(Vector2(106, 765 + i * 5), Vector2(133, 762 + i * 5), Color("766c4e"), 4, true)
+			var bowl:=Vector2(183+i*19,749)
+			w._ellipse(bowl,Vector2(7,4),Color("d2c8a4"))
+			w._ellipse(bowl-Vector2(0,2),Vector2(7,3),Color("f0deb1"))
+		for i in range(3):w.draw_line(Vector2(106,765+i*5),Vector2(133,762+i*5),Color("766c4e"),4,true)
 	if ending == "short_ferries":
 		_basket(w, Vector2(141, 845), true, false)
 		_basket(w, Vector2(179, 847), true, false)
 		w._label(Vector2(83, 884), "短渡分装处", 13, Color("6e6e50"), 160, HORIZONTAL_ALIGNMENT_CENTER)
 
 static func _scale(w, sealed_delivered: bool, ending: String) -> void:
-	var p := Vector2(1418, 697)
-	w.draw_rect(Rect2(p + Vector2(-65, -11), Vector2(122, 12)), Color("8b7a57"))
-	for x in [-54, 45]:
-		w.draw_line(p + Vector2(x, -4), p + Vector2(x, 10), WOOD_DARK, 5, true)
-	w.draw_line(p + Vector2(0, -13), p + Vector2(0, -80), Color("576650"), 6, true)
-	w.draw_line(p + Vector2(-47, -71), p + Vector2(49, -71), Color("56634f"), 5, true)
-	w.draw_circle(p + Vector2(0, -74), 5, GOLD)
-	for x in [-37, 36]:
-		for dx in [-15, 15]:
-			w.draw_line(p + Vector2(x, -70), p + Vector2(x + dx, -30), Color("6f6b50"), 1.4, true)
-		w._ellipse(p + Vector2(x, -29), Vector2(19, 6), Color("b4a77c"))
+	var p:=Vector2(1418,697)
+	var actors:Array=[w.player_pos]
+	if w.companion_active:actors.append(w.companion_pos)
+	var opacity=Worksites.opacity_for("public_scale",p,actors)
+	Worksites.draw(w,"public_scale",p,1.0,opacity)
 	if sealed_delivered:
-		_basket(w, p + Vector2(-35, -31), true, true, 0.61)
-		_basket(w, p + Vector2(36, -31), true, true, 0.61)
+		for pan in Worksites.scale_pan_positions(p):Machinery.draw(w,"cargo_hampers_sealed",pan,.61,opacity)
 		w.draw_rect(Rect2(1470, 593, 41, 28), PAPER)
 		for i in range(3):
 			w.draw_line(Vector2(1475, 599 + i * 5), Vector2(1505 - i * 3, 599 + i * 5), Color("70765a"), 1, true)
 		w.draw_arc(Vector2(1500, 613), 4, 0, TAU, 12, Color("a16e51"), 1, true)
 		w._label(Vector2(1429, 578), "复称签 · 只记货号", 11, Color("6b7057"), 134, HORIZONTAL_ALIGNMENT_CENTER)
 	if ending == "short_ferries":
-		_poly(w, [p + Vector2(-62, -49), p + Vector2(56, -48), p + Vector2(65, -6), p + Vector2(-66, -6)], Color("809481"))
-		w.draw_line(p + Vector2(-51, -45), p + Vector2(-33, -10), Color("b3bba0"), 2, true)
-		w._label(Vector2(1321, 737), "夜间覆秤 · 明早复核", 12, Color("64735a"), 192, HORIZONTAL_ALIGNMENT_CENTER)
+		Worksites.draw(w,"folded_tarpaulin",p+Vector2(0,-7))
+		w._label(Vector2(1321, 737), "夜间停秤 · 明早复核", 12, Color("64735a"), 192, HORIZONTAL_ALIGNMENT_CENTER)
 	elif ending == "open_scale":
 		_basket(w, Vector2(1365, 759), true, false)
 		_basket(w, Vector2(1404, 759), true, false)
