@@ -21,8 +21,10 @@ func choose(index:int=0)->void:
  app.modal_actions[index].call()
 func interact(id:String)->void:
  if app.active_modal:app._close_modal()
- if id=="bandit":
-  app.world.teleport(app.world.interactables.bandit.pos);app._process(0)
+ if id in ["bandit","ledger_runner","sluice_boss"]:
+  check(app.world.interactables.has(id),"Guarded encounter exists on its actual map: "+id)
+  if not app.world.interactables.has(id):return
+  app.world.teleport(app.world.interactables[id].pos);app._process(0)
  app._interact(id)
 func fight()->void:
  check(app.state.battle_active,"Story action starts battle")
@@ -59,10 +61,23 @@ func _run()->void:
   check(app.state.sect_rank==2,"Actual chosen school trial completed with normal stats")
   interact("exit_sluice");choose()
   interact("stranded_boatman");choose();app._close_modal()
-  interact("ledger_runner");choose();fight()
+  check(app.state.party_roster==["hero","shen"] and not app.state.tangqi_unlocked and not app.state.qin_recruited(),"Natural sluice chronology has only the earned hero and Shen")
+  var before_scout_coins:int=app.state.coins
+  var before_scout_xp:int=app.state.xp+30*app.state.level*(app.state.level-1)
+  interact("ledger_runner");choose()
+  check(app.current_screen=="party_battle" and app.state.party_battle_snapshot().encounter_id=="sluice_scout","Ordinary runner choice enters the actual independent party scout")
+  fight()
+  check(app.state.side_found==["boatman","ledger"] and app.state.side_clues==2 and app.state.coins==before_scout_coins+14 and app.state.xp+30*app.state.level*(app.state.level-1)==before_scout_xp+25,"Natural scout grants one ledger, fourteen coins and twenty-five XP")
   interact("sluice_cache");choose()
-  interact("sluice_boss");choose();fight()
-  check(app.state.side_stage==3,"Full sluice route naturally completed")
+  var before_boss_coins:int=app.state.coins
+  var before_boss_xp:int=app.state.xp+30*app.state.level*(app.state.level-1)
+  var before_boss_medicine:int=app.state.medicine
+  interact("sluice_boss");choose()
+  check(app.current_screen=="party_battle" and app.state.party_battle_snapshot().encounter_id=="sluice_boss","Ordinary boss choice enters the actual independent party boss")
+  fight()
+  check(app.state.side_stage==3 and app.state.side_reward_claimed,"Full sluice route naturally completed")
+  check(app.state.coins==before_boss_coins+80 and app.state.xp+30*app.state.level*(app.state.level-1)==before_boss_xp+150 and app.state.medicine==before_boss_medicine+2,"Earned rescue completion grants exact battle and branch rewards once")
+  check(app.state.party_settlement.battle_reward_xp==70 and app.state.party_settlement.branch_reward_xp==80 and app.state.party_settlement.branch_reward_claimed,"Boss settlement includes the seventy-XP battle and eighty-XP branch atomically")
   interact("exit_frostbridge");choose()
   interact("chapter_clerk");choose()
   interact("chapter_inscription");choose()
@@ -194,12 +209,15 @@ func _drive_party_action() -> bool:
  if chosen.is_empty():
   check(false, "Selected actor has a legal journey action")
   return false
+ var progress_before:Dictionary={"coins":app.state.coins,"xp":app.state.xp,"level":app.state.level,"side_stage":app.state.side_stage,"side_found":app.state.side_found.duplicate(),"side_reward_claimed":app.state.side_reward_claimed}
  panel.request_command(actor.id, chosen.id)
  if not panel.pending_action.is_empty():
   panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
  check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
  if panel.pending.is_empty():
   return false
+ if snapshot.encounter_id in ["sluice_scout","sluice_boss"]:
+  check(app.state.coins==progress_before.coins and app.state.xp==progress_before.xp and app.state.level==progress_before.level and app.state.side_stage==progress_before.side_stage and app.state.side_found==progress_before.side_found and app.state.side_reward_claimed==progress_before.side_reward_claimed,"Accepted sluice action cannot award story or economy before renderer completion")
  # Complete the actual renderer timeline so its presentation-finished signal
  # acknowledges the real epoch/token and performs the real state settlement.
  panel.art._process(panel.art.get_presentation_duration() + 0.1)

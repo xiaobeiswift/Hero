@@ -78,7 +78,7 @@ func _enter_sluice() -> void:
 
 
 func _check_boss_locked() -> void:
-	game._sluice_boss_dialogue()
+	_interact_at("sluice_boss")
 	_check(_find_button(game.overlay, "问个明白") == null, "Boss requires both clues")
 	game._close_modal()
 
@@ -88,11 +88,11 @@ func _test_rescue_first() -> void:
 	_enter_sluice()
 	_check_sluice_navigation()
 	_check_boss_locked()
-	game._boatman_dialogue()
+	_interact_at("stranded_boatman")
 	_press("割断缆绳救人")
 	await _dismiss_and_reload("boatman clue")
 	_check(game.state.side_choice == "rescue" and game.state.side_stage == 1 and game.state.side_found == ["boatman"], "Rescue-first records exactly one clue and locks the branch")
-	game._boatman_dialogue()
+	_interact_at("stranded_boatman")
 	_check(_find_button(game.overlay, "割断缆绳救人") == null, "Boatman cannot yield a repeated clue or reward")
 	game._close_modal()
 	_check_boss_locked()
@@ -102,35 +102,42 @@ func _test_rescue_first() -> void:
 	_forget_session_without_saving()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "sluice", "One-clue branch survives loading from another map")
-	game._runner_dialogue()
-	_press("截住传令人")
-	_check(game.state.enemy_max_hp == 85 and game.state.enemy_intent.contains("11"), "Scout uses its distinct health and damage telegraph")
 	game.state.qi = 0
-	var old_hp: int = game.state.hp
+	var before_scout_xp: int = _total_xp()
+	_start_sluice_party("sluice_scout")
+	var scout: Dictionary = game.state.party_battle_snapshot()
+	_check(scout.enemies[0].max_hp == 85 and scout.enemy_intents[0].damage == 11, "Scout snapshot carries its distinct health and public damage telegraph")
+	var rejected: Dictionary = game.state.to_dict()
 	await _key(KEY_2)
-	_check(game.state.turn == 0 and game.state.hp == old_hp, "Unavailable numbered skill input does not spend a turn")
+	_check(game.state.party_battle_snapshot() == scout and game.state.to_dict() == rejected, "Unavailable numbered martial input leaves the entire party and persistent state unchanged")
 	_win_battle()
+	_check(_total_xp() == before_scout_xp + 25 and game.state.party_settlement.reward_xp == 25, "Scout settlement grants exactly twenty-five XP")
 	_check(game.state.side_stage == 2 and game.state.side_clues == 2 and game.state.coins == 164, "Scout victory grants exactly one ledger and fourteen coins")
 	_check(game.state.quest_stage == 6, "Scout cannot rewind main-story stage")
 	_check(not _modal_text().contains("需要再听听船工的证言"), "Rescue-first scout result does not ask for an already-collected clue")
 	_press("收起账页")
-	game._runner_dialogue()
+	_interact_at("ledger_runner")
 	_check(_find_button(game.overlay, "截住传令人") == null, "Defeated scout is not farmable through its dialogue")
 	game._close_modal()
 	game.state.heal_rest()
-	game._sluice_boss_dialogue()
-	_press("问个明白")
-	_check(game.state.enemy_max_hp == 150 and game.state.enemy_intent.contains("16"), "Boss uses its distinct health and opening telegraph")
-	await _key(KEY_1)
-	_check(game.state.turn == 1 and game.state.enemy_intent.contains("28"), "Numbered attack advances one turn and reveals boss heavy attack")
-	await _key(KEY_1)
-	_check(game.state.exposed_turns == 2 and game.battle_info.text.contains("破绽2"), "Boss heavy attack applies visible two-turn exposure")
-	await _key(KEY_3)
-	_check(game.state.exposed_turns == 0 and not game.battle_info.text.contains("（守势可解）"), "Numbered guard clears exposure and its UI indicator")
+	_start_sluice_party("sluice_boss")
+	var boss: Dictionary = game.state.party_battle_snapshot()
+	_check(boss.enemies[0].max_hp == 150 and boss.enemy_intents[0].damage == 16, "Boss snapshot carries its distinct health and opening telegraph")
+	await _party_key(KEY_1)
+	boss = game.state.party_battle_snapshot()
+	_check(boss.round == 2 and boss.enemy_intents[0].heavy and boss.enemy_intents[0].damage == 28, "Numbered attack completes one actual party round and reveals boss heavy attack")
+	await _party_key(KEY_1)
+	var panel = _party_panel()
+	_check(_hero().status.vulnerability_hits == 2 and panel.commands.snapshot.actors[0].status.vulnerability_hits == 2, "Boss heavy attack exposes two remaining vulnerability hits in the real party HUD snapshot")
+	var guard: Dictionary = await _party_key(KEY_3)
+	_check(_hero().status.vulnerability_hits == 0 and _has_event(guard, "vulnerability_expire"), "Numbered guard clears actual vulnerability through an accepted transaction")
+	_check(_party_panel().commands.snapshot.actors[0].status.vulnerability_hits == 0, "Party HUD removes the cleared vulnerability")
 	var before_coins: int = game.state.coins
 	var before_medicine: int = game.state.medicine
+	var before_boss_xp: int = _total_xp()
 	_win_battle()
 	_check(game.state.side_stage == 3 and game.state.side_reward_claimed, "Boss victory completes the side quest")
+	_check(_total_xp() == before_boss_xp + 150 and game.state.party_settlement.battle_reward_xp == 70 and game.state.party_settlement.branch_reward_xp == 80, "Rescue settlement awards seventy battle XP and eighty branch XP once")
 	_check(game.state.coins == before_coins + 80 and game.state.medicine == before_medicine + 2, "Rescue branch grants boss thirty-five plus quest forty-five coins and two medicine")
 	await _dismiss_and_reload("completed rescue branch")
 	_check_completion_replay_safety()
@@ -139,48 +146,47 @@ func _test_rescue_first() -> void:
 func _test_pursuit_first_and_recovery() -> void:
 	_prepare_completed_chapter()
 	_enter_sluice()
-	game._runner_dialogue()
-	_press("截住传令人")
-	await _key(KEY_5)
+	_start_sluice_party("sluice_scout")
+	await _party_key(KEY_5)
 	_check(not game.state.battle_active and game.state.map_id == "sluice" and game.state.side_choice == "pursuit" and game.state.side_found.is_empty(), "Numbered flee leaves pursuit retryable without awarding a clue")
-	game._runner_dialogue()
+	_interact_at("ledger_runner")
 	_check(not _modal_text().contains("船工已经获救"), "Runner retry does not claim an unrescued boatman is safe")
-	_press("截住传令人")
 	game.state.hp = 1
-	game._battle_action("attack")
+	_press("截住传令人")
+	_freeze_party()
+	await _party_key(KEY_1)
 	game._process(0.0)
 	_check(game.state.map_id == "qingwei" and game.world.map_id == "qingwei", "Second-region defeat returns both map states to the village")
 	_check(game.state.hp == game.state.max_hp and game.state.coins == 142 and game.state.position == game.world.player_pos, "Defeat restores health, loses eight coins and synchronizes position")
 	_check(game.state.side_choice == "pursuit" and game.state.side_stage == 1 and game.state.side_clues == 0, "Defeat preserves branch choice without granting a false clue")
 	game._close_modal()
 	_enter_sluice()
-	game._runner_dialogue()
-	_press("截住传令人")
+	_start_sluice_party("sluice_scout")
 	_win_battle()
 	await _dismiss_and_reload("scout victory")
 	_check(game.state.side_found == ["ledger"] and game.state.side_stage == 1, "Retry can recover the ledger before rescuing the boatman")
 	_check_boss_locked()
-	game._boatman_dialogue()
+	_interact_at("stranded_boatman")
 	_press("割断缆绳救人")
 	_press("记下证言")
 	_check(game.state.side_stage == 2 and game.state.side_choice == "pursuit", "Later rescue completes clues without changing pursuit choice")
 	game.state.heal_rest()
-	game._sluice_boss_dialogue()
-	_press("问个明白")
-	game._battle_action("attack")
-	game._battle_action("attack")
-	_check(game.state.exposed_turns == 2, "Pursuit boss also applies exposure")
-	await _key(KEY_5)
-	_check(game.state.exposed_turns == 0 and game.state.side_stage == 2 and not game.state.side_reward_claimed, "Flee clears battle status without losing clues or finishing quest")
-	game._sluice_cache_dialogue()
+	_start_sluice_party("sluice_boss")
+	await _party_key(KEY_1)
+	await _party_key(KEY_1)
+	_check(_hero().status.vulnerability_hits == 2, "Pursuit boss also applies actual per-actor vulnerability")
+	await _party_key(KEY_5)
+	_check(_hero().status.vulnerability_hits == 0 and not game.state.battle_active and game.state.side_stage == 2 and not game.state.side_reward_claimed, "Flee clears battle vulnerability without losing clues or finishing quest")
+	_interact_at("sluice_cache")
 	_press("静坐调息")
 	_check(game.state.hp == game.state.max_hp and game.state.qi == game.state.max_qi, "Second-region rest point restores health and qi")
-	game._sluice_boss_dialogue()
-	_press("问个明白")
+	_start_sluice_party("sluice_boss")
 	var before_coins: int = game.state.coins
 	var before_medicine: int = game.state.medicine
+	var before_boss_xp: int = _total_xp()
 	_win_battle()
 	_check(game.state.side_stage == 3 and game.state.coins == before_coins + 100 and game.state.medicine == before_medicine, "Pursuit branch grants boss thirty-five plus quest sixty-five coins without rescue medicine")
+	_check(_total_xp() == before_boss_xp + 150 and game.state.party_settlement.battle_reward_xp == 70 and game.state.party_settlement.branch_reward_xp == 80, "Pursuit settlement awards seventy battle XP and eighty branch XP once")
 	_press("收好水令")
 	_check_completion_replay_safety()
 
@@ -190,7 +196,7 @@ func _check_completion_replay_safety() -> void:
 	game._finish_sluice()
 	_check(game.state.to_dict() == before, "Repeated quest completion cannot duplicate rewards")
 	game._close_modal()
-	game._sluice_boss_dialogue()
+	_interact_at("sluice_boss")
 	_check(_find_button(game.overlay, "问个明白") == null, "Completed boss cannot be restarted from its dialogue")
 	game._close_modal()
 	game._save()
@@ -306,32 +312,38 @@ func _test_map_and_martial_menus() -> void:
 				_check(_find_button(game.overlay, "修习 " + sect_arts[other_sect]) == null, "Other sect's exclusive art is unavailable: " + sect_arts[other_sect])
 		await _key(KEY_2)
 		_check(game.state.equipped_art == art and not game.active_modal, "Second modal choice equips the sect art: " + art)
-		game._start_battle("sluice_boss")
-		game.state.enemy_hp = 1000
-		game.state.enemy_max_hp = 1000
+		_enter_sluice()
+		_check(game.state.choose_side_route("rescue") and game.state.find_side_clue("boatman") and game.state.find_side_clue("ledger"), "Art fixture earns valid boss eligibility through real progress APIs")
 		var cost: int = game.state.active_art_cost()
+		var action_id: String = "art:" + art
+		var button_key: String = "hero::" + action_id
 		game.state.qi = cost - 1
-		game._refresh_battle()
-		_check(game.battle_buttons[1].disabled and game.battle_buttons[1].text.contains(art) and game.battle_buttons[1].text.contains("-%d气" % cost), "Battle button displays real art name/cost and is disabled below cost: " + art)
+		_start_sluice_party("sluice_boss")
+		var panel = _party_panel()
+		var descriptor: Dictionary = panel.commands.descriptors[button_key]
+		_check(not descriptor.available and not panel.commands.action_reason("hero", action_id).is_empty() and descriptor.name == art and descriptor.cost == cost, "Real party button exposes art name/cost and the below-cost rejection: " + art)
+		var rejected: Dictionary = game.state.party_battle_snapshot()
 		await _key(KEY_2)
-		_check(game.state.turn == 0 and game.state.art_uses[art] == 4, "Rejected art cannot spend a turn or earn proficiency: " + art)
+		_check(game.state.party_battle_snapshot() == rejected and game.state.art_uses[art] == 4, "Rejected art cannot spend a party action or earn proficiency: " + art)
+		await _party_key(KEY_5)
 		game.state.qi = cost
 		game.state.hp = 60
-		if sect == "问石门": game.state.exposed_turns = 2
-		game._refresh_battle()
-		_check(not game.battle_buttons[1].disabled, "Battle button enables at exact required qi: " + art)
-		await _key(KEY_2)
-		_check(game.state.qi == 0 and game.state.skill_cooldown == game.state.active_art_cooldown() and game.state.art_uses[art] == 5 and game.state.art_rank(art) == 2, "Accepted sect art charges correct resources and crosses proficiency threshold: " + art)
+		_start_sluice_party("sluice_boss")
+		panel = _party_panel()
+		_check(panel.commands.descriptors[button_key].available and panel.commands.action_reason("hero", action_id).is_empty(), "Party button enables at exact required qi: " + art)
+		await _party_key(KEY_2)
+		_check(_hero().qi == 0 and _hero().cooldowns[action_id] == game.state.active_art_cooldown() and game.state.art_uses[art] == 5 and game.state.art_rank(art) == 2, "Accepted sect art charges correct resources and crosses proficiency threshold: " + art)
 		if sect == "照野堂":
 			_check(game.state.hp > 60, "Healer art produces a net health recovery")
 		elif sect == "问石门":
-			_check(game.state.exposed_turns == 0 and game.state.hp >= 57, "Defensive art clears exposure and guards incoming attack")
+			_check(_hero().status.vulnerability_hits == 0 and game.state.hp >= 57, "Defensive art guards actual incoming attack")
+		var after_art: Dictionary = game.state.party_battle_snapshot()
 		await _key(KEY_K)
 		await _key(KEY_M)
-		_check(not game.active_modal and game.state.turn == 1, "K/M cannot open exploration menus or spend combat turns")
+		_check(game.current_screen == "party_battle" and game.overlay.get_meta("party_battle", null) == panel and game.state.party_battle_snapshot() == after_art, "K/M cannot replace the party encounter or spend combat actions")
 		await _key(KEY_2)
-		_check(game.state.turn == 1 and game.state.art_uses[art] == 5, "Cooldown rejection cannot earn extra proficiency")
-		await _key(KEY_5)
+		_check(game.state.party_battle_snapshot() == after_art and game.state.art_uses[art] == 5, "Cooldown rejection cannot earn extra proficiency")
+		await _party_key(KEY_5)
 		await _key(KEY_K)
 		_check(_modal_text().contains("熟习") and _modal_text().contains("已施展5次"), "Martial menu reflects new proficiency")
 		await _key(KEY_ESCAPE)
@@ -339,6 +351,16 @@ func _test_map_and_martial_menus() -> void:
 		_forget_session_without_saving()
 		game._load()
 		_check(game.state.to_dict() == before, "Equipped art and proficiency survive menu-close autosave: " + art)
+		if sect == "问石门":
+			game.state.heal_rest()
+			_start_sluice_party("sluice_boss")
+			await _party_key(KEY_1)
+			await _party_key(KEY_1)
+			_check(_hero().status.vulnerability_hits == 2, "Defensive art fixture receives genuine boss-heavy vulnerability")
+			var hp_before: int = game.state.hp
+			var defensive: Dictionary = await _party_key(KEY_2)
+			_check(_hero().status.vulnerability_hits == 0 and _has_event(defensive, "vulnerability_expire") and game.state.hp >= hp_before - 3, "Defensive art clears earned vulnerability and guards the following attack")
+			await _party_key(KEY_5)
 
 
 func _find_chart(node: Node) -> Node:
@@ -401,3 +423,73 @@ func _test_legacy_completed_chapter() -> void:
 	game._exit_sluice_dialogue()
 	_check(_find_button(game.overlay, "前往废闸") != null, "Legacy completed save can access the newly added region")
 	game._close_modal()
+
+
+func _interact_at(id: String) -> void:
+	if game.active_modal:
+		game._close_modal()
+	_check(game.world.interactables.has(id), "Interaction exists on the rendered region: " + id)
+	if not game.world.interactables.has(id):
+		return
+	game.world.teleport(game.world.interactables[id].pos)
+	game._process(0.0)
+	game._interact(id)
+
+
+func _start_sluice_party(kind: String) -> void:
+	_interact_at("ledger_runner" if kind == "sluice_scout" else "sluice_boss")
+	_press("截住传令人" if kind == "sluice_scout" else "问个明白")
+	_freeze_party()
+	_check(game.current_screen == "party_battle" and game.state.party_battle_snapshot().get("encounter_id") == kind, "Ordinary guarded scene choice starts the actual party encounter: " + kind)
+
+
+func _party_panel():
+	return game.overlay.get_meta("party_battle", null)
+
+
+func _freeze_party() -> void:
+	var panel = _party_panel()
+	_check(is_instance_valid(panel), "Independent encounter mounts its real PartyUI controller")
+	if is_instance_valid(panel):
+		panel.art.set_process(false)
+
+
+func _hero() -> Dictionary:
+	for actor: Dictionary in game.state.party_battle_snapshot().get("actors", []):
+		if actor.id == "hero":
+			return actor
+	return {}
+
+
+func _total_xp() -> int:
+	return game.state.xp + 30 * game.state.level * (game.state.level - 1)
+
+
+func _progress() -> Dictionary:
+	return {"coins": game.state.coins, "xp": _total_xp(), "side_stage": game.state.side_stage,
+		"side_found": game.state.side_found.duplicate(), "side_reward_claimed": game.state.side_reward_claimed}
+
+
+func _party_key(key: Key) -> Dictionary:
+	var panel = _party_panel()
+	if not is_instance_valid(panel):
+		_check(false, "Numbered party input requires the real controller")
+		return {}
+	panel.art.set_process(false)
+	var before: Dictionary = _progress()
+	await _key(key)
+	var tx: Dictionary = panel.pending.duplicate(true)
+	_check(not tx.is_empty() and tx.get("accepted", false), "Numbered command accepts a real party transaction: " + str(key))
+	if tx.is_empty():
+		return {}
+	_check(_progress() == before, "Accepted party action leaves rewards and clues unchanged until renderer completion")
+	_check(panel.art.is_presenting(), "Accepted party transaction begins its real renderer timeline")
+	panel.art._process(panel.art.get_presentation_duration() + 0.1)
+	return tx
+
+
+func _has_event(tx: Dictionary, type: String) -> bool:
+	for event: Dictionary in tx.get("events", []):
+		if event.type == type:
+			return true
+	return false

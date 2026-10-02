@@ -619,3 +619,7 @@ Linux开发包由实际导出PCK加载，通过688项检查（此前655项保留
 ## 2026-10-02 — 废闸队伍 model/state checkpoint
 
 Godot4.6.3 isolated bounded runs passed: party_sluice_rules_test 2082; party_sluice_state_test736; party_state_integration_test701. Zero engine errors. Per-actor vulnerability, actual shield/guard interaction,1–4 capacity, both branch orders, resource-before-XP recovery, caps, malformed settlement, save write/rename failure and duplicate/stale callback coverage. Scene/renderer and full aggregate remain outside this isolated checkpoint. Exact source hashes: sluice_party_model_checkpoint.json.
+
+## 2026-10-02 — Integrated sluice party acceptance
+
+Full run-tests.sh exited0:109 Godot commands,60 Python tests,107PASS summaries, zero ERROR/SCRIPT ERROR. Source-only version bump to0.0.21 followed by96 browser-mode/native UI checks and six native captures. Detailed evidence/runtime hashes: sluice_party_integration_check.json. Focused checks: rules2082/state736/UI46/art7328 (96 headless frames), second-region300, full three-school natural journey46691, prior rules1486. Native prepared two-person chapter state preserves actual actor commands and heavy/guard status timing. No browser runtime/audio/FPS or new deployment claim.

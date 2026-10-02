@@ -521,8 +521,11 @@ func _choose(index: int = 0) -> void:
 func _interact(id: String) -> void:
 	if app.active_modal:
 		app._close_modal()
-	if id == "bandit":
-		app.world.teleport(app.world.interactables.bandit.pos)
+	if id in ["bandit", "ledger_runner", "sluice_boss"]:
+		check(app.world.interactables.has(id), "Earned encounter exists on its actual map: " + id)
+		if not app.world.interactables.has(id):
+			return
+		app.world.teleport(app.world.interactables[id].pos)
 		app._process(0)
 	app._interact(id)
 
@@ -550,6 +553,19 @@ func _legacy_fight() -> void:
 		app._close_modal()
 
 
+func _sluice_party_fight(kind: String) -> void:
+	check(app.current_screen == "party_battle" and app.state.party_battle_snapshot().get("encounter_id") == kind, "Earned sluice dialogue enters its actual party encounter: " + kind)
+	check(app.state.party_roster == ["hero", "shen"] and not app.state.tangqi_unlocked and not app.state.qin_recruited(), "Sluice prerequisites precede the late companions")
+	for attempt: int in 120:
+		if not app.state.battle_active:
+			break
+		if app.current_screen != "party_battle" or not _drive_party_action():
+			break
+	check(not app.state.battle_active and app.state.party_settlement.get("outcome") == "win", "Natural sluice prerequisite wins through accepted actions and renderer completion: " + kind)
+	if app.active_modal:
+		app._close_modal()
+
+
 func _test_earned_three_party() -> void:
 	app = load("res://scenes/main.tscn").instantiate()
 	app.state = JourneyState.new()
@@ -567,9 +583,9 @@ func _test_earned_three_party() -> void:
 	_interact("mentor"); _choose()
 	_interact("exit_sluice"); _choose()
 	_interact("stranded_boatman"); _choose(); app._close_modal()
-	_interact("ledger_runner"); _choose(); _legacy_fight()
+	_interact("ledger_runner"); _choose(); _sluice_party_fight("sluice_scout")
 	_interact("sluice_cache"); _choose()
-	_interact("sluice_boss"); _choose(); _legacy_fight()
+	_interact("sluice_boss"); _choose(); _sluice_party_fight("sluice_boss")
 	_interact("exit_frostbridge"); _choose()
 	_interact("chapter_clerk"); _choose()
 	_interact("chapter_inscription"); _choose()
