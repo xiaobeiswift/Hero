@@ -174,7 +174,6 @@ static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = 
 				w.draw_set_transform(-w.camera_pos)
 	_aftermath(w, ending)
 	w._draw_region_sign(Vector2(150, 335), "雾竹坡", -1)
-	w._label(Vector2(458, 985), "鹤 汀 埠  ·  一 秤 两 岸", 24, Color("b9c6af"), 690, HORIZONTAL_ALIGNMENT_CENTER)
 	w._draw_nameplates()
 	w.draw_set_transform(Vector2.ZERO)
 	w._draw_view_framing()
@@ -228,8 +227,8 @@ static func _ground(w, bridge_side: String) -> void:
 	w._label(Vector2(1033, 316), "北岸横街  ·  板车可绕行", 14, Color("77765a"), 297, HORIZONTAL_ALIGNMENT_CENTER)
 	# Unloading platform is a built timber deck, never a grassy natural island.
 	w.draw_rect(CARGO_ISLAND, Color("a49370"))
-	DeckArt.draw_deck(w,CARGO_ISLAND)
-	for y in range(570, 835, 14):
+	var painted_deck=DeckArt.draw_deck(w,CARGO_ISLAND)
+	for y in range(570, 835, 14) if not painted_deck else []:
 		w.draw_line(Vector2(592, y), Vector2(1028, y), Color("766e56"), 1.2, true)
 		w.draw_line(Vector2(592, y + 2), Vector2(1028, y + 2), Color(0.87, 0.79, 0.59, 0.38), 1.0, true)
 		for x in range(620 + ((y / 14) % 2) * 38, 1025, 78):
@@ -311,10 +310,15 @@ static func _rope_routes(w, bridge_side: String) -> void:
 			w._ellipse_arc(p, Vector2(12 - i * 3, 5 - i), Color("776e52"))
 
 static func _boat(w, p: Vector2, size: Vector2, kind: String, lit: bool) -> void:
-	if kind=="lighter" and DeckArt.skiff_texture()!=null:
+	if DeckArt.skiff_texture()!=null:
 		var extent=Vector2(size.x*1.15,size.x*1.15*DeckArt.SKIFF_REGION.size.y/DeckArt.SKIFF_REGION.size.x)
 		w._ellipse(p+Vector2(0,7),extent*Vector2(.48,.24),Color(.18,.31,.3,.23))
 		w.draw_texture_rect(DeckArt.skiff_texture(),Rect2(p-extent*.5,extent),false)
+		if kind=="grain":
+			_basket(w,p+Vector2(-19,-3),true,false,.85)
+			_basket(w,p+Vector2(14,-3),true,true,.85)
+			w.draw_line(p+Vector2(32,-8),p+Vector2(32,-53),WOOD_DARK,2,true)
+			_poly(w,[p+Vector2(33,-53),p+Vector2(51,-43),p+Vector2(33,-35)],PAPER)
 		if lit:_lantern(w,p+Vector2(-size.x*.28,-13),true)
 		return
 	var s := size / Vector2(160, 80)

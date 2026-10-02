@@ -35,6 +35,7 @@ static func points() -> Dictionary:
 		"mist_camp":{"pos":Vector2(290,790),"name":"避雨营地","kind":"rest"},
 		"mist_scout":{"pos":Vector2(1030,560),"name":"巡坡斥候","kind":"bandit"},
 		"mist_gate":{"pos":Vector2(1320,500),"name":"守令使","kind":"bandit"},
+		"exit_heting":{"pos":Vector2(1470,485),"name":"鹤汀下埠道","kind":"exit"},
 	}
 
 static func walkable(p:Vector2,_optional_flag:bool=false) -> bool:
@@ -231,6 +232,7 @@ static func _gate(w) -> void:
 static func _landmark(w,id:String,p:Vector2) -> void:
 	match id:
 		"return_frostbridge":w._draw_region_sign(p,"霜桥古道",-1)
+		"exit_heting":w._draw_region_sign(p,"鹤汀埠",1)
 		"mist_guide":
 			w._draw_person(p,Color("a5b98e"),false,"healer")
 			# An oil-paper umbrella identifies Qin He even in a misty wide shot.

@@ -11,7 +11,7 @@ func summary(meta:Dictionary)->String:
   "empty":return "空白"
   "valid":
    var stamp=Time.get_datetime_string_from_unix_time(int(meta.get("modified",0)))
-   return "%d级 · %s\n%s UTC" % [int(meta.get("level",1)),String({"qingwei":"青苇渡","sluice":"旧闸","frostbridge":"霜桥驿","mistwood":"雾竹坡"}.get(meta.get("location",""),"江湖")),stamp]
+   return "%d级 · %s\n%s UTC" % [int(meta.get("level",1)),String({"qingwei":"青苇渡","sluice":"旧闸","frostbridge":"霜桥驿","mistwood":"雾竹坡","heting":"鹤汀埠"}.get(meta.get("location",""),"江湖")),stamp]
   "incompatible":return "由更新版本写下，需使用兼容游戏版本"
  return "文件不可读，可查看是否留有备份"
 func save_page()->void:

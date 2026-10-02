@@ -11,6 +11,7 @@ const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/battle_art.gd")
 const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
+const HetingStory=preload("res://scripts/heting_story.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const LightnessStory=preload("res://scripts/lightness_story.gd")
@@ -39,6 +40,7 @@ var shen_story
 var companion_story
 var advanced_martial
 var mist_story
+var heting_story
 var save_slots
 var hud
 var _hud_navigation_flags:int=-1
@@ -80,6 +82,7 @@ var battle_log: RichTextLabel
 var battle_buttons: Array[Button] = []
 var modal_generation:int=0
 var active_modal = false
+var modal_autosave_on_close=true
 var modal_actions: Array[Callable] = []
 var current_screen = "explore"
 var toast_time = 0.0
@@ -115,6 +118,8 @@ func _ready() -> void:
 	lightness_story=LightnessStory.new(self)
 	advanced_martial=AdvancedMartialUI.new(self)
 	mist_story=MistwoodStory.new(self)
+	heting_story=HetingStory.new(self)
+	world.traversal_blocked.connect(_toast)
 	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
 	_refresh()
@@ -315,6 +320,9 @@ func _refresh() -> void:
 	if state.map_id=="mistwood":
 		weather_label.text="暮春  /  竹风  /  细雨"
 		chapter_header.text="第三章  ·  听雨辨令"
+	if state.map_id=="heting":
+		weather_label.text="暮春  /  港风  /  雨后初晴"
+		chapter_header.text="第四章  ·  一秤两岸"
 	name_label.text = state.player_name + "  " + str(state.level) + "级"
 	sect_label.text = ("初入江湖" if state.sect=="未入门" else state.sect_rank_name())+" · "+state.sect
 	hp_bar.max_value = state.max_hp
@@ -338,10 +346,12 @@ func _refresh() -> void:
 	if companion_story.pending():
 		quest_label.text="尺上旧痕"
 		hint_label.text=companion_story.hint()
-	if state.mist_stage>0 and (state.map_id=="mistwood" or (state.mist_stage<4 and not companion_story.pending())):
+	if state.mist_stage>0 and ((state.map_id=="mistwood" and (state.mist_stage<4 or not companion_story.pending())) or (state.mist_stage<4 and not companion_story.pending())):
 		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
 	if _track_shen():
 		quest_label.text="药箱之外";hint_label.text=shen_story.hint()
+	if _track_heting():
+		quest_label.text=heting_story.title();hint_label.text=heting_story.hint()
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
@@ -385,14 +395,17 @@ func _clear_overlay() -> void:
 func _close_modal() -> void:
 	if current_screen=="title":
 		_show_title();return
+	var save_on_close=modal_autosave_on_close
+	modal_autosave_on_close=true
 	modal_generation+=1
 	_clear_overlay()
 	active_modal = false
 	if current_screen == "title": current_screen = "explore"
 	_refresh()
-	if current_screen == "explore": _autosave()
+	if current_screen == "explore" and save_on_close: _autosave()
 
 func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
+	modal_autosave_on_close=true
 	modal_generation+=1
 	_clear_overlay()
 	active_modal = true
@@ -519,7 +532,7 @@ func _interact(id: String) -> void:
 		"sluice_boss": _sluice_boss_dialogue()
 		"sluice_cache": _sluice_cache_dialogue()
 		_:
-			if not mist_story.handle(id):chapter_story.handle(id)
+			if not heting_story.handle(id) and not mist_story.handle(id):chapter_story.handle(id)
 
 func _elder_dialogue() -> void:
 	if state.quest_stage == 5 and state.sect == "未入门":
@@ -641,6 +654,9 @@ func _show_journal() -> void:
 	if state.mist_stage>0:body+=mist_story.journal()
 	body+=shen_story.journal()
 	body+=lightness_story.journal()
+	var port_journal=heting_story.journal()
+	if not port_journal.is_empty():
+		body=port_journal.strip_edges()+"\n\n"+body if _track_heting() else body+port_journal
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
@@ -672,6 +688,7 @@ func _apply_loaded_state(message:String="前缘已续 · 读档成功。")->void
 	current_screen = "explore"
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
+	modal_autosave_on_close=true
 	_close_modal()
 	_toast(message)
 	if state.quest_stage==5 and state.sect=="未入门": _choose_sect()
@@ -1003,6 +1020,7 @@ func _show_map() -> void:
 	chart.markers = world.interactables
 	chart.ui_font = font
 	chart.current_target = world._quest_target_id()
+	chart.heting_bridge=state.heting_bridge
 	chart.bridge_repaired=state.bridge_repaired
 	panel.add_child(chart)
 
@@ -1021,6 +1039,14 @@ func _show_workshop() -> void:
 	workshop.show()
 
 func _sync_world_state() -> void:
+	world.heting_bridge=state.heting_bridge
+	world.heting_delivered=state.heting_delivered
+	world.heting_cargo=state.heting_cargo
+	world.heting_draft=state.heting_draft
+	world.heting_ending=state.heting_ending
+	world.mist_ending=state.mist_ending
+	world.mist_completed=state.mist_stage>=4
+	world.heting_target_id=heting_story.target_id() if _track_heting() else ""
 	world.quest_stage = state.quest_stage
 	world.companion_active = not state.current_companion().is_empty()
 	world.companion_name=state.current_companion()
@@ -1040,4 +1066,10 @@ func _show_save_slots()->void:save_slots.save_page()
 func _show_load_slots()->void:save_slots.load_page()
 
 func _track_shen()->bool:
-	return shen_story.pending() and not companion_story.pending() and not (state.map_id=="mistwood" and state.mist_stage<4) and not (state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1)
+	return state.map_id!="heting" and shen_story.pending() and not companion_story.pending() and not (state.map_id=="mistwood" and state.mist_stage<4) and not (state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1)
+
+func _track_heting()->bool:
+	if state.map_id=="heting":return state.heting_stage>0
+	if companion_story.pending() or shen_story.pending():return false
+	if state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1:return false
+	return state.heting_stage in [1,2,3] or (state.heting_stage==0 and state.mist_stage==4 and state.map_id=="mistwood")

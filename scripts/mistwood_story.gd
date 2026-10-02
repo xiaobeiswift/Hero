@@ -29,7 +29,7 @@ func guide()->void:
   return
  if s.mist_stage>=4:
   var result="近坡田地先卸下了水压。秦禾按你的安排，沿路传去了更正的雨令。" if s.mist_ending=="release_water" else "渡船钟在雨声里响了三遍。等最后一艘船靠岸，守坡人才缓开石闸。"
-  host._modal("秦禾","听雨辨令 / 余声",result+"\n\n‘刻度能量水深，量不了一个人肯不肯回头。’\n\n秦禾将底稿抄了两份：一份留下，一份由你带走。关于水令与粮价的线索，已经不再只是一张可被改掉的纸。")
+  host._modal("秦禾","听雨辨令 / 余声",result+"\n\n‘刻度能量水深，量不了一个人肯不肯回头。’\n\n秦禾将底稿抄了两份：一份留下，一份由你带走。底稿抄件上的交割号指向鹤汀埠。沿听雨关东侧下埠道，可继续追看粮船的实交。")
   return
  host._modal("秦禾 · 旧监水吏","雾竹坡 / 雨过留痕","‘雨来过没有，竹子和石头都记得。’\n\n先看北边雨痕竹尺，再量东南分水石盂；东北叠石刻度由巡坡斥候看守，须先到中东山道取得勘量许可。\n\n你可以较量，也可以帮修警亭。若霜桥原账已经公示，还能拿它说明来意。\n\n三处读数齐备后，再到东侧听雨关问守令使。",[["记下路线",host._close_modal]],true)
 func gauge(id:String)->void:
@@ -81,7 +81,7 @@ func finish(choice:String)->void:
   host._close_modal();host._toast("第三章完成 · 修为+100、铜钱+60，收到分支谢礼。")
 func title()->String:return ["山雨来信","三尺问雨","听雨关前","令与水势","竹坡余声"][host.state.mist_stage]
 func hint()->String:
- return ["由霜桥东北竹坡道前往雾竹坡。","查三处雨痕；中东巡哨有较量、修亭、公示原账三种通行方案。","三处读数齐备，去东侧听雨关索取原令底稿。","回西北秦禾处，商议先行照应何处。","山雨有了实据。可回营地调息，或返回旧地研习。"][host.state.mist_stage]
+ return ["由霜桥东北竹坡道前往雾竹坡。","查三处雨痕；中东巡哨有较量、修亭、公示原账三种通行方案。","三处读数齐备，去东侧听雨关索取原令底稿。","回西北秦禾处，商议先行照应何处。","底稿指向鹤汀埠。沿听雨关东侧下埠道，继续查粮船交割。"][host.state.mist_stage]
 func target_id()->String:
  var s=host.state
  if s.map_id!="mistwood":

@@ -50,6 +50,7 @@ func hint() -> String:
 func target_id() -> String:
  if not pending():return ""
  match host.state.map_id:
+  "heting":return "return_mistwood"
   "qingwei":return "exit_sluice"
   "sluice":return "sluice_cache" if host.state.tangqi_stage==1 else "exit_frostbridge"
   "mistwood":return "return_frostbridge"

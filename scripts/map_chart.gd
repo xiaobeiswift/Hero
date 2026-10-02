@@ -2,6 +2,7 @@ class_name MapChart
 extends Control
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
+const Heting=preload("res://scripts/heting_region.gd")
 
 ## Read-only cartographic overview. Marker names and positions come from the world.
 var map_id: String = "qingwei"
@@ -10,6 +11,7 @@ var markers: Dictionary = {}
 var ui_font: Font
 var current_target: String = ""
 var bridge_repaired:bool=false
+var heting_bridge:String="west"
 
 const CHART_SIZE := Vector2(780, 330)
 const MAP_RECT := Rect2(Vector2(40, 20), Vector2(690, 270))
@@ -42,7 +44,9 @@ func _draw() -> void:
 		var y := MAP_RECT.position.y + i * MAP_RECT.size.y / 5.0
 		draw_line(Vector2(MAP_RECT.position.x, y), Vector2(MAP_RECT.end.x, y), Color(0.39, 0.51, 0.4, 0.10), 1)
 	_draw_terrain_hatching()
-	if map_id=="mistwood":
+	if map_id=="heting":
+		_draw_heting_map()
+	elif map_id=="mistwood":
 		_draw_mistwood_map()
 	elif map_id=="frostbridge":
 		_draw_frost_map()
@@ -218,7 +222,7 @@ func _draw_legend() -> void:
 	_text(Vector2(162, y + 4), "人物 / 地点", 11, INK)
 	draw_arc(Vector2(272, y), 6, 0, TAU, 24, GOLD, 1.7, true)
 	_text(Vector2(285, y + 4), "当前机缘", 11, INK)
-	var title:String={"qingwei":"青苇渡 · 渡口图","sluice":"废闸古道 · 两岸图","frostbridge":"霜桥驿 · 印台图","mistwood":"雾竹坡 · 听雨图"}.get(map_id,"江湖舆图")
+	var title:String={"qingwei":"青苇渡 · 渡口图","sluice":"废闸古道 · 两岸图","frostbridge":"霜桥驿 · 印台图","mistwood":"雾竹坡 · 听雨图","heting":"鹤汀埠 · 港池图"}.get(map_id,"江湖舆图")
 	_text(Vector2(505, y + 4), title + "  /  仅供览图", 11, Color("68795f"), 225, HORIZONTAL_ALIGNMENT_RIGHT)
 
 func _font() -> Font:
@@ -281,3 +285,28 @@ func _draw_mistwood_map()->void:
 		draw_line(at+Vector2(2,3),at+Vector2(2,-8),Color("638a61"),2)
 	draw_rect(_world_rect(Mist.CAMP_FOOTPRINT.position,Mist.CAMP_FOOTPRINT.size),Color("b8a67c"))
 	_text(_point(Vector2(710,635)),"叠石坡",11,INK,70,HORIZONTAL_ALIGNMENT_CENTER)
+
+func _heting_terrain_rects() -> Array[Rect2]:
+	# Same positive union as the scene, always showing the walking-only pier.
+	return Heting.terrain_rects(heting_bridge, false)
+
+func _draw_heting_map() -> void:
+	# Water is painted first. Only the current pontoon comes from the union;
+	# there is never a decorative second bridge across the closed water route.
+	draw_rect(MAP_RECT, WATER)
+	for surface in _heting_terrain_rects():
+		var deck := surface == Heting.CARGO_ISLAND or surface == Heting.FOOT_PIER or surface == Heting.WEST_PONTOON or surface == Heting.EAST_PONTOON
+		draw_rect(_world_rect(surface.position, surface.size), Color("b8aa83") if deck else Color("c8cbb0"))
+		if surface == Heting.FOOT_PIER or surface == Heting.WEST_PONTOON or surface == Heting.EAST_PONTOON:
+			_bridge(surface.position, surface.size)
+	_road([Vector2(150,350),Vector2(1530,350),Vector2(1530,790)],4)
+	_road([Vector2(330,350),Vector2(330,780),Vector2(230,780)],4)
+	_road([Vector2(1390,600),Vector2(1530,600)],3)
+	var names := ["交割仓", "粥棚", "秤棚"]
+	for i in range(Heting.BUILDINGS.size()):
+		var footprint:Rect2=Heting.BUILDINGS[i]
+		_building(footprint.position,footprint.size,names[i])
+	_text(_point(Vector2(840,237)),"北岸横街 · 板车可绕行",11,INK,170,HORIZONTAL_ALIGNMENT_CENTER)
+	_text(_point(Vector2(735,530)),"北步栈",10,INK,70,HORIZONTAL_ALIGNMENT_CENTER)
+	_text(_point(Vector2(650,929)),"西浮栈泊靠" if heting_bridge=="west" else "东浮栈泊靠",11,INK,145,HORIZONTAL_ALIGNMENT_CENTER)
+	_text(_point(Vector2(565,1000)),"北步栈通行人 · 板车走侧浮栈",10,INK,235,HORIZONTAL_ALIGNMENT_CENTER)

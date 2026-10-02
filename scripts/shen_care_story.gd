@@ -89,6 +89,7 @@ func target_id()->String:
 	if not pending():return ""
 	var s=host.state
 	match s.map_id:
+		"heting":return "return_mistwood"
 		"qingwei":return "exit_sluice" if s.shen_care_stage in [1,2] else ("healer" if s.shen_care_stage==3 else "board")
 		"sluice":return "stranded_boatman" if s.shen_care_stage==1 else ("sluice_cache" if s.shen_care_stage==2 else "return_village")
 		"frostbridge":return "return_sluice"

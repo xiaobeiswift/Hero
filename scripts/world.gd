@@ -14,11 +14,13 @@ const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
 const Traveler=preload("res://scripts/traveler_visual.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Islet=preload("res://scripts/reed_islet.gd")
+const Heting=preload("res://scripts/heting_region.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 const Frost=preload("res://scripts/frostbridge_region.gd")
 
 ## Original layered wuxia village with painted architecture and articulated travellers.
 signal interacted(id: String)
+signal traversal_blocked(message:String)
 signal moved(position: Vector2)
 signal location_changed(name: String)
 
@@ -41,6 +43,15 @@ var player_pos: Vector2 = Vector2(460, 430)
 var quest_stage: int = 0
 var map_id: String = "qingwei"
 var mist_target_id:String=""
+var heting_bridge:String="west"
+var heting_delivered:Array[String]=[]
+var heting_cargo:String=""
+var heting_draft:String=""
+var heting_ending:String=""
+var mist_ending:String=""
+var mist_completed:bool=false
+var heting_target_id:String=""
+var _cart_hint_shown:bool=false
 var chapter_stage:int=0
 var chapter_ending:String=""
 var mentor_pending:bool=false
@@ -155,14 +166,20 @@ func _ready() -> void:
 func change_map(id: String, spawn: Vector2) -> void:
 	if _village_points.is_empty():
 		_village_points = interactables.duplicate(true)
-	map_id = id if id in ["qingwei", "sluice", "frostbridge", "mistwood"] else "qingwei"
-	interactables = Mist.points() if map_id=="mistwood" else (Frost.points() if map_id=="frostbridge" else (_sluice_points if map_id == "sluice" else _village_points).duplicate(true))
+	map_id = id if id in ["qingwei", "sluice", "frostbridge", "mistwood", "heting"] else "qingwei"
+	match map_id:
+		"heting":interactables=Heting.points()
+		"mistwood":interactables=Mist.points()
+		"frostbridge":interactables=Frost.points()
+		"sluice":interactables=_sluice_points.duplicate(true)
+		_:interactables=_village_points.duplicate(true)
 	teleport(spawn)
 	current_location = _location_for_position()
 	location_changed.emit(current_location)
 	queue_redraw()
 
 func get_region_hint() -> String:
+	if map_id=="heting":return "浮栈泊在"+("西岸" if heting_bridge=="west" else "东岸")+"，岛上绞缆机可免费改泊。北步栈只通行人，板车可沿北岸横街绕行。"
 	if map_id=="mistwood":return "山雨留在竹尺与石盂。巡哨有三种通行方案，西南营地可调息。"
 	if map_id=="frostbridge":return ("南北两桥皆可通行。" if bridge_repaired else "北桥通行，南桥待修。")+"驿馆、碑文与文书房藏着三印的来历。"
 	if map_id == "qingwei":
@@ -174,9 +191,20 @@ func get_region_hint() -> String:
 		_: return "废闸已重归安宁。旧仓尚有遗物，可以继续探索。"
 
 func _safe_spawn() -> Vector2:
+	if map_id=="heting":return Heting.LOADED_SAFE if not heting_cargo.is_empty() else Heting.safe_spawn()
 	return Vector2(150,550) if map_id=="mistwood" else (Vector2(190,500) if map_id=="frostbridge" else (Vector2(190, 520) if map_id == "sluice" else Vector2(460, 430)))
 
 func teleport(position: Vector2) -> void:
+	# Heting recovery is deterministic: stale bridges, water and loaded foot-pier
+	# positions go to the island, without dropping or delivering the cargo.
+	if map_id=="heting":
+		player_pos = Heting.repaired_position(position, heting_bridge, not heting_cargo.is_empty())
+		companion_pos = Heting.safe_companion_position(player_pos, player_pos + Vector2(-31, 21), heting_bridge)
+		camera_pos = _camera_target()
+		_update_nearby()
+		moved.emit(player_pos)
+		queue_redraw()
+		return
 	var destination := position if position.is_finite() else _safe_spawn()
 	destination = Vector2(clampf(destination.x, 35, 1565), clampf(destination.y, 155, 1010))
 	if not _can_walk(destination):
@@ -208,6 +236,8 @@ func get_npc_name(id: String) -> String:
 
 func _process(delta: float) -> void:
 	time_passed += delta
+	if map_id=="heting" and not _can_walk(player_pos):teleport(player_pos)
+	if map_id!="heting" or heting_cargo.is_empty() or player_pos.distance_to(Heting.FOOT_PIER.get_center())>200:_cart_hint_shown=false
 	var direction := Vector2.ZERO
 	if active:
 		direction.x = float(_pressed("move_right", KEY_D, KEY_RIGHT)) - float(_pressed("move_left", KEY_A, KEY_LEFT))
@@ -218,6 +248,9 @@ func _process(delta: float) -> void:
 		facing = direction
 		walk_time += delta * 10.5
 		var target := player_pos + direction * SPEED * delta
+		if map_id=="heting" and not heting_cargo.is_empty() and Heting.at_foot_pier(target) and not _can_step(player_pos,target) and not _cart_hint_shown:
+			_cart_hint_shown=true
+			traversal_blocked.emit("窄步栈只供步行。押车请改接侧浮栈，或沿北岸横街绕行。")
 		var next_x := Vector2(target.x, player_pos.y)
 		if _can_step(player_pos,next_x):
 			player_pos.x = next_x.x
@@ -229,7 +262,8 @@ func _process(delta: float) -> void:
 	if companion_active:
 		var old_companion_pos=companion_pos
 		var companion_target := _companion_follow_target()
-		companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
+		if map_id=="heting":_follow_heting_companion(companion_target,delta)
+		else:companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
 		var companion_step=companion_pos-old_companion_pos
 		companion_moving=companion_step.length()>delta*5
 		if companion_moving:
@@ -244,6 +278,7 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _location_for_position() -> String:
+	if map_id=="heting":return Heting.location(player_pos)
 	if map_id=="mistwood":return "雾竹坡 · 听雨关" if player_pos.x>1180 else ("雾竹坡 · 雨池" if player_pos.y<500 else "雾竹坡 · 竹林道")
 	if map_id=="frostbridge":return "霜桥驿 · 西街" if player_pos.x<835 else ("霜桥驿 · 文书房" if player_pos.y<550 else "霜桥驿 · 封仓")
 	if map_id == "sluice":
@@ -306,6 +341,7 @@ func _islet_companion_target()->Vector2:
 	return player_pos.lerp(Lightness.ISLET_CENTER,0.45)+Vector2(-8,4)
 
 func _can_step(start:Vector2,finish:Vector2)->bool:
+	if map_id=="heting":return Heting.can_step(start,finish,heting_bridge,not heting_cargo.is_empty())
 	if not start.is_finite() or not finish.is_finite() or not _can_walk(start) or not _can_walk(finish):return false
 	var steps=maxi(1,int(ceil(start.distance_to(finish)/8.0)))
 	for i in range(1,steps+1):
@@ -313,6 +349,7 @@ func _can_step(start:Vector2,finish:Vector2)->bool:
 	return true
 
 func _can_walk(p: Vector2) -> bool:
+	if map_id=="heting":return Heting.walkable(p,heting_bridge,not heting_cargo.is_empty())
 	if not p.is_finite():
 		return false
 	if map_id=="mistwood":return Mist.walkable(p)
@@ -372,6 +409,8 @@ func _draw() -> void:
 	if terrain_bake_only:
 		_draw_terrain_layer()
 		return
+	if map_id=="heting":
+		Heting.draw(self,heting_bridge,heting_delivered,heting_cargo,heting_draft,heting_ending,mist_ending);return
 	if map_id=="mistwood":
 		Mist.draw(self);return
 	if map_id=="frostbridge":
@@ -817,6 +856,7 @@ func _draw_camp_fire() -> void:
 	draw_circle(fire + Vector2(0, -3), 4, Color("e5bf71"))
 
 func _painted_npc_role(id:String)->String:
+	if map_id=="heting":return Heting.npc_role(id)
 	if map_id!="qingwei" or not PaintedCast.CAST.has(id):return ""
 	if id=="healer" and companion_active and companion_name=="沈青":return ""
 	return id
@@ -897,6 +937,9 @@ func _interaction_prompt_rect(target:Vector2)->Rect2:
 	return best
 
 func interaction_verb(id: String) -> String:
+	if id in ["heting_dispatch","heting_relief","heting_scale"]:return "交谈"
+	if id=="heting_winch":return "改泊"
+	if id in ["heting_cargo","heting_lighter"]:return "查看"
 	var kind: String = String(interactables.get(id, {}).get("kind", ""))
 	if id == "herb":
 		return "采集" if quest_stage == 1 else "查看"
@@ -913,12 +956,13 @@ func interaction_verb(id: String) -> String:
 func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
+	if map_id=="heting":visible_ids=["heting_dispatch","heting_relief","heting_scale"]
 	for id: String in visible_ids:
 		var p: Vector2 = interactables[id]["pos"]
 		var selected := nearby_id == id
 		if selected:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
-		var width := 80.0
+		var width := 116.0 if map_id=="heting" else 80.0
 		var display_name: String = get_npc_name(id)
 		var name_y=-83.0 if id=="mist_guide" else (-78.0 if not _painted_npc_role(id).is_empty() else -57.0)
 		draw_style_box(_round_box(Color(0.08,0.18,0.17,0.80),3),Rect2(p+Vector2(-width*0.5,name_y-15),Vector2(width,20)))
@@ -1001,11 +1045,13 @@ func _draw_view_framing() -> void:
 	draw_set_transform(Vector2.ZERO)
 
 func _quest_target_id() -> String:
+	if interactables.has(heting_target_id):return heting_target_id
 	if interactables.has(shen_target_id):return shen_target_id
-	if map_id=="mistwood":return mist_target_id if interactables.has(mist_target_id) else "mist_guide"
+	if map_id=="mistwood" and (not mist_completed or not interactables.has(personal_target_id)):return mist_target_id if interactables.has(mist_target_id) else "mist_guide"
 	if map_id=="qingwei" and mentor_pending:return "mentor"
 	if interactables.has(personal_target_id):return personal_target_id
 	if interactables.has(mist_target_id):return mist_target_id
+	if map_id=="heting":return "heting_dispatch"
 	if map_id=="frostbridge":return chapter_target_id if interactables.has(chapter_target_id) else "chapter_host"
 	if map_id == "sluice":
 		if interactables.has(side_target_id):
@@ -1284,3 +1330,13 @@ func _ellipse_arc(center: Vector2, radii: Vector2, color: Color) -> void:
 		var angle := i * TAU / 32.0
 		points.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
 	draw_polyline(points, color, 1, true)
+
+func _follow_heting_companion(desired: Vector2, delta: float) -> void:
+	var target := Heting.safe_companion_position(player_pos, desired, heting_bridge)
+	var next := companion_pos.lerp(target, clampf(delta * 4.2, 0.0, 1.0))
+	# Legal endpoints alone do not make a legal segment around the basin or a
+	# warehouse corner. If interrupted, sync to the player's safe position.
+	if Heting.can_step(companion_pos, next, heting_bridge, false):
+		companion_pos = next
+	else:
+		companion_pos = Heting.repaired_position(player_pos, heting_bridge, false)
