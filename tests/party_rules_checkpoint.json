@@ -1,0 +1,51 @@
+{
+  "base_commit": "d3c25b38e3f907c7dc82d1021a4cd1e18090e046",
+  "scope": "Unwired actor-based party combat and schema12 planning modules. Existing main/state/save format11 and live website are unchanged.",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "focused": {
+    "party_checks": 967,
+    "optional_earned_fixture_checks": 6,
+    "roster_plan_checks": 500,
+    "independent_audit_checks": 292,
+    "prior_legacy_receipt_checks": 476,
+    "prior_advanced_martial_checks": 1245
+  },
+  "independent_log_sha256": "d1316af00cbbcfd070722eb426ef222119dc255ec44d3b99f7f3b189e91553e0",
+  "independent_manifest": {
+    "root": "/tmp/hero-party-independent-audit-a6apuv_a",
+    "returncode": 0,
+    "before": {
+      "scripts/party_actor_catalog.gd": "6764c15cac789c441ea1fcc08b854c765f9a5cb10e71121e82adfe3d06bdeccd",
+      "scripts/party_combat_rules.gd": "8a042ff5b8a124ed6094b4593c009f6e276743df4a9c039d048e9bdf8c27c3df",
+      "scripts/party_roster_rules.gd": "5a88451b7e668754dc8afffd6aa4960f9ae81760fdacb0020be6b30abb99ae8c"
+    },
+    "after": {
+      "scripts/party_actor_catalog.gd": "6764c15cac789c441ea1fcc08b854c765f9a5cb10e71121e82adfe3d06bdeccd",
+      "scripts/party_combat_rules.gd": "8a042ff5b8a124ed6094b4593c009f6e276743df4a9c039d048e9bdf8c27c3df",
+      "scripts/party_roster_rules.gd": "5a88451b7e668754dc8afffd6aa4960f9ae81760fdacb0020be6b30abb99ae8c"
+    },
+    "core_unchanged": true
+  },
+  "editor_import_sha256": "37ab806af42571449f23827b528aa1c67829775c56d80db8833b98d5b66c06ef",
+  "runtime_sha256": {
+    "scripts/party_actor_catalog.gd": "6764c15cac789c441ea1fcc08b854c765f9a5cb10e71121e82adfe3d06bdeccd",
+    "scripts/party_combat_rules.gd": "8a042ff5b8a124ed6094b4593c009f6e276743df4a9c039d048e9bdf8c27c3df",
+    "scripts/party_roster_rules.gd": "5a88451b7e668754dc8afffd6aa4960f9ae81760fdacb0020be6b30abb99ae8c"
+  },
+  "fixtures": {
+    "tests/fixtures/party_actors/earned_level5_protect_rear.json": "4ef3a12b1ed47b232492526df2daaa95ea24f7d0ff35777782c64bd28a3433f1",
+    "tests/fixtures/party_actors/earned_level5_side_by_side.json": "ee92682dd444c6d6bee24ded7b30a50653b28ab546a7f5f75699ff7d096b5fb1",
+    "tests/fixtures/party_actors/provenance_protect_rear.json": "2706e534f4b3ed2a7ffa3d53c25a0d76ced118d2109b54791bb47e10f7e3af0c",
+    "tests/fixtures/party_actors/provenance_side_by_side.json": "788faa8816b70df84acd5254fef20896672b35c8108e9c503ba3f11d4258abdc"
+  },
+  "natural_coverage": "Fresh opening solo/two-person cases; earned 听潮阁 level5 route through Tang recruitment, followed by three-person receipt victory in4 rounds for both formations. All ten hero arts and rank thresholds separately exercised. No full fresh party-based campaign claim.",
+  "review_fixes": [
+    "Selected healing detail reports capped recovery and maximum",
+    "Defeated enemies and ended encounters no longer mark actors exposed",
+    "Proficiency events report actual delta0 at9999 cap",
+    "Stable formation row is distinct from announced exposed targets"
+  ],
+  "save_limits": "Pure plans only; no production schema bump, no old-reader compatibility claim, no disk/quest/reward mutation. Caller must settle terminal resources before XP and enforce epoch/replay and atomic file-save gates.",
+  "baseline_full_suite": "Existing wired gameplay retains d3c25b3 full97Godot+58Python basis; new complete aggregate runner not yet rerun.",
+  "tuning": "Companion balance provisional; model exposes real chosen actions and no legacy automatic assists."
+}
