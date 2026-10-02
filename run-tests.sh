@@ -69,6 +69,7 @@ run_checked --headless --path . --script tests/heting_rules_test.gd
 run_checked --headless --path . --script tests/heting_geometry_test.gd
 run_checked --headless --path . --script tests/heting_material_test.gd
 run_checked --headless --path . --script tests/world_material_tiles_test.gd
+run_checked --headless --path . --script tests/heting_machinery_test.gd
 run_checked --headless --path . --script tests/heting_world_test.gd
 run_checked --headless --path . --script tests/audit_heting_scene_test.gd
 run_checked --headless --path . --script tests/audit_heting_current_test.gd

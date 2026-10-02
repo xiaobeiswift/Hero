@@ -69,3 +69,7 @@
 ### 唐栖交锋支援（2026-10-01）
 
 项目原创唐栖探索方向图为唯一身份参考，生成四个短尺支援关键姿态，Blender按共同尺度与脚底整理。来源、提示、摘要、像素检查和真实回气/减伤表现范围见 assets/generated/characters/PAINTED_COMBAT_TANG_PROVENANCE.md。
+
+### 鹤汀埠港务器物（2026-10-02）
+
+本项目村景与已绘制港池为风格参考，独立生成绞缆机、木吊机、粮车、麻袋、满/空粮筐与封口货篓。原始透明图只作裁切、等比缩放和紧凑排版；引擎缓存七处裁切并保留脚底、长宽比例和人物遮挡淡化。完整提示、来源摘要和处理范围见 assets/generated/environment/HETING_MACHINERY_PROVENANCE.md。
