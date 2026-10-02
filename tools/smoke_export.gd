@@ -1530,7 +1530,7 @@ func _v18_prerequisites() -> bool:
 	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.18", "V18 project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 10, "V18 save schema10 is required")
-	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles"]:
+	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
 		_check(ResourceLoader.exists("res://assets/generated/environment/" + asset + ".png"), "V18 painted asset retained: " + asset)
@@ -1603,6 +1603,16 @@ func _test_heting_pack() -> void:
 		_press("拟作短渡分粮" if plan == "short_ferries" else "拟作守秤留粮"); await _key(KEY_ESCAPE)
 		await _heting_open("heting_lighter"); _press("押待分粮")
 		_check(s.heting_stage == 3 and s.heting_draft == plan and s.heting_ending.is_empty(), "Packed loaded final batch does not lock the draft")
+		game._show_map(); await process_frame
+		var loaded_chart=game.overlay.find_child("RegionChart",true,false)
+		var route:PackedVector2Array=loaded_chart.cart_route
+		_check(loaded_chart.heting_cargo=="reserve" and route.size()>1 and route[0]==game.world.player_pos and route[-1]==loaded_chart.markers[loaded_chart.current_target].pos, "Packed loaded chart guides the actual cart to its intended receiver")
+		var safe:bool=not route.is_empty()
+		for i in range(1,route.size()):
+			if not region.can_step(route[i-1],route[i],s.heting_bridge,true):safe=false
+		_check(safe,"Packed map route never crosses unavailable water or pedestrian-only pier")
+		await _key(KEY_1)
+		_check(not game.active_modal and s.heting_cargo=="reserve", "Packed route map keeps numeric close and loaded cargo")
 		game.world.teleport(Vector2(820,665)); game._save()
 		var saved: Dictionary = s.to_dict()
 		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
