@@ -1,0 +1,67 @@
+{
+  "base_commit": "951447c1da0c1715d8ef2f44838e5b7e4c3f1eee",
+  "scope": "Original Pu Heng opening/repeat presentation adapter only; other opponents retain legacy rendering; unchanged model/schema11",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "full_source": {
+    "exit_code": 0,
+    "godot_commands": 97,
+    "python_tests": 58,
+    "pass_summaries": 95,
+    "error_lines": 0,
+    "log_sha256": "ddb300205106dbd131a18d9427e87d3af5b7ecaa69089d291ca617eb8a176eff"
+  },
+  "focused": {
+    "adapter_checks": 3032,
+    "adapter_draw_frames": 360,
+    "controller_hud_checks": 285,
+    "retained_legacy_presentation_checks": 60,
+    "retained_hud_checks": 57
+  },
+  "native": {
+    "capture_driver": "tests/visual_opening_formation.gd",
+    "driver_sha256": "3c5c3cd863461397f05cb14f3ac02b94241027ba8f2f75cb80c361a12b48042a",
+    "log_sha256": "78fd61a5417faa47bcf5c1078e7605b80eb9a24cd00505902ad5ad852d524879",
+    "renderer": "Compatibility OpenGL, Mesa llvmpipe, DummyAudio",
+    "scope": "Prepared quest-stage-three level-one state; real E/dialogue/numeric input; six native renders, not manual/browser/audio/FPS acceptance",
+    "note": "Final art/layout captured after inherited clip and bar-minimum fixes; later hover-filter-only correction is independently covered by controller tests and does not change these stills",
+    "files": {
+      "screenshots/292-opening-formation-solo-ready.png": {
+        "bytes": 1475772,
+        "sha256": "b949a9bed8abf7fb95b4809d9684a4af3c14314e7efa9da6cd50015508b87f6e"
+      },
+      "screenshots/293-opening-formation-sword-contact.png": {
+        "bytes": 1485410,
+        "sha256": "d4d3365ec3948e87408ab146dc68e5c041167074fd4e85011cabe0ed4b54a987"
+      },
+      "screenshots/294-opening-formation-counter-contact.png": {
+        "bytes": 1491410,
+        "sha256": "41574e81c265d5ccd6d98c610a9632574548ec6ca67101d345da02c02e2352e0"
+      },
+      "screenshots/295-opening-formation-shen-cover.png": {
+        "bytes": 1484725,
+        "sha256": "29d4e290b7f7701291425dd39dc58d558ea9db3d329b912fe6238e9419030fd4"
+      },
+      "screenshots/296-opening-formation-compact-pair.png": {
+        "bytes": 1296963,
+        "sha256": "b419cd89dac83fe98df05db07a31d6fd9afc8ae4c723862b7f0ae58f934d76a3"
+      },
+      "screenshots/297-opening-formation-other-opponent-fallback.png": {
+        "bytes": 1068257,
+        "sha256": "2df952d4c1a10e36938fa357b70ced4ff3be651db5a9bdc2ea1a36662a39f9ce"
+      }
+    }
+  },
+  "review": "Independent read-only review found inaccessible long-log tooltip; corrected mouse filters and added assertions. No other blocking source finding.",
+  "earlier_failure": {
+    "cause": "Unchanged zoom-test assertion still expected old 1280/938 stage scaling. Updated to native-scale formation mode while retaining zoom-lock/state assertions. Final full runner restarted and passed.",
+    "log_sha256": "3f3818d30f576cd6464bb4f1e43d48e39866ee08ef526c79e5d26280ddabb731"
+  },
+  "runtime_sha256": {
+    "scripts/main.gd": "7da6a5dce412e7d008b90c1c8250477e1746acd0a0209a7e584e45385a03da19",
+    "scripts/game_hud.gd": "b4fd0f8d51ec8394f1484045351196a06f4397206b791d9c8c5d957be1962bb0",
+    "scripts/opening_duel_formation_art.gd": "ff0f21ff74ad362337c88ae95584083de5deddb5e4dc098af06b7dbb06291aba",
+    "scripts/opening_duel_formation_stage.gd": "c9fd785218f14897bd4f86b6808c9c1b4240d9a7c02e5f5e765835c4c70b1813",
+    "scripts/opening_duel_hud.gd": "c2de050bb35c77b57c025e9c9595e0adfdb4fc500adc8ada97c78c5a969ff8c4"
+  },
+  "publication": "Source-only; Web rollout held for coherent action/phase UI redesign requested by user; no package created"
+}

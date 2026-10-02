@@ -63,7 +63,7 @@ func run()->void:
 	app._start_battle("training");app._process(0)
 	check(not app.hud.exploration.visible and app.battle_layer.visible,"Combat gets a dedicated uncluttered HUD")
 	check(not app.world.visible,"Opaque battle keeps exploration renderer hidden")
-	check(app.battle_art.scale.x>1.3,"Battle stage fills the new screen width")
+	check(app.battle_art.scale==Vector2.ONE and app.hud.duel_hud.active,"Opening formation stage fills the logical viewport without double scaling")
 	check(app.battle_hp.size.x>=282 and app.battle_player_hp.size.x>=282,"Legacy bar deferral cannot shrink reflowed health bars")
 	app.battle_player_hp.max_value=180;app.battle_player_hp.value=37.25
 	check(app.hud.battle_player_value.text=="气血  37 / 180","Player numeric health follows the presented bar and its maximum")
