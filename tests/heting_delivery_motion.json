@@ -1,0 +1,140 @@
+{
+  "source_commit": "c9ab787e28fbfd3e35de3796b48db927b2f4ff4b",
+  "driver_sha256": "31f5cbb57408cad998597f48e54d36924cafd0711b65cf8c518ba7b268aaf683",
+  "source_manifest_sha256": "9bf4f5f56496e59ddb8bee0a3bf2954b7936afc7076826cb6315c01fb3df5cab",
+  "scope": "prepared source state, actual scripted E/number and held movement input, fixed-step movie; not manual play, FPS measurement or desktop release",
+  "capture": {
+    "exit_code": 0,
+    "raw_bytes": 48576528,
+    "raw_sha256": "9b579db0cd3b02c87d14d70265feb45c2db86e10a83e85b580f4f66eb28e8a3a",
+    "minimum_free_bytes": 723734528,
+    "source_unchanged": true
+  },
+  "video": {
+    "filename": "Hero-c9ab787-heting-delivery.mp4",
+    "sha256": "95c6b258b6eb32fc0e52a1d0e51b2f901ae1805bb89922360b87c318fa1ff08e",
+    "format": {
+      "duration": "10.700000",
+      "size": "7771826"
+    },
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 800,
+        "r_frame_rate": "30/1",
+        "nb_frames": "321"
+      }
+    ],
+    "silent": true
+  },
+  "input": {
+    "checks": 707,
+    "failures": [],
+    "distance_walked": 961.999572753906,
+    "simulated_seconds": 10.4916666666666,
+    "trace": [
+      {
+        "bridge": "west",
+        "cargo": "",
+        "delivered": [],
+        "position": "(665.0, 620.0)",
+        "stage": 0,
+        "time": 0.625
+      },
+      {
+        "bridge": "west",
+        "cargo": "",
+        "delivered": [],
+        "position": "(665.0, 620.0)",
+        "stage": 1,
+        "time": 1.65833333333334
+      },
+      {
+        "bridge": "west",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(665.0, 731.0004)",
+        "stage": 2,
+        "time": 2.39166666666667
+      },
+      {
+        "bridge": "west",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(813.0005, 731.0004)",
+        "stage": 3,
+        "time": 3.225
+      },
+      {
+        "bridge": "west",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(813.0005, 731.0004)",
+        "stage": 4,
+        "time": 4.25833333333333
+      },
+      {
+        "bridge": "east",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(1127.5, 731.0004)",
+        "stage": 5,
+        "time": 6.09166666666666
+      },
+      {
+        "bridge": "east",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(1386.499, 731.0004)",
+        "stage": 6,
+        "time": 7.52499999999998
+      },
+      {
+        "bridge": "east",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(1386.499, 601.4999)",
+        "stage": 7,
+        "time": 8.25833333333332
+      },
+      {
+        "bridge": "east",
+        "cargo": "sealed",
+        "delivered": [],
+        "position": "(1386.499, 601.4999)",
+        "stage": 8,
+        "time": 9.29166666666664
+      }
+    ],
+    "final_delivery": [
+      "sealed"
+    ],
+    "final_cargo": ""
+  },
+  "inspected_frames": [
+    {
+      "time": 1.1,
+      "sha256": "83274298df6ffd0b0923ead17fa938e73c4bc0485567c276d6669094ce11fb42"
+    },
+    {
+      "time": 4.7,
+      "sha256": "d6c2028b75428e880bc594f53c7ca42abb68f515af736d87468045b3283d8a9d"
+    },
+    {
+      "time": 6.6,
+      "sha256": "55ea3ef002a44b4fdb39397bd2e26593f190afe165c8737d5366ec38c8315a48"
+    },
+    {
+      "time": 10.0,
+      "sha256": "49c0df88270f82760769f223e6fe67110572698864118e044d5c7fdae0a0e1cf"
+    }
+  ],
+  "limits": [
+    "Prepared story state, not continuous new-game playthrough",
+    "Scripted actual E/number/held movement; fixed-step recording is not a real-time FPS measurement",
+    "No new exported desktop build or native Windows/macOS test",
+    "No audio listening; compressed preview contains no audio stream"
+  ]
+}
