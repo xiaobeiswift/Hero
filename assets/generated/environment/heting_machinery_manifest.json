@@ -1,0 +1,280 @@
+{
+  "atlas": "heting_machinery_atlas.png",
+  "dimensions": [
+    1024,
+    512
+  ],
+  "mode": "RGBA",
+  "anchor_convention": "Each anchor is local to its source_rect, in pixels from top-left. Draw top-left = world_foot - anchor * draw_size / rect_size.",
+  "runtime_processing": "Crop, proportional Lanczos resample to maximum 244 pixels, then pack. Original generated alpha preserved; no thresholding, repainting or background removal.",
+  "filtering": "linear; no mipmaps required for these small fixed-size props",
+  "sprites": {
+    "rope_winch": {
+      "source_rect_xywh": [
+        6,
+        36,
+        244,
+        183
+      ],
+      "ground_anchor_xy": [
+        120.016,
+        159.754
+      ],
+      "suggested_draw_size_xy": [
+        104,
+        65
+      ],
+      "suggested_draw_offset_xy": [
+        -51.154,
+        -56.743
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        26,
+        155,
+        492,
+        370
+      ],
+      "original_ground_anchor_local_xy": [
+        242,
+        323
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        484,
+        362
+      ]
+    },
+    "timber_crane": {
+      "source_rect_xywh": [
+        270,
+        6,
+        228,
+        244
+      ],
+      "ground_anchor_xy": [
+        77.9,
+        217.365
+      ],
+      "suggested_draw_size_xy": [
+        120,
+        110
+      ],
+      "suggested_draw_offset_xy": [
+        -41.0,
+        -97.992
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        534,
+        8,
+        480,
+        513
+      ],
+      "original_ground_anchor_local_xy": [
+        164,
+        457
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        472,
+        505
+      ],
+      "notes": "Anchor is at the mast foot, left of sprite center, so the jib and hook reach right."
+    },
+    "loaded_grain_cart": {
+      "source_rect_xywh": [
+        518,
+        27,
+        244,
+        201
+      ],
+      "ground_anchor_xy": [
+        125.82,
+        190.797
+      ],
+      "suggested_draw_size_xy": [
+        32,
+        38
+      ],
+      "suggested_draw_offset_xy": [
+        -16.501,
+        -36.071
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        1043,
+        96,
+        479,
+        394
+      ],
+      "original_ground_anchor_local_xy": [
+        247,
+        374
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        471,
+        386
+      ],
+      "alternate_preserve_aspect_draw_size_xy": [
+        32,
+        26.322
+      ],
+      "notes": "Default 32x38 matches the requested narrow-pontoon cart envelope; preserve-aspect alternate is 32x26.32. Root is lower wheel ground line; builder owns occlusion/collision."
+    },
+    "sack_stack": {
+      "source_rect_xywh": [
+        774,
+        35,
+        244,
+        186
+      ],
+      "ground_anchor_xy": [
+        124.132,
+        171.765
+      ],
+      "suggested_draw_size_xy": [
+        30,
+        26
+      ],
+      "suggested_draw_offset_xy": [
+        -15.262,
+        -24.01
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        12,
+        583,
+        515,
+        392
+      ],
+      "original_ground_anchor_local_xy": [
+        262,
+        362
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        507,
+        384
+      ]
+    },
+    "grain_basket_full": {
+      "source_rect_xywh": [
+        6,
+        279,
+        244,
+        210
+      ],
+      "ground_anchor_xy": [
+        123.537,
+        195.836
+      ],
+      "suggested_draw_size_xy": [
+        30,
+        26
+      ],
+      "suggested_draw_offset_xy": [
+        -15.189,
+        -24.246
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        568,
+        613,
+        397,
+        341
+      ],
+      "original_ground_anchor_local_xy": [
+        201,
+        318
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        389,
+        333
+      ]
+    },
+    "grain_basket_empty": {
+      "source_rect_xywh": [
+        262,
+        277,
+        244,
+        214
+      ],
+      "ground_anchor_xy": [
+        122.0,
+        206.988
+      ],
+      "suggested_draw_size_xy": [
+        30,
+        26
+      ],
+      "suggested_draw_offset_xy": [
+        -15.0,
+        -25.148
+      ],
+      "original_source": "../source/heting_empty_basket_source.png",
+      "original_source_rect_xywh": [
+        192,
+        286,
+        870,
+        763
+      ],
+      "original_ground_anchor_local_xy": [
+        435,
+        738
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        862,
+        755
+      ]
+    },
+    "cargo_hampers_sealed": {
+      "source_rect_xywh": [
+        518,
+        273,
+        244,
+        221
+      ],
+      "ground_anchor_xy": [
+        126.136,
+        205.473
+      ],
+      "suggested_draw_size_xy": [
+        30,
+        26
+      ],
+      "suggested_draw_offset_xy": [
+        -15.509,
+        -24.173
+      ],
+      "original_source": "../source/heting_machinery_source.png",
+      "original_source_rect_xywh": [
+        1036,
+        552,
+        472,
+        427
+      ],
+      "original_ground_anchor_local_xy": [
+        244,
+        397
+      ],
+      "visible_original_bounds_alpha_gt_16": [
+        8,
+        8,
+        464,
+        419
+      ]
+    }
+  },
+  "file_bytes": 628462,
+  "sha256": "d9ed127110dc0405432dc4f44507a1ae6f835d930b5eaba2ba6178cc1c31e7a1"
+}
