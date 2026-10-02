@@ -1,0 +1,29 @@
+{
+  "base": "7968542b306d2effdbd84ee067f14d77e5846635",
+  "scope": "Unintegrated native layout preview only; existing gameplay and saves unchanged",
+  "checks": 52,
+  "captures": {
+    "screenshots/281-formation-guard-rear-study.png": {
+      "bytes": 1594095,
+      "sha256": "7dd04d3648e7026957024d7e5ef60d702fdeca1526bd2a95fd1eeb676078231f"
+    },
+    "screenshots/282-formation-side-support-study.png": {
+      "bytes": 1591201,
+      "sha256": "395d6233f3443c65d52e45f412ea541b8133be59ff18b741dcf2051b22fcd3af"
+    }
+  },
+  "renderer": "Godot4.6.3 OpenGL Compatibility / Mesa llvmpipe; DummyAudio",
+  "changes": [
+    "65px encounter header",
+    "Perspective original dock with front/rear feet",
+    "Existing side/protect formations have different original character locations",
+    "Names and actual HP above original alpha silhouettes",
+    "Compact selected-target details and bottom commands"
+  ],
+  "limits": [
+    "Buttons are inert in this composition study",
+    "No integrated movement, input or battle outcome validation",
+    "No browser or deployment claim"
+  ],
+  "attempt1": "Capture fixture used nonexistent reset method; corrected to reset_game before final captures; actual game unchanged"
+}
