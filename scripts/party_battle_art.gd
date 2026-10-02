@@ -14,9 +14,7 @@ const Qin = preload("res://scripts/painted_battle_qin.gd")
 const Rival = preload("res://scripts/painted_battle_puheng.gd")
 const Rigs = preload("res://scripts/courtyard_training_rigs.gd")
 const RIG_SCALE = 1.35
-const Backdrop = preload("res://scripts/ferry_battle_backdrop.gd")
-const Lantern = preload("res://scripts/painted_lantern_post.gd")
-const WOOD = preload("res://assets/generated/environment/qingwei_deck_wood.png")
+const Scenery = preload("res://scripts/party_battle_backdrop.gd")
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
 const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "sect_trial"]
 const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0}
@@ -69,6 +67,9 @@ var selected_id: String:
 		if _presenting: return String(_current_segment().get("target_id", ""))
 		return String(_display.get("selected_target_id", ""))
 	set(_value): pass
+var backdrop_style: String:
+	get: return Scenery.style_for(String(_display.get("encounter_id", "")))
+	set(_value): pass
 var formation: String:
 	get: return String(_display.get("formation", "护后"))
 	set(_value): pass
@@ -93,7 +94,7 @@ func _ready() -> void:
 		for pose: String in atlas.POSES: atlas.texture_for(pose)
 	for pose: String in Qin.SOURCE_RECTS: Qin.texture_for(pose)
 	Rigs.texture_for("timber"); Rigs.texture_for("hemp")
-	Backdrop.texture()
+	Scenery.prepare()
 
 func set_snapshot(snapshot: Dictionary) -> void:
 	if _presenting or not _valid_snapshot(snapshot): return
@@ -585,15 +586,7 @@ func _make_floor() -> ArrayMesh:
 	var mesh = ArrayMesh.new(); mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays); return mesh
 
 func _draw() -> void:
-	draw_rect(Rect2(0,0,1280,685),Color("10272a"))
-	var background = Backdrop.texture()
-	if background: draw_texture_rect(background,Rect2(0,-25,1280,486),false,Color(.83,.92,.94))
-	if _floor: draw_mesh(_floor,WOOD)
-	draw_line(ground_point(0,0),ground_point(1,0),Color("4a5046"),13,true)
-	draw_line(ground_point(0,0)+Vector2(0,3),ground_point(1,0)+Vector2(0,3),Color("92927a"),2,true)
-	for y: float in [.32,.68]: draw_line(ground_point(0,y),ground_point(1,y),Color(.05,.12,.13,.25),2,true)
-	for foot: Vector2 in [Vector2(115,337),Vector2(1165,337)]:
-		draw_set_transform(foot,0,Vector2.ONE*2.05); Lantern.draw(self,Vector2.ZERO,_clock); draw_set_transform(Vector2.ZERO)
+	Scenery.draw(self, _floor, String(_display.get("encounter_id", "")), _clock)
 	var ids: Array[String] = actor_order()
 	# Every shadow/ring is below every body; actual moving Y controls occlusion.
 	for id: String in ids:
