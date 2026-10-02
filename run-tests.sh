@@ -17,10 +17,35 @@ run_checked() {
   fi
 }
 run_checked --headless --path . --editor --import --quit
+# Retired controller contracts are preserved and explicitly mapped to current
+# coverage; no failed safety assertion is silently omitted.
+python3 - <<'PYMANIFEST'
+import hashlib
+import json
+from pathlib import Path
+manifest = json.loads(Path("tests/regression_migration_manifest.json").read_text())
+print("Current automatic-combat regression suite; historical controller evidence:")
+for item in manifest["historical_controllers"]:
+    assert Path(item["path"]).is_file(), item["path"]
+    assert hashlib.sha256(Path(item["path"]).read_bytes()).hexdigest() == item["sha256"], item["path"] + " historical source changed"
+    for replacement in item["current_replacements"]:
+        assert Path(replacement).is_file(), replacement
+    print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
+PYMANIFEST
 run_checked --headless --path . --script tests/automatic_party_combat_test.gd
+run_checked --headless --path . --script tests/automatic_party_battle_art_test.gd
+run_checked --headless --path . --script tests/unified_encounter_state_test.gd
+run_checked --headless --path . --script tests/unified_combat_ui_test.gd
+run_checked --headless --path . --script tests/unified_practice_lifecycle_test.gd
+run_checked --headless --path . --script tests/unified_terminal_close_test.gd
+run_checked --headless --path . --script tests/automatic_combat_balance_test.gd
+run_checked --headless --path . --script tests/automatic_trial_balance_test.gd
+run_checked --headless --path . --script tests/category_status_badges_test.gd
 run_checked --headless --path . --script tests/combat_skill_catalog_test.gd
 run_checked --headless --path . --script tests/combat_learning_schema_test.gd
 run_checked --headless --path . --script tests/combat_learning_ui_test.gd
+# Retained direct legacy model/rules tests below are compatibility coverage.
+# Actual current gameplay is established by automatic/unified suites above.
 run_checked --headless --path . --script tests/state_test.gd
 run_checked --headless --path . --script tests/party_combat_rules_test.gd
 run_checked --headless --path . --script tests/party_roster_rules_test.gd
@@ -28,12 +53,9 @@ run_checked --headless --path . --script tests/party_state_integration_test.gd
 run_checked --headless --path . --script tests/party_sluice_rules_test.gd
 run_checked --headless --path . --script tests/party_sluice_state_test.gd
 run_checked --headless --path . --script tests/party_archive_state_test.gd
-run_checked --headless --path . --script tests/party_archive_ui_test.gd
 run_checked --headless --path . --script tests/party_two_person_formation_test.gd
 run_checked --headless --path . --script tests/party_sluice_art_test.gd
-run_checked --headless --path . --script tests/party_sluice_ui_test.gd
 run_checked --headless --path . --script tests/party_battle_art_test.gd
-run_checked --headless --path . --script tests/party_battle_ui_test.gd
 run_checked --headless --path . --script tests/party_roster_ui_test.gd
 run_checked --headless --path . --script tests/qin_companion_scene_test.gd
 run_checked --headless --path . --script tests/audit_party_model_test.gd
@@ -43,14 +65,10 @@ run_checked --headless --path . --script tests/heting_receipt_combat_test.gd
 run_checked --headless --path . --script tests/heting_receipt_art_test.gd
 run_checked --headless --path . --script tests/formation_layout_test.gd
 run_checked --headless --path . --script tests/formation_motion_test.gd
-run_checked --headless --path . --script tests/formation_ui_layout_test.gd
 run_checked --headless --path . --script tests/opening_duel_formation_test.gd
-run_checked --headless --path . --script tests/opening_duel_ui_test.gd
 run_checked --headless --path . --script tests/heting_receipt_story_test.gd
-run_checked --headless --path . --script tests/audit_receipt_ui_test.gd
 run_checked --headless --path . --script tests/courtyard_rig_art_test.gd
 run_checked --headless --path . --script tests/courtyard_practice_art_test.gd
-run_checked --headless --path . --script tests/courtyard_practice_ui_test.gd
 run_checked --headless --path . --script tests/browser_runtime_ui_test.gd
 run_checked --headless --path . --script tests/audit_progression_test.gd
 
@@ -111,7 +129,6 @@ run_checked --headless --path . --script tests/audit_heting_current_test.gd
 
 run_checked --headless --path . --script tests/environment_visual_test.gd
 run_checked --headless --path . --script tests/battle_choreography_test.gd
-run_checked --headless --path . --script tests/battle_presentation_ui_test.gd
 
 run_checked --headless --path . --script tests/painted_traveler_asset_test.gd
 
@@ -140,7 +157,6 @@ run_checked --headless --path . --script tests/pause_menu_test.gd
 
 run_checked --headless --path . --script tests/companion_feedback_test.gd
 run_checked --headless --path . --script tests/painted_shen_combat_test.gd
-run_checked --headless --path . --script tests/shen_support_presentation_test.gd
 
 run_checked --headless --path . --script tests/water_material_test.gd
 run_checked --headless --path . --script tests/ferry_props_test.gd
@@ -168,7 +184,6 @@ run_checked --headless --path . --script tests/dialogue_sheet_test.gd
 
 run_checked --headless --path . --script tests/painted_tang_walk_test.gd
 
-run_checked --headless --path . --script tests/tang_support_presentation_test.gd
 
 run_checked --headless --path . --script tests/view_detail_test.gd
 

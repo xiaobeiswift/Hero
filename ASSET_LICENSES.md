@@ -82,3 +82,8 @@
 ### 四人队伍界面与秦禾（2026-10-02）
 
 秦禾六种持杖战斗姿态以本项目原有秦禾头像作为身份参考独立生成，按实际透明边界、脚底和兵刃锚点裁切，未使用其他游戏角色图像。来源与完整提示见 `assets/generated/characters/PAINTED_COMBAT_QIN_PROVENANCE.md`。三份原创绘制招式图集位于 `assets/ui/`，来源与提示见 `PARTY_COMMAND_PROVENANCE.md`。界面布局采用常见角色分组与资源提示方式，图像、边框和代码均来自本项目；探索中的秦禾目前使用闲置姿态，并非已完成的四向行走动画。
+
+
+## 三类技能新图标（2026-10-02）
+
+`assets/ui/internal_lightness_painted_atlas.png` 为本项目独立生成的八格内功/轻功图标，使用已归属本项目的图标图集统一笔触，没有采用其他游戏图像。具体原始生成提示、逐格实际技能映射、原图尺寸及SHA256见 `assets/ui/INTERNAL_LIGHTNESS_PROVENANCE.md`。图集没有增加或暗示技能定义以外的效果。
