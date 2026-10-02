@@ -21,6 +21,8 @@ run_checked --headless --path . --script tests/state_test.gd
 run_checked --headless --path . --script tests/party_combat_rules_test.gd
 run_checked --headless --path . --script tests/party_roster_rules_test.gd
 run_checked --headless --path . --script tests/party_state_integration_test.gd
+run_checked --headless --path . --script tests/party_sluice_rules_test.gd
+run_checked --headless --path . --script tests/party_sluice_state_test.gd
 run_checked --headless --path . --script tests/party_battle_art_test.gd
 run_checked --headless --path . --script tests/party_battle_ui_test.gd
 run_checked --headless --path . --script tests/party_roster_ui_test.gd
