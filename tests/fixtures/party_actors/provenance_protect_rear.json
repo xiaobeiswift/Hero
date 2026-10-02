@@ -1,0 +1,28 @@
+{
+	"earned_route": "Actual opening elder/herb/healer recruitment and battle; 听潮阁 choice; earned sword purchase and sect trial; sluice route; archive clues/seals/boss/resolution; timber bridge repair; Tang notes/teach/recruit dialogue",
+	"fixture": "earned_level5_protect_rear.json",
+	"fixture_sha256": "4ef3a12b1ed47b232492526df2daaa95ea24f7d0ff35777782c64bd28a3433f1",
+	"formation": "护后",
+	"generated_at_utc": "2026-10-02T15:49:14",
+	"level": 5,
+	"proof": {
+		"encounter_id": "heting_receipt",
+		"medicine_remaining": 7,
+		"outcome": "win",
+		"rounds": 4
+	},
+	"reload_note": "Godot JSON parses numbers as float. Recursively convert finite integral numeric values to int before PartyCombatRules.configure(team, 'heting_receipt'). Do not change stats or resources.",
+	"selected_actor_ids": [
+		"hero",
+		"shen",
+		"tang"
+	],
+	"source": "Generated JourneyState from a fresh game; no player save/profile data",
+	"source_sha256": {
+		"scripts/game_state.gd": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+		"scripts/main.gd": "7da6a5dce412e7d008b90c1c8250477e1746acd0a0209a7e584e45385a03da19",
+		"scripts/party_actor_catalog.gd": "6764c15cac789c441ea1fcc08b854c765f9a5cb10e71121e82adfe3d06bdeccd",
+		"scripts/party_combat_rules.gd": "8a042ff5b8a124ed6094b4593c009f6e276743df4a9c039d048e9bdf8c27c3df",
+		"tests/party_combat_rules_test.gd": "1f54906317148759fcf204acdb13f36946fcefe577df68313d46f9d4bca5193a"
+	}
+}

@@ -1,0 +1,306 @@
+{
+	"actors": [
+		{
+			"acted": false,
+			"actions": [
+				{
+					"category": "attack",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "攻击一名敌人，回复2真气；消耗已有蓄锋。",
+					"effects": {
+
+					},
+					"id": "attack",
+					"name": "平击",
+					"target_team": "enemy"
+				},
+				{
+					"category": "martial",
+					"cooldown": 3,
+					"cost": 4,
+					"description": "借回潮之势连斩断浪，以更深的调息换取凌厉一击。",
+					"effects": {
+						"attack_multiplier": 2,
+						"cooldown": 3,
+						"cost": 4,
+						"damage_bonus": 16,
+						"description": "借回潮之势连斩断浪，以更深的调息换取凌厉一击。",
+						"focus_attack_multiplier": 0,
+						"focus_bonus": 0,
+						"guard": false,
+						"healing": 0,
+						"id": "回潮断浪",
+						"learn_cost": 0,
+						"name": "回潮断浪",
+						"required_sect_rank": 1,
+						"sect": "听潮阁",
+						"style": "强攻",
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"id": "art:回潮断浪",
+					"name": "回潮断浪",
+					"target_team": "enemy"
+				},
+				{
+					"category": "guard",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "回复1真气；本轮受到的每次伤害乘三成，向上取整且至少1点。",
+					"effects": {
+
+					},
+					"id": "guard",
+					"name": "守势",
+					"target_team": "self"
+				},
+				{
+					"category": "item",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "消耗共享行囊的一份回春散，治疗当前行动角色；不能救起倒下的角色。",
+					"effects": {
+
+					},
+					"id": "item",
+					"name": "回春散",
+					"target_team": "self"
+				},
+				{
+					"category": "flee",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "全队立即退离，不再受本轮反击；已使用资源不返还，无战胜奖励。",
+					"effects": {
+
+					},
+					"id": "flee",
+					"name": "退避",
+					"target_team": "none"
+				}
+			],
+			"armor": "粗布行衣",
+			"art_rank": 2,
+			"art_uses": {
+				"回潮断浪": 5,
+				"照夜一线": 1
+			},
+			"attack": 36,
+			"care_defense_bonus": 0,
+			"care_healing_bonus": 0,
+			"cooldowns": {
+				"art:回潮断浪": 0
+			},
+			"defense": 9,
+			"equipment": "青钢剑",
+			"equipped_art": "回潮断浪",
+			"hp": 148,
+			"id": "hero",
+			"max_hp": 148,
+			"max_qi": 7,
+			"name": "无名客",
+			"qi": 7,
+			"sect": "听潮阁",
+			"status": {
+				"focused_damage": 0,
+				"guard": false,
+				"weaken_amount": 0,
+				"weaken_strikes": 0
+			},
+			"team": "ally"
+		},
+		{
+			"acted": false,
+			"actions": [
+				{
+					"category": "attack",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "攻击一名敌人，回复2真气；消耗已有蓄锋。",
+					"effects": {
+
+					},
+					"id": "attack",
+					"name": "银针点穴",
+					"target_team": "enemy"
+				},
+				{
+					"category": "martial",
+					"cooldown": 2,
+					"cost": 3,
+					"description": "为一名仍站立的队友恢复28气血；不能救起倒下的角色。",
+					"effects": {
+						"healing": 28
+					},
+					"id": "art:shen_xumai",
+					"name": "青灯渡脉",
+					"target_team": "ally"
+				},
+				{
+					"category": "guard",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "回复1真气；本轮受到的每次伤害乘三成，向上取整且至少1点。",
+					"effects": {
+
+					},
+					"id": "guard",
+					"name": "守势",
+					"target_team": "self"
+				},
+				{
+					"category": "item",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "消耗共享行囊的一份回春散，治疗当前行动角色；不能救起倒下的角色。",
+					"effects": {
+
+					},
+					"id": "item",
+					"name": "回春散",
+					"target_team": "self"
+				},
+				{
+					"category": "flee",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "全队立即退离，不再受本轮反击；已使用资源不返还，无战胜奖励。",
+					"effects": {
+
+					},
+					"id": "flee",
+					"name": "退避",
+					"target_team": "none"
+				}
+			],
+			"armor": "",
+			"art_rank": 1,
+			"art_uses": {
+
+			},
+			"attack": 21,
+			"care_defense_bonus": 0,
+			"care_healing_bonus": 0,
+			"cooldowns": {
+				"art:shen_xumai": 0
+			},
+			"defense": 7,
+			"equipment": "",
+			"equipped_art": "",
+			"hp": 114,
+			"id": "shen",
+			"max_hp": 114,
+			"max_qi": 6,
+			"name": "沈青",
+			"qi": 6,
+			"sect": "",
+			"status": {
+				"focused_damage": 0,
+				"guard": false,
+				"weaken_amount": 0,
+				"weaken_strikes": 0
+			},
+			"team": "ally"
+		},
+		{
+			"acted": false,
+			"actions": [
+				{
+					"category": "attack",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "攻击一名敌人，回复2真气；消耗已有蓄锋。",
+					"effects": {
+
+					},
+					"id": "attack",
+					"name": "短尺平击",
+					"target_team": "enemy"
+				},
+				{
+					"category": "martial",
+					"cooldown": 2,
+					"cost": 3,
+					"description": "短尺击敌并卸劲：目标基础伤害减5，持续其两次攻击。",
+					"effects": {
+						"attack_multiplier": 1,
+						"damage_bonus": 2,
+						"weaken_amount": 5,
+						"weaken_strikes": 2
+					},
+					"id": "art:tang_fenjin",
+					"name": "分劲尺",
+					"target_team": "enemy"
+				},
+				{
+					"category": "guard",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "回复1真气；本轮受到的每次伤害乘三成，向上取整且至少1点。",
+					"effects": {
+
+					},
+					"id": "guard",
+					"name": "守势",
+					"target_team": "self"
+				},
+				{
+					"category": "item",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "消耗共享行囊的一份回春散，治疗当前行动角色；不能救起倒下的角色。",
+					"effects": {
+
+					},
+					"id": "item",
+					"name": "回春散",
+					"target_team": "self"
+				},
+				{
+					"category": "flee",
+					"cooldown": 0,
+					"cost": 0,
+					"description": "全队立即退离，不再受本轮反击；已使用资源不返还，无战胜奖励。",
+					"effects": {
+
+					},
+					"id": "flee",
+					"name": "退避",
+					"target_team": "none"
+				}
+			],
+			"armor": "",
+			"art_rank": 1,
+			"art_uses": {
+
+			},
+			"attack": 22,
+			"care_defense_bonus": 0,
+			"care_healing_bonus": 0,
+			"cooldowns": {
+				"art:tang_fenjin": 0
+			},
+			"defense": 9,
+			"equipment": "",
+			"equipped_art": "",
+			"hp": 130,
+			"id": "tang",
+			"max_hp": 130,
+			"max_qi": 6,
+			"name": "唐栖",
+			"qi": 6,
+			"sect": "",
+			"status": {
+				"focused_damage": 0,
+				"guard": false,
+				"weaken_amount": 0,
+				"weaken_strikes": 0
+			},
+			"team": "ally"
+		}
+	],
+	"formation": "护后",
+	"medicine": 7,
+	"medicine_heal": 45
+}
