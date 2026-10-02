@@ -42,7 +42,7 @@ body {
 	right: 0;
 	height: 20px;
 	box-sizing: border-box;
-	padding: 0 8px;
+	padding: 0 156px 0 8px;
 	margin: 0;
 	overflow: hidden;
 	white-space: nowrap;
@@ -59,6 +59,22 @@ body {
 #storage-notice[data-persistence="unavailable"] {
 	background: #55332e;
 	color: #ffe4c3;
+}
+
+#build-notice {
+	position: fixed;
+	top: 0;
+	right: 8px;
+	height: 20px;
+	padding-left: 8px;
+	border-left: 1px solid #58715e;
+	color: #dcc58d;
+	background: #091c1d;
+	font-size: 11px;
+	line-height: 20px;
+	white-space: nowrap;
+	pointer-events: none;
+	z-index: 4;
 }
 
 #status, #status-splash {
@@ -187,6 +203,7 @@ noscript {
 			浏览器不支持游戏画布，请使用支持 WebGL 2 的桌面浏览器。
 		</canvas>
 		<p id="storage-notice" data-persistence="unknown" role="status" aria-live="polite">浏览器本地存档 · 刷新或关闭前请先存卷；清理网站数据会丢失存档</p>
+		<span id="build-notice" data-game-version="" data-web-revision="">构建信息待生成</span>
 		<noscript>请启用 JavaScript 后重新打开试玩页面。</noscript>
 		<div id="status">
 			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
@@ -209,6 +226,7 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 	'use strict';
 	const canvas = document.getElementById('canvas');
 	const storageNotice = document.getElementById('storage-notice');
+	const buildNotice = document.getElementById('build-notice');
 	const statusOverlay = document.getElementById('status');
 	const statusProgress = document.getElementById('status-progress');
 	const statusNotice = document.getElementById('status-notice');
@@ -220,6 +238,9 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 	let engine;
 
 	window.HeroWeb = Object.freeze({
+		getBuildInfo: function () {
+			return JSON.stringify({ game_version: buildNotice.dataset.gameVersion, web_revision: buildNotice.dataset.webRevision });
+		},
 		setStorageAvailable: function (available) {
 			if (typeof available !== 'boolean') {
 				return;
