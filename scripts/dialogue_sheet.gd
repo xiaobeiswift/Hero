@@ -64,6 +64,8 @@ static func fit_page(frame:Control,paper:Control,body:RichTextLabel,help:Label,b
 	if not is_instance_valid(frame) or not frame.is_inside_tree():return
 	var side_choices=buttons.size()>=3
 	var required_height=body.get_content_height()+(197 if side_choices else 237)
+	# Embedded maps reserve their own paper area despite having no prose body.
+	required_height=maxf(required_height,float(frame.get_meta("minimum_page_height",365.0)))
 	if side_choices:required_height=maxf(required_height,buttons[-1].position.y+buttons[-1].size.y+62)
 	var height=clampf(required_height,365,max_height)
 	frame.size.y=height;frame.position.y=(800-height)/2;paper.size.y=height-122

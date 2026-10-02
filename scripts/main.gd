@@ -971,8 +971,11 @@ func _show_map() -> void:
 	if current_screen=="battle": return
 	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
 	var panel = overlay.get_child(overlay.get_child_count()-1)
+	panel.set_meta("minimum_page_height",570.0)
+	panel.find_child("DialogueBody",true,false).hide()
 	var chart = Chart.new()
-	chart.position = Vector2(30,105)
+	chart.name="RegionChart"
+	chart.position = Vector2((panel.size.x-780.0)*.5,133)
 	chart.size = Vector2(780,330)
 	chart.map_id = state.map_id
 	chart.player_position = world.player_pos
