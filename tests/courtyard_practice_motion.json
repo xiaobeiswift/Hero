@@ -1,0 +1,472 @@
+{
+  "source_commit": "26197eefc8aa502b59bb3ad01655f0eab4ac403e",
+  "driver_sha256": "5af5e719785b0eeede1cb9bc8986e584c78274add86f27f23948673d8a9adb1a",
+  "runtime_manifest_sha256": "0cf2f44bc6ffc1b77720b9318e223a05ad616dca8e14c731f7396b863ebe7c47",
+  "scope": "Prepared Shen companion with initial-strength hero, actual scripted E/Tab/number/Escape input; fixed-step source movie, not manual play, live FPS, audio listening or a new desktop release.",
+  "capture": {
+    "scope": "Actual source engine with prepared companion and scripted input; fixed-step, not FPS or manual play",
+    "source_commit": "26197ee",
+    "driver_sha256": "5af5e719785b0eeede1cb9bc8986e584c78274add86f27f23948673d8a9adb1a",
+    "exit_code": 0,
+    "start_free": 1340923904,
+    "minimum_free": 1299689472,
+    "abort": "",
+    "source_unchanged": true,
+    "raw_bytes": 42196358,
+    "raw_sha256": "56aeac5162463f85e0088a2691e39437492f6affea41293611330398a58c5f04"
+  },
+  "video": {
+    "filename": "Hero-26197ee-courtyard-practice.mp4",
+    "sha256": "e9d9b13c8acbe1ce2bae7549c22e9c1e78f79e26c6f6d2a95c4538a37bfaf358",
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 800,
+        "r_frame_rate": "30/1",
+        "nb_frames": "284"
+      }
+    ],
+    "format": {
+      "duration": "9.466667",
+      "size": "1655755"
+    },
+    "silent": true
+  },
+  "input": {
+    "checks": 289,
+    "failures": [],
+    "real_state_unchanged": true,
+    "scope": "prepared companion, actual scripted E/Tab/number/Escape input, fixed-step source motion; not manual play, FPS or release",
+    "simulated_seconds": 9.25833333333331,
+    "source_commit": "26197ee",
+    "trace": [
+      {
+        "model": {},
+        "stage": 0,
+        "time": 0.558333333333333
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 100,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "striker",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 0,
+          "units": [
+            {
+              "brace": true,
+              "hp": 96,
+              "id": "striker",
+              "intent": "探棍轻击 · 基础伤害14（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 14,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探棍轻击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 64,
+              "id": "bracer",
+              "intent": "架盾护住执棍木人：其所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架盾护伴"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 1,
+        "time": 1.325
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 100,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 0,
+          "units": [
+            {
+              "brace": true,
+              "hp": 96,
+              "id": "striker",
+              "intent": "探棍轻击 · 基础伤害14（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 14,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探棍轻击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 64,
+              "id": "bracer",
+              "intent": "架盾护住执棍木人：其所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架盾护伴"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 2,
+        "time": 1.69166666666667
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 90,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 1,
+          "turn": 1,
+          "units": [
+            {
+              "brace": true,
+              "hp": 96,
+              "id": "striker",
+              "intent": "蓄棍重击 · 基础伤害24（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 24,
+                "heavy": true,
+                "kind": "attack",
+                "name": "蓄棍重击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 48,
+              "id": "bracer",
+              "intent": "架盾护住执棍木人：其所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架盾护伴"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 3,
+        "time": 3.09166666666667
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 84,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 1,
+          "turn": 2,
+          "units": [
+            {
+              "brace": true,
+              "hp": 96,
+              "id": "striker",
+              "intent": "探棍轻击 · 基础伤害14（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 14,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探棍轻击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 48,
+              "id": "bracer",
+              "intent": "架盾护住执棍木人：其所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架盾护伴"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 4,
+        "time": 4.49166666666666
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 74,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 3,
+          "selected_id": "bracer",
+          "skill_cooldown": 2,
+          "support_count": 2,
+          "turn": 3,
+          "units": [
+            {
+              "brace": true,
+              "hp": 96,
+              "id": "striker",
+              "intent": "蓄棍重击 · 基础伤害24（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 24,
+                "heavy": true,
+                "kind": "attack",
+                "name": "蓄棍重击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 1,
+              "id": "bracer",
+              "intent": "架盾护住执棍木人：其所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架盾护伴"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 5,
+        "time": 5.89166666666666
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 54,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 5,
+          "selected_id": "striker",
+          "skill_cooldown": 1,
+          "support_count": 3,
+          "turn": 4,
+          "units": [
+            {
+              "brace": false,
+              "hp": 96,
+              "id": "striker",
+              "intent": "探棍轻击 · 基础伤害14（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 14,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探棍轻击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 0,
+              "id": "bracer",
+              "intent": "已停手",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "none",
+                "name": "已停手"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 6,
+        "time": 7.29166666666665
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "attack": 16,
+          "companion": "沈青",
+          "defense": 4,
+          "equipped_art": "照夜一线",
+          "focused_damage": 0,
+          "formation": "并肩",
+          "hp": 44,
+          "locked": false,
+          "max_hp": 100,
+          "max_qi": 6,
+          "medicine": 3,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "striker",
+          "skill_cooldown": 0,
+          "support_count": 4,
+          "turn": 5,
+          "units": [
+            {
+              "brace": false,
+              "hp": 73,
+              "id": "striker",
+              "intent": "蓄棍重击 · 基础伤害24（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 24,
+                "heavy": true,
+                "kind": "attack",
+                "name": "蓄棍重击"
+              },
+              "max_hp": 96,
+              "name": "执棍木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 0,
+              "id": "bracer",
+              "intent": "已停手",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "none",
+                "name": "已停手"
+              },
+              "max_hp": 64,
+              "name": "架盾木人",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "stage": 7,
+        "time": 8.69166666666665
+      }
+    ]
+  },
+  "reviewed_movie_seconds": [
+    2.1,
+    4.0,
+    5.1,
+    7.8
+  ],
+  "driver_rehearsal_notes": "Two earlier driver rehearsals failed before recording: input acceptance was checked before queued delivery, then an attempted skill was still on cooldown. Driver now waits for normal event delivery and chooses a legal plain attack. No gameplay rule or runtime was changed; final rehearsal/capture pass."
+}
