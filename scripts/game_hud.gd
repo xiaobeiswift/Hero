@@ -149,8 +149,8 @@ func _build_quest() -> void:
 func _build_actions() -> void:
 	movement_hint=_text(exploration,"W A S D  行走    ·    E  交互",Rect2(25,700,354,25),13,SOFT)
 	system_bar=_group(exploration,"SystemActions")
-	var save: Button = host._button(system_bar,"存卷  F6",Rect2(21,745,87,30),host._show_save_slots);_flat_button(save,13)
-	var load_save: Button = host._button(system_bar,"读卷  F10",Rect2(114,745,95,30),host._show_load_slots);_flat_button(load_save,13)
+	var save: Button = host._button(system_bar,"存卷" if host.browser_mode else "存卷  F6",Rect2(21,745,87,30),host._show_save_slots);_flat_button(save,13)
+	var load_save: Button = host._button(system_bar,"读卷" if host.browser_mode else "读卷  F10",Rect2(114,745,95,30),host._show_load_slots);_flat_button(load_save,13)
 	music_button=host._button(system_bar,"乐音 开",Rect2(216,745,77,30),host._toggle_audio);_flat_button(music_button,13)
 	var rest:Button=host._button(system_bar,"小憩 Esc",Rect2(312,745,107,30),host._show_pause);_flat_button(rest,13)
 	rest.tooltip_text="休整、手记与安全离开"
@@ -258,11 +258,13 @@ func tick(delta: float) -> void:
 	if last_audio!=int(host.audio_on):
 		music_button.text="乐音 开" if host.audio_on else "乐音 关"
 		last_audio=int(host.audio_on)
-	toast_wash.visible=host.current_screen!="title" and not host.active_modal and (host.toast_time>0 or host.save_warning)
-	if last_warning!=int(host.save_warning):
-		host.status_label.add_theme_color_override("font_color",Color("f0b594") if host.save_warning else GOLD)
-		last_warning=int(host.save_warning)
-	if host.save_warning and host.toast_time<=0:host.status_label.text="自动存档失败 · 按 F5 重试；离开前请确认存档"
+	var browser_storage_warning:bool=host.browser_mode and not host.browser_storage_available
+	toast_wash.visible=host.current_screen!="title" and not host.active_modal and (host.toast_time>0 or host.save_warning or browser_storage_warning)
+	if last_warning!=int(host.save_warning or browser_storage_warning):
+		host.status_label.add_theme_color_override("font_color",Color("f0b594") if host.save_warning or browser_storage_warning else GOLD)
+		last_warning=int(host.save_warning or browser_storage_warning)
+	if host.save_warning and host.toast_time<=0:host.status_label.text=host._save_retry_message() if host.browser_mode else "自动存档失败 · 按 F5 重试；离开前请确认存档"
+	elif browser_storage_warning and host.toast_time<=0:host.status_label.text=host._browser_storage_message()
 	var next_toast_battle:bool=host.current_screen=="battle"
 	if next_toast_battle!=toast_in_battle:
 		toast_in_battle=next_toast_battle
@@ -282,7 +284,7 @@ func tick(delta: float) -> void:
 		host.status_label.size.y=20.0 if toast_in_battle else maxf(40.0,host.status_label.get_minimum_size().y)
 		toast_wash.size.y=26.0 if toast_in_battle else host.status_label.size.y+18
 		toast_wash.queue_redraw()
-	toast_wash.modulate.a=1.0 if host.save_warning else minf(1.0,host.toast_time)
+	toast_wash.modulate.a=1.0 if host.save_warning or browser_storage_warning else minf(1.0,host.toast_time)
 	battle_hint.text="剑招未尽 · 请稍候" if host.battle_busy else "观敌势，择一招  ·  1—5"
 	# Reassert thin dimensions after deferred legacy bar sizing from _bar().
 	if host.battle_player_hp.size.x<282:host.battle_player_hp.size=Vector2(283,9)

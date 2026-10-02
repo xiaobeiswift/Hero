@@ -17,6 +17,7 @@ func summary(meta:Dictionary)->String:
 func save_page()->void:
  if host.current_screen in ["battle","title"]:return
  var body="三份手动手记独立保存，开始新旅程不会删除它们。\nF5仍是快速自动存档，F9仍是快速续写。\n\n"
+ if host.browser_mode:body="三份手记保存在此浏览器与当前网站，清除网站数据会丢失它们。\n刷新或关闭页面前请先保存；不同设备不会自动同步。\n\n"
  var choices:Array=[]
  for id in [1,2,3]:
   body+="[color=#d3b276]%s[/color] · %s\n\n" % [title(id),summary(store.describe(id))]

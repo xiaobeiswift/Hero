@@ -23,6 +23,9 @@ static func show(host)->void:
 	Paper.text(host,frame,"歇一歇，再向前",Rect2(360,30,443,43),28,host.PAPER)
 	Paper.text(host,frame,"行走已暂停 · 江湖仍在原处等你",Rect2(361,77,433,25),14,Color("a9b9a3"))
 	var rows=[["继续行走","回到当前所在之处",host._close_modal],["存一卷手记","保存到三份独立手记之一",host._show_save_slots],["查阅手记","选择手动记录或本地备份",host._show_load_slots],["返回首页","先保存当前进度，再回到首页",func():request_exit(host,true)],["暂别江湖","先保存当前进度，再关闭游戏",func():request_exit(host,false)]]
+	if host.browser_mode:
+		rows[3]=["保存当前旅程","写入此浏览器的自动续写；刷新前请稍候",func():save_browser_now(host)]
+		rows[4]=["保存并返回首页","浏览器页签请手动关闭，刷新前请先保存",func():request_exit(host,true)]
 	for i in range(rows.size()):
 		var action=guarded(host,generation,rows[i][2]);host.modal_actions.append(action)
 		var y=120+i*72
@@ -37,12 +40,24 @@ static func show(host)->void:
 	quality.name="PauseQuality";quality.tooltip_text="清晰：保留近景细节；轻量：降低渲染负担。不会改变视野范围。"
 	var message=host.display_settings_warning if not host.display_settings_warning.is_empty() else "1—5 选择  ·  Esc 继续  ·  + / − 调整视野"
 	var status=Paper.text(host,frame,message,Rect2(361,551,442,20),12,Color("d1bc8d"));status.name="PauseDisplayStatus"
+static func save_browser_now(host)->void:
+	if not host.browser_mode or host.current_screen!="explore" or host.quit_pending:return
+	host._save()
+	var details:String=host.status_label.text
+	show(host)
+	var status=host.overlay.find_child("PauseDisplayStatus",true,false)
+	if status!=null:
+		status.text="保存失败，当前旅程仍在内存；请重试或继续行走。" if host.save_warning else ("已写入此浏览器的存档，刷新或关闭前请稍候。" if host.browser_storage_available else host._browser_storage_message())
+		status.tooltip_text=details
+
 static func request_exit(host,to_title:bool)->void:
+	if host.browser_mode:to_title=true
 	if host.current_screen!="explore" or host.quit_pending:return
 	var generation:int=host.modal_generation+1
 	var destination="首页" if to_title else "桌面"
 	host._modal("收卷 · 暂歇", "离开 / 返回"+destination,"将保存当前地点、行囊与任务进度。\n\n只有保存成功才会离开；三份手动手记不受影响。",[["保存并离开",guarded(host,generation,func():save_and_leave(host,to_title))],["再走一程",guarded(host,generation,func():show(host))]])
 static func save_and_leave(host,to_title:bool)->void:
+	if host.browser_mode:to_title=true
 	if host.current_screen!="explore" or host.quit_pending:return
 	host.state.position=host.world.player_pos
 	var error=host.state.save_game();host.save_warning=error!=OK
@@ -54,5 +69,6 @@ static func confirm_discard(host,to_title:bool)->void:
 	var generation:int=host.modal_generation+1
 	host._modal("舍下未存的这一程？", "再次确认 / 无法恢复本次未保存的变化","此操作不会删除已有存档，但本次尚未保存的地点、收获和任务进度不会写入。\n\n确定仍要离开吗？",[["继续留在江湖",guarded(host,generation,func():show(host))],["确认不保存离开",guarded(host,generation,func():leave(host,to_title))]],true)
 static func leave(host,to_title:bool)->void:
+	if host.browser_mode:to_title=true
 	if to_title:host._show_title();host._refresh()
 	else:host._quit_cleanly(false)

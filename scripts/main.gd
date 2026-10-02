@@ -33,6 +33,8 @@ var view_preferences=ViewPreferences.new()
 var view_zoom:float=1.0
 var world_detail_font:Font
 var display_settings_warning:String=""
+var browser_mode:bool=OS.has_feature("web")
+var browser_storage_available:bool=true
 var workshop
 var chapter_story
 var sect_progress
@@ -125,6 +127,20 @@ func _ready() -> void:
 	_setup_audio()
 	_refresh()
 	_show_title()
+	if browser_mode:_announce_browser_storage(OS.is_userfs_persistent())
+
+func _announce_browser_storage(available:bool)->void:
+	browser_storage_available=available
+	if browser_mode and Engine.has_singleton("JavaScriptBridge"):
+		var bridge=Engine.get_singleton("JavaScriptBridge")
+		var page=bridge.get_interface("HeroWeb")
+		if page!=null:page.setStorageAvailable(available)
+
+func _save_retry_message()->String:
+	return "自动存档失败，请打开小憩，点击保存当前旅程重试。" if browser_mode else "自动存档失败，请按 F5 重试。"
+
+func _browser_storage_message()->String:
+	return "此浏览器未提供持久存储，刷新或关闭页面可能丢失进度。"
 
 func _setup_inputs() -> void:
 	var actions = {"move_left": [KEY_A, KEY_LEFT], "move_right": [KEY_D, KEY_RIGHT], "move_up": [KEY_W, KEY_UP], "move_down": [KEY_S, KEY_DOWN], "interact": [KEY_E, KEY_ENTER]}
@@ -258,7 +274,7 @@ func _process(delta: float) -> void:
 		near_label.text = "[ E ]  " + (near_action+" · " if not near_action.is_empty() else "") + world.nearby_name if not world.nearby_id.is_empty() else "WASD / 方向键行走，靠近人物或物品按 E 交互"
 	if toast_time > 0:
 		toast_time -= delta
-		if toast_time <= 0: status_label.text = "⚠ 自动存档失败，请按 F5 重试。" if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
+		if toast_time <= 0: status_label.text = "⚠ "+_save_retry_message() if save_warning else "青苇晚照，灯火将明。循着线索，走一段自己的江湖。"
 
 	if hud!=null:
 		hud.tick(delta)
@@ -384,7 +400,7 @@ func _sync_hud_navigation(force:bool=false)->void:
 
 func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -> void:
 	# Save-specific feedback already explains recovery; other notices keep the warning.
-	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning and not is_save_notice else "")
+	status_label.text = text + ("  ⚠ "+_save_retry_message() if save_warning and not is_save_notice else "")
 	# Brief routine feedback must never shorten an unresolved save failure.
 	toast_time = 7.0 if save_warning else duration
 
@@ -672,13 +688,16 @@ func _save() -> void:
 	state.position = world.player_pos
 	var error = state.save_game()
 	save_warning = error != OK
-	_toast("已存档 · 下次可从这里继续江湖。" if error==OK else "⚠ 自动存档失败，请检查空间与写入条件后按 F5 重试。错误码："+str(error),true)
+	if browser_mode:
+		_toast(("已写入此浏览器的旅程存档；刷新前请稍候。" if browser_storage_available else _browser_storage_message()) if error==OK else "⚠ "+_save_retry_message()+"错误码："+str(error),true)
+	else:
+		_toast("已存档 · 下次可从这里继续江湖。" if error==OK else "⚠ 自动存档失败，请检查空间与写入条件后按 F5 重试。错误码："+str(error),true)
 
 func _autosave() -> void:
 	state.position = world.player_pos
 	var error = state.save_game()
 	save_warning = error != OK
-	if save_warning: _toast("⚠ 自动存档失败，请按 F5 重试。",true)
+	if save_warning: _toast("⚠ "+_save_retry_message(),true)
 
 func _load() -> void:
 	if current_screen == "battle":
@@ -906,11 +925,15 @@ func _notification(what:int) -> void:
 		if quit_pending:return
 		# A desktop close must keep the same write-failure protection as the
 		# in-game exit. Do not mark quit_pending until a save or discard succeeds.
-		if current_screen=="explore":PauseMenu.save_and_leave(self,false)
+		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode)
 		else:_quit_cleanly(false)
 
 func _quit_cleanly(save_progress:bool=true) -> void:
 	if quit_pending: return
+	if browser_mode:
+		if save_progress and current_screen=="explore":PauseMenu.save_and_leave(self,true)
+		else:_show_title();_refresh()
+		return
 	quit_pending=true
 	world.active=false
 	if save_progress and current_screen=="explore": _autosave()
@@ -929,6 +952,9 @@ func _screenshot_target(folder:String,stamp:String)->String:
 
 func _capture_screenshot() -> void:
 	if screenshot_pending or quit_pending:return
+	if browser_mode:
+		_toast("网页版请使用浏览器或系统截图工具。")
+		return
 	if DisplayServer.get_name()=="headless":
 		_toast("当前无图形画面，无法截图。")
 		return
