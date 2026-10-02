@@ -369,8 +369,9 @@ func _sync_hud_navigation(force:bool=false)->void:
 	world.hud_exclusion_rects=projected
 	world.queue_redraw()
 
-func _toast(text: String) -> void:
-	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning else "")
+func _toast(text: String, is_save_notice: bool = false) -> void:
+	# Save-specific feedback already explains recovery; other notices keep the warning.
+	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning and not is_save_notice else "")
 	toast_time = 7.0
 
 func _clear_overlay() -> void:
@@ -649,13 +650,13 @@ func _save() -> void:
 	state.position = world.player_pos
 	var error = state.save_game()
 	save_warning = error != OK
-	_toast("已存档 · 下次可从这里继续江湖。" if error==OK else "存档失败，请检查存储空间。错误："+str(error))
+	_toast("已存档 · 下次可从这里继续江湖。" if error==OK else "⚠ 自动存档失败，请检查空间与写入条件后按 F5 重试。错误码："+str(error),true)
 
 func _autosave() -> void:
 	state.position = world.player_pos
 	var error = state.save_game()
 	save_warning = error != OK
-	if save_warning: _toast("自动存档未成功，可按 F5 重试。")
+	if save_warning: _toast("⚠ 自动存档失败，请按 F5 重试。",true)
 
 func _load() -> void:
 	if current_screen == "battle":
