@@ -7,11 +7,13 @@ anything, accesses accounts, or touches normal player saves.
 from __future__ import annotations
 
 import argparse
+import configparser
 import datetime as dt
 import hashlib
 import json
 import os
 import platform
+import plistlib
 from pathlib import Path
 import re
 import shutil
@@ -31,6 +33,43 @@ TARGETS = {
     "macos": ("macOS Universal", "macos.zip", "Hero.zip"),
 }
 MIB = 1024 * 1024
+
+
+def validate_macos_version(root: Path) -> str:
+    """Fail before exporting if the app bundle would advertise a stale version."""
+    project = configparser.ConfigParser(interpolation=None)
+    presets = configparser.ConfigParser(interpolation=None)
+    try:
+        project.read_string("[__godot_root__]\n" + (root / "project.godot").read_text(encoding="utf-8"))
+        presets.read(root / "export_presets.cfg", encoding="utf-8")
+        version = json.loads(project["application"]["config/version"])
+        if not isinstance(version, str) or not version:
+            raise ValueError("Project version must be a nonempty string")
+        matches = [section for section in presets.sections()
+                   if not section.endswith(".options")
+                   and json.loads(presets[section].get("name", '""')) == TARGETS["macos"][0]]
+        if len(matches) != 1:
+            raise ValueError("Expected exactly one macOS export preset")
+        options = presets[matches[0] + ".options"]
+        for key in ("application/short_version", "application/version"):
+            if json.loads(options[key]) != version:
+                raise ValueError(f"{key} must match project version {version}")
+        return version
+    except (configparser.Error, KeyError, ValueError, OSError) as exc:
+        raise RuntimeError(f"Invalid macOS version metadata: {exc}") from exc
+
+
+def verify_macos_bundle_version(archive: Path, expected: str) -> dict[str, str]:
+    """Read the actual exported Info.plist without changing signed app resources."""
+    with zipfile.ZipFile(archive) as bundle:
+        paths = [name for name in bundle.namelist() if name.endswith(".app/Contents/Info.plist")]
+        if len(paths) != 1:
+            raise RuntimeError("Expected one macOS application Info.plist")
+        data = plistlib.loads(bundle.read(paths[0]))
+    values = {key: data.get(key) for key in ("CFBundleShortVersionString", "CFBundleVersion")}
+    if any(value != expected for value in values.values()):
+        raise RuntimeError(f"Exported macOS bundle version must be {expected}; got {values}")
+    return values
 
 
 def require_space(base: Path, needed: int, stage: str) -> int:
@@ -175,6 +214,7 @@ def main() -> None:
     provenance = git_provenance()
     if provenance["source_git_clean"] is False and not args.allow_dirty_source:
         parser.error("Game resources have uncommitted changes. Commit them first, or use --allow-dirty-source for a development-only export.")
+    macos_version = validate_macos_version(ROOT) if "macos" in targets else None
     source_bytes = sum(p.stat().st_size for name in SOURCE_DIRS for p in (ROOT / name).rglob("*") if p.is_file())
     # Conservative baseline from actual v0.0.16 artifacts, including the full
     # 385 MB Mac template expansion and at least 192 MiB of reserve. Scale up
@@ -262,6 +302,7 @@ def main() -> None:
         # Linux editor separately; never describe these assertions as native OS runs.
         pack = directory / "Hero.pck"
         if target == "macos":
+            status["bundle_version"] = verify_macos_bundle_version(output, macos_version)
             with zipfile.ZipFile(output) as z:
                 packs = [n for n in z.namelist() if n.endswith(".pck")]
                 if len(packs) != 1:
