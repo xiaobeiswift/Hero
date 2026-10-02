@@ -252,9 +252,14 @@ func _cluster(actor:Dictionary,rect:Rect2)->void:
 	_text(badge,rect.position+Vector2(rect.size.x-19,20),11,Color("dcb974") if active or acting else MUTED,false,true)
 	if portraits.has(id):draw_texture_rect(portraits[id],Rect2(rect.position+Vector2(11,34),Vector2(54,77)),false,Color(.5,.5,.5) if dead else Color.WHITE)
 	var barrier=int(actor.get("status",{}).get("barrier",0))
+	var vulnerability=int(actor.get("status",{}).get("vulnerability_hits",0))
 	if barrier>0:
 		_box(Rect2(rect.position+Vector2(11,99),Vector2(54,17)),Color("102c2d"),Color("9eac7c"),1)
 		_ink_text("护%d"%barrier,rect.position+Vector2(38,112),11,Color("dceabb"),true)
+	if vulnerability>0:
+		var badge_y=82 if barrier>0 else 99
+		_box(Rect2(rect.position+Vector2(11,badge_y),Vector2(54,17)),Color("3b2320"),Color("bc8568"),1)
+		_ink_text("破绽%d"%vulnerability,rect.position+Vector2(38,badge_y+13),11,Color("f0b798"),true)
 	var maximum=maxi(1,int(actor.get("max_hp",1)));var hp=maxi(0,int(actor.get("hp",0)))
 	var bar=Rect2(rect.position+Vector2(11,118),Vector2(54,5))
 	draw_rect(bar.grow(1),Color("595345"));draw_rect(bar,Color("311b19"))

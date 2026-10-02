@@ -16,9 +16,9 @@ const Backdrop = preload("res://scripts/ferry_battle_backdrop.gd")
 const Lantern = preload("res://scripts/painted_lantern_post.gd")
 const WOOD = preload("res://assets/generated/environment/qingwei_deck_wood.png")
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
-const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer"]
+const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss"]
 const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0}
-const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460)}
+const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580)}
 const QIN_CHEST = {"idle":Vector2(245,210),"strike":Vector2(775,233),"protect":Vector2(1290,239),"hurt":Vector2(258,711),"down":Vector2(815,837),"recover":Vector2(1312,767)}
 const ACTION_DURATION = .86
 const ACTION_GAP = .06
@@ -141,7 +141,7 @@ func _valid_transaction(tx: Dictionary) -> bool:
 		if not event is Dictionary or not event.get("type") is String or not event.get("amount") is int: return false
 		if not event.get("source_id") is String or not event.get("target_id") is String: return false
 		if event.type == "action" and (_unit(tx.before, event.source_id).is_empty() or int(_unit(tx.before, event.source_id).hp) <= 0): return false
-		if event.type not in ["action","damage","heal","qi","guard","medicine","weaken","focus","proficiency","down","outcome","round_start","protect","barrier_grant","barrier_absorb","barrier_expire"]: return false
+		if event.type not in ["action","damage","heal","qi","guard","medicine","weaken","focus","proficiency","down","outcome","round_start","protect","barrier_grant","barrier_absorb","barrier_expire","vulnerability_apply","vulnerability_consume","vulnerability_expire"]: return false
 	return true
 
 func _plain(value: Variant) -> bool:
@@ -235,6 +235,8 @@ func _apply_event(event: Dictionary) -> void:
 			if not target.is_empty(): target.status.guard = amount > 0
 		"barrier_grant", "barrier_absorb", "barrier_expire":
 			if not target.is_empty(): target.status.barrier = int(event.get("remaining",0))
+		"vulnerability_apply", "vulnerability_consume", "vulnerability_expire":
+			if not target.is_empty(): target.status.vulnerability_hits = int(event.get("remaining",0))
 		"weaken":
 			if not target.is_empty():
 				target.status.weaken_amount = amount
@@ -480,6 +482,8 @@ func _draw_actor(id: String) -> void:
 	var tint: Color = Color.WHITE
 	if id == "bracer": tint = Color(.70,.88,.91)
 	elif id == "striker": tint = Color(1,.88,.76)
+	elif id == "sluice_scout": tint = Color(.67,.73,.79)
+	elif id == "sluice_boss": tint = Color(.91,.77,.65)
 	if int(_unit(_display,id).get("hp",0)) <= 0 and pose in ["down","kneel"]: tint = tint.darkened(.22)
 	if pose == "down":
 		draw_set_transform_matrix(_down_transform(id))

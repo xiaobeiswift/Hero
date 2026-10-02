@@ -3,6 +3,8 @@ extends Control
 const Arena = preload("res://scripts/party_battle_art.gd")
 const Commands = preload("res://scripts/party_command_hud.gd")
 const Pause = preload("res://scripts/pause_menu.gd")
+const ENCOUNTER_TITLES = {"story":"渡口问剑", "training":"旧友切磋", "heting_receipt":"复签不撤", "sluice_scout":"半页水令", "sluice_boss":"逆水而行"}
+const ENCOUNTER_LOCATIONS = {"story":"青苇渡 · 蒲横", "training":"青苇渡 · 蒲横", "heting_receipt":"公秤外栈桥 · 实战", "sluice_scout":"废闸栈道 · 截住传令", "sluice_boss":"旧闸栈台 · 罗沉"}
 var host
 var generation: int
 var epoch: int
@@ -109,8 +111,8 @@ func refresh() -> void:
 	if host.save_warning: prompt = host._save_retry_message()
 	elif host.browser_mode and not host.browser_storage_available: prompt = (prompt+"\n" if not prompt.is_empty() else "")+host._browser_storage_message()
 	commands.set_snapshot(snapshot, {
-		"title": "复签不撤" if encounter == "heting_receipt" else ("渡口问剑" if encounter == "story" else "旧友切磋"),
-		"location": "公秤外栈桥 · 实战" if encounter == "heting_receipt" else "青苇渡 · 蒲横",
+		"title": ENCOUNTER_TITLES.get(encounter, "交锋"),
+		"location": ENCOUNTER_LOCATIONS.get(encounter, ""),
 		"acting_unit_id": art.acting_unit_id if art.is_presenting() else "",
 		"phase_label": {"windup":"起招", "contact":"交锋", "return":"收招", "settle":"收束"}.get(art.presentation_phase, "择招"),
 		"selected_actor_id":pending_actor, "selected_action_id": pending_action, "target_prompt": prompt,
@@ -236,6 +238,8 @@ func _event(event: Dictionary) -> void:
 		"down": line = "%s倒下，本次无法再行动" % target
 		"guard": line = "%s稳住守势" % source
 		"weaken": line = "%s受到卸劲" % target
+		"vulnerability_apply": line = "%s露出破绽，接下来%d次来击各多受3点伤害；本人守势可解" % [target,event.remaining]
+		"vulnerability_expire": line = "%s的破绽已消除" % target
 	if not line.is_empty():
 		logs.append(line)
 		if logs.size() > 60: logs.pop_front()
@@ -276,6 +280,14 @@ func _return_to_world(result: Dictionary) -> void:
 		var receipt_result = result.duplicate(true)
 		receipt_result.stage = int(result.get("receipt_stage", owner.state.receipt_stage))
 		owner.receipt_story.after_battle(receipt_result); return
+	if result.outcome == "win" and kind == "sluice_scout":
+		owner._modal("半页水令", "废闸疑云 / 线索已得", "传令人仓促间遗下账页。上面记录的不是渡税，而是开闸时辰。\n\n有人故意把放水的时刻改到了粮船入港之后。你收好账页。"+("证言与账页已经齐备，可以找东南闸首对质。" if owner.state.side_found.has("boatman") else "接下来需要听听南岸船工的证言。")+"\n\n修为+%d，铜钱+%d。账页与队员状态已一并结算。" % [result.reward_xp,result.coin_change], [["收起账页",func(): owner._close_modal(); owner._autosave()]])
+		return
+	if result.outcome == "win" and kind == "sluice_boss":
+		# HeroState settled both encounter and route rewards atomically. This
+		# dialogue displays the result and never calls finish_side_quest again.
+		owner._show_sluice_ending("交锋所得：修为+%d、铜钱+35。\n机缘所得：" % int(result.get("battle_reward_xp",70)))
+		return
 	if result.outcome == "win":
 		owner._modal("蒲横收剑", "交锋 / 已分高下", ("蒲横递回账册。回陆伯处，商议这页纸的归处。" if kind == "story" else "这一回切磋已记下。歇妥之后，还可再来较量。") + "\n\n修为+%d，铜钱+%d。各队员的剩余气血与真气已记录。" % [result.reward_xp, result.coin_change])
 	elif result.outcome == "defeat":

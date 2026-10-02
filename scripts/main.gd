@@ -1090,9 +1090,20 @@ func _runner_dialogue() -> void:
 	if state.side_found.has("ledger"):
 		_modal("空下来的石阶", "废闸 / 已得账页", "传令人已退走。石阶上只余一角被风吹干的墨迹。你所得的账页已妥善收入行囊。")
 		return
-	_modal("携卷的传令人", "抉择 / 半页水令", "黑衣传令人把纸卷收入袖中：‘这不是你该管的河。’\n\n他看向东南闸楼，伸手去碰刀柄。\n\n"+("先截住账页，也许能保住更多细节；南边的船工仍在等援手。" if not state.side_found.has("boatman") else "船工已经获救，眼下该轮到纸上的秘密了。"),[["截住传令人",func():
-		if state.side_choice.is_empty(): state.choose_side_route("pursuit")
-		_start_battle("sluice_scout")],["暂且退开",_close_modal]],true)
+	_modal("携卷的传令人", "抉择 / 半页水令", "黑衣传令人把纸卷收入袖中：‘这不是你该管的河。’\n\n他看向东南闸楼，伸手去碰刀柄。\n\n"+("先截住账页，也许能保住更多细节；南边的船工仍在等援手。" if not state.side_found.has("boatman") else "船工已经获救，眼下该轮到纸上的秘密了。")+"\n\n与在队同伴各自出招，敌方轻重招交替。应战前会保存；退开保留已用资源，仍可再来调查。",[["截住传令人",_sluice_party_entry.bind("sluice_scout",modal_generation+1)],["暂且退开",_close_modal]],true)
+
+func _sluice_party_entry(kind:String,generation:int)->void:
+	if current_screen!="explore" or quit_pending or not active_modal or state.battle_active or generation!=modal_generation:return
+	if state.map_id!="sluice" or world.map_id!="sluice" or state.quest_stage!=6:return
+	var target="ledger_runner" if kind=="sluice_scout" else ("sluice_boss" if kind=="sluice_boss" else "")
+	if target.is_empty() or not world.interactables.has(target) or world.player_pos.distance_to(world.interactables[target].pos)>=85:return
+	# Validate the actual nearby callback before choosing a route. The ensuing
+	# pre-entry save includes this choice; a failed save never accepts a fight.
+	if kind=="sluice_scout" and state.side_choice.is_empty():
+		if state.side_stage!=0 or not state.side_found.is_empty() or state.side_reward_claimed:return
+		if not state.choose_side_route("pursuit"):return
+	if not state.can_start_sluice_party_battle(kind):return
+	PartyUI.open(self,kind)
 
 func _sluice_boss_dialogue() -> void:
 	if state.side_stage < 2:
@@ -1101,13 +1112,16 @@ func _sluice_boss_dialogue() -> void:
 	if state.side_stage >= 3:
 		_modal("闸门归静", "废闸 / 已了因果", "水流恢复了往常的节律。你找到的那份伪造水令，指向上游的霜桥城。\n\n这段路已走完，另一段江湖尚待展开。")
 		return
-	_modal("闸首 · 罗沉", "交锋 / 逆水而行", "证言与账页摆在面前，罗沉再无借口。\n\n‘开闸的印是我的，改时辰的手却不在这里。你能赢我，也未必能赢那条粮路。’\n\n[color=#d3b276]罗沉的重击会造成破绽。守势可清除破绽并防止再次施加。备好药，再来迎战。[/color]",[["问个明白",func(): _start_battle("sluice_boss")],["先行整备",_close_modal]],true)
+	_modal("闸首 · 罗沉", "交锋 / 逆水而行", "证言与账页摆在面前，罗沉再无借口。\n\n‘开闸的印是我的，改时辰的手却不在这里。你能赢我，也未必能赢那条粮路。’\n\n[color=#d3b276]罗沉轻重招交替。未守住的重击会让实际受击者留下破绽，接下来的两次来击各多受3点伤害；该队员守势可清除并防止破绽。[/color]\n\n每位在队同伴各行动一次，按头顶意图安排守势与治疗。先保存再应战，旧仓药棚可免费休整。",[["问个明白",_sluice_party_entry.bind("sluice_boss",modal_generation+1)],["先行整备",_close_modal]],true)
 
 func _finish_sluice() -> void:
 	var awarded = state.finish_side_quest()
-	var reward = "修为 +80、铜钱 +45、回春散 ×2" if state.side_choice=="rescue" else "修为 +80、铜钱 +65"
-	_modal("水令留痕", "支线完成 / 废闸疑云", "罗沉交出原本的水令。两份命令只差一个时辰，却足以让整船的粮沉入河底。\n\n你把证据收入旧信。霜桥城的名字，终于有了重量。\n\n[color=#d3b276]"+reward+"[/color]"+("\n先救人留下的是人情；往后的路，会有人记得。" if state.side_choice=="rescue" else "\n先追账册保住的是细节；往后的路，还需更多印证。"),[["收好水令",func(): _close_modal(); _autosave()]],true)
+	_show_sluice_ending()
 	if not awarded: _toast("此机缘奖励已领取，不会重复结算。")
+
+func _show_sluice_ending(battle_reward:String="") -> void:
+	var reward = "修为 +80、铜钱 +45、回春散 ×2" if state.side_choice=="rescue" else "修为 +80、铜钱 +65"
+	_modal("水令留痕", "支线完成 / 废闸疑云", "罗沉交出原本的水令。两份命令只差一个时辰，却足以让整船的粮沉入河底。\n\n你把证据收入旧信。霜桥城的名字，终于有了重量。\n\n"+battle_reward+"[color=#d3b276]"+reward+"[/color]"+("\n先救人留下的是人情；往后的路，会有人记得。" if state.side_choice=="rescue" else "\n先追账册保住的是细节；往后的路，还需更多印证。"),[["收好水令",func(): _close_modal(); _autosave()]],true)
 
 func _sluice_cache_dialogue() -> void:
 	if state.shen_care_stage==2:
