@@ -20,6 +20,7 @@ run_checked --headless --path . --editor --import --quit
 run_checked --headless --path . --script tests/state_test.gd
 run_checked --headless --path . --script tests/party_combat_rules_test.gd
 run_checked --headless --path . --script tests/party_roster_rules_test.gd
+run_checked --headless --path . --script tests/party_state_integration_test.gd
 run_checked --headless --path . --script tests/audit_party_model_test.gd
 run_checked --headless --path . --script tests/courtyard_exercise_rules_test.gd
 run_checked --headless --path . --script tests/heting_receipt_rules_test.gd
