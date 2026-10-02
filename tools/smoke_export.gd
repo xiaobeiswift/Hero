@@ -24,11 +24,21 @@ func _run() -> void:
 	if not isolated:
 		quit(1)
 		return
-	_check(FileAccess.file_exists("res://project.binary"), "Must load the exported binary project")
-	_check(not DirAccess.dir_exists_absolute("res://tests"), "Test scripts excluded")
-	_check(not DirAccess.dir_exists_absolute("res://tools"), "Build tools excluded")
-	_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
-	_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
+	var rehearsal: bool = OS.get_cmdline_user_args().has("--source-rehearsal")
+	if rehearsal:
+		if FileAccess.file_exists("res://project.binary"):
+			push_error("Source rehearsal flag cannot bypass checks for an exported PCK"); quit(1); return
+		print("SOURCE REHEARSAL: skipping exactly5 packaging-only assertions; no exported-pack claim")
+	else:
+		_check(FileAccess.file_exists("res://project.binary"), "Must load the exported binary project")
+		_check(not DirAccess.dir_exists_absolute("res://tests"), "Test scripts excluded")
+		_check(not DirAccess.dir_exists_absolute("res://tools"), "Build tools excluded")
+		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
+		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
+	# A stale pack must fail before instantiating a scene or creating a save.
+	if not _v18_prerequisites():
+		print("FAIL: v18 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-THIRD-PARTY-NOTICES.txt"), "Engine third-party notices retained")
@@ -131,6 +141,7 @@ func _run() -> void:
 	await _test_tang_combat_pack()
 	await _test_martial_folio_pack()
 	await _test_close_guard_pack()
+	await _test_heting_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -138,7 +149,7 @@ func _run() -> void:
 	await create_timer(0.25).timeout
 	game.queue_free()
 	await process_frame
-	print("%s: %d exported-pack checks; %d failures" % ["PASS" if failures == 0 else "FAIL", checks, failures])
+	print("%s: %d %s checks; %d failures" % ["PASS" if failures == 0 else "FAIL", checks, "source-rehearsal" if rehearsal else "exported-pack", failures])
 	quit(0 if failures == 0 else 1)
 
 func _test_modules() -> void:
@@ -330,7 +341,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 9 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema9 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 10 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema10 and active party identity: " + choice)
 	game._show_inventory()
 	_press("切换阵型")
 	game._close_modal()
@@ -521,7 +532,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 9 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema9 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 10 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema10 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -600,7 +611,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 9 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 10 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
@@ -864,7 +875,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game._load()
 	_check(game.state.to_dict() == completed, "Packed finalized care state round-trips exactly: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 9 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema9 document records the final care plan: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 10 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema10 document records the final care plan: " + choice)
 	stale_post.call()
 	game.shen_story.post()
 	game.shen_story.choose("mobile" if choice == "shore" else "shore")
@@ -1028,7 +1039,7 @@ func _test_lightness_exploration() -> void:
 	game._load()
 	_check(game.world.player_pos == lightness.SHORE and game.state.position == lightness.SHORE and game.state.lightness_relics == [lightness.RELIC_ID], "Packed return autosave keeps shore position and discovered lore")
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 9 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema9 document writes lightness progression explicitly")
+	_check(saved is Dictionary and saved.get("version") == 10 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema10 document writes lightness progression explicitly")
 	game._start_battle("spar")
 	before = game.state.to_dict()
 	game.lightness_story.cross(true)
@@ -1513,3 +1524,119 @@ func _test_close_guard_pack() -> void:
 	_check(not game.save_warning and not game.quit_pending,"Packed successful retry clears warning and stays in exploration")
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
+
+func _v18_prerequisites() -> bool:
+	var previous: int = failures
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.18", "V18 project version is required")
+	var model = load("res://scripts/game_state.gd")
+	_check(model != null and model.SAVE_VERSION == 10, "V18 save schema10 is required")
+	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
+	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
+		_check(ResourceLoader.exists("res://assets/generated/environment/" + asset + ".png"), "V18 painted asset retained: " + asset)
+	return failures == previous
+
+func _heting_open(id: String) -> void:
+	if game.active_modal: game._close_modal()
+	game.world.teleport(game.world.interactables[id].pos); game._process(0)
+	var before: Dictionary = game.state.to_dict()
+	await _key(KEY_E)
+	_check(game.active_modal and game.state.to_dict() == before, "Packed E opens " + id + " without applying its choice")
+
+func _test_heting_pack() -> void:
+	var region = load("res://scripts/heting_region.gd")
+	var tiles = load("res://scripts/world_material_tiles.gd")
+	for pair in [["heting_machinery_art",Vector2(1024,512)],["heting_worksites_art",Vector2(512,320)]]:
+		var art = load("res://scripts/" + pair[0] + ".gd")
+		for id in art.SPRITES:
+			var texture = art.texture_for(id)
+			_check(texture != null and texture.atlas.get_size() == pair[1], "Packed harbor atlas dimensions: " + id)
+			_check(texture == art.texture_for(id) and texture.region == art.SPRITES[id].region and texture.filter_clip, "Packed harbor cached crop: " + id)
+			var foot := Vector2(820,690)
+			var drawn: Rect2 = art.drawing_rect(id,foot)
+			_check((drawn.position + art.SPRITES[id].foot * art.factor_for(id)).distance_to(foot) < .001, "Packed harbor foot anchor: " + id)
+	var works = load("res://scripts/heting_worksites_art.gd")
+	_check(works.drawing_rect("soup_pot_hot",Vector2.ZERO) == works.drawing_rect("soup_pot_cold",Vector2.ZERO), "Packed cooked pot swaps without position jump")
+	_check(works.pot_id(false) == "soup_pot_cold" and works.pot_id(true) == "soup_pot_hot", "Packed pot state selects actual artwork")
+	var surface := Rect2(590,565,440,270)
+	var mesh: Dictionary = tiles.geometry(surface,160.0)
+	_check(mesh.mesh == tiles.geometry(surface,160.0).mesh and mesh.tile_size == 160.0, "Packed material reuses world-scale mesh")
+	_check(mesh.vertices.size() == mesh.uvs.size() and mesh.vertices.size() > 6, "Packed large deck keeps tiled rather than stretched sampling")
+	for uv in mesh.uvs:
+		_check(uv.x >= 0 and uv.x <= 1 and uv.y >= 0 and uv.y <= 1, "Packed clipped material UV stays inside atlas")
+	# Exercise both old water outcomes, both first-batch orders and both final plans.
+	game.set_process(false); game.world.set_process(false)
+	for water in ["release_water", "warn_ferries"]:
+		_prepare_companion_chapter(true)
+		var s = game.state
+		s.mist_stage=4; s.mist_approach="duel"; s.mist_ending=water; s.mist_gauges.assign(["rain","stone","basin"])
+		game._travel("mistwood",Vector2(1470,485)); game._stop_audio(); game.audio_on=false
+		await _heting_open("exit_heting"); _press("走入鹤汀埠")
+		_check(s.map_id == "heting" and s.heting_stage == 1 and game.world.map_id == "heting", "Packed actual fifth-region entry starts chapter")
+		_check(s.heting_bridge == ("east" if water == "release_water" else "west"), "Packed prior water decision selects the initial pontoon")
+		var order: Array = ["meal","sealed"] if water == "release_water" else ["sealed","meal"]
+		for cargo in order:
+			await _heting_open("heting_cargo")
+			_press("押开锅粮" if cargo == "meal" else "押对秤封粮"); game._process(0)
+			_check(s.heting_cargo == cargo and game.near_label.text.contains("查看货签"), "Packed loading refreshes stationary cargo hint")
+			_check(is_equal_approx(game.toast_time,3.0), "Packed successful harbor work uses short feedback")
+			game._process(3.1)
+			_check(not game.hud.toast_wash.visible, "Packed ordinary success clears without obscuring continued exploration")
+			_check(not game.world._can_walk(Vector2(805,500)), "Packed loaded cart cannot use pedestrian pier")
+			await _heting_open("heting_winch")
+			var next: String = "west" if s.heting_bridge == "east" else "east"
+			_press("改接西岸" if next == "west" else "改接东岸")
+			_check(s.heting_bridge == next and s.heting_cargo == cargo and game.world._can_walk(Vector2(450,730) if next == "west" else Vector2(1150,730)), "Packed winch changes real terrain while retaining cargo")
+			var target: String = "heting_relief" if cargo == "meal" else "heting_scale"
+			var wrong: String = "heting_scale" if cargo == "meal" else "heting_relief"
+			await _heting_open(wrong)
+			_check(game.world.interaction_verb(wrong) == "询问去处", "Packed wrong shore gives contextual guidance")
+			await _key(KEY_ESCAPE); _check(s.heting_cargo == cargo, "Packed canceled wrong-shore discussion keeps cargo")
+			await _heting_open(target)
+			_check(game.world.interaction_verb(target) == "商议交粮", "Packed receiver labels a discussion, not automatic delivery")
+			_press("交下开锅粮" if cargo == "meal" else "交粮当面复称")
+			_check(s.heting_cargo.is_empty() and s.heting_delivered.has(cargo), "Packed explicit delivery records only its batch")
+			_press("收好货签")
+		_check(s.heting_stage == 2 and s.heting_delivered.size() == 2, "Packed base batches unlock night discussion")
+		await _heting_open("heting_dispatch")
+		var plan: String = "short_ferries" if water == "release_water" else "open_scale"
+		_press("拟作短渡分粮" if plan == "short_ferries" else "拟作守秤留粮"); await _key(KEY_ESCAPE)
+		await _heting_open("heting_lighter"); _press("押待分粮")
+		_check(s.heting_stage == 3 and s.heting_draft == plan and s.heting_ending.is_empty(), "Packed loaded final batch does not lock the draft")
+		game.world.teleport(Vector2(820,665)); game._save()
+		var saved: Dictionary = s.to_dict()
+		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
+		_check(document.version == 10, "Packed autosave writes schema10")
+		game.world.heting_bridge = "east" if s.heting_bridge == "west" else "west"; game.world.heting_cargo=""
+		game._load()
+		_check(s.to_dict() == saved and game.world.heting_bridge == s.heting_bridge and game.world.heting_cargo == "reserve", "Packed reload applies saved cargo and bridge before coordinate repair")
+		var receiver: String = "heting_relief" if plan == "short_ferries" else "heting_scale"
+		await _heting_open(receiver); await _key(KEY_ESCAPE)
+		_check(s.heting_stage == 3 and s.heting_cargo == "reserve", "Packed final confirmation can still be canceled")
+		await _heting_open(receiver)
+		var stale: Callable = game.modal_actions[0]
+		_press("照此交割")
+		_check(s.heting_stage == 4 and s.heting_ending == plan and s.heting_delivered.size() == 3, "Packed final branch completes exactly once")
+		var complete: Dictionary = s.to_dict(); stale.call()
+		_check(s.to_dict() == complete, "Packed stale delivery callback cannot duplicate rewards")
+		await _key(KEY_ESCAPE); game._show_map(); await process_frame
+		var chart = game.overlay.find_child("RegionChart",true,false)
+		_check(chart != null and chart.map_id == "heting" and chart.heting_bridge == s.heting_bridge and chart.markers.size() == 7, "Packed paper chart retains actual harbor topology and seven sites")
+		await _key(KEY_1)
+		_check(not game.active_modal, "Packed harbor map keeps numeric close control")
+	game.set_process(true); game.world.set_process(true)
+	# Exercise real loader documents inside this fresh audit's isolated user dir.
+	game._new_game()
+	var model = load("res://scripts/game_state.gd")
+	var probe = model.new()
+	var player: Dictionary = game.state.to_dict()
+	var path := "user://v18-migration-audit.json"
+	var file = FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":9,"player":player})); file.close()
+	_check(probe.load_game(path) == OK and probe.to_dict() == player, "Packed reader accepts complete legitimate v9 progress")
+	var stable: Dictionary = probe.to_dict()
+	for version in [10,11]:
+		var corrupt: Dictionary = player.duplicate(true)
+		if version == 10: corrupt.erase("heting_bridge")
+		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
+		var bytes = FileAccess.get_file_as_bytes(path)
+		_check(probe.load_game(path) != OK and probe.to_dict() == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed invalid/future schema preserves memory and source bytes")
