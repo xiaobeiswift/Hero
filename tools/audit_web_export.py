@@ -7,11 +7,15 @@ ROOT=Path(__file__).resolve().parents[1]
 ENGINE='4.6.3.stable.official.7d41c59c4'
 LEGACY='e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5'
 SCHEMA11='fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30'
-EXPECTED_CHECKS=2725  # 2720 complete source checks plus5 PCK-only assertions.
+RETAINED_CHECKS=2725  # Complete V21 PCK coverage, including373 sluice checks.
+EXPECTED_ARCHIVE_CHECKS=490  # Complete archive runtime extension; measured source rehearsal.
+EXPECTED_CHECKS=RETAINED_CHECKS+EXPECTED_ARCHIVE_CHECKS
+EXPECTED_PARTY_CHECKS=815
 EXPECTED_SLUICE_CHECKS=373
 COMPLETE_SCOPE='Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim'
 PARTY_COVERAGE='Schema12 four-actor exact-runtime coverage:'
 SLUICE_COVERAGE='Schema12 sluice exact-runtime coverage:'
+ARCHIVE_COVERAGE='Schema12 archive exact-runtime coverage:'
 
 def sha(path):
     with Path(path).open('rb') as handle: return hashlib.file_digest(handle,'sha256').hexdigest()
@@ -51,13 +55,19 @@ def audit_environment(directory, platform=None):
 
 def completed_pack_checks(text, exit_code):
     """Fail closed on old, partial, rehearsal, duplicate or error-bearing output."""
-    if exit_code != 0 or EXPECTED_CHECKS <= 0 or COMPLETE_SCOPE not in text or PARTY_COVERAGE not in text:
+    if exit_code != 0 or EXPECTED_CHECKS <= 0 or EXPECTED_ARCHIVE_CHECKS <= 0:
         return None
-    if 'SOURCE REHEARSAL:' in text or any(line.startswith(('ERROR:', 'SCRIPT ERROR:')) for line in text.splitlines()):
+    lines=text.splitlines()
+    if [line for line in lines if line.startswith('Audit scope:')] != [COMPLETE_SCOPE]:
         return None
-    sluice=re.findall(r'^'+re.escape(SLUICE_COVERAGE)+r' (\d+) checks;[^\n]*$', text, re.MULTILINE)
-    if sluice != [str(EXPECTED_SLUICE_CHECKS)]:
+    if 'SOURCE REHEARSAL:' in text or any(line.startswith(('ERROR:', 'SCRIPT ERROR:')) for line in lines):
         return None
+    for marker, expected in ((PARTY_COVERAGE, EXPECTED_PARTY_CHECKS),
+                             (SLUICE_COVERAGE, EXPECTED_SLUICE_CHECKS),
+                             (ARCHIVE_COVERAGE, EXPECTED_ARCHIVE_CHECKS)):
+        coverage=[line for line in lines if line.startswith(marker)]
+        if len(coverage) != 1 or re.fullmatch(re.escape(marker)+r' '+str(expected)+r' checks;[^\n]+', coverage[0]) is None:
+            return None
     summaries=re.findall(r'^(PASS|FAIL): (\d+) (exported-pack|source-rehearsal) checks; (\d+) failures$', text, re.MULTILINE)
     if summaries != [('PASS', str(EXPECTED_CHECKS), 'exported-pack', '0')]:
         return None
@@ -91,7 +101,7 @@ def main():
     verify_site(build,report)
     evidence={'source_commit':report['source_commit'],'engine':version,'pck_sha256':sha(build/'site/index.pck'),
               'audit_sha256':sha(driver),'legacy_sha256':LEGACY,'schema11_reader_sha256':SCHEMA11,'save_schema':12,'party_capacity':4,'log_sha256':sha(log),'exit_code':result.returncode,
-              'passed':passed,'checks':checks,'sluice_checks':EXPECTED_SLUICE_CHECKS if passed else None,'scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
+              'passed':passed,'checks':checks,'retained_checks':RETAINED_CHECKS if passed else None,'party_checks':EXPECTED_PARTY_CHECKS if passed else None,'sluice_checks':EXPECTED_SLUICE_CHECKS if passed else None,'archive_checks':EXPECTED_ARCHIVE_CHECKS if passed else None,'scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
     (directory/'PCK-AUDIT.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(evidence));return 0 if passed else 1
 

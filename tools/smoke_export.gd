@@ -40,8 +40,8 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _v21_prerequisites():
-		print("FAIL: v21 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+	if not _v22_prerequisites():
+		print("FAIL: v22 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal):
 		quit(1); return
@@ -61,6 +61,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--archive-only"):
+		await _test_archive_pack()
+		await _finish_run(rehearsal, "archive-only")
+		return
 	if OS.get_cmdline_user_args().has("--sluice-only"):
 		await _test_sluice_pack()
 		await _finish_run(rehearsal, "sluice-only")
@@ -112,14 +116,14 @@ func _run() -> void:
 	_check(game.state.repair_bridge(), "Packed bridge transaction works")
 	game._sync_world_state()
 	_check(game.world._can_walk(Vector2(835,800)), "Packed bridge repair changes collision")
-	game._interact("chapter_clerk")
+	await _talk("chapter_clerk")
 	_check(game.active_modal and game.modal_actions.size()==2, "Packed clerk dialogue opens")
 	game.modal_actions[0].call()
 	_check(game.state.archive_clues.has("clerk"), "Packed clerk choice records evidence")
-	game._interact("chapter_inscription")
+	await _talk("chapter_inscription")
 	game.modal_actions[0].call()
 	_check(game.state.archive_clues.size()==2, "Packed inscription records second clue")
-	game._interact("chapter_archive")
+	await _talk("chapter_archive")
 	_check(game.modal_actions.size()==4, "Packed seal controls appear")
 	game.modal_actions[2].call()
 	game.modal_actions[0].call()
@@ -164,6 +168,7 @@ func _run() -> void:
 	await _test_receipt_pack()
 	await _test_party_pack()
 	await _test_sluice_pack()
+	await _test_archive_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -1559,11 +1564,11 @@ func _test_close_guard_pack() -> void:
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
 
-func _v21_prerequisites() -> bool:
+func _v22_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.21", "V21 sluice-party project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.22", "V22 archive-party project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 12, "V21 retains save schema12")
+	_check(model != null and model.SAVE_VERSION == 12, "V22 retains save schema12")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -2083,7 +2088,7 @@ func _test_receipt_pack() -> void:
 	var title = game.overlay.find_child("BuildVersion",true,false)
 	# Full mode arrives after older story audits; inspect the real title afresh.
 	game._show_title(); title=game.overlay.find_child("BuildVersion",true,false)
-	_check(title!=null and title.text=="0.0.21", "Packed visible title reports rolling0.0.21")
+	_check(title!=null and title.text=="0.0.22", "Packed visible title reports rolling0.0.22")
 	for ending: String in ["short_ferries","open_scale"]:
 		await _test_receipt_entry_pack(ending)
 		await _test_receipt_victory_pack(ending)
@@ -2973,3 +2978,305 @@ func _test_sluice_close_pack(encounter: String, outcome: String) -> void:
 	_press("继续留在江湖"); await _key(KEY_ESCAPE); _receipt_unblock_save(blocker); await _key(KEY_F5)
 	_check(not game.quit_pending and not game.save_warning and s.to_dict() == settled and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed canceled sluice close permits exact save retry without process exit or duplicate settlement")
 	_sluice_checkpoint(encounter+"-close-"+outcome)
+
+# V22 extends the complete V21 audit; prepared earlier chapters establish only
+# eligibility. Archive entry, commands, later ending, retry and close use the
+# shipped main scene and real isolated disk writes. No test adapter is loaded.
+func _test_archive_pack() -> void:
+	var first: int = checks
+	var processing: bool = game.is_processing(); var world_processing: bool = game.world.is_processing()
+	game.set_process(false); game.world.set_process(false)
+	var rules = load("res://scripts/party_combat_rules.gd")
+	_check(rules.ENCOUNTERS.get("archive_boss") == [{"id":"archive_boss","name":"韩砚 · 仓门执事","hp":205,"attack":17,"heavy_attack":31}], "Packed archive retains unique205HP/17/31 template")
+	_test_archive_gates_pack()
+	await _test_archive_entry_pack()
+	for choice: String in ["open_records","protect_witness"]:
+		for count: int in [1,2]: await _test_archive_ending_pack(choice,count)
+	for count: int in [1,2]: await _test_archive_vulnerability_pack(count)
+	for outcome: String in ["flee","win","defeat"]: await _test_archive_close_pack(outcome)
+	await _test_archive_atomic_ending_pack()
+	await _test_archive_formation_pack()
+	game.set_process(processing); game.world.set_process(world_processing)
+	print("Schema12 archive exact-runtime coverage: %d checks; natural hero/optional Shen; guarded E/number entry and separate endings; shared vulnerability events; all3 legitimately recruited two-person formations; real save failure/retry/close; no browser or physical desktop-close claim" % (checks-first))
+
+func _archive_prepare(count: int = 2) -> void:
+	game._new_game()
+	var s = game.state
+	s.quest_stage = 6; s.ending = "守望"; s.choose_sect("听潮阁"); s.gain_xp(180)
+	s.side_stage = 3; s.side_choice = "rescue"; s.side_reward_claimed = true
+	s.side_found.assign(["boatman","ledger"]); s.side_clues = 2
+	var recruited: bool = count == 1 or s.recruit_companion()
+	s.map_id = "frostbridge"; s.formation = "并肩"; s.heal_rest()
+	_check(s.begin_chapter_two() and s.add_archive_clue("clerk") and s.add_archive_clue("inscription"), "Packed archive eligibility uses actual chapter and clue APIs")
+	var solved: bool = true
+	for key: int in [2,0,1]: solved = bool(s.try_seal(key).valid) and solved
+	_check(solved and s.chapter_two_stage == 2 and s.seal_sequence == [2,0,1], "Packed archive eligibility solves the actual canonical seal sequence")
+	game._sync_world_state(); game.world.change_map("frostbridge",Vector2(190,500)); s.position = game.world.player_pos
+	game._refresh(); game._stop_audio(); game.audio_on = false
+	_check(recruited and s.party_roster == (["hero","shen"] if count == 2 else ["hero"]) and not s.tangqi_unlocked and not s.qin_recruited() and s._valid_save_data(s.to_dict(),12), "Packed archive uses natural%d-actor roster without recruiting later companions" % count)
+
+func _archive_open():
+	await _talk("chapter_archive"); await _key(KEY_1)
+	var panel = _party_panel(); var s = game.state
+	_check(panel != null and game.current_screen == "party_battle" and s.battle_active and panel.encounter == "archive_boss", "Packed E/number enters actual archive party controller")
+	if panel == null: return null
+	panel.art.set_process(false)
+	var enemy: Dictionary = _party_unit(s.party_battle_snapshot(),"archive_boss")
+	_check(enemy.hp == 205 and enemy.attack == 17 and enemy.heavy_attack == 31, "Packed live archive opponent retains exact HP/light/heavy stats")
+	_check(panel.commands.context.title == "封仓问剑" and panel.commands.context.location == "霜桥仓台 · 韩砚 · "+(s.formation if s.party_roster.size() > 1 else "独行") and panel.unit_plates.has("archive_boss") and not panel.unit_plates.has("puheng"), "Packed archive title, location, formation and target plates identify real encounter")
+	_check(_receipt_document().version == 12 and _receipt_document().player.chapter_two_stage == 2 and _receipt_document().player.seal_sequence == JSON.parse_string(JSON.stringify([2,0,1])), "Packed pre-entry archive checkpoint durably records solved seal")
+	return panel
+
+func _archive_checkpoint(label: String) -> void:
+	var s = game.state; var before: Dictionary = s.to_dict()
+	_check(s.save_game() == OK, "Packed schema12 archive checkpoint writes: "+label)
+	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
+	_check(document.version == 12 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Packed archive checkpoint preserves complete canonical state without encounter-only fields: "+label)
+	game._load()
+	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_archive_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves exact archive resources/progress and clears transient encounter: "+label)
+	var old10: Dictionary = _receipt_variables(legacy_reader); var old11: Dictionary = _receipt_variables(schema11_reader)
+	_check(legacy_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and schema11_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader) == old10 and _receipt_variables(schema11_reader) == old11 and _receipt_bytes() == bytes, "Packed actual schema10/11 readers reject archive schema12 without any mutation: "+label)
+
+func _test_archive_gates_pack() -> void:
+	_archive_prepare()
+	var s = game.state
+	_check(s.can_start_archive_party_battle(), "Packed canonical Frostbridge solved-seal stage2 is archive eligible")
+	for pair: Array in [["map_id","qingwei"],["map_id","sluice"],["chapter_two_stage",1],["chapter_two_stage",3],["chapter_two_stage",4],["chapter_two_ending","open_records"],["quest_stage",5],["side_stage",2],["side_reward_claimed",false],["side_choice",""],["side_clues",1],["hp",0],["medicine",-1]]:
+		var original: Variant = s.get(pair[0]); s.set(pair[0],pair[1]); var before: Dictionary = s.to_dict()
+		_check(not s.can_start_archive_party_battle() and not s.start_party_battle("archive_boss") and not s.battle_active and s.party_session == null and s.to_dict() == before, "Packed archive rejects malformed prerequisite atomically: "+str(pair))
+		s.set(pair[0],original)
+	for pair: Array in [["archive_clues",["clerk"]],["archive_clues",["clerk","clerk"]],["seal_sequence",[2,0]],["seal_sequence",[0,2,1]],["side_found",["ledger"]],["side_found",["ledger","ledger"]]]:
+		var original: Array = s.get(pair[0]).duplicate(); s.get(pair[0]).assign(pair[1]); var before: Dictionary = s.to_dict()
+		_check(not s.can_start_archive_party_battle() and not s.start_party_battle("archive_boss") and s.to_dict() == before and not s.battle_active, "Packed archive cannot normalize incomplete/forged prerequisite into entry: "+str(pair))
+		s.get(pair[0]).assign(original)
+
+func _test_archive_entry_pack() -> void:
+	_archive_prepare()
+	var s = game.state; var before: Dictionary = s.to_dict()
+	game.chapter_story.archive(); game.modal_actions[0].call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed far archive callback cannot enter or spend")
+	game._close_modal(); await _talk("chapter_archive"); var stale: Callable = game.modal_actions[0]; before = s.to_dict()
+	await _key(KEY_ESCAPE); stale.call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed canceled archive callback cannot enter")
+	await _talk("chapter_archive"); stale = game.modal_actions[0]; game._show_map(); stale.call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed older archive modal generation cannot enter")
+	game._close_modal(); await _talk("chapter_archive"); stale = game.modal_actions[0]
+	game.world.teleport(Vector2(190,500)); game._process(0); before = s.to_dict(); stale.call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed moving away invalidates fresh archive entry callback")
+	game._close_modal(); await _talk("chapter_archive"); before = s.to_dict()
+	_check(s.save_game() == OK, "Packed archive entry control checkpoint exists")
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	await _key(KEY_1)
+	_check(not s.battle_active and _party_panel() == null and game.save_warning and _receipt_bytes() == bytes and s.to_dict() == before, "Packed real failed archive checkpoint blocks entry and every resource cost")
+	_receipt_unblock_save(blocker); await _key(KEY_1)
+	var panel = _party_panel()
+	_check(panel != null and panel.encounter == "archive_boss" and not game.save_warning and _receipt_document().player.chapter_two_stage == 2, "Packed same numbered archive choice retries after successful durable checkpoint")
+	if panel == null: return
+	panel.art.set_process(false)
+	var active: Dictionary = s.party_battle_snapshot(); var progress: Dictionary = s.to_dict(); var files: Dictionary = _courtyard_save_files()
+	_check(not s.start_party_battle("archive_boss") and not s.begin_chapter_two() and not s.add_archive_clue("clerk") and not s.try_seal(2).valid and not s.mark_archive_victory() and not s.resolve_chapter_two("open_records") and not s.repair_bridge() and s.to_dict() == progress and s.party_battle_snapshot() == active, "Packed active archive rejects every Chapter mutation, duplicate entry and final choice")
+	await _key(KEY_F5); await _key(KEY_F9); game._show_map(); game._show_inventory()
+	_check(_party_panel() == panel and s.save_game() == ERR_BUSY and game.save_slots.store.save_slot(s,2) == ERR_BUSY and s.load_game() == ERR_BUSY and _courtyard_save_files() == files, "Packed archive blocks save/load/menu paths while an independent party fight is active")
+	await _key(KEY_5); var tx: Dictionary = panel.pending; _party_finish(panel)
+	_check(not s.battle_active and s.party_settlement.outcome == "flee" and s.to_dict() == progress, "Packed numbered archive retreat preserves solved seal without reward")
+	panel = await _archive_open()
+	if panel == null: return
+	active = s.party_battle_snapshot()
+	_check(not s.finish_party_presentation(tx.epoch,tx.token).accepted and s.party_battle_snapshot() == active, "Packed previous archive attempt token cannot settle new retry")
+	panel.leave(); _party_finish(panel); game._close_modal()
+
+func _test_archive_ending_pack(choice: String, count: int) -> void:
+	_archive_prepare(count)
+	var s = game.state; var panel = await _archive_open()
+	if panel == null: return
+	var xp: int = _receipt_xp(); var coins: int = s.coins; var victories: int = s.victories
+	_check(panel.commands.groups.size() == count and s.party_battle_snapshot().actors.size() == count, "Packed archive commands and HUD belong only to%d natural actors" % count)
+	var tx: Dictionary = _sluice_terminal(panel)
+	if tx.is_empty(): return
+	_check(s.chapter_two_stage == 2 and s.chapter_two_ending.is_empty() and _receipt_xp() == xp and s.coins == coins and s.victories == victories, "Packed pending archive victory reveals neither progress nor rewards early")
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	_party_finish(panel)
+	_check(s.chapter_two_stage == 3 and s.chapter_two_ending.is_empty() and _receipt_xp() == xp+80 and s.coins == coins+40 and s.victories == victories+1 and s.party_settlement.battle_reward_xp == 80 and s.party_settlement.branch_reward_xp == 0, "Packed actual archive victory awards80XP40coins once and leaves a separate stage3 ending")
+	_check(game.save_warning and _receipt_bytes() == bytes and _gather_text(game.overlay).contains("回西岸驿馆"), "Packed failed victory autosave preserves disk and explains actual later ending location")
+	var won: Dictionary = s.to_dict()
+	_check(not s.finish_party_presentation(tx.epoch,tx.token).accepted and not s.start_party_battle("archive_boss") and not s.mark_archive_victory() and s.to_dict() == won, "Packed repeated archive terminal/reentry cannot replay battle rewards")
+	game._close_modal(); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.save_warning and _receipt_document().player == JSON.parse_string(JSON.stringify(won)), "Packed F5 persists already-settled stage3 victory exactly once")
+	_archive_checkpoint(choice+"-victory-"+str(count))
+	var before: Dictionary = s.to_dict(); game.chapter_story.innkeeper(); var stale: Callable = game.modal_actions[0]; stale.call()
+	_check(s.to_dict() == before, "Packed remote innkeeper ending callback cannot resolve or reward")
+	game._close_modal(); await _talk("chapter_host"); stale = game.modal_actions[0]; before = s.to_dict()
+	await _key(KEY_ESCAPE); stale.call()
+	_check(s.to_dict() == before, "Packed canceled archive ending callback cannot resolve")
+	await _talk("chapter_host"); stale = game.modal_actions[0]; game._show_inventory(); stale.call()
+	_check(s.to_dict() == before, "Packed old archive ending generation cannot resolve from inventory")
+	game._close_modal(); await _talk("chapter_host"); stale = game.modal_actions[0]
+	game.world.teleport(Vector2(1100,700)); game._process(0); before = s.to_dict(); stale.call()
+	_check(s.to_dict() == before, "Packed moved-away ending callback cannot resolve or reward")
+	game._close_modal(); await _talk("chapter_host"); var selected: Callable = game.modal_actions[0 if choice == "open_records" else 1]
+	before = s.to_dict(); xp = _receipt_xp(); bytes = _receipt_bytes(); blocker = _receipt_block_save()
+	if blocker.is_empty(): return
+	await _key(KEY_1 if choice == "open_records" else KEY_2)
+	_check(s.chapter_two_stage == 4 and s.chapter_two_ending == choice and _receipt_xp() == xp+100 and s.coins == int(before.coins)+65 and s.victories == before.victories, "Packed actual nearby numbered ending separately awards100XP65coins: "+choice+"/"+str(count))
+	_check(game.save_warning and not game.quit_pending and _receipt_bytes() == bytes, "Packed failed ending autosave retains actual chosen memory and old checkpoint")
+	var settled: Dictionary = s.to_dict(); selected.call(); stale.call()
+	_check(not s.resolve_chapter_two(choice) and s.to_dict() == settled, "Packed duplicate ending callbacks/model cannot replay final reward after failed save")
+	_receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.save_warning and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed F5 retry writes exactly chosen ending and every party resource")
+	_archive_checkpoint(choice+"-complete-"+str(count))
+	await _talk("chapter_host")
+	_check(_find_button(game.overlay,"借榻调息") != null and s.to_dict() == settled and s.chapter_two_ending == choice, "Packed completed archive ending returns to ordinary inn interaction without rewarding again")
+	game._close_modal()
+
+func _test_archive_vulnerability_pack(count: int) -> void:
+	_archive_prepare(count)
+	var s = game.state; var panel = await _archive_open()
+	if panel == null: return
+	var observed: Array = []
+	panel.art.event_presented.connect(func(event: Dictionary):
+		if String(event.type).begins_with("vulnerability_"):
+			observed.append({"event":event.duplicate(true),"shown":_party_actor(panel.art.display_snapshot,event.target_id).status.vulnerability_hits})
+	)
+	for id: String in s.party_roster: _party_command(panel,id,"guard")
+	var target: String = "shen" if count == 2 else "hero"
+	_check(s.party_battle_snapshot().round == 2 and s.party_battle_snapshot().enemy_intents[0].target_id == target and panel.unit_plates.archive_boss.intent.contains("重击"), "Packed archive heavy visibly names actual rotating recipient")
+	if count == 2: _party_command(panel,"hero","guard")
+	panel.request_command(target,"attack")
+	var tx: Dictionary = panel.pending
+	_check(not tx.is_empty() and _sluice_events(tx,"vulnerability_apply").size() == 1 and _sluice_events(tx,"vulnerability_apply")[0].target_id == target and _party_actor(tx.after,target).status.vulnerability_hits == 2, "Packed archive unguarded positive heavy applies exactly2 to actual recipient")
+	if tx.is_empty(): return
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 0 and _party_actor(panel.art.display_snapshot,target).hp == _party_actor(tx.before,target).hp, "Packed accepted heavy hides future HP/status until contact")
+	var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot(); var files: Dictionary = _courtyard_save_files()
+	var echo := InputEventKey.new(); echo.physical_keycode = KEY_1; echo.keycode = KEY_1; echo.pressed = true; echo.echo = true
+	Input.parse_input_event(echo); await process_frame; echo.pressed = false; echo.echo = false; Input.parse_input_event(echo)
+	await _key(KEY_3); await _key(KEY_TAB); await _key(KEY_Q); await _key(KEY_F5); await _key(KEY_ESCAPE)
+	panel.request_command(target,"guard"); game._show_inventory()
+	_check(s.to_dict() == accepted and s.party_battle_snapshot() == snapshot and _party_panel() == panel and _courtyard_save_files() == files, "Packed heavy animation lock rejects echoes, guards, targets, actors, save, leave and menu replacement")
+	panel.art._process(panel.art.ACTION_DURATION+panel.art.ACTION_GAP+.15)
+	_check(panel.art.acting_unit_id == "archive_boss" and panel.art.presentation_phase == "windup" and panel.art.selected_id == target and _party_actor(panel.art.display_snapshot,target).status.vulnerability_hits == 0, "Packed actual archive windup focuses correct struck actor before contact")
+	_party_finish(panel)
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 2 and panel.logs.any(func(line): return line.contains("破绽")), "Packed contact displays actual two-hit vulnerability and its explanation")
+	var damage: Dictionary = _sluice_events(tx,"damage","enemy")[0]
+	_check(damage.amount == maxi(1,31-int(_party_actor(tx.before,target).defense)) and _sluice_events(tx,"vulnerability_consume").is_empty(), "Packed applying heavy does not amplify itself")
+	if count == 1:
+		var light: Dictionary = _party_command(panel,"hero","attack")
+		_check(_sluice_events(light,"damage","enemy")[0].amount == maxi(1,17-int(_party_actor(light.before,"hero").defense))+3 and _party_actor(light.after,"hero").status.vulnerability_hits == 1 and _sluice_events(light,"vulnerability_consume")[0].remaining == 1, "Packed following real light hit adds exactly3 and consumes exactly one hit")
+	else:
+		var own: Dictionary = _party_command(panel,"hero","guard")
+		_check(_party_actor(own.after,"shen").status.vulnerability_hits == 2 and _sluice_events(own,"vulnerability_expire").is_empty(), "Packed hero guard never clears Shen's own vulnerability")
+		var other: Dictionary = _party_command(panel,"shen","attack")
+		_check(_sluice_events(other,"damage","enemy")[0].target_id == "hero" and _party_actor(other.after,"shen").status.vulnerability_hits == 2, "Packed next attack on another actor cannot consume Shen's two hits")
+	panel.request_command(target,"guard"); tx = panel.pending
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits > 0 and _party_actor(tx.after,target).status.vulnerability_hits == 0 and _sluice_events(tx,"vulnerability_expire")[0].reason == "guard", "Packed own guard clears in model while old status stays visible before its event")
+	_party_finish(panel)
+	if count == 2: _party_command(panel,"hero","guard")
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 0 and _party_actor(s.party_battle_snapshot(),target).status.vulnerability_hits == 0, "Packed selected actor guard visibly clears and prevents following heavy reapplication")
+	var exact_events: bool = not observed.is_empty(); var applied: bool = false; var expired: bool = false
+	for item: Dictionary in observed:
+		exact_events = exact_events and item.shown == item.event.remaining and item.event.target_id == target
+		applied = applied or item.event.type == "vulnerability_apply"
+		expired = expired or (item.event.type == "vulnerability_expire" and item.event.reason == "guard")
+	_check(exact_events and applied and expired, "Packed status paint changes only at each actual application/consume/own-guard event")
+	panel.leave(); _party_finish(panel)
+	_check(s.chapter_two_stage == 2 and s.chapter_two_ending.is_empty() and not _receipt_bytes().get_string_from_utf8().contains("vulnerability"), "Packed flee saves canonical retryable archive without transient vulnerability")
+	game._close_modal()
+
+
+func _test_archive_close_pack(outcome: String) -> void:
+	_archive_prepare(2 if outcome == "win" else 1)
+	var encounter: String = "archive_boss"
+	var s = game.state
+	if outcome == "defeat": s.hp = 1; s.qi = 0; s.coins = 5
+	var panel = await _archive_open()
+	if panel == null: return
+	var progress: Dictionary = s._archive_party_progress(); var xp: int = _receipt_xp(); var coins: int = s.coins; var victories: int = s.victories
+	var tx: Dictionary
+	if outcome == "flee": panel.request_command("hero","guard"); tx = panel.pending
+	else: tx = _sluice_terminal(panel,outcome)
+	if tx.is_empty(): return
+	var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot(); var bytes: PackedByteArray = _receipt_bytes()
+	var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	await _key(KEY_1); await _key(KEY_ESCAPE)
+	_check(panel.close_pending and not game.quit_pending and s.to_dict() == accepted and s.party_battle_snapshot() == snapshot and _receipt_bytes() == bytes, "Packed repeated archive close waits for accepted action without double costs: " + encounter+"/"+outcome)
+	_party_finish(panel)
+	if outcome == "flee":
+		_check(panel.pending.get("action_id") == "flee" and panel.art.is_presenting(), "Packed queued archive close accepts exactly one flee after guard")
+		_party_finish(panel)
+	_check(game.current_screen == "explore" and not s.battle_active and not game.quit_pending and game.save_warning and _receipt_bytes() == bytes and s.party_settlement.outcome == outcome, "Packed real failed-save close retains actual archive outcome and prior disk: " + encounter+"/"+outcome)
+	if outcome == "win":
+		_check(_receipt_xp() == xp+80 and s.coins == coins+40 and s.victories == victories+1 and s.chapter_two_stage == 3 and s.chapter_two_ending.is_empty(), "Packed close preserves actual terminal reward and separate ending boundary once")
+	elif outcome == "defeat":
+		var recovered_progress: Dictionary = progress.duplicate(true); recovered_progress.map_id = "qingwei"
+		_check(s.coins == 0 and _receipt_xp() == xp and s.victories == victories and s.map_id == "qingwei" and s.position == Vector2(420,450) and game.world.player_pos == s.position and s.hp == s.max_hp and s.qi >= 2 and s._archive_party_progress() == recovered_progress and s.chapter_two_stage == 2 and s.chapter_two_ending.is_empty(), "Packed actual archive defeat loses only available5coins and recovers at correct Qingwei position without progress rewards")
+	else:
+		_check(s._archive_party_progress() == progress and _receipt_xp() == xp and s.coins == coins and s.victories == victories, "Packed closed retreat preserves retryable solved seal without reward")
+	var settled: Dictionary = s.to_dict(); var stale: Callable = game.modal_actions[0]
+	_press("返回小憩"); stale.call()
+	_check(not game.quit_pending and s.to_dict() == settled and _receipt_bytes() == bytes, "Packed canceled archive close invalidates stale retry/exit callback")
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); _press("不保存离开")
+	_check(_gather_text(game.overlay).contains("舍下未存的这一程？") and not game.quit_pending, "Packed archive discard still requires the explicit second choice")
+	_press("继续留在江湖"); await _key(KEY_ESCAPE); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.quit_pending and not game.save_warning and s.to_dict() == settled and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed canceled archive close permits exact save retry without process exit or duplicate settlement")
+	_archive_checkpoint(encounter+"-close-"+outcome)
+
+func _test_archive_atomic_ending_pack() -> void:
+	_archive_prepare()
+	var s = game.state
+	_check(s.mark_archive_victory(), "Packed separate model boundary prepares exact stage3 atomic ending fixture")
+	var before: Dictionary = s.to_dict()
+	_check(not s.resolve_chapter_two("forged_choice") and s.to_dict() == before, "Packed invalid final choice leaves every persistent field unchanged")
+	s.medicine = -1; before = s.to_dict()
+	_check(not s.resolve_chapter_two("open_records") and s.to_dict() == before, "Packed malformed final state cannot receive or partially apply ending rewards")
+	s.medicine = 3; s.coins = 999990
+	var xp: int = _receipt_xp()
+	await _talk("chapter_host"); await _key(KEY_2)
+	_check(s.chapter_two_stage == 4 and s.chapter_two_ending == "protect_witness" and s.coins == 999999 and _receipt_xp() == xp+100 and s._valid_save_data(s.to_dict(),12), "Packed actual final choice caps coins and commits validated ending/XP atomically")
+	_archive_checkpoint("capped-final-choice")
+
+func _test_archive_formation_pack() -> void:
+	# Tang and Qin exist here only because their later personal stories have been
+	# explicitly completed and they were invited by _party_prepare. Archive itself
+	# above never fabricates their early recruitment.
+	for id: String in ["shen","tang","qin"]:
+		var facts: Dictionary = {}
+		for formation: String in ["护后","并肩"]:
+			_party_prepare(4)
+			var s = game.state
+			_check(s.set_party_roster(["hero",id]) and s.set_formation(formation), "Packed real late roster selects legitimate two-person formation: "+id+"/"+formation)
+			var panel = _party_open()
+			if panel == null: return
+			var home: Vector2 = panel.art.actor_home(id); var hero_home: Vector2 = panel.art.actor_home("hero")
+			_check(home == (Vector2(255,450) if formation == "护后" else Vector2(140,505)) and hero_home == (Vector2(440,585) if formation == "护后" else Vector2(420,585)) and panel.art.actor_foot(id) == home, "Packed exact two-person homes distinguish formations for actual "+id)
+			_check(panel.commands.context.location.ends_with(formation) and panel.commands.groups.size() == 2, "Packed actual battle caption and independent commands report selected formation")
+			_party_command(panel,"hero","guard"); _party_command(panel,id,"guard")
+			var intent: Dictionary = s.party_battle_snapshot().enemy_intents[0]
+			var expected: String = "hero" if formation == "护后" else id
+			_check(intent.target_id == expected and intent.target_policy == ("front_living" if formation == "护后" else "rotate_front") and panel.unit_plates.puheng.intent.contains(_party_actor(s.party_battle_snapshot(),expected).name), "Packed actual second-round target and announced policy follow formation: "+id+"/"+formation)
+			_party_command(panel,"hero","guard")
+			panel.request_command(id,"guard"); var tx: Dictionary = panel.pending
+			var impacts: Array = _sluice_events(tx,"damage","enemy")
+			_check(not tx.is_empty() and impacts.size() == 1 and impacts[0].target_id == expected, "Packed real counter event strikes exactly the target promised by formation")
+			if tx.is_empty(): return
+			panel.art._process(panel.art.ACTION_DURATION+panel.art.ACTION_GAP+.15)
+			_check(panel.art.acting_unit_id == "puheng" and panel.art.presentation_phase == "windup" and panel.art.selected_id == expected, "Packed actual incoming renderer focuses announced recipient")
+			_party_finish(panel)
+			_check(panel.art.actor_foot(id) == home and panel.art.actor_foot("hero") == hero_home and panel.commands.context.location.ends_with(formation), "Packed actual counter returns both actors to distinct formation homes")
+			facts[formation] = {"home":home,"target":impacts[0].target_id,"policy":intent.target_policy}
+			panel.leave(); _party_finish(panel); game._close_modal()
+		_check(facts["护后"].home != facts["并肩"].home and facts["护后"].target != facts["并肩"].target and facts["护后"].policy != facts["并肩"].policy, "Packed both formations differ in actual geometry and observed targeting for "+id)
+	for count: int in [3,4]:
+		for formation: String in ["护后","并肩"]:
+			_party_prepare(count)
+			_check(game.state.set_formation(formation), "Packed retained larger roster selects its real formation")
+			var panel = _party_open()
+			if panel == null: return
+			var expected: Array = [Vector2(440,585),Vector2(200,470),Vector2(345,350)] if formation == "护后" else [Vector2(420,585),Vector2(255,455),Vector2(475,350)]
+			if count == 4: expected = [Vector2(440,585),Vector2(160,470),Vector2(325,350),Vector2(550,390)] if formation == "护后" else [Vector2(430,590),Vector2(180,480),Vector2(355,345),Vector2(580,435)]
+			var actual: Array = []
+			for actor_id: String in game.state.party_roster: actual.append(panel.art.actor_home(actor_id))
+			_check(actual == expected and panel.commands.groups.size() == count, "Packed%d-person formation geometry and independent commands remain unchanged: %s" % [count,formation])
+			panel.leave(); _party_finish(panel); game._close_modal()
