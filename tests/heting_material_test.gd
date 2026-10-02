@@ -5,10 +5,9 @@ func _initialize()->void:
 	assert(Harbor.WaterArt.texture()==Harbor.WaterArt.texture())
 	assert(Harbor.GroundArt.get_size().x>0)
 	for area in [Harbor.CARGO_ISLAND,Harbor.FOOT_PIER,Harbor.WEST_PONTOON,Harbor.EAST_PONTOON]:
-		var geometry=Harbor.DeckArt.deck_geometry(area)
-		assert(geometry==Harbor.DeckArt.deck_geometry(area))
-		for i in range(4):
-			assert((area.get_center()+(geometry.uvs[i]-Vector2(.5,.5))*maxf(area.size.x,area.size.y)).distance_to(geometry.points[i])<.001)
+		var geometry=Harbor.MaterialTiles.geometry(area,Harbor.WOOD_TILE)
+		assert(geometry.mesh==Harbor.MaterialTiles.geometry(area,Harbor.WOOD_TILE).mesh)
+		assert(geometry.tile_size==160.0)
 	for index in range(3):
 		var spec=Harbor.warehouse_spec(index)
 		var footprint:Rect2=Harbor.BUILDINGS[index]
