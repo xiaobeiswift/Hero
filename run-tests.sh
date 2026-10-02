@@ -17,6 +17,9 @@ run_checked() {
   fi
 }
 run_checked --headless --path . --editor --import --quit
+run_checked --headless --path . --script tests/combat_skill_catalog_test.gd
+run_checked --headless --path . --script tests/combat_learning_schema_test.gd
+run_checked --headless --path . --script tests/combat_learning_ui_test.gd
 run_checked --headless --path . --script tests/state_test.gd
 run_checked --headless --path . --script tests/party_combat_rules_test.gd
 run_checked --headless --path . --script tests/party_roster_rules_test.gd
