@@ -32,6 +32,8 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
+run_checked --headless --path . --script tests/exploration_party_trail_test.gd
+run_checked --headless --path . --script tests/exploration_party_source_collision_test.gd
 run_checked --headless --path . --script tests/automatic_party_combat_test.gd
 run_checked --headless --path . --script tests/automatic_party_battle_art_test.gd
 run_checked --headless --path . --script tests/party_battle_backdrop_test.gd
