@@ -117,6 +117,7 @@ run_checked --headless --path . --script tests/tea_table_art_test.gd
 run_checked --headless --path . --script tests/lantern_post_art_test.gd
 
 python3 -m unittest discover -s tests -p test_export_archives.py
+python3 -m unittest discover -s tests -p test_export_versions.py
 python3 -m unittest discover -s tests -p test_sequential_exports.py
 python3 -m unittest discover -s tests -p test_check_timeout.py
 

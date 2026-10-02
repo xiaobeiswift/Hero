@@ -72,6 +72,8 @@ python3 tools/export_desktop.py --target all --label v0.0.17 --sequential-platfo
 
 ## 验收范围
 
+macOS导出会先校验预设的 `application/short_version` 与 `application/version` 都等于项目版本，再只读核验实际包中的 `CFBundleShortVersionString` 与 `CFBundleVersion`。不匹配即停止，绝不在签名后改写Info.plist。此规则从当前0.0.17源码开始；旧0.0.16归档的应用版本标记为0.0.8，是已知历史元数据问题，不影响其文件摘要真实性，也没有被覆盖重发。
+
 0.0.16原包存在探索中系统关窗在保存失败时仍退出的问题；Windows/Linux最小PCK热修复已发布为 [v0.0.16.1](https://github.com/xiaobeiswift/Hero/releases/tag/v0.0.16.1)，基于冻结0.0.16且仅修改关窗保护。它已通过原761项PCK回归、专项流程和精确原Linux引擎的真实窗口验收，不含0.0.17新内容；Windows原生仍未测，macOS不提供直接PCK替换。未安装补丁或使用macOS时，应通过Esc → 暂别江湖 → 保存并离开。原0.0.16归档未修改，安装前备份及回滚步骤在修复包内。
 
 当前外置驱动为761项：保留此前737项并补充本轮告示/布棚/竹丛/茶桌/悬灯资源与锚点、真实阅读/提示避让；此前阶段覆盖绘制水面/木栈台/小舟/三名平民资源、旧地形通行、探索缩放键盘与菜单、独立偏好持久化、固定HUD、交互与战斗门控、药铺身份和交锋页脚通知。计数是导出完整性回归，不代表人工游玩质量或性能。
