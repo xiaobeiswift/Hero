@@ -10,7 +10,17 @@
 
 v0.0.18完整下载已包含鹤汀埠。它写入存档格式10，可读取旧1–9版；旧v0.0.17不能读取新格式。升级前请保留自己的旧自动存档、三份手记及备份，以便回退。
 
-## 运行
+## 完整试玩包运行
+
+从 [v0.0.18发行页](https://github.com/xiaobeiswift/Hero/releases/tag/v0.0.18) 的资源列表下载对应系统的完整包，解压后运行；**无需安装Godot编辑器**。
+
+- Windows：解压windows-x86_64.zip，打开Hero.exe，保持它与Hero.pck在同一目录
+- Linux：解压linux-x86_64.tar.gz，在解压后的Hero目录运行`./Hero.x86_64`，保留同目录Hero.pck
+- macOS：解压macos-universal.zip，打开其中的Hero · 渡灯录.app；这是临时签名、未公证的试玩包，尚未进行macOS原生验收
+
+Windows原生也尚未验收。发行页自动生成的Source code ZIP/tar.gz是源码工程，不是上面的独立试玩包。升级与存档回退限制见前文。
+
+## 源码工程运行
 
 1. 安装 Godot 4.6.x（已在 4.6.3 验证）
 2. 用 Godot 项目管理器导入本目录的 `project.godot`
