@@ -1,9 +1,15 @@
 class_name MistwoodStory
 extends RefCounted
 var host
+var qin_story
+const QinStory = preload("res://scripts/qin_companion_story.gd")
+const QinRules = preload("res://scripts/qin_companion_rules.gd")
 const GAUGE_IDS={"mist_rain_gauge":"rain","mist_stone_gauge":"stone","mist_basin":"basin"}
-func _init(owner)->void:host=owner
+func _init(owner)->void:
+ host=owner
+ qin_story=QinStory.new(owner)
 func handle(id:String)->bool:
+ if qin_story.handle(id):return true
  match id:
   "exit_mistwood":entry()
   "return_frostbridge":host._travel("frostbridge",Vector2(1420,235))
@@ -79,11 +85,15 @@ func battle_victory(kind:String)->void:
 func finish(choice:String)->void:
  if host.state.resolve_mistwood(choice):
   host._close_modal();host._toast("第三章完成 · 修为+100、铜钱+60，收到分支谢礼。")
-func title()->String:return ["山雨来信","三尺问雨","听雨关前","令与水势","竹坡余声"][host.state.mist_stage]
+func title()->String:
+ if host.state.qin_stage in [1,2,3]:return QinRules.TITLE
+ return ["山雨来信","三尺问雨","听雨关前","令与水势","竹坡余声"][host.state.mist_stage]
 func hint()->String:
+ if host.state.qin_stage in [1,2,3]:return QinRules.hint(host.state)
  return ["由霜桥东北竹坡道前往雾竹坡。","查三处雨痕；中东巡哨有较量、修亭、公示原账三种通行方案。","三处读数齐备，去东侧听雨关索取原令底稿。","回西北秦禾处，商议先行照应何处。","底稿指向鹤汀埠。沿听雨关东侧下埠道，继续查粮船交割。"][host.state.mist_stage]
 func target_id()->String:
  var s=host.state
+ if s.qin_stage in [1,2,3]:return QinRules.target_id(s)
  if s.map_id!="mistwood":
   if s.mist_stage<=0 or s.mist_stage>=4:return ""
   return {"qingwei":"exit_sluice","sluice":"exit_frostbridge","frostbridge":"exit_mistwood"}.get(s.map_id,"")
@@ -95,4 +105,4 @@ func target_id()->String:
  return "mist_gate" if s.mist_stage==2 else ("mist_guide" if s.mist_stage==3 else "mist_camp")
 func journal()->String:
  var s=host.state
- return "\n\n[color=#d3b276]第三章 · 听雨辨令[/color]\n%s 雨痕竹尺\n%s 叠石刻度\n%s 分水石盂\n通行：%s\n%s 原令底稿\n%s 水势抉择\n%s" % ["✓" if s.mist_gauges.has("rain") else "◇","✓" if s.mist_gauges.has("stone") else "◇","✓" if s.mist_gauges.has("basin") else "◇",{"":"未定","duel":"较量查哨","repair":"修复警亭","records":"援引公示原账"}[s.mist_approach],"✓" if s.mist_stage>=3 else "◇","✓" if s.mist_stage>=4 else "◇",("先通缓水渠" if s.mist_ending=="release_water" else "先鸣渡船钟") if s.mist_stage==4 else hint()]
+ return ("\n\n[color=#d3b276]第三章 · 听雨辨令[/color]\n%s 雨痕竹尺\n%s 叠石刻度\n%s 分水石盂\n通行：%s\n%s 原令底稿\n%s 水势抉择\n%s" % ["✓" if s.mist_gauges.has("rain") else "◇","✓" if s.mist_gauges.has("stone") else "◇","✓" if s.mist_gauges.has("basin") else "◇",{"":"未定","duel":"较量查哨","repair":"修复警亭","records":"援引公示原账"}[s.mist_approach],"✓" if s.mist_stage>=3 else "◇","✓" if s.mist_stage>=4 else "◇",("先通缓水渠" if s.mist_ending=="release_water" else "先鸣渡船钟") if s.mist_stage==4 else hint()]) + QinRules.journal(s)

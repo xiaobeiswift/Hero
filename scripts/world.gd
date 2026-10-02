@@ -13,6 +13,7 @@ const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
 const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
 const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
 const Traveler=preload("res://scripts/traveler_visual.gd")
+const QinArt=preload("res://scripts/painted_battle_qin.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Islet=preload("res://scripts/reed_islet.gd")
 const Heting=preload("res://scripts/heting_region.gd")
@@ -901,6 +902,10 @@ func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> voi
 	Traveler.draw_actor(self,p,robe,Vector2.DOWN,time_passed+p.x*0.03,false,role,0.96)
 
 func _draw_companion() -> void:
+	if companion_name=="秦禾":
+		_ellipse(companion_pos+Vector2(1,2),Vector2(11,4),Color(.05,.14,.12,.27))
+		QinArt.draw(self,companion_pos,"idle",1.0,78)
+		return
 	Traveler.draw_actor(self,companion_pos,Color("82978c") if companion_name=="唐栖" else Color("cbd0b0"),companion_facing,companion_walk_time if companion_moving else time_passed+2.0,companion_moving,"tang" if companion_name=="唐栖" else "shen",1.03)
 
 func _draw_lantern_post(p: Vector2) -> void:

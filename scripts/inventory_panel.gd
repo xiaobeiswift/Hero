@@ -72,8 +72,12 @@ static func show(host)->void:
 	item(host,frame,Rect2(333,353,337,89),"medicine","回春散 ×%d"%host.state.medicine,"药包随身","恢复45气血；照野堂55")
 	item(host,frame,Rect2(690,353,407,89),"herb","青穗草 ×%d"%host.state.herbs,"任务物品","单独保管，不用于交易或制作")
 	var companion:String=host.state.current_companion()
-	text(host,frame,"同行："+(companion+" · "+host.state.formation if not companion.is_empty() else "独行"),Rect2(334,463,652,30),20,INK)
-	var detail=host.state.companion_description() if not companion.is_empty() else "调查药铺后，可再次与沈青交谈并邀请同行。"
+	var party=host.state.party_resource_snapshot()
+	var selected_names:Array[String]=[]
+	for actor:Dictionary in party.actors:
+		if actor.selected and actor.id!="hero":selected_names.append(actor.name)
+	text(host,frame,"同行："+(("、".join(selected_names))+" · "+host.state.formation if not selected_names.is_empty() else "独行"),Rect2(334,463,738,30),20,INK)
+	var detail="出战%d/4人，各自保留气血与真气。同行册可编队、查看招式与人物近况。"%host.state.party_roster.size() if not companion.is_empty() else "调查药铺后，可再次与沈青交谈并邀请同行。"
 	text(host,frame,detail,Rect2(335,502,738,48),15,MUTED)
 	var options=[["回春散",host._use_medicine],["切换阵型",host._switch_formation],["青钢剑 · 45文",host._buy_sword],["返回江湖",host._close_modal],["同行册",host.companion_story.roster]]
 	for i in range(options.size()):
@@ -81,7 +85,7 @@ static func show(host)->void:
 		var b=host._button(frame,options[i][0],Rect2(36+i*215,600,203,45),callback)
 		var reason=unavailable_reason(host,i)
 		b.disabled=not reason.is_empty()
-		b.tooltip_text=reason if not reason.is_empty() else ["恢复气血","切换并肩助攻与护后减伤","购买后自动装备，攻击+4","返回探索","查看已结识同行人"][i]
+		b.tooltip_text=reason if not reason.is_empty() else ["恢复气血","切换并肩承敌与前位护后","购买后自动装备，攻击+4","返回探索","查看已结识同行人"][i]
 		text(host,b,str(i+1),Rect2(8,12,21,21),13,Color("788d80") if b.disabled else Color("bfcaad"))
 		if b.disabled:text(host,frame,reason,Rect2(40+i*215,650,199,18),11,Color("d3ba89"))
 	var help=text(host,frame,"数字键 1—5  ·  K 修习  /  B 工艺  ·  Esc 返回",Rect2(40,671,1050,17),12,Color("9caf99"))

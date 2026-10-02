@@ -14,7 +14,7 @@ func bridge() -> void:
   invite()
  else:
   var memory="学徒们已经在抄那座让水的桥。" if s.tangqi_choice=="teach" else "原稿留在驿馆，每处改笔都另纸注明。"
-  host._modal("唐栖","尺上旧痕 / 已有新路",memory+"\n\n‘父亲没走完的路，我可以接着走。不只修这一座桥。’\n\n唐栖已在同行册，可与沈青切换上阵；未上阵的人留在熟悉的地方。",[["查看同行册",roster],["继续赶路",host._close_modal]],true)
+  host._modal("唐栖","尺上旧痕 / 已有新路",memory+"\n\n‘父亲没走完的路，我可以接着走。不只修这一座桥。’\n\n唐栖已在同行册，可与其他已招募同伴一同上阵，也可在探索时安排候补。",[["查看同行册",roster],["继续赶路",host._close_modal]],true)
 func begin() -> void:
  if host.state.begin_tangqi_quest():
   host._close_modal();host._toast("同行机缘：回废闸西北旧仓木匣，寻找旧工册。")
@@ -28,19 +28,13 @@ func resolve(choice:String) -> void:
  if host.state.resolve_tangqi_quest(choice):
   host._autosave();host._refresh();invite()
 func invite() -> void:
- host._modal("唐栖","同行 / 与人借路","‘桥能把人送到对岸，可对岸还有路。’\n\n唐栖把短尺收入袖中：‘让我一起走吧。看清一股力往哪儿来，才能把它送到别处去。’\n\n并肩：每两次出招追加4伤害、回复1真气\n护后：只替你化解重击，减伤5\n"+("沈青保留在同行册，两人可在探索中换阵。" if host.state.companion_unlocked else "青苇渡的沈青仍可结识，往后可在探索中切换同行人。"),[["邀请同行",recruit],["稍后再说",host._close_modal]],true)
+ host._modal("唐栖","同行 / 与人借路","‘桥能把人送到对岸，可对岸还有路。’\n\n唐栖把短尺收入袖中：‘让我一起走吧。看清一股力往哪儿来，才能把它送到别处去。’\n\n唐栖独立出战时可用短尺出招，也可消耗3真气施展分劲尺，削弱目标后两次来击。各人的气血与真气独立记录。\n"+("沈青仍在队伍中，最多可与三名已招募同伴一同行动。" if host.state.companion_unlocked else "青苇渡的沈青仍可结识，往后可在探索中编排队伍。"),[["邀请同行",recruit],["稍后再说",host._close_modal]],true)
 func recruit() -> void:
  if host.state.recruit_tangqi():
-  host._close_modal();host._toast("唐栖加入同行册并上阵。行囊第五项可切换同行人。")
+  host._close_modal();host._toast("唐栖加入同行册并上阵。行囊第五项可编排四人队伍。")
 func roster() -> void:
- if host.current_screen=="battle":return
- var s=host.state
- var body="每次只带一名同行人。切换不消耗物品，也不重置气血或真气。\n\n[color=#d3b276]当前：%s · %s[/color]\n%s\n\n沈青：%s\n唐栖：%s" % [s.current_companion() if not s.current_companion().is_empty() else "独行",s.formation,s.companion_description(),"已结伴" if s.companion_unlocked else "青苇药铺可结识","已结伴" if s.tangqi_unlocked else "完成霜桥原账、修桥后，向唐栖询问旧事"]
- var options:Array=[]
- for id in s.available_companions():options.append(["与"+id+"同行",select.bind(id)])
- if s.companion_unlocked:options.append(["沈青的近况",host.shen_story.route_info])
- options.append(["返回行囊",host._show_inventory])
- host._modal("同行册","队伍 / 各有所长",body,options,true)
+ host._show_party_roster()
+ return
 func select(id:String) -> void:
  if host.state.select_companion(id):
   host._close_modal();host._toast(id+"已上阵。"+host.state.companion_description())

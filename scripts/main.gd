@@ -15,6 +15,8 @@ const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
 const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
 const ReceiptUI=preload("res://scripts/heting_receipt_ui.gd")
+const PartyUI=preload("res://scripts/party_battle_ui.gd")
+const PartyRosterUI=preload("res://scripts/party_roster_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const LightnessStory=preload("res://scripts/lightness_story.gd")
@@ -302,7 +304,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.physical_keycode == KEY_F12:
 		_capture_screenshot()
 		return
-	if current_screen=="receipt_battle":return # The real group controller owns its keys and exit.
+	if current_screen in ["receipt_battle","party_battle"]:return # The real group controller owns its keys and exit.
+	if overlay.has_meta("party_roster"):
+		if event.physical_keycode==KEY_F5:
+			_party_roster_changed(overlay.get_meta("party_roster"),modal_generation)
+			get_viewport().set_input_as_handled()
+		return # Native focus and the folio own other keys.
 	if event.physical_keycode == KEY_ESCAPE and not active_modal and current_screen=="explore":
 		_show_pause();get_viewport().set_input_as_handled();return
 	if event.physical_keycode == KEY_ESCAPE and active_modal and current_screen != "title":
@@ -388,6 +395,8 @@ func _refresh() -> void:
 		quest_label.text="药箱之外";hint_label.text=shen_story.hint()
 	if _track_heting():
 		quest_label.text=heting_story.title();hint_label.text=heting_story.hint()
+	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:
+		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
@@ -422,6 +431,9 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 	toast_time = 7.0 if save_warning else duration
 
 func _clear_overlay() -> void:
+	if current_screen=="party_battle":return
+	if overlay.has_meta("party_battle"):overlay.remove_meta("party_battle")
+	if overlay.has_meta("party_roster"):overlay.remove_meta("party_roster")
 	if overlay.has_meta("receipt_battle"):overlay.remove_meta("receipt_battle")
 	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
@@ -432,7 +444,7 @@ func _clear_overlay() -> void:
 		child.queue_free()
 
 func _close_modal() -> void:
-	if current_screen=="receipt_battle":return
+	if current_screen in ["receipt_battle","party_battle"]:return
 	if current_screen=="title":
 		_show_title();return
 	var save_on_close=modal_autosave_on_close
@@ -445,7 +457,7 @@ func _close_modal() -> void:
 	if current_screen == "explore" and save_on_close: _autosave()
 
 func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
-	if current_screen=="receipt_battle":return
+	if current_screen in ["receipt_battle","party_battle"]:return
 	modal_autosave_on_close=true
 	modal_generation+=1
 	_clear_overlay()
@@ -535,7 +547,7 @@ func _show_pause()->void:
 	PauseMenu.show(self)
 
 func _show_title() -> void:
-	if current_screen=="receipt_battle":return
+	if current_screen in ["receipt_battle","party_battle"]:return
 	current_screen = "title"
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
@@ -549,6 +561,7 @@ func _request_new_game() -> void:
 		_new_game()
 
 func _new_game() -> void:
+	if current_screen=="party_battle":return
 	state.reset_game()
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
@@ -598,7 +611,7 @@ func _elder_dialogue() -> void:
 
 func _healer_dialogue() -> void:
 	if state.quest_stage >= 3 and not state.companion_unlocked:
-		_modal("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n并肩时，每两次出招，沈青以银针相助；护后时，为你减轻来袭伤害。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
+		_modal("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n沈青可独立选择银针出招、守势或青灯渡脉。青灯渡脉消耗3真气，治疗一名仍站立的队友；气血与真气各自记录。并肩轮换承受来击，护后由前位先挡敌锋。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
 		return
 	if state.quest_stage == 2 and state.herbs > 0:
 		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，记得守势。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
@@ -626,9 +639,34 @@ func _bandit_dialogue() -> void:
 	if state.quest_stage < 3:
 		_modal("蒲横 · 河帮执事","旧渡口","今晚这条渡口不开。\n\n你看见他腰间挂着半截灯绳，却还没有足够的线索说明来意。先问问村里的人。")
 	elif state.quest_stage == 3:
-		_modal("蒲横 · 河帮执事","交锋 / 一盏灯的价钱","‘灯是我摘的，过河的价钱却不是我定的。’\n\n蒲横横刀挡住栈桥：‘想拿回灯，就让我看看，你凭什么替这条河讲道理。’\n\n[color=#d3b276]普攻积攒真气，绝招消耗 3 点。敌人蓄力时，用守势化解。[/color]",[["拔剑 · 迎战",func(): _start_battle("story")],["暂且离开",_close_modal]],true)
+		_modal("蒲横 · 河帮执事","交锋 / 一盏灯的价钱","‘灯是我摘的，过河的价钱却不是我定的。’\n\n蒲横横刀挡住栈桥：‘想拿回灯，就让我看看，你凭什么替这条河讲道理。’\n\n每位在队同伴有自己的气血、真气和行动。点击人物下方招式出招；主角与同伴都行动后，敌方才依意图还击。普攻积攒真气，武学费用显示在各自招式上。治疗与护势须亲自选择队友。\n\n先保存再应战；退开保留已用资源，全队倒下才算败退。",[["拔剑 · 迎战",_party_entry.bind("story",modal_generation+1)],["暂且离开",_close_modal]],true)
 	else:
-		_modal("蒲横","切磋 / 不争渡税，只论武艺","‘那天的事，我欠船家一句交代。’\n\n蒲横已不再拦路，愿与你过招。切磋可以获得修为和少量铜钱；落败后仍可重新挑战。",[["友好切磋",func(): _start_battle("spar")],["下次再来",_close_modal]])
+		_modal("蒲横","切磋 / 不争渡税，只论武艺","‘那天的事，我欠船家一句交代。’\n\n蒲横已不再拦路，愿与你和在队同伴过招。每人各有一次本轮行动。切磋使用真实资源，可获得修为和少量铜钱；全队落败后回安全处休整，仍可重新挑战。",[["友好切磋",_party_entry.bind("training",modal_generation+1)],["下次再来",_close_modal]])
+
+func _party_entry(kind:String,generation:int)->void:
+	if current_screen!="explore" or not active_modal or generation!=modal_generation:return
+	_start_party_battle(kind)
+
+func _start_party_battle(kind:String)->bool:
+	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="qingwei" or world.map_id!="qingwei":return false
+	if not world.interactables.has("bandit") or world.player_pos.distance_to(world.interactables.bandit.pos)>=85:return false
+	return PartyUI.open(self,kind)!=null
+
+func _show_party_roster()->void:
+	if current_screen!="explore" or quit_pending or state.battle_active:return
+	modal_generation+=1;_clear_overlay();active_modal=true
+	var generation=modal_generation
+	var folio=PartyRosterUI.new()
+	folio.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var guard=func():return not quit_pending and current_screen=="explore" and active_modal and modal_generation==generation and overlay.get_meta("party_roster",null)==folio
+	folio.bind_state(state,{"shen":shen_story.route_info,"tang":func():_modal("唐栖的近况","同行机缘 / 尺上旧痕",companion_story.journal(),[["返回同行册",_show_party_roster],["继续赶路",_close_modal]],true),"qin":mist_story.qin_story.route_info},_show_inventory,_party_roster_changed.bind(folio,generation),guard)
+	overlay.set_meta("party_roster",folio);overlay.add_child(folio)
+	folio.set_save_notice("队伍仍保留在当前旅程，但尚未存妥；请点击重试保存。" if save_warning else "")
+
+func _party_roster_changed(folio,generation:int)->void:
+	if not is_instance_valid(folio) or current_screen!="explore" or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
+	_autosave();_refresh()
+	folio.set_save_notice("队伍仍保留在当前旅程，但尚未存妥；请点击重试保存。" if save_warning else "")
 
 func _finish_quest(choice: String) -> void:
 	state.ending = choice
@@ -686,7 +724,7 @@ func _use_medicine() -> void:
 		_toast("气血已满，或行囊中没有回春散。")
 
 func _show_journal() -> void:
-	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
+	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
 	var lines = ["与村中央的陆伯交谈", "到东北苇岸采集青穗草", "回村西药铺，将草药交给沈青", "前往东南旧渡口，夺回引航灯", "向陆伯交还灯芯与账页", "决定证据归处，选择修行方向"]
 	var body = "[color=#d3b276]主线 · 渡口失灯[/color]\n"
 	for i in range(lines.size()):
@@ -706,7 +744,7 @@ func _show_journal() -> void:
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
-	if current_screen in ["battle","receipt_battle","title"]:
+	if current_screen in ["battle","receipt_battle","party_battle","title"]:
 		_toast("请在探索时存档。")
 		return
 	state.position = world.player_pos
@@ -724,7 +762,7 @@ func _autosave() -> void:
 	if save_warning: _toast("⚠ "+_save_retry_message(),true)
 
 func _load() -> void:
-	if current_screen in ["battle","receipt_battle"]:
+	if current_screen in ["battle","receipt_battle","party_battle"]:
 		_toast("请结束战斗后读档。")
 		return
 	var error = state.load_game()
@@ -949,8 +987,8 @@ func _exit_tree() -> void:
 func _notification(what:int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		if quit_pending:return
-		if current_screen=="receipt_battle":
-			var controller=overlay.get_meta("receipt_battle",null)
+		if current_screen in ["receipt_battle","party_battle"]:
+			var controller=overlay.get_meta("party_battle" if current_screen=="party_battle" else "receipt_battle",null)
 			if is_instance_valid(controller):controller.request_application_close()
 			else:_toast("交锋尚未收束，请稍候再离开。")
 			return
@@ -964,7 +1002,14 @@ func _start_receipt_battle()->bool:
 	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
 	return ReceiptUI.open(self)!=null
 
+func _start_party_receipt_battle()->bool:
+	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
+	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
+	return PartyUI.open(self,"heting_receipt")!=null
+
 func _quit_cleanly(save_progress:bool=true) -> void:
+	if current_screen=="party_battle":
+		_notification(NOTIFICATION_WM_CLOSE_REQUEST);return
 	if quit_pending: return
 	if browser_mode:
 		if save_progress and current_screen=="explore":PauseMenu.save_and_leave(self,true)
@@ -1074,7 +1119,7 @@ func _sluice_cache_dialogue() -> void:
 	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。"+shen_story.shelter_append(),[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
 
 func _show_map() -> void:
-	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
+	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
 	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
 	var panel = overlay.get_child(overlay.get_child_count()-1)
 	panel.set_meta("minimum_page_height",570.0)
@@ -1104,7 +1149,7 @@ func _equip_art(id: String) -> void:
 		_toast("暂未习得这门武学。")
 
 func _show_workshop() -> void:
-	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
+	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
 	workshop.show()
 
 func _sync_world_state() -> void:
@@ -1136,9 +1181,11 @@ func _show_save_slots()->void:save_slots.save_page()
 func _show_load_slots()->void:save_slots.load_page()
 
 func _track_shen()->bool:
+	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:return false
 	return state.map_id!="heting" and shen_story.pending() and not companion_story.pending() and not (state.map_id=="mistwood" and state.mist_stage<4) and not (state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1)
 
 func _track_heting()->bool:
+	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:return false
 	if state.map_id=="heting":return state.heting_stage>0
 	if companion_story.pending() or shen_story.pending():return false
 	if state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1:return false

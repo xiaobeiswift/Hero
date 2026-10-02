@@ -51,7 +51,7 @@ func inspect()->void:
 	if host.state.inspect_shen_shelter():
 		host._close_modal();host._toast("药棚情形已记下。回青苇药铺，与沈青商议照护的办法。")
 func decision()->void:
-	host._modal("沈青 · 药师","药箱之外 / 方子没有写完","沈青在便条上添了一句：“能行走，不等于能出工。”\n\n“我不能只替船头写一张放心的纸。该不该歇，由他自己的身子与处境一起说话。”\n\n[color=#d3b276]留岸照护[/color]：轮值留在药棚，照看上岸歇工者；远埠仍须等靠岸。沈青护后减伤由2变为3。\n\n[color=#d3b276]随船问诊[/color]：随短渡探问不来药铺的人；药棚暂缺固定照看。沈青并肩相助时另恢复2气血。\n\n都不消耗物品。张贴照护约后生效，并得40修为。",[["留岸照护",_guard(choose.bind("shore"))],["随船问诊",_guard(choose.bind("mobile"))],["再想一想",host._close_modal]],true)
+	host._modal("沈青 · 药师","药箱之外 / 方子没有写完","沈青在便条上添了一句：“能行走，不等于能出工。”\n\n“我不能只替船头写一张放心的纸。该不该歇，由他自己的身子与处境一起说话。”\n\n[color=#d3b276]留岸照护[/color]：轮值留在药棚，照看上岸歇工者；远埠仍须等靠岸。沈青自身防御提高1。\n\n[color=#d3b276]随船问诊[/color]：随短渡探问不来药铺的人；药棚暂缺固定照看。沈青施展青灯渡脉时多恢复2气血。\n\n都不消耗物品。张贴照护约后生效，并得40修为。",[["留岸照护",_guard(choose.bind("shore"))],["随船问诊",_guard(choose.bind("mobile"))],["再想一想",host._close_modal]],true)
 func choose(id:String)->void:
 	if host.state.choose_shen_care(id):
 		host._autosave();host._refresh();draft()
@@ -73,7 +73,7 @@ func post()->void:
 		host._modal("沈青","同行机缘完成 / 药箱之外","沈青从药铺过来，把旧便条收进药箱。\n\n"+text+"\n\n获得40修为。"+benefit()+"\n照护约已留在村中告示上。",[["查看同行册",host.companion_story.roster],["继续赶路",host._close_modal]],true)
 		host._toast("药箱之外已完成。照护约改变了渡口的日常，也留下沈青的照护心得。")
 func benefit()->String:
-	return "沈青护后时，每次来袭减伤3（仍至少受伤1）。" if host.state.shen_care_choice=="shore" else "沈青并肩相助时，另恢复2气血（不超过上限）。"
+	return "沈青自身防御提高1。" if host.state.shen_care_choice=="shore" else "沈青青灯渡脉的治疗提高2点（不超过目标气血上限）。"
 func board_append()->String:
 	if host.state.shen_care_stage!=5:return ""
 	var text="旧仓药棚有人轮值，照看上岸歇工者并联系替班。远埠仍须靠岸求助。" if host.state.shen_care_choice=="shore" else "轮值随短渡探问远埠伤者，联系上岸求助。旧药棚暂时没有固定照看。"

@@ -94,7 +94,7 @@ func _start() -> void:
 		_save_failed()
 		return
 	_close()
-	host._start_receipt_battle()
+	host._start_party_receipt_battle()
 
 
 func _save_failed() -> void:
