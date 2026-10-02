@@ -34,6 +34,7 @@ for item in manifest["historical_controllers"]:
 PYMANIFEST
 run_checked --headless --path . --script tests/automatic_party_combat_test.gd
 run_checked --headless --path . --script tests/automatic_party_battle_art_test.gd
+run_checked --headless --path . --script tests/party_battle_backdrop_test.gd
 run_checked --headless --path . --script tests/unified_encounter_state_test.gd
 run_checked --headless --path . --script tests/unified_combat_ui_test.gd
 run_checked --headless --path . --script tests/unified_practice_lifecycle_test.gd

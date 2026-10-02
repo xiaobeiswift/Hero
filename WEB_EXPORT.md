@@ -22,7 +22,7 @@ https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot
 提交稳定源码后执行：
 
 ```sh
-python3 tools/export_web.py --label Hero-Web-0.0.22-web1 --revision 1
+python3 tools/export_web.py --label Hero-Web-0.0.23-web1 --revision 1
 ```
 
 引擎不在PATH时，可显式追加`--godot /绝对路径/官方Godot程序`；Windows可传带空格的完整`.exe`路径。构建使用工程内固定摘要的单线程Web模板，不依赖系统级Godot模板安装目录；配置、缓存与Windows的APPDATA仅对该子进程指向本次构建目录，不改变系统设置。Windows超时终止只作用于本次启动的Godot进程。仍须在真实Windows构建中核验输出，Python分支测试不等于平台运行证明。
@@ -32,10 +32,10 @@ python3 tools/export_web.py --label Hero-Web-0.0.22-web1 --revision 1
 构建后运行该机器生成的精确PCK审计：
 
 ```sh
-python3 tools/audit_web_export.py builds/Hero-Web-0.0.22-web1 --godot /绝对路径/官方Godot程序
+python3 tools/audit_web_export.py builds/Hero-Web-0.0.23-web1 --godot /绝对路径/官方Godot程序
 ```
 
-该命令先核对站点与ZIP的全部成员/摘要，再以单独测试存档加载实际`index.pck`。检查数量以该提交的 `tools/audit_web_export.py` 中 `EXPECTED_CHECKS` 为准；当前统一自动交锋/格式13冻结要求2799项全过，并核对1471项保留检查与1237项统一交锋的完整覆盖标识。源码演练为2794项，另外5项只在真实包中成立；不能以旧3215项、局部子集、重复或源码日志冒充实际PCK通过。固定格式9、10、11、12读取器须匹配摘要并明确拒绝新格式13；构建源码运行清单在审计前后都需保持一致。
+该命令先核对站点与ZIP的全部成员/摘要，再以单独测试存档加载实际`index.pck`。检查数量以该提交的 `tools/audit_web_export.py` 中 `EXPECTED_CHECKS` 为准；当前庭院场景/统一自动交锋/格式13冻结要求2810项全过，并核对1471项保留检查与1247项统一交锋的完整覆盖标识。源码演练为2805项，另外5项只在真实包中成立；不能以旧2799项、3215项、局部子集、重复或源码日志冒充实际PCK通过。固定格式9、10、11、12读取器须匹配摘要并明确拒绝新格式13；构建源码运行清单在审计前后都需保持一致。
 
 结果和原始日志写入构建目录的`exact-pack-audit`，拒绝覆盖已有证据。Windows同样传直接引擎EXE，通过Python启动，避免控制台包装器改变进程归属。若Python未启用UTF-8模式，可用 `python -X utf8` 执行相同脚本；不修改系统设置。此检查不是浏览器图形、音频或刷新持久性验收。当前开发只安排Web滚动构建；旧桌面发行保持原样，其工具需要同步新读取器参数之后才可用于未来桌面版本。
 
