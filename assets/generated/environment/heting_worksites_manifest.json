@@ -1,0 +1,214 @@
+{
+  "atlas": "heting_worksites_atlas.png",
+  "dimensions": [
+    512,
+    320
+  ],
+  "mode": "RGBA",
+  "anchor_convention": "All anchors and sockets are local to source_rect, measured in pixels from top-left. Draw top-left = world_foot - ground_anchor * draw_size / source_rect_size.",
+  "filtering": "linear; packed at 2x requested draw size, no mipmaps needed",
+  "runtime_processing": "Crop and Lanczos resize into the exact requested draw envelopes at 2x; original alpha retained without thresholding or background removal. Folded cloth intentionally uses a taller output envelope than its generated source.",
+  "sprites": {
+    "public_scale": {
+      "source_rect_xywh": [
+        8,
+        8,
+        256,
+        200
+      ],
+      "ground_anchor_xy": [
+        128.1818,
+        197.7401
+      ],
+      "suggested_draw_size_xy": [
+        128,
+        100
+      ],
+      "suggested_draw_offset_xy": [
+        -64.0909,
+        -98.8701
+      ],
+      "original_source": "../source/heting_scale_source.png",
+      "original_source_rect_xywh": [
+        6,
+        12,
+        1408,
+        1062
+      ],
+      "original_ground_anchor_local_xy": [
+        705,
+        1050
+      ],
+      "cargo_surface_sockets_local_xy": [
+        [
+          42.9091,
+          114.1243
+        ],
+        [
+          213.4545,
+          114.1243
+        ]
+      ],
+      "cargo_surface_offsets_from_foot_at_draw_size_xy": [
+        [
+          -42.6364,
+          -41.8079
+        ],
+        [
+          42.6363,
+          -41.8079
+        ]
+      ],
+      "notes": "Two empty pans. Cargo foot attaches to either socket; maximum recommended cargo footprint about 19px wide at native requested scale. Socket placements were visually inspected with existing sealed hamper artwork."
+    },
+    "soup_pot_hot": {
+      "source_rect_xywh": [
+        272,
+        8,
+        140,
+        120
+      ],
+      "ground_anchor_xy": [
+        70.1994,
+        118.3911
+      ],
+      "suggested_draw_size_xy": [
+        70,
+        60
+      ],
+      "suggested_draw_offset_xy": [
+        -35.0997,
+        -59.1955
+      ],
+      "original_source": "../source/heting_pot_source.png",
+      "original_source_rect_xywh": [
+        151,
+        156,
+        1053,
+        895
+      ],
+      "original_ground_anchor_local_xy": [
+        528,
+        883
+      ],
+      "steam_origin_local_xy": [
+        69.9335,
+        22.9274
+      ],
+      "steam_origin_offset_from_foot_at_draw_size_xy": [
+        -0.133,
+        -47.7318
+      ],
+      "notes": "Same crop and anchor for hot/cold variants. No steam in either source. Hot variant has soup and ember glow; cold has dark water and charcoal. Generated edit is visually aligned at native size but not pixel-identical outside the edited regions."
+    },
+    "soup_pot_cold": {
+      "source_rect_xywh": [
+        272,
+        136,
+        140,
+        120
+      ],
+      "ground_anchor_xy": [
+        70.1994,
+        118.3911
+      ],
+      "suggested_draw_size_xy": [
+        70,
+        60
+      ],
+      "suggested_draw_offset_xy": [
+        -35.0997,
+        -59.1955
+      ],
+      "original_source": "../source/heting_pot_cold_source.png",
+      "original_source_rect_xywh": [
+        151,
+        156,
+        1053,
+        895
+      ],
+      "original_ground_anchor_local_xy": [
+        528,
+        883
+      ],
+      "steam_origin_local_xy": [
+        69.9335,
+        22.9274
+      ],
+      "steam_origin_offset_from_foot_at_draw_size_xy": [
+        -0.133,
+        -47.7318
+      ],
+      "notes": "Same crop and anchor for hot/cold variants. No steam in either source. Hot variant has soup and ember glow; cold has dark water and charcoal. Generated edit is visually aligned at native size but not pixel-identical outside the edited regions."
+    },
+    "folded_tarpaulin": {
+      "source_rect_xywh": [
+        8,
+        224,
+        192,
+        76
+      ],
+      "ground_anchor_xy": [
+        95.9509,
+        74.3772
+      ],
+      "suggested_draw_size_xy": [
+        96,
+        38
+      ],
+      "suggested_draw_offset_xy": [
+        -47.9755,
+        -37.1886
+      ],
+      "original_source": "../source/heting_tarp_source.png",
+      "original_source_rect_xywh": [
+        20,
+        108,
+        1955,
+        562
+      ],
+      "original_ground_anchor_local_xy": [
+        977,
+        550
+      ]
+    },
+    "rope_coil": {
+      "source_rect_xywh": [
+        208,
+        224,
+        52,
+        24
+      ],
+      "ground_anchor_xy": [
+        26.0,
+        23.5082
+      ],
+      "suggested_draw_size_xy": [
+        26,
+        12
+      ],
+      "suggested_draw_offset_xy": [
+        -13.0,
+        -11.7541
+      ],
+      "original_source": "../source/heting_rope_source.png",
+      "original_source_rect_xywh": [
+        108,
+        116,
+        1502,
+        732
+      ],
+      "original_ground_anchor_local_xy": [
+        751,
+        717
+      ],
+      "footprint_center_local_xy": [
+        26.0,
+        12.0
+      ],
+      "notes": "Foot anchor uses frontmost contact edge; use footprint_center_local_xy if replacing a procedural ellipse centered at a world coordinate. Center opening has real transparency."
+    }
+  },
+  "file_bytes": 186102,
+  "sha256": "6998530abf33ee116b56f23e0504c5cf0db40813fa039a53f2a2c165da6cb957"
+}
