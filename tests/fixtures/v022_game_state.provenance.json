@@ -1,0 +1,7 @@
+{
+  "commit": "8cd254ec7cd2b8716c055abf5952377bf89dcc86",
+  "path": "scripts/game_state.gd",
+  "sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+  "schema": 12,
+  "scope": "Frozen reader for rejection of new schema13; never runtime asset"
+}
