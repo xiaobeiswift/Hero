@@ -1024,6 +1024,7 @@ func _show_map() -> void:
 	chart.ui_font = font
 	chart.current_target = world._quest_target_id()
 	chart.heting_bridge=state.heting_bridge
+	chart.heting_cargo=state.heting_cargo
 	chart.bridge_repaired=state.bridge_repaired
 	panel.add_child(chart)
 
