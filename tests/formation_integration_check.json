@@ -1,0 +1,73 @@
+{
+  "base": "b4f9395fb47a39003196d2f72b2871c70f3d18b3",
+  "scope": "Live receipt combat presentation only; all rules, settlement and schema11 unchanged",
+  "full_run": {
+    "godot_commands": 95,
+    "python_tests": 58,
+    "exit_code": 0,
+    "pass_summaries": 93,
+    "errors": 0,
+    "log_sha256": "4cbd671f540ef4e00be29c9ebde9c926cafa347683b18b7df21da85bb8812529"
+  },
+  "focused": {
+    "motion_checks": 5730,
+    "motion_headless_frames": 242,
+    "formation_gui_checks": 332,
+    "existing_receipt_ui_checks": 254,
+    "layout_checks": 52
+  },
+  "native": {
+    "images": {
+      "screenshots/283-formation-receipt-title-version.png": {
+        "bytes": 1320195,
+        "sha256": "ec250a40aa6afee47396436efd2b2b4058025c7d6979fd9dd5f1597e9d2390c8"
+      },
+      "screenshots/284-formation-receipt-optional-offer.png": {
+        "bytes": 709813,
+        "sha256": "18dd3ebb37d80e1f35f5f87e5646d45b1ab3eda125138806cac699258b3a5ee0"
+      },
+      "screenshots/285-formation-receipt-real-stakes.png": {
+        "bytes": 638188,
+        "sha256": "c5a1a9f77abab0c19dfc66cee6791a5e0b55bc358bb407298249f86b47eb5a32"
+      },
+      "screenshots/286-formation-receipt-waterfront-ready.png": {
+        "bytes": 1605931,
+        "sha256": "1f629640f1fa918d832a146498fe26d3b14c4e118d673ed592efe05486625d4f"
+      },
+      "screenshots/287-formation-receipt-skill-contact.png": {
+        "bytes": 1616124,
+        "sha256": "a9bf070f47a659b403a6a761c206fa00e041830a16cf59ac662887d336c366c6"
+      },
+      "screenshots/288-formation-receipt-first-victory.png": {
+        "bytes": 780770,
+        "sha256": "a2fb38a19ce381792a91c30b2cbe0c47e9da20ef661fc4c8f68fbeb45d8d5384"
+      },
+      "screenshots/289-formation-receipt-compared-record.png": {
+        "bytes": 718409,
+        "sha256": "202a61c04a93cef16d34cba48ea895bb0bf216f347408de61075ca719a1d1454"
+      },
+      "screenshots/290-formation-receipt-west-recovery.png": {
+        "bytes": 749752,
+        "sha256": "7dc87d00e07526e92951c7949725bd90f7cb2c99dbf6b8c6c5ec148181d97cfe"
+      },
+      "screenshots/291-formation-receipt-compact-two-targets.png": {
+        "bytes": 1411895,
+        "sha256": "aa9eb6086094f5c266f83b510f4ba72aad62168611195b03f57b40c55fb7f61c"
+      }
+    },
+    "log_sha256": "e2bf6a2415325f1c5080b37f1cd7b329e35ac821babd8abfc95f7d046d7f6311",
+    "renderer": "Godot4.6.3 Compatibility / Mesa llvmpipe; DummyAudio",
+    "exit_code": 0,
+    "all_images_inspected": true,
+    "scope": "Prepared real E/Tab/number/button route, attack contact, win/comparison/defeat and compact1180x737; no browser or physical-close claim"
+  },
+  "runtime_sha256": {
+    "scripts/formation_battle_art.gd": "14594bc90ca0988be957c1b06a6ff11c9a2bfd7a8698f473206d6264da893d66",
+    "scripts/heting_receipt_ui.gd": "ed98b19894421abe7ae17ff8e132f88678e506d785c966478a12b3739fd03419",
+    "scripts/game_state.gd": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "scripts/heting_receipt_rules.gd": "5e616577ce5805f653018b4e9b2f935aa4d363c2c10db1cf6e140b7aaa057d93",
+    "scripts/heting_receipt_combat.gd": "35a3e864f7b933b08b5c04e46195db74099fda75d2377d99bdbc62ef4475bc42"
+  },
+  "new_exact_pck_validation": "pending",
+  "movie_capture": "pending; prepared scripted driver rehearsal passed"
+}

@@ -1,0 +1,482 @@
+{
+  "source_commit": "9a8e7dff0d2d00a672b58cfd4658b5ed16309b02",
+  "runtime_entries": 239,
+  "driver_sha256": "466b480ad3e3de3c448ef1337513e27b715ea1be9d22fb24a5f451bb18c93d55",
+  "scope": "Real-engine scripted prepared-source battle, fixed30fps recording, silent; not manual play, browser, release or measured real-time performance",
+  "minimum_free": 30755610624,
+  "exit_code": 0,
+  "source_unchanged": true,
+  "trace": {
+    "checks": 10,
+    "failures": [],
+    "final": {
+      "coins": 24,
+      "hp": 94,
+      "medicine": 3,
+      "qi": 4,
+      "receipt_stage": 1,
+      "xp": 0
+    },
+    "initial": {
+      "coins": 24,
+      "hp": 148,
+      "medicine": 3,
+      "qi": 6,
+      "receipt_stage": 1,
+      "xp": 0
+    },
+    "scope": "Prepared level5 companion encounter, real scripted Tab/number/Escape events, fixed-step source motion; not manual, browser, native release, FPS or audio proof",
+    "simulated_seconds": 7.62499999999998,
+    "source_commit": "9a8e7dff0d2d00a672b58cfd4658b5ed16309b02",
+    "trace": [
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 148,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "striker",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 0,
+          "units": [
+            {
+              "brace": true,
+              "hp": 190,
+              "id": "striker",
+              "intent": "探刃截签 · 基础伤害22（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 22,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探刃截签"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 110,
+              "id": "bracer",
+              "intent": "架刀护住截签刀客：其每次所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架刀护伴"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 148,
+          "medicine": 3,
+          "qi": 6,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 0.625,
+        "step": 0
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 148,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 0,
+          "units": [
+            {
+              "brace": true,
+              "hp": 190,
+              "id": "striker",
+              "intent": "探刃截签 · 基础伤害22（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 22,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探刃截签"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 110,
+              "id": "bracer",
+              "intent": "架刀护住截签刀客：其每次所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架刀护伴"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 148,
+          "medicine": 3,
+          "qi": 6,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 0.958333333333333,
+        "step": 1
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 136,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 1,
+          "units": [
+            {
+              "brace": true,
+              "hp": 190,
+              "id": "striker",
+              "intent": "截签重斩 · 基础伤害34（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 34,
+                "heavy": true,
+                "kind": "attack",
+                "name": "截签重斩"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 78,
+              "id": "bracer",
+              "intent": "架刀护住截签刀客：其每次所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架刀护伴"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 136,
+          "medicine": 3,
+          "qi": 6,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 2.35833333333334,
+        "step": 2
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 130,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 6,
+          "selected_id": "bracer",
+          "skill_cooldown": 0,
+          "support_count": 0,
+          "turn": 2,
+          "units": [
+            {
+              "brace": true,
+              "hp": 190,
+              "id": "striker",
+              "intent": "探刃截签 · 基础伤害22（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 22,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探刃截签"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 78,
+              "id": "bracer",
+              "intent": "架刀护住截签刀客：其每次所受伤害减半（向上取整）；本轮不攻击",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "protect",
+                "name": "架刀护伴"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 130,
+          "medicine": 3,
+          "qi": 6,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 3.75833333333333,
+        "step": 3
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "回潮断浪": 1,
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 118,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 2,
+          "selected_id": "striker",
+          "skill_cooldown": 3,
+          "support_count": 0,
+          "turn": 3,
+          "units": [
+            {
+              "brace": false,
+              "hp": 190,
+              "id": "striker",
+              "intent": "截签重斩 · 基础伤害34（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 34,
+                "heavy": true,
+                "kind": "attack",
+                "name": "截签重斩"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 0,
+              "id": "bracer",
+              "intent": "已停手",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "none",
+                "name": "已停手"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 118,
+          "medicine": 3,
+          "qi": 2,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 5.15833333333333,
+        "step": 4
+      },
+      {
+        "model": {
+          "active": true,
+          "art_rank": 1,
+          "art_uses": {
+            "回潮断浪": 1,
+            "照夜一线": 0
+          },
+          "attack": 32,
+          "companion": "沈青",
+          "defense": 8,
+          "equipped_art": "回潮断浪",
+          "focused_damage": 0,
+          "formation": "护后",
+          "hp": 94,
+          "locked": false,
+          "max_hp": 148,
+          "max_qi": 6,
+          "medicine": 3,
+          "medicine_heal": 45,
+          "outcome": "",
+          "qi": 4,
+          "selected_id": "striker",
+          "skill_cooldown": 2,
+          "support_count": 0,
+          "turn": 4,
+          "units": [
+            {
+              "brace": false,
+              "hp": 158,
+              "id": "striker",
+              "intent": "探刃截签 · 基础伤害22（再扣防御与卸劲）",
+              "intent_data": {
+                "damage": 22,
+                "heavy": false,
+                "kind": "attack",
+                "name": "探刃截签"
+              },
+              "max_hp": 190,
+              "name": "截签刀客",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            },
+            {
+              "brace": false,
+              "hp": 0,
+              "id": "bracer",
+              "intent": "已停手",
+              "intent_data": {
+                "damage": 0,
+                "heavy": false,
+                "kind": "none",
+                "name": "已停手"
+              },
+              "max_hp": 110,
+              "name": "架刀护手",
+              "weaken_amount": 0,
+              "weaken_strikes": 0
+            }
+          ]
+        },
+        "resources": {
+          "coins": 24,
+          "hp": 94,
+          "medicine": 3,
+          "qi": 4,
+          "receipt_stage": 1,
+          "xp": 0
+        },
+        "simulated_seconds": 6.55833333333332,
+        "step": 5
+      }
+    ]
+  },
+  "passed": true,
+  "video": {
+    "file": "Hero-formation-motion-9a8e7df.mp4",
+    "sha256": "d4bb7342f8a7de7d1f066183809b179000cc6b1ed6a01397973147939997b88a",
+    "bytes": 1514022,
+    "duration_seconds": 7.833333,
+    "frames": 235,
+    "fps": "fixed30",
+    "codec": "H264",
+    "audio": "none"
+  },
+  "reviewed_encoded_frames": [
+    "ready",
+    "front contact",
+    "enemy counter contact",
+    "enemy return",
+    "rear contact",
+    "rear return"
+  ],
+  "scope_limit": "Private video delivery only, no GitHub package; scripted prepared source, not manual/browser/native release/audio or measured game FPS"
+}
