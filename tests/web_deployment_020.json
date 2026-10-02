@@ -1,0 +1,34 @@
+{
+  "deployed_at_utc": "2026-10-02T18:18:39Z",
+  "url": "https://game.codable.cn/",
+  "version": "0.0.20",
+  "web_revision": 1,
+  "source_commit": "ae0d928c67bcee5a1615480dce711fa16d4582c8",
+  "source_tree": "f6839af02109e34d0ba4e406d2ba2d194b7e28f6",
+  "save_schema": 12,
+  "party_capacity": 4,
+  "windows_build": {
+    "pck_sha256": "cb96415d13ca9eba454f3765d1cfa793452fb74ec0d6c0a502131a75fde4ea9f",
+    "zip_sha256": "056208cacd34a35f2ce191953eb4d40b76f2ddb1f7fc1839b3431ba8411c05e5",
+    "zip_bytes": 57838830,
+    "runtime_hashes": 275,
+    "exact_pck_checks": 2352,
+    "engine_errors": 0,
+    "evidence_scope": "Independently built and audited on Windows with pinned Godot4.6.3; not Windows GUI playtesting"
+  },
+  "deployment": {
+    "full_https_file_hashes": 14,
+    "checks": 36,
+    "tls": "verified",
+    "mime": "verified",
+    "cache_revalidation": "verified",
+    "caddy_configuration": "unchanged",
+    "unrelated_site_health": 200,
+    "retention": "Current0.0.20-web1 only; prior Web2 retired after exact14-file recoverability and no active readers; saves and operation evidence retained"
+  },
+  "limits": [
+    "Browser graphics/audio/reload persistence unverified",
+    "Only opening/training/receipt encounters use independent-party controller",
+    "No new GitHub package or release"
+  ]
+}
