@@ -1,0 +1,15 @@
+{
+  "source_commit": "3aa8c49f73f759dbfc4e9fc92131dd4f7903cf67",
+  "audit_driver_sha256": "0743924f7a080e7884ef53329589a56cdf03c881a4249583b2ea2d1c3ec24604",
+  "audit_wrapper_sha256": "cd617d0a848f06897809b60635a6af01b07f5b50b7ba83d0bddee67807639a4d",
+  "source_rehearsal_log_sha256": "ee5b3d7100df01ded2e3c56f0f074f4993e5c913b131858f386b962f89091da1",
+  "source_rehearsal_checks": 2347,
+  "new_party_checks": 815,
+  "source_rehearsal_passed": true,
+  "python_exit_code": 0,
+  "pck_checks_expected": 2352,
+  "pck_status": "PENDING final exact new PCK; five packaging-only assertions not exercised",
+  "scope": "Prepared state/input in unmodified source scene, including real default party controllers; not browser graphics/audio/persistence or physical window-close",
+  "web_python_tests": 28,
+  "runtime_unchanged_from": "3aa8c49f73f759dbfc4e9fc92131dd4f7903cf67"
+}

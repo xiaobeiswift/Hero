@@ -18,6 +18,31 @@ class PackAuditTests(unittest.TestCase):
             self.assertEqual(dict(os.environ),before)
             with self.assertRaises(FileExistsError):audit.audit_environment(base,'nt')
 
+    def test_complete_schema12_pack_log_required(self):
+        from unittest.mock import patch
+        with patch.object(audit, 'EXPECTED_CHECKS', 2000):
+            complete = (audit.COMPLETE_SCOPE + '\n' + audit.PARTY_COVERAGE + ' 400 checks\n'
+                        'PASS: 2000 exported-pack checks; 0 failures\n')
+            self.assertEqual(audit.completed_pack_checks(complete, 0), 2000)
+            for text, code in (
+                (complete, 1),
+                (complete.replace('2000 exported-pack', '1516 exported-pack'), 0),
+                (complete.replace('exported-pack', 'source-rehearsal'), 0),
+                (complete.replace('scope: complete', 'scope: party-only'), 0),
+                (complete.replace(audit.PARTY_COVERAGE, 'Old adapter only:'), 0),
+                ('SOURCE REHEARSAL: pending package assertions\n' + complete, 0),
+                ('SCRIPT ERROR: interrupted assertion\n' + complete, 0),
+                (complete + 'PASS: 2000 exported-pack checks; 0 failures\n', 0),
+                (complete.replace('; 0 failures', '; 1 failures'), 0),
+            ):
+                with self.subTest(text=text, code=code):
+                    self.assertIsNone(audit.completed_pack_checks(text, code))
+
+    def test_frozen_historical_readers_are_byte_exact(self):
+        root = Path(__file__).resolve().parents[1]
+        self.assertEqual(audit.sha(root/'tests/fixtures/v019_game_state.gd.txt'), audit.LEGACY)
+        self.assertEqual(audit.sha(root/'tests/fixtures/v020_game_state.gd.txt'), audit.SCHEMA11)
+
     def test_exact_site_archive_and_mutation_rejection(self):
         with tempfile.TemporaryDirectory() as temp:
             base=Path(temp);site=base/'site';(site/'licenses').mkdir(parents=True)
