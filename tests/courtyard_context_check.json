@@ -1,0 +1,165 @@
+{
+  "game_version": "0.0.23",
+  "live_web": "0.0.22 Web1 unchanged by this source checkpoint",
+  "save_schema": 13,
+  "scope": "Draw-only courtyard context for training/sect_trial/courtyard_practice; shared automatic rules, HUD and actor geometry remain unchanged",
+  "contexts": {
+    "courtyard": [
+      "training",
+      "sect_trial",
+      "courtyard_practice"
+    ],
+    "ferry": [
+      "story",
+      "sluice_scout",
+      "sluice_boss",
+      "archive_boss",
+      "mist_scout",
+      "mist_keeper",
+      "heting_receipt"
+    ]
+  },
+  "original_assets_reused": [
+    "assets/generated/environment/qingwei_environment_atlas.png",
+    "assets/generated/environment/qingwei_moss_earth.png"
+  ],
+  "unchanged_contract": {
+    "baseline_runtime": "7761262f83037f8d4061bf862896e59ccc8eb405",
+    "ferry_draw_block_ownership_normalized_equal": true,
+    "unchanged_geometry_functions": [
+      "ground_point",
+      "_make_floor",
+      "actor_home",
+      "actor_foot",
+      "actor_order",
+      "target_at",
+      "target_anchor",
+      "unit_label_rect",
+      "_draw_actor",
+      "_draw_effects"
+    ],
+    "unchanged_gameplay_files": {
+      "scripts/automatic_party_combat.gd": "d8ba92af86c160b96666c53c730373d91bcd2583b0da102810eabf59cf68e1c5",
+      "scripts/game_state.gd": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+      "scripts/party_battle_ui.gd": "4b01ae337cbe8c08e5ab1229139c8009f093a54265a6ac950f9d94ec29885407",
+      "scripts/party_category_hud.gd": "10287e9d63ba3fcff426af17c25306434e33745d24b7168afd05950b2bcacd7b",
+      "scripts/unified_encounter_rules.gd": "f587f3c7dd539f602a391b9fe609ab443231c5653debde79520af07cde5b8746",
+      "scripts/combat_skill_catalog.gd": "7998a1e9a974e7bd9936c0d09ebbd307844cf699929710860c2d6ab8ebf5f6fa"
+    },
+    "helper_sha256": "162117a138108209cbdd87a84e12a983524e19ef724b0cedcc2710c7521d53f7"
+  },
+  "focused_context_checks": 1121,
+  "regression": {
+    "scope": "Single uninterrupted run-tests.sh",
+    "godot_commands": 115,
+    "python_tests": 62,
+    "pass_summaries": 113,
+    "exit_code": 0,
+    "engine_errors": 0,
+    "log_sha256": "31c0dfde54ea0b6282202185ca60bbdd1198580efc1219bb3cded3c1b3903655",
+    "log_bytes": 101559,
+    "runner_sha256": "40da32467752d12f3688adaf7b629c8c67a5faa1103ed2344181c4d2431caf4a"
+  },
+  "source_package_rehearsal": {
+    "checks": 2805,
+    "failures": 0,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "package_only_skipped": 5,
+    "expected_exact_pck": 2810,
+    "log_sha256": "163547a3a4a0bd3413d2df0ac762df67fdae6cf0ef49b7ed05e26658c84932e9",
+    "output": [
+      "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+      "",
+      "SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim",
+      "Preserved noncombat exact-runtime coverage: 1471 checks; original asset/story/recruitment/menu/save assertions adapted to current schema",
+      "JOURNEY: school=听潮阁 level=6 hp=160/160 coins=490 medicines=7",
+      "JOURNEY: school=照野堂 level=6 hp=184/184 coins=484 medicines=7",
+      "JOURNEY: school=问石门 level=6 hp=160/160 coins=508 medicines=7",
+      "Schema13 unified automatic exact-runtime coverage: 1247 checks; all10 actual controllers; fixed3 skill slots; no-input basics; queued skills/CD;1-4 real rosters; explicit lessons; frozen9/10/11/12 readers; natural3-school journey; practice byte isolation; trial provenance; real save-failure/close/retry; no browser or physical desktop-close claim",
+      "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+      "PASS: 2805 source-rehearsal checks; 0 failures"
+    ]
+  },
+  "native": {
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "prepared_state": true,
+    "scripted_entry": true,
+    "fixed_presentation_times": true,
+    "frames": [
+      {
+        "path": "screenshots/336-context-training.png",
+        "sha256": "fd2fb60bf5e8e88b445af36b237f1df2b296117fe89aef8df419b2aafaa54869",
+        "bytes": 1672000,
+        "size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "path": "screenshots/337-context-sect_trial.png",
+        "sha256": "39abb16c1b1946f4319906f32a4b5a2106df1b488ba3f73e911f866a1871d14d",
+        "bytes": 1670963,
+        "size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "path": "screenshots/338-context-courtyard_practice.png",
+        "sha256": "06583879e34a0359540180c30d9d032ab086ed6f8c75a81be8d931c87eff0eee",
+        "bytes": 1672496,
+        "size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "path": "screenshots/339-context-heting_receipt.png",
+        "sha256": "cdb8ca8c8541bb0f0120bed85ae029ba318b244b66747d5cd605f03295f55ecb",
+        "bytes": 1714237,
+        "size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "path": "screenshots/340-context-practice-compact.png",
+        "sha256": "da5349e2ec8eafff02295aee4ae940a92c8c19641cb1b978f231ca495560b299",
+        "bytes": 1467216,
+        "size": [
+          1179,
+          736
+        ]
+      },
+      {
+        "path": "screenshots/341-context-practice-contact.png",
+        "sha256": "9e9656b3b9dd1cd9d8b6b0c19618776e8f72f0a37749570c23bf491e3f1a59cb",
+        "bytes": 1664800,
+        "size": [
+          1280,
+          800
+        ]
+      }
+    ],
+    "log_sha256": "b78f9d979a0cbfaec03e2c6dcbf11c6591c548fe607675db8b80ea4d7c49b01e",
+    "renderer": "OpenGL Compatibility / llvmpipe Mesa25.0.7",
+    "audio": "Dummy; no listening test",
+    "pixel_review": "All six frames independently reviewed; court identity, grounded idle/contact, four actor groups and compact1179x736 remain readable; ferry composition preserved"
+  },
+  "source_hashes": {
+    "project.godot": "23e583758c74a20205343c72945e191fb4c8e3c787ebf91055951e942c78d833",
+    "export_presets.cfg": "bb7284dbce0d437f7150680b79f57bd840abbeaf263caf77aef5a58ffe55dab3",
+    "scripts/party_battle_art.gd": "cd4bcaf53f6059bdb4c3c822a46f25a5ea532ad8869717afc13b3b199b693b28",
+    "scripts/party_battle_backdrop.gd": "162117a138108209cbdd87a84e12a983524e19ef724b0cedcc2710c7521d53f7",
+    "tests/party_battle_backdrop_test.gd": "2068e5ad2d11de584a5b5927c3aae9aec4b6bc9521445ffdd3014c812ce6d54f",
+    "tests/visual_party_courtyard.gd": "03b972eff3a3b4a40ba4053a7048f90d2eda26979cc7eb6345f7dfab39b35e9e",
+    "tools/smoke_export.gd": "ba6a0943e1bfde67f0f4c804ef474630232d418c6d464364fd21bfac7d7a2074",
+    "tools/audit_web_export.py": "bb6ada3f7285f15a914ed04269db66c71fd154b53f3bd530fff03fe1ab6fb913"
+  },
+  "limits": [
+    "Exact exported0.0.23 PCK, independent Windows output and deployment still pending",
+    "No new battle rules, actors, artwork generation or schema migration",
+    "No browser graphics/audio/reload persistence or realtime FPS claim"
+  ]
+}

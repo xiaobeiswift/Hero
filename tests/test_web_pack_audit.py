@@ -30,6 +30,7 @@ class PackAuditTests(unittest.TestCase):
         invalid = [
             (complete, 1),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3215 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2799 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2725 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '1516 exported-pack'), 0),
             (complete.replace('exported-pack', 'source-rehearsal'), 0),
@@ -68,8 +69,8 @@ class PackAuditTests(unittest.TestCase):
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.22"',driver)
-        self.assertIn('title.text=="0.0.22"',driver)
+        self.assertIn('== "0.0.23"',driver)
+        self.assertIn('title.text=="0.0.23"',driver)
         self.assertNotIn('"0.0.21"',driver)
         self.assertIn('await _test_unified_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
