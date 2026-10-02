@@ -24,7 +24,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
-PACK_SMOKE_CHECKS = 1231
+PACK_SMOKE_CHECKS = 1516
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses", "web")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {
@@ -288,7 +288,8 @@ def main() -> None:
         smoke_env = env.copy()
         smoke_env.update(XDG_DATA_HOME=str(build / (target + "-smoke-data")),
                          XDG_CONFIG_HOME=str(build / (target + "-smoke-config")),
-                         XDG_CACHE_HOME=str(build / (target + "-smoke-cache")))
+                         XDG_CACHE_HOME=str(build / (target + "-smoke-cache")),
+                         HERO_AUDIT_LEGACY_READER=str(ROOT / "tests/fixtures/v019_game_state.gd.txt"))
         for key in ("XDG_DATA_HOME", "XDG_CONFIG_HOME", "XDG_CACHE_HOME"):
             Path(smoke_env[key]).mkdir()
         if target == "linux":

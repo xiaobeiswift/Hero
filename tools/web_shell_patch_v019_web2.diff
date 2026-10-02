@@ -1,0 +1,89 @@
+--- index.html.original
++++ index.html.web2
+@@ -42,7 +42,7 @@
+ 	right: 0;
+ 	height: 20px;
+ 	box-sizing: border-box;
+-	padding: 0 8px;
++	padding: 0 156px 0 8px;
+ 	margin: 0;
+ 	overflow: hidden;
+ 	white-space: nowrap;
+@@ -61,6 +61,22 @@
+ 	color: #ffe4c3;
+ }
+ 
++#build-notice {
++	position: fixed;
++	top: 0;
++	right: 8px;
++	height: 20px;
++	padding-left: 8px;
++	border-left: 1px solid #58715e;
++	color: #dcc58d;
++	background: #091c1d;
++	font-size: 11px;
++	line-height: 20px;
++	white-space: nowrap;
++	pointer-events: none;
++	z-index: 4;
++}
++
+ #status, #status-splash {
+ 	position: fixed;
+ 	inset: 0;
+@@ -189,6 +205,7 @@
+ 			浏览器不支持游戏画布，请使用支持 WebGL 2 的桌面浏览器。
+ 		</canvas>
+ 		<p id="storage-notice" data-persistence="unknown" role="status" aria-live="polite">浏览器本地存档 · 刷新或关闭前请先存卷；清理网站数据会丢失存档</p>
++		<span id="build-notice" data-game-version="0.0.19" data-web-revision="2">0.0.19 · Web 2</span>
+ 		<noscript>请启用 JavaScript 后重新打开试玩页面。</noscript>
+ 		<div id="status">
+ 			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
+@@ -211,6 +228,7 @@
+ 	'use strict';
+ 	const canvas = document.getElementById('canvas');
+ 	const storageNotice = document.getElementById('storage-notice');
++	const buildNotice = document.getElementById('build-notice');
+ 	const statusOverlay = document.getElementById('status');
+ 	const statusProgress = document.getElementById('status-progress');
+ 	const statusNotice = document.getElementById('status-notice');
+@@ -222,6 +240,9 @@
+ 	let engine;
+ 
+ 	window.HeroWeb = Object.freeze({
++		getBuildInfo: function () {
++			return JSON.stringify({ game_version: buildNotice.dataset.gameVersion, web_revision: buildNotice.dataset.webRevision });
++		},
+ 		setStorageAvailable: function (available) {
+ 			if (typeof available !== 'boolean') {
+ 				return;
+@@ -263,9 +284,9 @@
+ 		});
+ 	}
+ 
+-	function displayFailureNotice(err) {
++	function displayFailureNotice(err, caption = '游戏未能启动，请查看下方原因后重试。') {
+ 		console.error(err);
+-		statusCaption.textContent = '加载未能完成。请确认已完整上传导出文件，并通过网站地址打开。';
++		statusCaption.textContent = caption;
+ 		if (err instanceof Error) {
+ 			setStatusNotice(err.message);
+ 		} else if (typeof err === 'string') {
+@@ -312,8 +333,14 @@
+ 			threads: GODOT_THREADS_ENABLED,
+ 		});
+ 		if (missing.length !== 0) {
+-			const missingMsg = '当前浏览器缺少运行游戏所需的功能：\n';
+-			displayFailureNotice(missingMsg + missing.join('\n'));
++			const lacksGraphics = missing.some((feature) => feature.startsWith('WebGL2'));
++			const caption = lacksGraphics
++				? '当前浏览器无法提供 WebGL 2 图形功能，游戏尚未启动。'
++				: '当前浏览器缺少运行游戏所需的功能，游戏尚未启动。';
++			const guidance = lacksGraphics
++				? '请在支持 WebGL 2 的桌面浏览器中打开此页。'
++				: '请使用较新的桌面浏览器重新打开此页。';
++			displayFailureNotice(guidance + '\n\n功能检查结果：\n' + missing.join('\n'), caption);
+ 		} else {
+ 			engine = new Engine(GODOT_CONFIG);
+ 			startButton.addEventListener('click', startGame, { once: true });

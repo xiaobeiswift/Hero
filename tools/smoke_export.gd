@@ -4,6 +4,8 @@ extends SceneTree
 var checks := 0
 var failures := 0
 var game
+var legacy_reader
+const LEGACY_READER_SHA256 := "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5"
 
 func _initialize() -> void:
 	_run.call_deferred()
@@ -36,8 +38,10 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _v19_prerequisites():
-		print("FAIL: v19 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+	if not _v20_prerequisites():
+		print("FAIL: v20 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+		quit(1); return
+	if not _receipt_legacy_prerequisite(rehearsal):
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -55,6 +59,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--receipt-only"):
+		await _test_receipt_pack()
+		await _finish_run(rehearsal, "receipt-only")
+		return
 	game._new_game()
 	_check(game.current_screen == "explore" and not game.active_modal, "New game enters exploration")
 	game._interact("elder")
@@ -143,6 +151,11 @@ func _run() -> void:
 	await _test_close_guard_pack()
 	await _test_heting_pack()
 	await _test_courtyard_practice_pack()
+	await _test_receipt_pack()
+	await _finish_run(rehearsal)
+
+func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
+	print("Audit scope: " + scope + "; prepared state/input only; no browser or physical desktop-close claim")
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -342,7 +355,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 10 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema10 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 11 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema11 and active party identity: " + choice)
 	game._show_inventory()
 	_press("切换阵型")
 	game._close_modal()
@@ -533,7 +546,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 10 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema10 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 11 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema11 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -612,7 +625,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 10 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 11 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
@@ -876,7 +889,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game._load()
 	_check(game.state.to_dict() == completed, "Packed finalized care state round-trips exactly: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 10 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema10 document records the final care plan: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 11 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema11 document records the final care plan: " + choice)
 	stale_post.call()
 	game.shen_story.post()
 	game.shen_story.choose("mobile" if choice == "shore" else "shore")
@@ -1040,7 +1053,7 @@ func _test_lightness_exploration() -> void:
 	game._load()
 	_check(game.world.player_pos == lightness.SHORE and game.state.position == lightness.SHORE and game.state.lightness_relics == [lightness.RELIC_ID], "Packed return autosave keeps shore position and discovered lore")
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 10 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema10 document writes lightness progression explicitly")
+	_check(saved is Dictionary and saved.get("version") == 11 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema11 document writes lightness progression explicitly")
 	game._start_battle("spar")
 	before = game.state.to_dict()
 	game.lightness_story.cross(true)
@@ -1526,17 +1539,19 @@ func _test_close_guard_pack() -> void:
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
 
-func _v19_prerequisites() -> bool:
+func _v20_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.19", "V19 project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.20", "V20 project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 10, "V19 retains save schema10")
+	_check(model != null and model.SAVE_VERSION == 11, "V20 requires save schema11")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
 		_check(ResourceLoader.exists("res://assets/generated/environment/" + asset + ".png"), "V18 painted asset retained: " + asset)
 	for module in ["courtyard_exercise_rules", "courtyard_practice_ui", "courtyard_practice_art", "courtyard_training_rigs", "courtyard_practice_backdrop"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V19 courtyard module retained before scene load: " + module)
+	for module in ["heting_receipt_rules", "heting_receipt_combat", "heting_receipt_story", "heting_receipt_ui", "heting_receipt_art"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V20 receipt module retained before scene load: " + module)
 	return failures == previous
 
 func _heting_open(id: String) -> void:
@@ -1619,7 +1634,7 @@ func _test_heting_pack() -> void:
 		game.world.teleport(Vector2(820,665)); game._save()
 		var saved: Dictionary = s.to_dict()
 		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
-		_check(document.version == 10, "Packed autosave writes schema10")
+		_check(document.version == 11, "Packed autosave writes schema11")
 		game.world.heting_bridge = "east" if s.heting_bridge == "west" else "west"; game.world.heting_cargo=""
 		game._load()
 		_check(s.to_dict() == saved and game.world.heting_bridge == s.heting_bridge and game.world.heting_cargo == "reserve", "Packed reload applies saved cargo and bridge before coordinate repair")
@@ -1647,7 +1662,7 @@ func _test_heting_pack() -> void:
 	var file = FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":9,"player":player})); file.close()
 	_check(probe.load_game(path) == OK and probe.to_dict() == player, "Packed reader accepts complete legitimate v9 progress")
 	var stable: Dictionary = probe.to_dict()
-	for version in [10,11]:
+	for version in [10,12]:
 		var corrupt: Dictionary = player.duplicate(true)
 		if version == 10: corrupt.erase("heting_bridge")
 		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
@@ -1952,8 +1967,301 @@ func _test_courtyard_close_pack() -> void:
 	_check(DirAccess.rename_absolute(blocked,restored)==OK,"Packed courtyard audit restores only its own synthetic blocker")
 	await _courtyard_key(KEY_F5)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string(path))
-	_check(not game.save_warning and not game.quit_pending and saved.version==10 and saved.player==JSON.parse_string(JSON.stringify(real.save)),"Packed successful F5 recovery writes the real journey with schema10 and stays open")
+	_check(not game.save_warning and not game.quit_pending and saved.version==11 and saved.player==JSON.parse_string(JSON.stringify(real.save)),"Packed successful F5 recovery writes the real journey with schema11 and stays open")
 	panel = await _courtyard_open()
 	if panel!=null:
 		_check(panel.rules.turn==0 and panel.rules.hp==panel.rules.max_hp and panel.rules.medicine==3,"Packed courtyard remains usable after failed close, cancellation and storage recovery")
 		await _courtyard_key(KEY_ESCAPE)
+
+func _receipt_legacy_prerequisite(rehearsal: bool) -> bool:
+	# The pinned historical reader is external evidence, never a release resource.
+	# Export callers can set this environment variable without changing builders.
+	var path: String = OS.get_environment("HERO_AUDIT_LEGACY_READER")
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--legacy-reader="): path = argument.trim_prefix("--legacy-reader=")
+	if path.is_empty() and rehearsal: path = ProjectSettings.globalize_path("res://tests/fixtures/v019_game_state.gd.txt")
+	_check(path.is_absolute_path() and FileAccess.file_exists(path), "V20 audit requires explicit external frozen v0.0.19 reader")
+	if not path.is_absolute_path() or not FileAccess.file_exists(path): return false
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	var hash = HashingContext.new(); hash.start(HashingContext.HASH_SHA256); hash.update(bytes)
+	var digest: String = hash.finish().hex_encode()
+	_check(digest == LEGACY_READER_SHA256, "External historical reader matches its pinned SHA-256")
+	if digest != LEGACY_READER_SHA256: return false
+	var script = GDScript.new()
+	script.source_code = bytes.get_string_from_utf8().replace("class_name HeroState\n", "")
+	var error: Error = script.reload()
+	_check(error == OK, "Pinned historical reader compiles against loaded runtime dependencies")
+	if error != OK: return false
+	legacy_reader = script.new()
+	_check(legacy_reader.SAVE_VERSION == 10, "Pinned historical reader retains its genuine schema10 gate")
+	return legacy_reader.SAVE_VERSION == 10
+
+func _receipt_prepare(ending: String = "short_ferries") -> void:
+	game._new_game()
+	var s = game.state
+	s.quest_stage=6; s.ending="守望"; s.side_stage=3; s.side_choice="rescue"
+	s.side_reward_claimed=true; s.side_found.assign(["boatman","ledger"]); s.side_clues=2
+	s.chapter_two_stage=4; s.chapter_two_ending="protect_witness"
+	s.archive_clues.assign(["clerk","inscription"]); s.seal_sequence.assign([2,0,1])
+	s.mist_stage=4; s.mist_gauges.assign(["rain","stone","basin"])
+	s.mist_approach="duel"; s.mist_ending="release_water"
+	s.heting_stage=4; s.heting_bridge="east"; s.heting_delivered.assign(["meal","sealed","reserve"])
+	s.heting_draft=ending; s.heting_ending=ending; s.map_id="heting"
+	game._sync_world_state(); game.world.change_map("heting",Vector2(1150,735))
+	game.world.teleport(game.world.interactables.heting_scale.pos+Vector2(-40,0))
+	s.position=game.world.player_pos; game._refresh(); game._stop_audio(); game.audio_on=false
+	_check(game.receipt_story._at_scale() and s._valid_save_data(s.to_dict(),11), "Packed prepared receipt fixture has legitimate harbor progress: "+ending)
+	_check(s.save_game()==OK, "Packed receipt fixture checkpoint uses isolated storage")
+
+func _receipt_panel(): return game.overlay.get_meta("receipt_battle") if game.overlay.has_meta("receipt_battle") else null
+func _receipt_bytes() -> PackedByteArray: return FileAccess.get_file_as_bytes(game.state.SAVE_PATH)
+func _receipt_xp() -> int: return game.state.xp+30*game.state.level*(game.state.level-1)
+func _receipt_document() -> Dictionary: return JSON.parse_string(FileAccess.get_file_as_string(game.state.SAVE_PATH))
+
+func _receipt_begin():
+	game._interact("heting_scale")
+	_press("谈谈复签（可选）" if game.state.receipt_stage==0 else "复签应战准备")
+	if game.state.receipt_stage==0: _press("接下取签之事")
+	_press("保存后应战")
+	var panel = _receipt_panel()
+	_check(panel!=null and game.current_screen=="receipt_battle" and game.state.battle_active, "Packed real scale controls checkpoint and launch receipt combat")
+	if panel!=null: panel.art.set_process(false)
+	return panel
+
+func _receipt_finish(panel) -> void:
+	_check(is_instance_valid(panel) and panel.rules.locked and not panel.pending.is_empty(), "Packed receipt action owns a pending presentation")
+	if is_instance_valid(panel): panel.art._process(2.0)
+
+func _receipt_block_save() -> String:
+	var path: String = ProjectSettings.globalize_path(game.state.SAVE_PATH+".tmp")
+	var error: Error = DirAccess.make_dir_absolute(path)
+	_check(error==OK, "Packed receipt injects a real isolated temporary-path write failure")
+	return path if error==OK else ""
+
+func _receipt_unblock_save(path: String) -> void:
+	_check(not path.is_empty() and DirAccess.rename_absolute(path,path+".receipt-audit-%d"%Time.get_ticks_usec())==OK, "Packed receipt restores only its test-owned write blocker")
+
+func _receipt_variables(state) -> Dictionary:
+	var result: Dictionary = {}
+	for property: Dictionary in state.get_property_list():
+		if int(property.usage) & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			var value: Variant = state.get(property.name)
+			result[property.name] = value.duplicate(true) if value is Dictionary or value is Array else value
+	return result
+
+func _test_receipt_pack() -> void:
+	var first: int = checks
+	var processing: bool = game.is_processing()
+	var world_processing: bool = game.world.is_processing()
+	game.set_process(false); game.world.set_process(false)
+	var title = game.overlay.find_child("BuildVersion",true,false)
+	# Full mode arrives after older story audits; inspect the real title afresh.
+	game._show_title(); title=game.overlay.find_child("BuildVersion",true,false)
+	_check(title!=null and title.text=="0.0.20", "Packed visible title reports frozen0.0.20")
+	for ending: String in ["short_ferries","open_scale"]:
+		await _test_receipt_entry_pack(ending)
+		await _test_receipt_victory_pack(ending)
+	await _test_receipt_costs_pack()
+	await _test_receipt_checkpoint_pack()
+	await _test_receipt_defeat_pack()
+	for outcome: String in ["flee","win","defeat"]: await _test_receipt_close_pack(outcome)
+	_test_receipt_migration_pack()
+	game.set_process(processing); game.world.set_process(world_processing)
+	print("Receipt exact-runtime coverage: %d checks; external pinned historical reader included; successful native process quit intentionally not invoked" % (checks-first))
+
+func _test_receipt_entry_pack(ending: String) -> void:
+	_receipt_prepare(ending)
+	var s = game.state
+	var before: Dictionary = s.to_dict(); var bytes: PackedByteArray = _receipt_bytes()
+	game._interact("heting_scale"); _press("谈谈复签（可选）")
+	_check(_gather_text(game.overlay).contains("次晨") and _gather_text(game.overlay).contains("没有夜班" if ending=="short_ferries" else "守秤"), "Packed optional offer preserves original ending: "+ending)
+	var stale: Callable = game.modal_actions[0]
+	_press("先不接下"); game.receipt_story.open(); stale.call()
+	_check(s.to_dict()==before and _receipt_bytes()==bytes, "Packed declined and stale acceptance is resource/save neutral: "+ending)
+	var accept: Callable = game.modal_actions[0]; var near: Vector2 = game.world.player_pos
+	game.world.player_pos=game.world.interactables.heting_scale.pos+Vector2(75,0); accept.call()
+	game.world.player_pos=near; s.heting_cargo="meal"; accept.call(); s.heting_cargo=""
+	_check(s.to_dict()==before and _receipt_bytes()==bytes, "Packed acceptance rejects exact distance and cargo boundaries")
+	_press("接下取签之事")
+	_check(s.receipt_stage==1 and not s.battle_active and _receipt_document().player.receipt_stage==1, "Packed acceptance writes schema11 checkpoint without starting combat")
+	_check(_gather_text(game.overlay).contains("这是实战") and _gather_text(game.overlay).contains("最多遗落8文"), "Packed ready page discloses real costs and bounded defeat")
+	_press("先去免费调息")
+	_check(not game.active_modal and not s.battle_active and s.heting_ending==ending, "Packed accepted encounter can be deferred without changing harbor ending")
+
+func _test_receipt_costs_pack() -> void:
+	_receipt_prepare(); var s = game.state
+	s.hp=60; s.qi=s.max_qi; s.medicine=2; s.defense=20
+	var panel = _receipt_begin()
+	if panel==null: return
+	var files: Dictionary = _courtyard_save_files()
+	_check(panel.health.value==60 and panel.rules.medicine==2 and panel.rules.qi==s.qi, "Packed receipt starts with actual resources without free refill")
+	panel.target_cards.bracer.button.pressed.emit()
+	_check(panel.rules.selected_id=="bracer", "Packed target-card signal selects protecting enemy")
+	await _courtyard_click(panel.art.get_global_transform()*panel.art.target_anchor("striker"))
+	_check(panel.rules.selected_id=="striker", "Packed pointer input selects painted striker")
+	await _key(KEY_TAB)
+	_check(panel.rules.selected_id=="bracer", "Packed Tab cycles to live bracer")
+	for code in [KEY_F5,KEY_F6,KEY_F9,KEY_F10]: await _key(code)
+	_check(_receipt_panel()==panel and _courtyard_save_files()==files, "Packed save/load shortcuts retain encounter and every existing save byte")
+	_check(s.save_game()==ERR_BUSY and game.save_slots.store.save_slot(s,2)==ERR_BUSY and game.save_slots.store.load_slot(s,1)==ERR_BUSY, "Packed direct persistence rejects transient receipt fight")
+	await _key(KEY_1)
+	var tx: Dictionary = panel.pending; var accepted: Dictionary = s.to_dict(); var turn: int = panel.rules.turn
+	_check(tx.action=="attack" and panel.rules.locked and s.hp==tx.after.hp and panel.health.value==tx.before.hp, "Packed attack commits real cost while presentation retains pre-impact health")
+	_check(panel.action_buttons.all(func(button):return button.disabled) and panel.retreat_button.disabled, "Packed accepted action disables all action and retreat controls")
+	await _key(KEY_ESCAPE); await _key(KEY_TAB); await _key(KEY_2); panel.target_cards.striker.button.pressed.emit()
+	for method: String in ["_show_inventory","_show_martials","_show_journal","_show_map","_show_pause","_show_save_slots","_show_load_slots"]: game.call(method)
+	_check(_receipt_panel()==panel and panel.rules.turn==turn and panel.rules.selected_id=="bracer" and s.to_dict()==accepted and _courtyard_save_files()==files, "Packed locked inputs and direct menus cannot retarget, spend, save or replace combat")
+	_check(not s.finish_receipt_presentation(tx.epoch-1,tx.token) and not s.finish_receipt_presentation(tx.epoch,tx.token+999) and panel.rules.locked and s.to_dict()==accepted, "Packed stale epoch and wrong token cannot release accepted action")
+	panel.art._process(.31)
+	_check(panel.target_cards.bracer.bar.value==tx.before.units[1].hp, "Packed target health waits for painted contact")
+	panel.art._process(.02)
+	_check(panel.target_cards.bracer.bar.value==int(tx.before.units[1].hp)-int(tx.hero_damage), "Packed impact updates the selected target health")
+	_receipt_finish(panel)
+	var qi: int = s.qi; var uses: int = s.art_uses.get(s.equipped_art,0)
+	await _key(KEY_2)
+	_check(panel.pending.action=="skill" and s.qi==qi-s.active_art_cost() and s.art_uses[s.equipped_art]==uses+1, "Packed skill spends exact real qi and grants one real proficiency use")
+	_receipt_finish(panel); await _key(KEY_3); _receipt_finish(panel)
+	await _key(KEY_4); tx=panel.pending
+	_check(tx.action=="item" and s.medicine==1 and panel.health.value==tx.before.hp, "Packed medicine consumes exactly one real item before healing contact")
+	_receipt_finish(panel)
+	var spent: Dictionary = s.to_dict(); var coins: int = s.coins; var xp: int = _receipt_xp()
+	await _key(KEY_ESCAPE); _receipt_finish(panel)
+	_check(not s.battle_active and s.receipt_stage==1 and s.to_dict()==spent and s.coins==coins and _receipt_xp()==xp, "Packed retreat retains accepted costs and gives no reward")
+	_check(_receipt_document().player==JSON.parse_string(JSON.stringify(spent)), "Packed retreat saves its actual spent resources")
+	_press("先回埠内"); panel=_receipt_begin()
+	if panel==null: return
+	_check(panel.rules.hp==spent.hp and panel.rules.qi==spent.qi and panel.rules.medicine==spent.medicine, "Packed retry begins from spent resources rather than first-attempt copy")
+	await _key(KEY_5); _receipt_finish(panel); _press("先回埠内")
+	game.world.teleport(game.world.interactables.heting_relief.pos); s.position=game.world.player_pos
+	game._interact("heting_relief"); _press("借棚调息")
+	_check(s.hp==s.max_hp and s.qi==s.max_qi and s.medicine==1 and s.coins==coins and _receipt_xp()==xp and s.receipt_stage==1, "Packed west-shelter rest is free and retains accepted receipt and used medicine")
+
+func _test_receipt_victory_pack(ending: String) -> void:
+	_receipt_prepare(ending); var s = game.state; s.attack=999; s.defense=99
+	var coins: int = s.coins; var xp: int = _receipt_xp(); var victories: int = s.victories
+	var panel = _receipt_begin()
+	if panel==null: return
+	panel.target_cards.bracer.button.pressed.emit(); await _key(KEY_1); _receipt_finish(panel)
+	panel.target_cards.bracer.button.pressed.emit(); await _key(KEY_TAB)
+	_check(panel.target_cards.bracer.button.disabled and panel.rules.selected_id=="striker", "Packed dead target cannot be reselected or cycled into")
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	await _key(KEY_1); var tx: Dictionary = panel.pending
+	_check(s.receipt_stage==1 and s.coins==coins and _receipt_xp()==xp, "Packed terminal victory waits for its presentation before reward")
+	_receipt_finish(panel)
+	_check(s.receipt_stage==2 and not s.battle_active and s.coins==coins+40 and _receipt_xp()==xp+80 and s.victories==victories+1, "Packed first victory settles exactly80 XP and40 coins: "+ending)
+	_check(game.save_warning and _receipt_bytes()==bytes and _gather_text(game.overlay).contains("尚未存妥"), "Packed failed victory save keeps previous checkpoint and live reward")
+	_check(not s.finish_receipt_presentation(tx.epoch,tx.token) and not s.start_receipt_battle(), "Packed repeated victory callback and replay cannot duplicate reward")
+	_press("稍后再核"); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.save_warning and _receipt_document().version==11 and _receipt_document().player.receipt_stage==2 and s.coins==coins+40, "Packed retry persists the settled victory without rewarding twice")
+	game._load(); _check(s.receipt_stage==2 and s.coins==coins+40 and not s.battle_active, "Packed victory reload preserves one reward and clears transient battle")
+	game._interact("heting_scale"); _press("查看待核副签")
+	var stale: Callable = game.modal_actions[0]
+	bytes=_receipt_bytes(); blocker=_receipt_block_save()
+	if blocker.is_empty(): return
+	_press("并看三处记号"); stale.call()
+	_check(s.receipt_stage==3 and game.save_warning and _receipt_bytes()==bytes and s.coins==coins+40 and _receipt_xp()==xp+80, "Packed compare failure retains new evidence with no second reward")
+	_receipt_unblock_save(blocker); _press("重试保存"); _press("收好记录")
+	var final_bytes: PackedByteArray = _receipt_bytes(); var complete: Dictionary = s.to_dict()
+	game._interact("heting_scale"); _press("重看复签记录")
+	_check(_gather_text(game.overlay).contains("安排照旧") and s.heting_ending==ending and s.to_dict()==complete and _receipt_bytes()==final_bytes, "Packed completed record revisit preserves ending, rewards and save bytes: "+ending)
+	_press("收好记录")
+
+func _test_receipt_checkpoint_pack() -> void:
+	_receipt_prepare(); var s = game.state; var bytes: PackedByteArray = _receipt_bytes()
+	var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	game.receipt_story.open(); _press("接下取签之事")
+	_check(s.receipt_stage==1 and not s.battle_active and _receipt_panel()==null and game.save_warning and _receipt_bytes()==bytes, "Packed failed acceptance keeps live errand and old disk while blocking combat")
+	var stale: Callable = game.modal_actions[0]; _press("重试保存")
+	_check(not s.battle_active and _receipt_bytes()==bytes, "Packed failed acceptance retry remains blocked")
+	_receipt_unblock_save(blocker); _press("重试保存"); bytes=_receipt_bytes(); stale.call()
+	_check(not game.save_warning and _receipt_document().player.receipt_stage==1 and _receipt_bytes()==bytes, "Packed restored acceptance retry checkpoints once and invalidates stale retry")
+	s.hp=57; s.qi=1; s.medicine=0; blocker=_receipt_block_save()
+	if blocker.is_empty(): return
+	_press("保存后应战")
+	_check(not s.battle_active and _receipt_panel()==null and s.hp==57 and s.qi==1 and s.medicine==0 and _receipt_bytes()==bytes, "Packed failed prefight checkpoint neither heals nor launches")
+	_press("先回埠内"); _receipt_unblock_save(blocker)
+	var panel = _receipt_begin()
+	if panel==null: return
+	_check(panel.rules.hp==57 and panel.rules.qi==1 and panel.rules.medicine==0, "Packed successful checkpoint starts with latest real resources")
+	await _key(KEY_5); _receipt_finish(panel); _press("先回埠内")
+
+func _test_receipt_defeat_pack() -> void:
+	_receipt_prepare(); var s = game.state; s.hp=1; s.attack=1; s.defense=0; s.qi=0; s.coins=3; s.medicine=0
+	var panel = _receipt_begin()
+	if panel==null: return
+	await _key(KEY_1); var tx: Dictionary = panel.pending; _receipt_finish(panel)
+	_check(s.receipt_settlement.outcome=="defeat" and s.coins==0 and s.hp==s.max_hp and s.qi>=2 and s.medicine==0 and s.receipt_stage==1, "Packed defeat charges only available three coins and recovers health/qi without medicine refund")
+	game._process(0)
+	_check(game.world.player_pos==Vector2(230,735) and s.position==game.world.player_pos and _receipt_document().player.position=={"x":230.0,"y":735.0}, "Packed defeat syncs west-shelter position before save and next frame")
+	_check(not s.finish_receipt_presentation(tx.epoch,tx.token) and s.coins==0 and s.victories==0 and _receipt_xp()==0, "Packed duplicate defeat cannot charge twice or reward")
+	_press("在西岸歇脚")
+
+func _test_receipt_close_pack(outcome: String) -> void:
+	_receipt_prepare(); var s = game.state
+	s.hp=1 if outcome=="defeat" else 60; s.attack=999 if outcome=="win" else 1
+	s.defense=0 if outcome=="defeat" else 99; s.coins=3; s.medicine=2
+	var panel = _receipt_begin()
+	if panel==null: return
+	if outcome=="win":
+		panel.target_cards.bracer.button.pressed.emit(); await _key(KEY_1); _receipt_finish(panel)
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	await _key(KEY_4 if outcome=="flee" else KEY_1)
+	var accepted: Dictionary = s.to_dict(); var turn: int = panel.rules.turn
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	await _key(KEY_ESCAPE); await _key(KEY_2); panel.action_buttons[3].pressed.emit()
+	_check(panel.close_pending and panel.rules.locked and panel.rules.turn==turn and s.to_dict()==accepted and _receipt_bytes()==bytes and not game.quit_pending, "Packed repeated close waits for accepted action and blocks extra costs: "+outcome)
+	_receipt_finish(panel)
+	if outcome=="flee":
+		_check(panel.pending.action=="flee" and s.medicine==1 and panel.rules.locked, "Packed close finishes accepted medicine before one retreat")
+		game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); _receipt_finish(panel)
+	_check(game.current_screen=="explore" and not s.battle_active and not game.quit_pending and game.save_warning and _gather_text(game.overlay).contains("手记未能落笔") and _receipt_bytes()==bytes, "Packed close settlement hits actual write-failure exit guard: "+outcome)
+	_check(s.receipt_settlement.outcome==outcome and s.receipt_stage==(2 if outcome=="win" else 1), "Packed close honors accepted terminal result instead of replacing it: "+outcome)
+	var settled: Dictionary = s.to_dict(); var stale: Callable = game.modal_actions[0]
+	_press("返回小憩"); stale.call()
+	_check(game.overlay.get_meta("pause_menu",false) and not game.quit_pending and s.to_dict()==settled and _receipt_bytes()==bytes, "Packed canceled close invalidates old retry: "+outcome)
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); _press("不保存离开")
+	_check(_gather_text(game.overlay).contains("舍下未存的这一程？") and not game.quit_pending and _receipt_bytes()==bytes, "Packed discard requires second explicit choice: "+outcome)
+	_press("继续留在江湖"); await _key(KEY_ESCAPE); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.quit_pending and not game.save_warning and s.to_dict()==settled and _receipt_document().player==JSON.parse_string(JSON.stringify(settled)), "Packed cancellation and F5 recovery persist settled costs/reward without quit or duplication: "+outcome)
+
+func _test_receipt_migration_pack() -> void:
+	_receipt_prepare(); var model = load("res://scripts/game_state.gd"); var probe = model.new()
+	var current: Dictionary = game.state.to_dict(); var legacy: Dictionary = current.duplicate(true); legacy.erase("receipt_stage")
+	var path: String = "user://receipt-schema-audit.json"
+	for version: int in range(1,11):
+		_receipt_write_document(path,{"version":version,"player":legacy})
+		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+		_check(probe.load_game(path)==OK and probe.receipt_stage==0 and probe.to_dict()==current and FileAccess.get_file_as_bytes(path)==bytes, "Packed schema1–10 migration defaults receipt without altering legacy bytes: "+str(version))
+	_receipt_write_document(path,{"version":10,"player":legacy})
+	_check(legacy_reader.load_game(path)==OK and legacy_reader.to_dict()==legacy, "Pinned actual old reader accepts its own schema10 control")
+	legacy_reader.coins=4242; legacy_reader.battle_active=true; legacy_reader.enemy_hp=37; legacy_reader.turn=6
+	var old_before: Dictionary = _receipt_variables(legacy_reader)
+	for ending: String in ["short_ferries","open_scale"]:
+		_receipt_prepare(ending)
+		for stage: int in range(4):
+			game.state.receipt_stage=stage
+			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema11 receipt stage: "+ending+"/"+str(stage))
+			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema11 stage round-trip preserves exact durable fields")
+			_check(legacy_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader)==old_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Pinned old reader rejects actual new save before mutating memory or bytes")
+	var stable: Dictionary = probe.to_dict()
+	for bad: Variant in [-1,4,1.5,"1",true,null]:
+		var corrupt: Dictionary = current.duplicate(true); corrupt.receipt_stage=bad
+		_receipt_reject_document(probe,path,{"version":11,"player":corrupt},stable,"malformed receipt stage "+str(bad))
+	_receipt_reject_document(probe,path,{"version":11,"player":legacy},stable,"missing current receipt field")
+	_receipt_reject_document(probe,path,{"version":12,"player":current},stable,"future schema12")
+	var impossible: Dictionary = current.duplicate(true); impossible.receipt_stage=1; impossible.heting_stage=3
+	_receipt_reject_document(probe,path,{"version":11,"player":impossible},stable,"receipt before harbor ending")
+
+func _receipt_write_document(path: String, document: Dictionary) -> void:
+	var file = FileAccess.open(path,FileAccess.WRITE)
+	_check(file!=null, "Packed migration fixture writes only in isolated profile")
+	if file!=null: file.store_string(JSON.stringify(document)); file.close()
+
+func _receipt_reject_document(probe, path: String, document: Dictionary, stable: Dictionary, label: String) -> void:
+	_receipt_write_document(path,document)
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	_check(probe.load_game(path)!=OK and probe.to_dict()==stable and FileAccess.get_file_as_bytes(path)==bytes, "Packed rejection preserves live state and source bytes: "+label)
