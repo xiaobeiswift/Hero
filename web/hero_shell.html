@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="color-scheme" content="dark">
+		<title>$GODOT_PROJECT_NAME</title>
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #f1e6ca;
+	background: #102b2b;
+	overflow: hidden;
+	font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+#canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#storage-notice {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	box-sizing: border-box;
+	padding: 0 8px;
+	margin: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: rgba(9, 28, 29, .92);
+	color: #c7c4ad;
+	font-size: 11px;
+	line-height: 20px;
+	text-align: center;
+	pointer-events: none;
+	z-index: 3;
+}
+
+#storage-notice[data-persistence="unavailable"] {
+	background: #55332e;
+	color: #ffe4c3;
+}
+
+#status, #status-splash {
+	position: fixed;
+	inset: 0;
+}
+
+#status {
+	background-color: $GODOT_SPLASH_COLOR;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+	z-index: 2;
+}
+
+#status-splash {
+	max-height: 100%;
+	max-width: 100%;
+	margin: auto;
+	opacity: .18;
+	pointer-events: none;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-card {
+	position: relative;
+	box-sizing: border-box;
+	width: min(440px, calc(100% - 40px));
+	max-height: calc(100% - 64px);
+	overflow: auto;
+	padding: 32px;
+	border: 1px solid #68715c;
+	border-radius: 6px;
+	background: rgba(16, 43, 43, .97);
+	text-align: center;
+}
+
+h1 {
+	margin: 0 0 8px;
+	font-size: 32px;
+	font-weight: 500;
+	letter-spacing: .15em;
+}
+
+.subtitle, #status-caption {
+	color: #b4c4b6;
+	font-size: 14px;
+	line-height: 1.7;
+}
+
+.subtitle {
+	margin: 0 0 22px;
+}
+
+#status-start {
+	padding: 11px 32px;
+	border: 1px solid #c5aa70;
+	border-radius: 4px;
+	color: #f1e6ca;
+	background: #28514b;
+	font: inherit;
+	cursor: pointer;
+}
+
+#status-start:focus-visible {
+	outline: 2px solid #f1e6ca;
+	outline-offset: 4px;
+}
+
+#status-start:hover {
+	background: #34665b;
+}
+
+#status-caption {
+	margin: 20px 0 0;
+}
+
+#status-progress, #status-notice {
+	display: none;
+}
+
+#status-progress {
+	width: 100%;
+	height: 10px;
+	margin-top: 12px;
+	accent-color: #c5aa70;
+}
+
+#status-notice {
+	margin-top: 20px;
+	padding: 12px;
+	border: 1px solid #a66e5b;
+	border-radius: 4px;
+	background: #422e2b;
+	color: #ffe4c3;
+	font-size: 14px;
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+
+noscript {
+	position: fixed;
+	inset: 30% 20px auto;
+	text-align: center;
+	z-index: 4;
+}
+		</style>
+		$GODOT_HEAD_INCLUDE
+	</head>
+	<body>
+		<canvas id="canvas" tabindex="0" aria-label="渡灯录游戏画面">
+			浏览器不支持游戏画布，请使用支持 WebGL 2 的桌面浏览器。
+		</canvas>
+		<p id="storage-notice" data-persistence="unknown" role="status" aria-live="polite">浏览器本地存档 · 刷新或关闭前请先存卷；清理网站数据会丢失存档</p>
+		<noscript>请启用 JavaScript 后重新打开试玩页面。</noscript>
+		<div id="status">
+			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
+			<div id="status-card">
+				<h1>渡灯录</h1>
+				<p class="subtitle">HERO · 电脑键盘试玩</p>
+				<button id="status-start" type="button">启程</button>
+				<p id="status-caption" role="status" aria-live="polite">WASD / 方向键行走 · E 交互<br>进入后点击画面，再用键盘操作</p>
+				<progress id="status-progress" aria-label="游戏加载进度"></progress>
+				<div id="status-notice" role="alert"></div>
+			</div>
+		</div>
+		<script src="$GODOT_URL"></script>
+		<script>
+// Startup and export placeholders follow Godot 4.6.3's official HTML shell.
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+
+(function () {
+	'use strict';
+	const canvas = document.getElementById('canvas');
+	const storageNotice = document.getElementById('storage-notice');
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+	const statusCaption = document.getElementById('status-caption');
+	const startButton = document.getElementById('status-start');
+	let initializing = true;
+	let started = false;
+	let statusMode = '';
+	let engine;
+
+	window.HeroWeb = Object.freeze({
+		setStorageAvailable: function (available) {
+			if (typeof available !== 'boolean') {
+				return;
+			}
+			storageNotice.dataset.persistence = available ? 'available' : 'unavailable';
+			storageNotice.textContent = available
+				? '浏览器本地存档 · 刷新或关闭前请先存卷；清理网站数据会丢失存档'
+				: '浏览器未提供持久存储 · 刷新或关闭可能丢失进度，请谨慎试玩';
+			storageNotice.title = storageNotice.textContent;
+		},
+	});
+	storageNotice.title = storageNotice.textContent;
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			canvas.focus();
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		startButton.style.display = mode === 'ready' ? 'inline-block' : 'none';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		statusCaption.textContent = '加载未能完成。请确认已完整上传导出文件，并通过网站地址打开。';
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('发生未知错误，请稍后重新打开页面。');
+		}
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	function startGame() {
+		if (started || !initializing) {
+			return;
+		}
+		started = true;
+		startButton.disabled = true;
+		statusCaption.textContent = '正在加载江湖，首次打开可能需要稍候……';
+		setStatusMode('progress');
+		try {
+			engine.startGame({
+				'onProgress': function (current, total) {
+					if (current > 0 && total > 0) {
+						statusProgress.value = current;
+						statusProgress.max = total;
+					} else {
+						statusProgress.removeAttribute('value');
+						statusProgress.removeAttribute('max');
+					}
+				},
+			}).then(() => {
+				setStatusMode('hidden');
+			}, displayFailureNotice);
+		} catch (err) {
+			displayFailureNotice(err);
+		}
+	}
+
+	try {
+		if (typeof Engine !== 'function') {
+			throw new Error('游戏启动脚本未能加载，请检查导出文件是否完整。');
+		}
+		const missing = Engine.getMissingFeatures({
+			threads: GODOT_THREADS_ENABLED,
+		});
+		if (missing.length !== 0) {
+			const missingMsg = '当前浏览器缺少运行游戏所需的功能：\n';
+			displayFailureNotice(missingMsg + missing.join('\n'));
+		} else {
+			engine = new Engine(GODOT_CONFIG);
+			startButton.addEventListener('click', startGame, { once: true });
+			setStatusMode('ready');
+		}
+	} catch (err) {
+		displayFailureNotice(err);
+	}
+}());
+		</script>
+	</body>
+</html>
