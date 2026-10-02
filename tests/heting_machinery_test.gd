@@ -1,0 +1,32 @@
+extends SceneTree
+const Props=preload("res://scripts/heting_machinery_art.gd")
+const World=preload("res://scripts/world.gd")
+func _initialize()->void:
+	var foot=Vector2(820,681)
+	assert(Props.SPRITES.size()==7)
+	for id in Props.SPRITES:
+		var texture=Props.texture_for(id)
+		assert(texture!=null and texture==Props.texture_for(id) and texture.filter_clip)
+		assert(texture.atlas.get_size()==Vector2(1024,512))
+		var spec=Props.SPRITES[id]
+		assert(Rect2(Vector2.ZERO,texture.atlas.get_size()).encloses(spec.region))
+		for scale in [.61,.85,1.0]:
+			var area=Props.drawing_rect(id,foot,scale)
+			assert((area.position+spec.foot*Props.factor_for(id,scale)).distance_to(foot)<.001)
+			assert(is_equal_approx(area.size.x/area.size.y,spec.region.size.x/spec.region.size.y))
+			assert(area.size.x<=spec.bounds.x*scale+.001 and area.size.y<=spec.bounds.y*scale+.001)
+		assert(Props.opacity_for(id,foot,[foot+Vector2(0,3)])==1.0)
+		assert(Props.opacity_for(id,foot,[Props.drawing_rect(id,foot).get_center()])==.40)
+		assert(Props.opacity_for(id,foot,[foot+Vector2(500,0)])==1.0)
+	assert(Props.texture_for("absent")==null)
+	assert(Props.drawing_rect("absent",foot)==Rect2())
+	assert(Props.drawing_rect("loaded_grain_cart",foot).size.x<=34)
+	var world=World.new();root.add_child(world)
+	world.heting_bridge="west";world.heting_cargo="meal";world.change_map("heting",Vector2(475,728))
+	assert(world.player_pos==Vector2(475,728) and world._can_walk(world.player_pos))
+	assert(not world._can_walk(Vector2(805,505)))
+	world.heting_bridge="east";world.teleport(Vector2(1149,728))
+	assert(world._can_walk(world.player_pos) and not world._can_walk(Vector2(475,728)))
+	world.queue_free()
+	print("PASS: cached harbor prop crops/anchors/aspect, party fading and unchanged loaded pontoon/foot-pier collision")
+	quit()
