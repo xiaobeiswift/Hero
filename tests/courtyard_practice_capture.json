@@ -1,0 +1,87 @@
+{
+  "source_base_commit": "b3810714634e19de537a24a5f700ead41b2dc816",
+  "scope": "Prepared source loadout. Actual engine E/Tab/number actions; eight inspected frames, including accepted impacts/outcome and compact1180 requested window. Not a manual playthrough, physical OS-close run, FPS measurement or new release.",
+  "engine": "Godot4.6.3 official, Linux X11, Compatibility Mesa llvmpipe, DummyAudio",
+  "source_manifest_sha256": "0cf2f44bc6ffc1b77720b9318e223a05ad616dca8e14c731f7396b863ebe7c47",
+  "driver_sha256": "c4c1dff341eded83b9753844afb86495e1a201ee96d61c2d4b7e4bda6f46505d",
+  "final_capture_exit": 0,
+  "capture_log_sha256": "b62ca3875cc4751e0e56b79cf35e8a7b487f00a13901e29751794736e91c19f5",
+  "full_runner_exit": 0,
+  "godot_commands": 86,
+  "python_checks": 32,
+  "full_log_sha256": "ff97abe8b0bb15969a8e9afbe656c0baad1bb4ebbd4d74c49e18874d68008bfd",
+  "focused_checks": {
+    "rules": 134,
+    "rigs": 143,
+    "art_contracts": 30,
+    "art_draw_frames": 41,
+    "ui_and_save_handler": 104
+  },
+  "corrected_issue": "First capture and independent input test found Escape called get_viewport after modal removal and fell through to Pause. Input now marked handled before any detaching action; final capture and full runner pass.",
+  "images": [
+    {
+      "path": "screenshots/264-courtyard-practice-entry.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "688c26fe7aedbc9a709552cfcbc236d3c2a3e98c80c321ada2191bf27bed29ae"
+    },
+    {
+      "path": "screenshots/265-courtyard-two-target-ready.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "e55b14838959debbd077c3808fd3e28169ad08e3ecefb095e69e71dbb871b2f1"
+    },
+    {
+      "path": "screenshots/266-courtyard-bracer-selected.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "a53e56d3d7cab2bd3b1484f9571bca7e529c0e3e12268b4f70457d6708141f97"
+    },
+    {
+      "path": "screenshots/267-courtyard-skill-contact.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "302c29f4d816dc7aae17270bfab75a8198ce55682ecb3ddd534b69ceb766e437"
+    },
+    {
+      "path": "screenshots/268-courtyard-guard-counter.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "b8d7f8d1f646c490b5680e1a5c7b8ff412638833ddd197f3df7857e6bb720517"
+    },
+    {
+      "path": "screenshots/269-courtyard-auto-retarget.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "8537344d207e607ff0b4b2099426b39c1518c4a29dc77dd444a2b5486298b926"
+    },
+    {
+      "path": "screenshots/270-courtyard-practice-complete.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "ef53351a25c0df3e1581f36c1a2352623bd82795e35324f9f01f89191ca5138f"
+    },
+    {
+      "path": "screenshots/271-courtyard-compact-companion.png",
+      "dimensions": [
+        1179,
+        737
+      ],
+      "sha256": "e781195f4f96f51afaacb53a35a8ba9931852f485f77e887b51dddac3c72a9d2"
+    }
+  ]
+}
