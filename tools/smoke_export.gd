@@ -5,6 +5,8 @@ var checks := 0
 var failures := 0
 var game
 var legacy_reader
+var schema11_reader
+const SCHEMA11_READER_SHA256 := "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30"
 const LEGACY_READER_SHA256 := "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5"
 
 func _initialize() -> void:
@@ -30,7 +32,7 @@ func _run() -> void:
 	if rehearsal:
 		if FileAccess.file_exists("res://project.binary"):
 			push_error("Source rehearsal flag cannot bypass checks for an exported PCK"); quit(1); return
-		print("SOURCE REHEARSAL: skipping exactly5 packaging-only assertions; no exported-pack claim")
+		print("SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim")
 	else:
 		_check(FileAccess.file_exists("res://project.binary"), "Must load the exported binary project")
 		_check(not DirAccess.dir_exists_absolute("res://tests"), "Test scripts excluded")
@@ -41,7 +43,7 @@ func _run() -> void:
 	if not _v20_prerequisites():
 		print("FAIL: v20 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
-	if not _receipt_legacy_prerequisite(rehearsal):
+	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal):
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -59,6 +61,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--party-only"):
+		await _test_party_pack()
+		await _finish_run(rehearsal, "party-only")
+		return
 	if OS.get_cmdline_user_args().has("--receipt-only"):
 		await _test_receipt_pack()
 		await _finish_run(rehearsal, "receipt-only")
@@ -152,6 +158,7 @@ func _run() -> void:
 	await _test_heting_pack()
 	await _test_courtyard_practice_pack()
 	await _test_receipt_pack()
+	await _test_party_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -324,7 +331,8 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	_check(game.state.to_dict() == before, "Packed completed quest revisit is resource-neutral: " + choice)
 	game._show_inventory()
 	await _key(KEY_5)
-	_check(_find_button(game.overlay, "与唐栖同行") != null and (_find_button(game.overlay, "与沈青同行") != null) == shen, "Packed roster contains only recruited companions: " + choice)
+	var folio = game.overlay.get_meta("party_roster", null)
+	_check(folio != null and not folio.cells.tang.toggle.disabled and folio.cells.shen.toggle.disabled == not shen and folio.cells.qin.toggle.disabled, "Packed roster enables only genuinely recruited companions: " + choice)
 	_press("返回行囊")
 	await _key(KEY_4)
 	_check(not game.active_modal, "Packed original fourth inventory shortcut still closes: " + choice)
@@ -340,7 +348,8 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await _key(KEY_5)
 	var hp: int = game.state.hp
 	var qi: int = game.state.qi
-	_press("与沈青同行")
+	_roster_select_only("shen")
+	game._close_modal()
 	game._process(0)
 	await process_frame
 	await process_frame
@@ -348,14 +357,15 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	_check(game.world.nearby_name == "药铺伙计" and game.near_label.text.contains("药铺伙计"), "Packed selection refreshes clinic prompt: " + choice)
 	game._show_inventory()
 	await _key(KEY_5)
-	_press("与唐栖同行")
+	_roster_select_only("tang")
+	game._close_modal()
 	game._save()
 	game._load()
 	game._process(0)
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 11 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema11 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 12 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema12 and active party identity: " + choice)
 	game._show_inventory()
 	_press("切换阵型")
 	game._close_modal()
@@ -546,7 +556,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 11 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema11 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 12 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema12 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -561,6 +571,7 @@ func _talk(id: String) -> void:
 	if game.active_modal:
 		game._close_modal()
 	game.world.teleport(game.world.interactables[id].pos)
+	game._process(0)
 	await _key(KEY_E)
 
 func _find_chart(node: Node) -> Control:
@@ -625,7 +636,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 11 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 12 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
@@ -817,7 +828,9 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game.state.ending = ending
 	game._travel("qingwei", Vector2(330, 365))
 	game.companion_story.roster()
-	_press("沈青的近况")
+	var care_folio = game.overlay.get_meta("party_roster", null)
+	_check(care_folio != null and care_folio.cells.shen.story.visible, "Packed roster exposes Shen story")
+	if care_folio != null: care_folio.cells.shen.story.pressed.emit()
 	_check(game.state.shen_care_stage == 0 and _gather_text(game.overlay).contains("青苇药铺"), "Packed roster gives a location hint without remotely starting care: " + choice)
 	await _talk("healer")
 	_check(_find_button(game.overlay, "免费调息") != null and _find_button(game.overlay, "买药 · 12 文") != null, "Packed care story preserves normal healer services: " + choice)
@@ -889,7 +902,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game._load()
 	_check(game.state.to_dict() == completed, "Packed finalized care state round-trips exactly: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 11 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema11 document records the final care plan: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 12 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema12 document records the final care plan: " + choice)
 	stale_post.call()
 	game.shen_story.post()
 	game.shen_story.choose("mobile" if choice == "shore" else "shore")
@@ -910,7 +923,9 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	_check(_gather_text(game.overlay).contains("药箱之外") and _gather_text(game.overlay).contains("✓ 把照护约"), "Packed journal marks the personal story complete: " + choice)
 	game._close_modal()
 	game.companion_story.roster()
-	_check(_gather_text(game.overlay).contains("减伤3" if choice == "shore" else "恢复2气血"), "Packed roster explains the actual new support benefit: " + choice)
+	var care_snapshot: Dictionary = game.state.party_resource_snapshot()
+	var care_actor: Dictionary = _party_actor(care_snapshot,"shen")
+	_check(care_actor.care_defense_bonus == (1 if choice == "shore" else 0) and care_actor.care_healing_bonus == (2 if choice == "mobile" else 0), "Packed roster projects independent Shen care bonuses: " + choice)
 	game._close_modal()
 	_check(game.state.xp == 40 and game.state.coins == 24 and game.state.resources == completed.resources, "Packed aftermath revisits preserve one-time rewards and materials: " + choice)
 	# Check benefits through actual battle turns, not direct support helper calls.
@@ -1053,7 +1068,7 @@ func _test_lightness_exploration() -> void:
 	game._load()
 	_check(game.world.player_pos == lightness.SHORE and game.state.position == lightness.SHORE and game.state.lightness_relics == [lightness.RELIC_ID], "Packed return autosave keeps shore position and discovered lore")
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 11 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema11 document writes lightness progression explicitly")
+	_check(saved is Dictionary and saved.get("version") == 12 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema12 document writes lightness progression explicitly")
 	game._start_battle("spar")
 	before = game.state.to_dict()
 	game.lightness_story.cross(true)
@@ -1155,7 +1170,7 @@ func _test_painted_hud_pack() -> void:
 	game.world.teleport(Vector2(70,160));game.hud.tick(1.0)
 	_check(game.hud.identity_wash.modulate.a<.3,"Packed HUD fades rather than conceals the traveller")
 	game._start_battle("spar");game._process(0)
-	_check(not game.hud.exploration.visible and not game.world.visible and game.battle_art.scale.x>1.3,"Packed combat switches to full-width stage without drawing the village")
+	_check(not game.hud.exploration.visible and not game.world.visible and game.battle_art.scale==Vector2.ONE and game.hud.duel_hud.active,"Packed retained opening-duel adapter uses full logical viewport without double scaling or village drawing")
 	game.battle_player_hp.max_value=180;game.battle_player_hp.value=37.25
 	_check(game.hud.battle_player_value.text=="气血  37 / 180","Packed player digits follow presented health")
 	game.battle_hp.max_value=96;game.battle_hp.value=23.9
@@ -1411,7 +1426,7 @@ func _test_reading_party_pack()->void:
 	_check(game.world._noticeboard_opacity(foot)==.38,"Packed exact release obstruction position stays visible")
 	game.world.teleport(Vector2(720,520))
 	_check(game.world._noticeboard_opacity(foot)==1.0,"Packed board returns opaque in front")
-	game.state.quest_stage=6;game.state.side_stage=3;game.state.chapter_two_stage=4;game.state.bridge_repaired=true;game.state.tangqi_stage=3;game.state.tangqi_choice="preserve";game.state.tangqi_unlocked=true;game.state.select_companion("唐栖");game._sync_world_state()
+	game.state.quest_stage=6;game.state.side_stage=3;game.state.chapter_two_stage=4;game.state.bridge_repaired=true;game.state.tangqi_stage=3;game.state.tangqi_choice="preserve";game.state.recruit_tangqi();game.state.select_companion("唐栖");game._sync_world_state()
 	_check(game.world.companion_active and game.world.companion_name=="唐栖","Packed painted follower keeps Tang identity")
 	game.state.map_id="frostbridge";game.world.change_map("frostbridge",Vector2(700,805))
 	_check(game.world.get_npc_name("bridge_worker")=="修桥工位","Packed travelling Tang leaves his work station")
@@ -1469,7 +1484,7 @@ func _test_tang_combat_pack()->void:
 		_check(texture!=null and texture.atlas.get_size()==Vector2(1024,1024),"Packed Tang pose texture survives export filters")
 		_check(texture.region==Rect2((i%2)*512,(i/2)*512,512,512) and texture==art.texture_for(pose),"Packed Tang pose crop remains grounded and cached")
 	game._new_game();game._stop_audio();game.audio_on=false
-	game.state.tangqi_unlocked=true;game.state.select_companion("唐栖");game.battle_presentation_enabled=true;game.battle_art.set_process(false)
+	game.state.quest_stage=6;game.state.chapter_two_stage=4;game.state.bridge_repaired=true;game.state.tangqi_stage=3;game.state.tangqi_choice="teach";game.state.recruit_tangqi();game.state.select_companion("唐栖");game.battle_presentation_enabled=true;game.battle_art.set_process(false)
 	game._start_battle("training");game.state.qi=0;game.state._companion_attack_count=1;game._refresh_battle();game._battle_action("attack")
 	var facts=game.battle_art.presentation_details.support
 	_check(facts.name=="唐栖" and facts.damage==4 and facts.qi==1 and game.state.qi==3,"Packed Tang assist preserves actual damage and qi contributions")
@@ -1543,7 +1558,7 @@ func _v20_prerequisites() -> bool:
 	var previous: int = failures
 	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.20", "V20 project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 11, "V20 requires save schema11")
+	_check(model != null and model.SAVE_VERSION == 12, "V20 requires save schema12")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -1552,6 +1567,10 @@ func _v20_prerequisites() -> bool:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V19 courtyard module retained before scene load: " + module)
 	for module in ["heting_receipt_rules", "heting_receipt_combat", "heting_receipt_story", "heting_receipt_ui", "heting_receipt_art"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V20 receipt module retained before scene load: " + module)
+	for module in ["party_actor_catalog", "party_roster_rules", "party_combat_rules", "party_battle_art", "party_battle_ui", "party_command_hud", "party_roster_ui", "qin_companion_rules", "qin_companion_story", "painted_battle_qin"]:
+		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Schema12 party module retained before scene load: "+module)
+	for asset in ["res://assets/generated/characters/painted_qin_combat.png", "res://assets/ui/qin_commands_painted_atlas.png", "res://assets/ui/companion_commands_painted_atlas.png"]:
+		_check(ResourceLoader.exists(asset), "Four-actor original artwork retained: "+asset)
 	return failures == previous
 
 func _heting_open(id: String) -> void:
@@ -1634,7 +1653,7 @@ func _test_heting_pack() -> void:
 		game.world.teleport(Vector2(820,665)); game._save()
 		var saved: Dictionary = s.to_dict()
 		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
-		_check(document.version == 11, "Packed autosave writes schema11")
+		_check(document.version == 12, "Packed autosave writes schema12")
 		game.world.heting_bridge = "east" if s.heting_bridge == "west" else "west"; game.world.heting_cargo=""
 		game._load()
 		_check(s.to_dict() == saved and game.world.heting_bridge == s.heting_bridge and game.world.heting_cargo == "reserve", "Packed reload applies saved cargo and bridge before coordinate repair")
@@ -1662,7 +1681,7 @@ func _test_heting_pack() -> void:
 	var file = FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":9,"player":player})); file.close()
 	_check(probe.load_game(path) == OK and probe.to_dict() == player, "Packed reader accepts complete legitimate v9 progress")
 	var stable: Dictionary = probe.to_dict()
-	for version in [10,12]:
+	for version in [10,13]:
 		var corrupt: Dictionary = player.duplicate(true)
 		if version == 10: corrupt.erase("heting_bridge")
 		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
@@ -1715,7 +1734,7 @@ func _courtyard_prepare(companion: String = "唐栖", formation: String = "并�
 	# their shipped eligibility APIs; no excluded test class is available in PCK.
 	_prepare_companion_chapter(true,"听潮阁")
 	var s = game.state
-	s.tangqi_stage=3; s.tangqi_choice="teach"; s.tangqi_unlocked=true
+	s.tangqi_stage=3; s.tangqi_choice="teach"; s.recruit_tangqi()
 	s.shen_care_stage=5; s.shen_care_choice="mobile" if formation=="并肩" else "shore"
 	s.sect_trial_won=true
 	var promotion: bool = s.complete_sect_trial()
@@ -1967,7 +1986,7 @@ func _test_courtyard_close_pack() -> void:
 	_check(DirAccess.rename_absolute(blocked,restored)==OK,"Packed courtyard audit restores only its own synthetic blocker")
 	await _courtyard_key(KEY_F5)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string(path))
-	_check(not game.save_warning and not game.quit_pending and saved.version==11 and saved.player==JSON.parse_string(JSON.stringify(real.save)),"Packed successful F5 recovery writes the real journey with schema11 and stays open")
+	_check(not game.save_warning and not game.quit_pending and saved.version==12 and saved.player==JSON.parse_string(JSON.stringify(real.save)),"Packed successful F5 recovery writes the real journey with schema12 and stays open")
 	panel = await _courtyard_open()
 	if panel!=null:
 		_check(panel.rules.turn==0 and panel.rules.hp==panel.rules.max_hp and panel.rules.medicine==3,"Packed courtyard remains usable after failed close, cancellation and storage recovery")
@@ -2010,7 +2029,7 @@ func _receipt_prepare(ending: String = "short_ferries") -> void:
 	game._sync_world_state(); game.world.change_map("heting",Vector2(1150,735))
 	game.world.teleport(game.world.interactables.heting_scale.pos+Vector2(-40,0))
 	s.position=game.world.player_pos; game._refresh(); game._stop_audio(); game.audio_on=false
-	_check(game.receipt_story._at_scale() and s._valid_save_data(s.to_dict(),11), "Packed prepared receipt fixture has legitimate harbor progress: "+ending)
+	_check(game.receipt_story._at_scale() and s._valid_save_data(s.to_dict(),12), "Packed prepared receipt fixture has legitimate harbor progress: "+ending)
 	_check(s.save_game()==OK, "Packed receipt fixture checkpoint uses isolated storage")
 
 func _receipt_panel(): return game.overlay.get_meta("receipt_battle") if game.overlay.has_meta("receipt_battle") else null
@@ -2022,9 +2041,11 @@ func _receipt_begin():
 	game._interact("heting_scale")
 	_press("谈谈复签（可选）" if game.state.receipt_stage==0 else "复签应战准备")
 	if game.state.receipt_stage==0: _press("接下取签之事")
-	_press("保存后应战")
+	# Retained legacy adapter coverage; the default story entry is audited below.
+	game._autosave()
+	_check(not game.save_warning and game._start_receipt_battle(), "Packed explicit legacy receipt adapter opens after real checkpoint")
 	var panel = _receipt_panel()
-	_check(panel!=null and game.current_screen=="receipt_battle" and game.state.battle_active, "Packed real scale controls checkpoint and launch receipt combat")
+	_check(panel!=null and game.current_screen=="receipt_battle" and game.state.battle_active, "Packed retained legacy receipt adapter checkpoint and launch")
 	if panel!=null: panel.art.set_process(false)
 	return panel
 
@@ -2067,7 +2088,7 @@ func _test_receipt_pack() -> void:
 	for outcome: String in ["flee","win","defeat"]: await _test_receipt_close_pack(outcome)
 	_test_receipt_migration_pack()
 	game.set_process(processing); game.world.set_process(world_processing)
-	print("Receipt exact-runtime coverage: %d checks; external pinned historical reader included; successful native process quit intentionally not invoked" % (checks-first))
+	print("Retained legacy-receipt-adapter exact-runtime coverage: %d checks; external pinned historical reader included; successful native process quit intentionally not invoked" % (checks-first))
 
 func _test_receipt_entry_pack(ending: String) -> void:
 	_receipt_prepare(ending)
@@ -2083,7 +2104,7 @@ func _test_receipt_entry_pack(ending: String) -> void:
 	game.world.player_pos=near; s.heting_cargo="meal"; accept.call(); s.heting_cargo=""
 	_check(s.to_dict()==before and _receipt_bytes()==bytes, "Packed acceptance rejects exact distance and cargo boundaries")
 	_press("接下取签之事")
-	_check(s.receipt_stage==1 and not s.battle_active and _receipt_document().player.receipt_stage==1, "Packed acceptance writes schema11 checkpoint without starting combat")
+	_check(s.receipt_stage==1 and not s.battle_active and _receipt_document().player.receipt_stage==1, "Packed acceptance writes schema12 checkpoint without starting combat")
 	_check(_gather_text(game.overlay).contains("这是实战") and _gather_text(game.overlay).contains("最多遗落8文"), "Packed ready page discloses real costs and bounded defeat")
 	_press("先去免费调息")
 	_check(not game.active_modal and not s.battle_active and s.heting_ending==ending, "Packed accepted encounter can be deferred without changing harbor ending")
@@ -2137,7 +2158,7 @@ func _test_receipt_costs_pack() -> void:
 	_check(s.hp==s.max_hp and s.qi==s.max_qi and s.medicine==1 and s.coins==coins and _receipt_xp()==xp and s.receipt_stage==1, "Packed west-shelter rest is free and retains accepted receipt and used medicine")
 
 func _test_receipt_victory_pack(ending: String) -> void:
-	_receipt_prepare(ending); var s = game.state; s.attack=999; s.defense=99
+	_receipt_prepare(ending); var s = game.state; s.attack=200; s.defense=99
 	var coins: int = s.coins; var xp: int = _receipt_xp(); var victories: int = s.victories
 	var panel = _receipt_begin()
 	if panel==null: return
@@ -2153,7 +2174,7 @@ func _test_receipt_victory_pack(ending: String) -> void:
 	_check(game.save_warning and _receipt_bytes()==bytes and _gather_text(game.overlay).contains("尚未存妥"), "Packed failed victory save keeps previous checkpoint and live reward")
 	_check(not s.finish_receipt_presentation(tx.epoch,tx.token) and not s.start_receipt_battle(), "Packed repeated victory callback and replay cannot duplicate reward")
 	_press("稍后再核"); _receipt_unblock_save(blocker); await _key(KEY_F5)
-	_check(not game.save_warning and _receipt_document().version==11 and _receipt_document().player.receipt_stage==2 and s.coins==coins+40, "Packed retry persists the settled victory without rewarding twice")
+	_check(not game.save_warning and _receipt_document().version==12 and _receipt_document().player.receipt_stage==2 and s.coins==coins+40, "Packed retry persists the settled victory without rewarding twice")
 	game._load(); _check(s.receipt_stage==2 and s.coins==coins+40 and not s.battle_active, "Packed victory reload preserves one reward and clears transient battle")
 	game._interact("heting_scale"); _press("查看待核副签")
 	var stale: Callable = game.modal_actions[0]
@@ -2200,7 +2221,7 @@ func _test_receipt_defeat_pack() -> void:
 
 func _test_receipt_close_pack(outcome: String) -> void:
 	_receipt_prepare(); var s = game.state
-	s.hp=1 if outcome=="defeat" else 60; s.attack=999 if outcome=="win" else 1
+	s.hp=1 if outcome=="defeat" else 60; s.attack=200 if outcome=="win" else 1
 	s.defense=0 if outcome=="defeat" else 99; s.coins=3; s.medicine=2
 	var panel = _receipt_begin()
 	if panel==null: return
@@ -2229,7 +2250,8 @@ func _test_receipt_close_pack(outcome: String) -> void:
 
 func _test_receipt_migration_pack() -> void:
 	_receipt_prepare(); var model = load("res://scripts/game_state.gd"); var probe = model.new()
-	var current: Dictionary = game.state.to_dict(); var legacy: Dictionary = current.duplicate(true); legacy.erase("receipt_stage")
+	var current: Dictionary = game.state.to_dict(); var legacy: Dictionary = current.duplicate(true)
+	for key: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked"]: legacy.erase(key)
 	var path: String = "user://receipt-schema-audit.json"
 	for version: int in range(1,11):
 		_receipt_write_document(path,{"version":version,"player":legacy})
@@ -2243,18 +2265,18 @@ func _test_receipt_migration_pack() -> void:
 		_receipt_prepare(ending)
 		for stage: int in range(4):
 			game.state.receipt_stage=stage
-			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema11 receipt stage: "+ending+"/"+str(stage))
+			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema12 receipt stage: "+ending+"/"+str(stage))
 			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema11 stage round-trip preserves exact durable fields")
+			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema12 stage round-trip preserves exact durable fields")
 			_check(legacy_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader)==old_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Pinned old reader rejects actual new save before mutating memory or bytes")
 	var stable: Dictionary = probe.to_dict()
 	for bad: Variant in [-1,4,1.5,"1",true,null]:
 		var corrupt: Dictionary = current.duplicate(true); corrupt.receipt_stage=bad
-		_receipt_reject_document(probe,path,{"version":11,"player":corrupt},stable,"malformed receipt stage "+str(bad))
-	_receipt_reject_document(probe,path,{"version":11,"player":legacy},stable,"missing current receipt field")
-	_receipt_reject_document(probe,path,{"version":12,"player":current},stable,"future schema12")
+		_receipt_reject_document(probe,path,{"version":12,"player":corrupt},stable,"malformed receipt stage "+str(bad))
+	_receipt_reject_document(probe,path,{"version":12,"player":legacy},stable,"missing current receipt field")
+	_receipt_reject_document(probe,path,{"version":13,"player":current},stable,"future schema13")
 	var impossible: Dictionary = current.duplicate(true); impossible.receipt_stage=1; impossible.heting_stage=3
-	_receipt_reject_document(probe,path,{"version":11,"player":impossible},stable,"receipt before harbor ending")
+	_receipt_reject_document(probe,path,{"version":12,"player":impossible},stable,"receipt before harbor ending")
 
 func _receipt_write_document(path: String, document: Dictionary) -> void:
 	var file = FileAccess.open(path,FileAccess.WRITE)
@@ -2265,3 +2287,427 @@ func _receipt_reject_document(probe, path: String, document: Dictionary, stable:
 	_receipt_write_document(path,document)
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	_check(probe.load_game(path)!=OK and probe.to_dict()==stable and FileAccess.get_file_as_bytes(path)==bytes, "Packed rejection preserves live state and source bytes: "+label)
+
+# Schema12 is tested through shipped resources and the unmodified main scene.
+# Prepared completed chapters only establish eligibility; each invitation/action
+# uses the real API or scene control. Historical adapters above remain scoped.
+func _party_legacy_prerequisite(rehearsal: bool) -> bool:
+	var path: String = OS.get_environment("HERO_AUDIT_SCHEMA11_READER")
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--schema11-reader="): path = argument.trim_prefix("--schema11-reader=")
+	if path.is_empty() and rehearsal: path = ProjectSettings.globalize_path("res://tests/fixtures/v020_game_state.gd.txt")
+	_check(path.is_absolute_path() and FileAccess.file_exists(path), "Party audit requires external frozen schema11 reader")
+	if not path.is_absolute_path() or not FileAccess.file_exists(path): return false
+	_check(FileAccess.get_sha256(path) == SCHEMA11_READER_SHA256, "Exact schema11 reader matches frozen pre-party source SHA256")
+	if FileAccess.get_sha256(path) != SCHEMA11_READER_SHA256: return false
+	var script = GDScript.new()
+	script.source_code = FileAccess.get_file_as_string(path).replace("class_name HeroState\n", "")
+	var error: Error = script.reload()
+	_check(error == OK, "Exact schema11 reader compiles with only global registration removed")
+	if error != OK: return false
+	schema11_reader = script.new()
+	_check(schema11_reader.SAVE_VERSION == 11, "Frozen pre-party reader retains its actual schema11 gate")
+	return schema11_reader.SAVE_VERSION == 11
+
+func _party_actor(snapshot: Dictionary, id: String) -> Dictionary:
+	for actor: Dictionary in snapshot.get("actors", []):
+		if actor.id == id: return actor
+	return {}
+
+func _party_unit(snapshot: Dictionary, id: String) -> Dictionary:
+	for unit: Dictionary in snapshot.get("actors", []) + snapshot.get("enemies", []):
+		if unit.id == id: return unit
+	return {}
+
+func _roster_select_only(id: String) -> void:
+	var folio = game.overlay.get_meta("party_roster", null)
+	_check(folio != null, "Packed actual roster folio exists")
+	if folio == null: return
+	for other: String in ["shen", "tang", "qin"]:
+		if game.state.party_roster.has(other) and other != id: folio.cells[other].toggle.pressed.emit()
+	if not game.state.party_roster.has(id): folio.cells[id].toggle.pressed.emit()
+	_check(game.state.party_roster == ["hero", id], "Packed real roster buttons select only " + id)
+
+func _party_prepare(count: int = 4, encounter: String = "training", ending: String = "short_ferries") -> void:
+	_prepare_companion_chapter(true)
+	var s = game.state
+	_check(s.begin_tangqi_quest() and s.recover_craft_notes() and s.resolve_tangqi_quest("teach") and s.recruit_tangqi(), "Packed Tang enters through personal quest and explicit invitation")
+	s.mist_stage = 4; s.mist_ending = "release_water"; s.mist_approach = "duel"; s.mist_gauges.assign(["rain", "stone", "basin"])
+	s.map_id = "mistwood"
+	_check(s.begin_qin_quest() and s.inspect_qin_rope() and s.arrange_qin_handoff() and s.recruit_qin(), "Packed Qin enters only after actual quest and explicit invitation")
+	_check(s.set_party_roster(["hero", "shen", "tang", "qin"].slice(0,count)), "Packed selects exactly %d recruited actors" % count)
+	if encounter == "heting_receipt":
+		s.heting_stage = 4; s.heting_bridge = "east"; s.heting_draft = ending; s.heting_ending = ending
+		s.heting_delivered.assign(["meal", "sealed", "reserve"]); s.map_id = "heting"
+		_check(s.begin_receipt(), "Packed party accepts optional receipt after actual harbor ending")
+		game._sync_world_state(); game.world.change_map("heting", Vector2(1150,735))
+		game.world.teleport(game.world.interactables.heting_scale.pos + Vector2(-40,0))
+	else:
+		s.map_id = "qingwei"; s.quest_stage = 3 if encounter == "story" else 6
+		game._sync_world_state(); game.world.change_map("qingwei", Vector2(955,630))
+		game.world.teleport(game.world.interactables.bandit.pos + Vector2(0,24))
+	s.position = game.world.player_pos; s.heal_rest(); game._refresh(); game._stop_audio(); game.audio_on = false
+
+func _party_panel(): return game.overlay.get_meta("party_battle") if game.overlay.has_meta("party_battle") else null
+
+func _party_open(encounter: String = "training"):
+	# Enter with the real default story callback, never the retained adapter.
+	game._interact("heting_scale" if encounter == "heting_receipt" else "bandit")
+	if encounter == "heting_receipt":
+		_press("复签应战准备"); _press("保存后应战")
+	else: _press("拔剑 · 迎战" if encounter == "story" else "友好切磋")
+	var panel = _party_panel()
+	_check(panel != null and game.current_screen == "party_battle" and game.state.battle_active, "Packed default story enters real party controller: " + encounter)
+	if panel != null: panel.art.set_process(false)
+	return panel
+
+func _party_finish(panel) -> void:
+	_check(is_instance_valid(panel) and not panel.pending.is_empty() and panel.art.is_presenting(), "Packed party action owns a real pending presentation")
+	if is_instance_valid(panel) and panel.art.is_presenting(): panel.art._process(panel.art.get_presentation_duration() + .1)
+
+func _party_command(panel, actor: String, action: String, target: String = "") -> Dictionary:
+	if not target.is_empty(): panel.select_target(target)
+	panel.request_command(actor, action)
+	if not panel.pending_action.is_empty() and not target.is_empty(): panel.select_target(target)
+	var tx: Dictionary = panel.pending
+	_check(not tx.is_empty() and tx.get("source_id") == actor and tx.get("action_id") == action, "Packed accepts own actor command: " + actor + "/" + action)
+	if not tx.is_empty(): _party_finish(panel)
+	return tx
+
+func _test_party_pack() -> void:
+	var first: int = checks
+	var processing: bool = game.is_processing(); var world_processing: bool = game.world.is_processing()
+	game.set_process(false); game.world.set_process(false)
+	_test_party_assets_pack()
+	await _test_party_roster_pack()
+	await _test_party_qin_recruitment_pack()
+	await _test_party_opening_pack()
+	for count: int in range(1,5): await _test_party_turns_pack(count)
+	await _test_party_targets_pack()
+	await _test_party_down_pack()
+	await _test_party_entry_failure_pack()
+	for ending: String in ["short_ferries", "open_scale"]: await _test_party_victory_pack(ending)
+	for outcome: String in ["flee", "win", "defeat"]: await _test_party_close_pack(outcome)
+	_test_party_migration_pack()
+	game.set_process(processing); game.world.set_process(world_processing)
+	print("Schema12 four-actor exact-runtime coverage: %d checks; actual default scene/controller/roster; both external frozen readers; native successful process exit intentionally not invoked" % (checks-first))
+
+func _test_party_assets_pack() -> void:
+	var qin = load("res://scripts/painted_battle_qin.gd")
+	for pose: String in qin.SOURCE_RECTS:
+		var texture = qin.texture_for(pose)
+		_check(texture != null and texture.atlas.get_size() == Vector2(1536,1024) and texture.region == qin.SOURCE_RECTS[pose] and texture.filter_clip, "Packed original Qin pose retains full staff crop: " + pose)
+		_check(texture == qin.texture_for(pose) and ResourceLoader.has_cached(qin.PATH), "Packed Qin pose and source texture remain cached: " + pose)
+		var foot := Vector2(580,435); var scale: float = 230.0/512.0*qin.NORMALIZATION
+		var rect: Rect2 = qin.drawing_rect(foot,230,pose)
+		_check((rect.position + (qin.FOOT_ANCHORS[pose]-qin.SOURCE_RECTS[pose].position)*scale).distance_to(foot) < .001, "Packed Qin pose shares exact authored foot anchor: " + pose)
+		_check(rect.encloses(qin.opaque_rect(foot,230,pose)) and rect.grow(1).has_point(qin.weapon_point(foot,230,pose)), "Packed Qin silhouette and staff anchor stay within crop: " + pose)
+	var hud = load("res://scripts/party_command_hud.gd")
+	_check(hud.MAX_ACTORS == 4 and hud.QIN_ATLAS.get_size().x > 0 and hud.COMPANION_ATLAS.get_size().x > 0, "Packed command HUD includes all four actual actor arts")
+
+func _test_party_roster_pack() -> void:
+	game._new_game(); game._show_inventory(); await _key(KEY_5)
+	var folio = game.overlay.get_meta("party_roster", null)
+	_check(folio != null and folio.summary.text.contains("1 / 4"), "Packed fifth inventory entry opens actual four-person roster")
+	if folio == null: return
+	var before: Dictionary = game.state.to_dict()
+	for id: String in ["shen", "tang", "qin"]:
+		_check(folio.cells[id].toggle.disabled and folio.cells[id].empty.visible and not folio.cells[id].portrait.visible, "Packed unrecruited slot is explicit and never an actor: " + id)
+		folio.cells[id].toggle.pressed.emit()
+	_check(game.state.to_dict() == before, "Packed unavailable actor controls cannot create or recruit anyone")
+	game._close_modal(); _party_prepare()
+	game.state.party_resources.shen = {"hp":7,"qi":0}; game.state.party_resources.tang = {"hp":0,"qi":1}; game.state.party_resources.qin = {"hp":9,"qi":2}
+	game._show_inventory(); await _key(KEY_5); folio = game.overlay.get_meta("party_roster", null)
+	_check(folio != null and folio.summary.text.contains("4 / 4"), "Packed all four explicitly recruited actors occupy their real cells")
+	if folio == null: return
+	before = game.state.to_dict()
+	for id: String in ["hero", "shen", "tang", "qin"]:
+		var actor: Dictionary = _party_actor(game.state.party_resource_snapshot(),id)
+		_check(folio.cells[id].portrait.visible and folio.cells[id].hp_bar.value == actor.hp and folio.cells[id].qi_bar.value == actor.qi, "Packed roster displays own real HP/qi: " + id)
+	var stale: Callable = folio._toggle_actor.bind("qin")
+	folio.cells.qin.toggle.pressed.emit(); folio.cells.qin.toggle.pressed.emit()
+	_check(game.state.party_roster == before.party_roster and game.state.party_resources == before.party_resources, "Packed bench/reselect preserves Qin and every other injured resource")
+	_check(folio.cells.tang.status.text.contains("倒下") and folio.cells.tang.hp_bar.value == 0, "Packed downed companion stays down in actual roster")
+	folio.formation_buttons["护后"].pressed.emit()
+	_check(game.state.formation == "护后" and _receipt_document().version == 12, "Packed roster formation writes current schema12 checkpoint")
+	game._close_modal(); before = game.state.to_dict(); stale.call()
+	_check(game.state.to_dict() == before, "Packed dismissed roster callback cannot change selection or resources")
+
+func _test_party_qin_recruitment_pack() -> void:
+	for ending: String in ["release_water", "warn_ferries"]:
+		_prepare_companion_chapter(true)
+		var s = game.state
+		_check(s.begin_tangqi_quest() and s.recover_craft_notes() and s.resolve_tangqi_quest("preserve") and s.recruit_tangqi(), "Packed Qin story fixture really invites existing Tang")
+		s.mist_stage = 4; s.mist_ending = ending; s.mist_approach = "duel"; s.mist_gauges.assign(["rain","stone","basin"])
+		game._travel("mistwood",Vector2(970,260)); s.set_party_roster(["hero"])
+		s.hp = 17; s.qi = 1; s.party_resources.shen = {"hp":3,"qi":0}; s.party_resources.tang = {"hp":4,"qi":1}
+		var before: Dictionary = s.to_dict(); var xp: int = _receipt_xp()
+		await _talk("mist_guide")
+		_check(_find_button(game.overlay,"帮她复核尺绳") != null and not s.qin_unlocked, "Packed original Qin dialogue offers optional work after " + ending)
+		var stale: Callable = game.modal_actions[0]; await _key(KEY_ESCAPE); stale.call()
+		_check(s.qin_stage == 0 and not s.qin_unlocked, "Packed canceled Qin acceptance cannot be replayed")
+		var landmarks: Array = ["mist_guide","mist_rain_gauge","mist_camp","mist_guide"]
+		var choices: Array = ["帮她复核尺绳","核好尺绳，记下轮值要点","确认轮值交接","邀请秦禾同行"]
+		for index: int in range(4):
+			await _talk(landmarks[index]); _press(choices[index])
+			_check(s.qin_stage == index+1 and s.qin_unlocked == (index==3), "Packed Qin stage advances only through its actual explicit choice: " + str(index+1))
+			_check(_receipt_document().version == 12 and s.load_game() == OK and s.qin_stage == index+1, "Packed Qin stage autosaves and reloads exactly")
+			if index < 3: _check(s.party_roster == ["hero"] and not s.party_resources.has("qin"), "Packed work and handoff never silently recruit Qin")
+		_check(s.party_roster == ["hero","qin"] and s.qin_recruited() and s.party_resources.size() == 3, "Packed final spoken invitation enrolls fourth real companion")
+		_check(s.hp == before.hp and s.qi == before.qi and s.party_resources.shen == before.party_resources.shen and s.party_resources.tang == before.party_resources.tang, "Packed Qin story preserves existing hero and benched injuries")
+		_check(s.coins == before.coins and _receipt_xp() == xp and s.medicine == before.medicine and s.resources == before.resources and s.mist_ending == ending, "Packed Qin invitation grants no invented reward or water-ending change")
+		await _talk("mist_guide")
+		_check(_find_button(game.overlay,"邀请秦禾同行") == null, "Packed completed Qin invitation is not repeatable")
+		game._close_modal()
+
+func _test_party_opening_pack() -> void:
+	game._new_game()
+	for id: String in ["elder","herb","healer","healer"]:
+		await _talk(id); await _key(KEY_1)
+	_check(game.state.quest_stage == 3 and game.state.party_roster == ["hero","shen"], "Packed natural opening explicitly recruits Shen with unmodified starter stats")
+	await _talk("bandit"); await _key(KEY_1)
+	var panel = _party_panel()
+	_check(panel != null and panel.encounter == "story" and panel.commands.groups.size() == 2, "Packed natural opening uses real two-actor controller, not legacy support adapter")
+	if panel != null: panel.art.set_process(false); panel.leave(); _party_finish(panel)
+
+func _test_party_turns_pack(count: int) -> void:
+	_party_prepare(count)
+	var s = game.state; var panel = _party_open()
+	if panel == null: return
+	_check(panel.commands.groups.size() == count and panel.art.display_snapshot.actors.size() == count and panel.commands.is_compact() == (count==4), "Packed exactly %d selected actors own HUD and painted positions" % count)
+	var floor_mesh = panel.art._floor
+	var home_positions: Array = []
+	for id: String in s.party_roster:
+		_check(not home_positions.has(panel.art.actor_home(id)), "Packed real actor has distinct grounded home: " + id); home_positions.append(panel.art.actor_home(id))
+		_check(Rect2(0,0,1280,800).encloses(panel.commands.groups[id]) and panel.art.actor_alpha_rect(id).has_point(panel.art.target_anchor(id)), "Packed real actor command group and authored contact anchor remain inside painted bounds: "+id)
+		var actor: Dictionary = _party_actor(s.party_battle_snapshot(),id)
+		_check(panel.unit_plates[id].facts.hp == actor.hp and _party_actor(panel.commands.snapshot,id).qi == actor.qi, "Packed actor plates and command qi mirror own facts: " + id)
+	var files: Dictionary = _courtyard_save_files()
+	for code: Key in [KEY_F5,KEY_F6,KEY_F9,KEY_F10]: await _key(code)
+	_check(_courtyard_save_files() == files and s.save_game() == ERR_BUSY and game.save_slots.store.save_slot(s,2) == ERR_BUSY and game.save_slots.store.load_slot(s,1) == ERR_BUSY, "Packed real party blocks every persistence route")
+	var acted: int = 0
+	for id: String in s.party_roster.duplicate():
+		panel.commands.actor_buttons[id].pressed.emit(); await _key(KEY_3)
+		var tx: Dictionary = panel.pending; var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot()
+		_check(not tx.is_empty() and tx.source_id == id and tx.action_id == "guard" and _party_actor(snapshot,id).qi == _party_actor(tx.before,id).qi, "Packed own guard consumes only selected actor turn: " + id)
+		if tx.is_empty(): return
+		_check(tx.is_read_only() and tx.before.actors.is_read_only() and tx.after.actors.is_read_only(), "Packed actor transaction is deeply immutable")
+		acted += 1
+		_check(snapshot.round == (2 if acted==count else 1), "Packed enemies wait until all %d living actor turns" % count)
+		_check(not s.finish_party_presentation(tx.epoch-1,tx.token).accepted and not s.finish_party_presentation(tx.epoch,tx.token+1).accepted, "Packed wrong epoch/token cannot release party action")
+		await _key(KEY_1); await _key(KEY_TAB); panel.select_actor("hero")
+		for method: String in ["_show_inventory","_show_martials","_show_map","_show_journal","_show_pause","_show_save_slots","_show_load_slots"]: game.call(method)
+		_check(s.to_dict() == accepted and s.party_battle_snapshot() == snapshot and _party_panel()==panel and _courtyard_save_files()==files, "Packed locked inputs and menus cannot spend, retarget or replace actual party")
+		_party_finish(panel)
+		_check(not s.finish_party_presentation(tx.epoch,tx.token).accepted, "Packed completed actor token cannot repeat")
+	_check(panel.art._floor == floor_mesh, "Packed actual actor exchanges reuse grounded floor mesh")
+	var before: Dictionary = s.to_dict(); panel.leave(); _party_finish(panel)
+	_check(not s.battle_active and s.party_settlement.outcome == "flee" and s.to_dict() == before, "Packed party retreat keeps every actual spent resource")
+
+func _test_party_targets_pack() -> void:
+	_party_prepare(4,"heting_receipt")
+	var s = game.state; s.hp -= 40; s.medicine = 2
+	var panel = _party_open("heting_receipt")
+	if panel == null: return
+	panel.select_actor("qin"); await _key(KEY_2)
+	var pending_target: Dictionary = s.party_battle_snapshot()
+	_check(panel.pending_action == "art:qin_shoudu" and not pending_target.locked, "Packed Qin shield requires an explicit living ally target")
+	await _key(KEY_ESCAPE)
+	_check(panel.pending_action.is_empty() and s.party_battle_snapshot() == pending_target, "Packed Escape cancels target choice without costs or retreat")
+	panel.request_command("qin","art:qin_shoudu"); panel.select_target("striker")
+	_check(panel.pending.is_empty() and not s.party_battle_snapshot().locked, "Packed shield cannot target enemy")
+	panel.select_target("hero")
+	var tx: Dictionary = panel.pending
+	_check(tx.get("source_id") == "qin" and tx.get("target_id") == "hero" and s.party_resources.qin.qi == 3 and _party_actor(tx.after,"hero").status.barrier == 18, "Packed accepted shield spends only Qin3qi and grants actual hero18 barrier")
+	_check(_party_actor(panel.art.display_snapshot,"hero").status.barrier == 0 and _party_actor(panel.commands.snapshot,"qin").qi == 6, "Packed shield/qi presentation hides resolved future values before contact")
+	panel.art._process(.2); panel._process(0)
+	_check(panel.art.acting_unit_id == "qin" and panel.commands.context.acting_unit_id == "qin", "Packed shield windup names its actual Qin source")
+	_party_finish(panel)
+	_check(_party_actor(panel.art.display_snapshot,"hero").status.barrier == 18 and _party_actor(s.party_battle_snapshot(),"qin").cooldowns["art:qin_shoudu"] == 2, "Packed shield contact reveals exact model value and own cooldown2")
+	panel.request_command("shen","art:shen_xumai")
+	_check(panel.pending_action == "art:shen_xumai" and panel.target_ids.has("hero"), "Packed healer requests a real injured living ally")
+	panel.select_target("hero"); tx = panel.pending
+	_check(s.hp == tx.before.actors[0].hp+28 and s.party_resources.shen.qi == 3 and s.party_resources.qin.qi == 3, "Packed Shen heals exactly28 using only her3qi")
+	_check(_party_actor(panel.art.display_snapshot,"hero").hp == _party_actor(tx.before,"hero").hp, "Packed own healer contact waits before displaying actual heal")
+	_party_finish(panel)
+	panel.select_target("bracer"); _party_command(panel,"tang","art:tang_fenjin","bracer")
+	_check(_party_unit(s.party_battle_snapshot(),"bracer").status.weaken_strikes == 2 and s.party_resources.tang.qi == 3, "Packed Tang own art weakens two actual enemy strikes for3qi")
+	panel.select_actor("hero"); panel.unit_plates.bracer.pressed.emit()
+	_check(s.party_battle_snapshot().selected_target_id == "bracer", "Packed actual enemy plate selects its true target")
+	await _key(KEY_1); tx = panel.pending
+	_check(tx.source_id == "hero" and tx.target_id == "bracer" and s._companion_attack_count == 0 and panel.art.display_snapshot.enemies == tx.before.enemies, "Packed hero attack hits chosen enemy without old automatic companion support or early HP reveal")
+	var enemy_events: int = 0
+	for event: Dictionary in tx.events:
+		if event.get("phase") == "enemy" and event.get("type") == "damage": enemy_events += 1
+	_check(tx.after.round == 2 and enemy_events > 0, "Packed fourth independent action triggers real announced enemy phase")
+	_party_finish(panel)
+	_check(_party_actor(s.party_battle_snapshot(),"qin").cooldowns["art:qin_shoudu"] == 2, "Packed other actors and enemy phase do not reduce Qin cooldown")
+	panel.request_command("qin","art:qin_shoudu")
+	_check(panel.pending.is_empty() and panel.pending_action.is_empty() and not panel.commands.action_reason("qin","art:qin_shoudu").is_empty(), "Packed own cooldown blocks Qin reuse with a visible reason")
+	for round_index: int in range(2):
+		for id: String in ["qin","hero","shen","tang"]: _party_command(panel,id,"guard")
+		_check(_party_actor(s.party_battle_snapshot(),"qin").cooldowns["art:qin_shoudu"] == 1-round_index, "Packed only Qin's own later actions decrement her cooldown")
+	var hp: int = s.hp; var qi: int = s.qi
+	panel.request_command("qin","art:qin_shoudu"); panel.select_target("qin"); _party_finish(panel)
+	_check(s.hp == hp and s.qi == qi and _party_actor(s.party_battle_snapshot(),"qin").status.barrier == 18, "Packed shield becomes reusable after two own actions without spending hero resources")
+	panel.leave(); _party_finish(panel); game._close_modal()
+
+func _test_party_entry_failure_pack() -> void:
+	_party_prepare()
+	var before: Dictionary = game.state.to_dict(); _check(game.state.save_game()==OK,"Packed party entry control saves")
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	game._interact("bandit"); _press("友好切磋")
+	_check(not game.state.battle_active and _party_panel()==null and game.save_warning and game.state.to_dict()==before and _receipt_bytes()==bytes, "Packed failed real party entry checkpoint blocks combat without costs")
+	_receipt_unblock_save(blocker); game._close_modal()
+	var panel = _party_open()
+	if panel != null: panel.leave(); _party_finish(panel)
+
+func _test_party_victory_pack(ending: String) -> void:
+	_party_prepare(4,"heting_receipt",ending)
+	var s = game.state; var coins: int = s.coins; var xp: int = _receipt_xp(); var victories: int = s.victories
+	var panel = _party_open("heting_receipt")
+	if panel == null: return
+	var checkpoint: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	var terminal: Dictionary = {}
+	for index: int in range(100):
+		if not s.battle_active: break
+		var snapshot: Dictionary = s.party_battle_snapshot(); var target: String = ""
+		for enemy: Dictionary in snapshot.enemies:
+			if enemy.hp > 0 and (target.is_empty() or enemy.id == "bracer"): target = enemy.id
+		panel.select_target(target); panel.request_command(snapshot.active_actor_id,"attack")
+		terminal = panel.pending
+		if terminal.is_empty(): _check(false,"Packed natural four-actor victory accepts each attack"); break
+		if terminal.after.outcome == "win":
+			_check(s.receipt_stage == 1 and s.coins == coins and _receipt_xp()==xp and s.battle_active, "Packed four-actor victory defers reward until terminal presentation")
+		_party_finish(panel)
+	_check(not s.battle_active and s.party_settlement.outcome == "win" and s.receipt_stage == 2 and s.coins == coins+40 and _receipt_xp()==xp+80 and s.victories==victories+1, "Packed natural four-actor receipt earns exactly80XP/40coins once: " + ending)
+	_check(s.heting_ending == ending and s.party_roster == ["hero","shen","tang","qin"] and game.save_warning and _receipt_bytes()==checkpoint, "Packed failed final save preserves ending, all real actors, old disk and settled reward")
+	var settled: Dictionary = s.to_dict()
+	_check(not s.finish_party_presentation(terminal.epoch,terminal.token).accepted and not s.start_party_battle("heting_receipt") and s.to_dict()==settled, "Packed repeated terminal token/reentry cannot duplicate four-actor reward")
+	game._close_modal(); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.save_warning and _receipt_document().version==12 and _receipt_document().player==JSON.parse_string(JSON.stringify(settled)), "Packed retry persists exact settled four-actor resources without new reward")
+	game._load()
+	_check(s.to_dict()==settled and not s.battle_active and s.party_session==null, "Packed schema12 reload preserves awarded roster and clears transient encounter")
+
+func _test_party_close_pack(outcome: String) -> void:
+	_party_prepare(4,"heting_receipt")
+	var s = game.state; s.medicine=2; s.coins=3
+	if outcome == "defeat":
+		s.hp=1; s.qi=0; s.attack=1; s.defense=0
+		for id: String in s.party_resources: s.party_resources[id]={"hp":1,"qi":0}
+	elif outcome == "win": s.attack=200; s.defense=99
+	else: s.hp=60
+	var panel = _party_open("heting_receipt")
+	if panel == null: return
+	if outcome == "flee": panel.request_command("hero","item")
+	else:
+		for index: int in range(60):
+			var snapshot: Dictionary = s.party_battle_snapshot()
+			var target: String = "bracer" if _party_unit(snapshot,"bracer").hp > 0 else "striker"
+			panel.select_target(target)
+			panel.request_command(snapshot.active_actor_id,"attack" if outcome=="win" and snapshot.active_actor_id=="hero" else "guard")
+			if panel.pending.is_empty(): _check(false,"Packed close fixture accepts real actor turn"); return
+			if panel.pending.after.outcome == outcome: break
+			_party_finish(panel)
+	var tx: Dictionary = panel.pending
+	_check(not tx.is_empty() and (outcome=="flee" or tx.after.outcome==outcome), "Packed close begins during actual pending " + outcome)
+	if tx.is_empty(): return
+	var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot()
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	await _key(KEY_2); await _key(KEY_ESCAPE)
+	_check(panel.close_pending and not game.quit_pending and s.to_dict()==accepted and s.party_battle_snapshot()==snapshot and _receipt_bytes()==bytes, "Packed real four-actor close waits for accepted action without duplicate costs: " + outcome)
+	_party_finish(panel)
+	if outcome == "flee":
+		_check(panel.pending.get("action_id")=="flee" and s.medicine==1, "Packed queued close completes own medicine then accepts one flee")
+		_party_finish(panel)
+	_check(game.current_screen=="explore" and not s.battle_active and not game.quit_pending and game.save_warning and _receipt_bytes()==bytes, "Packed actual party settlement hits real save-failure close gate: " + outcome)
+	_check(s.party_settlement.outcome==outcome and s.receipt_stage==(2 if outcome=="win" else 1), "Packed close respects accepted true party outcome: " + outcome)
+	if outcome=="defeat":
+		_check(s.coins==0 and s.position==Vector2(230,735) and game.world.player_pos==s.position and s.hp==s.max_hp and s.qi>=2, "Packed total party defeat loses only available3coins and syncs actual harbor recovery position")
+		for id: String in ["shen","tang","qin"]:
+			var actor: Dictionary = _party_actor(s.party_resource_snapshot(),id)
+			_check(actor.hp==actor.max_hp and actor.qi>=2, "Packed explicit defeat recovery applies own health/qi floor: "+id)
+	var settled: Dictionary = s.to_dict(); var stale: Callable = game.modal_actions[0]
+	_press("返回小憩"); stale.call()
+	_check(not game.quit_pending and s.to_dict()==settled and _receipt_bytes()==bytes, "Packed party canceled close invalidates previous retry callback")
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); _press("不保存离开")
+	_check(_gather_text(game.overlay).contains("舍下未存的这一程？") and not game.quit_pending, "Packed party discard still requires explicit second choice")
+	_press("继续留在江湖"); await _key(KEY_ESCAPE); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.quit_pending and not game.save_warning and s.to_dict()==settled and _receipt_document().player==JSON.parse_string(JSON.stringify(settled)), "Packed canceled party close allows exact save recovery without process exit or duplicated settlement")
+
+func _test_party_migration_pack() -> void:
+	_prepare_companion_chapter(true)
+	var s = game.state
+	_check(s.begin_tangqi_quest() and s.recover_craft_notes() and s.resolve_tangqi_quest("teach") and s.recruit_tangqi(), "Packed migration fixture really recruits both historical companions")
+	s.hp=17; s.qi=1
+	var model = load("res://scripts/game_state.gd"); var probe = model.new()
+	var path: String = "user://schema12-party-audit.json"
+	var historical: Dictionary = s.to_dict()
+	for key: String in ["party_roster","party_resources","qin_stage","qin_unlocked"]: historical.erase(key)
+	for version: int in range(1,12):
+		for choice: String in ["沈青","唐栖",""]:
+			var data: Dictionary = historical.duplicate(true); data.active_companion=choice
+			_receipt_write_document(path,{"version":version,"player":data})
+			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+			_check(probe.load_game(path)==OK and probe.party_roster==["hero","tang" if choice=="唐栖" else "shen"] and probe.hp==17 and probe.qi==1, "Packed schema%d migration preserves actual chosen companion and hero injury: %s" % [version,choice])
+			_check(probe.party_resources.size()==2 and not probe.qin_unlocked and probe.qin_stage==0 and FileAccess.get_file_as_bytes(path)==bytes, "Packed legacy migration creates no Qin and never rewrites original bytes")
+			for id: String in ["shen","tang"]:
+				var actor: Dictionary = _party_actor(probe.party_resource_snapshot(),id)
+				_check(probe.party_resources[id]=={"hp":actor.max_hp,"qi":actor.max_qi}, "Packed legacy resource initialization uses own catalog maxima: "+id)
+	_receipt_write_document(path,{"version":11,"player":historical})
+	_check(schema11_reader.load_game(path)==OK and schema11_reader.to_dict()==historical, "Frozen exact schema11 reader accepts its own complete historical control")
+	var ignored: Dictionary = historical.duplicate(true); ignored.qin_stage=4; ignored.qin_unlocked=true
+	_receipt_write_document(path,{"version":11,"player":ignored})
+	_check(probe.load_game(path)==OK and probe.qin_stage==0 and not probe.qin_unlocked and not probe.party_resources.has("qin"), "Packed schema11 migration cannot smuggle future Qin recruitment")
+	schema11_reader.coins=4242; schema11_reader.battle_active=true; schema11_reader.enemy_hp=37; schema11_reader.turn=6
+	var frozen_before: Dictionary = _receipt_variables(schema11_reader)
+	_party_prepare(); s=game.state
+	s.party_resources.shen={"hp":0,"qi":0}; s.party_resources.tang={"hp":5,"qi":1}; s.party_resources.qin={"hp":9,"qi":2}
+	for roster: Array in [["hero"],["hero","qin"],["hero","tang","shen"],["hero","shen","tang","qin"]]:
+		_check(s.set_party_roster(roster) and s.save_game(path)==OK, "Packed actual schema12 serializes explicit%d actor roster" % roster.size())
+		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+		_check(probe.load_game(path)==OK and probe.to_dict()==s.to_dict(), "Packed schema12 roundtrip preserves downed, benched and active own resources")
+		_check(schema11_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(schema11_reader)==frozen_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Frozen exact schema11 reader rejects real schema12 before changing any live field or source bytes")
+	var current: Dictionary = s.to_dict(); var stable: Dictionary = probe.to_dict()
+	for key: String in current:
+		var missing: Dictionary = current.duplicate(true); missing.erase(key)
+		_receipt_reject_document(probe,path,{"version":12,"player":missing},stable,"missing schema12 field "+key)
+	for roster: Variant in [[],["shen","hero"],["hero","hero"],["hero","ghost"],["hero","shen","tang","qin","hero"],"hero",null]:
+		var invalid: Dictionary = current.duplicate(true); invalid.party_roster=roster
+		_receipt_reject_document(probe,path,{"version":12,"player":invalid},stable,"malformed exact party roster")
+	for value: Variant in [-1,.5,true,"1",1e50,null]:
+		for field: String in ["hp","qi"]:
+			var invalid: Dictionary = current.duplicate(true); invalid.party_resources.qin[field]=value
+			_receipt_reject_document(probe,path,{"version":12,"player":invalid},stable,"malformed independent Qin "+field)
+	for pair: Array in [[3,true],[4,false],[.5,false],[5,true]]:
+		var invalid: Dictionary = current.duplicate(true); invalid.qin_stage=pair[0]; invalid.qin_unlocked=pair[1]
+		_receipt_reject_document(probe,path,{"version":12,"player":invalid},stable,"inconsistent Qin recruitment pair")
+	var forged: Dictionary = current.duplicate(true); forged.qin_stage=0; forged.qin_unlocked=false
+	_receipt_reject_document(probe,path,{"version":12,"player":forged},stable,"unearned Qin actor or resources")
+	for extra: String in ["party_session","party_battle_epoch","party_settlement"]:
+		var invalid: Dictionary = current.duplicate(true); invalid[extra]={}
+		_receipt_reject_document(probe,path,{"version":12,"player":invalid},stable,"transient battle field "+extra)
+	_receipt_reject_document(probe,path,{"version":13,"player":current},stable,"future schema13 with valid current roster")
+
+func _test_party_down_pack() -> void:
+	_party_prepare()
+	var s = game.state
+	s.hp=1; s.qi=0; s.party_resources.tang={"hp":0,"qi":1}; s.party_resources.qin={"hp":0,"qi":2}
+	var panel = _party_open()
+	if panel == null: return
+	_check(not panel.commands.action_reason("tang","attack").is_empty() and not panel.commands.action_reason("qin","art:qin_shoudu").is_empty(), "Packed downed true actors expose unavailable own commands")
+	panel.request_command("shen","art:shen_xumai")
+	_check(not panel.target_ids.has("tang") and not panel.target_ids.has("qin"), "Packed real healing target list excludes both downed companions")
+	await _key(KEY_ESCAPE)
+	_party_command(panel,"hero","guard"); _party_command(panel,"shen","guard")
+	_check(s.party_battle_snapshot().round==2 and s.hp==0 and s.battle_active and _party_actor(s.party_battle_snapshot(),"shen").hp>0, "Packed enemies act after only living actors and hero stays down while Shen continues")
+	panel.request_command("shen","art:shen_xumai")
+	_check(not panel.target_ids.has("hero") and s.hp==0, "Packed Shen cannot revive downed hero through healing")
+	if not panel.pending_action.is_empty(): await _key(KEY_ESCAPE)
+	var prior: Dictionary = s.to_dict(); panel.leave(); _party_finish(panel)
+	_check(not s.battle_active and s.party_settlement.outcome=="flee" and s.hp==1 and s.qi==prior.qi and s.party_resources==prior.party_resources, "Packed surviving companion retreat applies only outside-combat heroHP1 and preserves downed companions")
+	_check(_receipt_document().player.party_resources==JSON.parse_string(JSON.stringify(prior.party_resources)), "Packed real save preserves independently downed and spent companion resources")
