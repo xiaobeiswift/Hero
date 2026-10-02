@@ -79,6 +79,9 @@ func repair() -> void:
 		host.world.bridge_repaired=true;host._close_modal();host._toast("南桥修复 · 铜钱 +20、修为 +25，近路已通。")
 func gather(id:String) -> void:
 	var names={"frost_ore":"露头铁矿","frost_timber":"散落木料","frost_herb":"耐寒药草"}
+	if host.state.gathered_nodes.has(id):
+		host._modal(names[id],"霜桥风物 / 已采集","这处可用的材料已经收进你的行囊。余下的部分不宜再取，换一处寻找吧。")
+		return
 	host._modal(names[id],"采集 / 霜桥风物","可取得三份工艺材料。本处只采集一次，不会通过往返地图刷新。\n\n青苇渡任务所需的青穗草仍单独保存。",[["小心采集",collect.bind(id)],["留下它们",host._close_modal]])
 func collect(id:String) -> void:
 	var result=host.state.gather_resource(id)

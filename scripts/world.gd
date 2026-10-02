@@ -896,6 +896,20 @@ func _interaction_prompt_rect(target:Vector2)->Rect2:
 		if score<best_score:best=candidate;best_score=score
 	return best
 
+func interaction_verb(id: String) -> String:
+	var kind: String = String(interactables.get(id, {}).get("kind", ""))
+	if id == "herb":
+		return "采集" if quest_stage == 1 else "查看"
+	if kind == "resource":
+		return "查看" if resource_depleted.has(id) else "采集"
+	if kind == "exit":
+		return "前往"
+	if kind == "lightness" or id == "reed_return":
+		return "轻身"
+	if kind in ["board", "shrine", "cache", "clue", "relic", "rest"]:
+		return "查看"
+	return "交谈"
+
 func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
@@ -918,9 +932,7 @@ func _draw_nameplates() -> void:
 		draw_line(target_p + Vector2(0, yy - 3), target_p + Vector2(0, yy + 1), C_INK, 1.4)
 	if not nearby_id.is_empty() and active:
 		var p: Vector2 = interactables[nearby_id]["pos"]
-		var label_text := "E  " + ("采集" if (nearby_id == "herb" or nearby_id.begins_with("frost_")) else "前往" if nearby_id in ["exit_sluice", "return_village", "exit_frostbridge", "return_sluice"] else "查看" if nearby_id in ["board", "shrine", "sluice_cache"] else "交谈")
-		if nearby_id in ["reed_cross","reed_return"]:label_text="E  轻身"
-		elif nearby_id=="reed_relic":label_text="E  查看"
+		var label_text := "E  " + interaction_verb(nearby_id)
 		var r := _interaction_prompt_rect(p)
 		draw_style_box(_round_box(Color("294942"), 5), r)
 		_label(r.position + Vector2(0, 16), label_text, 12, C_PAPER, 72, HORIZONTAL_ALIGNMENT_CENTER)
