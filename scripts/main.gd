@@ -429,6 +429,8 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 	status_label.text = text + ("  ⚠ "+_save_retry_message() if save_warning and not is_save_notice else "")
 	# Brief routine feedback must never shorten an unresolved save failure.
 	toast_time = 7.0 if save_warning else duration
+	if current_screen == "party_battle" and overlay.has_meta("party_battle"):
+		overlay.get_meta("party_battle").refresh()
 
 func _clear_overlay() -> void:
 	if current_screen=="party_battle":return
@@ -573,7 +575,7 @@ func _interact(id: String) -> void:
 	if active_modal or current_screen != "explore": return
 	if audio_on: sfx.play()
 	match id:
-		"courtyard_practice": CourtyardPractice.open(self)
+		"courtyard_practice": _practice_dialogue()
 		"mentor": sect_progress.show()
 		"elder": _elder_dialogue()
 		"reed_cross": lightness_story.shore()
@@ -611,10 +613,10 @@ func _elder_dialogue() -> void:
 
 func _healer_dialogue() -> void:
 	if state.quest_stage >= 3 and not state.companion_unlocked:
-		_modal("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n沈青可独立选择银针出招、守势或青灯渡脉。青灯渡脉消耗3真气，治疗一名仍站立的队友；气血与真气各自记录。并肩轮换承受来击，护后由前位先挡敌锋。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
+		_modal("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n沈青每轮自动以银针出手一次；你可另行安排她的青灯渡脉、温灯养脉与流萤步。青灯渡脉消耗3真气，治疗一名仍站立的队友；气血与真气各自记录。并肩轮换承受来击，护后由前位先挡敌锋。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
 		return
 	if state.quest_stage == 2 and state.herbs > 0:
-		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，记得守势。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
+		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，看清敌方意图，及时安排武学与疗伤。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
 	else:
 		var choices:Array=[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]]
 		if shen_story.visible():choices.append(["药箱之外",shen_story.pharmacy])
@@ -639,18 +641,24 @@ func _bandit_dialogue() -> void:
 	if state.quest_stage < 3:
 		_modal("蒲横 · 河帮执事","旧渡口","今晚这条渡口不开。\n\n你看见他腰间挂着半截灯绳，却还没有足够的线索说明来意。先问问村里的人。")
 	elif state.quest_stage == 3:
-		_modal("蒲横 · 河帮执事","交锋 / 一盏灯的价钱","‘灯是我摘的，过河的价钱却不是我定的。’\n\n蒲横横刀挡住栈桥：‘想拿回灯，就让我看看，你凭什么替这条河讲道理。’\n\n每位在队同伴有自己的气血、真气和行动。点击人物下方招式出招；主角与同伴都行动后，敌方才依意图还击。普攻积攒真气，武学费用显示在各自招式上。治疗与护势须亲自选择队友。\n\n先保存再应战；退开保留已用资源，全队倒下才算败退。",[["拔剑 · 迎战",_party_entry.bind("story",modal_generation+1)],["暂且离开",_close_modal]],true)
+		_modal("蒲横 · 河帮执事","交锋 / 一盏灯的价钱","‘灯是我摘的，过河的价钱却不是我定的。’\n\n蒲横横刀挡住栈桥：‘想拿回灯，就让我看看，你凭什么替这条河讲道理。’\n\n每位在队同伴有自己的气血、真气与技能。每轮自动普攻一次并积攒真气；主动武学、内功、轻功可自行安排在该角色下次普攻前，不会替代普攻。冷却按完整回合计算；治疗与护势须选择队友。可随时请求收招后暂停来读招。\n\n先保存再应战；退开保留已用资源，全队倒下才算败退。",[["拔剑 · 迎战",_party_entry.bind("story",modal_generation+1)],["暂且离开",_close_modal]],true)
 	else:
-		_modal("蒲横","切磋 / 不争渡税，只论武艺","‘那天的事，我欠船家一句交代。’\n\n蒲横已不再拦路，愿与你和在队同伴过招。每人各有一次本轮行动。切磋使用真实资源，可获得修为和少量铜钱；全队落败后回安全处休整，仍可重新挑战。",[["友好切磋",_party_entry.bind("training",modal_generation+1)],["下次再来",_close_modal]])
+		_modal("蒲横","切磋 / 不争渡税，只论武艺","‘那天的事，我欠船家一句交代。’\n\n蒲横已不再拦路，愿与你和在队同伴过招。每位存活队员每轮自动普攻一次，手动技能另行安排。切磋使用真实资源，可获得修为和少量铜钱；全队落败后回安全处休整，仍可重新挑战。",[["友好切磋",_party_entry.bind("training",modal_generation+1)],["下次再来",_close_modal]])
 
 func _party_entry(kind:String,generation:int)->void:
 	if current_screen!="explore" or not active_modal or generation!=modal_generation:return
 	_start_party_battle(kind)
 
 func _start_party_battle(kind:String)->bool:
-	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="qingwei" or world.map_id!="qingwei":return false
-	if not world.interactables.has("bandit") or world.player_pos.distance_to(world.interactables.bandit.pos)>=85:return false
-	return PartyUI.open(self,kind)!=null
+	return _start_unified_battle(kind)
+
+func _practice_dialogue() -> void:
+	_modal("南庭演练", "全队试招 / 虚拟资源", "演练使用与你相同的出战队伍与自动交锋规则。每位存活队员每轮自动普攻一次；可安排主动武学、内功、轻功。\n\n演练气血与真气充盈，另备三份虚拟疗伤药，每份恢复40气血。胜负、退开与重试都不改变真实资源、熟练度或剧情，也不发奖励。", [["开始演练", _unified_entry.bind("courtyard_practice", modal_generation+1)], ["先行离开", _close_modal]], true)
+	modal_autosave_on_close = false
+
+func _unified_entry(kind: String, generation: int) -> void:
+	if not active_modal or modal_generation != generation: return
+	_start_unified_battle(kind)
 
 func _show_party_roster()->void:
 	if current_screen!="explore" or quit_pending or state.battle_active:return
@@ -811,34 +819,18 @@ func _build_battle_ui() -> void:
 		battle_buttons.append(_button(battle_layer,names[i],Rect2(25+i*180,476,167,56),_battle_action.bind(actions[i])))
 
 func _start_battle(kind: String) -> void:
-	battle_presentation_generation+=1
-	_stop_battle_health_tweens()
-	battle_busy=false
-	battle_art.reset_presentation()
-	_close_modal()
-	current_screen = "battle"
-	# Exploration tips must not cover a new duel; persistent save failures survive.
-	toast_time=0
-	if not save_warning:status_label.text=""
-	story_battle = kind=="story"
-	encounter_kind = kind
-	state.start_battle(kind)
-	if not state.battle_active:
-		current_screen="explore"
-		battle_layer.visible=false
-		_toast("此刻尚不满足交锋条件。")
-		return
-	enemy_title.text = state.enemy_name
-	battle_art.enemy_identity=state.enemy_name
-	battle_title.text = "南 庭  ·  验 艺" if kind=="sect_trial" else ("霜 桥  ·  封 仓" if kind=="archive_boss" else ("废 闸  ·  断 流" if kind.begins_with("sluice") else "旧 渡 口  ·  问 剑"))
-	if kind.begins_with("mist_"):battle_title.text="雾 竹 坡  ·  听 雨"
-	battle_art.companion_active = not state.current_companion().is_empty()
-	battle_art.companion_name=state.current_companion()
-	battle_art.region_style="training" if kind=="sect_trial" else state.map_id
-	battle_layer.visible = true
-	battle_busy=false
-	battle_art.reset_presentation()
-	_refresh_battle()
+	# Compatibility entry for authored dialogue callbacks; every supported
+	# normal route enters the same automatic controller, never the legacy HUD.
+	_start_unified_battle("training" if kind == "spar" else kind)
+
+func _start_unified_battle(kind: String) -> bool:
+	var routes = state.UnifiedEncounters.LOCATIONS
+	if not routes.has(kind) or current_screen != "explore" or quit_pending or state.battle_active: return false
+	var location: Array = routes[kind]
+	if state.map_id != location[0] or world.map_id != location[0]: return false
+	if not world.interactables.has(location[1]) or not world.player_pos.is_finite(): return false
+	if world.player_pos.distance_to(world.interactables[location[1]].pos) >= 85: return false
+	return PartyUI.open(self, kind) != null
 
 func _stop_battle_health_tweens() -> void:
 	# Killed tweens cannot write old health into a refreshed or replacement battle.
@@ -998,9 +990,7 @@ func _notification(what:int) -> void:
 		else:_quit_cleanly(false)
 
 func _start_receipt_battle()->bool:
-	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
-	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
-	return ReceiptUI.open(self)!=null
+	return _start_unified_battle("heting_receipt")
 
 func _start_party_receipt_battle()->bool:
 	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
@@ -1112,7 +1102,7 @@ func _sluice_boss_dialogue() -> void:
 	if state.side_stage >= 3:
 		_modal("闸门归静", "废闸 / 已了因果", "水流恢复了往常的节律。你找到的那份伪造水令，指向上游的霜桥城。\n\n这段路已走完，另一段江湖尚待展开。")
 		return
-	_modal("闸首 · 罗沉", "交锋 / 逆水而行", "证言与账页摆在面前，罗沉再无借口。\n\n‘开闸的印是我的，改时辰的手却不在这里。你能赢我，也未必能赢那条粮路。’\n\n[color=#d3b276]罗沉轻重招交替。未守住的重击会让实际受击者留下破绽，接下来的两次来击各多受3点伤害；该队员守势可清除并防止破绽。[/color]\n\n每位在队同伴各行动一次，按头顶意图安排守势与治疗。先保存再应战，旧仓药棚可免费休整。",[["问个明白",_sluice_party_entry.bind("sluice_boss",modal_generation+1)],["先行整备",_close_modal]],true)
+	_modal("闸首 · 罗沉", "交锋 / 逆水而行", "证言与账页摆在面前，罗沉再无借口。\n\n‘开闸的印是我的，改时辰的手却不在这里。你能赢我，也未必能赢那条粮路。’\n\n[color=#d3b276]罗沉轻重招交替。未守住的重击会让实际受击者留下破绽，接下来的两次来击各多受3点伤害；该队员带守势的武学可清除并防止破绽。[/color]\n\n每位存活队员每轮自动普攻一次；按头顶意图安排防护武学、轻功与治疗。先保存再应战，旧仓药棚可免费休整。",[["问个明白",_sluice_party_entry.bind("sluice_boss",modal_generation+1)],["先行整备",_close_modal]],true)
 
 func _finish_sluice() -> void:
 	var awarded = state.finish_side_quest()
@@ -1158,7 +1148,7 @@ func _show_martials() -> void:
 func _equip_art(id: String) -> void:
 	if state.equip_art(id):
 		_close_modal()
-		_toast("已修习"+id+"，战斗中按2施展。")
+		_toast("已修习"+id+"，战斗中按1排定主动武学。")
 	else:
 		_toast("暂未习得这门武学。")
 

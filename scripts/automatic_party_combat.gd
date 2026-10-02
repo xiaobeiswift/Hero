@@ -77,7 +77,8 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 	if ENCOUNTERS.has(encounter_id):
 		specs = ENCOUNTERS[encounter_id]
 	elif encounter_id == "sect_trial":
-		specs = [{"id": "sect_trial", "name": "岑远 · 门中试招", "hp": maxi(180, int(_actor("hero").attack) * 4 + 30), "attack": 18, "heavy_attack": 30}]
+		_trial.hp_scaling = _trial_endurance()
+		specs = [{"id": "sect_trial", "name": "岑远 · 门中试招", "hp": int(_trial.hp_scaling.max_hp), "attack": 18, "heavy_attack": 30}]
 	elif encounter_id == "courtyard_practice":
 		specs = [{"id": "striker", "name": "执棍木人", "hp": 96, "attack": 14, "heavy_attack": 24}, {"id": "bracer", "name": "架盾木人", "hp": 64, "attack": 10, "heavy_attack": 10}]
 	else:
@@ -93,6 +94,35 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 	_target_id = _first_living(_enemies)
 	_plan_intents()
 	return true
+
+
+func _trial_endurance() -> Dictionary:
+	# Fixed once at entry, from the exact recruited roster and learned action
+	# descriptors. Two rounds of basics plus one use of every current offensive
+	# skill must leave a real incoming round2 heavy available for school proof.
+	# All authored skill cooldowns exclude a second use within these two rounds.
+	# Focus uses max-per-hit, but distinct skills can affect different basics:
+	# Tang's genuine lightness8 and internal6 therefore need allowance14.
+	var basic_budget: int = 0
+	var martial_budget: int = 0
+	var focus_budget: int = 0
+	for actor: Dictionary in _actors:
+		if int(actor.hp) <= 0:
+			continue
+		basic_budget += 2 * int(actor.attack)
+		for action: Dictionary in actor.actions:
+			if not bool(action.get("learned", false)):
+				continue
+			var effects: Dictionary = action.get("effects", {})
+			if action.category == "martial" and action.target_team == "enemy":
+				martial_budget += maxi(0, Advanced.direct_damage(effects, int(actor.attack), int(actor.art_rank) if actor.id == "hero" else 1))
+			focus_budget += maxi(0, Advanced.focus_damage(effects, int(actor.attack)))
+	var legacy_floor: int = maxi(180, int(_actor("hero").attack) * 4 + 30)
+	var budget: int = basic_budget + martial_budget + focus_budget
+	return {"legacy_floor": legacy_floor, "basic_damage_budget": basic_budget,
+		"martial_damage_budget": martial_budget, "focus_damage_budget": focus_budget,
+		"two_round_damage_budget": budget, "max_hp": maxi(legacy_floor, budget + 1),
+		"reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。"}
 
 
 func snapshot() -> Dictionary:

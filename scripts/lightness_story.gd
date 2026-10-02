@@ -10,7 +10,7 @@ func basics() -> void:
 	host._modal("岑远 · 根基功课", "内功与轻身", "主动武学、内功、轻功各占一栏。普攻每轮自动出手，修习技能后可自行择机安排，不会替代当轮普攻。\n\n内功与轻身均须3级且已有门派荐帖，修习不收费。", [["内功 · 调息归元", internal_lesson], ["轻功 · 踏苇行", lesson], ["返回门中功课", host.sect_progress.show], ["告辞", host._close_modal]], true)
 
 func internal_lesson() -> void:
-	var body = "岑远教你把散乱的呼吸收回丹田，再顺着伤处缓缓送出。\n\n调息归元：消耗2点真气，为自己恢复最多16点气血；不救起倒下者。用后调息3个完整后续回合，最早第4轮后再用；不会替代自动普攻。"
+	var body = "岑远教你把散乱的呼吸收回丹田，再顺着伤处缓缓送出。\n\n调息归元：消耗2点真气，为自己恢复最多16点气血；不救起倒下者。用后经过之后完整3轮，下一轮可再用；不会替代自动普攻。"
 	var choices: Array = []
 	if host.state.internal_unlocked:
 		body += "\n\n你已经习得这门内功。"
@@ -41,6 +41,8 @@ func lesson()->void:
 	choices.append(["返回门中功课",host.sect_progress.show]);choices.append(["告辞",host._close_modal])
 	host._modal("岑远 · 轻身课","探索 / 踏苇行",body,choices,true)
 func learn()->void:
+	if host.state.map_id != "qingwei" or host.world.map_id != "qingwei" or not host.world.interactables.has("mentor"): return
+	if host.world.player_pos.distance_to(host.world.interactables.mentor.pos) >= 85: return
 	if host.state.learn_lightness():
 		host._close_modal();host._toast("习得踏苇行。青苇渡东南岸的苇心浮石可通往小洲。")
 func shore()->void:

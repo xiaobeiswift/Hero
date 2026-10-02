@@ -60,7 +60,7 @@ func scout()->void:
   var routes={"duel":"较量之后，斥候愿意让你看清刻度。","repair":"警亭的支架与篷布已经补好。斥候收起了封绳。","records":"公示的原账有往来船家的印记。斥候不再阻拦勘量。"}
   host._modal("巡坡斥候","听雨辨令 / 许可已得",routes[s.mist_approach]+"\n\n东北石台可以通行。许可只记一次，无需重复出钱或交手。")
   return
- host._modal("巡坡斥候","通行 / 刀锋以外","‘这里的刻度不能任人添改。你凭什么让我信你？’\n\n[color=#d3b276]较量[/color]：看清三拍意图；重戳之后会有换步空隙\n[color=#d3b276]修警亭[/color]：交木料×1、布料×1，帮他稳住雨中的值守处\n[color=#d3b276]出示公示原账[/color]：仅限霜桥曾选择公示原账的旅人\n非战斗方案获得20修为，不另发战斗铜钱。三条路都能继续调查。",[["较量过关",func():host._start_battle("mist_scout")],["修亭 · 木1布1",access.bind("repair")],["出示公示原账",access.bind("records")],["暂且离开",host._close_modal]],true)
+ host._modal("巡坡斥候","通行 / 刀锋以外","‘这里的刻度不能任人添改。你凭什么让我信你？’\n\n[color=#d3b276]较量[/color]：看清三拍意图；重戳之后会有换步空隙\n[color=#d3b276]修警亭[/color]：交木料×1、布料×1，帮他稳住雨中的值守处\n[color=#d3b276]出示公示原账[/color]：仅限霜桥曾选择公示原账的旅人\n非战斗方案获得20修为，不另发战斗铜钱。三条路都能继续调查。",[["较量过关",host._unified_entry.bind("mist_scout",host.modal_generation+1)],["修亭 · 木1布1",access.bind("repair")],["出示公示原账",access.bind("records")],["暂且离开",host._close_modal]],true)
 func access(route:String)->void:
  if host.state.obtain_mist_access(route):
   host._close_modal();host._toast("取得勘量许可，修为+20。可去东北石台拓读。")
@@ -70,7 +70,7 @@ func gate()->void:
  if s.mist_stage<2:
   host._modal("听雨关守令使","听雨关 / 读数未齐","‘你带来三处实据，我才愿与你谈那一道令。’\n\n找齐雨痕竹尺、叠石刻度与分水石盂，别只拿一张新纸去推翻一张旧纸。")
  elif s.mist_stage==2:
-  host._modal("听雨关守令使","交锋 / 三拍刀势","守令使按住底稿：‘我守令，也要看看你守不守得住自己的说法。’\n\n[color=#d3b276]护刃 → 惊竹重击 → 收刀回息[/color]\n护刃时承伤减半，重击会附加破绽，回息时你的出招额外+8伤害。\n蓄锋可留到回息再用；卸劲按实际来击次数消耗。",[["请他交出底稿",func():host._start_battle("mist_keeper")],["回营地整备",host._close_modal]],true)
+  host._modal("听雨关守令使","交锋 / 三拍刀势","守令使按住底稿：‘我守令，也要看看你守不守得住自己的说法。’\n\n[color=#d3b276]护刃 → 惊竹重击 → 收刀回息[/color]\n护刃时承伤减半，重击会附加破绽，回息时你的出招额外+8伤害。\n蓄锋可留到回息再用；卸劲按实际来击次数消耗。",[["请他交出底稿",host._unified_entry.bind("mist_keeper",host.modal_generation+1)],["回营地整备",host._close_modal]],true)
  else:
   host._modal("听雨关","听雨辨令 / 底稿已得","守令使已经交出原令底稿。"+("回秦禾处商议眼前的水势。" if s.mist_stage==3 else "刻度与底稿都留了副本，再没有人能独自改掉昨夜的雨。"))
 func camp()->void:

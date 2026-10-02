@@ -3,7 +3,7 @@ extends RefCounted
 const TRIALS={
 	"听潮阁":{"art":"回潮断浪","requirement":"在本场试招中施展一次回潮断浪，再赢下切磋。"},
 	"照野堂":{"art":"青灯续脉","requirement":"在本场试招中以青灯续脉实际恢复气血，再赢下切磋。满血空施不算。"},
-	"问石门":{"art":"磐石回锋","requirement":"以磐石回锋抵御一轮蓄力重击，再赢下切磋。单纯守势不算。"},
+	"问石门":{"art":"磐石回锋","requirement":"以磐石回锋实际接下一次重击，再赢下切磋。轻功或同伴护势不代替本门考法；同行时可用护后让主角迎敌。"},
 }
 static func art(state) -> String:return String(TRIALS.get(state.sect,{}).get("art",""))
 static func requirement(state) -> String:return String(TRIALS.get(state.sect,{}).get("requirement","请先获得门派荐帖。"))

@@ -1,6 +1,6 @@
 class_name PartyBattleArt
 extends Control
-## Paint-only playback of detached accepted PartyCombatRules facts. No state,
+## Paint-only playback of detached accepted party combat facts. No state,
 ## catalog, or rules object is retained; the host alone acknowledges the token.
 ## Each action is a distinct grounded windup/contact/return, including enemies.
 signal event_presented(event: Dictionary)
@@ -12,20 +12,23 @@ const Shen = preload("res://scripts/painted_battle_shen.gd")
 const Tang = preload("res://scripts/painted_battle_tang.gd")
 const Qin = preload("res://scripts/painted_battle_qin.gd")
 const Rival = preload("res://scripts/painted_battle_puheng.gd")
+const Rigs = preload("res://scripts/courtyard_training_rigs.gd")
+const RIG_SCALE = 1.35
 const Backdrop = preload("res://scripts/ferry_battle_backdrop.gd")
 const Lantern = preload("res://scripts/painted_lantern_post.gd")
 const WOOD = preload("res://assets/generated/environment/qingwei_deck_wood.png")
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
-const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss"]
+const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "sect_trial"]
 const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0}
-const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580), "archive_boss":Vector2(865,580)}
-const ENEMY_TINTS = {"bracer":Color(.70,.88,.91), "striker":Color(1,.88,.76), "sluice_scout":Color(.67,.73,.79), "sluice_boss":Color(.91,.77,.65), "archive_boss":Color(.77,.79,.94)}
+const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580), "archive_boss":Vector2(865,580), "mist_scout":Vector2(865,580), "mist_keeper":Vector2(865,580), "sect_trial":Vector2(865,580)}
+const ENEMY_TINTS = {"bracer":Color(.70,.88,.91), "striker":Color(1,.88,.76), "sluice_scout":Color(.67,.73,.79), "sluice_boss":Color(.91,.77,.65), "archive_boss":Color(.77,.79,.94), "mist_scout":Color(.72,.89,.76), "mist_keeper":Color(.57,.77,.66), "sect_trial":Color(.92,.78,.86)}
 const QIN_CHEST = {"idle":Vector2(245,210),"strike":Vector2(775,233),"protect":Vector2(1290,239),"hurt":Vector2(258,711),"down":Vector2(815,837),"recover":Vector2(1312,767)}
 const ACTION_DURATION = .86
 const ACTION_GAP = .06
 const CONTACT_AT = .36
 const PREPARE_AT = .10
 const RETURN_AT = .76
+const PASSIVE_DURATION = .30
 const GOLD = Color("d4b477")
 # Measured original atlas alpha > .08, in the 512px source cells.
 const ALPHA_BOUNDS = {
@@ -89,6 +92,7 @@ func _ready() -> void:
 	for atlas in [Hero, Shen, Tang, Rival]:
 		for pose: String in atlas.POSES: atlas.texture_for(pose)
 	for pose: String in Qin.SOURCE_RECTS: Qin.texture_for(pose)
+	Rigs.texture_for("timber"); Rigs.texture_for("hemp")
 	Backdrop.texture()
 
 func set_snapshot(snapshot: Dictionary) -> void:
@@ -137,12 +141,11 @@ func _valid_transaction(tx: Dictionary) -> bool:
 	if not _plain(tx) or not bool(tx.get("accepted", false)) or not bool(tx.get("ok", false)): return false
 	if not tx.get("before") is Dictionary or not tx.get("after") is Dictionary or not tx.get("events") is Array: return false
 	if not _valid_snapshot(tx.before) or not _valid_snapshot(tx.after) or tx.events.is_empty(): return false
-	if not tx.events[0] is Dictionary or tx.events[0].get("type", "") != "action": return false
 	for event: Variant in tx.events:
 		if not event is Dictionary or not event.get("type") is String or not event.get("amount") is int: return false
 		if not event.get("source_id") is String or not event.get("target_id") is String: return false
 		if event.type == "action" and (_unit(tx.before, event.source_id).is_empty() or int(_unit(tx.before, event.source_id).hp) <= 0): return false
-		if event.type not in ["action","damage","heal","qi","guard","medicine","weaken","focus","proficiency","down","outcome","round_start","protect","barrier_grant","barrier_absorb","barrier_expire","vulnerability_apply","vulnerability_consume","vulnerability_expire"]: return false
+		if event.type not in ["action","damage","heal","qi","guard","medicine","weaken","focus","proficiency","down","outcome","round_start","protect","barrier_grant","barrier_absorb","barrier_expire","vulnerability_apply","vulnerability_consume","vulnerability_expire","cooldown_tick","lightness_grant","lightness_absorb","lightness_expire","queue_cancel","round_end","trial_guarded_heavy"]: return false
 	return true
 
 func _plain(value: Variant) -> bool:
@@ -160,9 +163,15 @@ func _build_schedule(events: Array) -> void:
 	var previous_at: float = 0.0
 	for event: Dictionary in events:
 		if event.type == "action":
-			var start: float = 0.0 if _segments.is_empty() else float(_segments.back().start) + ACTION_DURATION + ACTION_GAP
-			current = {"start":start,"source_id":event.source_id,"target_id":event.target_id,"action_id":event.get("action_id","attack"),"events":[]}
+			var start: float = 0.0 if _segments.is_empty() and _schedule.is_empty() else maxf(previous_at + ACTION_GAP, 0.0 if _segments.is_empty() else float(_segments.back().start) + ACTION_DURATION + ACTION_GAP)
+			current = {"start":start,"source_id":event.source_id,"target_id":event.target_id,"action_id":event.get("action_id","attack"),"category":event.get("category",""),"events":[]}
 			_segments.append(current)
+		# Queue cancellation/round boundaries are real accepted facts, not attacks.
+		# Keep a positive, asynchronous display interval without fabricating a pose.
+		if current.is_empty():
+			previous_at += .04
+			_schedule.append({"at":previous_at,"event":event.duplicate(true)})
+			continue
 		current.events.append(event.duplicate(true))
 		var offset: float = CONTACT_AT
 		match event.type:
@@ -171,14 +180,15 @@ func _build_schedule(events: Array) -> void:
 			"medicine": offset = PREPARE_AT
 			"proficiency", "focus": offset = CONTACT_AT + .08
 			"protect": offset = RETURN_AT + .02
+			"cooldown_tick", "round_end": offset = ACTION_DURATION - .02
 			"round_start": offset = ACTION_DURATION
 			"outcome": offset = CONTACT_AT + .12
-			"barrier_expire":
-				if event.get("reason", "") == "round_end": offset = ACTION_DURATION - .02
+			"barrier_expire", "lightness_expire":
+				if event.get("reason", "") == "round_end": offset = ACTION_DURATION - .04
 		var at: float = maxf(previous_at, float(current.start) + offset)
 		_schedule.append({"at":at,"event":event.duplicate(true)})
 		previous_at = at
-	_duration = maxf(previous_at + .12, float(_segments.back().start) + ACTION_DURATION + .10)
+	_duration = maxf(PASSIVE_DURATION, previous_at + .12) if _segments.is_empty() else maxf(previous_at + .12, float(_segments.back().start) + ACTION_DURATION + .10)
 
 func _process(delta: float) -> void:
 	if not is_finite(delta) or delta <= 0: return
@@ -213,14 +223,30 @@ func _apply_event(event: Dictionary) -> void:
 	_display.round = event.get("round", _display.get("round", 1))
 	match event.type:
 		"action":
+			_display.active_actor_id = String(event.source_id)
 			if source.get("team", "") == "ally":
-				source.acted = true
-				_display.active_actor_id = source.id
-				var action_id: String = event.get("action_id", "attack")
-				for key: String in source.get("cooldowns", {}):
-					if key != action_id: source.cooldowns[key] = maxi(0, int(source.cooldowns[key]) - 1)
-				for action: Dictionary in source.get("actions", []):
-					if action.id == action_id and action.category == "martial": source.cooldowns[action_id] = int(action.cooldown)
+				if event.get("automatic", false) == true and event.get("category", "") == "attack":
+					source.basic_round = int(event.round)
+					source.basic_done = true
+					source.acted = true
+				elif event.get("category", "") in ["martial","internal","lightness"]:
+					_apply_manual_use(source,event)
+				elif event.get("category", "") == "item":
+					source.medicine_round = int(event.round)
+		"queue_cancel":
+			if not source.is_empty(): _clear_category_queue(source,String(event.get("category","")))
+		"cooldown_tick":
+			if not target.is_empty():
+				var id: String = String(event.action_id)
+				target.cooldowns[id] = int(event.remaining)
+				for action: Dictionary in target.get("actions",[]):
+					if action.id == id: action.cooldown_remaining = int(event.remaining)
+		"lightness_grant", "lightness_absorb", "lightness_expire":
+			if not target.is_empty(): target.status.next_hit_reduction = int(event.get("remaining",0))
+		"trial_guarded_heavy":
+			if _display.get("trial_provenance") is Dictionary:
+				_display.trial_provenance.guarded_heavy = true
+				_display.trial_provenance.met = true
 		"damage":
 			if not target.is_empty(): target.hp = maxi(0, int(target.hp) - amount)
 			if source.get("team", "") == "enemy" and int(source.get("status", {}).get("weaken_strikes", 0)) > 0:
@@ -254,14 +280,53 @@ func _apply_event(event: Dictionary) -> void:
 		"outcome":
 			_display.outcome = event.get("outcome", "")
 			_display.active = false
+		"round_end":
+			for actor: Dictionary in _display.actors:
+				actor.status.guard = false
+				actor.status.guard_action_id = ""
+				actor.acted = false
 		"round_start":
 			_display.round = amount
 			for actor: Dictionary in _display.actors:
 				actor.acted = false
 				actor.status.guard = false
+				if actor.has("basic_round"):
+					actor.basic_done = int(actor.basic_round) == amount
+					actor.acted = actor.basic_done
+				for category: String in actor.get("categories",{}):
+					actor.categories[category].used = int(actor.categories[category].get("used_round",0)) == amount
+				for action: Dictionary in actor.get("actions",[]):
+					if actor.get("category_used_round",{}).has(action.category): action.used = int(actor.category_used_round[action.category]) == amount
 	# Only actual nonzero amounts produce floating values (including capped XP).
-	if amount != 0 and event.type in ["damage","heal","qi","proficiency","medicine","barrier_grant","barrier_absorb","barrier_expire"]:
+	if amount != 0 and event.type in ["damage","heal","qi","proficiency","medicine","barrier_grant","barrier_absorb","barrier_expire","lightness_grant","lightness_absorb","lightness_expire"]:
 		_floats.append({"at":action_time,"event":event.duplicate(true),"anchor":target_anchor(event.target_id)})
+
+func _clear_category_queue(actor: Dictionary, category: String) -> void:
+	if actor.get("categories",{}).has(category):
+		var slot: Dictionary = actor.categories[category]
+		slot.queued = false; slot.queue_round = 0; slot.action_id = ""; slot.target_id = ""
+	for action: Dictionary in actor.get("actions",[]):
+		if action.category == category:
+			action.queued = false; action.queue_round = 0; action.queued_target_id = ""
+
+func _apply_manual_use(actor: Dictionary, event: Dictionary) -> void:
+	var category: String = String(event.category)
+	var id: String = String(event.action_id)
+	_clear_category_queue(actor,category)
+	if actor.get("category_used_round") is Dictionary: actor.category_used_round[category] = int(event.round)
+	if actor.get("categories",{}).has(category):
+		actor.categories[category].used = true
+		actor.categories[category].used_round = int(event.round)
+	for action: Dictionary in actor.get("actions",[]):
+		if action.id == id:
+			# Setting this skill's published cooldown is its accepted use fact.
+			# Other skills do not tick here; only cooldown_tick may decrement them.
+			actor.cooldowns[id] = int(action.cooldown)
+			action.cooldown_remaining = int(action.cooldown)
+			action.used = true
+			if actor.get("cooldown_set_round") is Dictionary:
+				actor.cooldown_set_round[id] = int(event.round)
+				action.eligible_round = int(event.round) + int(action.cooldown) + 1
 
 func _current_segment() -> Dictionary:
 	if not _presenting: return {}
@@ -275,7 +340,7 @@ func _has_event(segment: Dictionary, kind: String) -> bool:
 	return false
 
 func _is_melee(segment: Dictionary) -> bool:
-	return not segment.is_empty() and segment.source_id != "shen" and _has_event(segment, "damage")
+	return not segment.is_empty() and segment.source_id != "shen" and not is_practice_rig(segment.source_id) and _has_event(segment, "damage")
 
 func _unit(snapshot: Dictionary, id: String) -> Dictionary:
 	for unit: Dictionary in snapshot.get("actors", []) + snapshot.get("enemies", []):
@@ -301,6 +366,7 @@ func actor_home(id: String) -> Vector2:
 
 func actor_foot(id: String) -> Vector2:
 	var home: Vector2 = actor_home(id)
+	if is_practice_rig(id): return home
 	var segment: Dictionary = _current_segment()
 	if segment.is_empty(): return home
 	var t: float = action_time - float(segment.start)
@@ -323,15 +389,25 @@ func actor_order() -> Array[String]:
 func actor_visual_pose(id: String) -> String:
 	var unit: Dictionary = _unit(_display, id)
 	if unit.is_empty(): return "idle"
+	if is_practice_rig(id):
+		var pose: Dictionary = rig_pose(id)
+		if float(pose.defeat) > .05: return "down"
+		if float(pose.recoil) > .01: return "hurt"
+		if float(pose.strike) > .01: return "strike"
+		if float(pose.windup) > .01: return "windup"
+		if float(pose.bracing) > .01: return "guard"
+		return "idle"
 	var segment: Dictionary = _current_segment()
 	var t: float = action_time - float(segment.get("start", 0.0))
 	if id == "qin": return _qin_pose(unit,segment,t)
 	var hit: bool = not segment.is_empty() and segment.target_id == id and _has_event(segment, "damage") and t >= CONTACT_AT and t < .54
 	if int(unit.hp) <= 0 and not hit: return "down" if id in ["shen","tang"] else "kneel"
-	if hit: return "cover" if id in ["shen","tang"] else ("guard" if bool(unit.get("status", {}).get("guard", false)) or _has_event(segment,"barrier_absorb") else "hurt")
+	if hit: return "cover" if id in ["shen","tang"] else ("guard" if bool(unit.get("status", {}).get("guard", false)) or _has_event(segment,"barrier_absorb") or _has_event(segment,"lightness_absorb") else "hurt")
 	if int(unit.hp) <= 0: return "down" if id in ["shen","tang"] else "kneel"
 	if not segment.is_empty() and segment.source_id == id and t >= .02 and t < .63:
-		if String(segment.action_id) == "guard": return "cover" if id in ["shen","tang"] else "guard"
+		if String(segment.action_id) in ["guard","enemy:protect"]: return "cover" if id in ["shen","tang"] else "guard"
+		if _has_event(segment,"lightness_grant"):
+			return "recover" if id == "tang" else ("cover" if id == "shen" else "guard")
 		if _has_event(segment, "heal") and not _has_event(segment, "damage"):
 			if id == "shen": return "heal"
 			if id == "tang": return "recover"
@@ -348,13 +424,65 @@ func actor_visual_pose(id: String) -> String:
 
 func _qin_pose(unit: Dictionary, segment: Dictionary, t: float) -> String:
 	var hit: bool = not segment.is_empty() and segment.target_id == "qin" and _has_event(segment,"damage") and t >= CONTACT_AT and t < .54
-	if hit: return "protect" if bool(unit.get("status",{}).get("guard",false)) or _has_event(segment,"barrier_absorb") else "hurt"
+	if hit: return "protect" if bool(unit.get("status",{}).get("guard",false)) or _has_event(segment,"barrier_absorb") or _has_event(segment,"lightness_absorb") else "hurt"
 	if int(unit.hp) <= 0: return "down"
 	if not segment.is_empty() and segment.source_id == "qin" and t >= .02 and t < .63:
-		if segment.action_id == "guard" or _has_event(segment,"barrier_grant"): return "protect"
+		if segment.action_id == "guard" or _has_event(segment,"barrier_grant") or _has_event(segment,"lightness_grant"): return "protect"
 		if _has_event(segment,"damage"): return "recover" if t < .27 else "strike"
 		return "recover"
 	return "protect" if bool(unit.get("status",{}).get("guard",false)) else "idle"
+
+func is_practice_rig(id: String) -> bool:
+	return String(_display.get("encounter_id","")) == "courtyard_practice" and id in Rigs.ROLES
+
+func rig_pose(id: String) -> Dictionary:
+	var pose: Dictionary = {"windup":0.0,"strike":0.0,"recoil":0.0,"defeat":0.0,"bracing":0.0}
+	if not is_practice_rig(id): return pose
+	var segment: Dictionary = _current_segment()
+	var t: float = action_time - float(segment.get("start",0.0))
+	var receiving: bool = not segment.is_empty() and segment.target_id == id and _has_event(segment,"damage")
+	if int(_unit(_display,id).get("hp",0)) <= 0:
+		pose.defeat = _ease(CONTACT_AT+.04,RETURN_AT,t) if receiving else 1.0
+		if not receiving: return pose
+	for intent: Dictionary in _display.get("enemy_intents",[]):
+		if intent.source_id == id and intent.type == "protect" and int(_unit(_display,intent.target_id).get("hp",0)) > 0: pose.bracing = .65
+	if receiving: pose.recoil = _pulse(CONTACT_AT,CONTACT_AT+.06,.63,t)
+	if not segment.is_empty() and segment.source_id == id:
+		if _has_event(segment,"damage"):
+			pose.windup = _pulse(.02,.14,.28,t)
+			pose.strike = _ease(.22,CONTACT_AT,t)*(1-_ease(.44,.70,t))
+			if id == "bracer": pose.bracing = pose.strike
+		elif _has_event(segment,"protect"):
+			pose.bracing = maxf(float(pose.bracing),_pulse(.02,.30,RETURN_AT,t))
+	return Rigs.normalized_pose(pose)
+
+func _rig_transform(id: String) -> Transform2D:
+	return Transform2D(0.0,Vector2.ONE*RIG_SCALE,0.0,actor_home(id))
+
+func rig_hit_rect(id: String) -> Rect2:
+	var body: Transform2D = _rig_transform(id) * Rigs.body_transform(Vector2.ZERO,id,rig_pose(id),_clock)
+	return body * (Rect2(-23,-124,46,115) if id == "striker" else Rect2(-38,-126,75,117))
+
+func rig_weapon_anchor(id: String) -> Vector2:
+	var pose: Dictionary = rig_pose(id)
+	var body: Transform2D = Rigs.body_transform(Vector2.ZERO,id,pose,_clock)
+	var point: Vector2
+	if id == "striker":
+		# Exact padded end of the helper's hinged crossarm.
+		var swing: float = -.13+float(pose.windup)*.48-float(pose.strike)*.52+float(pose.recoil)*.25+float(pose.defeat)*.30
+		point = body * (Transform2D(swing,Vector2(0,-89)) * Vector2(-39,0))
+	else:
+		# Exact outward end of the helper's physical warding stay.
+		var support: float = float(pose.bracing)
+		point = body * (Transform2D(support*.25,Vector2(-25,-56)) * Vector2(-17-support*11,2))
+	return _rig_transform(id) * point
+
+func rig_projectile_tip(id: String) -> Vector2:
+	var start: Vector2 = rig_weapon_anchor(id)
+	var segment: Dictionary = _current_segment()
+	if segment.is_empty() or segment.source_id != id or not _has_event(segment,"damage"): return start
+	var progress: float = _ease(.20,CONTACT_AT,action_time-float(segment.start))
+	return start.lerp(target_anchor(segment.target_id),progress)+Vector2(0,-sin(progress*PI)*22)
 
 func _weapon_offset(id: String) -> Vector2:
 	if id == "qin": return Qin.weapon_point(Vector2.ZERO,CELL_SIZE.qin,"strike")
@@ -365,6 +493,7 @@ func _kind(id: String) -> String: return id if _is_ally(id) else "rival"
 func _scale(id: String) -> float: return float(CELL_SIZE.get(id,290.0)) / 512.0
 func _source_foot(id: String) -> Vector2: return Hero.FOOT if _is_ally(id) else Rival.FOOT
 func actor_rect(id: String) -> Rect2:
+	if is_practice_rig(id): return _rig_transform(id) * Rigs.drawing_rect(Vector2.ZERO,id,rig_pose(id),_clock)
 	if id == "qin": return Qin.drawing_rect(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
 	return Rect2(actor_foot(id) - _source_foot(id) * _scale(id), Vector2.ONE * float(CELL_SIZE.get(id,290.0)))
 
@@ -372,6 +501,7 @@ func _down_transform(id: String) -> Transform2D:
 	return Transform2D(PI * .5, Vector2(.38,1), 0.0, actor_foot(id) + Vector2(-87,-28))
 
 func actor_alpha_rect(id: String) -> Rect2:
+	if is_practice_rig(id): return actor_rect(id)
 	if id == "qin": return Qin.opaque_rect(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
 	var pose: String = actor_visual_pose(id)
 	if pose == "down":
@@ -383,18 +513,21 @@ func actor_alpha_rect(id: String) -> Rect2:
 
 func target_anchor(id: String) -> Vector2:
 	if id.is_empty() or not IDS.has(id): return Vector2.ZERO
+	if is_practice_rig(id): return _rig_transform(id) * Rigs.target_anchor(Vector2.ZERO,id,rig_pose(id),_clock)
 	var pose: String = actor_visual_pose(id)
 	if id == "qin": return actor_foot(id) + (Vector2(QIN_CHEST[pose]) - Vector2(Qin.FOOT_ANCHORS[pose])) * (CELL_SIZE.qin / 512.0 * Qin.NORMALIZATION)
 	if pose == "down": return actor_alpha_rect(id).get_center()
 	return actor_rect(id).position + Vector2(CHEST[_kind(id)][pose]) * _scale(id)
 
 func blade_tip(id: String) -> Vector2:
+	if is_practice_rig(id): return rig_weapon_anchor(id)
 	if id == "qin": return Qin.weapon_point(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
 	return actor_rect(id).position + Vector2(WEAPON[_kind(id)]) * _scale(id)
 
 func unit_label_rect(id: String) -> Rect2:
 	var bounds: Rect2 = actor_alpha_rect(id)
-	var extent: Vector2 = Vector2(126,34) if _is_ally(id) else Vector2(156,46)
+	var extra_status: bool = not _is_ally(id) and int(_unit(_display,id).get("status",{}).get("weaken_strikes",0)) > 0
+	var extent: Vector2 = Vector2(126,34) if _is_ally(id) else Vector2(156,62 if extra_status else 46)
 	var x: float = clampf(actor_foot(id).x - extent.x * .5, 8.0, 1272.0 - extent.x)
 	var base: Rect2 = Rect2(Vector2(x,maxf(70.0,bounds.position.y-extent.y-9)),extent)
 	for shift: float in [0,24,-24,48,-48,72,-72,96,-96]:
@@ -422,7 +555,8 @@ func target_at(point: Vector2) -> String:
 		if int(_unit(_display,id).get("hp",0)) <= 0: continue
 		var ring: Vector2 = (point - actor_foot(id) - Vector2(0,5)) / Vector2(55,11)
 		# Torso is deliberately narrower than the full atlas alpha/weapon reach.
-		if Rect2(target_anchor(id) - Vector2(29,45),Vector2(58,98)).has_point(point) or ring.length_squared() <= 1.0: return id
+		var hit: Rect2 = rig_hit_rect(id) if is_practice_rig(id) else Rect2(target_anchor(id) - Vector2(29,45),Vector2(58,98))
+		if hit.has_point(point) or ring.length_squared() <= 1.0: return id
 	return ""
 
 func _gui_input(event: InputEvent) -> void:
@@ -473,9 +607,16 @@ func _draw() -> void:
 	for id: String in ids:
 		if int(_unit(_display,id).get("status",{}).get("barrier",0)) > 0:
 			draw_arc(target_anchor(id),47,-1.5,1.5,30,Color(.51,.82,.90,.48),2.2,true)
+		if int(_unit(_display,id).get("status",{}).get("next_hit_reduction",0)) > 0:
+			draw_arc(actor_foot(id)+Vector2(0,3),44,PI,TAU,26,Color(.68,.88,.71,.60),2.0,true)
 	if _presenting: _draw_effects()
 
 func _draw_actor(id: String) -> void:
+	if is_practice_rig(id):
+		draw_set_transform_matrix(_rig_transform(id))
+		Rigs.draw(self,Vector2.ZERO,id,rig_pose(id),_clock)
+		draw_set_transform(Vector2.ZERO)
+		return
 	if id == "qin":
 		Qin.draw(self,actor_foot(id),actor_visual_pose(id),.78 if int(_unit(_display,id).get("hp",0)) <= 0 else 1.0,CELL_SIZE.qin)
 		return
@@ -497,6 +638,15 @@ func _draw_effects() -> void:
 		var t: float = action_time - float(segment.start)
 		var target: Vector2 = target_anchor(segment.target_id)
 		if _has_event(segment,"damage"):
+			if is_practice_rig(segment.source_id) and t >= .20 and t <= CONTACT_AT+.035:
+				# Original practice treatment: the mechanism launches a visible
+				# padded stroke while its sled/hinge stays fixed on the deck.
+				var origin: Vector2 = rig_weapon_anchor(segment.source_id)
+				var point: Vector2 = rig_projectile_tip(segment.source_id)
+				var direction: Vector2 = (target-origin).normalized()
+				draw_line(point-direction*31,point,Color(.65,.64,.43,.28),2,true)
+				draw_line(point-direction*15,point+direction*5,Color("c3a775"),4,true)
+				draw_line(point-direction*11+Vector2(0,-2),point-direction*9+Vector2(0,2),Color("d6c9a6"),2,true)
 			if segment.source_id == "shen" and t >= .16 and t <= CONTACT_AT + .06:
 				var origin: Vector2 = blade_tip("shen")
 				var tip: Vector2 = origin.lerp(target,_ease(.16,CONTACT_AT,t))
@@ -512,6 +662,11 @@ func _draw_effects() -> void:
 				var protected: Vector2 = target_anchor(event.target_id)
 				var strength: float = _pulse(.20,CONTACT_AT,.65,t)
 				draw_arc(protected,46,-1.7,1.7,30,Color(.51,.84,.93,strength),3,true)
+		if _has_event(segment,"lightness_grant") or _has_event(segment,"lightness_absorb"):
+			for event: Dictionary in segment.events:
+				if event.type not in ["lightness_grant","lightness_absorb"]: continue
+				var strength: float = _pulse(.20,CONTACT_AT,.65,t)
+				draw_arc(actor_foot(event.target_id)+Vector2(0,-4),47,PI,TAU,28,Color(.72,.91,.76,strength),3,true)
 		if _has_event(segment,"heal"):
 			for event: Dictionary in segment.events:
 				if event.type != "heal": continue
@@ -534,6 +689,9 @@ func _draw_effects() -> void:
 			"barrier_grant": value = "护 +%d" % int(event.amount); color = Color("9bd4e7")
 			"barrier_absorb": value = "抵 %d" % int(event.amount); color = Color("9bd4e7")
 			"barrier_expire": value = "护障消散"; color = Color("9bd4e7")
+			"lightness_grant": value = "卸力 %d" % int(event.amount); color = Color("b4dfb9")
+			"lightness_absorb": value = "卸 %d" % int(event.amount); color = Color("b4dfb9")
+			"lightness_expire": value = "步势消散"; color = Color("b4dfb9")
 		color.a = 1.0 - _ease(.34,.62,age)
 		var offset: Vector2 = Vector2(34,-52-age*35)
 		if event.type in ["qi","medicine","proficiency"]: offset += Vector2(-36,-25)

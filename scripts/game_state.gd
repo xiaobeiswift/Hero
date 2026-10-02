@@ -15,7 +15,8 @@ const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
 const QinCompanion = preload("res://scripts/qin_companion_rules.gd")
 const PartyCatalog = preload("res://scripts/party_actor_catalog.gd")
-const PartyCombat = preload("res://scripts/party_combat_rules.gd")
+const PartyCombat = preload("res://scripts/automatic_party_combat.gd")
+const UnifiedEncounters = preload("res://scripts/unified_encounter_rules.gd")
 const PartyRoster = preload("res://scripts/party_roster_rules.gd")
 const Sects=preload("res://scripts/sect_rules.gd")
 const Chapter = preload("res://scripts/chapter_rules.gd")
@@ -65,6 +66,8 @@ var _party_pending_token: int = -1
 var _party_encounter: String = ""
 var _party_sluice_entry: Dictionary = {}
 var _party_archive_entry: Dictionary = {}
+var _party_extra_entry: Dictionary = {}
+var _party_practice_before: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -455,6 +458,8 @@ func finish_side_quest() -> bool:
 
 
 func start_battle(kind: String = "story") -> void:
+	# Historical direct model API retained for old fixtures only; unknown IDs reject.
+	if kind not in UnifiedEncounters.IDS and kind != "spar": return
 	if _party_gate():
 		return
 	# Group encounters have their own transaction and one-time settlement path.
@@ -990,6 +995,8 @@ func _clear_battle() -> void:
 	_party_encounter = ""
 	_party_sluice_entry = {}
 	_party_archive_entry = {}
+	_party_extra_entry = {}
+	_party_practice_before = {}
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -1155,7 +1162,9 @@ func repair_bridge() -> bool:
 func sect_art() -> String:return Sects.art(self)
 func sect_trial_requirement() -> String:return Sects.requirement(self)
 func can_take_sect_trial() -> bool:return Sects.eligible(self) and not battle_active
-func complete_sect_trial() -> bool:return Sects.complete(self)
+func complete_sect_trial() -> bool:
+	if _party_gate(): return false
+	return Sects.complete(self)
 func sect_rank_name() -> String:return ["未入门","门下弟子","内门弟子"][sect_rank]
 
 func deal_enemy_damage(amount:int,support:bool=false)->int:
@@ -1308,34 +1317,29 @@ func can_start_archive_party_battle() -> bool:
 
 
 func start_party_battle(encounter_id: String) -> bool:
-	if battle_active or _party_gate() or hp < 1 or not PartyCombat.ENCOUNTERS.has(encounter_id):
-		return false
-	if encounter_id == "story" and (quest_stage != 3 or map_id != "qingwei"):
-		return false
-	if encounter_id == "training" and (quest_stage < 4 or map_id != "qingwei"):
-		return false
-	if encounter_id == "heting_receipt" and (receipt_stage != 1 or not Receipt.can_begin(self)):
-		return false
-	if encounter_id in ["sluice_scout", "sluice_boss"] and not can_start_sluice_party_battle(encounter_id):
-		return false
-	if encounter_id == "archive_boss" and not can_start_archive_party_battle():
-		return false
-	var projection: Dictionary = PartyRoster.battle_resources(self, _party_payload())
-	if not projection.ok:
-		return false
-	var team: Dictionary = PartyCatalog.build_team(self, party_roster, projection.resources)
-	if not team.ok:
-		return false
+	if not UnifiedEncounters.can_enter(self, encounter_id): return false
+	if not _stage_save_data(to_dict(), SAVE_VERSION).ok: return false
+	var before: Dictionary = to_dict().duplicate(true)
+	var prepared = _detached_persistent_state()
+	if encounter_id == "sect_trial":
+		prepared.heal_rest()
+		if not prepared.equip_art(prepared.sect_art()): return false
+	var projection: Dictionary = PartyRoster.battle_resources(prepared, prepared._party_payload())
+	if not projection.ok: return false
+	var built: Dictionary = PartyCatalog.build_team(prepared, prepared.party_roster, projection.resources)
+	if not built.ok: return false
+	var team: Dictionary = built.team.duplicate(true)
+	if encounter_id == "courtyard_practice": team.medicine = 3; team.medicine_heal = 40
 	var candidate = PartyCombat.new()
-	if not candidate.configure(team.team, encounter_id):
-		return false
+	if not candidate.configure(team, encounter_id): return false
 	_clear_battle()
+	if encounter_id == "sect_trial": _copy_persistent_from(prepared)
 	party_session = candidate
 	_party_encounter = encounter_id
-	if encounter_id in ["sluice_scout", "sluice_boss"]:
-		_party_sluice_entry = _sluice_party_progress()
-	elif encounter_id == "archive_boss":
-		_party_archive_entry = _archive_party_progress()
+	_party_extra_entry = UnifiedEncounters.progress(self, encounter_id)
+	if encounter_id == "courtyard_practice": _party_practice_before = before
+	if encounter_id in ["sluice_scout", "sluice_boss"]: _party_sluice_entry = _sluice_party_progress()
+	elif encounter_id == "archive_boss": _party_archive_entry = _archive_party_progress()
 	battle_kind = encounter_id
 	battle_active = true
 	return true
@@ -1364,25 +1368,37 @@ func _party_rejection(reason: String) -> Dictionary:
 		"epoch": party_battle_epoch, "token": -1})
 
 
+func queue_party_skill(actor_id: String, action: String, target: String = "") -> Dictionary:
+	if not _party_gate() or not battle_active: return _party_rejection("当前没有交锋。")
+	return party_session.queue_skill(actor_id, action, target)
+
+func cancel_party_skill(actor_id: String, category: String) -> bool:
+	return _party_gate() and battle_active and party_session.cancel_queued(actor_id, category)
+
+func pause_party_battle(paused: bool) -> bool:
+	return _party_gate() and battle_active and party_session.set_paused(paused)
+
+func advance_party_battle() -> Dictionary:
+	if not _party_gate() or not battle_active: return _party_rejection("当前没有交锋。")
+	return _accept_party_transaction(party_session.advance())
+
 func party_battle_action(action: String, target: String = "") -> Dictionary:
-	if not _party_gate() or not battle_active:
-		return _party_rejection("当前没有独立出战交锋。")
-	var tx: Dictionary = party_session.accept_action(action, target)
+	if not _party_gate() or not battle_active: return _party_rejection("当前没有交锋。")
+	# Only shared medicine/retreat are immediate utilities. Manual attacks and
+	# skills cannot bypass the automatic entitlement/queued execution scheduler.
+	return _accept_party_transaction(party_session.accept_action(action, target))
+
+func _accept_party_transaction(tx: Dictionary) -> Dictionary:
 	var decorated: Dictionary = tx.duplicate(true)
 	decorated.epoch = party_battle_epoch
-	if not tx.accepted:
-		return PartyCatalog.immutable(decorated)
+	if not tx.get("accepted", false): return PartyCatalog.immutable(decorated)
 	_party_pending_token = int(tx.token)
-	# Accepted model transactions are already atomic. Mirror exactly once,
-	# including HP0, without legacy companion assistance or terminal recovery.
+	if _party_encounter == "courtyard_practice": return PartyCatalog.immutable(decorated)
 	medicine = int(tx.after.medicine)
 	for actor: Dictionary in tx.after.actors:
 		if actor.id == "hero":
-			hp = int(actor.hp)
-			qi = int(actor.qi)
-			art_uses = actor.art_uses.duplicate(true)
-		else:
-			party_resources[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
+			hp = int(actor.hp); qi = int(actor.qi); art_uses = actor.art_uses.duplicate(true)
+		else: party_resources[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
 	return PartyCatalog.immutable(decorated)
 
 
@@ -1417,6 +1433,11 @@ func finish_party_presentation(epoch: int, token: int) -> Dictionary:
 
 func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	var candidate = _detached_persistent_state()
+	if _party_encounter == "courtyard_practice":
+		if not _same_save_value(to_dict(), _party_practice_before): return {"ok": false, "reason": "演练期间的持久状态发生变化，拒绝覆盖。"}
+		return {"ok": true, "state": candidate, "settlement": {"outcome": snapshot.outcome, "encounter_id": _party_encounter, "awarded": false, "reward_xp": 0, "coin_change": 0, "practice": true, "map_id": map_id, "position": position, "resources": candidate.party_resource_snapshot()}}
+	if not _party_extra_entry.is_empty() and UnifiedEncounters.progress(candidate, _party_encounter) != _party_extra_entry:
+		return {"ok": false, "reason": "本次交锋的调查或验艺条件已经改变。"}
 	var terminal: Dictionary = {}
 	for actor: Dictionary in snapshot.actors:
 		terminal[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
@@ -1437,7 +1458,11 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	var branch_reward_xp: int = 0
 	var messages: Array[String] = []
 	if snapshot.outcome == "win":
-		if _party_encounter == "heting_receipt":
+		if _party_encounter in ["mist_scout", "mist_keeper", "sect_trial"]:
+			var extra: Dictionary = UnifiedEncounters.settle_extra_win(candidate, _party_encounter, snapshot)
+			if not extra.get("ok", false): return {"ok": false, "reason": "调查或验艺结算条件已失效。"}
+			reward_xp = int(extra.xp); messages.append_array(extra.messages); awarded = true
+		elif _party_encounter == "heting_receipt":
 			if not Receipt.settle_victory(candidate):
 				return {"ok": false, "reason": "复签进度不再允许本次结算。"}
 			reward_xp = Receipt.REWARD_XP
@@ -1501,6 +1526,7 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 		"branch_reward_claimed": branch_reward_xp > 0,
 		"chapter_two_stage": candidate.chapter_two_stage, "chapter_two_ending": candidate.chapter_two_ending,
 		"archive_clues": candidate.archive_clues.duplicate(), "seal_sequence": candidate.seal_sequence.duplicate(),
+		"mist_stage": candidate.mist_stage, "mist_approach": candidate.mist_approach, "sect_trial_won": candidate.sect_trial_won,
 		"receipt_stage": candidate.receipt_stage, "map_id": candidate.map_id,
 		"position": candidate.position, "messages": messages, "resources": candidate.party_resource_snapshot()}
 	return {"ok": true, "state": candidate, "settlement": settlement}
