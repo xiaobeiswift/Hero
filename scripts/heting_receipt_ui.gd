@@ -1,7 +1,7 @@
 extends Control
 ## Real finite encounter. HeroState commits costs; this controller only presents
 ## accepted facts and exits through the normal save-failure gate.
-const Arena = preload("res://scripts/heting_receipt_art.gd")
+const Arena = preload("res://scripts/formation_battle_art.gd")
 const Pause = preload("res://scripts/pause_menu.gd")
 const ACTIONS = ["attack", "skill", "guard", "item", "flee"]
 var host
@@ -22,6 +22,11 @@ var details: Label
 var log_text: RichTextLabel
 var pending: Dictionary = {}
 var display: Dictionary = {}
+var hero_card:Control
+var support_card:Control
+var hero_name:Label
+var support_name:Label
+var support_role:Label
 
 static func open(owner) -> Control:
 	if owner.current_screen != "explore" or owner.quit_pending or not owner.state.start_receipt_battle():
@@ -47,51 +52,61 @@ func valid() -> bool:
 
 func build() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg = ColorRect.new()
-	bg.color = Color("102827"); bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
-	art = Arena.new(); art.position = Vector2(0,175); art.size = Vector2(938,355); art.scale = Vector2.ONE * (1280.0 / 938.0)
-	add_child(art)
-	art.target_requested.connect(select_target)
-	art.impact_presented.connect(_impact)
-	art.presentation_finished.connect(_finished)
-	host._label(self,"复 签 不 撤",Rect2(38,20,500,40),27,host.GOLD)
-	host._label(self,"鹤汀公秤外栈桥  /  看清援护与来招",Rect2(40,62,590,28),15,host.MUTED)
-	retreat_button=host._button(self,"Esc  退开",Rect2(1080,22,160,40),leave)
-	host._label(self,"真实气血与用药 · 退开保留已消耗资源",Rect2(555,29,495,28),14,host.PAPER)
-	health_text = host._label(self,"",Rect2(40,102,360,30),20,host.PAPER)
-	health = host._bar(self,Rect2(40,142,320,10),host.JADE)
-	qi_text = host._label(self,"",Rect2(40,161,470,28),15,host.GOLD)
-	turn_text = host._label(self,"",Rect2(40,192,490,29),14,host.MUTED)
-	for i in range(2):
-		var id: String = ["striker","bracer"][i]
-		var card = host._button(self,"",Rect2(710+i*270,93,258,130),select_target.bind(id))
-		var title = host._label(card,"",Rect2(15,9,230,27),18,host.PAPER)
-		var bar = host._bar(card,Rect2(15,43,228,7),Color("bb9274"))
-		var value = host._label(card,"",Rect2(15,56,228,21),13,host.PAPER)
-		var intent = host._label(card,"",Rect2(15,80,230,42),13,host.GOLD)
+	mouse_filter=Control.MOUSE_FILTER_STOP
+	art=Arena.new();art.size=Vector2(1280,685);art.draw_labels=false;add_child(art)
+	art.target_requested.connect(select_target);art.impact_presented.connect(_impact);art.presentation_finished.connect(_finished)
+	host._panel(self,Rect2(0,0,1280,65),Color(.025,.08,.09,.91),Color(.35,.42,.34,.4))
+	host._label(self,"复签不撤",Rect2(28,14,230,34),24,host.PAPER)
+	host._label(self,"公秤外栈桥",Rect2(198,23,230,24),14,host.MUTED)
+	turn_text=host._label(self,"",Rect2(587,18,200,30),20,host.GOLD)
+	host._label(self,"实战 · 真实消耗",Rect2(932,23,166,25),13,host.MUTED)
+	retreat_button=host._button(self,"Esc  退开",Rect2(1132,15,120,36),leave)
+	hero_card=host._panel(self,Rect2(0,0,160,65),Color(.045,.105,.11,.8),Color(0,0,0,0))
+	hero_card.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	hero_name=host._label(hero_card,"",Rect2(6,2,148,27),17,host.PAPER);hero_name.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;hero_name.clip_text=true
+	health=host._bar(hero_card,Rect2(6,26,148,5),host.JADE)
+	health_text=host._label(hero_card,"",Rect2(6,34,148,24),12,host.PAPER)
+	support_card=host._panel(self,Rect2(0,0,160,47),Color(.045,.105,.11,.8),Color(0,0,0,0));support_card.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	support_name=host._label(support_card,"",Rect2(6,1,148,26),17,host.PAPER);support_name.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	support_role=host._label(support_card,"",Rect2(6,25,148,20),12,Color("b9d1bd"));support_role.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	for id:String in ["striker","bracer"]:
+		var card=host._button(self,"",Rect2(0,0,160,65),select_target.bind(id))
+		var title=host._label(card,"",Rect2(6,2,148,25),17,host.PAPER);title.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;title.clip_text=true
+		var bar=host._bar(card,Rect2(6,26,148,5),Color("bd7b62"))
+		var value=host._label(card,"",Rect2(6,34,98,22),12,host.PAPER)
+		var intent=host._label(card,"",Rect2(98,34,56,22),12,host.GOLD);intent.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 		for child in card.get_children():
-			if child is Control: child.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		target_cards[id] = {"button":card,"title":title,"bar":bar,"value":value,"intent":intent}
-	notice = host._label(self,"",Rect2(355,232,610,36),18,host.GOLD)
-	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	host._panel(self,Rect2(37,601,1206,83),Color(.035,.105,.105,.96),Color("537367"))
-	log_text = RichTextLabel.new(); log_text.position=Vector2(54,611); log_text.size=Vector2(1168,60)
-	log_text.add_theme_font_size_override("normal_font_size",15); log_text.scroll_following=true
-	log_text.mouse_filter=Control.MOUSE_FILTER_PASS; add_child(log_text)
+			if child is Control:child.mouse_filter=Control.MOUSE_FILTER_IGNORE
+		target_cards[id]={"button":card,"title":title,"bar":bar,"value":value,"intent":intent}
+	host._panel(self,Rect2(0,670,1280,130),Color("102727"),Color("596a58"))
+	host._panel(self,Rect2(0,634,1280,37),Color(.025,.075,.08,.84),Color(0,0,0,0))
+	notice=host._label(self,"",Rect2(30,640,910,28),15,host.GOLD)
+	host._label(self,"点击对手换目标 · Tab切换",Rect2(987,644,266,24),12,host.MUTED)
+	qi_text=host._label(self,"",Rect2(32,683,245,58),14,host.PAPER)
 	for i in range(5):
-		var button: Button = host._button(self,"",Rect2(38+i*244,702,230,52),submit.bind(ACTIONS[i]))
-		button.add_theme_font_size_override("font_size",17)
+		var button=host._button(self,"",Rect2(280+i*190,687,177,52),submit.bind(ACTIONS[i]))
+		button.add_theme_font_size_override("font_size",16)
 		button.add_theme_stylebox_override("normal",host._style(Color("1a403a"),Color("8d855e")))
 		button.add_theme_stylebox_override("hover",host._style(Color("2b5a4e"),host.GOLD))
-		button.add_theme_stylebox_override("disabled",host._style(Color("1c2e2b"),Color("3d4b40")))
+		button.add_theme_stylebox_override("disabled",host._style(Color("162c28"),Color("3d4b40")))
 		button.add_theme_color_override("font_disabled_color",Color("849184"))
-		button.mouse_entered.connect(_describe.bind(ACTIONS[i]))
-		action_buttons.append(button)
-	details=host._label(self,"",Rect2(42,760,1194,31),13,host.MUTED)
-	display=rules.snapshot(); art.set_snapshot(display)
-	refresh()
+		button.mouse_entered.connect(_describe.bind(ACTIONS[i]));action_buttons.append(button)
+	log_text=RichTextLabel.new();log_text.position=Vector2(32,748);log_text.size=Vector2(1200,23)
+	log_text.add_theme_font_size_override("normal_font_size",14);log_text.scroll_following=true;log_text.mouse_filter=Control.MOUSE_FILTER_PASS;add_child(log_text)
+	details=host._label(self,"",Rect2(32,774,1210,22),12,host.MUTED)
+	display=rules.snapshot();art.set_snapshot(display);refresh()
+
+func _process(_delta:float)->void:
+	if valid() and art!=null and hero_card!=null:_sync_actor_cards()
+
+func _sync_actor_cards()->void:
+	var cards={"hero":hero_card,"support":support_card,"striker":target_cards.striker.button,"bracer":target_cards.bracer.button}
+	for id:String in cards:
+		var control:Control=cards[id]
+		var area:Rect2=art.unit_label_rect(id)
+		control.position=area.position;control.size=area.size
+		control.modulate.a=art.unit_label_alpha(id)
+	support_card.visible=not rules.companion.is_empty()
 
 func _input(event: InputEvent) -> void:
 	if not valid() or not event is InputEventKey or not event.pressed or event.echo:return
@@ -180,40 +195,42 @@ func _describe(action:String) -> void:
 
 func refresh() -> void:
 	if not valid():return
-	health.max_value=display.max_hp; health.value=display.hp
-	health_text.text="%s  ·  气血  %d / %d" % [rules.hero_snapshot.player_name,display.hp,display.max_hp]
-	qi_text.text="真气 %d / %d  ·  回春散 %d包  ·  %s" % [display.qi,display.max_qi,display.medicine,rules.equipped_art]
-	var move_number: int=maxi(1,rules.turn) if rules.locked or not rules.active else rules.turn+1
-	turn_text.text="第%d招  ·  %s" % [move_number,"独行" if rules.companion.is_empty() else rules.companion+" / "+rules.formation]
-	for unit: Dictionary in display.units:
-		var card: Dictionary=target_cards[unit.id]
-		var selected: bool=rules.selected_id==unit.id
-		card.title.text=("◇  " if selected else "")+String(unit.name)
-		card.bar.max_value=unit.max_hp; card.bar.value=unit.hp
-		card.value.text="气血 %d / %d%s" % [unit.hp,unit.max_hp,"  ·  卸劲" if int(unit.weaken_strikes)>0 else ""]
+	health.max_value=display.max_hp;health.value=display.hp
+	hero_name.text=String(rules.hero_snapshot.player_name);hero_name.tooltip_text=hero_name.text
+	health_text.text="气血 %d / %d"%[display.hp,display.max_hp]
+	qi_text.text="气血 %d/%d · 真气 %d/%d\n回春散 %d包 · %s"%[display.hp,display.max_hp,display.qi,display.max_qi,display.medicine,"独行" if rules.companion.is_empty() else rules.companion+" / "+rules.formation]
+	support_name.text=rules.companion;support_role.text="护后照应" if rules.formation=="护后" else "并肩协击"
+	var move_number:int=maxi(1,rules.turn) if rules.locked or not rules.active else rules.turn+1
+	turn_text.text="第 %d 招"%move_number
+	var selected_unit:Dictionary={}
+	for unit:Dictionary in display.units:
+		var card:Dictionary=target_cards[unit.id]
+		var selected:bool=rules.selected_id==unit.id
+		if selected:selected_unit=unit
+		card.title.text=String(unit.name)
+		card.bar.max_value=unit.max_hp;card.bar.value=unit.hp
+		card.value.text="%d / %d"%[unit.hp,unit.max_hp]
+		var intent:Dictionary=unit.intent_data
+		card.intent.text="已停手" if int(unit.hp)<=0 else ("援护" if intent.kind=="protect" else ("蓄斩" if int(intent.get("damage",0))>=30 else "将攻"))
+		if int(unit.weaken_strikes)>0:card.intent.text="卸劲"
 		card.button.tooltip_text="已停手" if int(unit.hp)<=0 else String(unit.intent)
-		var intent: Dictionary=unit.intent_data
-		card.intent.text="已停手" if int(unit.hp)<=0 else ("护住刀客 · 来伤减半\n向上取整，本轮不攻击" if intent.kind=="protect" else ("%s · 基础%d\n再扣防御与卸劲" % [intent.name,int(intent.damage)] if intent.kind=="attack" else "已停手"))
 		card.button.disabled=rules.locked or not rules.active or int(unit.hp)<=0
-		var border: Color=host.GOLD if selected else Color("527364")
-		for style in ["normal","hover","disabled"]:card.button.add_theme_stylebox_override(style,host._style(Color("263f33") if selected else Color("172e2a"),border))
-	if close_pending:
-		notice.text="收招后退开并保存 · 请稍候"
+		for style in ["normal","hover","disabled"]:card.button.add_theme_stylebox_override(style,host._style(Color(.045,.105,.11,.8),Color("bfa86f") if selected else Color(0,0,0,0)))
+	if close_pending:notice.text="收招后退开并保存 · 请稍候"
 	elif rules.locked:
-		notice.text="正在收招 · 目标已锁定"
-	else:
-		notice.text="点击对手或上方牌签 · Tab 切换目标"
+		notice.text="正在收招 · %s 气血%d/%d · 目标已锁定"%[String(selected_unit.get("name","")),int(selected_unit.get("hp",0)),int(selected_unit.get("max_hp",1))]
+	elif not selected_unit.is_empty():notice.text=String(selected_unit.name)+" · "+String(selected_unit.intent)
+	else:notice.text="点击对手或头顶牌签 · Tab切换目标"
 	retreat_button.disabled=rules.locked or close_pending
-	var names:Array[String]=["1  平击  +%d气" % mini(2,rules.max_qi-rules.qi),"2  %s  −%d气" % [rules.equipped_art,int(rules.skill_definition().cost)],"3  守势  +%d气" % mini(1,rules.max_qi-rules.qi),"4  回春散  ×%d" % int(display.medicine),"5  退开"]
+	var names:Array[String]=["1  平击  +%d气"%mini(2,rules.max_qi-rules.qi),"2  %s  −%d气"%[rules.equipped_art,int(rules.skill_definition().cost)],"3  守势  +%d气"%mini(1,rules.max_qi-rules.qi),"4  回春散 ×%d"%int(display.medicine),"5  退开"]
 	for i in action_buttons.size():
-		var button:Button=action_buttons[i]
-		button.text=names[i]
+		var button:Button=action_buttons[i];button.text=names[i]
 		button.disabled=rules.locked or close_pending or not rules.active or not rules.action_unavailable_reason(ACTIONS[i]).is_empty()
 		button.tooltip_text=rules.action_unavailable_reason(ACTIONS[i]) if button.disabled else rules.action_description(ACTIONS[i])
-	log_text.text="\n".join(rules.battle_log.slice(maxi(0,rules.battle_log.size()-3))) if not rules.locked else "\n".join(rules.battle_log.slice(maxi(0,rules.battle_log.size()-pending.logs.size()-2),maxi(0,rules.battle_log.size()-pending.logs.size())))
-	if rules.locked or close_pending:
-		details.text="已接受的招式仍会结算；退开不恢复已用药品或真气。"
-	elif host.browser_mode:
-		details.text="1–5 出招 · Tab 换目标 · Esc 退开后存卷；直接刷新网页可能丢失未存进度。"
-	else:
-		details.text=rules.action_description("attack")
+	var end_index:int=rules.battle_log.size()-pending.logs.size() if rules.locked else rules.battle_log.size()
+	log_text.text=String(rules.battle_log[end_index-1]) if end_index>0 else ""
+	log_text.tooltip_text="\n".join(rules.battle_log.slice(maxi(0,end_index-6),end_index))
+	if rules.locked or close_pending:details.text="已接受的招式仍会结算；退开不恢复已用药品或真气。"
+	elif host.browser_mode:details.text="1–5出招 · Tab换目标 · Esc退开后存卷；刷新网页可能丢失未存进度。"
+	else:details.text=rules.action_description("attack")
+	_sync_actor_cards()
