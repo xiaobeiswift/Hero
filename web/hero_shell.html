@@ -261,9 +261,9 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 		});
 	}
 
-	function displayFailureNotice(err) {
+	function displayFailureNotice(err, caption = '游戏未能启动，请查看下方原因后重试。') {
 		console.error(err);
-		statusCaption.textContent = '加载未能完成。请确认已完整上传导出文件，并通过网站地址打开。';
+		statusCaption.textContent = caption;
 		if (err instanceof Error) {
 			setStatusNotice(err.message);
 		} else if (typeof err === 'string') {
@@ -310,8 +310,14 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 			threads: GODOT_THREADS_ENABLED,
 		});
 		if (missing.length !== 0) {
-			const missingMsg = '当前浏览器缺少运行游戏所需的功能：\n';
-			displayFailureNotice(missingMsg + missing.join('\n'));
+			const lacksGraphics = missing.some((feature) => feature.startsWith('WebGL2'));
+			const caption = lacksGraphics
+				? '当前浏览器无法提供 WebGL 2 图形功能，游戏尚未启动。'
+				: '当前浏览器缺少运行游戏所需的功能，游戏尚未启动。';
+			const guidance = lacksGraphics
+				? '请在支持 WebGL 2 的桌面浏览器中打开此页。'
+				: '请使用较新的桌面浏览器重新打开此页。';
+			displayFailureNotice(guidance + '\n\n功能检查结果：\n' + missing.join('\n'), caption);
 		} else {
 			engine = new Engine(GODOT_CONFIG);
 			startButton.addEventListener('click', startGame, { once: true });
