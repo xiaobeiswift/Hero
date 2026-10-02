@@ -152,3 +152,5 @@ run_checked --headless --path . --script tests/interaction_verbs_test.gd
 run_checked --headless --path . --script tests/window_close_test.gd
 
 run_checked --headless --path . --script tests/heting_notice_timing_test.gd
+
+run_checked --headless --path . --script tests/heting_interaction_hints_test.gd
