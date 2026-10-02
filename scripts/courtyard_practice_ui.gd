@@ -150,7 +150,8 @@ func refresh() -> void:
 	health.max_value=display.max_hp; health.value=display.hp
 	health_text.text="%s  ·  演武气血  %d / %d" % [rules.hero_snapshot.player_name,display.hp,display.max_hp]
 	qi_text.text="真气 %d / %d  ·  调息 %d次  ·  %s" % [display.qi,display.max_qi,display.medicine,rules.equipped_art]
-	turn_text.text="第%d招  ·  %s" % [rules.turn+1,"独自演练" if rules.companion.is_empty() else rules.companion+" / "+rules.formation]
+	var move_number: int=maxi(1,rules.turn) if rules.locked or not rules.active else rules.turn+1
+	turn_text.text="第%d招  ·  %s" % [move_number,"独自演练" if rules.companion.is_empty() else rules.companion+" / "+rules.formation]
 	for unit: Dictionary in display.units:
 		var card: Dictionary=target_cards[unit.id]
 		var selected: bool=rules.selected_id==unit.id
