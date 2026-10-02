@@ -1,0 +1,64 @@
+{
+  "source_base": "57d1bf0",
+  "driver_sha256": "602f8ee293aaf6330a7da9f9d46866278bb5430e39c937ed8ed22c70858400ce",
+  "v18_pack_sha256_before": "731a4fa9bae15f6706e804c2d76903548d077ab2faf2473912402f2db38da03b",
+  "start_overlay": 1299009536,
+  "start_tmp": 4418609152,
+  "steps": {
+    "v18-negative": {
+      "exit_code": 1,
+      "minimum_overlay": 1299009536,
+      "minimum_tmp": 4417380352,
+      "log_sha256": "65cc6e96bf1872a6577c96e313ab193641ccb4fd78d36f1babb701b43c220020"
+    },
+    "v18-bypass": {
+      "exit_code": 1,
+      "minimum_overlay": 1299009536,
+      "minimum_tmp": 4416147456,
+      "log_sha256": "e1cb94ad257a4771b6ed278b76eb3a0ef7d07c16480808b65dff2fe159fe6804"
+    },
+    "export-pack": {
+      "exit_code": 0,
+      "minimum_overlay": 1299005440,
+      "minimum_tmp": 4372238336,
+      "log_sha256": "f3b0605081deaa98732f8f5b4f386b90cd99dc2f59fd66413aa4d910ab15464f"
+    },
+    "exact-pack": {
+      "exit_code": 0,
+      "minimum_overlay": 1298481152,
+      "minimum_tmp": 4370976768,
+      "log_sha256": "e8273958b87f4c1a27fc8b79722a47f89f47a1c96b6c60299d55e01f9e690699"
+    }
+  },
+  "v18_pack_sha256_after": "731a4fa9bae15f6706e804c2d76903548d077ab2faf2473912402f2db38da03b",
+  "preflight_pack_sha256": "3e351366609c33d82a078580c6b839a23f6eeefa9dd2c312e758885d9aa08fc7",
+  "preflight_pack_bytes": 39513180,
+  "status": "passed",
+  "version": "0.0.19",
+  "runtime_base_local": "57d1bf0ce42418fca673b27ee46f539ad594b6cd",
+  "runtime_base_remote": "b9d2d38e6913adb7241b518c14c5396560556b5c",
+  "runtime_delta": "Only project version and both macOS bundle version fields; gameplay/resources byte-identical to independently full-tested57d1bf0.",
+  "full_source_basis": {
+    "fresh_remote_exit": 0,
+    "godot_commands": 86,
+    "python_checks": 32
+  },
+  "source_rehearsal": {
+    "checks": 1226,
+    "packaging_only_skipped": 5,
+    "exit_code": 0,
+    "log_sha256": "4baac9847380e003a38d713c499f1edbb5d924de0f51c4a2eb90c2003b891ecf"
+  },
+  "temporary_exact_pck_checks": 1231,
+  "python_tools": {
+    "checks": 32,
+    "exit_code": 0,
+    "log_sha256": "360daee7b5536e56c5fd5abec660f31f38c6f4d78bf2ef6fe5f4caa2b44b428d"
+  },
+  "corrected_audit_fixture": "Initial rehearsal failed one assertion because the audit paused normal processing before opening the modal. Explicit normal post-input synchronization corrected the harness; all gameplay bytes unchanged.",
+  "first_rehearsal_log_sha256": "415a2e56969f1021d2a131c1cfde306fadf0485ecec11dc136d0f646ca6a7bcb",
+  "source_manifest_sha256": "be9674f352e5f08aa8631cfb8cf60f07dbd37482004a9ba49fafb25f91fa40c3",
+  "runtime_entries": 226,
+  "formal_platform_exports": "pending",
+  "native_gui": "pending"
+}
