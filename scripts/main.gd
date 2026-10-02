@@ -2,6 +2,7 @@ extends Control
 ## The original playable opening chapter of Hero: 渡灯录.
 const ViewPreferences=preload("res://scripts/view_preferences.gd")
 const DialogueSheet=preload("res://scripts/dialogue_sheet.gd")
+const MartialPanel=preload("res://scripts/martial_panel.gd")
 const PauseMenu=preload("res://scripts/pause_menu.gd")
 const InventoryPanel=preload("res://scripts/inventory_panel.gd")
 const GameHUD=preload("res://scripts/game_hud.gd")
@@ -991,16 +992,7 @@ func _show_map() -> void:
 	panel.add_child(chart)
 
 func _show_martials() -> void:
-	if current_screen=="battle": return
-	var body = "[color=#d3b276]当前修习：%s[/color]\n%s · 考绩%d\n5次熟习，15次通明。卸劲减来击；蓄锋强化下次平击。\n\n" % [state.equipped_art,state.sect_rank_name(),state.sect_merit]
-	var options: Array = []
-	for art in state.available_arts():
-		var rank_names = ["初窥","熟习","通明"]
-		body += "[color=#d3b276]%s · %s[/color]（已施展%d次）\n%s\n" % [art,rank_names[state.art_rank(art)-1],int(state.art_uses.get(art,0)),advanced_martial.summary(art)]
-		options.append(["修习 "+art,_equip_art.bind(art)])
-	if state.sect=="未入门": body += "完成青苇渡机缘后，门派荐帖将带来新的武学。"
-	options.append(["返回江湖",_close_modal])
-	_modal("武学与心得","修行 / 各有所长，皆可成路",body,options,true)
+	MartialPanel.show(self)
 
 func _equip_art(id: String) -> void:
 	if state.equip_art(id):
