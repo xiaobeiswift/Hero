@@ -23,6 +23,8 @@ run_checked --headless --path . --script tests/heting_receipt_rules_test.gd
 run_checked --headless --path . --script tests/heting_receipt_combat_test.gd
 run_checked --headless --path . --script tests/heting_receipt_art_test.gd
 run_checked --headless --path . --script tests/formation_layout_test.gd
+run_checked --headless --path . --script tests/formation_motion_test.gd
+run_checked --headless --path . --script tests/formation_ui_layout_test.gd
 run_checked --headless --path . --script tests/heting_receipt_story_test.gd
 run_checked --headless --path . --script tests/audit_receipt_ui_test.gd
 run_checked --headless --path . --script tests/courtyard_rig_art_test.gd
