@@ -3,7 +3,8 @@ extends SceneTree
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 class NoSave extends Model:
-	func save_game(_path:String=SAVE_PATH)->Error:return OK
+	var fail_saves:bool=false
+	func save_game(_path:String=SAVE_PATH)->Error:return ERR_CANT_CREATE if fail_saves else OK
 	func has_save()->bool:return false
 var app
 var checks:int=0
@@ -42,6 +43,16 @@ func run()->void:
 	check(app.hud.toast_wash.visible and app.status_label.text.contains("F5"),"Save failure stays visible after a toast would expire")
 	app.save_warning=false;app._toast("手记已写入");app.hud.tick(0)
 	check(app.hud.toast_wash.visible and app.status_label.text.contains("手记已写入"),"Save success feedback is visible")
+	app.state.fail_saves=true;app._autosave();app.hud.tick(0)
+	check(app.save_warning and app.status_label.text.count("存档失败")==1 and app.status_label.text.count("F5")==1,"Autosave failure displays exactly one recovery warning")
+	app._save();app.hud.tick(0)
+	check(app.status_label.text.count("存档失败")==1 and app.status_label.text.count("F5")==1 and app.status_label.text.contains("错误码"),"Manual retry failure retains error detail without duplicating the warning")
+	app._toast("已接下新的机缘");app.hud.tick(0)
+	check(app.status_label.text.contains("已接下新的机缘") and app.status_label.text.count("存档失败")==1,"Unrelated success toast still carries the unresolved save warning")
+	app.toast_time=0;app.hud.tick(0)
+	check(app.hud.toast_wash.visible and app.status_label.text.count("F5")==1,"Deduplicated warning remains after the transient notice expires")
+	app.state.fail_saves=false;app._save();app.hud.tick(0)
+	check(not app.save_warning and app.status_label.text.contains("已存档") and not app.status_label.text.contains("F5"),"Successful retry clears failure notice normally")
 	app.state.quest_stage=1;app._refresh()
 	check(app.hud.quest_notice_time>0 and app.hud.quest_notice.text.contains("行纪有续"),"Changed quest creates a short update notice")
 	check(app.hud.quest_wash.tooltip_text.contains(app.hint_label.text),"Complete quest hint remains in the tracker tooltip")
