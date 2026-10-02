@@ -1,0 +1,17 @@
+{
+  "base_commit": "c1548f1778821bdeae43ad5df43356ec98985158",
+  "scope": "Rules and atomic state settlement for two existing sluice encounters; scene/controller/renderer integration is separate pending work. No deployed Web change. Schema12 remains unchanged.",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "focused_checks": {
+    "sluice_rules": 2082,
+    "sluice_state": 736,
+    "existing_party_state": 701
+  },
+  "full_suite": "Not rerun for this isolated checkpoint",
+  "source_sha256": {
+    "scripts/party_combat_rules.gd": "1d4079a870cca655263a80f973af617f7e3c583d4a13fcd6b04d6821ebf3b797",
+    "scripts/game_state.gd": "637ff7f6a4ecf03145a669c7410c5321adcb218a640282bda21d24b22fadd780",
+    "tests/party_sluice_rules_test.gd": "ccea73c2953ba1ab53fe9adedc88f3f008bec2824359c19f8e0efcd06fa559e9",
+    "tests/party_sluice_state_test.gd": "ad46f278edffda89b8e52906b3f11dc8de9bbd50fbc1d7baa3190e2aab086bd7"
+  }
+}

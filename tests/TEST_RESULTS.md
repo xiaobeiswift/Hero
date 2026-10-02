@@ -615,3 +615,7 @@ Linux开发包由实际导出PCK加载，通过688项检查（此前655项保留
 0.0.9发行预检：原412项精确PCK覆盖逐段保留，新增183项后共595项通过。包括实际战斗触发沈青两种收益、同草案重新确认、发布后地图对话、待领荐记的轻功教学、长步碰撞、洲上同行、拾遗不重领及回程坐标自动保存。测试驱动首轮错误的数组型位置预期已改为真实x/y字典；保持失败记录，随后在相同PCK及新的完整开发构建上通过。Linux真实程序单次60迭代启动也通过；不将这些记录称作Windows/macOS原生试玩。
 
 鹤汀规则：三批固定货的顺序、反复装卸、两种旧结局/新草案、带货改案、错误收货处与过期预期草案、载货停车、战斗禁止、上限和重复奖励、严格六字段与旧1–8迁移、手记/备份均已覆盖。真实0.0.9原生GUI存档由新schema9读取后保持40/70修为、照护结局、苇心拾遗与货币；新港口进度默认未开始。精确旧v0.0.9 PCK对schema9返回不兼容而不改活动状态。港口地图与剧情UI暂不在本规则提交的通过范围。
+
+## 2026-10-02 — 废闸队伍 model/state checkpoint
+
+Godot4.6.3 isolated bounded runs passed: party_sluice_rules_test 2082; party_sluice_state_test736; party_state_integration_test701. Zero engine errors. Per-actor vulnerability, actual shield/guard interaction,1–4 capacity, both branch orders, resource-before-XP recovery, caps, malformed settlement, save write/rename failure and duplicate/stale callback coverage. Scene/renderer and full aggregate remain outside this isolated checkpoint. Exact source hashes: sluice_party_model_checkpoint.json.
