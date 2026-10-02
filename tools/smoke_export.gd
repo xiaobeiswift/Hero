@@ -40,8 +40,8 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _v20_prerequisites():
-		print("FAIL: v20 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+	if not _v21_prerequisites():
+		print("FAIL: v21 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal):
 		quit(1); return
@@ -61,6 +61,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--sluice-only"):
+		await _test_sluice_pack()
+		await _finish_run(rehearsal, "sluice-only")
+		return
 	if OS.get_cmdline_user_args().has("--party-only"):
 		await _test_party_pack()
 		await _finish_run(rehearsal, "party-only")
@@ -159,6 +163,7 @@ func _run() -> void:
 	await _test_courtyard_practice_pack()
 	await _test_receipt_pack()
 	await _test_party_pack()
+	await _test_sluice_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -1554,11 +1559,11 @@ func _test_close_guard_pack() -> void:
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
 
-func _v20_prerequisites() -> bool:
+func _v21_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.20", "V20 project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.21", "V21 sluice-party project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 12, "V20 requires save schema12")
+	_check(model != null and model.SAVE_VERSION == 12, "V21 retains save schema12")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -2078,7 +2083,7 @@ func _test_receipt_pack() -> void:
 	var title = game.overlay.find_child("BuildVersion",true,false)
 	# Full mode arrives after older story audits; inspect the real title afresh.
 	game._show_title(); title=game.overlay.find_child("BuildVersion",true,false)
-	_check(title!=null and title.text=="0.0.20", "Packed visible title reports frozen0.0.20")
+	_check(title!=null and title.text=="0.0.21", "Packed visible title reports rolling0.0.21")
 	for ending: String in ["short_ferries","open_scale"]:
 		await _test_receipt_entry_pack(ending)
 		await _test_receipt_victory_pack(ending)
@@ -2711,3 +2716,260 @@ func _test_party_down_pack() -> void:
 	var prior: Dictionary = s.to_dict(); panel.leave(); _party_finish(panel)
 	_check(not s.battle_active and s.party_settlement.outcome=="flee" and s.hp==1 and s.qi==prior.qi and s.party_resources==prior.party_resources, "Packed surviving companion retreat applies only outside-combat heroHP1 and preserves downed companions")
 	_check(_receipt_document().player.party_resources==JSON.parse_string(JSON.stringify(prior.party_resources)), "Packed real save preserves independently downed and spent companion resources")
+
+# Sluice checks use the shipped scene/controller and chapter-eligible hero/Shen.
+# Only the already-completed opening is prepared; routes, fights, presentation,
+# settlement, checkpoint failures and close requests use their actual runtime.
+func _test_sluice_pack() -> void:
+	var first: int = checks
+	var processing: bool = game.is_processing(); var world_processing: bool = game.world.is_processing()
+	game.set_process(false); game.world.set_process(false)
+	var rules = load("res://scripts/party_combat_rules.gd")
+	_check(rules.ENCOUNTERS.get("sluice_scout") == [{"id":"sluice_scout","name":"旧闸巡哨","hp":85,"attack":11,"heavy_attack":22}], "Packed scout retains unique85HP/11/22 template")
+	_check(rules.ENCOUNTERS.get("sluice_boss") == [{"id":"sluice_boss","name":"河帮闸首","hp":150,"attack":16,"heavy_attack":28}], "Packed boss retains unique150HP/16/28 template")
+	for encounter: String in ["sluice_scout", "sluice_boss"]:
+		await _test_sluice_entry_pack(encounter)
+	for route: String in ["rescue", "pursuit"]:
+		for count: int in [1,2]: await _test_sluice_route_pack(route,count)
+	for count: int in [1,2]: await _test_sluice_vulnerability_pack(count)
+	for encounter: String in ["sluice_scout", "sluice_boss"]:
+		for outcome: String in ["flee", "win", "defeat"]: await _test_sluice_close_pack(encounter,outcome)
+	game.set_process(processing); game.world.set_process(world_processing)
+	print("Schema12 sluice exact-runtime coverage: %d checks; both clue orders; natural hero/Shen; actual E/number entry, event presentation, finite rewards, save failure/retry/close; no browser or physical desktop-close claim" % (checks-first))
+
+func _sluice_prepare(count: int = 2, boss: bool = false) -> void:
+	game._new_game()
+	var s = game.state
+	s.quest_stage = 6; s.ending = "守望"; s.choose_sect("听潮阁"); s.gain_xp(180)
+	var recruited: bool = count == 1 or s.recruit_companion()
+	s.formation = "并肩" if count == 2 else "护后"; s.heal_rest(); s.map_id = "sluice"
+	game._sync_world_state(); game.world.change_map("sluice",Vector2(190,520)); s.position = game.world.player_pos
+	if boss:
+		s.choose_side_route("rescue"); s.find_side_clue("boatman"); s.find_side_clue("ledger")
+	game._refresh(); game._stop_audio(); game.audio_on = false
+	_check(recruited and s.party_roster == (["hero","shen"] if count == 2 else ["hero"]) and not s.tangqi_unlocked and not s.qin_recruited() and s._valid_save_data(s.to_dict(),12), "Packed sluice prepares only a legitimate completed opening and natural%d-actor roster" % count)
+
+func _sluice_open(encounter: String):
+	await _talk("ledger_runner" if encounter == "sluice_scout" else "sluice_boss")
+	await _key(KEY_1)
+	var panel = _party_panel()
+	_check(panel != null and game.current_screen == "party_battle" and game.state.battle_active and panel.encounter == encounter, "Packed E/number enters actual sluice party controller: " + encounter)
+	if panel == null: return null
+	panel.art.set_process(false)
+	var enemy: Dictionary = _party_unit(game.state.party_battle_snapshot(),encounter)
+	_check(enemy.hp == (85 if encounter == "sluice_scout" else 150) and enemy.attack == (11 if encounter == "sluice_scout" else 16) and enemy.heavy_attack == (22 if encounter == "sluice_scout" else 28), "Packed actual opponent retains exact HP/light/heavy stats: " + encounter)
+	_check(panel.commands.context.title == ("半页水令" if encounter == "sluice_scout" else "逆水而行") and panel.unit_plates.has(encounter) and not panel.unit_plates.has("puheng"), "Packed encounter HUD names its real opponent and story: " + encounter)
+	_check(_receipt_document().version == 12 and _receipt_document().player.side_choice == game.state.side_choice and _receipt_document().player.side_found == game.state.side_found, "Packed pre-entry checkpoint includes current route and clue order")
+	return panel
+
+func _sluice_events(tx: Dictionary, kind: String, team: String = "") -> Array:
+	var found: Array = []
+	for event: Dictionary in tx.get("events",[]):
+		if event.type == kind and (team.is_empty() or event.get("phase","") == team): found.append(event)
+	return found
+
+func _sluice_terminal(panel, expected: String = "win") -> Dictionary:
+	# Bounded actual available actions, without changing stats or enemy health.
+	# Fixed assertions per scenario keep the required audit count independent of
+	# the number of accepted attacks; exhaustion/rejection fails explicitly.
+	var terminal: Dictionary = {}; var accepted: bool = true
+	for index: int in range(120):
+		if not game.state.battle_active: break
+		var snapshot: Dictionary = game.state.party_battle_snapshot()
+		var actor: Dictionary = _party_actor(snapshot,snapshot.active_actor_id)
+		var action: String = "attack"; var target: String = panel.encounter
+		if expected == "win":
+			for option: Dictionary in actor.actions:
+				if option.available and option.category == "martial" and option.target_team == "enemy": action = option.id
+			if actor.hp < actor.max_hp / 2 and snapshot.medicine > 0: action = "item"; target = actor.id
+		panel.select_target(target); panel.request_command(actor.id,action)
+		if not panel.pending_action.is_empty(): panel.select_target(target)
+		terminal = panel.pending
+		if terminal.is_empty(): accepted = false; break
+		if not terminal.after.active: break
+		panel.art._process(panel.art.get_presentation_duration()+.1)
+	_check(accepted and not terminal.is_empty() and not terminal.after.active and terminal.after.outcome == expected, "Packed bounded natural actions reach pending " + expected + ": " + panel.encounter)
+	return terminal
+
+func _sluice_checkpoint(label: String) -> void:
+	var s = game.state; var before: Dictionary = s.to_dict()
+	_check(s.save_game() == OK, "Packed schema12 sluice checkpoint writes: " + label)
+	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
+	_check(document.version == 12 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Packed checkpoint keeps full canonical state and excludes battle-only fields: " + label)
+	game._load()
+	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_sluice_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves actual resources/clue order and clears transient encounter: " + label)
+
+func _test_sluice_entry_pack(encounter: String) -> void:
+	_sluice_prepare(2,encounter == "sluice_boss")
+	var s = game.state; var target: String = "ledger_runner" if encounter == "sluice_scout" else "sluice_boss"
+	var before: Dictionary = s.to_dict()
+	if encounter == "sluice_scout": game._runner_dialogue()
+	else: game._sluice_boss_dialogue()
+	game.modal_actions[0].call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed far sluice callback cannot change route or enter: " + encounter)
+	game._close_modal(); await _talk(target); var stale: Callable = game.modal_actions[0]; before = s.to_dict()
+	await _key(KEY_ESCAPE); stale.call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed canceled sluice callback cannot enter: " + encounter)
+	await _talk(target); stale = game.modal_actions[0]; before = s.to_dict(); game._show_map(); stale.call()
+	_check(s.to_dict() == before and not s.battle_active, "Packed older sluice modal generation cannot enter: " + encounter)
+	game._close_modal(); await _talk(target)
+	_check(s.save_game() == OK, "Packed sluice entry control checkpoint exists")
+	var bytes: PackedByteArray = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	await _key(KEY_1)
+	_check(not s.battle_active and _party_panel() == null and game.save_warning and _receipt_bytes() == bytes and s.hp == before.hp and s.qi == before.qi and s.medicine == before.medicine and s.party_resources == before.party_resources, "Packed real failed sluice checkpoint blocks combat and costs: " + encounter)
+	_check(s.side_choice == ("pursuit" if encounter == "sluice_scout" else "rescue") and s.side_found == before.side_found, "Packed nearby choice survives failed checkpoint for exact retry")
+	_receipt_unblock_save(blocker); await _key(KEY_1)
+	var panel = _party_panel()
+	_check(panel != null and panel.encounter == encounter and not game.save_warning and _receipt_document().player.side_choice == s.side_choice, "Packed same numbered choice retries durable sluice entry")
+	if panel == null: return
+	panel.art.set_process(false)
+	var active: Dictionary = s.party_battle_snapshot(); var progress: Dictionary = s.to_dict(); var files: Dictionary = _courtyard_save_files()
+	_check(not s.start_party_battle(encounter) and not s.choose_side_route("rescue") and not s.find_side_clue("ledger") and not s.finish_side_quest() and s.to_dict() == progress and s.party_battle_snapshot() == active, "Packed active sluice fight rejects duplicate entry and side progression")
+	await _key(KEY_F5); await _key(KEY_F9); game._show_map(); game._show_inventory()
+	_check(_party_panel() == panel and s.save_game() == ERR_BUSY and game.save_slots.store.save_slot(s,2) == ERR_BUSY and s.load_game() == ERR_BUSY and _courtyard_save_files() == files, "Packed actual sluice combat blocks every save/load/menu path")
+	await _key(KEY_5); var tx: Dictionary = panel.pending; _party_finish(panel)
+	_check(not s.battle_active and s.party_settlement.outcome == "flee" and s.to_dict() == progress, "Packed numbered flee retains branch and spent resources without reward")
+	var old_epoch: int = tx.epoch; var old_token: int = tx.token
+	panel = await _sluice_open(encounter)
+	if panel == null: return
+	active = s.party_battle_snapshot()
+	_check(not s.finish_party_presentation(old_epoch,old_token).accepted and s.party_battle_snapshot() == active, "Packed old attempt token cannot settle a fresh sluice retry")
+	panel.leave(); _party_finish(panel); game._close_modal()
+
+func _test_sluice_route_pack(route: String, count: int) -> void:
+	_sluice_prepare(count)
+	var s = game.state; var xp: int = _receipt_xp(); var coins: int = s.coins; var victories: int = s.victories
+	if route == "rescue":
+		await _talk("stranded_boatman"); await _key(KEY_1); await _key(KEY_1)
+	_check(s.side_found == (["boatman"] if route == "rescue" else []) and _receipt_xp() == xp, "Packed first investigation uses real scene choice and no clue XP: " + route)
+	var panel = await _sluice_open("sluice_scout")
+	if panel == null: return
+	_check(panel.commands.groups.size() == count and s.party_battle_snapshot().actors.size() == count, "Packed sluice command groups use only%d natural actors" % count)
+	var checkpoint: PackedByteArray = _receipt_bytes()
+	var tx: Dictionary = _sluice_terminal(panel)
+	if tx.is_empty() or tx.after.active: return
+	_check(s.coins == coins and _receipt_xp() == xp and s.victories == victories and not s.side_found.has("ledger") and s.battle_active and _receipt_bytes() == checkpoint, "Packed pending scout victory grants neither reward nor clue before presentation")
+	_party_finish(panel)
+	var expected_found: Array = ["boatman","ledger"] if route == "rescue" else ["ledger"]
+	_check(s.party_settlement.outcome == "win" and s.side_found == expected_found and s.side_stage == (2 if route == "rescue" else 1), "Packed scout grants ledger exactly once and keeps real route order")
+	_check(_receipt_xp() == xp+25 and s.coins == coins+14 and s.victories == victories+1 and s.party_settlement.battle_reward_xp == 25 and s.party_settlement.branch_reward_xp == 0, "Packed scout earns exact25XP/14coins/one victory")
+	var settled: Dictionary = s.to_dict()
+	_check(not s.finish_party_presentation(tx.epoch,tx.token).accepted and not s.start_party_battle("sluice_scout") and s.to_dict() == settled, "Packed duplicate scout terminal or reentry cannot replay finite reward")
+	game._close_modal(); _sluice_checkpoint(route+"-ledger-"+str(count))
+	if route == "pursuit":
+		await _talk("sluice_boss"); await _key(KEY_1)
+		_check(not s.battle_active and not s.can_start_sluice_party_battle("sluice_boss") and not game._start_party_battle("sluice_boss"), "Packed ledger-only route and old entry adapter cannot bypass actual boss clue gate")
+		await _talk("stranded_boatman"); await _key(KEY_1); await _key(KEY_1)
+		expected_found = ["ledger","boatman"]
+	_check(s.side_choice == route and s.side_found == expected_found and _receipt_xp() == xp+25 and s.side_stage == 2, "Packed second clue preserves first route and exact clue order without XP")
+	await _talk("sluice_cache"); await _key(KEY_1)
+	_check(s.hp == s.max_hp and s.qi == s.max_qi and s.party_roster.size() == count, "Packed actual old-store rest restores eligible roster before boss")
+	panel = await _sluice_open("sluice_boss")
+	if panel == null: return
+	checkpoint = _receipt_bytes(); var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	tx = _sluice_terminal(panel)
+	if tx.is_empty() or tx.after.active: _receipt_unblock_save(blocker); return
+	var medicine_at_terminal: int = s.medicine
+	_check(s.side_stage == 2 and not s.side_reward_claimed and s.coins == coins+14 and _receipt_xp() == xp+25 and s.battle_active and _receipt_bytes() == checkpoint, "Packed boss terminal defers battle and branch rewards together")
+	_party_finish(panel)
+	_check(not s.battle_active and s.side_stage == 3 and s.side_reward_claimed and s.side_choice == route and s.side_found == expected_found, "Packed actual boss presentation atomically completes correct branch")
+	_check(_receipt_xp() == xp+175 and s.coins == coins+(94 if route == "rescue" else 114) and s.victories == victories+2 and s.medicine == medicine_at_terminal+(2 if route == "rescue" else 0), "Packed full route earns scout25 + boss70 + branch80XP and exact route coins/medicine")
+	_check(s.party_settlement.reward_xp == 150 and s.party_settlement.battle_reward_xp == 70 and s.party_settlement.branch_reward_xp == 80 and s.party_settlement.branch_reward_claimed, "Packed boss exposes separate70/80XP and combined150XP settlement facts")
+	_check(game.save_warning and _receipt_bytes() == checkpoint and _gather_text(game.overlay).contains("交锋所得：修为+70、铜钱+35") and _gather_text(game.overlay).contains("修为 +80"), "Packed failed post-victory save preserves disk and displays both actual reward components")
+	settled = s.to_dict()
+	_check(not s.finish_side_quest() and not s.finish_party_presentation(tx.epoch,tx.token).accepted and not s.start_party_battle("sluice_boss") and s.to_dict() == settled, "Packed legacy turn-in and repeated boss terminal cannot replay either reward")
+	game._close_modal(); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.save_warning and _receipt_document().version == 12 and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed real F5 retry persists already-settled sluice resources once")
+	_sluice_checkpoint(route+"-complete-"+str(count))
+
+func _test_sluice_vulnerability_pack(count: int) -> void:
+	_sluice_prepare(count,true)
+	var s = game.state; var panel = await _sluice_open("sluice_boss")
+	if panel == null: return
+	var observed: Array = []
+	panel.art.event_presented.connect(func(event: Dictionary):
+		if String(event.type).begins_with("vulnerability_"):
+			observed.append({"event":event.duplicate(true),"shown":_party_actor(panel.art.display_snapshot,event.target_id).status.vulnerability_hits})
+	)
+	for id: String in s.party_roster: _party_command(panel,id,"guard")
+	var target: String = "shen" if count == 2 else "hero"
+	_check(s.party_battle_snapshot().round == 2 and s.party_battle_snapshot().enemy_intents[0].target_id == target and panel.unit_plates.sluice_boss.intent.contains("重击"), "Packed boss heavy visibly names actual rotating recipient")
+	if count == 2: _party_command(panel,"hero","guard")
+	panel.request_command(target,"attack")
+	var tx: Dictionary = panel.pending
+	_check(not tx.is_empty() and _sluice_events(tx,"vulnerability_apply").size() == 1 and _sluice_events(tx,"vulnerability_apply")[0].target_id == target and _party_actor(tx.after,target).status.vulnerability_hits == 2, "Packed unguarded positive heavy applies exactly2 to actual recipient")
+	if tx.is_empty(): return
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 0 and _party_actor(panel.art.display_snapshot,target).hp == _party_actor(tx.before,target).hp, "Packed accepted heavy hides future HP/status until contact")
+	var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot(); var files: Dictionary = _courtyard_save_files()
+	var echo := InputEventKey.new(); echo.physical_keycode = KEY_1; echo.keycode = KEY_1; echo.pressed = true; echo.echo = true
+	Input.parse_input_event(echo); await process_frame; echo.pressed = false; echo.echo = false; Input.parse_input_event(echo)
+	await _key(KEY_3); await _key(KEY_TAB); await _key(KEY_Q); await _key(KEY_F5); await _key(KEY_ESCAPE)
+	panel.request_command(target,"guard"); game._show_inventory()
+	_check(s.to_dict() == accepted and s.party_battle_snapshot() == snapshot and _party_panel() == panel and _courtyard_save_files() == files, "Packed heavy animation lock rejects echoes, guards, targets, actors, save, leave and menu replacement")
+	panel.art._process(panel.art.ACTION_DURATION+panel.art.ACTION_GAP+.15)
+	_check(panel.art.acting_unit_id == "sluice_boss" and panel.art.presentation_phase == "windup" and panel.art.selected_id == target and _party_actor(panel.art.display_snapshot,target).status.vulnerability_hits == 0, "Packed actual boss windup focuses correct struck actor before contact")
+	_party_finish(panel)
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 2 and panel.logs.any(func(line): return line.contains("破绽")), "Packed contact displays actual two-hit vulnerability and its explanation")
+	var damage: Dictionary = _sluice_events(tx,"damage","enemy")[0]
+	_check(damage.amount == maxi(1,28-int(_party_actor(tx.before,target).defense)) and _sluice_events(tx,"vulnerability_consume").is_empty(), "Packed applying heavy does not amplify itself")
+	if count == 1:
+		var light: Dictionary = _party_command(panel,"hero","attack")
+		_check(_sluice_events(light,"damage","enemy")[0].amount == maxi(1,16-int(_party_actor(light.before,"hero").defense))+3 and _party_actor(light.after,"hero").status.vulnerability_hits == 1 and _sluice_events(light,"vulnerability_consume")[0].remaining == 1, "Packed following real light hit adds exactly3 and consumes exactly one hit")
+	else:
+		var own: Dictionary = _party_command(panel,"hero","guard")
+		_check(_party_actor(own.after,"shen").status.vulnerability_hits == 2 and _sluice_events(own,"vulnerability_expire").is_empty(), "Packed hero guard never clears Shen's own vulnerability")
+		var other: Dictionary = _party_command(panel,"shen","attack")
+		_check(_sluice_events(other,"damage","enemy")[0].target_id == "hero" and _party_actor(other.after,"shen").status.vulnerability_hits == 2, "Packed next attack on another actor cannot consume Shen's two hits")
+	panel.request_command(target,"guard"); tx = panel.pending
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits > 0 and _party_actor(tx.after,target).status.vulnerability_hits == 0 and _sluice_events(tx,"vulnerability_expire")[0].reason == "guard", "Packed own guard clears in model while old status stays visible before its event")
+	_party_finish(panel)
+	if count == 2: _party_command(panel,"hero","guard")
+	_check(_party_actor(panel.commands.snapshot,target).status.vulnerability_hits == 0 and _party_actor(s.party_battle_snapshot(),target).status.vulnerability_hits == 0, "Packed selected actor guard visibly clears and prevents following heavy reapplication")
+	var exact_events: bool = not observed.is_empty(); var applied: bool = false; var expired: bool = false
+	for item: Dictionary in observed:
+		exact_events = exact_events and item.shown == item.event.remaining and item.event.target_id == target
+		applied = applied or item.event.type == "vulnerability_apply"
+		expired = expired or (item.event.type == "vulnerability_expire" and item.event.reason == "guard")
+	_check(exact_events and applied and expired, "Packed status paint changes only at each actual application/consume/own-guard event")
+	panel.leave(); _party_finish(panel)
+	_check(s.side_stage == 2 and not s.side_reward_claimed and not _receipt_bytes().get_string_from_utf8().contains("vulnerability"), "Packed flee saves canonical retryable branch without transient vulnerability")
+	game._close_modal()
+
+func _test_sluice_close_pack(encounter: String, outcome: String) -> void:
+	_sluice_prepare(2 if outcome == "win" else 1,encounter == "sluice_boss")
+	var s = game.state
+	if outcome == "defeat": s.hp = 1; s.qi = 0; s.coins = 5
+	var panel = await _sluice_open(encounter)
+	if panel == null: return
+	var progress: Dictionary = s._sluice_party_progress(); var xp: int = _receipt_xp(); var coins: int = s.coins; var victories: int = s.victories
+	var tx: Dictionary
+	if outcome == "flee": panel.request_command("hero","guard"); tx = panel.pending
+	else: tx = _sluice_terminal(panel,outcome)
+	if tx.is_empty(): return
+	var accepted: Dictionary = s.to_dict(); var snapshot: Dictionary = s.party_battle_snapshot(); var bytes: PackedByteArray = _receipt_bytes()
+	var blocker: String = _receipt_block_save()
+	if blocker.is_empty(): return
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	await _key(KEY_1); await _key(KEY_ESCAPE)
+	_check(panel.close_pending and not game.quit_pending and s.to_dict() == accepted and s.party_battle_snapshot() == snapshot and _receipt_bytes() == bytes, "Packed repeated sluice close waits for accepted action without double costs: " + encounter+"/"+outcome)
+	_party_finish(panel)
+	if outcome == "flee":
+		_check(panel.pending.get("action_id") == "flee" and panel.art.is_presenting(), "Packed queued sluice close accepts exactly one flee after guard")
+		_party_finish(panel)
+	_check(game.current_screen == "explore" and not s.battle_active and not game.quit_pending and game.save_warning and _receipt_bytes() == bytes and s.party_settlement.outcome == outcome, "Packed real failed-save close retains actual sluice outcome and prior disk: " + encounter+"/"+outcome)
+	if outcome == "win":
+		_check(_receipt_xp() == xp+(150 if encounter == "sluice_boss" else 25) and s.coins == coins+(80 if encounter == "sluice_boss" else 14) and s.victories == victories+1 and s.side_found.has("ledger") and s.side_reward_claimed == (encounter == "sluice_boss"), "Packed close preserves actual terminal reward and clue/branch boundary once")
+	elif outcome == "defeat":
+		_check(s.coins == 0 and _receipt_xp() == xp and s.victories == victories and s.map_id == "qingwei" and s.position == Vector2(420,450) and game.world.player_pos == s.position and s.hp == s.max_hp and s.qi >= 2 and s.side_found == progress.side_found and s.side_choice == progress.side_choice and not s.side_reward_claimed, "Packed actual sluice defeat loses only available5coins and recovers at correct Qingwei position without progress rewards")
+	else:
+		_check(s._sluice_party_progress() == progress and _receipt_xp() == xp and s.coins == coins and s.victories == victories, "Packed closed retreat preserves retryable clue order without reward")
+	var settled: Dictionary = s.to_dict(); var stale: Callable = game.modal_actions[0]
+	_press("返回小憩"); stale.call()
+	_check(not game.quit_pending and s.to_dict() == settled and _receipt_bytes() == bytes, "Packed canceled sluice close invalidates stale retry/exit callback")
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST); _press("不保存离开")
+	_check(_gather_text(game.overlay).contains("舍下未存的这一程？") and not game.quit_pending, "Packed sluice discard still requires the explicit second choice")
+	_press("继续留在江湖"); await _key(KEY_ESCAPE); _receipt_unblock_save(blocker); await _key(KEY_F5)
+	_check(not game.quit_pending and not game.save_warning and s.to_dict() == settled and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed canceled sluice close permits exact save retry without process exit or duplicate settlement")
+	_sluice_checkpoint(encounter+"-close-"+outcome)
