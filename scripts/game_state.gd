@@ -2,12 +2,14 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 10
+const SAVE_VERSION: int = 11
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
 const Mist=preload("res://scripts/mistwood_rules.gd")
 const Heting=preload("res://scripts/heting_rules.gd")
+const Receipt=preload("res://scripts/heting_receipt_rules.gd")
+const ReceiptCombat=preload("res://scripts/heting_receipt_combat.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
@@ -55,6 +57,7 @@ var heting_delivered:Array[String]=[]
 var heting_cargo:String=""
 var heting_draft:String=""
 var heting_ending:String=""
+var receipt_stage:int=0
 var mist_stage:int=0
 var mist_gauges:Array[String]=[]
 var mist_approach:String=""
@@ -98,6 +101,9 @@ var _companion_attack_count: int = 0
 var _trial_art_used:bool=false
 var _trial_healing:int=0
 var _trial_guarded_heavy:bool=false
+var receipt_session
+var receipt_battle_epoch:int=0
+var receipt_settlement:Dictionary={}
 
 
 func reset_game() -> void:
@@ -126,6 +132,7 @@ func reset_game() -> void:
 	formation = "并肩"
 	equipment = "旧铁剑"
 	heting_stage=0;heting_bridge="";heting_delivered.clear();heting_cargo="";heting_draft="";heting_ending=""
+	receipt_stage=0
 	mist_stage=0;mist_gauges.clear();mist_approach="";mist_ending=""
 	chapter_two_stage=0
 	archive_clues.clear()
@@ -354,6 +361,8 @@ func finish_side_quest() -> bool:
 
 
 func start_battle(kind: String = "story") -> void:
+	# Group encounters have their own transaction and one-time settlement path.
+	if kind=="heting_receipt":return
 	if kind=="mist_scout" and (mist_stage!=1 or not mist_approach.is_empty()):return
 	if kind=="mist_keeper" and mist_stage!=2:return
 	if kind=="sect_trial" and not can_take_sect_trial():return
@@ -399,6 +408,8 @@ func start_battle(kind: String = "story") -> void:
 
 
 func battle_action(action: String) -> Dictionary:
+	if battle_kind=="heting_receipt":
+		return _result(false,"复签交锋需要先选定当前目标。")
 	if not battle_active:
 		return _result(false, "当前没有战斗。")
 	# Validate before changing cooldowns, turn count, resources, or enemy state.
@@ -590,6 +601,7 @@ func to_dict() -> Dictionary:
 		"formation": formation, "equipment": equipment,
 		"heting_stage":heting_stage,"heting_bridge":heting_bridge,"heting_delivered":heting_delivered.duplicate(),
 		"heting_cargo":heting_cargo,"heting_draft":heting_draft,"heting_ending":heting_ending,
+		"receipt_stage":receipt_stage,
 		"mist_stage":mist_stage,"mist_gauges":mist_gauges.duplicate(),"mist_approach":mist_approach,"mist_ending":mist_ending,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
@@ -608,6 +620,9 @@ func has_save() -> bool:
 func save_game(path: String = SAVE_PATH) -> Error:
 	if path.is_empty():
 		return ERR_INVALID_PARAMETER
+	# This fight is transient. Preserve the pre-entry checkpoint until its
+	# accepted action is presented and its terminal outcome has settled.
+	if battle_active and battle_kind=="heting_receipt":return ERR_BUSY
 	var temporary: String = path + ".tmp"
 	var file: FileAccess = FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
@@ -645,7 +660,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
@@ -684,6 +699,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	Chapter.restore(self,data)
 	Mist.restore(self,data)
 	Heting.restore(self,data)
+	receipt_stage=_bounded_int(data,"receipt_stage",0,0,3)
 	Companions.restore(self,data)
 	ShenCare.restore(self,data)
 	Lightness.restore(self,data)
@@ -737,6 +753,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 		return false
 	if not Mist.valid(data,version):return false
 	if not Heting.valid(data,version):return false
+	if not Receipt.valid(data,version):return false
 	if not Companions.valid(data):return false
 	if not ShenCare.valid(data,version):return false
 	if not Lightness.valid(data,version):return false
@@ -825,6 +842,9 @@ func _bounded_int(data: Dictionary, key: String, fallback: int, low: int, high: 
 
 
 func _clear_battle() -> void:
+	receipt_battle_epoch+=1
+	receipt_session=null
+	receipt_settlement={}
 	enemy_name = ""
 	enemy_hp = 0
 	enemy_max_hp = 0
@@ -841,6 +861,80 @@ func _clear_battle() -> void:
 	_companion_attack_count = 0
 	Advanced.clear_effects(self)
 	_trial_art_used=false;_trial_healing=0;_trial_guarded_heavy=false
+
+
+func begin_receipt() -> bool:
+	return Receipt.begin(self)
+
+
+func compare_receipt() -> bool:
+	return Receipt.compare(self)
+
+
+func start_receipt_battle() -> bool:
+	if receipt_stage!=1 or not Receipt.can_begin(self):return false
+	var candidate=ReceiptCombat.new()
+	if not candidate.configure(self):return false
+	_clear_battle()
+	receipt_session=candidate
+	battle_kind="heting_receipt"
+	battle_active=true
+	enemy_name="鹤汀截签人"
+	return true
+
+
+func receipt_battle_snapshot() -> Dictionary:
+	return receipt_session.snapshot() if receipt_session!=null else {}
+
+
+func select_receipt_target(id:String) -> bool:
+	return battle_active and battle_kind=="heting_receipt" and receipt_session!=null and receipt_session.select_target(id)
+
+
+func cycle_receipt_target() -> bool:
+	return battle_active and battle_kind=="heting_receipt" and receipt_session!=null and receipt_session.cycle_target()
+
+
+func receipt_battle_action(action:String) -> Dictionary:
+	if not battle_active or battle_kind!="heting_receipt" or receipt_session==null:
+		return {"ok":false,"accepted":false,"reason":"当前没有复签交锋。","token":-1,"epoch":receipt_battle_epoch}
+	var tx:Dictionary=receipt_session.accept_action(action)
+	if not bool(tx.get("accepted",false)):return tx
+	var after:Dictionary=tx.after
+	hp=int(after.hp);qi=int(after.qi);medicine=int(after.medicine)
+	art_uses=after.art_uses.duplicate(true)
+	turn=int(after.turn);skill_cooldown=int(after.skill_cooldown)
+	battle_log.assign(receipt_session.battle_log)
+	# Nested values remain the model's immutable snapshots. The epoch is owned
+	# here so a stale presentation callback cannot settle a later attempt.
+	var decorated:Dictionary={}
+	for key in tx:decorated[key]=tx[key]
+	decorated["epoch"]=receipt_battle_epoch
+	decorated.make_read_only()
+	return decorated
+
+
+func finish_receipt_presentation(epoch:int,token:int) -> bool:
+	if epoch!=receipt_battle_epoch or not battle_active or battle_kind!="heting_receipt" or receipt_session==null:return false
+	if not receipt_session.complete_presentation(token):return false
+	if receipt_session.active:return true
+	# Clear the active gate before the finite story rules settle. A second
+	# callback will fail above even if the subsequent disk write fails.
+	battle_active=false
+	skill_cooldown=0
+	var outcome:String=String(receipt_session.outcome)
+	var coins_before:int=coins
+	var level_before:int=level
+	var awarded:bool=false
+	if outcome=="win":
+		awarded=Receipt.settle_victory(self)
+	elif outcome=="defeat":
+		coins=maxi(0,coins-mini(coins,8))
+		hp=max_hp;qi=maxi(qi,2)
+		map_id="heting";position=Vector2(230,735)
+	receipt_settlement={"outcome":outcome,"awarded":awarded,"coin_change":coins-coins_before,"level_before":level_before,"level_after":level,"stage":receipt_stage}
+	receipt_settlement.make_read_only()
+	return true
 
 
 func _update_intent() -> void:

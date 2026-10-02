@@ -9,7 +9,7 @@ const MUTED=Color("687668")
 const GOLD=Color("947441")
 
 static func show(host)->void:
-	if host.current_screen=="battle":return
+	if host.current_screen in ["battle","receipt_battle"] or host.state.battle_active:return
 	host.modal_generation+=1;host._clear_overlay();host.active_modal=true
 	var generation:int=host.modal_generation
 	var veil=ColorRect.new();veil.color=Color(.01,.04,.04,.76);veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);host.overlay.add_child(veil)

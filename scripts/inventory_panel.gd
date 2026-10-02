@@ -39,7 +39,7 @@ class ItemGlyph extends Control:
 					draw_colored_polygon(PackedVector2Array([Vector2(23,y+8),Vector2(34,y+1),Vector2(38,y-4),Vector2(28,y)]),Color("668c72"))
 
 static func show(host)->void:
-	if host.current_screen=="battle":return
+	if host.current_screen in ["battle","receipt_battle"] or host.state.battle_active:return
 	host.modal_generation+=1;host._clear_overlay();host.active_modal=true
 	host.overlay.set_meta("inventory",true)
 	var generation:int=host.modal_generation

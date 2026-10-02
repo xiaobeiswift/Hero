@@ -13,6 +13,8 @@ const BattleArt = preload("res://scripts/battle_art.gd")
 const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
+const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
+const ReceiptUI=preload("res://scripts/heting_receipt_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
 const LightnessStory=preload("res://scripts/lightness_story.gd")
@@ -35,6 +37,7 @@ var world_detail_font:Font
 var display_settings_warning:String=""
 var browser_mode:bool=OS.has_feature("web")
 var browser_storage_available:bool=true
+var browser_build_revision:String=""
 var workshop
 var chapter_story
 var sect_progress
@@ -44,6 +47,7 @@ var companion_story
 var advanced_martial
 var mist_story
 var heting_story
+var receipt_story
 var save_slots
 var hud
 var _hud_navigation_flags:int=-1
@@ -122,19 +126,31 @@ func _ready() -> void:
 	advanced_martial=AdvancedMartialUI.new(self)
 	mist_story=MistwoodStory.new(self)
 	heting_story=HetingStory.new(self)
+	receipt_story=ReceiptStory.new(self)
 	world.traversal_blocked.connect(_toast)
 	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
 	_refresh()
-	_show_title()
 	if browser_mode:_announce_browser_storage(OS.is_userfs_persistent())
+	_show_title()
 
 func _announce_browser_storage(available:bool)->void:
 	browser_storage_available=available
 	if browser_mode and Engine.has_singleton("JavaScriptBridge"):
 		var bridge=Engine.get_singleton("JavaScriptBridge")
 		var page=bridge.get_interface("HeroWeb")
-		if page!=null:page.setStorageAvailable(available)
+		if page!=null:
+			page.setStorageAvailable(available)
+			var getter:Variant=page.getBuildInfo
+			if getter!=null:
+				var info:Variant=JSON.parse_string(String(page.getBuildInfo()))
+				if info is Dictionary and String(info.get("game_version",""))==String(ProjectSettings.get_setting("application/config/version","")):
+					var revision:String=String(info.get("web_revision",""))
+					if revision.is_valid_int() and int(revision)>0:browser_build_revision=revision
+
+func _version_caption()->String:
+	var version:String=String(ProjectSettings.get_setting("application/config/version","开发版"))
+	return version+" · Web "+browser_build_revision if browser_mode and browser_build_revision.is_valid_int() and int(browser_build_revision)>0 else version
 
 func _save_retry_message()->String:
 	return "自动存档失败，请打开小憩，点击保存当前旅程重试。" if browser_mode else "自动存档失败，请按 F5 重试。"
@@ -286,6 +302,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.physical_keycode == KEY_F12:
 		_capture_screenshot()
 		return
+	if current_screen=="receipt_battle":return # The real group controller owns its keys and exit.
 	if event.physical_keycode == KEY_ESCAPE and not active_modal and current_screen=="explore":
 		_show_pause();get_viewport().set_input_as_handled();return
 	if event.physical_keycode == KEY_ESCAPE and active_modal and current_screen != "title":
@@ -405,6 +422,7 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 	toast_time = 7.0 if save_warning else duration
 
 func _clear_overlay() -> void:
+	if overlay.has_meta("receipt_battle"):overlay.remove_meta("receipt_battle")
 	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
 	if overlay.has_meta("pause_menu"):overlay.remove_meta("pause_menu")
@@ -414,6 +432,7 @@ func _clear_overlay() -> void:
 		child.queue_free()
 
 func _close_modal() -> void:
+	if current_screen=="receipt_battle":return
 	if current_screen=="title":
 		_show_title();return
 	var save_on_close=modal_autosave_on_close
@@ -426,6 +445,7 @@ func _close_modal() -> void:
 	if current_screen == "explore" and save_on_close: _autosave()
 
 func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
+	if current_screen=="receipt_battle":return
 	modal_autosave_on_close=true
 	modal_generation+=1
 	_clear_overlay()
@@ -451,6 +471,9 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	var portrait_id=Portraits.id_for_title(title)
 	if not portrait_id.is_empty():Portraits.attach(panel,portrait_id,Rect2(width-156,-6,142,122))
 	_label(panel,subtitle,Rect2(30,22,width-60,24),12,GOLD)
+	var version_label=_label(panel,_version_caption(),Rect2(width-222,22,190,24),12,MUTED)
+	version_label.name="BuildVersion"
+	version_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 	_label(panel,title,Rect2(30,55,width-60,45),28,PAPER)
 	var text = RichTextLabel.new()
 	text.position = Vector2(30,120)
@@ -512,6 +535,7 @@ func _show_pause()->void:
 	PauseMenu.show(self)
 
 func _show_title() -> void:
+	if current_screen=="receipt_battle":return
 	current_screen = "title"
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
@@ -662,7 +686,7 @@ func _use_medicine() -> void:
 		_toast("气血已满，或行囊中没有回春散。")
 
 func _show_journal() -> void:
-	if current_screen == "battle": return
+	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
 	var lines = ["与村中央的陆伯交谈", "到东北苇岸采集青穗草", "回村西药铺，将草药交给沈青", "前往东南旧渡口，夺回引航灯", "向陆伯交还灯芯与账页", "决定证据归处，选择修行方向"]
 	var body = "[color=#d3b276]主线 · 渡口失灯[/color]\n"
 	for i in range(lines.size()):
@@ -682,7 +706,7 @@ func _show_journal() -> void:
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 
 func _save() -> void:
-	if current_screen == "battle" or current_screen == "title":
+	if current_screen in ["battle","receipt_battle","title"]:
 		_toast("请在探索时存档。")
 		return
 	state.position = world.player_pos
@@ -700,7 +724,7 @@ func _autosave() -> void:
 	if save_warning: _toast("⚠ "+_save_retry_message(),true)
 
 func _load() -> void:
-	if current_screen == "battle":
+	if current_screen in ["battle","receipt_battle"]:
 		_toast("请结束战斗后读档。")
 		return
 	var error = state.load_game()
@@ -923,10 +947,20 @@ func _exit_tree() -> void:
 func _notification(what:int) -> void:
 	if what==NOTIFICATION_WM_CLOSE_REQUEST:
 		if quit_pending:return
+		if current_screen=="receipt_battle":
+			var controller=overlay.get_meta("receipt_battle",null)
+			if is_instance_valid(controller):controller.request_application_close()
+			else:_toast("交锋尚未收束，请稍候再离开。")
+			return
 		# A desktop close must keep the same write-failure protection as the
 		# in-game exit. Do not mark quit_pending until a save or discard succeeds.
 		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode)
 		else:_quit_cleanly(false)
+
+func _start_receipt_battle()->bool:
+	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
+	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
+	return ReceiptUI.open(self)!=null
 
 func _quit_cleanly(save_progress:bool=true) -> void:
 	if quit_pending: return
@@ -1038,7 +1072,7 @@ func _sluice_cache_dialogue() -> void:
 	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。"+shen_story.shelter_append(),[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
 
 func _show_map() -> void:
-	if current_screen=="battle": return
+	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
 	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
 	var panel = overlay.get_child(overlay.get_child_count()-1)
 	panel.set_meta("minimum_page_height",570.0)
@@ -1068,7 +1102,7 @@ func _equip_art(id: String) -> void:
 		_toast("暂未习得这门武学。")
 
 func _show_workshop() -> void:
-	if current_screen=="battle": return
+	if current_screen in ["battle","receipt_battle"] or state.battle_active: return
 	workshop.show()
 
 func _sync_world_state() -> void:

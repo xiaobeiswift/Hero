@@ -136,6 +136,9 @@ func receiver(id:String)->void:
 	var options:Array=[]
 	if is_relief:options.append(["借棚调息",_guard(rest)])
 	options.append(["告辞",host._close_modal])
+	if not is_relief and s.heting_stage==4:
+		var receipt_label:String=["谈谈复签（可选）","复签应战准备","查看待核副签","重看复签记录"][s.receipt_stage]
+		options.append([receipt_label,_guard(host.receipt_story.open)])
 	_modal(title,"一秤两岸 / 岸边所见",text,options,true)
 func base_result(id:String)->String:
 	var s=host.state
@@ -201,15 +204,19 @@ func companion_line()->String:
 		return "沈青：“岸上有了去处，还得记着那些走不到门前的人。”" if s.shen_care_choice=="shore" else "沈青：“送出去要有人，接回来也要有人。去回都写清楚。”"
 	if s.current_companion()=="唐栖":return "唐栖：“改栈的法子留在牌背，让下一个轮值的人也会用。”" if s.tangqi_choice=="teach" else "唐栖：“两边缆位各有受力，别只照着一张旧图硬搬。”"
 	return ""
-func title()->String:return ["鹤汀来路","一车两岸","夜工待议","最后一车","埠灯未尽"][host.state.heting_stage]
+func title()->String:
+	if host.state.receipt_stage in [1,2]:return "复签不撤"
+	return ["鹤汀来路","一车两岸","夜工待议","最后一车","埠灯未尽"][host.state.heting_stage]
 func hint()->String:
 	var s=host.state
+	if s.receipt_stage in [1,2]:return s.Receipt.hint(s)
 	if s.heting_stage==0:return "沿听雨关东侧下埠道前往鹤汀埠，追看粮船的实交。"
 	if not s.heting_cargo.is_empty():return "押"+_cargo_name()+"至"+_receiver_name(_receiver_for(s.heting_cargo))+"；窄步栈过不了车，可免费改泊或沿北岸绕行。"
 	return {1:"中埠粮船有两批固定货：开锅粮送西岸，对秤封粮送东岸，可任选先后。",2:"两批已办妥。回北岸交割牌，与孟绫议定今夜的人手。",3:"到南泊短驳提待分粮；按草案交货前仍可改议。",4:"今夜已有实际安排。可回访两岸，或沿北岸山道返回。"}[s.heting_stage]
 func target_id()->String:
 	var s=host.state
 	if s.map_id=="heting":
+		if s.receipt_stage in [1,2]:return "heting_scale"
 		if not s.heting_cargo.is_empty():return _receiver_for(s.heting_cargo)
 		return {1:"heting_cargo",2:"heting_dispatch",3:"heting_lighter",4:"heting_dispatch"}.get(s.heting_stage,"heting_dispatch")
 	if s.heting_stage in [1,2,3] or (s.heting_stage==0 and s.mist_stage==4 and s.map_id=="mistwood"):
@@ -225,4 +232,6 @@ func journal()->String:
 	if not s.heting_draft.is_empty():
 		text+="\n"+("已定：" if s.heting_stage==4 else "草案：")+PLAN_NAMES[s.heting_draft]
 		text+="\n公秤棚夜间不留人，新交割等天亮复核。" if s.heting_draft=="short_ferries" else "\n远泊的人仍须靠岸，或等明日短渡。"
-	return text+"\n"+hint()
+	text+="\n"+hint()
+	if s.receipt_stage>0:text+="\n\n[color=#d3b276]鹤汀余事 · 复签不撤[/color]\n"+s.Receipt.journal(s)
+	return text
