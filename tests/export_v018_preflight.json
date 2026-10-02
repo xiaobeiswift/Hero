@@ -1,15 +1,17 @@
 {
-  "status": "source rehearsal passed; newv18 PCK remains unbuilt",
-  "runtime_source_commit": "d9c6028",
+  "status": "final source suite and rehearsal passed; formal exports pending",
+  "runtime_source_commit": "7e0036d7476e0504a4876b7bc590fa579925d8d5",
   "engine": "4.6.3.stable.official.7d41c59c4",
-  "source_rehearsal_checks": 1099,
+  "full_source_runner_exit_code": 0,
+  "source_log_sha256": "19e546170c528fc85593f10f0668a9c6b2e66f5e595071930326c1bae6feb54a",
+  "source_rehearsal_checks": 1106,
   "packaging_only_assertions_explicitly_skipped": 5,
-  "expected_future_pack_checks": 1104,
+  "expected_future_pack_checks": 1111,
   "new_v18_pack_exported": false,
-  "driver_sha256": "f9cf8ec39d14a303db4333f3af814b20c39a4285ffa5d4d842b6aeebd0c675a9",
-  "source_entries": 214,
-  "source_manifest_sha256": "a6c8e1d84d3f55efb2a925cbff4082e16e13b4bc36a92107224106a3c2f8a53b",
-  "source_log_sha256": "ddaaef03fc8ecfb27324321043bfa5cda1108f39203957c16cfb17dcb7d4aeef",
+  "driver_sha256": "c4cc6cc938a5c8a4f7769c50c0ce34fce4a7e31b95269a30f6bb6db138aef2c2",
+  "source_entries": 216,
+  "source_manifest_sha256": "a573329e6e472bbf9fec0906d8ae864642c59d9e722860b909572ea2c34908be",
+  "rehearsal_log_sha256": "a139a3a92f85de034d3dd39caa837e5859d8d95da88840982245ead6acf8ea0e",
   "old_v17_negative_control": {
     "temporary_root": "/tmp/hero-v18-old-pack-6i188633",
     "archive": "builds/v0.0.17/Hero-v0.0.17-linux-x86_64.tar.gz",
@@ -19,14 +21,14 @@
     "purpose": "Read-only old-release compatibility rejection; not an export or modified release",
     "tests": [
       {
-        "case": "missing-v18",
+        "case": "final-missing-v18",
         "exit_code": 1,
-        "expected_result": "FAIL: v18 prerequisites; 15 checks; 9 failures; no game instantiated",
+        "expected_result": "FAIL: v18 prerequisites; 16 checks; 10 failures; no game instantiated",
         "no_gameplay_save_created": true,
-        "log_sha256": "dea4495b01516f40263942c0f41358a8e270935dae822d5fd0d5d83cb1920f66"
+        "log_sha256": "3c2157a79a7128fe0ff65cd4a98523311a56b8de09536d7abc5335478e4cff43"
       },
       {
-        "case": "rehearsal-bypass",
+        "case": "final-rehearsal-bypass",
         "exit_code": 1,
         "expected_result": "Source rehearsal flag cannot bypass checks for an exported PCK",
         "no_gameplay_save_created": true,
@@ -34,10 +36,8 @@
       }
     ],
     "pack_unchanged": true,
-    "driver_sha256": "f9cf8ec39d14a303db4333f3af814b20c39a4285ffa5d4d842b6aeebd0c675a9"
+    "driver_sha256": "c4cc6cc938a5c8a4f7769c50c0ce34fce4a7e31b95269a30f6bb6db138aef2c2"
   },
-  "frozen_v17_archives_and_driver_unchanged": true,
   "python_tool_tests": 32,
-  "initial_rehearsal_correction": "Seven old schema9 output expectations were updated to schema10; first failed run is retained, then a fresh isolated source rehearsal passed.",
-  "scope": "Existing source/import cache only. Old released PCK extracted read-only to new tmpfs scratch for prerequisite rejection; no new export/build tree, native GUI, Windows/macOS or performance claim."
+  "scope": "Complete source runner and external audit rehearsal with isolated test data; exact shipped route helper now covered. Five packaging-only checks remain for each formal exported PCK. Existing v17 PCK is read-only negative control; no new export/native claim."
 }
