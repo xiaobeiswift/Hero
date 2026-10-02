@@ -627,3 +627,7 @@ Full run-tests.sh exited0:109 Godot commands,60 Python tests,107PASS summaries, 
 ## 2026-10-02 — 0.0.21 exact-Web audit preparation
 
 Full source rehearsal2720PASS/0failures:2347 retained checks +373 new sluice checks, with5 explicit packaging-only skips. Exact PCK wrapper now requires2725 and the single373-check sluice marker. All28 Web Python tests pass; rehearsal/old/partial/duplicated coverage logs are rejected. Driver SHA256c8447366c081b981dbd062144f5b572b0c6835a70c9a5fe60e779adac72265b8. Actual export still pending in this source snapshot.
+
+## 2026-10-02 — Actual Web0.0.21 PCK acceptance
+
+Clean0c4012aca2fb28f0033a7b69f216c19c30a65c97 export:2725 exact exported-pack checks PASS/0failures, including373 sluice checks. All14 site files/archive members and275 runtime source hashes verified. PCK48,440,484bytes SHA256c4792c2680383463996f66feb535c697cedacbb684737425769789be7097dbc4; ZIP57,845,521bytes SHA256649476b66e791780f2bb6e0b1b7faeed3608b62b973628c45d3e8393b9453018. Exact raw result included in web21_candidate_check.json. This evidence-only delta changes no runtime or build/audit tools. Windows build, browser runtime and deployment are not claimed here.

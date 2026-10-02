@@ -1,0 +1,113 @@
+{
+  "source_commit": "0c4012aca2fb28f0033a7b69f216c19c30a65c97",
+  "game_version": "0.0.21",
+  "web_revision": 1,
+  "status": "Exact cloud Web package passed; Windows build and direct deployment remain pending",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+  "runtime_source_entries": 275,
+  "runtime_source_bytes": 66872813,
+  "source_manifest_sha256": "d29ca568b581bcd9f3e3cb727fb77e93ac0ce63183a7b45e55b7587ef1110ad2",
+  "build_report_sha256": "12633f08bcc0bfc26c128321ab758be204ca9639e5d4a6f4b26293ba7fd83a30",
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "b7159e6e235c41f97b232b411c2d4d74f03ed3dc1e7ee180558b354b02d8bf4b",
+      "bytes": 7353
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "bf9d578ea68a40c68cad6a5b0ffa4831f68eff556adfcd63069e6ed12ee3165a",
+      "bytes": 6495
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "42e776c7109fab120991f62ce82bf6ec52cf7d64d2c83dd4f1ddb28196b94999",
+      "bytes": 9095
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "c4792c2680383463996f66feb535c697cedacbb684737425769789be7097dbc4",
+      "bytes": 48440484
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "archive": {
+    "file": "Hero-Web-0.0.21-web1.zip",
+    "bytes": 57845521,
+    "sha256": "649476b66e791780f2bb6e0b1b7faeed3608b62b973628c45d3e8393b9453018"
+  },
+  "audit": {
+    "source_commit": "0c4012aca2fb28f0033a7b69f216c19c30a65c97",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "c4792c2680383463996f66feb535c697cedacbb684737425769789be7097dbc4",
+    "audit_sha256": "c8447366c081b981dbd062144f5b572b0c6835a70c9a5fe60e779adac72265b8",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "save_schema": 12,
+    "party_capacity": 4,
+    "log_sha256": "c58775ce4b051760acc350ab56c3cd66cd8a99d32f4b57f53a894c50068aee27",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 2725,
+    "sluice_checks": 373,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "audit_output": [
+    "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+    "",
+    "Retained exported-pack coverage: 457 checks",
+    "Retained story/traversal pack coverage: 640 checks",
+    "Retained party/inventory pack coverage: 700 checks",
+    "Retained painted combat pack coverage: 733 checks",
+    "Retained rest/support pack coverage: 756 checks",
+    "Retained village/view pack coverage: 782 checks",
+    "Courtyard runtime pack coverage: 115 added checks",
+    "Retained legacy-receipt-adapter exact-runtime coverage: 276 checks; external pinned historical reader included; successful native process quit intentionally not invoked",
+    "Schema12 four-actor exact-runtime coverage: 815 checks; actual default scene/controller/roster; both external frozen readers; native successful process exit intentionally not invoked",
+    "Schema12 sluice exact-runtime coverage: 373 checks; both clue orders; natural hero/Shen; actual E/number entry, event presentation, finite rewards, save failure/retry/close; no browser or physical desktop-close claim",
+    "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+    "PASS: 2725 exported-pack checks; 0 failures"
+  ],
+  "limits": [
+    "Actual browser graphics/audio/reload persistence unverified",
+    "No Windows execution claim; independent Windows package must be audited before its deployment",
+    "No GitHub package or release upload",
+    "Existing live Web0.0.20 remains unchanged by this source evidence commit"
+  ]
+}
