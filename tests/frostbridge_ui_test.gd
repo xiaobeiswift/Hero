@@ -45,8 +45,12 @@ func _run() -> void:
 		game._close_modal()
 		game._interact("frost_timber");_press("小心采集")
 		_check(game.state.resources.timber==3,"Material node grants three wood")
-		game._interact("frost_timber");_press("小心采集")
-		_check(game.state.resources.timber==3,"Material node does not replenish on repeat")
+		game._interact("frost_timber")
+		var depleted_text=""
+		for label in game.overlay.find_children("*","Label",true,false):depleted_text+=label.text
+		_check(_find_button(game.overlay,"小心采集")==null and depleted_text.contains("已采集"),"Used material node explains depletion without offering a false reward")
+		game._close_modal();game.chapter_story.collect("frost_timber")
+		_check(game.state.resources.timber==3,"Direct repeat collection still cannot replenish material")
 		_check(not game.world._can_walk(Vector2(835,800)),"Broken south bridge is visibly/nonphysically closed")
 		game._interact("bridge_worker");_press("交出木料 ×2")
 		_check(game.state.bridge_repaired and game.world._can_walk(Vector2(835,800)) and game.state.resources.timber==1,"Repair immediately opens real collision shortcut")
