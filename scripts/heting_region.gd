@@ -1,5 +1,9 @@
 class_name HetingRegion
 extends RefCounted
+const MaterialTiles=preload("res://scripts/world_material_tiles.gd")
+const WOOD_TILE=160.0
+const WATER_TILE=480.0
+const GROUND_TILE=384.0
 const WaterArt=preload("res://scripts/qingwei_water_material.gd")
 const DeckArt=preload("res://scripts/qingwei_ferry_props.gd")
 const BuildingsArt=preload("res://scripts/qingwei_environment_art.gd")
@@ -183,8 +187,7 @@ static func _water(w, bridge_side: String) -> void:
 	w.draw_rect(Rect2(360, 450, 920, 600), Color("658b89"))
 	var surface=WaterArt.texture()
 	if surface!=null:
-		var shape=DeckArt.deck_geometry(Rect2(0,150,1600,900))
-		w.draw_polygon(shape.points,PackedColorArray([Color(1,1,1,.66)]),shape.uvs,surface)
+		MaterialTiles.draw(w,surface,Rect2(0,150,1600,900),WATER_TILE,.66)
 	for i in range(104):
 		var p := Vector2(61 + fmod(i * 233.0, 1490), 470 + fmod(i * 107.0, 567))
 		if _surface_contains(p, bridge_side, false):
@@ -209,8 +212,7 @@ static func _ground(w, bridge_side: String) -> void:
 	for r in [NORTH_LAND, WEST_LAND, EAST_LAND]:
 		w.draw_rect(r, Color("b9b090"))
 		w.draw_rect(Rect2(r.position + Vector2(6, 6), r.size - Vector2(12, 12)), Color("c3b794"))
-		var soil=DeckArt.deck_geometry(r)
-		w.draw_polygon(soil.points,PackedColorArray([Color(1,1,1,.34)]),soil.uvs,GroundArt)
+		MaterialTiles.draw(w,GroundArt,r,GROUND_TILE,.34)
 	for i in range(153):
 		var p := Vector2(44 + fmod(i * 281.0, 1510), 167 + fmod(i * 149.0, 832))
 		if not _surface_contains(p, "", true) or CARGO_ISLAND.has_point(p):
@@ -227,7 +229,7 @@ static func _ground(w, bridge_side: String) -> void:
 	w._label(Vector2(1033, 316), "北岸横街  ·  板车可绕行", 14, Color("77765a"), 297, HORIZONTAL_ALIGNMENT_CENTER)
 	# Unloading platform is a built timber deck, never a grassy natural island.
 	w.draw_rect(CARGO_ISLAND, Color("a49370"))
-	var painted_deck=DeckArt.draw_deck(w,CARGO_ISLAND)
+	var painted_deck=MaterialTiles.draw(w,DeckArt.wood_texture(),CARGO_ISLAND,WOOD_TILE,.90)
 	for y in range(570, 835, 14) if not painted_deck else []:
 		w.draw_line(Vector2(592, y), Vector2(1028, y), Color("766e56"), 1.2, true)
 		w.draw_line(Vector2(592, y + 2), Vector2(1028, y + 2), Color(0.87, 0.79, 0.59, 0.38), 1.0, true)
@@ -266,7 +268,7 @@ static func _quays(w) -> void:
 
 static func _foot_pier(w) -> void:
 	w.draw_rect(FOOT_PIER, Color("9e906d"))
-	DeckArt.draw_deck(w,FOOT_PIER)
+	MaterialTiles.draw(w,DeckArt.wood_texture(),FOOT_PIER,WOOD_TILE,.90)
 	for y in range(440, 580, 11):
 		w.draw_line(Vector2(773, y), Vector2(837, y), Color("756f55"), 1.5, true)
 	for x in [773, 837]:
@@ -290,7 +292,7 @@ static func _pontoon(w, r: Rect2) -> void:
 		_poly(w, [Vector2(x - 21, r.position.y - 6), Vector2(x + 17, r.position.y - 6), Vector2(x + 22, r.end.y + 3), Vector2(x + 7, r.end.y + 16), Vector2(x - 14, r.end.y + 10)], Color("5e6957"))
 		w.draw_line(Vector2(x - 13, r.end.y + 6), Vector2(x + 10, r.end.y + 9), Color("a49b73"), 2, true)
 	w.draw_rect(r, WOOD)
-	DeckArt.draw_deck(w,r)
+	MaterialTiles.draw(w,DeckArt.wood_texture(),r,WOOD_TILE,.90)
 	for x in range(int(r.position.x) + 4, int(r.end.x), 13):
 		w.draw_line(Vector2(x, r.position.y + 3), Vector2(x, r.end.y - 3), Color("7a7055"), 1.4, true)
 	for y in [r.position.y + 3, r.end.y - 3]:
@@ -378,7 +380,7 @@ static func _dock_furniture(w, delivered: Array, cargo: String) -> void:
 		_basket(w, Vector2(623 + i * 37, 592), not delivered.has("meal") and cargo != "meal", false)
 	for i in range(2):
 		_basket(w, Vector2(704 + i * 35, 611), not delivered.has("sealed") and cargo != "sealed", true)
-	w._label(Vector2(601, 647), "鹤字三号 · 提粮处", 12, Color("5e6b55"), 161, HORIZONTAL_ALIGNMENT_CENTER)
+	w._label(Vector2(601, 647), "鹤字三号 · 提粮处", 12, PAPER, 161, HORIZONTAL_ALIGNMENT_CENTER,true)
 	for i in range(2):
 		_basket(w, Vector2(930 + i * 35, 821), not delivered.has("reserve") and cargo != "reserve", false)
 	w.draw_line(Vector2(1008, 820), Vector2(1000, 886), WOOD_DARK, 1.6, true)
@@ -475,7 +477,7 @@ static func _winch(w, bridge_side: String) -> void:
 		var a := i * PI / 2
 		w.draw_line(p + Vector2(36, -26), p + Vector2(36 + cos(a) * 19, -26 + sin(a) * 19), Color("a59d78"), 2, true)
 	w.draw_line(p + Vector2(-22, -4), Vector2(620 if bridge_side == "west" else 1010, 687), Color("5b5e47"), 2, true)
-	w._label(Vector2(763, 713), "浮栈接西" if bridge_side == "west" else "浮栈接东", 12, Color("615e43"), 122, HORIZONTAL_ALIGNMENT_CENTER)
+	w._label(Vector2(763, 713), "浮栈接西" if bridge_side == "west" else "浮栈接东", 12, PAPER, 122, HORIZONTAL_ALIGNMENT_CENTER,true)
 
 static func _relief(w, meal_delivered: bool, ending: String) -> void:
 	# Hearth and bowls are a distinct open-air space south of the solid kitchen.
