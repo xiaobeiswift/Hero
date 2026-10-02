@@ -1,0 +1,53 @@
+{
+  "base_local_commit": "7721fd68525e8e787dbe26f25ef2d6b7e9925d24",
+  "scope": "Prepared native source scenes; actual scripted E/number/Escape events. Not manual play, FPS, new release, or native Windows/macOS verification.",
+  "engine": "Godot4.6.3.stable.official.7d41c59c4 / OpenGL compatibility / llvmpipe",
+  "watch": {
+    "scope": "Prepared native source scenarios with real scripted E/number/Escape input; not manual play or release",
+    "start_free": 829513728,
+    "minimum_free": 815845376,
+    "exit_code": 0
+  },
+  "source_sha256": {
+    "scripts/main.gd": "7891f6ad590c1fbc9d2044ac194a2ccc45582c7452e721d15ccd58fda44f7f09",
+    "scripts/world.gd": "a2ecb07830bfcc6a4ead53c2cff7e46b7bce9c8a36e16ddfac2438ea43e08fe7",
+    "tests/visual_heting_interaction_hints.gd": "8a28c7f719112e511d5046596c6c26cae8ac973a24ca505a35d0caf5d885764b"
+  },
+  "captures": [
+    {
+      "path": "screenshots/255-heting-hint-pickup-100.png",
+      "width": 1280,
+      "height": 800,
+      "bytes": 1655602,
+      "sha256": "e5ee7c2ec6e6af6863af6000186910000dd9094a455407e0565b248b22abbcf1"
+    },
+    {
+      "path": "screenshots/256-heting-hint-manifest-125.png",
+      "width": 1280,
+      "height": 800,
+      "bytes": 1615638,
+      "sha256": "0ff081f1e8775b7986f58b10e5967a1ef4412528e811b063677a8ce0f3cc6613"
+    },
+    {
+      "path": "screenshots/257-heting-hint-wrong-destination-125.png",
+      "width": 1280,
+      "height": 800,
+      "bytes": 1634159,
+      "sha256": "1f330eeb337b8f9042c8b55cc24c86947acb67a7eacafb5d0e74d9d86ff44bfe"
+    },
+    {
+      "path": "screenshots/258-heting-hint-discuss-160-compact.png",
+      "width": 1179,
+      "height": 737,
+      "bytes": 1349445,
+      "sha256": "10f54d73cbcd8f58726f8143841d91602f9406de87a7fed3f4773e3ea3212617"
+    },
+    {
+      "path": "screenshots/259-heting-hint-confirm-compact.png",
+      "width": 1179,
+      "height": 737,
+      "bytes": 627226,
+      "sha256": "fb04a7a90f3ef533f75e870eaf3089170b6bd5cb58a7047353f92acfae1fb6d2"
+    }
+  ]
+}

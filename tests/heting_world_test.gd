@@ -77,6 +77,7 @@ func _fields_and_regions() -> void:
 	_check(world.heting_delivered.is_typed() and world.heting_delivered.get_typed_builtin() == TYPE_STRING, "Deliveries accept String entries")
 	world.heting_bridge = "west"
 	world.heting_cargo = ""
+	world.heting_stage = 1
 	world.change_map("heting", Heting.ENTRY)
 	_check(world.map_id == "heting" and world.interactables.size() == 7, "Fifth map admitted with exact seven points")
 	_check(world._safe_spawn() == Heting.ENTRY, "Unloaded safe spawn is northern entry")
@@ -88,9 +89,9 @@ func _fields_and_regions() -> void:
 		_check(world.get_npc_name(id) == Heting.points()[id].name, "Name lookup resolves " + id)
 		_check(world._location_for_position().begins_with("鹤汀埠"), "Heting location at " + id)
 	_check(world.interaction_verb("return_mistwood") == "前往", "Return point has travel verb")
-	_check(world.interaction_verb("heting_winch") == "改泊", "Winch has mechanical context verb")
-	for id in ["heting_cargo", "heting_lighter"]:
-		_check(world.interaction_verb(id) == "查看", "Cargo sources show inspection verb")
+	_check(world.interaction_verb("heting_winch") == "调整浮桥", "Winch has plain-language mechanical context verb")
+	_check(world.interaction_verb("heting_cargo") == "提货", "Available base stock shows loading verb")
+	_check(world.interaction_verb("heting_lighter") == "询问货物", "Locked reserve source offers an explanation")
 	for id in ["heting_dispatch", "heting_relief", "heting_scale"]:
 		_check(world.interaction_verb(id) == "交谈", "Heting NPC uses conversation verb")
 	world.shen_target_id = "return_mistwood"
