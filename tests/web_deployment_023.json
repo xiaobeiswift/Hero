@@ -1,0 +1,31 @@
+{
+  "verified_at_utc": "2026-10-02T23:07:42Z",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.23",
+  "web_revision": 1,
+  "save_schema": 13,
+  "party_capacity": 4,
+  "source_commit": "9a093b47f765f2c2f916d13fd49cf93902c0bf22",
+  "source_local_mapping": "fa56da6ef8d6a6eb78f8c041d1acbeeb4fcc01c6",
+  "source_tree": "400a6cf4f902963f0df44af21ffe7f1722dcde51",
+  "windows": {
+    "exact_pck_checks": 2810,
+    "unified_checks": 1247,
+    "preserved_checks": 1471,
+    "pck_sha256": "9f4561d32e8f00f4a65730067992954e343f16e7f633a745dbd7a9ab4067b879",
+    "pck_bytes": 51086488,
+    "archive_bytes": 60488980,
+    "archive_sha256": "ab5d11ebe198d7bac924718dc554edbd0ef7f435142fad2eea3b6d93d45d4d2f",
+    "runtime_source_hashes": 288,
+    "isolated_test_profile": true
+  },
+  "deployment": {
+    "https_complete_asset_hashes": 14,
+    "checks_passed": 36,
+    "tls_mime_version_cache_headers_verified": true,
+    "caddy_configuration": "unchanged",
+    "unrelated_git_https_status": 200,
+    "retention": "Current0.0.23-web1 only; old0.0.22 retired after verified recoverability and zero readers. Saves and unique evidence retained."
+  },
+  "limits": "Actual browser graphics/audio/reload persistence remains unverified. Native-editor exact-PCK audit and HTTPS byte verification do not establish browser runtime validation. No GitHub package uploaded."
+}
