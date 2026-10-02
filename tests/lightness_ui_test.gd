@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const L=preload("res://scripts/lightness_rules.gd")
 func _run()->void:
 	game=load("res://scenes/main.tscn").instantiate()
@@ -39,11 +40,11 @@ func _playable_route()->void:
 	game._new_game();await _talk_light("reed_cross")
 	_check(_find_button(game.overlay,"踏苇过水")==null and _modal_text().contains("岑远"),"Locked crossing explains reachable free lesson")
 	game._close_modal();game.state.quest_stage=6;game.state.ending="守望";game.state.choose_sect("问石门");game.state.gain_xp(180);game.state.recruit_companion();game._refresh()
-	await _talk_light("mentor");_press("轻身基础")
+	await _talk_light("mentor");_press("内功与轻身");_press("轻功 · 踏苇行")
 	_check(_modal_text().contains("不收费") and _modal_text().contains("不改变普通行走碰撞"),"Lesson states cost and limited traversal")
 	var stale=game.modal_actions[0];await _key(KEY_ESCAPE);stale.call()
 	_check(not game.state.lightness_unlocked,"Cancelled/stale learning does not grant technique")
-	await _talk_light("mentor");_press("轻身基础");_press("修习踏苇行")
+	await _talk_light("mentor");_press("内功与轻身");_press("轻功 · 踏苇行");_press("修习踏苇行")
 	_check(game.state.lightness_unlocked and game.state.coins==24,"Real mentor teaches without spending coins")
 	await _talk_light("reed_cross");_press("留在岸上")
 	_check(not L.on_islet(game.world.player_pos),"Cancel leaves player safely on shore")
@@ -67,9 +68,9 @@ func _playable_route()->void:
 	game._show_map()
 	var chart=_find_chart(game.overlay)
 	_check(chart!=null and chart.markers.has("reed_relic") and chart.markers.has("reed_cross"),"Read-only map displays the new exploration points")
-	game._close_modal();game._start_battle("spar");game.lightness_story.cross(true)
-	_check(game.state.battle_active and game.world.player_pos==L.SHORE,"Direct traversal callback cannot escape a battle")
-	game._battle_action("flee")
+	game._close_modal();UnifiedUI.open_training(game);var battle_position:Vector2=game.world.player_pos;game.lightness_story.cross(true)
+	_check(game.state.battle_active and game.world.player_pos==battle_position,"Direct traversal callback cannot escape a battle")
+	UnifiedUI.leave(game)
 func _loaded_return()->void:
 	game._new_game();game.state.position=L.LANDING;game.world.teleport(L.LANDING)
 	game._save();game._load()

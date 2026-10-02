@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 const Prefs=preload("res://scripts/view_preferences.gd")
@@ -70,9 +71,9 @@ func run()->void:
 	await key(KEY_EQUAL);assert(app.view_preferences.writes==writes and app.view_zoom==1.0)
 	await key(KEY_ESCAPE);app.view_preferences.fail=true;await key(KEY_EQUAL)
 	assert(app.view_zoom==1.25 and app.status_label.text.contains("未能保存"))
-	app._start_battle("training");writes=app.view_preferences.writes;await key(KEY_EQUAL);app._change_view_zoom(1)
-	assert(app.view_zoom==1.25 and app.view_preferences.writes==writes and app.battle_art.scale==Vector2.ONE and app.hud.duel_hud.active)
-	app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal();app.view_preferences.fail=false
+	UnifiedUI.open_training(app);writes=app.view_preferences.writes;await key(KEY_EQUAL);app._change_view_zoom(1)
+	assert(app.view_zoom==1.25 and app.view_preferences.writes==writes and app.overlay.has_meta("party_battle") and app.overlay.get_meta("party_battle").art.scale==Vector2.ONE)
+	app.battle_presentation_enabled=false;UnifiedUI.leave(app);app._close_modal();app.view_preferences.fail=false
 	await key(KEY_MINUS);assert(app.view_zoom==1.0 and app.world_view.size==Vector2i(1280,800))
 	app.queue_free();await create_timer(.25).timeout
 	print("PASS: persisted view choice, keyboard/menu zoom, fixed HUD, camera bounds and modal/battle gates");quit()

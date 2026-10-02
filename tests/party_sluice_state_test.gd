@@ -2,6 +2,7 @@ extends SceneTree
 ## Prepared chapter-boundary fixtures use only hero/Shen, who can actually be
 ## present here. Scene traversal owns earning the opening chapter and map travel.
 const State = preload("res://scripts/game_state.gd")
+const AutoDriver = preload("res://tests/automatic_state_test_driver.gd")
 var checks: int = 0
 var failures: int = 0
 var fixture_root: String
@@ -23,7 +24,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Only this isolated fixture directory is removed")
 	if failures == 0:
-		print("PASS: %d sluice party state checks (gates/routes/atomic rewards/resources/retry/schema12/save failures)" % checks)
+		print("PASS: %d sluice party state checks (gates/routes/atomic rewards/resources/retry/schema13/save failures)" % checks)
 	else:
 		push_error("FAIL: %d / %d sluice party state checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -64,7 +65,10 @@ func _snapshot(s) -> Dictionary:
 
 
 func _step(s, action: String, target: String = "") -> Dictionary:
-	var tx: Dictionary = s.party_battle_action(action, target)
+	var tx: Dictionary
+	if action == "advance": tx = s.advance_party_battle()
+	elif action.begins_with("art:"): tx = AutoDriver.queued_next(s, "hero", action, target)
+	else: tx = s.party_battle_action(action, target)
 	check(tx.accepted, "Accepted real party action: " + action)
 	if tx.accepted:
 		check(s.finish_party_presentation(tx.epoch, tx.token).accepted, "Accepted action acknowledges its exact presentation token")
@@ -73,23 +77,9 @@ func _step(s, action: String, target: String = "") -> Dictionary:
 
 func _fight(s, finish: bool = true) -> Dictionary:
 	var last: Dictionary = {}
-	for index: int in range(120):
-		if not s.battle_active:
-			break
-		var snapshot: Dictionary = s.party_battle_snapshot()
-		var actor: Dictionary = {}
-		for entry: Dictionary in snapshot.actors:
-			if entry.id == snapshot.active_actor_id:
-				actor = entry
-		var action: String = "attack"
-		var target: String = snapshot.enemies[0].id
-		for option: Dictionary in actor.actions:
-			if option.available and option.category == "martial" and option.target_team == "enemy":
-				action = option.id
-		if actor.hp < actor.max_hp / 2 and snapshot.medicine > 0:
-			action = "item"
-			target = actor.id
-		last = s.party_battle_action(action, target)
+	for index: int in range(400):
+		if not s.battle_active: break
+		last = AutoDriver.tactical_next(s)
 		check(last.accepted, "Bounded route uses available actions from the selected actor")
 		if not last.accepted:
 			break
@@ -102,10 +92,10 @@ func _fight(s, finish: bool = true) -> Dictionary:
 
 func _roundtrip(s, name: String) -> void:
 	var path: String = fixture_root.path_join(name + ".json")
-	check(s.save_game(path) == OK, "Complete schema12 save succeeds: " + name)
+	check(s.save_game(path) == OK, "Complete schema13 save succeeds: " + name)
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	var document: Dictionary = JSON.parse_string(bytes.get_string_from_utf8())
-	check(document.version == 12 and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Battle-only state adds no field or schema version")
+	check(document.version == State.SAVE_VERSION and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Battle-only state adds no field or schema version")
 	var loaded = State.new()
 	check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and FileAccess.get_file_as_bytes(path) == bytes, "Every canonical persistent field and clue order roundtrips unchanged")
 	check(loaded.party_battle_snapshot().is_empty() and loaded._party_sluice_entry.is_empty(), "Loaded state has no transient encounter or captured entry")
@@ -179,7 +169,7 @@ func test_terminal_atomicity() -> void:
 		var s = _chapter("rescue", encounter == "sluice_boss")
 		s.attack = 200 # Explicit mechanical fixture isolates one terminal action.
 		check(s.start_party_battle(encounter), "Atomicity fixture enters eligible encounter")
-		var tx: Dictionary = s.party_battle_action("attack", encounter)
+		var tx: Dictionary = s.advance_party_battle()
 		check(tx.accepted and tx.after.outcome == "win", "Real lethal action creates a locked terminal transaction")
 		var accepted = s._detached_persistent_state()
 		var before: Dictionary = _snapshot(s)
@@ -212,7 +202,7 @@ func test_resource_and_reward_order() -> void:
 			var level: int = s.level
 			var earned: int = _earned(s)
 			check(s.start_party_battle(encounter), "Resource order fixture starts")
-			var tx: Dictionary = s.party_battle_action("attack", encounter)
+			var tx: Dictionary = s.advance_party_battle()
 			check(tx.accepted and s.hp == 13 and s.qi == 2 and s.level == level, "Terminal accepted action mirrors real resources before awarding XP")
 			check(s.finish_party_presentation(tx.epoch, tx.token).settled, "Resource order terminal commits")
 			check(_earned(s) == earned + (150 if encounter == "sluice_boss" else 25), "Resource reconciliation does not erase earned XP")
@@ -225,7 +215,7 @@ func test_resource_and_reward_order() -> void:
 	branch.hp = 11
 	branch.qi = 0
 	check(branch.start_party_battle("sluice_boss"), "Branch-only level-up fixture starts")
-	_step(branch, "attack", "sluice_boss")
+	_step(branch, "advance", "sluice_boss")
 	check(branch.level == 4 and branch.xp == 1 and branch.hp == branch.max_hp and branch.qi == branch.max_qi, "70XP alone cannot level; following80XP does, with final HP/qi refill intact")
 	check(branch.party_settlement.messages.size() == 1, "Second XP step reports its one level-up once")
 	for route: String in ["rescue", "pursuit"]:
@@ -235,7 +225,7 @@ func test_resource_and_reward_order() -> void:
 		capped.medicine = 998
 		capped.victories = 999999
 		check(capped.start_party_battle("sluice_boss"), "Valid maximum-range inventory can enter boss")
-		_step(capped, "attack", "sluice_boss")
+		_step(capped, "advance", "sluice_boss")
 		check(capped.side_reward_claimed and capped.coins == 999999 and capped.victories == 999999 and capped.medicine == (999 if route == "rescue" else 998), "Combined branch rewards respect save bounds without blocking legal maximum-range state")
 		_roundtrip(capped, "capped-" + route)
 
@@ -266,7 +256,8 @@ func test_flee_defeat_retry() -> void:
 				defeated.qi = 0
 				defeated.coins = purse
 				check(defeated.start_party_battle(encounter), "Actual low-health defeat enters")
-				_step(defeated, "attack", encounter)
+				var defeated_tx: Dictionary = AutoDriver.terminal_next(defeated)
+				check(defeated_tx.get("accepted", false) and defeated.finish_party_presentation(defeated_tx.epoch, defeated_tx.token).settled, "Automatic enemy transaction settles actual defeat")
 				check(defeated.party_settlement.get("outcome") == "defeat" and defeated.coins == maxi(0, purse - 8) and defeated.hp == defeated.max_hp and defeated.qi >= 2 and defeated.party_resources.shen.hp > 0 and defeated.party_resources.shen.qi == 2, "Defeat loses at most8coins and explicitly recovers hero and benched companion")
 				check(defeated.map_id == "qingwei" and defeated.position == Vector2(420, 450) and defeated.side_found == progress.side_found and defeated.side_choice == route and defeated.side_stage == progress.side_stage and not defeated.side_reward_claimed and defeated.victories == victories and _earned(defeated) == earned, "Defeat uses existing Qingwei recovery while preserving every investigation prerequisite")
 				check(not defeated.start_party_battle(encounter), "Recovery village requires traveling back before retry")
@@ -298,7 +289,7 @@ func test_failed_saves() -> void:
 		var loaded = State.new()
 		check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and not loaded.start_party_battle(encounter), "Reloaded settled save cannot replay rewarded encounter")
 		s.party_resources.shen["vulnerability_hits"] = 2
-		check(s.save_game(path) == ERR_FILE_CORRUPT and FileAccess.get_file_as_bytes(path) == completed_bytes, "Battle vulnerability cannot enter persistent companion resources or overwrite valid schema12")
+		check(s.save_game(path) == ERR_FILE_CORRUPT and FileAccess.get_file_as_bytes(path) == completed_bytes, "Battle vulnerability cannot enter persistent companion resources or overwrite valid schema13")
 
 
 func _remove_tree(path: String) -> void:

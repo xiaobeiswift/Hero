@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 ## Full scene presentation contracts. No user save files are read or written.
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
@@ -60,37 +61,29 @@ func run()->void:
 	check(app.hud.identity_wash.modulate.a<0.3,"HUD fades when it would obscure the player at the map edge")
 	app.world.teleport(Vector2(470,615));app.hud.tick(1.0)
 	check(app.hud.identity_wash.modulate.a==1.0,"HUD returns to full contrast after player moves clear")
-	app._start_battle("training");app._process(0)
-	check(not app.hud.exploration.visible and app.battle_layer.visible,"Combat gets a dedicated uncluttered HUD")
+	var controller = UnifiedUI.open_training(app);app._process(0)
+	check(not app.hud.exploration.visible and controller.visible,"Combat gets a dedicated uncluttered HUD")
 	check(not app.world.visible,"Opaque battle keeps exploration renderer hidden")
-	check(app.battle_art.scale==Vector2.ONE and app.hud.duel_hud.active,"Opening formation stage fills the logical viewport without double scaling")
-	check(app.battle_hp.size.x>=282 and app.battle_player_hp.size.x>=282,"Legacy bar deferral cannot shrink reflowed health bars")
-	app.battle_player_hp.max_value=180;app.battle_player_hp.value=37.25
-	check(app.hud.battle_player_value.text=="气血  37 / 180","Player numeric health follows the presented bar and its maximum")
-	app.battle_hp.max_value=96;app.battle_hp.value=23.9
-	check(app.hud.battle_enemy_value.text=="气血  24 / 96","Enemy numeric health follows tween values rather than the already-resolved model")
-	app._refresh_battle()
-	for i in range(app.battle_buttons.size()):
-		var button:Button=app.battle_buttons[i]
-		check(button.get_rect().end.x<=1280 and button.get_rect().end.y<=800,"Battle action stays inside logical viewport")
-		if i>0:check(not button.get_rect().intersects(app.battle_buttons[i-1].get_rect()),"Adjacent battle actions never overlap")
-	app.state.qi=0;app._refresh_battle()
-	check(app.battle_buttons[1].disabled and app.battle_buttons[1].tooltip_text.contains("真气"),"Unavailable art reports the missing resource")
-	app.state.hp=app.state.max_hp;app._refresh_battle()
-	check(app.battle_buttons[3].disabled and app.battle_buttons[3].tooltip_text=="气血已满","Unneeded healing has a readable disabled reason")
-	app.battle_busy=true;app.hud.tick(0)
-	check(app.hud.battle_hint.text.contains("请稍候"),"Presentation lock is visibly acknowledged")
-	app.battle_busy=false
+	check(controller.art.scale==Vector2.ONE,"Unified formation stage fills the logical viewport without double scaling")
+	for unit:Dictionary in controller.art.display_snapshot.actors+controller.art.display_snapshot.enemies:
+		check(controller.unit_plates[unit.id].facts.hp==unit.hp and controller.unit_plates[unit.id].facts.max_hp==unit.max_hp,"Each overhead plate follows exact presented health and maximum")
+	for group in controller.commands.groups.values():
+		check(Rect2(0,0,1280,800).encloses(group),"Every occupied actor command group stays inside viewport")
+	check(controller.commands.groups.size()==1,"Solo battle displays only its real occupied actor group")
+
 	app._toast("截图已保存 · 本地 screenshots 文件夹");app.hud.tick(0)
-	var notice:Rect2=app.hud.toast_wash.get_global_rect()
-	check(app.hud.toast_wash.visible and Rect2(0,0,1280,800).encloses(notice),"Battle notice stays within viewport")
-	check(not notice.intersects(Rect2(0,145,1280,340)),"Screenshot notice never covers duel actor silhouettes")
+	var message:String=controller.commands.context.target_prompt
+	var notice:Rect2=controller.commands.notice_geometry(message)
+	check(message.contains("截图已保存") and Rect2(0,0,1280,800).encloses(notice),"Actual current battle screenshot notice is displayed within viewport")
+	var clear_actors:bool=true
+	for id:String in controller.art.actor_order():clear_actors=clear_actors and not notice.intersects(controller.art.actor_alpha_rect(id))
+	check(clear_actors,"Screenshot notice clears actual current actor silhouettes")
 	var clear_buttons=true
-	for button in app.battle_buttons:clear_buttons=clear_buttons and not notice.intersects(button.get_global_rect())
+	for group in controller.commands.groups.values():clear_buttons=clear_buttons and not notice.intersects(group)
 	check(clear_buttons,"Battle notice never obscures available action buttons")
-	app.save_warning=true;app.toast_time=0;app.hud.tick(0)
-	check(app.status_label.text.contains("F5") and app.hud.toast_wash.visible and app.status_label.tooltip_text==app.status_label.text,"Persistent save warning survives compact battle presentation")
-	app.save_warning=false;app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal();app._toast("江湖已续");app.hud.tick(0)
+	app.save_warning=true;app.toast_time=0;app.hud.tick(0);controller.refresh()
+	check(controller.commands.context.target_prompt.contains("F5") and controller.commands.context.target_prompt==app._save_retry_message(),"Persistent save warning stays visible in the current controller after ordinary toast expiry")
+	app.save_warning=false;app.battle_presentation_enabled=false;UnifiedUI.leave(app);app._close_modal();app._toast("江湖已续");app.hud.tick(0)
 	check(app.hud.toast_wash.position==Vector2(330,182) and not app.status_label.clip_text,"Exploration restores wrapping notice placement")
 	app._stop_audio();app.queue_free();await process_frame
 	print("%s: %d full-world wuxia HUD checks"%["PASS" if failures==0 else "FAIL",checks]);quit(0 if failures==0 else 1)

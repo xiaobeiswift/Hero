@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedDriver = preload("res://tests/unified_ui_test_driver.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 const ReceiptJourneyChecks=preload("res://tests/receipt_journey_checks.gd")
@@ -21,7 +22,7 @@ func choose(index:int=0)->void:
  app.modal_actions[index].call()
 func interact(id:String)->void:
  if app.active_modal:app._close_modal()
- if id in ["bandit","ledger_runner","sluice_boss","chapter_archive","chapter_host"]:
+ if id in ["bandit","ledger_runner","sluice_boss","chapter_archive","chapter_host", "mentor", "mist_scout", "mist_gate"]:
   check(app.world.interactables.has(id),"Guarded encounter exists on its actual map: "+id)
   if not app.world.interactables.has(id):return
   app.world.teleport(app.world.interactables[id].pos);app._process(0)
@@ -56,6 +57,8 @@ func _run()->void:
   check(app.state.quest_stage==6 and app.state.level>=3,"Opening rewards organically reach mentor level")
   app._show_inventory();choose(2);app._close_modal()
   check(app.state.equipment=="青钢剑","Opening earnings buy the sword without extra currency")
+  if school==2:
+   app._show_inventory();choose(1);app._close_modal() # Earned formation choice puts the trial hero in the announced heavy lane.
   interact("mentor");choose();fight()
   interact("mentor");choose()
   check(app.state.sect_rank==2,"Actual chosen school trial completed with normal stats")
@@ -142,7 +145,7 @@ func _run()->void:
   check(app.state.coins==saved_coins and app.state.current_companion()=="唐栖","Care quest needs no purchase or forced follower change")
   app._save();before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before,"Care pact round-trips after full journey")
-  interact("mentor");choose(4);choose()
+  interact("mentor");choose(4);choose(1);choose()
   check(app.state.lightness_unlocked,"Natural earned level and school allow free lightness lesson")
   app.world.teleport(app.state.Lightness.SHORE)
   interact("reed_cross");choose()
@@ -171,11 +174,13 @@ func _run()->void:
   check(app.state.heting_stage==4 and app.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
   check(app.state.coins==before_port_coins+60 and app.state.xp+30*app.state.level*(app.state.level-1)==before_port_xp+120 and app.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
   app._close_modal();app._save();before=app.state.to_dict();app.state.reset_game();app._load()
-  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through current schema12")
+  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through current schema13")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
+  var scene_checks:int=checks
   receipt_checks.run(app.state,receipt_before_harbor,check)
+  print("HISTORICAL RECEIPT COMPATIBILITY: %d checks against the retained legacy receipt model; current scheduler is separately validated" % (checks-scene_checks))
  app._stop_audio();await create_timer(0.25).timeout;app.queue_free();await process_frame
- if failures==0:print("PASS: %d full fresh-start journey checks across three schools" % checks)
+ if failures==0:print("PASS: %d fresh-start current-scene and explicitly historical receipt-compatibility checks across three schools" % checks)
  else:push_error("FAIL: %d of %d full journey checks" % [failures,checks])
  quit(0 if failures==0 else 1)
 
@@ -191,46 +196,15 @@ func _drive_party_action() -> bool:
  if not is_instance_valid(panel):
   check(false, "Active party encounter has its real controller")
   return false
- panel.art.set_process(false)
  var snapshot: Dictionary = app.state.party_battle_snapshot()
- var actor: Dictionary = {}
- for candidate: Dictionary in snapshot.actors:
-  if candidate.id == snapshot.active_actor_id:
-   actor = candidate
- if actor.is_empty():
-  check(false, "Party encounter exposes a living selected actor")
-  return false
- var chosen: Dictionary = {}
- var ally_target: String = ""
- for action: Dictionary in actor.actions:
-  if action.id == "attack" and action.available:
-   chosen = action
- for action: Dictionary in actor.actions:
-  if action.available and action.category == "martial" and action.target_team == "enemy":
-   chosen = action
- for action: Dictionary in actor.actions:
-  if action.available and action.category == "martial" and action.target_team == "ally" and action.effects.get("healing", 0) > 0:
-   for ally: Dictionary in snapshot.actors:
-    if action.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
-     chosen = action
-     ally_target = ally.id
- for action: Dictionary in actor.actions:
-  if action.id == "item" and action.available and actor.hp < 45:
-   chosen = action
- if chosen.is_empty():
-  check(false, "Selected actor has a legal journey action")
-  return false
- var progress_before:Dictionary={"coins":app.state.coins,"xp":app.state.xp,"level":app.state.level,"side_stage":app.state.side_stage,"side_found":app.state.side_found.duplicate(),"side_reward_claimed":app.state.side_reward_claimed,"chapter_two_stage":app.state.chapter_two_stage,"chapter_two_ending":app.state.chapter_two_ending}
- panel.request_command(actor.id, chosen.id)
- if not panel.pending_action.is_empty():
-  panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
- check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
- if panel.pending.is_empty():
-  return false
+ var before: Dictionary = app.state.to_dict()
+ var tx: Dictionary = UnifiedDriver.begin_step(app)
+ check(tx.get("accepted", false), "Actual automatic scheduler accepts one current-controller transaction")
+ if not tx.get("accepted", false): return false
  if snapshot.encounter_id in ["sluice_scout","sluice_boss"]:
-  check(app.state.coins==progress_before.coins and app.state.xp==progress_before.xp and app.state.level==progress_before.level and app.state.side_stage==progress_before.side_stage and app.state.side_found==progress_before.side_found and app.state.side_reward_claimed==progress_before.side_reward_claimed,"Accepted sluice action cannot award story or economy before renderer completion")
+  check(app.state.coins==before.coins and app.state.xp==before.xp and app.state.level==before.level and app.state.side_stage==before.side_stage and app.state.side_found==before.side_found and app.state.side_reward_claimed==before.side_reward_claimed,"Accepted sluice action cannot award story or economy before renderer completion")
  if snapshot.encounter_id=="archive_boss":
-  check(app.state.coins==progress_before.coins and app.state.xp==progress_before.xp and app.state.level==progress_before.level and app.state.chapter_two_stage==progress_before.chapter_two_stage and app.state.chapter_two_ending==progress_before.chapter_two_ending,"Accepted archive action cannot grant economy, progression or ending before renderer completion")
+  check(app.state.coins==before.coins and app.state.xp==before.xp and app.state.level==before.level and app.state.chapter_two_stage==before.chapter_two_stage and app.state.chapter_two_ending==before.chapter_two_ending,"Accepted archive action cannot grant economy, progression or ending before renderer completion")
  # Complete the actual renderer timeline so its presentation-finished signal
  # acknowledges the real epoch/token and performs the real state settlement.
  panel.art._process(panel.art.get_presentation_duration() + 0.1)

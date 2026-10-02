@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 const Arts=preload("res://scripts/martial_catalog.gd")
@@ -18,7 +19,7 @@ func run()->void:
 	assert(page!=null and page.find_child("MartialInvitation",true,false)!=null and app.modal_actions.size()==2)
 	await key(KEY_2);assert(not app.active_modal)
 	for school in ["听潮阁","照野堂","问石门"]:
-		app._new_game();app.state.choose_sect(school);app.state.sect_rank=2;app.state.sect_merit=5
+		app._new_game();app.state.choose_sect(school);app.state.sect_rank=2;app.state.sect_trial_won=true;app.state.sect_merit=5
 		for learned in [false,true]:
 			var ids=app.state.school_art_ids()
 			if learned:
@@ -63,6 +64,6 @@ func run()->void:
 	for pressed in [true,false]:
 		var event=InputEventMouseButton.new();event.position=motion.position;event.button_index=MOUSE_BUTTON_LEFT;event.pressed=pressed;root.push_input(event,true);await process_frame
 	assert(not app.active_modal and app.state.equipped_art==Arts.BASE_ART)
-	app._start_battle("training");await key(KEY_K);assert(not app.active_modal)
-	app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal();app._stop_audio();app.queue_free();await create_timer(.25).timeout
+	UnifiedUI.open_training(app);await key(KEY_K);assert(UnifiedUI.active(app))
+	app.battle_presentation_enabled=false;UnifiedUI.leave(app);app._close_modal();app._stop_audio();app.queue_free();await create_timer(.25).timeout
 	print("PASS: martial folio cards, exact costs/effects/proficiency, locked pages, all schools/window sizes, original numeric and mouse equip, stale callback and battle guards");quit()

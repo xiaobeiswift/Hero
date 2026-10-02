@@ -2,6 +2,7 @@ extends SceneTree
 ## Real earned progression uses only hero/optional Shen. Later 3–4 actor teams
 ## are explicitly detached catalog fixtures, never early story recruitment.
 const State = preload("res://scripts/game_state.gd")
+const AutoDriver = preload("res://tests/automatic_state_test_driver.gd")
 const Catalog = preload("res://scripts/party_actor_catalog.gd")
 const Rules = preload("res://scripts/party_combat_rules.gd")
 var checks: int = 0
@@ -30,7 +31,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Only this isolated archive fixture directory is removed")
 	if failures == 0:
-		print("PASS: %d archive party checks (natural solo/Shen/formation/endings/gates/atomic rewards/retry/schema12/capacity mechanics)" % checks)
+		print("PASS: %d archive party checks (natural solo/Shen/formation/endings/gates/atomic rewards/retry/schema13/capacity mechanics)" % checks)
 	else:
 		push_error("FAIL: %d / %d archive party checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -61,7 +62,10 @@ func _actor(snapshot: Dictionary, id: String) -> Dictionary:
 
 
 func _step(s, action: String, target: String = "") -> Dictionary:
-	var tx: Dictionary = s.party_battle_action(action, target)
+	var tx: Dictionary
+	if action == "advance": tx = s.advance_party_battle()
+	elif action.begins_with("art:"): tx = AutoDriver.queued_next(s, "hero", action, target)
+	else: tx = s.party_battle_action(action, target)
 	check(tx.accepted, "Legal archive route action is accepted: " + action)
 	if tx.accepted:
 		check(s.finish_party_presentation(tx.epoch, tx.token).accepted, "Exact action presentation token acknowledges")
@@ -70,25 +74,9 @@ func _step(s, action: String, target: String = "") -> Dictionary:
 
 func _fight(s, finish: bool = true) -> Dictionary:
 	var last: Dictionary = {}
-	for index: int in range(120):
-		if not s.battle_active:
-			break
-		var snap: Dictionary = s.party_battle_snapshot()
-		var actor: Dictionary = _actor(snap, snap.active_actor_id)
-		var action: String = "attack"
-		var target: String = snap.enemies[0].id
-		for option: Dictionary in actor.actions:
-			if option.available and option.category == "martial" and option.target_team == "enemy":
-				action = option.id
-			if option.available and option.category == "martial" and int(option.effects.get("healing", 0)) > 0 and option.target_team == "ally":
-				for ally: Dictionary in snap.actors:
-					if option.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
-						action = option.id
-						target = ally.id
-		if actor.hp < 45 and snap.medicine > 0:
-			action = "item"
-			target = actor.id
-		last = s.party_battle_action(action, target)
+	for index: int in range(400):
+		if not s.battle_active: break
+		last = AutoDriver.tactical_next(s)
 		check(last.accepted, "Earned natural route chooses a legal action")
 		if not last.accepted:
 			break
@@ -96,7 +84,7 @@ func _fight(s, finish: bool = true) -> Dictionary:
 			check(last.after.outcome == "win", "Natural route reaches terminal victory")
 			return last
 		check(s.finish_party_presentation(last.epoch, last.token).accepted, "Natural route presents its actual token")
-	check(not s.battle_active and s.party_settlement.get("outcome") == "win", "Natural resources win within 120 actions")
+	check(not s.battle_active and s.party_settlement.get("outcome") == "win", "Natural resources win within 400 scheduler transactions")
 	return last
 
 
@@ -152,7 +140,7 @@ func _natural_archive(with_shen: bool, formation: String, route: String):
 
 
 func _fixture():
-	var staged: Dictionary = State.new()._stage_save_data(eligible_fixture, 12)
+	var staged: Dictionary = State.new()._stage_save_data(eligible_fixture, State.SAVE_VERSION)
 	check(staged.ok, "Prepared fixture is a canonical earned archive checkpoint")
 	return staged.state
 
@@ -162,7 +150,7 @@ func _roundtrip(s, name: String) -> void:
 	check(s.save_game(path) == OK, "Archive checkpoint saves: " + name)
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	var document: Dictionary = JSON.parse_string(bytes.get_string_from_utf8())
-	check(document.version == 12 and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Archive adds no persistent field or new schema")
+	check(document.version == State.SAVE_VERSION and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Archive adds no persistent field or new schema")
 	var loaded = State.new()
 	check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and FileAccess.get_file_as_bytes(path) == bytes, "All canonical fields roundtrip without normalization or reward")
 	check(loaded.party_battle_snapshot().is_empty() and loaded._party_archive_entry.is_empty(), "Loading starts with no encounter or entry snapshot")
@@ -236,7 +224,7 @@ func test_chapter_mutation_guards() -> void:
 		for locked: bool in [false, true]:
 			var tx: Dictionary = {}
 			if locked:
-				tx = s.party_battle_action("guard")
+				tx = s.advance_party_battle()
 				check(tx.accepted, "Locked chapter mutation fixture accepts one guard")
 			var before: Dictionary = _snapshot(s)
 			check(not s.begin_chapter_two() and not s.add_archive_clue("inscription") and not s.try_seal(2).valid and not s.mark_archive_victory() and not s.resolve_chapter_two("open_records") and not s.repair_bridge() and _snapshot(s) == before, "All Chapter wrappers preserve progression, reward and timber during unlocked/locked party combat")
@@ -254,7 +242,7 @@ func test_terminal_atomicity() -> void:
 		elif outcome == "defeat":
 			s.hp = 1
 		check(s.start_party_battle("archive_boss"), "Atomic terminal fixture starts")
-		var tx: Dictionary = s.party_battle_action("flee" if outcome == "flee" else "attack", "" if outcome == "flee" else "archive_boss")
+		var tx: Dictionary = s.party_battle_action("flee") if outcome == "flee" else AutoDriver.terminal_next(s)
 		check(tx.accepted and tx.after.outcome == outcome, "Actual model creates the requested locked terminal result")
 		var accepted = s._detached_persistent_state()
 		var before: Dictionary = _snapshot(s)
@@ -281,7 +269,7 @@ func test_resource_reward_order() -> void:
 		var level: int = s.level
 		var earned: int = _earned(s)
 		check(s.start_party_battle("archive_boss"), "Resource-order fixture enters")
-		var tx: Dictionary = s.party_battle_action("attack", "archive_boss")
+		var tx: Dictionary = s.advance_party_battle()
 		check(tx.accepted and s.hp == 13 and s.qi == 2 and s.level == level, "Accepted action mirrors actual HP/qi before XP")
 		check(s.finish_party_presentation(tx.epoch, tx.token).settled and _earned(s) == earned + 80, "80XP commits after resource reconciliation")
 		check((s.level == level + 1 and s.hp == s.max_hp and s.qi == s.max_qi) if level_up else (s.level == level and s.hp == 13 and s.qi == 2), "Level-up healing follows resources and is never overwritten")
@@ -292,7 +280,7 @@ func test_resource_reward_order() -> void:
 		s.coins = 999990
 		s.victories = 999999
 		check(s.start_party_battle("archive_boss"), "Canonical capped inventory enters")
-		_step(s, "attack", "archive_boss")
+		_step(s, "advance", "archive_boss")
 		check(s.chapter_two_stage == 3 and s.coins == 999999 and s.victories == 999999, "Combat rewards preserve canonical maximum bounds")
 		_roundtrip(s, "capped-win-" + ending)
 		var won = s._detached_persistent_state()
@@ -330,7 +318,8 @@ func test_flee_defeat_retry() -> void:
 		defeated.party_resources.shen = {"hp": 0, "qi": 0}
 		defeated.coins = purse
 		check(defeated.start_party_battle("archive_boss"), "Low-resource archive attempt starts")
-		_step(defeated, "attack", "archive_boss")
+		var defeated_tx: Dictionary = AutoDriver.terminal_next(defeated)
+		check(defeated_tx.get("accepted", false) and defeated.finish_party_presentation(defeated_tx.epoch, defeated_tx.token).settled, "Automatic enemy transaction settles actual defeat")
 		check(defeated.party_settlement.outcome == "defeat" and defeated.coins == maxi(0, purse - 8) and defeated.hp == defeated.max_hp and defeated.qi >= 2 and defeated.party_resources.shen.hp > 0 and defeated.party_resources.shen.qi == 2, "Defeat uses existing capped8coin and whole-roster safe recovery")
 		check(defeated.map_id == "qingwei" and defeated.position == Vector2(420, 450) and defeated.chapter_two_stage == 2 and defeated.archive_clues == progress.archive_clues and defeated.seal_sequence == [2, 0, 1] and _earned(defeated) == earned and defeated.victories == victories, "Recovery keeps all solved progress and gives no victory reward")
 		_roundtrip(defeated, "defeat-" + str(purse))
@@ -367,7 +356,7 @@ func test_save_failures_and_malformed_loads() -> void:
 		file.store_string(JSON.stringify(document))
 		file.close()
 		before = _snapshot(s)
-		check(s.load_game(malformed) == ERR_FILE_CORRUPT and _snapshot(s) == before and FileAccess.get_file_as_bytes(path) == won, "Malformed schema12 refuses implicit prerequisite repair atomically")
+		check(s.load_game(malformed) == ERR_FILE_CORRUPT and _snapshot(s) == before and FileAccess.get_file_as_bytes(path) == won, "Malformed schema13 refuses implicit prerequisite repair atomically")
 	var loaded = State.new()
 	check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and not loaded.start_party_battle("archive_boss"), "Reloaded stage3 cannot replay archive battle")
 	loaded.reset_game()

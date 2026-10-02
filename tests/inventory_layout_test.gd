@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 class NoSave extends Model:
@@ -54,7 +55,7 @@ func run()->void:
 	await key(KEY_4);assert(not app.active_modal)
 	app.state.hp=50;var medicine:int=app.state.medicine;app._show_inventory();await key(KEY_1)
 	assert(app.state.hp==95 and app.state.medicine==medicine-1 and not app.active_modal)
-	app._start_battle("spar");before=app.state.to_dict();app._show_inventory()
-	assert(not app.active_modal and app.state.to_dict()==before and app.current_screen=="battle")
+	UnifiedUI.open_training(app);before=app.state.to_dict();app._show_inventory()
+	assert(UnifiedUI.active(app) and app.state.to_dict()==before and app.current_screen=="party_battle")
 	app.queue_free();await create_timer(.25).timeout
 	print("PASS: structured inventory, retained actions/keys, stale callback safety and battle gate");quit()

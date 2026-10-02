@@ -1,0 +1,298 @@
+{
+  "source_scope": "Unified automatic party battle integration; working source, aggregate and exact PCK still pending",
+  "live_web": "0.0.21 Web1 unchanged",
+  "schema": 13,
+  "focused": {
+    "automatic_model": 2249,
+    "natural_balance": 2230,
+    "natural_balance_fights": 67,
+    "state_all_encounters": 671,
+    "scene_entry_input_close": 464,
+    "automatic_renderer": 32039,
+    "renderer_frames": 149,
+    "presented_status_geometry": 805,
+    "catalog": 466,
+    "learning_schema": 42,
+    "learning_ui": 17,
+    "natural_trial_balance": 3246,
+    "natural_trial_outcomes": 43,
+    "practice_lifecycle": 72,
+    "accepted_terminal_close_sluice_callbacks": 70
+  },
+  "native": {
+    "engine": "Godot4.6.3.stable.official.7d41c59c4",
+    "renderer": "OpenGL Compatibility, llvmpipe Mesa25.0.7",
+    "audio": "Dummy; no listening claim",
+    "source_prepared": true,
+    "controller_scripted": true,
+    "fps_claim": false,
+    "browser_claim": false,
+    "frame_count": 16,
+    "compact_framebuffer": [
+      1179,
+      736
+    ],
+    "compact_requested_window": [
+      1179,
+      737
+    ],
+    "log_sha256": "fbec7ca60b6a0154a4a68ad644cc94401748a454ec051f2ee0ed8bc25818e0d0",
+    "frames": [
+      {
+        "path": "screenshots/320-unified-story.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "b1883cc378a8889ced41775874e937644f3b83e7388d6316df29dd9918cba70c"
+      },
+      {
+        "path": "screenshots/321-unified-training.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "02d997b73adee97572db12dd7e5963f6156515ae369293eb808ca8232526e67d"
+      },
+      {
+        "path": "screenshots/322-unified-sect_trial.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "dde37e3ae37132d0d1c95fb96d0ee2ffa5bcfb97098789d2d22d24e081076a44"
+      },
+      {
+        "path": "screenshots/323-unified-courtyard_practice.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "fbce53e747556fccd4539976514bb8fa1863912ad3a8019036f15f80cddb447c"
+      },
+      {
+        "path": "screenshots/324-unified-sluice_scout.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "27a3e618512dc713f43c06e824399d91732ab3cdced2c3339ab6bbc7c6cac13f"
+      },
+      {
+        "path": "screenshots/325-unified-sluice_boss.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "bc093d603f89da466f38a7fcafa27abccb1da65fd4e46ee8037e115446ef6b0b"
+      },
+      {
+        "path": "screenshots/326-unified-archive_boss.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "69765be23a445b8dbe41d4c1fbd56597c2b0e3fd03abb24200b209169a91ac14"
+      },
+      {
+        "path": "screenshots/327-unified-mist_scout.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "dd176e71a99c31a8f47d611e361f523418c692d0f93d063073bb1a6c92c97d4d"
+      },
+      {
+        "path": "screenshots/328-unified-mist_keeper.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "2ff3205f06fcabf7483e1c31cad2a46d2d22f074157138532587cc7d03feade0"
+      },
+      {
+        "path": "screenshots/329-unified-heting_receipt.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "cdb8ca8c8541bb0f0120bed85ae029ba318b244b66747d5cd605f03295f55ecb"
+      },
+      {
+        "path": "screenshots/330-unified-queued-skills.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "429329ca8c7bcb1487328c82e07127a56bb4ddcb1850a3e8a64b7e252125c0a1"
+      },
+      {
+        "path": "screenshots/331-unified-automatic-contact.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "b43dc2deacb300600b31a822821de0fbd754cc1cc0410c4e0f9ac8230243198f"
+      },
+      {
+        "path": "screenshots/332-unified-compact-next-round.png",
+        "size": [
+          1179,
+          736
+        ],
+        "sha256": "8c21db2700bab274e9aec7a40ea87511c5b2fa0d2fc3a082c4b8c4fe510ff78a"
+      },
+      {
+        "path": "screenshots/333-unified-presented-focus.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "ce278cae9976d4e53cf65cc746fa530558ce13f0e661b69f996bdea1b926dd9d"
+      },
+      {
+        "path": "screenshots/334-unified-presented-weaken.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "2afb2039527d5b319dade3202667bb0870c3579b6b9bec45d2bd43700fffcc3f"
+      },
+      {
+        "path": "screenshots/335-unified-weaken-after-return.png",
+        "size": [
+          1280,
+          800
+        ],
+        "sha256": "da941605655ff7c953a93fe939612c9103f339e1197327774796b7d0f610afd2"
+      }
+    ]
+  },
+  "runtime_sha256": {
+    "scripts/advanced_martial_rules.gd": "80970edcbacd04b4479a9c405b60925891a165079dba329780eb21f72e7bb0bc",
+    "scripts/advanced_martial_ui.gd": "f101f983eb0870e3b24f9e823fb8e5bcb366520bf767cf600ca8a4d079a65245",
+    "scripts/automatic_party_combat.gd": "d8ba92af86c160b96666c53c730373d91bcd2583b0da102810eabf59cf68e1c5",
+    "scripts/battle_art.gd": "0ce123805a34736d04d2388e8026738759fb65f8c571d8dccfb4c4fff8490737",
+    "scripts/battle_patterns.gd": "29f8f72b681ca193896dfa8d42d5fb86f9cc0463b15f0ac65660567baf04a4b6",
+    "scripts/chapter_rules.gd": "9b1665a6d23197bc275b7c672f775d18f487acd22a8d21e4a3a9a499a2302d82",
+    "scripts/character_portraits.gd": "62f8033a65b7578ec84f79e3c0fcb1701388ba862dadca49b0320f1453391944",
+    "scripts/combat_skill_catalog.gd": "7998a1e9a974e7bd9936c0d09ebbd307844cf699929710860c2d6ab8ebf5f6fa",
+    "scripts/companion_battle_feedback.gd": "a95d1ab67e75a4c01bc0cd802e07a827f1c917220a68fc6443c83a02a7d1102d",
+    "scripts/companion_rules.gd": "3a69b2d9c325b537c8098542d48534c7b98faacb0d83bf11fef9e72558132271",
+    "scripts/companion_story.gd": "e07133e2f271bd7bf8a363fb90ca24df687556375f0d684d96b2e66445c1dc4a",
+    "scripts/courtyard_exercise_rules.gd": "a5045d366ed3e8a2d99eef1ca4ca1a8d25bab62dc5f5d13e47876c960eb51c09",
+    "scripts/courtyard_practice_art.gd": "1f65fac4851651e3c229caa9bf8aa546480c5179bf35db68f3499fe5d2d98c14",
+    "scripts/courtyard_practice_backdrop.gd": "b7655079ba3674c3f269631bef27f187c7d35b5247c887db949001d9bed95ef6",
+    "scripts/courtyard_practice_ui.gd": "ed2b07d34888f5c5751097f8138403655643227c64386edf9d597b528817d8ec",
+    "scripts/courtyard_training_rigs.gd": "c058e6cfa4249478f4f4ec6ff6eb78b96de96215799ff213ddec45e753179287",
+    "scripts/dialogue_sheet.gd": "c113079865616fcb84f1080ead712980c106b86220585946049a506e11bdfed1",
+    "scripts/economy_rules.gd": "a1032d0dbccb3cdc08341428ff5b80cb56f6fb6bfc5a98a92f177f13f42f0768",
+    "scripts/ferry_battle_backdrop.gd": "c1586e405511ed77ccc26eac3b9ae972a3b21f855630e7bab0e32b7c29ab9ce1",
+    "scripts/formation_battle_art.gd": "14594bc90ca0988be957c1b06a6ff11c9a2bfd7a8698f473206d6264da893d66",
+    "scripts/frostbridge_region.gd": "f335c8206b8ffc3ca42d4c1e3b14f92dcace12b8eb960e49bb174261c653ea63",
+    "scripts/frostbridge_story.gd": "33b86e25f11776a122af97b313ecb995e957f4d39c60f631a007eb6475494244",
+    "scripts/game_hud.gd": "b4fd0f8d51ec8394f1484045351196a06f4397206b791d9c8c5d957be1962bb0",
+    "scripts/game_state.gd": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "scripts/heting_cart_routes.gd": "b1a15f9faced9fe086466a874a622238ae1d2eb35c4f70547dbd82ad0a1b945c",
+    "scripts/heting_machinery_art.gd": "399d962ff42026782c8107c1d8ee76f9a155328a20a697e78979a4710005c868",
+    "scripts/heting_receipt_art.gd": "41ff06c0de93fc69b010ceedab02be35c6d3f146bbed256b34c236e360306a7e",
+    "scripts/heting_receipt_combat.gd": "35a3e864f7b933b08b5c04e46195db74099fda75d2377d99bdbc62ef4475bc42",
+    "scripts/heting_receipt_rules.gd": "5e616577ce5805f653018b4e9b2f935aa4d363c2c10db1cf6e140b7aaa057d93",
+    "scripts/heting_receipt_story.gd": "89fe0be4f612cde96251644fb1db9ef73d4c88fe222154cbc4c8d68e552b0a7c",
+    "scripts/heting_receipt_ui.gd": "ed98b19894421abe7ae17ff8e132f88678e506d785c966478a12b3739fd03419",
+    "scripts/heting_region.gd": "a7f8f5cbfe0d73d37d1ba46755e7da51b96381587b9bbc232c7d1e932c0932bd",
+    "scripts/heting_rules.gd": "91685a6af79a24752d0fd95af416a4bdbc154ff08dbc92d2fa52caba23c9ff81",
+    "scripts/heting_story.gd": "d2eddce72014a7927aac2eec6787ddc11994d379c117ca802df19c58425905fd",
+    "scripts/heting_worksites_art.gd": "89f27cb296787790d08272b9b9e71a9890b7c0557ee511618dc5e32a1650beb3",
+    "scripts/inventory_panel.gd": "f0b94653f21a73f6dad8f78cc6b48bee2ada113782ae26027632a35dcb72dcff",
+    "scripts/item_catalog.gd": "f0229bd174f1bc183756e4d82fb9e2e02e68ea9fe841cdddaed94bf3971ad5ae",
+    "scripts/lightness_rules.gd": "94a728f804e98d40750ae87ada53aa0eaf0a1bf7a3619bbde53cfc90b6b7fa5d",
+    "scripts/lightness_story.gd": "daa780c61c42af5a6e5ed1e312f10348e107d3650655ca504a39f39e16e9f988",
+    "scripts/local_save_slots.gd": "8fa559d0b84b802ee5e524ac42c0e6c8166331a8c4c20758b7036b14f31b0e2d",
+    "scripts/main.gd": "55ba8baa3615189be0f619927e02478d62b400836bc53c51fba31b70c51e0b89",
+    "scripts/map_chart.gd": "e3d6bd8bc5f4181f0c7b73338e9720530629761de360df4277e416c795899373",
+    "scripts/martial_catalog.gd": "3cf751550804024fdfc832ccc889b54b6b9a0ffc1c0ba3c35bd9928b96015860",
+    "scripts/martial_panel.gd": "2e239ab99b0c4ed11770ea4a63c990b5b5fed3eae28b4e1fd967c8c768f36896",
+    "scripts/mistwood_region.gd": "f67ff037c2a5b5e54f61f63e25e88a71fbfd46ab6da12adbb9944999947212b7",
+    "scripts/mistwood_rules.gd": "5dd2cfed5c329a24d21f1d391b8406edfb2b151ff442423285208241be647971",
+    "scripts/mistwood_story.gd": "2567f0026d46e8827675d997430e14889cce3c2d5561826f9d711d8b200071bb",
+    "scripts/opening_duel_formation_art.gd": "ff0f21ff74ad362337c88ae95584083de5deddb5e4dc098af06b7dbb06291aba",
+    "scripts/opening_duel_formation_stage.gd": "c9fd785218f14897bd4f86b6808c9c1b4240d9a7c02e5f5e765835c4c70b1813",
+    "scripts/opening_duel_hud.gd": "c2de050bb35c77b57c025e9c9595e0adfdb4fc500adc8ada97c78c5a969ff8c4",
+    "scripts/painted_bamboo.gd": "b5b92ee924d9ab5e152922f9891b44b7933c380bef4187d0ac7987af3121a16d",
+    "scripts/painted_battle_hero.gd": "cf77d0437e3f1595379ccc3b99d061f3948d72498046bfc6c6f80f30518c4501",
+    "scripts/painted_battle_puheng.gd": "03912b7b95e6cfe56e0e27a3832b3f2bb2e870efd64e56a3e0abfe6ca22596f5",
+    "scripts/painted_battle_qin.gd": "e14f83baa2f57b14e3843af98c0e6b78e0016dad7a1f0c7027ef8729b22bb43d",
+    "scripts/painted_battle_shen.gd": "8cd395506b77bf53b6d5637cfcce7fccf154751fae9e52950fece0fb71838d8e",
+    "scripts/painted_battle_tang.gd": "ead238f8c1dc938df66b6bcaffa844a84ed06639068b08509a12861861d544dd",
+    "scripts/painted_camp_shelter.gd": "0029ea2cab42ee16304a4be5cfe9899e7418d4fa494374aee6b264888942a14c",
+    "scripts/painted_lantern_post.gd": "04831c83489b76618984e5befc1c2c2912a30242b7c2d0e5dd1409c7ed2f2e80",
+    "scripts/painted_noticeboard.gd": "14a9ff5d2756e5dd0c3ed1c8fd659141240cf187cd4a9525c7ba718d2b2722b6",
+    "scripts/painted_shen_sprite.gd": "920e5fac4dd52b14680d993d245f1b11db0009a2a3504edfd72cffb63628c7c6",
+    "scripts/painted_tang_sprite.gd": "085181f57d1d53d1e872ed5f631a239a4e068315b63560ab77bb608c9036fca7",
+    "scripts/painted_tea_table.gd": "7db293c063d377c12783deae122c263913a64bdde097fa88d71ae7bf866ae772",
+    "scripts/painted_traveler_sprite.gd": "40c6830afb244c6f79db5adaf89be12597b92aa7f75ddfb7a6905d63b2f9ea52",
+    "scripts/painted_village_civilians.gd": "e76be80e16ea39ba3b59ba033649870ebb4468dfd4897b3dfd670c15930a7b2f",
+    "scripts/painted_village_sprite.gd": "ec0520b204aba962b03d234c143c52de94f3f4a0b3c94019329993c245237ff6",
+    "scripts/party_actor_catalog.gd": "dcf082605ee7cbab9e1ed40732f6e7f92ecf42376efcfedd67e08f24df9cd019",
+    "scripts/party_battle_art.gd": "945a20b6836530b8d5ee0e6b963e112176d68ffe0e2cdaa17066234c45547d25",
+    "scripts/party_battle_ui.gd": "4b01ae337cbe8c08e5ab1229139c8009f093a54265a6ac950f9d94ec29885407",
+    "scripts/party_category_hud.gd": "10287e9d63ba3fcff426af17c25306434e33745d24b7168afd05950b2bcacd7b",
+    "scripts/party_combat_rules.gd": "95f49405e646a033fe45ad1cb6ab52f722522bb697f4627a140b7aa79ba5d4cc",
+    "scripts/party_command_hud.gd": "07c351735a90cb18e772ad79a995764f0a84564e3fcce06674d0c9c3924a6497",
+    "scripts/party_roster_rules.gd": "d0548acec46b07607efe36811a40751e51afb54a7966e6107771018df23f00e9",
+    "scripts/party_roster_ui.gd": "5cf20be76ab9b60fd24d7f61f78cc2cdd1c8b9a72d00d80798dbcac3d658523d",
+    "scripts/pause_menu.gd": "c66e8c3ff7b24bc29b776aadfc6baac6541258eda06df2ee0ab65786bfa838f7",
+    "scripts/qin_companion_rules.gd": "e9cba8b3626e8a8e3ada3dcb728e524a9c3b85e2ca22a8e9b6929ecf6d09ed72",
+    "scripts/qin_companion_story.gd": "beb2913b4fd9a14cd2e947769770515c537beb145cfd3d19c984fc61f6352611",
+    "scripts/qingwei_environment_art.gd": "8240e4d492f0ef8311d41f5ad46709d85ea303d829b0adf348f90e379118a6a9",
+    "scripts/qingwei_ferry_props.gd": "7a69378359cf8f68bcbde638595ef9e56e45f131032e436ddd7b6a656b8b9ef1",
+    "scripts/qingwei_water_material.gd": "f0b9f601b28fc90c9c9ea6c195113e1b5f6880d040f33b9623799806a6e4faf0",
+    "scripts/reed_islet.gd": "f48c623bf116710f9d2150a7984e10f94467ceac7cd59aa862a575d83622572c",
+    "scripts/save_slots_ui.gd": "2fd778bf420c10ef94f864db32fda31df74c5eda3007d774fd58d79455a37948",
+    "scripts/sect_progress_ui.gd": "8ce33c60fd5a6b375e0b734a7ef1f7dbc5ab782f571299e5d98ba367d72291e8",
+    "scripts/sect_rules.gd": "8a426318bd6024f9530cde13b2b0b5881938e6603e74631dbf89c91ed8dd0b22",
+    "scripts/shen_care_rules.gd": "fa361d0e2512739410c4eb867a18f963ad0d83e4ccddb87be09957afd4f7f137",
+    "scripts/shen_care_story.gd": "b89797629a9b18b210dfa80f0766f48e7f89f7af3dc2be0f34f0838147aad604",
+    "scripts/traveler_visual.gd": "9f984dcde0f58bad38f55e6221e0e7d68e849ddbfd52e4c69274eb08613ae818",
+    "scripts/unified_encounter_rules.gd": "f587f3c7dd539f602a391b9fe609ab443231c5653debde79520af07cde5b8746",
+    "scripts/view_preferences.gd": "d6a9df9fc9659382e356d368a21f1580452d6d75812dae10c96632a91434be27",
+    "scripts/workshop_ui.gd": "bdb831b3fd8ffeecd4a35ead84b71525856d0c248a445a2cd36a102aa1eea90a",
+    "scripts/world.gd": "4d757e43d3ebea8f8357b5bc7d6ac46aae796348d5323f438a51dad0249b5be1",
+    "scripts/world_material_tiles.gd": "d60792605dd9c791cb2e18a5442ee5338b031403c0805b98950e663217b81aae"
+  },
+  "focused_logs": {
+    "unified-practice-lifecycle.log": "76fcea3e080ab4c5c846596061298fd0cf122df32550f9b268354641bfd63b2e",
+    "unified-terminal-close.log": "95f13f4e38b77ad71d78f87081522059ee2cff31230a83b4ce4fe1a845fc52db"
+  },
+  "remaining": "Fresh uninterrupted aggregate rerun, actual exported Web PCK and deployment. LiveWeb21 unchanged.",
+  "regression": {
+    "godot_commands": 114,
+    "python_tests": 62,
+    "scope": "Every current aggregate command passed across a resumed run after test-driver-only corrections; no runtime edits during those corrections. A fresh single uninterrupted rerun is pending.",
+    "first_successful_prefix_commands": 64,
+    "resumed_commands": 50,
+    "logs": {
+      "unified-final-full-2152.log": "c04ba719074111eeb44bfb7a38f17740b7a2fdf4b51b65a6078d3ece880e9959",
+      "unified-final-tail.log": "8f958b72dc871b9e33876ee7df0fe9fceeb0409e710219665f5c59e87a9185cb"
+    },
+    "test_driver_repairs": [
+      "frostbridge_ui_test uses actual automatic scheduler",
+      "audit_lightness_geometry_test follows explicit new internal/lightness submenu"
+    ]
+  },
+  "source_audit": {
+    "checks": 2794,
+    "package_only_skipped": 5,
+    "required_exact_pck": 2799,
+    "preserved_checks": 1471,
+    "unified_checks": 1237,
+    "passed": true,
+    "exact_pck_tested": false
+  },
+  "trial_raw_log": {
+    "sha256": "0e7a6c59865b714a1eff9058a759c3a958525eb743aaed58bd307ce3e67d0d7d",
+    "checks_with_report_output_assertion": 3246,
+    "aggregate_without_report_output_assertion": 3245
+  }
+}

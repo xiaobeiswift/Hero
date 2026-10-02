@@ -21,11 +21,8 @@ func _talk(id:String)->void:
 func _battle_win()->void:
  for i in range(120):
   if not game.state.battle_active:break
-  if game.state.hp<45 and game.state.medicine>0:game._battle_action("item")
-  elif game.state.Patterns.phase(game.state.battle_kind,game.state.turn).heavy:game._battle_action("guard")
-  elif game.state.qi>=game.state.active_art_cost() and game.state.skill_cooldown==0:game._battle_action("skill")
-  else:game._battle_action("attack")
- _check(not game.state.battle_active and game.state.enemy_hp==0,"Actual phased encounter is winnable")
+  UnifiedDriver.step(game)
+ _check(not game.state.battle_active and game.state.party_settlement.get("outcome")=="win","Actual phased encounter is winnable")
 func _route(route:String)->void:
  _prepare(route)
  game.state.chapter_two_stage=3
@@ -52,8 +49,8 @@ func _route(route:String)->void:
  await _talk("mist_scout")
  if route=="duel":
   await _key(KEY_1)
-  _check(game.current_screen=="battle" and game.battle_title.text.contains("雾 竹"),"Patrol opens correct battle scene")
-  game._battle_action("flee")
+  _check(game.current_screen=="party_battle" and game.overlay.get_meta("party_battle").commands.context.location.contains("雾竹"),"Patrol opens correct battle scene")
+  UnifiedDriver.leave(game)
   _check(game.state.mist_approach.is_empty(),"Flee preserves unresolved access")
   await _talk("mist_camp");await _key(KEY_1)
   await _talk("mist_scout");await _key(KEY_1);_battle_win()
@@ -80,16 +77,25 @@ func _route(route:String)->void:
  await _talk("mist_camp");await _key(KEY_1)
  _check(game.state.hp==game.state.max_hp and game.state.qi==game.state.max_qi,"Camp offers genuine free recovery")
  await _talk("mist_gate");await _key(KEY_1)
- _check(game.state.enemy_intent.contains("受击减半"),"Guarded phase explicitly advertised")
- var enemy_hp=game.state.enemy_hp
- game._battle_action("attack")
- _check(enemy_hp-game.state.enemy_hp==int(ceil(game.state.attack*0.5)),"Real first-phase player damage halved")
- _check(game.battle_info.text.contains("重击"),"Next phase updates heavy intent")
- game._battle_action("guard")
- _check(game.state.exposed_turns==0 and game.battle_info.text.contains("+8"),"Defending heavy exposes recovery opportunity")
- enemy_hp=game.state.enemy_hp;game._battle_action("attack")
- _check(enemy_hp-game.state.enemy_hp==game.state.attack+8,"Recovery adds damage in actual scene action")
- game._battle_action("flee");game._close_modal();game._load()
+ var panel=game.overlay.get_meta("party_battle")
+ panel.set_process(false);panel.art.set_process(false)
+ var view=game.state.party_battle_snapshot()
+ _check(view.enemy_intents[0].guarded and panel.unit_plates.mist_keeper.tooltip_text.contains("减半"),"Guarded phase explicitly advertised")
+ var enemy_hp=int(view.enemies[0].hp)
+ var attack=UnifiedDriver.step(game,false)
+ _check(attack.action_id=="attack" and enemy_hp-int(game.state.party_battle_snapshot().enemies[0].hp)==int(ceil(game.state.attack*0.5)),"Real first-phase automatic damage halved")
+ UnifiedDriver.step(game,false) # First announced enemy action completes round1.
+ _check(game.state.party_battle_snapshot().enemy_intents[0].heavy and panel.unit_plates.mist_keeper.tooltip_text.contains("重击"),"Next phase updates heavy intent")
+ await _key(KEY_1) # Slot1 is martial; guard comes only from owned磐石回锋.
+ var guard=UnifiedDriver.step(game,false)
+ _check(guard.action_id=="art:磐石回锋" and _hero().status.guard,"Queued defensive martial establishes real guard")
+ UnifiedDriver.step(game,false) # Automatic basic remains entitled.
+ UnifiedDriver.step(game,false) # Actual heavy strike lands against that guard.
+ _check(_hero().status.vulnerability_hits==0 and panel.unit_plates.mist_keeper.tooltip_text.contains("+8"),"Defending heavy exposes recovery opportunity")
+ enemy_hp=int(game.state.party_battle_snapshot().enemies[0].hp)
+ attack=UnifiedDriver.step(game,false)
+ _check(attack.action_id=="attack" and enemy_hp-int(game.state.party_battle_snapshot().enemies[0].hp)==game.state.attack+8,"Recovery adds damage in actual automatic scene action")
+ UnifiedDriver.leave(game);game._close_modal();game._load()
  _check(game.state.mist_stage==2,"Flee and reload preserve gate retry")
  await _talk("mist_camp");await _key(KEY_1)
  await _talk("mist_gate");await _key(KEY_1);_battle_win()

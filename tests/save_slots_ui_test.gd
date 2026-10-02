@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Slots=preload("res://scripts/local_save_slots.gd")
 var directory:String
 func _run()->void:
@@ -69,12 +70,12 @@ func _run()->void:
  DirAccess.make_dir_recursive_absolute(blocked)
  game.state.coins=77;game.save_slots.save_page();await _key(KEY_2);_press("确认重写")
  _check(FileAccess.get_file_as_bytes(store.path_for(2))==second and game.status_label.text.contains("未能保存"),"Backup failure is visible and preserves previous slot")
- game._close_modal();game._start_battle("spar")
+ game._close_modal();UnifiedUI.open_training(game)
  await _key(KEY_F6);await _key(KEY_F10)
- _check(not game.active_modal and game.current_screen=="battle","Manual save and load shortcuts are blocked in combat")
+ _check(UnifiedUI.active(game) and game.current_screen=="party_battle","Manual save and load shortcuts are blocked in combat")
  game.save_slots.save_page();game.save_slots.load_page()
- _check(not game.active_modal,"Direct menu calls also block combat")
- game._battle_action("flee");game._close_modal()
+ _check(UnifiedUI.active(game),"Direct menu calls also block combat")
+ UnifiedUI.leave(game);game._close_modal()
  game._stop_audio();await create_timer(0.25).timeout;game.queue_free();await process_frame
  if failures==0:print("PASS: %d manual save-slot UI checks" % checks)
  else:push_error("FAIL: %d of %d manual save-slot UI checks" % [failures,checks])

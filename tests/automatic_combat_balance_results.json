@@ -1,0 +1,3178 @@
+{
+  "checks": 2230,
+  "failures": 0,
+  "journey": [
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 26,
+      "detached_probe": false,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "journey_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 60,
+      "rounds": 2,
+      "settled_hp": 112,
+      "settled_level": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "122/124",
+        "shen": "81/98"
+      },
+      "label": "trial_adapter_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 122,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "136/148",
+        "shen": "81/98"
+      },
+      "label": "trial_adapter_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 4,
+      "settled_hp": 136,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 14,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "trial_adapter_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 4,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 2,
+      "coins_change": 14,
+      "detached_probe": false,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "journey_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 25,
+      "rounds": 1,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "coins_change": 80,
+      "detached_probe": false,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "journey_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 150,
+      "rounds": 2,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "136/136",
+        "shen": "81/106"
+      },
+      "label": "journey_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 80,
+      "rounds": 3,
+      "settled_hp": 136,
+      "settled_level": 4,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 98,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 20,
+      "actors": 3,
+      "coins_change": 48,
+      "detached_probe": false,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "148/148",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "journey_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 90,
+      "rounds": 4,
+      "settled_hp": 148,
+      "settled_level": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 26,
+      "actors": 1,
+      "coins_change": -8,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "0/160"
+      },
+      "label": "natural_solo_defeat_probe",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "defeat",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "reward_xp": 0,
+      "rounds": 9,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "120/160"
+      },
+      "label": "natural_solo_retry_policy",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "0/6"
+      },
+      "reward_xp": 80,
+      "rounds": 5,
+      "settled_hp": 120,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 4,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "160/160",
+        "qin": "150/160",
+        "shen": "114/122",
+        "tang": "139/139"
+      },
+      "label": "journey_receipt",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 80,
+      "rounds": 2,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 150,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    }
+  ],
+  "journey_complete": true,
+  "results": [
+    {
+      "accepted_actions": 11,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "story",
+      "hp": {
+        "hero": "55/100"
+      },
+      "label": "earned_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 2
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 8,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "story",
+      "hp": {
+        "hero": "75/100"
+      },
+      "label": "earned_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 2
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "story",
+      "hp": {
+        "hero": "90/100",
+        "shen": "66/82"
+      },
+      "label": "earned_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "earned_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 26,
+      "detached_probe": false,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "journey_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 60,
+      "rounds": 2,
+      "settled_hp": 112,
+      "settled_level": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "40/124"
+      },
+      "label": "earned_level3_trial_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "102/124"
+      },
+      "label": "earned_level3_trial_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "100/124",
+        "shen": "73/98"
+      },
+      "label": "earned_level3_trial_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "122/124",
+        "shen": "81/98"
+      },
+      "label": "earned_level3_trial_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "122/124",
+        "shen": "81/98"
+      },
+      "label": "trial_adapter_听潮阁",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 122,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "40/148"
+      },
+      "label": "earned_level3_trial_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 7,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 15,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "132/148"
+      },
+      "label": "earned_level3_trial_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "3/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "124/148",
+        "shen": "48/98"
+      },
+      "label": "earned_level3_trial_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "136/148",
+        "shen": "81/98"
+      },
+      "label": "earned_level3_trial_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "136/148",
+        "shen": "81/98"
+      },
+      "label": "trial_adapter_照野堂",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 4,
+      "settled_hp": 136,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "34/124"
+      },
+      "label": "earned_level3_trial_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 7,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 15,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "104/124"
+      },
+      "label": "earned_level3_trial_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "3/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "64/124",
+        "shen": "98/98"
+      },
+      "label": "earned_level3_trial_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 14,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "earned_level3_trial_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 14,
+      "actors": 2,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "trial_adapter_问石门",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 4,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 5,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "103/124"
+      },
+      "label": "earned_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124"
+      },
+      "label": "earned_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 5,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "119/124",
+        "shen": "98/98"
+      },
+      "label": "earned_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "earned_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 2,
+      "coins_change": 14,
+      "detached_probe": false,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "journey_sluice_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 25,
+      "rounds": 1,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 9,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "54/124"
+      },
+      "label": "earned_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 8,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "118/124"
+      },
+      "label": "earned_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "104/124",
+        "shen": "75/98"
+      },
+      "label": "earned_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "earned_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "coins_change": 80,
+      "detached_probe": false,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "journey_sluice_boss",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 150,
+      "rounds": 2,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "22/136"
+      },
+      "label": "earned_level4_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 7,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "115/136"
+      },
+      "label": "earned_level4_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "116/136",
+        "shen": "73/106"
+      },
+      "label": "earned_level4_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 98,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "136/136",
+        "shen": "81/106"
+      },
+      "label": "earned_level4_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 98,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "136/136",
+        "shen": "81/106"
+      },
+      "label": "journey_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 80,
+      "rounds": 3,
+      "settled_hp": 136,
+      "settled_level": 4,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 98,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 9,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "119/148"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 5,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "148/148"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "142/148",
+        "shen": "97/114"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "148/148",
+        "shen": "114/114"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "142/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 5,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "mist_scout",
+      "hp": {
+        "hero": "148/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_mist_scout",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6",
+        "tang": "3/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 19,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "49/148"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 10,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "110/148"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 17,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "120/148",
+        "shen": "82/114"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "147/148",
+        "shen": "90/114"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 18,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "144/148",
+        "shen": "88/114",
+        "tang": "129/130"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 20,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "148/148",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 20,
+      "actors": 3,
+      "coins_change": 48,
+      "detached_probe": false,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "148/148",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "journey_mist_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 90,
+      "rounds": 4,
+      "settled_hp": 148,
+      "settled_level": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "147/148"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 1,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 4,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "147/148",
+        "shen": "114/114"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 1,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148",
+        "shen": "114/114"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 1,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 4,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 20,
+          "defense": 10,
+          "hp": 150,
+          "max_hp": 150,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 1,
+      "actors": 4,
+      "detached_probe": true,
+      "encounter": "training",
+      "hp": {
+        "hero": "148/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "earned_level5_four_actor_rematch",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 1,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 20,
+          "defense": 10,
+          "hp": 150,
+          "max_hp": 150,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 26,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "0/160"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "defeat",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "rounds": 9,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "120/160"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "0/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 28,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "116/160",
+        "shen": "62/122"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 8,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 17,
+      "actors": 2,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "160/160",
+        "shen": "122/122"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "rounds": 4,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 27,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "122/160",
+        "shen": "88/122",
+        "tang": "118/139"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 15,
+      "actors": 3,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "160/160",
+        "shen": "101/122",
+        "tang": "139/139"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "rounds": 3,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 26,
+      "actors": 4,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "147/160",
+        "qin": "150/160",
+        "shen": "88/122",
+        "tang": "118/139"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "rounds": 5,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 150,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 4,
+      "detached_probe": true,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "160/160",
+        "qin": "150/160",
+        "shen": "114/122",
+        "tang": "139/139"
+      },
+      "label": "earned_receipt_after_harbor_rewards",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "rounds": 2,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 150,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 26,
+      "actors": 1,
+      "coins_change": -8,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "0/160"
+      },
+      "label": "natural_solo_defeat_probe",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "defeat",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6"
+      },
+      "reward_xp": 0,
+      "rounds": 9,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 1,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "120/160"
+      },
+      "label": "natural_solo_retry_policy",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "0/6"
+      },
+      "reward_xp": 80,
+      "rounds": 5,
+      "settled_hp": 120,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 4,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "heting_receipt",
+      "hp": {
+        "hero": "160/160",
+        "qin": "150/160",
+        "shen": "114/122",
+        "tang": "139/139"
+      },
+      "label": "journey_receipt",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 80,
+      "rounds": 2,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 150,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 114,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 130,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    }
+  ],
+  "scope": "Natural earned stats/resources; model balance probes plus State/API journey, not scene proximity/UI acceptance"
+}

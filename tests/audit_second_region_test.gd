@@ -108,7 +108,7 @@ func _test_rescue_first() -> void:
 	var scout: Dictionary = game.state.party_battle_snapshot()
 	_check(scout.enemies[0].max_hp == 85 and scout.enemy_intents[0].damage == 11, "Scout snapshot carries its distinct health and public damage telegraph")
 	var rejected: Dictionary = game.state.to_dict()
-	await _key(KEY_2)
+	await _key(KEY_1)
 	_check(game.state.party_battle_snapshot() == scout and game.state.to_dict() == rejected, "Unavailable numbered martial input leaves the entire party and persistent state unchanged")
 	_win_battle()
 	_check(_total_xp() == before_scout_xp + 25 and game.state.party_settlement.reward_xp == 25, "Scout settlement grants exactly twenty-five XP")
@@ -123,15 +123,16 @@ func _test_rescue_first() -> void:
 	_start_sluice_party("sluice_boss")
 	var boss: Dictionary = game.state.party_battle_snapshot()
 	_check(boss.enemies[0].max_hp == 150 and boss.enemy_intents[0].damage == 16, "Boss snapshot carries its distinct health and opening telegraph")
-	await _party_key(KEY_1)
+	_automatic_round()
 	boss = game.state.party_battle_snapshot()
-	_check(boss.round == 2 and boss.enemy_intents[0].heavy and boss.enemy_intents[0].damage == 28, "Numbered attack completes one actual party round and reveals boss heavy attack")
-	await _party_key(KEY_1)
+	_check(boss.round == 2 and boss.enemy_intents[0].heavy and boss.enemy_intents[0].damage == 28, "Automatic basic, enemy strike and round boundary reveal next heavy intent")
+	_automatic_round()
 	var panel = _party_panel()
 	_check(_hero().status.vulnerability_hits == 2 and panel.commands.snapshot.actors[0].status.vulnerability_hits == 2, "Boss heavy attack exposes two remaining vulnerability hits in the real party HUD snapshot")
-	var guard: Dictionary = await _party_key(KEY_3)
-	_check(_hero().status.vulnerability_hits == 0 and _has_event(guard, "vulnerability_expire"), "Numbered guard clears actual vulnerability through an accepted transaction")
-	_check(_party_panel().commands.snapshot.actors[0].status.vulnerability_hits == 0, "Party HUD removes the cleared vulnerability")
+	var before_locked_lightness: Dictionary = game.state.party_battle_snapshot()
+	await _key(KEY_3)
+	_check(game.state.party_battle_snapshot()==before_locked_lightness and _hero().status.vulnerability_hits==2, "Locked unlearned lightness cannot impersonate the removed guard command or clear real vulnerability")
+	_check(_party_panel().commands.snapshot.actors[0].status.vulnerability_hits==2, "Party HUD preserves real unconsumed vulnerability")
 	var before_coins: int = game.state.coins
 	var before_medicine: int = game.state.medicine
 	var before_boss_xp: int = _total_xp()
@@ -154,7 +155,7 @@ func _test_pursuit_first_and_recovery() -> void:
 	game.state.hp = 1
 	_press("截住传令人")
 	_freeze_party()
-	await _party_key(KEY_1)
+	_automatic_round()
 	game._process(0.0)
 	_check(game.state.map_id == "qingwei" and game.world.map_id == "qingwei", "Second-region defeat returns both map states to the village")
 	_check(game.state.hp == game.state.max_hp and game.state.coins == 142 and game.state.position == game.world.player_pos, "Defeat restores health, loses eight coins and synchronizes position")
@@ -172,8 +173,8 @@ func _test_pursuit_first_and_recovery() -> void:
 	_check(game.state.side_stage == 2 and game.state.side_choice == "pursuit", "Later rescue completes clues without changing pursuit choice")
 	game.state.heal_rest()
 	_start_sluice_party("sluice_boss")
-	await _party_key(KEY_1)
-	await _party_key(KEY_1)
+	_automatic_round()
+	_automatic_round()
 	_check(_hero().status.vulnerability_hits == 2, "Pursuit boss also applies actual per-actor vulnerability")
 	await _party_key(KEY_5)
 	_check(_hero().status.vulnerability_hits == 0 and not game.state.battle_active and game.state.side_stage == 2 and not game.state.side_reward_claimed, "Flee clears battle vulnerability without losing clues or finishing quest")
@@ -316,14 +317,14 @@ func _test_map_and_martial_menus() -> void:
 		_check(game.state.choose_side_route("rescue") and game.state.find_side_clue("boatman") and game.state.find_side_clue("ledger"), "Art fixture earns valid boss eligibility through real progress APIs")
 		var cost: int = game.state.active_art_cost()
 		var action_id: String = "art:" + art
-		var button_key: String = "hero::" + action_id
+		var button_key: String = "hero::slot:martial"
 		game.state.qi = cost - 1
 		_start_sluice_party("sluice_boss")
 		var panel = _party_panel()
 		var descriptor: Dictionary = panel.commands.descriptors[button_key]
 		_check(not descriptor.available and not panel.commands.action_reason("hero", action_id).is_empty() and descriptor.name == art and descriptor.cost == cost, "Real party button exposes art name/cost and the below-cost rejection: " + art)
 		var rejected: Dictionary = game.state.party_battle_snapshot()
-		await _key(KEY_2)
+		await _key(KEY_1)
 		_check(game.state.party_battle_snapshot() == rejected and game.state.art_uses[art] == 4, "Rejected art cannot spend a party action or earn proficiency: " + art)
 		await _party_key(KEY_5)
 		game.state.qi = cost
@@ -331,7 +332,7 @@ func _test_map_and_martial_menus() -> void:
 		_start_sluice_party("sluice_boss")
 		panel = _party_panel()
 		_check(panel.commands.descriptors[button_key].available and panel.commands.action_reason("hero", action_id).is_empty(), "Party button enables at exact required qi: " + art)
-		await _party_key(KEY_2)
+		await _party_key(KEY_1)
 		_check(_hero().qi == 0 and _hero().cooldowns[action_id] == game.state.active_art_cooldown() and game.state.art_uses[art] == 5 and game.state.art_rank(art) == 2, "Accepted sect art charges correct resources and crosses proficiency threshold: " + art)
 		if sect == "照野堂":
 			_check(game.state.hp > 60, "Healer art produces a net health recovery")
@@ -341,7 +342,7 @@ func _test_map_and_martial_menus() -> void:
 		await _key(KEY_K)
 		await _key(KEY_M)
 		_check(game.current_screen == "party_battle" and game.overlay.get_meta("party_battle", null) == panel and game.state.party_battle_snapshot() == after_art, "K/M cannot replace the party encounter or spend combat actions")
-		await _key(KEY_2)
+		await _key(KEY_1)
 		_check(game.state.party_battle_snapshot() == after_art and game.state.art_uses[art] == 5, "Cooldown rejection cannot earn extra proficiency")
 		await _party_key(KEY_5)
 		await _key(KEY_K)
@@ -354,11 +355,11 @@ func _test_map_and_martial_menus() -> void:
 		if sect == "问石门":
 			game.state.heal_rest()
 			_start_sluice_party("sluice_boss")
-			await _party_key(KEY_1)
-			await _party_key(KEY_1)
+			_automatic_round()
+			_automatic_round()
 			_check(_hero().status.vulnerability_hits == 2, "Defensive art fixture receives genuine boss-heavy vulnerability")
 			var hp_before: int = game.state.hp
-			var defensive: Dictionary = await _party_key(KEY_2)
+			var defensive: Dictionary = await _party_key(KEY_1)
 			_check(_hero().status.vulnerability_hits == 0 and _has_event(defensive, "vulnerability_expire") and game.state.hp >= hp_before - 3, "Defensive art clears earned vulnerability and guards the following attack")
 			await _party_key(KEY_5)
 
@@ -451,6 +452,7 @@ func _freeze_party() -> void:
 	var panel = _party_panel()
 	_check(is_instance_valid(panel), "Independent encounter mounts its real PartyUI controller")
 	if is_instance_valid(panel):
+		panel.set_process(false)
 		panel.art.set_process(false)
 
 
@@ -475,9 +477,10 @@ func _party_key(key: Key) -> Dictionary:
 	if not is_instance_valid(panel):
 		_check(false, "Numbered party input requires the real controller")
 		return {}
-	panel.art.set_process(false)
+	panel.set_process(false);panel.art.set_process(false)
 	var before: Dictionary = _progress()
 	await _key(key)
+	if panel.pending.is_empty(): panel._process(1.0)
 	var tx: Dictionary = panel.pending.duplicate(true)
 	_check(not tx.is_empty() and tx.get("accepted", false), "Numbered command accepts a real party transaction: " + str(key))
 	if tx.is_empty():
@@ -493,3 +496,18 @@ func _has_event(tx: Dictionary, type: String) -> bool:
 		if event.type == type:
 			return true
 	return false
+
+
+func _automatic_round() -> Dictionary:
+	var initial_round: int = game.state.party_battle_snapshot().round
+	var last: Dictionary = {}
+	for index: int in range(32):
+		if not game.state.battle_active or game.state.party_battle_snapshot().round > initial_round: return last
+		var before: Dictionary = _progress()
+		last = UnifiedDriver.begin_step(game, false)
+		_check(last.get("accepted", false), "Actual scheduler progresses without manual attack input")
+		if not last.get("accepted", false): return last
+		_check(_progress() == before, "Accepted automatic action cannot award before its renderer acknowledgement")
+		UnifiedDriver.finish_step(game)
+	_check(false, "One automatic round must finish within its finite actor/enemy/boundary actions")
+	return last

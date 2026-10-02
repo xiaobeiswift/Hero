@@ -1,0 +1,112 @@
+{
+  "scope": "Current automatic basics plus independent martial/internal/lightness slots. Historical controller scripts remain source evidence and are not executable current-controller contracts. Detached legacy rules/art compatibility checks remain in the aggregate and do not establish current runtime coverage.",
+  "historical_controllers": [
+    {
+      "path": "tests/party_battle_ui_test.gd",
+      "retired_contract": "Actor turn-spending attack/guard commands; old numeric keys and lock-all selection.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/unified_practice_lifecycle_test.gd",
+        "tests/unified_terminal_close_test.gd"
+      ],
+      "sha256": "2462fca54f6a2668b70cc46ae0141b1138c4c7b39a89a6ddbf83950729d37105"
+    },
+    {
+      "path": "tests/party_sluice_ui_test.gd",
+      "retired_contract": "Old guard command and manual actor rounds; stale/proximity entry, recovery and save/close guards.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/party_sluice_state_test.gd",
+        "tests/unified_practice_lifecycle_test.gd",
+        "tests/unified_terminal_close_test.gd"
+      ],
+      "sha256": "8597c225080ee8a9e95e96de1d017540d52dd14f11daf0730acdd90c14844f01"
+    },
+    {
+      "path": "tests/party_archive_ui_test.gd",
+      "retired_contract": "Old archive manual rounds and guard keys; chapter guards and compact scene input.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/party_archive_state_test.gd",
+        "tests/frostbridge_ui_test.gd"
+      ],
+      "sha256": "26ce57917d8e1dbe87b7e8cd6bb27a0e6737b3c9216ac0e879246bda85d49d20"
+    },
+    {
+      "path": "tests/opening_duel_ui_test.gd",
+      "retired_contract": "Removed opening-only duel HUD, manual command belt and single-support cards.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/automatic_party_battle_art_test.gd"
+      ],
+      "sha256": "d3e5ffb46c0f8ffca4dcc20f6af8ef83f15c67fca99a3ecfb2b298e26c785502"
+    },
+    {
+      "path": "tests/battle_presentation_ui_test.gd",
+      "retired_contract": "Removed legacy main battle renderer/controller and manual exchange input locks.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/automatic_party_battle_art_test.gd"
+      ],
+      "sha256": "8492ba23238a0f0a9ac9990a483239740e48a8afa1207d4630b2d97499649542"
+    },
+    {
+      "path": "tests/courtyard_practice_ui_test.gd",
+      "retired_contract": "Removed dedicated exercise controller, manual commands and dedicated practice UI.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/unified_encounter_state_test.gd",
+        "tests/unified_practice_lifecycle_test.gd",
+        "tests/unified_terminal_close_test.gd"
+      ],
+      "sha256": "8bb45e9df7b3daee1b47205dfa7b5e241c6e9b21306cd75a03d2bbfbe2491c70"
+    },
+    {
+      "path": "tests/audit_receipt_ui_test.gd",
+      "retired_contract": "Removed historical single-hero receipt controller; stale callback/checkpoint/close guards.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/party_state_integration_test.gd",
+        "tests/heting_receipt_story_test.gd",
+        "tests/unified_practice_lifecycle_test.gd",
+        "tests/unified_terminal_close_test.gd"
+      ],
+      "sha256": "b6c126095a343d1f59e83e2fbc0c126a0bb2abd5487a941769caa9d628fb12cf"
+    },
+    {
+      "path": "tests/shen_support_presentation_test.gd",
+      "retired_contract": "Removed single-hero support-pulse presentation; Shen is now an independently acting actor.",
+      "current_replacements": [
+        "tests/automatic_party_battle_art_test.gd",
+        "tests/unified_combat_ui_test.gd"
+      ],
+      "sha256": "0faca018c49d9529be9d83eb1591fe971059e6243f345c3c6eaa4b7b6603117b"
+    },
+    {
+      "path": "tests/tang_support_presentation_test.gd",
+      "retired_contract": "Removed single-hero support-pulse presentation; Tang is now an independently acting actor.",
+      "current_replacements": [
+        "tests/automatic_party_battle_art_test.gd",
+        "tests/unified_combat_ui_test.gd"
+      ],
+      "sha256": "02fdf0387dbeed45da870611227db4147d99526185f2680179d0110170d26274"
+    },
+    {
+      "path": "tests/formation_ui_layout_test.gd",
+      "retired_contract": "Historical single-hero receipt controller inherited from audit_receipt_ui_test: support_card/target_cards, attack/guard buttons and fixed manual action footer. Preserve viewport, native pointer, occupied roster and presented-resource invariants in the current controller geometry matrix and automatic renderer suite.",
+      "current_replacements": [
+        "tests/unified_combat_ui_test.gd",
+        "tests/automatic_party_battle_art_test.gd"
+      ],
+      "sha256": "b6807d9a4765a49af05c602657a95c95d5f94ee7c5100014d5ad0f3e3800cd3b"
+    }
+  ],
+  "adapted_contracts": {
+    "tests/party_state_integration_test.gd": "Schema13 canonical omissions, exact historical11/12 readers, actual automatic transactions/queued skills, stale terminal settlement, once-only rewards, real filesystem failures, benched resource preservation",
+    "tests/party_sluice_state_test.gd": "Both routes/formations/solo-Shen now run actual scheduler; all entry/captured-context/reward/XP/corruption/write-failure guards retained",
+    "tests/party_archive_state_test.gd": "Current automatic earned journey and state boundary; detached legacy Rules catalog/status tests remain explicitly pure compatibility",
+    "tests/audit_second_region_test.gd": "Manual basic keys replaced by clock-driven actual rounds; real native martial uses slot1; removed universal guard no longer clears vulnerability; learned martial defense remains tested",
+    "tests/hud_layout_test.gd": "Legacy health bars replaced by presented current unit facts and occupied category groups; screenshot/persistent failure feedback tested in current notice surface",
+    "tests/receipt_journey_checks.gd": "Retained legacy receipt model diagnostic, explicitly announced separately by current scene journey; automatic_combat_balance_test owns current scheduler balance evidence"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "prepared_at_utc": "2026-10-02T21:41:02.343015+00:00",
+  "runtime_identity": "0.0.22 · unified automatic combat",
+  "save_schema": 13,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "status": "full source rehearsal passed; newly exported exact Web PCK still required",
+  "prior_audit_sha256": "2743ca977bd4dba6c5cb4fa3e412c2759ae73283611a8be0966fd477be33706a",
+  "source_fingerprints": {
+    "project.godot": "35cca8c1d9710b683a5d0b90e925e34127fb8475de0e4ae50d5a84b11bc40b70",
+    "export_presets.cfg": "2a923525286bd36d7d8aa1d6d5e729a2f3a4956c772db175c7d511d1039aedda",
+    "tools/smoke_export.gd": "7c87373aa82d129a9b103100ee097c9b6610edc937870f4c81dddc860a2ff7ca",
+    "tools/audit_web_export.py": "b0610ac7f8ed13445d705dafbccfc347d05424d700972845835849b7bdd34c29",
+    "tests/test_web_pack_audit.py": "0ae438491f2d5735a52d31e936576517d61e4557d1721b797f709b37591a154a",
+    "scripts/game_state.gd": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "scripts/main.gd": "55ba8baa3615189be0f619927e02478d62b400836bc53c51fba31b70c51e0b89",
+    "scripts/automatic_party_combat.gd": "d8ba92af86c160b96666c53c730373d91bcd2583b0da102810eabf59cf68e1c5",
+    "scripts/combat_skill_catalog.gd": "7998a1e9a974e7bd9936c0d09ebbd307844cf699929710860c2d6ab8ebf5f6fa",
+    "scripts/unified_encounter_rules.gd": "f587f3c7dd539f602a391b9fe609ab443231c5653debde79520af07cde5b8746",
+    "scripts/party_category_hud.gd": "10287e9d63ba3fcff426af17c25306434e33745d24b7168afd05950b2bcacd7b",
+    "scripts/party_battle_ui.gd": "4b01ae337cbe8c08e5ab1229139c8009f093a54265a6ac950f9d94ec29885407",
+    "scripts/party_battle_art.gd": "945a20b6836530b8d5ee0e6b963e112176d68ffe0e2cdaa17066234c45547d25",
+    "scripts/frostbridge_story.gd": "33b86e25f11776a122af97b313ecb995e957f4d39c60f631a007eb6475494244",
+    "scripts/lightness_story.gd": "daa780c61c42af5a6e5ed1e312f10348e107d3650655ca504a39f39e16e9f988",
+    "scripts/sect_progress_ui.gd": "8ce33c60fd5a6b375e0b734a7ef1f7dbc5ab782f571299e5d98ba367d72291e8",
+    "scripts/mistwood_story.gd": "2567f0026d46e8827675d997430e14889cce3c2d5561826f9d711d8b200071bb"
+  },
+  "frozen_readers": {
+    "9": {
+      "file": "tests/fixtures/v017_game_state.gd.txt",
+      "sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f"
+    },
+    "10": {
+      "file": "tests/fixtures/v019_game_state.gd.txt",
+      "sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5"
+    },
+    "11": {
+      "file": "tests/fixtures/v020_game_state.gd.txt",
+      "sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30"
+    },
+    "12": {
+      "file": "tests/fixtures/v022_game_state.gd.txt",
+      "sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a"
+    }
+  },
+  "full_source_rehearsal": {
+    "checks": 2794,
+    "failures": 0,
+    "exit_code": 0,
+    "preserved_assertions": 1471,
+    "unified_assertions": 1237,
+    "startup_baseline_assertions": 86,
+    "stdout_sha256": "a90c303bd5f235ca5f167fad508b3d6beeb81f61dbf90169c544bfe636f27562",
+    "stdout": [
+      "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+      "",
+      "SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim",
+      "Preserved noncombat exact-runtime coverage: 1471 checks; original asset/story/recruitment/menu/save assertions adapted to current schema",
+      "JOURNEY: school=听潮阁 level=6 hp=160/160 coins=490 medicines=7",
+      "JOURNEY: school=照野堂 level=6 hp=184/184 coins=484 medicines=7",
+      "JOURNEY: school=问石门 level=6 hp=160/160 coins=508 medicines=7",
+      "Schema13 unified automatic exact-runtime coverage: 1237 checks; all10 actual controllers; fixed3 skill slots; no-input basics; queued skills/CD;1-4 real rosters; explicit lessons; frozen9/10/11/12 readers; natural3-school journey; practice byte isolation; trial provenance; real save-failure/close/retry; no browser or physical desktop-close claim",
+      "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+      "PASS: 2794 source-rehearsal checks; 0 failures"
+    ],
+    "isolated_xdg_root": "/tmp/hero-unified-audit-full-20261002-2140"
+  },
+  "wrapper_validation": {
+    "python_suite": "tests/test_web_pack_audit.py",
+    "tests": 7,
+    "passed": true,
+    "required_exact_pck_checks": 2799,
+    "required_unified_checks": 1237,
+    "required_preserved_checks": 1471,
+    "real_full_rehearsal_rejected_as_exact_pack": true,
+    "checks_exact_site_and_zip_bytes": true,
+    "checks_complete_source_manifest_before_and_after": true,
+    "rejects_stale3215_oldschema12_markers_partial_duplicate_error_or_rehearsal_logs": true,
+    "stdout_sha256": "0e55b2b08352db9441eac12e1e8682e8555787584a796bf774e029a6cdcc4b23"
+  },
+  "migration": {
+    "superseded_checks": [
+      "Manual attack/guard and per-click actor turn assumptions",
+      "Hero-triggered automatic companion support instead of independent actor basics",
+      "Normal-route legacy receipt and courtyard controllers",
+      "Old battle-only HUD, legacy early result and separate guard command expectations"
+    ],
+    "preserved_checks": [
+      "Original assets, atlas crops, cached portraits, world props and scene geometry",
+      "Companion personal stories, distinct endings, care aftermath and explicit Qin recruitment",
+      "Noncombat HUD/inventory/martial menus, lesson guards, real map/exploration/traversal",
+      "Manual-slot/backup/atomic-load failures, F5/F9 compatibility, close/save failure guards",
+      "Harbor geography, machinery, both finite harbor branches and all legacy migration rejection checks"
+    ],
+    "replaced_by": "The distinct schema13 unified coverage block exercises actual current model/controller/renderer facts without importing any excluded tests or helpers"
+  },
+  "coverage": [
+    "All10 actual E/number entry routes identify exactly automatic_party_combat.gd and party_battle_ui.gd; first basic starts from no-input controller time",
+    "One to four legitimate occupied rosters expose exactly martial/internal/lightness slots; basic/guard are not manual commands; unfocused Enter/Space and direct attack/guard requests cannot execute",
+    "Observed automatic transactions across all encounters reject duplicate basic entitlements per living actor/round and enforce complete subsequent-round skill cooldowns; no fake battle attack/HP injection",
+    "Actual ally-target queue/cancel, qi charged only at execution, live selection/queue distinct from acting actor, held-key rejection, pending pause and safe boundary resume",
+    "Actual renderer action/payment event projection; no early future qi/CD reveal; new queued facts do not overwrite presented health/resource rails",
+    "Explicit free internal and independent lightness lessons through actual mentor menus; canceled/moved-away callbacks cannot grant lessons; schema13 strict flag/save/load; versions1-12 migrate without unearned internal",
+    "Every immutable frozen schema9/10/11/12 reader rejects actual new13 file without memory/disk mutation",
+    "Real practice win/flee/defeat plus result-dismiss/retry preserve complete persistent resources, proficiency, progression and all pre-existing save bytes",
+    "Preserved strict sluice/archive gates, actual checkpoint failure/retry, blocked active mutations/menus/save/load, old token rejection, pending/duplicate rewards and real filesystem failures",
+    "Both sluice branch orders and both separate archive endings crossed with natural hero-only/optional Shen eligibility; correct finite battle versus later ending rewards",
+    "Automatic action in progress plus repeated close, accepted flee/win/defeat settlement, retry cancellation and F5 recovery keep exact settled state and good old bytes",
+    "Complete natural fresh-start three-school journey earns supplies, recruitment, sword, exact martial trial proof, promotion, both advanced arts, all four chapters, care and lightness without invented stats or story resources"
+  ],
+  "pending_pack_assertions": [
+    "Exported project.binary exists",
+    "tests excluded",
+    "tools excluded",
+    "screenshots excluded",
+    "builds excluded"
+  ],
+  "limits": [
+    "A source rehearsal omits exactly5 packaging assertions and is never accepted by the exact-PCK wrapper",
+    "No export, release, GitHub package or deployment was performed by this audit task",
+    "Pinned native editor does not establish browser rendering/audio/IndexedDB persistence or a physical desktop-close event",
+    "Successful process exit remains intentionally uninvoked in this real-scene audit",
+    "Shared desktop export reuse needs the new external schema9/12 reader arguments and current count; desktop exporter was outside this task ownership"
+  ]
+}

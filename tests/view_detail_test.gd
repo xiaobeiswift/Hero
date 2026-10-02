@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Prefs=preload("res://scripts/view_preferences.gd")
 class LocalPrefs extends Prefs:
 	var writes=0
@@ -47,8 +48,8 @@ func _run()->void:
 	_check(game.view_preferences.full_resolution and game.overlay.find_child("PauseDisplayStatus",true,false).text.contains("未能保存"),"Failed preference write remains visible inside the rest menu")
 	game.view_preferences.fail=false;game.overlay.find_child("PauseQuality",true,false).pressed.emit();await process_frame
 	_check(game.display_settings_warning.is_empty(),"Successful preference write clears display warning")
-	await _key(KEY_ESCAPE);game._start_battle("training");writes=game.view_preferences.writes;game._toggle_view_detail();_check(game.view_preferences.writes==writes,"Battle blocks quality changes")
-	game.battle_presentation_enabled=false;game._battle_action("flee");game._close_modal();game._stop_audio();await create_timer(.25).timeout;game.queue_free();await process_frame
+	await _key(KEY_ESCAPE);UnifiedUI.open_training(game);writes=game.view_preferences.writes;game._toggle_view_detail();_check(game.view_preferences.writes==writes,"Battle blocks quality changes")
+	game.battle_presentation_enabled=false;UnifiedUI.leave(game);game._close_modal();game._stop_audio();await create_timer(.25).timeout;game.queue_free();await process_frame
 	if failures==0:print("PASS: %d clear/light settings, camera, input, persistence and menu lifecycle checks"%checks)
 	else:push_error("FAIL: view detail checks")
 	quit(0 if failures==0 else 1)

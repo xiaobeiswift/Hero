@@ -1,0 +1,2393 @@
+{
+  "checks": 3246,
+  "failures": 0,
+  "formula": "max(180, 4*hero_attack+30, 1 + 2*sum(living_attack) + sum(learned_enemy_martial_direct_damage_at_current_rank) + sum(learned_martial_internal_lightness_focus_allowances))",
+  "journey": [
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 26,
+      "detached_probe": false,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "trial_source_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 60,
+      "rounds": 2,
+      "settled_hp": 112,
+      "settled_level": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 3,
+      "actors": 2,
+      "coins_change": 14,
+      "detached_probe": false,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "trial_source_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "2/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 25,
+      "rounds": 1,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "coins_change": 80,
+      "detached_probe": false,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "trial_source_sluice",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 150,
+      "rounds": 2,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 30,
+          "defense": 6,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 10,
+      "actors": 2,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "136/136",
+        "shen": "81/106"
+      },
+      "label": "trial_source_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 80,
+      "rounds": 3,
+      "settled_hp": 136,
+      "settled_level": 4,
+      "start": {
+        "hero": {
+          "attack": 33,
+          "defense": 7,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 98,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 20,
+      "actors": 3,
+      "coins_change": 48,
+      "detached_probe": false,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "148/148",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "trial_source_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 90,
+      "rounds": 4,
+      "settled_hp": 148,
+      "settled_level": 5,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "106/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "scaled_trial_no_skill",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 4,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 36,
+          "defense": 8,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 20,
+          "defense": 10,
+          "hp": 150,
+          "max_hp": 150,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 17,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "160/160",
+        "qin": "160/160",
+        "shen": "122/122",
+        "tang": "139/139"
+      },
+      "label": "scaled_trial_retry",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "4/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 39,
+          "defense": 9,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 122,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 139,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 26,
+      "detached_probe": false,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "trial_source_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 60,
+      "rounds": 2,
+      "settled_hp": 112,
+      "settled_level": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 6,
+      "actors": 2,
+      "coins_change": 14,
+      "detached_probe": false,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "148/148",
+        "shen": "98/98"
+      },
+      "label": "trial_source_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "5/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 25,
+      "rounds": 2,
+      "settled_hp": 148,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 11,
+      "actors": 2,
+      "coins_change": 80,
+      "detached_probe": false,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "148/148",
+        "shen": "83/98"
+      },
+      "label": "trial_source_sluice",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 150,
+      "rounds": 3,
+      "settled_hp": 148,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 6,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 2,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "150/160",
+        "shen": "89/106"
+      },
+      "label": "trial_source_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 80,
+      "rounds": 4,
+      "settled_hp": 150,
+      "settled_level": 4,
+      "start": {
+        "hero": {
+          "attack": 29,
+          "defense": 7,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 83,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 23,
+      "actors": 3,
+      "coins_change": 48,
+      "detached_probe": false,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "172/172",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "trial_source_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "4/6"
+      },
+      "reward_xp": 90,
+      "rounds": 4,
+      "settled_hp": 172,
+      "settled_level": 5,
+      "start": {
+        "hero": {
+          "attack": 32,
+          "defense": 8,
+          "hp": 172,
+          "max_hp": 172,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 13,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "140/172",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "scaled_trial_no_skill",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 184,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 32,
+          "defense": 8,
+          "hp": 172,
+          "max_hp": 172,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 20,
+          "defense": 10,
+          "hp": 150,
+          "max_hp": 150,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 17,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "184/184",
+        "qin": "160/160",
+        "shen": "122/122",
+        "tang": "139/139"
+      },
+      "label": "scaled_trial_retry",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "5/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 184,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 35,
+          "defense": 9,
+          "hp": 184,
+          "max_hp": 184,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 122,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 139,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 26,
+      "detached_probe": false,
+      "encounter": "story",
+      "hp": {
+        "hero": "95/100",
+        "shen": "82/82"
+      },
+      "label": "trial_source_opening",
+      "level": 1,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 60,
+      "rounds": 2,
+      "settled_hp": 112,
+      "settled_level": 2,
+      "start": {
+        "hero": {
+          "attack": 16,
+          "defense": 4,
+          "hp": 100,
+          "max_hp": 100,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 13,
+          "defense": 3,
+          "hp": 82,
+          "max_hp": 82,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 7,
+      "actors": 2,
+      "coins_change": 14,
+      "detached_probe": false,
+      "encounter": "sluice_scout",
+      "hp": {
+        "hero": "124/124",
+        "shen": "98/98"
+      },
+      "label": "trial_source_scout",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 25,
+      "rounds": 2,
+      "settled_hp": 124,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 12,
+      "actors": 2,
+      "coins_change": 80,
+      "detached_probe": false,
+      "encounter": "sluice_boss",
+      "hp": {
+        "hero": "117/124",
+        "shen": "83/98"
+      },
+      "label": "trial_source_sluice",
+      "level": 3,
+      "medicine_end": 5,
+      "medicine_start": 5,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 150,
+      "rounds": 4,
+      "settled_hp": 117,
+      "settled_level": 3,
+      "start": {
+        "hero": {
+          "attack": 26,
+          "defense": 9,
+          "hp": 124,
+          "max_hp": 124,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 17,
+          "defense": 5,
+          "hp": 98,
+          "max_hp": 98,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 18,
+      "actors": 2,
+      "coins_change": 40,
+      "detached_probe": false,
+      "encounter": "archive_boss",
+      "hp": {
+        "hero": "129/136",
+        "shen": "61/106"
+      },
+      "label": "trial_source_archive",
+      "level": 4,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6"
+      },
+      "reward_xp": 80,
+      "rounds": 5,
+      "settled_hp": 129,
+      "settled_level": 4,
+      "start": {
+        "hero": {
+          "attack": 29,
+          "defense": 10,
+          "hp": 136,
+          "max_hp": 136,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 19,
+          "defense": 6,
+          "hp": 83,
+          "max_hp": 106,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 24,
+      "actors": 3,
+      "coins_change": 48,
+      "detached_probe": false,
+      "encounter": "mist_keeper",
+      "hp": {
+        "hero": "148/148",
+        "shen": "101/114",
+        "tang": "130/130"
+      },
+      "label": "trial_source_keeper",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "shen": "6/6",
+        "tang": "4/6"
+      },
+      "reward_xp": 90,
+      "rounds": 5,
+      "settled_hp": 148,
+      "settled_level": 5,
+      "start": {
+        "hero": {
+          "attack": 32,
+          "defense": 11,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 14,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "122/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "label": "scaled_trial_no_skill",
+      "level": 5,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "zero_input",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "6/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 160,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 32,
+          "defense": 11,
+          "hp": 148,
+          "max_hp": 148,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 20,
+          "defense": 10,
+          "hp": 150,
+          "max_hp": 150,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 21,
+          "defense": 7,
+          "hp": 114,
+          "max_hp": 114,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 22,
+          "defense": 9,
+          "hp": 130,
+          "max_hp": 130,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": false
+    },
+    {
+      "accepted_actions": 16,
+      "actors": 4,
+      "coins_change": 20,
+      "detached_probe": false,
+      "encounter": "sect_trial",
+      "hp": {
+        "hero": "156/160",
+        "qin": "160/160",
+        "shen": "122/122",
+        "tang": "139/139"
+      },
+      "label": "scaled_trial_retry",
+      "level": 6,
+      "medicine_end": 7,
+      "medicine_start": 7,
+      "outcome": "win",
+      "policy": "queued",
+      "qi": {
+        "hero": "6/6",
+        "qin": "6/6",
+        "shen": "6/6",
+        "tang": "5/6"
+      },
+      "reward_xp": 45,
+      "rounds": 3,
+      "settled_hp": 156,
+      "settled_level": 6,
+      "start": {
+        "hero": {
+          "attack": 35,
+          "defense": 12,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "qin": {
+          "attack": 22,
+          "defense": 11,
+          "hp": 160,
+          "max_hp": 160,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "shen": {
+          "attack": 23,
+          "defense": 8,
+          "hp": 122,
+          "max_hp": 122,
+          "max_qi": 6,
+          "qi": 6
+        },
+        "tang": {
+          "attack": 24,
+          "defense": 10,
+          "hp": 139,
+          "max_hp": 139,
+          "max_qi": 6,
+          "qi": 6
+        }
+      },
+      "trial_met": true
+    }
+  ],
+  "trials": [
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 60,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 76,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 136
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "76/124"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "听潮阁",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 60,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 76,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 136
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "76/124"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "听潮阁",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 94,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 76,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 170
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "124/124",
+        "shen": "73/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 94,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 76,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 170
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "100/124",
+        "shen": "98/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 72,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 88,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 160
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "116/148"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 72,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 88,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 160
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "116/148"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 114,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 88,
+        "max_hp": 203,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 202
+      },
+      "enemy_max_hp": 203,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "148/148",
+        "shen": "91/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 114,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 88,
+        "max_hp": 203,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 202
+      },
+      "enemy_max_hp": 203,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "126/148",
+        "shen": "114/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 158,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 285,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 284
+      },
+      "enemy_max_hp": 285,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "148/148",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 158,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 285,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 284
+      },
+      "enemy_max_hp": 285,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "131/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 198,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 325,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 324
+      },
+      "enemy_max_hp": 325,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "148/148",
+        "qin": "150/150",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 198,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 325,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 324
+      },
+      "enemy_max_hp": 325,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "148/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "听潮阁",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 198,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 325,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 324
+      },
+      "enemy_max_hp": 325,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "106/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "none",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "听潮阁",
+      "stage": "late_no_skill"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 198,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 112,
+        "max_hp": 325,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 324
+      },
+      "enemy_max_hp": 325,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "116/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "wrong_skill",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "听潮阁",
+      "stage": "late_wrong_skill"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 52,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 26,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 78
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "106/148"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 42,
+      "rounds": 6,
+      "school": "照野堂",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 52,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 26,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 78
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "106/148"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 42,
+      "rounds": 6,
+      "school": "照野堂",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 86,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 26,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 112
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "136/148",
+        "shen": "98/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 12,
+      "rounds": 4,
+      "school": "照野堂",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 86,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 26,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 112
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "136/148",
+        "shen": "98/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 12,
+      "rounds": 4,
+      "school": "照野堂",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 64,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 32,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 96
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "118/172"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 10,
+      "rounds": 5,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 64,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 32,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 96
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "118/172"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 10,
+      "rounds": 5,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 106,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 32,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 138
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "172/172",
+        "shen": "114/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 10,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 106,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 32,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 138
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "172/172",
+        "shen": "114/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 10,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 150,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 221,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 220
+      },
+      "enemy_max_hp": 221,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "172/172",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 5,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 150,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 221,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 220
+      },
+      "enemy_max_hp": 221,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "155/172",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 5,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 261,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 260
+      },
+      "enemy_max_hp": 261,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "172/172",
+        "qin": "150/150",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 5,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 261,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 260
+      },
+      "enemy_max_hp": 261,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "155/172",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 5,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 261,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 260
+      },
+      "enemy_max_hp": 261,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "140/172",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "none",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late_no_skill"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 56,
+        "max_hp": 261,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 260
+      },
+      "enemy_max_hp": 261,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "150/172",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "wrong_skill",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "照野堂",
+      "stage": "late_wrong_skill"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 52,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 36,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 88
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "69/124"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 6,
+      "school": "问石门",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 52,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 36,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 88
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "69/124"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 6,
+      "school": "问石门",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 86,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 36,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 122
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "106/124",
+        "shen": "48/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": false,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 5,
+      "school": "问石门",
+      "stage": "early"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 86,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 36,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 122
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "115/124",
+        "shen": "98/98"
+      },
+      "level": 3,
+      "medicine": 5,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "问石门",
+      "stage": "early"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 64,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 42,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 106
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "109/148"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 5,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 1,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 64,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 42,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 106
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "109/148"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 5,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 106,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 42,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 148
+      },
+      "enemy_max_hp": 180,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "134/148",
+        "shen": "91/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 4,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 2,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 106,
+        "focus_damage_budget": 0,
+        "legacy_floor": 180,
+        "martial_damage_budget": 42,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 148
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "135/148",
+        "shen": "114/114"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 150,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 231,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 230
+      },
+      "enemy_max_hp": 231,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "146/148",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 3,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 150,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 231,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 230
+      },
+      "enemy_max_hp": 231,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "141/148",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 271,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 270
+      },
+      "enemy_max_hp": 271,
+      "formation": "并肩",
+      "historical": false,
+      "hp": {
+        "hero": "146/148",
+        "qin": "150/150",
+        "shen": "96/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": true,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 271,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 270
+      },
+      "enemy_max_hp": 271,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "141/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": true,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 271,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 270
+      },
+      "enemy_max_hp": 271,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "122/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "none",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late_no_skill"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": true,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 271,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 270
+      },
+      "enemy_max_hp": 271,
+      "formation": "护后",
+      "historical": false,
+      "hp": {
+        "hero": "129/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "wrong_skill",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 3,
+      "school": "问石门",
+      "stage": "late_wrong_skill"
+    },
+    {
+      "actors": 4,
+      "actual_guarded_heavy": false,
+      "actual_round2_heavy": false,
+      "budget": {
+        "basic_damage_budget": 190,
+        "focus_damage_budget": 14,
+        "legacy_floor": 180,
+        "martial_damage_budget": 66,
+        "max_hp": 180,
+        "reason": "按到场队伍两轮普攻、已习得武学伤害与可用蓄锋计算试招气血，至少留下1点供第二轮真实重击；交锋中不再调整。",
+        "two_round_damage_budget": 270
+      },
+      "enemy_max_hp": 180,
+      "formation": "护后",
+      "historical": true,
+      "hp": {
+        "hero": "146/148",
+        "qin": "150/150",
+        "shen": "114/114",
+        "tang": "130/130"
+      },
+      "level": 5,
+      "medicine": 7,
+      "met": false,
+      "mode": "objective",
+      "outcome": "win",
+      "positive_healing": 0,
+      "rounds": 2,
+      "school": "问石门",
+      "stage": "historical_gap"
+    }
+  ]
+}

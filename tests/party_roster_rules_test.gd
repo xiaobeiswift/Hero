@@ -99,12 +99,13 @@ func test_legacy_migration() -> void:
 	check(Rules.load_plan(both, {"active_companion": "唐栖"}, 11).payload.party_roster == ["hero", "tang"], "An explicit saved Tang choice wins over default normalized selection")
 	var payload: Dictionary = initial_payload(both)
 	payload.party_roster = ["hero"]
-	check(Rules.load_plan(both, payload, 12).payload.party_roster == ["hero"], "Schema12 explicit empty companion selection survives loading")
+	for version: int in [12, 13]:
+		check(Rules.load_plan(both, payload, version).payload.party_roster == ["hero"], "Schema%d explicit empty companion selection survives loading" % version)
 	check(both.Companions.active(both).is_empty(), "Modern explicit hero-only roster remains empty; only legacy load_plan uses historical fallback")
 	check(Rules.load_plan(both, payload, 11).payload.party_roster == ["hero"], "Complete optional legacy payload is validated instead of discarded/rehealed")
-	for version: Variant in [0, 13, 1.5, true, "12", null, NAN, INF]:
+	for version: Variant in [0, 14, 1.5, true, "13", null, NAN, INF]:
 		check(not Rules.load_plan(both, payload, version).ok, "Bad source version rejects: " + str(version))
-	for version: int in range(1, 13):
+	for version: int in range(1, 14):
 		for key: String in Rules.PARTY_KEYS:
 			var partial: Dictionary = payload.duplicate(true)
 			partial.erase(key)

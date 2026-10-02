@@ -3,6 +3,7 @@ extends SceneTree
 ## The old-reader fixture is byte-exact game_state.gd from commit
 ## 4e523c44356480ba9722934eb4cbee68c1e315ca (pre-schema12, source-only checkpoint).
 const State = preload("res://scripts/game_state.gd")
+const AutoDriver = preload("res://tests/automatic_state_test_driver.gd")
 const Catalog = preload("res://scripts/party_actor_catalog.gd")
 const Slots = preload("res://scripts/local_save_slots.gd")
 const OLD_PATH = "res://tests/fixtures/v020_game_state.gd.txt"
@@ -30,7 +31,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Remove only this isolated test fixture_root")
 	if failures == 0:
-		print("PASS: %d party state integration checks (schema12/migration/selection/transactions/settlement/save safety)" % checks)
+		print("PASS: %d party state integration checks (schema13/migration/selection/transactions/settlement/save safety)" % checks)
 	else:
 		push_error("FAIL: %d / %d party state integration checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -43,7 +44,7 @@ func check(value: bool, message: String) -> void:
 		push_error(message)
 
 
-func _write(path: String, data: Dictionary, version: int = 12) -> void:
+func _write(path: String, data: Dictionary, version: int = State.SAVE_VERSION) -> void:
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(JSON.stringify({"version": version, "player": data}))
 	file.close()
@@ -106,7 +107,10 @@ func _earned(s) -> int:
 
 
 func _step(s, action: String, target: String = "") -> Dictionary:
-	var tx: Dictionary = s.party_battle_action(action, target)
+	var tx: Dictionary
+	if action == "advance": tx = s.advance_party_battle()
+	elif action.begins_with("art:"): tx = AutoDriver.queued_next(s, "hero", action, target)
+	else: tx = s.party_battle_action(action, target)
 	check(tx.accepted, "Accepted independent action: " + action)
 	if tx.accepted:
 		var completed: Dictionary = s.finish_party_presentation(tx.epoch, tx.token)
@@ -116,23 +120,12 @@ func _step(s, action: String, target: String = "") -> Dictionary:
 
 func _win(s) -> Dictionary:
 	var last: Dictionary = {}
-	for index: int in range(120):
-		if not s.party_battle_snapshot().active:
-			break
-		var current: Dictionary = s.party_battle_snapshot()
-		var selected: Dictionary = {}
-		for actor: Dictionary in current.actors:
-			if actor.id == current.active_actor_id:
-				selected = actor
-		var target: String = ""
-		for enemy: Dictionary in current.enemies:
-			if enemy.hp > 0 and (target.is_empty() or enemy.id == "bracer"):
-				target = enemy.id
-		var action: String = "attack"
-		for option: Dictionary in selected.actions:
-			if option.available and option.category == "martial" and option.target_team == "enemy":
-				action = option.id
-		last = _step(s, action, target)
+	for index: int in range(400):
+		if not s.battle_active: break
+		last = AutoDriver.tactical_next(s)
+		check(last.get("accepted", false), "Actual scheduler accepts queued tactics or automatic basic")
+		if not last.get("accepted", false): break
+		check(s.finish_party_presentation(last.epoch, last.token).accepted, "Actual scheduler transaction acknowledges")
 	check(not s.battle_active and s.party_settlement.get("outcome") == "win", "Bounded ordinary actions naturally reach a settled victory")
 	return last
 
@@ -215,12 +208,27 @@ func test_migration_and_reader() -> void:
 	old.coins = 71
 	old.hp = 23
 	var old_before: Dictionary = old.to_dict()
-	check(original.save_game(path) == OK, "Write actual schema12 save for old-reader rejection")
+	check(original.save_game(path) == OK, "Write actual schema13 save for old-reader rejection")
 	var current_bytes: PackedByteArray = _bytes(path)
-	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == old_before and _bytes(path) == current_bytes, "Exact schema11 reader rejects schema12 without touching state or file")
+	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == old_before and _bytes(path) == current_bytes, "Exact schema11 reader rejects schema13 without touching state or file")
+	var predecessor_path: String = "res://tests/fixtures/v022_game_state.gd.txt"
+	check(FileAccess.get_sha256(predecessor_path) == "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a", "Frozen schema12 reader matches independently recorded exact SHA256")
+	var predecessor = GDScript.new()
+	predecessor.source_code = FileAccess.get_file_as_string(predecessor_path).replace("class_name HeroState\n", "")
+	check(predecessor.reload() == OK, "Frozen schema12 reader compiles with only class registration removed")
+	var old12 = predecessor.new()
+	old12.hp = 19; old12.coins = 417; old12.battle_active = true; old12.enemy_hp = 11
+	var old12_before: Dictionary = old12.to_dict()
+	check(old12.load_game(path) == ERR_FILE_UNRECOGNIZED and old12.to_dict() == old12_before and old12.battle_active and old12.enemy_hp == 11 and _bytes(path) == current_bytes, "Exact schema12 reader rejects13 before changing persistent, transient, or disk state")
+	var previous: Dictionary = original.to_dict()
+	previous.erase("internal_unlocked")
+	_write(path, previous, 12)
+	var previous_bytes: PackedByteArray = _bytes(path)
+	var migrated12 = State.new()
+	check(migrated12.load_game(path) == OK and not migrated12.internal_unlocked and migrated12.party_roster == original.party_roster and migrated12.party_resources == original.party_resources and migrated12.hp == 17 and migrated12.qi == 1 and _bytes(path) == previous_bytes, "Complete schema12 migrates unchanged resources/roster without fabricating internal lesson or rewriting bytes")
 
 
-func _reject_load(s, data: Dictionary, label: String, version: int = 12) -> void:
+func _reject_load(s, data: Dictionary, label: String, version: int = State.SAVE_VERSION) -> void:
 	var path: String = fixture_root.path_join("invalid.json")
 	_write(path, data, version)
 	var prior: Dictionary = _snapshot(s)
@@ -237,7 +245,7 @@ func test_strict_loads() -> void:
 	for key: String in good:
 		var missing: Dictionary = good.duplicate(true)
 		missing.erase(key)
-		_reject_load(live, missing, "Missing schema12 field " + key)
+		_reject_load(live, missing, "Missing schema13 field " + key)
 	for roster: Variant in [[], ["shen", "hero"], ["hero", "hero"], ["hero", "ghost"], ["hero", "shen", "tang", "hero"], "hero", null]:
 		var data: Dictionary = good.duplicate(true)
 		data.party_roster = roster
@@ -256,7 +264,7 @@ func test_strict_loads() -> void:
 			_reject_load(live, data, "Invalid raw hero scalar " + key)
 	var zero: Dictionary = good.duplicate(true)
 	zero.hp = 0
-	_reject_load(live, zero, "Raw schema12 heroHP0 cannot hide behind old loader clamp")
+	_reject_load(live, zero, "Raw schema13 heroHP0 cannot hide behind old loader clamp")
 	var extra: Dictionary = good.duplicate(true)
 	extra.party_resources.shen.max_hp = 999
 	_reject_load(live, extra, "Unknown companion entry field")
@@ -274,7 +282,7 @@ func test_strict_loads() -> void:
 	live.position = Vector2(1406.1234, 42.98765)
 	check(live.save_game(path) == OK, "Explicit solo and downed bench serialize")
 	var loaded = State.new()
-	check(loaded.load_game(path) == OK and loaded.to_dict() == live.to_dict() and loaded.current_companion().is_empty(), "Schema12 roundtrip retains solo roster and every benched injury")
+	check(loaded.load_game(path) == OK and loaded.to_dict() == live.to_dict() and loaded.current_companion().is_empty(), "Schema13 roundtrip retains solo roster and every benched injury")
 
 
 func test_entry_and_transactions() -> void:
@@ -296,19 +304,18 @@ func test_entry_and_transactions() -> void:
 	s.gain_xp(600)
 	check(not s.battle_action("attack").valid and _snapshot(s) == before, "Rest/XP/legacy attack cannot bypass independent party transaction")
 	check(s.select_party_actor("shen"), "Controller selects a living companion actor")
-	var tx: Dictionary = s.party_battle_action(Catalog.SHEN_ART, "hero")
+	var initial: Dictionary = _step(s, "advance")
+	check(initial.source_id == "hero" and initial.action_id == "attack" and initial.after.enemies[0].hp == 80 and s._companion_attack_count == 0, "Automatic hero basic applies exact16 damage without legacy assist")
+	var tx: Dictionary = AutoDriver.queued_next(s, "shen", Catalog.SHEN_ART, "hero")
 	check(tx.accepted and tx.source_id == "shen" and s.party_resources.shen.qi == 0 and s.hp == 93, "Shen action spends only her qi and heals selected living hero")
 	check(tx.is_read_only() and tx.after.actors.is_read_only() and tx.epoch == s.party_battle_epoch, "Transaction remains deeply immutable with owner epoch")
+	var pending_resources: Dictionary = s.to_dict()
+	check(not s.party_battle_action("attack").accepted and not s.advance_party_battle().accepted and s.select_party_actor("hero") and s.select_party_target("puheng") and s.to_dict() == pending_resources and tx.source_id == "shen" and tx.target_id == "hero", "Presentation blocks duplicate execution while next-command selection preserves exact committed actor/target/resources")
 	var pending: Dictionary = _snapshot(s)
-	check(not s.party_battle_action("attack").accepted and not s.select_party_actor("hero") and not s.select_party_target("puheng"), "Presentation lock blocks actions and selections")
 	check(not s.finish_party_presentation(tx.epoch + 1, tx.token).accepted and not s.finish_party_presentation(tx.epoch, tx.token + 1).accepted and _snapshot(s) == pending, "Bad epoch/token leaves transaction pending and state unchanged")
 	check(s.finish_party_presentation(tx.epoch, tx.token).accepted and not s.finish_party_presentation(tx.epoch, tx.token).accepted, "Accepted presentation completes exactly once")
-	var attack: Dictionary = _step(s, "attack", "puheng")
-	var damage: int = 0
-	for event: Dictionary in attack.events:
-		if event.get("kind") == "damage" and event.get("source_id") == "hero":
-			damage += int(event.amount)
-	check(attack.after.enemies[0].hp == 80 and s._companion_attack_count == 0, "Hero attack uses exact actor damage without old automatic companion assistance")
+	var attack: Dictionary = _step(s, "advance")
+	check(attack.source_id == "shen" and attack.action_id == "attack" and attack.after.actors[1].basic_done, "Shen still receives her automatic basic after her optional queued heal")
 	s.select_party_actor("hero")
 	var art: Dictionary = _step(s, "art:" + s.equipped_art, "puheng")
 	check(art.accepted and s.art_uses[s.equipped_art] == 1 and s.qi == art.after.actors[0].qi, "Hero art proficiency and qi mirror once from accepted actor action")
@@ -331,7 +338,7 @@ func test_outcomes() -> void:
 	story.qi = 0
 	var old_coins: int = story.coins
 	check(story.start_party_battle("story"), "Eligible story begins once")
-	var tx: Dictionary = story.party_battle_action("attack", "puheng")
+	var tx: Dictionary = story.advance_party_battle()
 	check(tx.after.outcome == "win" and story.battle_active and story.quest_stage == 3 and story.coins == old_coins and story.hp == 14, "Accepted terminal win postpones rewards and hero level recovery until presentation")
 	var prior: Dictionary = _snapshot(story)
 	check(story.save_game(fixture_root.path_join("no-terminal.json")) == ERR_BUSY and story.load_game(fixture_root.path_join("missing.json")) == ERR_BUSY and not story.set_party_roster(["hero", "shen"]) and _snapshot(story) == prior, "Terminal presentation pending blocks save/load/selection")
@@ -347,7 +354,7 @@ func test_outcomes() -> void:
 	var earned_before: int = _earned(story)
 	old_coins = story.coins
 	check(story.start_party_battle("training"), "Training unlocks after opening victory")
-	_step(story, "attack", "puheng")
+	_step(story, "advance")
 	check(_earned(story) == earned_before + 30 and story.coins == old_coins + 12 and story.quest_stage == 4, "Training preserves existing30XP/12coin reward and main progress")
 	var survivor = _all_recruited()
 	survivor.xp = 0
@@ -355,14 +362,14 @@ func test_outcomes() -> void:
 	survivor.qi = 0
 	survivor.attack = 1
 	check(survivor.start_party_battle("training"), "Three-member survivor fixture enters an eligible training encounter")
-	_step(survivor, "attack", "puheng")
-	_step(survivor, "attack", "puheng")
-	_step(survivor, "attack", "puheng")
+	for index: int in range(12):
+		if survivor.hp == 0 or not survivor.battle_active: break
+		_step(survivor, "advance")
 	check(survivor.hp == 0 and survivor.battle_active and survivor.party_battle_snapshot().active, "Hero stays down while both genuinely recruited companions continue")
-	for index: int in range(10):
+	for index: int in range(80):
 		if not survivor.battle_active:
 			break
-		_step(survivor, "attack", "puheng")
+		_step(survivor, "advance")
 	check(survivor.party_settlement.outcome == "win" and survivor.hp == 1 and survivor.xp == 30 and survivor.level == 1, "Surviving companions win naturally; no-level-up settlement uses only heroHP1 floor")
 	for outcome: String in ["flee", "defeat"]:
 		var s = State.new()
@@ -375,8 +382,9 @@ func test_outcomes() -> void:
 		s.attack = 1
 		s.coins = 5
 		check(s.start_party_battle("story"), "Low-resource party starts " + outcome)
-		_step(s, "attack", "puheng")
-		_step(s, "attack", "puheng")
+		for index: int in range(12):
+			if s.hp == 0 or not s.battle_active: break
+			_step(s, "advance")
 		if outcome == "flee":
 			check(s.hp == 0 and s.battle_active and s.party_battle_snapshot().active, "Hero-down state stays in battle while a companion survives")
 			var before_flee: Dictionary = s.to_dict()
@@ -386,10 +394,10 @@ func test_outcomes() -> void:
 		else:
 			# Story attacks deterministically target exposed living actors. Continue
 			# actual weak attacks until both low-health actors are down.
-			for index: int in range(10):
+			for index: int in range(80):
 				if not s.battle_active:
 					break
-				_step(s, "attack", "puheng")
+				_step(s, "advance", "puheng")
 			check(s.party_settlement.get("outcome") == "defeat" and s.coins == 0 and s.hp == s.max_hp and s.qi >= 2 and s.party_resources.shen.hp == _actor(s, "shen").max_hp, "Natural total defeat recovers all actorHP/qi floor and loses no more available5coins")
 			check(s.map_id == "qingwei" and s.position == Vector2(420, 450) and s.quest_stage == 3 and s.victories == 0, "Defeat returns to original safe village location without quest reward")
 
@@ -440,7 +448,8 @@ func test_receipt_and_persistence() -> void:
 	defeat.party_resources.shen = {"hp": 0, "qi": 0}
 	defeat.party_resources.tang = {"hp": 3, "qi": 1}
 	check(defeat.start_party_battle("heting_receipt"), "Receipt low-HP defeat attempt begins")
-	_step(defeat, "attack", "bracer")
+	var defeat_tx: Dictionary = AutoDriver.terminal_next(defeat)
+	check(defeat_tx.get("accepted", false) and defeat.finish_party_presentation(defeat_tx.epoch, defeat_tx.token).settled, "Actual automatic enemy attack settles receipt defeat")
 	check(defeat.party_settlement.outcome == "defeat" and defeat.receipt_stage == 1 and defeat.coins == 13 and defeat.map_id == "heting" and defeat.position == Vector2(230, 735), "Receipt defeat retains retry stage and recovers at harbor safe location with8coin cap")
 	check(defeat.party_resources.shen.hp == _actor(defeat, "shen").max_hp and defeat.party_resources.tang.hp == _actor(defeat, "tang").max_hp and defeat.party_resources.shen.qi == 2, "Explicit defeat recovery includes downed and benched recruited members")
 	check(defeat.start_party_battle("heting_receipt"), "Defeated receipt can retry with fresh epoch")
@@ -505,7 +514,8 @@ func test_prepared_four_member_state() -> void:
 	s.heal_rest()
 	check(s.start_party_battle("heting_receipt") and s.party_battle_snapshot().actors.size() == 4, "Prepared recruited four-member party configures the actual model")
 	check(s.select_party_actor("qin"), "Controller can explicitly select Qin")
-	var tx: Dictionary = _step(s, "art:qin_shoudu", "qin")
+	var tx: Dictionary = AutoDriver.queued_next(s, "qin", "art:qin_shoudu", "qin")
+	check(tx.get("accepted", false) and s.finish_party_presentation(tx.epoch, tx.token).accepted, "Explicit queued Qin skill executes through scheduler and acknowledges")
 	check(tx.accepted and tx.source_id == "qin" and s.party_resources.qin.qi == tx.after.actors[3].qi and s.hp == s.max_hp, "Qin guard action commits only his actual resources with real four-actor facts")
 	_step(s, "flee")
 	check(s.party_settlement.outcome == "flee" and s.party_roster.size() == 4 and s.qin_stage == 4, "Four-member retreat settles without discarding Qin recruitment")

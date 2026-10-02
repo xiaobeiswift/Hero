@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedDriver = preload("res://tests/unified_ui_test_driver.gd")
 ## Independent integration audit. Use an isolated XDG_DATA_HOME when running.
 ## Run: godot --headless --path . --script tests/audit_progression_test.gd
 
@@ -145,22 +146,27 @@ func _test_quest_collection() -> void:
 
 func _test_battle_recovery() -> void:
 	game.state.hp = 1
+	game.world.teleport(game.world.interactables.bandit.pos)
 	game._start_battle("story")
-	game._battle_action("attack")
+	for step: int in range(8):
+		if not game.state.battle_active: break
+		UnifiedDriver.step(game, false)
 	_check(not game.state.battle_active and game.current_screen == "explore", "Defeat returns to exploration")
 	_check(game.state.quest_stage == 3 and game.state.hp == game.state.max_hp and game.state.coins == 16, "Defeat restores health and preserves quest, charging eight coins")
 	game._close_modal()
+	game.world.teleport(game.world.interactables.bandit.pos)
 	game._start_battle("story")
-	game._battle_action("flee")
+	UnifiedDriver.leave(game)
 	_check(game.state.quest_stage == 3 and not game.state.battle_active and not game.active_modal, "Flee preserves retryable story stage")
 	game.state.heal_rest()
+	game.world.teleport(game.world.interactables.bandit.pos)
 	game._start_battle("story")
 	_win_battle()
 	_check(game.state.quest_stage == 4 and game.state.victories == 1, "Retry after defeat and flee can win story encounter")
 	var before: Dictionary = game.state.to_dict()
 	game._battle_action("attack")
 	_check(game.state.to_dict() == before, "A repeated battle-completion input cannot award twice")
-	_press("收剑，回村")
+	_press("继续行走")
 
 
 func _test_story_completion() -> void:
@@ -305,41 +311,11 @@ func _drive_party_action() -> bool:
 	if not is_instance_valid(panel):
 		_check(false, "Active party encounter has its real controller")
 		return false
-	panel.art.set_process(false)
 	var snapshot: Dictionary = game.state.party_battle_snapshot()
-	var actor: Dictionary = {}
-	for candidate: Dictionary in snapshot.actors:
-		if candidate.id == snapshot.active_actor_id:
-			actor = candidate
-	if actor.is_empty():
-		_check(false, "Party encounter exposes a living selected actor")
-		return false
-	var chosen: Dictionary = {}
-	var ally_target: String = ""
-	for action: Dictionary in actor.actions:
-		if action.id == "attack" and action.available:
-			chosen = action
-	for action: Dictionary in actor.actions:
-		if action.available and action.category == "martial" and action.target_team == "enemy":
-			chosen = action
-	for action: Dictionary in actor.actions:
-		if action.available and action.category == "martial" and action.target_team == "ally" and action.effects.get("healing", 0) > 0:
-			for ally: Dictionary in snapshot.actors:
-				if action.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
-					chosen = action
-					ally_target = ally.id
-	for action: Dictionary in actor.actions:
-		if action.id == "item" and action.available and actor.hp < 45:
-			chosen = action
-	if chosen.is_empty():
-		_check(false, "Selected actor has a legal journey action")
-		return false
-	panel.request_command(actor.id, chosen.id)
-	if not panel.pending_action.is_empty():
-		panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
-	_check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
-	if panel.pending.is_empty():
-		return false
+	var before: Dictionary = game.state.to_dict()
+	var tx: Dictionary = UnifiedDriver.begin_step(game)
+	_check(tx.get("accepted", false), "Actual automatic scheduler accepts one current-controller transaction")
+	if not tx.get("accepted", false): return false
 	# Complete the actual renderer timeline so its presentation-finished signal
 	# acknowledges the real epoch/token and performs the real state settlement.
 	panel.art._process(panel.art.get_presentation_duration() + 0.1)

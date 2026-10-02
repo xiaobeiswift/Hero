@@ -177,7 +177,8 @@ func _pending_receipt_learning() -> void:
 	var before: Dictionary = game.state.to_dict()
 	game._interact("mentor")
 	_check(_find_button(game.overlay, "领取内门荐记") != null and _find_button(game.overlay, "稍后领取") != null, "Pending receipt retains original claim and postpone options")
-	_press(game, "轻身基础")
+	_press(game, "内功与轻身")
+	_press(game, "轻功 · 踏苇行")
 	_press(game, "修习踏苇行")
 	var expected: Dictionary = before.duplicate(true)
 	expected.lightness_unlocked = true

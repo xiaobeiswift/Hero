@@ -13,16 +13,19 @@ func _run() -> void:
 		await _key(KEY_E)
 		_check(_find_button(game.overlay,"开始受试")!=null,"Real E interaction opens mentor")
 		_press("开始受试")
-		_check(game.current_screen=="battle" and game.state.equipped_art==game.state.sect_art(),"Trial restores hero and equips the appropriate school art")
-		_check(game.battle_title.text.contains("验"),"Trial uses correct location heading")
-		game._battle_action("attack");game._battle_action("skill")
+		_check(game.current_screen=="party_battle" and game.state.equipped_art==game.state.sect_art(),"Trial restores hero and equips the appropriate school art")
+		var panel=game.overlay.get_meta("party_battle")
+		panel.set_process(false);panel.art.set_process(false)
+		_check(panel.commands.context.title.contains("验"),"Trial uses correct location heading")
 		for step in range(80):
 			if not game.state.battle_active:break
-			if game.state.hp<45 and game.state.medicine>0:game._battle_action("item")
-			elif game.state.qi>=game.state.active_art_cost() and game.state.skill_cooldown==0:game._battle_action("skill")
-			elif game.state.turn%2==1:game._battle_action("guard")
-			else:game._battle_action("attack")
+			UnifiedDriver.step(game)
 		_check(game.state.sect_trial_won and _find_button(game.overlay,"领取内门荐记")!=null,"Each school's real battle proof unlocks earned result")
+		var proof:Dictionary=game.state.party_battle_snapshot().trial_provenance
+		_check(proof.required_art==game.state.sect_art() and proof.art_used,"Trial records use of this school's exact owned martial")
+		if school=="照野堂":_check(proof.healing>0,"Healing trial records positive actual recoveredHP")
+		if school=="问石门":_check(proof.guarded_heavy,"Guard trial records a real heavy strike against martial guard")
+		_check(game.state.party_settlement.reward_xp==45,"Successful trial grants exact ordinary encounterXP once")
 		_press("稍后领取");game._load()
 		_check(game.state.sect_rank==1 and game.state.sect_trial_won,"Postponed promotion survives save and load")
 		_check(game.world._quest_target_id()=="mentor" and game.quest_label.text.contains("荐记"),"Pending promotion has a navigable world and journal hint")
@@ -40,15 +43,17 @@ func _run() -> void:
 		game._close_modal();game._load()
 		_check(game.state.to_dict()==before,"Rank survives subsequent menu and reload without duplication")
 	# A brute-force win earns ordinary encounter rewards but not a school rank.
-	game._new_game();game.state.gain_xp(180);game.state.choose_sect("照野堂");game.state.attack=1000
+	game._new_game();game.state.gain_xp(180);game.state.choose_sect("照野堂");game.state.quest_stage=6;game.state.ending="守望"
+	game.world.teleport(game.world.interactables.mentor.pos);game._process(0)
 	game._interact("mentor");_press("开始受试")
-	for step in range(8):
+	for step in range(40):
 		if not game.state.battle_active:break
-		game._battle_action("attack")
+		UnifiedDriver.step(game,false)
 	_check(not game.state.sect_trial_won and _find_button(game.overlay,"再试一次")!=null,"Wrong-method win shows actionable retry")
+	_check(game.state.party_settlement.reward_xp==45 and not game.state.party_battle_snapshot().trial_provenance.met,"Automatic-only victory retains normal reward without inventing school proof")
 	_press("再试一次")
 	_check(game.state.battle_active and game.state.hp==game.state.max_hp,"Retry restores health and remains playable")
-	game._battle_action("flee")
+	UnifiedDriver.leave(game)
 	_check(game.state.sect_rank==1 and not game.state.sect_trial_won,"Retreat never promotes")
 	game._stop_audio();DirAccess.remove_absolute(ProjectSettings.globalize_path(AuditState.AUDIT_PATH))
 	game.queue_free();await process_frame

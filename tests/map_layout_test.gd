@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 class NoSave extends Model:
@@ -39,6 +40,6 @@ func run()->void:
 	var close=app.overlay.find_child("DialogueChoice1",true,false);await click(close.get_global_rect().get_center());assert(not app.active_modal)
 	app._modal("短句测试","对话 / 保留紧凑阅读","山水有相逢。")
 	await process_frame;assert(app.overlay.find_child("DialogueSheet",true,false).size.y==365)
-	app._close_modal();app._start_battle("training");await key(KEY_M);assert(not app.active_modal and app.current_screen=="battle")
-	app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal();app._stop_audio();app.queue_free();await create_timer(.25).timeout
+	app._close_modal();UnifiedUI.open_training(app);await key(KEY_M);assert(UnifiedUI.active(app) and app.current_screen=="party_battle")
+	app.battle_presentation_enabled=false;UnifiedUI.leave(app);app._close_modal();app._stop_audio();app.queue_free();await create_timer(.25).timeout
 	print("PASS: four region charts fit their paper at both window sizes, controls remain unobstructed, real mouse/keyboard and stale callbacks preserve read-only behavior");quit()

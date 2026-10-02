@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedDriver = preload("res://tests/unified_ui_test_driver.gd")
 ## Pure transaction checks plus a real, earned opening→Tang recruitment route.
 ## The journey adapter suppresses saves; the detached model performs no I/O.
 const State = preload("res://scripts/game_state.gd")
@@ -521,7 +522,7 @@ func _choose(index: int = 0) -> void:
 func _interact(id: String) -> void:
 	if app.active_modal:
 		app._close_modal()
-	if id in ["bandit", "ledger_runner", "sluice_boss", "chapter_archive", "chapter_host"]:
+	if id in ["bandit", "ledger_runner", "sluice_boss", "chapter_archive", "chapter_host", "mentor", "mist_scout", "mist_gate"]:
 		check(app.world.interactables.has(id), "Earned encounter exists on its actual map: " + id)
 		if not app.world.interactables.has(id):
 			return
@@ -761,42 +762,11 @@ func _drive_party_action() -> bool:
 	if not is_instance_valid(panel):
 		check(false, "Active party encounter has its real controller")
 		return false
-	panel.art.set_process(false)
 	var snapshot: Dictionary = app.state.party_battle_snapshot()
-	var actor: Dictionary = {}
-	for candidate: Dictionary in snapshot.actors:
-		if candidate.id == snapshot.active_actor_id:
-			actor = candidate
-	if actor.is_empty():
-		check(false, "Party encounter exposes a living selected actor")
-		return false
-	var chosen: Dictionary = {}
-	var ally_target: String = ""
-	for action: Dictionary in actor.actions:
-		if action.id == "attack" and action.available:
-			chosen = action
-	for action: Dictionary in actor.actions:
-		if action.available and action.category == "martial" and action.target_team == "enemy":
-			chosen = action
-	for action: Dictionary in actor.actions:
-		if action.available and action.category == "martial" and action.target_team == "ally" and action.effects.get("healing", 0) > 0:
-			for ally: Dictionary in snapshot.actors:
-				if action.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
-					chosen = action
-					ally_target = ally.id
-	for action: Dictionary in actor.actions:
-		if action.id == "item" and action.available and actor.hp < 45:
-			chosen = action
-	if chosen.is_empty():
-		check(false, "Selected actor has a legal journey action")
-		return false
 	var before: Dictionary = {"coins": app.state.coins, "xp": app.state.xp, "level": app.state.level, "stage": app.state.chapter_two_stage, "ending": app.state.chapter_two_ending}
-	panel.request_command(actor.id, chosen.id)
-	if not panel.pending_action.is_empty():
-		panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
-	check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
-	if panel.pending.is_empty():
-		return false
+	var tx: Dictionary = UnifiedDriver.begin_step(app)
+	check(tx.get("accepted", false), "Actual automatic scheduler accepts one current-controller transaction")
+	if not tx.get("accepted", false): return false
 	if snapshot.encounter_id == "archive_boss":
 		check(app.state.coins == before.coins and app.state.xp == before.xp and app.state.level == before.level and app.state.chapter_two_stage == before.stage and app.state.chapter_two_ending == before.ending, "Accepted earned archive action cannot award rewards or chapter progress before renderer completion")
 	# Complete the actual renderer timeline so its presentation-finished signal

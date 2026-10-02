@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 ## Independent real-scene manual-save audit. Run only with an isolated XDG_DATA_HOME.
 ## All active-model save/load operations use this fixture root. XDG isolates title metadata discovery.
 const Slots = preload("res://scripts/local_save_slots.gd")
@@ -208,17 +209,17 @@ func _test_title_backup_only_and_new_game() -> void:
 	_check(state_probe.coins == 333 and _manual_snapshot() == before, "Backup-only branch remains recoverable after a new journey")
 
 func _test_battle_and_keyboard_guards() -> void:
-	game._start_battle("spar")
+	UnifiedUI.open_training(game)
 	var before: Dictionary = _manual_snapshot()
 	for key: Key in [KEY_F5,KEY_F6,KEY_F9,KEY_F10]: await _key(key)
-	_check(game.current_screen == "battle" and not game.active_modal and _manual_snapshot() == before, "All save/load function-key routes are blocked during combat")
+	_check(game.current_screen == "party_battle" and UnifiedUI.active(game) and _manual_snapshot() == before, "All save/load function-key routes are blocked during combat")
 	for slot: int in range(1,4):
 		game.save_slots.request_save(slot)
 		game.save_slots.perform_save(slot)
 		game.save_slots.request_load(slot, false)
 		game.save_slots.perform_load(slot, true)
-	_check(game.current_screen == "battle" and not game.active_modal and _manual_snapshot() == before, "Direct delayed save/load callbacks cannot execute during combat")
-	game._battle_action("flee")
+	_check(game.current_screen == "party_battle" and UnifiedUI.active(game) and _manual_snapshot() == before, "Direct delayed save/load callbacks cannot execute during combat")
+	UnifiedUI.leave(game)
 	game._close_modal()
 
 func _test_interrupted_mouse_callbacks() -> void:

@@ -1,4 +1,5 @@
 extends "res://tests/audit_progression_test.gd"
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 func _run() -> void:
 	var scene=load("res://scenes/main.tscn")
 	game=scene.instantiate()
@@ -51,10 +52,10 @@ func _run() -> void:
 			if (part is Label or part is RichTextLabel) and part.is_visible_in_tree():all_text+=part.text
 	_check(all_text.contains("轻纱内甲") and all_text.contains("精锻青钢剑"),"Inventory reflects crafted gear")
 	game._close_modal()
-	game._start_battle("training")
+	UnifiedUI.open_training(game)
 	await key(KEY_B)
-	_check(not game.active_modal and game.current_screen=="battle","Cannot open trading mid-battle")
-	game._battle_action("flee")
+	_check(UnifiedUI.active(game) and game.current_screen=="party_battle","Cannot open trading mid-battle")
+	UnifiedUI.leave(game)
 	game._stop_audio()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(AuditState.AUDIT_PATH))
 	game.queue_free()

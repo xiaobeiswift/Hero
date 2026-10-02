@@ -56,25 +56,34 @@ func _school_flow(school:String)->void:
  _check(game.modal_actions.size()==5,"All four learned moves plusReturn fit five keyboard choices")
  await _key(KEY_4)
  _check(game.state.equipped_art==costly and not game.active_modal,"Fourth martial key equips advanced focus move")
- game.state.heal_rest();game._start_battle("spar");game.state.enemy_max_hp=1000;game.state.enemy_hp=1000
- await _key(KEY_2)
- _check(game.state.focused_damage>0 and game.battle_status.text.contains("蓄锋"),"Real battle shows stored focus amount")
- var focus=game.state.focused_damage
- _check(game.battle_status.text.contains(str(focus)),"Displayed focus equals model amount")
+ game.state.heal_rest()
+ var panel=_open_effect_practice()
+ await _key(KEY_1) # Category1 queues equipped martial; no manual attack key.
+ var focused=UnifiedDriver.step(game,false)
+ _check(focused.action_id=="art:"+costly and _hero().status.focused_damage>0,"Real queued advanced martial establishes stored focus")
+ var focus=int(_hero().status.focused_damage)
+ _check(panel.commands.snapshot.actors[0].status.focused_damage==focus,"Presented actor facts show the exact stored focus amount")
+ _check(_focus_caption(panel).contains("蓄锋") and _focus_caption(panel).contains(str(focus)),"Visible focus label equals the actual stored amount")
  var qi=game.state.qi
  await _key(KEY_K);game.advanced_martial.learning()
- _check(not game.active_modal and game.state.qi==qi,"Battle blocks martial/learning menus")
+ _check(game.current_screen=="party_battle" and game.overlay.get_meta("party_battle")==panel and panel.pending.is_empty() and game.state.qi==qi,"Battle blocks martial/learning menus without spending qi")
+ var basic=UnifiedDriver.step(game,false)
+ _check(basic.action_id=="attack" and _hero().status.focused_damage==0 and not _focus_caption(panel).contains("蓄锋"),"Automatic basic consumes focus and removes its visible label")
+ UnifiedDriver.leave(game);game._close_modal()
+ game.state.equip_art(cheap);game.state.heal_rest();panel=_open_effect_practice()
  await _key(KEY_1)
- _check(game.state.focused_damage==0 and not game.battle_status.text.contains("蓄锋"),"Actual basic attack consumes and removes focus label")
- game._battle_action("flee");game._close_modal()
- game.state.equip_art(cheap);game.state.heal_rest();game._start_battle("spar");game.state.enemy_max_hp=1000;game.state.enemy_hp=1000
- await _key(KEY_2)
- _check(game.state.enemy_weaken_strikes==1 and game.battle_status.text.contains("卸劲"),"Skill immediately affects first incoming strike and shows remaining one")
- _check(game.battle_status.text.contains(str(game.state.enemy_weaken_amount)),"Displayed weaken magnitude matches rules")
- await _key(KEY_3)
- _check(game.state.enemy_weaken_strikes==0 and not game.battle_status.text.contains("卸劲"),"Next incoming strike consumes final weaken and clears label")
- game._battle_action("flee");game._close_modal();game._save();before=game.state.to_dict();game._load()
- _check(game.state.to_dict()==before,"Learned arts,deeds,equipped art and balances round-trip after real combats")
+ var weakened=UnifiedDriver.step(game,false)
+ _check(weakened.action_id=="art:"+cheap and _practice_enemy().status.weaken_strikes==2,"Exact advanced martial applies two actual incoming-strike weakening charges")
+ UnifiedDriver.step(game,false) # Actor's automatic basic does not consume enemy weakening.
+ UnifiedDriver.step(game,false) # Announced striker attack consumes first charge.
+ _check(_practice_enemy().status.weaken_strikes==1 and _weaken_caption(panel).contains("卸劲"),"Actual first incoming strike consumes one charge and leaves visible weakening")
+ _check(_weaken_caption(panel).contains(str(_practice_enemy().status.weaken_amount)) and _weaken_caption(panel).contains("1"),"Visible weakening reports actual magnitude and one remaining strike")
+ UnifiedDriver.step(game,false) # Preannounced bracer protection ends round1.
+ UnifiedDriver.step(game,false) # Round2 automatic basic.
+ UnifiedDriver.step(game,false) # Second actual striker attack.
+ _check(_practice_enemy().status.weaken_strikes==0 and not _weaken_caption(panel).contains("卸劲"),"Second incoming strike consumes final weakening and clears its visible label")
+ UnifiedDriver.leave(game);game._close_modal();game._save();before=game.state.to_dict();game._load()
+ _check(game.state.to_dict()==before,"Learned arts,deeds,equipped art and balances round-trip after actual unified practice")
 func _failure_flow()->void:
  game.state=FailState.new();_prepare_school("听潮阁")
  var id=game.state.school_art_ids()[2]
@@ -86,3 +95,20 @@ func _failure_flow()->void:
  _check(not game.save_warning,"Successful save retry clears warning")
  game._load()
  _check(game.state.learned_arts.has(id) and game.state.sect_merit==1,"Retry persists exact purchase without charging again")
+
+func _open_effect_practice():
+ if game.active_modal:game._close_modal()
+ game.world.teleport(game.world.interactables.courtyard_practice.pos);game._process(0)
+ game._interact("courtyard_practice");_press("开始演练")
+ _check(game.current_screen=="party_battle" and game.state.party_battle_snapshot().encounter_id=="courtyard_practice","Real nearby courtyard starts authored96/64 targets without changing enemyHP")
+ var panel=game.overlay.get_meta("party_battle")
+ panel.set_process(false);panel.art.set_process(false)
+ return panel
+func _practice_enemy()->Dictionary:
+ for enemy:Dictionary in game.state.party_battle_snapshot().enemies:
+  if enemy.id=="striker":return enemy
+ return {}
+func _focus_caption(panel)->String:
+ return String(panel.commands.status_caption("hero")) if panel.commands.has_method("status_caption") else ""
+func _weaken_caption(panel)->String:
+ return String(panel.unit_plates.striker.status_caption()) if panel.unit_plates.striker.has_method("status_caption") else ""

@@ -258,4 +258,4 @@ func _test_settlement_then_level_gain() -> void:
 	living.shen.hp = 0
 	check(not Roster.settle_plan(before, payload, living, "win").ok and not Roster.settle_plan(before, payload, living, "flee").ok, "All selected down cannot claim win or flee")
 	check(Roster.settle_plan(before, payload, living, "defeat").ok, "All-selected-down explicitly permits safe defeat recovery")
-	check(State.SAVE_VERSION == 12 and before.to_dict().has("party_roster") and before.has_method("start_party_battle"), "Production schema12 exposes integrated party state; exact historical-reader rejection is checked by the filesystem integration suite")
+	check(State.SAVE_VERSION == 13 and before.to_dict().has("party_roster") and before.has_method("start_party_battle"), "Production schema13 exposes integrated party state; exact historical-reader rejection is checked by the filesystem integration suite")

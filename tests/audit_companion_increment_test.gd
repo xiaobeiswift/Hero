@@ -130,13 +130,18 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	game._save();game._load()
 	_check(game.state.current_companion()=="唐栖" and game.state.formation=="护后","Selected companion and formation survive UI save/load")
 	game._show_inventory();_press("切换阵型");game._close_modal()
-	game._start_battle("spar");game.state.enemy_hp=1000;game.state.enemy_max_hp=1000;game.state.hp=1000;game.state.max_hp=1000;game.state.qi=0
-	_check(game.battle_art.companion_active and game.battle_art.companion_name=="唐栖","Battle art follows selected Tang identity")
+	var controller = UnifiedDriver.open_training(game)
+	_check(controller.unit_plates.has("tang") and controller.unit_plates.tang.facts.name=="唐栖","Current battle presents the selected independent Tang actor")
 	await _key(KEY_I)
-	_check(not game.active_modal and game.current_screen=="battle","Inventory cannot interrupt combat to change party")
-	game._battle_action("attack");game._battle_action("attack")
-	_check(game.state.battle_log.any(func(line):return line.contains("唐栖")),"Live battle log uses selected Tang's distinct support")
-	game._battle_action("flee")
+	_check(UnifiedDriver.active(game),"Inventory cannot replace current combat to change party")
+	var tang_acted: bool = false
+	for index: int in range(12):
+		if not game.state.battle_active: break
+		var tx:Dictionary=UnifiedDriver.step(game,false)
+		if tx.source_id=="tang" and tx.action_id=="attack": tang_acted=true;break
+	_check(tang_acted and controller.logs.any(func(line):return line.contains("唐栖")),"Actual automatic Tang action and renderer event log identify the independently acting companion")
+	if game.state.battle_active: UnifiedDriver.leave(game)
+
 	game._show_journal()
 	_check(_modal_text().contains("工册已传给学徒" if choice=="teach" else "原稿与水令一同留存"),"Completed journal preserves chosen ending text")
 	game._close_modal()

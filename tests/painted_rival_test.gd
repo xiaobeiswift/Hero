@@ -15,7 +15,9 @@ func run()->void:
 	var foot=Vector2(721,274)
 	assert((Art.drawing_rect(foot).position+Art.FOOT*(216.0/512.0)).distance_to(foot)<.001)
 	var app=Scene.instantiate();app.state=NoSave.new();root.add_child(app);await process_frame
-	app._new_game();app._stop_audio();app._start_battle("training");app.battle_art.set_process(false)
+	app._new_game();app._stop_audio();app.battle_art.set_process(false)
+	# Explicit historical renderer fixture; current gameplay uses PartyBattleArt.
+	app.state.start_battle("training");app.battle_art.enemy_identity=app.state.enemy_name
 	assert(app.battle_art.enemy_identity==app.state.enemy_name and app.battle_art.uses_painted_enemy())
 	app.battle_art.hit("attack",{"enemy_damage":16,"player_damage":5});app.battle_art.action_time=.36
 	assert(app.battle_art.enemy_visual_pose()=="hurt")

@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Main=preload("res://scripts/main.gd")
 const Model=preload("res://scripts/game_state.gd")
 class AuditState extends Model:
@@ -81,8 +82,10 @@ func run()->void:
 	await dispose()
 	await create_game(false);request_close();assert(app.exits==1 and app.state.writes==0 and not app.exit_save)
 	await dispose()
-	await create_game();app._start_battle("story");writes=app.state.writes;saved=app.state.saved.duplicate(true);request_close()
-	assert(app.exits==1 and not app.exit_save and app.state.writes==writes and app.state.saved==saved)
+	await create_game();var controller=UnifiedUI.open_training(app);writes=app.state.writes;saved=app.state.saved.duplicate(true);request_close()
+	assert(app.exits==0 and controller.art.is_presenting() and app.state.writes==writes and app.state.saved==saved)
+	controller.art._process(controller.art.get_presentation_duration()+.1)
+	assert(app.exits==1 and not app.exit_save and app.state.writes==writes+1 and not app.state.battle_active)
 	await dispose()
 	await disk_failure_case(false);await disk_failure_case(true)
 	print("PASS: real pre-existing save bytes survive filesystem failure/discard, recover on retry; desktop-close save failure keeps progress open; retry/cancel/explicit discard, duplicate events and title/battle boundaries");quit()

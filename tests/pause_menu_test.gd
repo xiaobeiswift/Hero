@@ -1,4 +1,5 @@
 extends SceneTree
+const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const Main=preload("res://scripts/main.gd")
 const Model=preload("res://scripts/game_state.gd")
 class AuditState extends Model:
@@ -66,9 +67,9 @@ func run()->void:
 	app._close_modal();app.state.fail=true;await key(KEY_ESCAPE);await key(KEY_5);await key(KEY_1);await key(KEY_3)
 	writes=app.state.writes;await key(KEY_2)
 	assert(app.exit_calls==2 and not app.last_exit_save and app.state.writes==writes)
-	app.state.fail=false;app._close_modal();app._start_battle("training")
-	await key(KEY_ESCAPE);assert(app.current_screen=="battle" and not app.active_modal)
-	app._show_pause();assert(not app.active_modal)
-	app.battle_presentation_enabled=false;app._battle_action("flee");app._close_modal()
+	app.state.fail=false;app._close_modal();UnifiedUI.open_training(app)
+	await key(KEY_P);assert(app.current_screen=="party_battle" and UnifiedUI.active(app))
+	app._show_pause();assert(UnifiedUI.active(app))
+	app.battle_presentation_enabled=false;UnifiedUI.leave(app);app._close_modal()
 	app.queue_free();await create_timer(.25).timeout
 	print("PASS: rest menu input, movement block, save-gated exit, retry/discard and stale callbacks");quit()

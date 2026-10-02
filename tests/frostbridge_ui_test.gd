@@ -37,7 +37,7 @@ func _run() -> void:
 		_check_archive_party()
 		var panel=game.overlay.get_meta("party_battle",null)
 		if is_instance_valid(panel):
-			panel.art.set_process(false)
+			panel.set_process(false);panel.art.set_process(false)
 			await key_press(KEY_ESCAPE)
 			_check(not panel.pending.is_empty() and panel.pending.get("accepted",false),"Real Escape accepts the party flee transaction")
 			panel.art._process(panel.art.get_presentation_duration()+0.1)
@@ -184,32 +184,9 @@ func _drive_party_action() -> bool:
 	if not is_instance_valid(panel):
 		_check(false,"Archive fight retains its real party controller")
 		return false
-	panel.art.set_process(false)
-	var snapshot:Dictionary=game.state.party_battle_snapshot()
-	var actor:Dictionary={}
-	for candidate:Dictionary in snapshot.actors:
-		if candidate.id==snapshot.active_actor_id:actor=candidate
-	if actor.is_empty():
-		_check(false,"Archive fight has a living selected actor")
-		return false
-	var chosen:Dictionary={};var target:String=""
-	for action:Dictionary in actor.actions:
-		if action.id=="attack" and action.available:chosen=action
-	for action:Dictionary in actor.actions:
-		if action.available and action.category=="martial" and action.target_team=="enemy":chosen=action
-	for action:Dictionary in actor.actions:
-		if action.available and action.category=="martial" and action.target_team=="ally" and action.effects.get("healing",0)>0:
-			for ally:Dictionary in snapshot.actors:
-				if action.valid_target_ids.has(ally.id) and ally.hp<=ally.max_hp-20:chosen=action;target=ally.id
-	for action:Dictionary in actor.actions:
-		if action.id=="item" and action.available and actor.hp<45:chosen=action
-	if chosen.is_empty():
-		_check(false,"Archive actor exposes a legal action")
-		return false
-	panel.request_command(actor.id,chosen.id)
-	if not panel.pending_action.is_empty():panel.select_target(target if not target.is_empty() else String(chosen.valid_target_ids[0]))
-	_check(not panel.pending.is_empty() and panel.pending.get("accepted",false),"Archive action accepted by actual PartyUI")
-	if panel.pending.is_empty():return false
+	var tx:Dictionary=UnifiedDriver.begin_step(game)
+	_check(tx.get("accepted",false),"Archive action accepted by the actual automatic controller")
+	if not tx.get("accepted",false):return false
 	_check(game.state.coins==before.coins and total_xp()==before.xp and game.state.chapter_two_stage==before.stage and game.state.chapter_two_ending==before.ending,"Accepted archive action leaves rewards and chapter untouched before renderer completion")
 	panel.art._process(panel.art.get_presentation_duration()+0.1)
 	return true

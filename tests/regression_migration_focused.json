@@ -1,0 +1,44 @@
+{
+  "scope": "Focused migration checks only; aggregate deliberately deferred until final runtime is frozen. Every named check ran against current source after its relevant adaptation.",
+  "current_state_checks": {
+    "party_roster_rules": 503,
+    "party_state_integration": 774,
+    "party_sluice_state": 762,
+    "party_archive_state_including_legacy_detached_mechanics": 1910
+  },
+  "current_scene_checks": {
+    "audit_progression": 79,
+    "audit_second_region": 311,
+    "workshop_ui": 26,
+    "save_slots_ui": 35,
+    "audit_manual_save_ui": 111,
+    "view_detail": 89,
+    "lightness_ui": 73,
+    "hud_layout": 46,
+    "audit_companion_increment": 138,
+    "full_journey_current_scene": 438
+  },
+  "mixed_or_historical_compatibility_checks": {
+    "party_combat_rules_including_current_earned_scene": 1539,
+    "heting_receipt_rules_current_save_plus_legacy_model": 2208,
+    "audit_party_model": 292,
+    "full_journey_retained_legacy_receipt_diagnostics": 48081
+  },
+  "uncounted_passed_scripts": [
+    "inventory_layout_test.gd",
+    "martial_folio_test.gd",
+    "map_layout_test.gd",
+    "view_zoom_test.gd",
+    "pause_menu_test.gd",
+    "window_close_test.gd",
+    "painted_rival_test.gd"
+  ],
+  "other_worker_reported_final_passes": {
+    "sect_ui": 63,
+    "mistwood_ui": 145,
+    "advanced_martial_ui": 109
+  },
+  "historical_controller_manifest": "tests/regression_migration_manifest.json",
+  "remaining": "Parent-owned full aggregate, export/PCK smoke and final image review",
+  "reviewed_followup": "Formation UI inherited the obsolete receipt controller. Added as tenth SHA-pinned historical controller; parent is adding current1–4 roster ×1280/1179 geometry/native-input replacement. Direct and transitive runner inheritance scan found no further historical controller dependencies."
+}
