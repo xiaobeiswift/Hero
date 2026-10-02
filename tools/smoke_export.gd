@@ -36,8 +36,8 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _v18_prerequisites():
-		print("FAIL: v18 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
+	if not _v19_prerequisites():
+		print("FAIL: v19 prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -142,6 +142,7 @@ func _run() -> void:
 	await _test_martial_folio_pack()
 	await _test_close_guard_pack()
 	await _test_heting_pack()
+	await _test_courtyard_practice_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -1525,15 +1526,17 @@ func _test_close_guard_pack() -> void:
 	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
 	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
 
-func _v18_prerequisites() -> bool:
+func _v19_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.18", "V18 project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.19", "V19 project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 10, "V18 save schema10 is required")
+	_check(model != null and model.SAVE_VERSION == 10, "V19 retains save schema10")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
 		_check(ResourceLoader.exists("res://assets/generated/environment/" + asset + ".png"), "V18 painted asset retained: " + asset)
+	for module in ["courtyard_exercise_rules", "courtyard_practice_ui", "courtyard_practice_art", "courtyard_training_rigs", "courtyard_practice_backdrop"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V19 courtyard module retained before scene load: " + module)
 	return failures == previous
 
 func _heting_open(id: String) -> void:
@@ -1650,3 +1653,307 @@ func _test_heting_pack() -> void:
 		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
 		var bytes = FileAccess.get_file_as_bytes(path)
 		_check(probe.load_game(path) != OK and probe.to_dict() == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed invalid/future schema preserves memory and source bytes")
+
+func _courtyard_key_now(code: int) -> void:
+	# This variant keeps detached-but-not-yet-freed callbacks available for replay.
+	for pressed: bool in [true, false]:
+		var event = InputEventKey.new()
+		event.physical_keycode = code; event.keycode = code; event.pressed = pressed
+		Input.parse_input_event(event)
+	Input.flush_buffered_events()
+
+func _courtyard_key(code: int) -> void:
+	game._process(0)
+	_courtyard_key_now(code)
+	await process_frame
+
+func _courtyard_click(point: Vector2) -> void:
+	var motion = InputEventMouseMotion.new()
+	motion.position = point; motion.global_position = point
+	root.push_input(motion,true)
+	for pressed: bool in [true,false]:
+		var event = InputEventMouseButton.new()
+		event.position = point; event.global_position = point
+		event.button_index = MOUSE_BUTTON_LEFT; event.pressed = pressed
+		root.push_input(event,true)
+	await process_frame
+
+func _courtyard_source_snapshot() -> Dictionary:
+	var variables: Dictionary = {}
+	for property: Dictionary in game.state.get_property_list():
+		if int(property.usage) & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			var name: String = String(property.name)
+			var value: Variant = game.state.get(name)
+			variables[name] = value.duplicate(true) if value is Array or value is Dictionary else value
+	return {"save":game.state.to_dict().duplicate(true),"all_variables":variables}
+
+func _courtyard_save_files() -> Dictionary:
+	var result: Dictionary = {}
+	for path: String in ["user://hero_save.json","user://hero_slot_1.json","user://hero_slot_2.json","user://hero_slot_3.json"]:
+		for suffix: String in ["",".bak"]:
+			var exists: bool = FileAccess.file_exists(path+suffix)
+			result[path+suffix] = {"exists":exists,"bytes":FileAccess.get_file_as_bytes(path+suffix) if exists else PackedByteArray()}
+	return result
+
+func _courtyard_prepare(companion: String = "唐栖", formation: String = "并肩", art: String = "照夜一线") -> void:
+	# Older completed story is a fixture. Equipment and party selection still use
+	# their shipped eligibility APIs; no excluded test class is available in PCK.
+	_prepare_companion_chapter(true,"听潮阁")
+	var s = game.state
+	s.tangqi_stage=3; s.tangqi_choice="teach"; s.tangqi_unlocked=true
+	s.shen_care_stage=5; s.shen_care_choice="mobile" if formation=="并肩" else "shore"
+	s.sect_trial_won=true
+	var promotion: bool = s.complete_sect_trial()
+	var learned: bool = true
+	if art == "伏汐藏锋": learned = s.learn_art(art)
+	var equipped: bool = s.equip_art(art)
+	var selected: bool = s.select_companion(companion)
+	var arranged: bool = s.set_formation(formation)
+	_check(promotion and learned and equipped and selected and arranged and s.available_arts().has(art),"Packed practice fixture legally equips its art and selected party: "+companion+" / "+formation+" / "+art)
+	s.attack=16; s.defense=4; s.max_hp=240; s.hp=47; s.max_qi=8; s.qi=1; s.medicine=0
+	s.art_uses[art]=15
+	game._travel("qingwei",Vector2(721,733))
+	game._process(0); game.world._update_nearby(); game._stop_audio(); game.audio_on=false
+	_check(s.save_game()==OK,"Packed courtyard fixture saves only inside the required isolated smoke profile")
+
+func _courtyard_open():
+	game._process(0); game.world._update_nearby()
+	_check(game.world.nearby_id=="courtyard_practice","Packed courtyard is reachable at its authored world position")
+	await _courtyard_key(KEY_E)
+	# The audit paused processing; execute the normal post-input frame sync.
+	game._process(0)
+	var panel = game.overlay.get_meta("courtyard_practice") if game.overlay.has_meta("courtyard_practice") else null
+	_check(panel!=null and game.current_screen=="explore" and game.active_modal and not game.state.battle_active,"Packed actual E opens an exploration modal, not a persistent battle")
+	if panel!=null: panel.art.set_process(false)
+	return panel
+
+func _courtyard_finish(panel) -> void:
+	panel.art._process(panel.art.get_presentation_duration()+.1)
+
+func _courtyard_sync_fixture(panel) -> void:
+	panel.display=panel.rules.snapshot(); panel.art.set_snapshot(panel.display); panel.refresh()
+
+func _courtyard_controls_locked(panel) -> bool:
+	for button: Button in panel.action_buttons:
+		if not button.disabled: return false
+	for card: Dictionary in panel.target_cards.values():
+		if not card.button.disabled: return false
+	return true
+
+func _test_courtyard_practice_pack() -> void:
+	var first_check: int = checks
+	var game_process: bool = game.is_processing()
+	var world_process: bool = game.world.is_processing()
+	game.set_process(false); game.world.set_process(false)
+	_courtyard_prepare()
+	var real: Dictionary = _courtyard_source_snapshot()
+	var files: Dictionary = _courtyard_save_files()
+	var panel = await _courtyard_open()
+	if panel==null:
+		game.set_process(game_process); game.world.set_process(world_process); return
+	_check(panel.get_script()==load("res://scripts/courtyard_practice_ui.gd") and panel.rules.get_script()==load("res://scripts/courtyard_exercise_rules.gd") and panel.art.get_script()==load("res://scripts/courtyard_practice_art.gd"),"Packed modal instantiates the shipped courtyard scripts")
+	_check(panel.rules.hp==240 and panel.rules.qi==8 and panel.rules.medicine==3 and game.state.hp==47 and game.state.qi==1 and game.state.medicine==0,"Packed rehearsal gives full virtual resources without healing or supplying the real hero")
+	_check(not game.world.visible and not game.world.active and panel.rules.hero_snapshot.art_uses.is_read_only(),"Packed modal pauses exploration and owns a deeply frozen loadout")
+	var rigs = load("res://scripts/courtyard_training_rigs.gd")
+	var backdrop = load("res://scripts/courtyard_practice_backdrop.gd")
+	var timber: Texture2D = rigs.texture_for("timber")
+	var hemp: Texture2D = rigs.texture_for("hemp")
+	_check(timber!=null and timber.get_size()==Vector2(1254,1254) and hemp!=null and hemp.get_size()==Vector2(1024,512),"Packed wooden rigs retain their actual painted source textures")
+	_check(ResourceLoader.has_cached(rigs.TIMBER_PATH) and ResourceLoader.has_cached(rigs.HEMP_PATH) and timber==rigs.texture_for("timber") and hemp==rigs.texture_for("hemp"),"Packed rig material access reuses the loaded resource instances")
+	var earth: Texture2D = backdrop.Earth
+	var hall: AtlasTexture = backdrop.VillageEnvironment.texture_for("hall")
+	var mesh: Dictionary = backdrop.Tiles.geometry(backdrop.COURT,245.0)
+	_check(earth.get_size()==Vector2(1254,1254) and earth==load("res://assets/generated/environment/qingwei_moss_earth.png") and hall!=null and hall.atlas.get_size()==Vector2(1536,1024),"Packed arena floor and hall use retained project paintings")
+	_check(hall==backdrop.VillageEnvironment.texture_for("hall") and mesh.mesh==backdrop.Tiles.geometry(backdrop.COURT,245.0).mesh and backdrop.ring().size()==65,"Packed court reuses its measured hall crop, floor mesh and ring geometry")
+	for module: String in ["painted_battle_hero","painted_battle_shen","painted_battle_tang"]:
+		var actor = load("res://scripts/"+module+".gd")
+		_check(actor.texture_for("idle")!=null and actor.texture_for("idle")==actor.texture_for("idle") and ResourceLoader.has_cached(actor.PATH),"Packed courtyard warms and reuses actor resources: "+module)
+	_check(panel.turn_text.text.begins_with("第1招") and panel.action_buttons[0].text.contains("+0气") and panel.action_buttons[2].text.contains("+0气"),"Packed initial move number and capped resource labels are truthful")
+	await _courtyard_key(KEY_TAB)
+	_check(panel.rules.selected_id=="bracer","Packed Tab selects the second wooden opponent")
+	await _courtyard_click(panel.target_cards.striker.button.get_global_rect().get_center())
+	_check(panel.rules.selected_id=="striker","Packed real card click selects the striker")
+	await _courtyard_click(panel.art.get_global_transform()*Vector2(790,208))
+	_check(panel.rules.selected_id=="bracer","Packed real body click selects the bracer")
+	await _courtyard_click(panel.art.get_global_transform()*Vector2(650,166))
+	_check(panel.rules.selected_id=="striker","Packed real body click selects the striker")
+	var initial: Dictionary = panel.rules.snapshot()
+	await _courtyard_key(KEY_ENTER)
+	_check(panel.rules.turn==1 and panel.rules.locked and panel.art.is_presenting() and _courtyard_controls_locked(panel) and panel.turn_text.text.begins_with("第1招"),"Packed Enter locks one accepted first move and keeps its current move number")
+	_check(panel.display.units[0].hp==initial.units[0].hp and panel.health.value==initial.hp and panel.rules.units[0].hp==initial.units[0].hp-8,"Packed braced damage resolves before presentation without leaking into pre-contact HP")
+	var locked: Dictionary = panel.rules.snapshot()
+	await _courtyard_key(KEY_1); await _courtyard_key(KEY_TAB)
+	await _courtyard_click(panel.target_cards.bracer.button.get_global_rect().get_center())
+	await _courtyard_click(panel.art.get_global_transform()*Vector2(790,208))
+	_check(panel.rules.snapshot()==locked,"Packed key/card/body repeats cannot spend or retarget a locked move")
+	panel.art._process(.31)
+	_check(panel.display.units[0].hp==initial.units[0].hp and panel.display.hp==initial.hp,"Packed HP waits until the authored contact beat")
+	panel.art._process(.02)
+	_check(panel.display.units[0].hp==panel.rules.units[0].hp and panel.display.hp==initial.hp,"Packed hero impact updates only the selected target before the counter")
+	panel.art._process(.56)
+	_check(panel.display.hp==panel.rules.hp and panel.health.value==panel.rules.hp,"Packed counter impact updates virtual hero HP at its own beat")
+	_courtyard_finish(panel)
+	_check(not panel.rules.locked and panel.display==panel.rules.snapshot() and panel.turn_text.text.begins_with("第2招"),"Packed completion reconciles HP and advertises the next move number")
+	await _courtyard_key(KEY_2)
+	_check(panel.pending.action=="skill" and panel.pending.hero_qi_delta==-3 and panel.pending.support_damage==2 and panel.pending.support_qi==1,"Packed equipped base art and Tang support use exact braced hit and qi facts")
+	_courtyard_finish(panel)
+	await _courtyard_key(KEY_3)
+	_check(panel.pending.guarded and panel.pending.hero_qi_delta==1,"Packed guard key retains its actual virtual qi gain")
+	_courtyard_finish(panel)
+	await _courtyard_key(KEY_4)
+	_check(panel.pending.heal>0 and panel.rules.medicine==2 and game.state.medicine==0,"Packed heal key spends only one practice charge")
+	_courtyard_finish(panel)
+	await _courtyard_key(KEY_5)
+	_check(panel.rules.outcome=="flee" and panel.rules.locked and panel.pending.counter_damage==0 and panel.turn_text.text.begins_with("第5招"),"Packed withdrawal has no counter and keeps the final move number")
+	await _courtyard_key(KEY_1)
+	_check(panel.rules.outcome=="flee" and panel.rules.locked,"Packed unfinished withdrawal cannot be skipped by retry")
+	_courtyard_finish(panel)
+	_check(panel.notice.text.contains("已收势") and panel.turn_text.text.begins_with("第5招") and not panel.action_buttons[2].visible,"Packed completed withdrawal retains its final count and exposes only retry/return")
+	await _courtyard_key(KEY_ENTER)
+	_check(panel.rules.active and panel.rules.turn==0 and panel.rules.hp==240 and panel.rules.qi==8 and panel.rules.medicine==3,"Packed Enter retries freely with fresh arena-only resources")
+	panel.rules.units[0].hp=1; _courtyard_sync_fixture(panel)
+	await _courtyard_key(KEY_1)
+	_check(panel.rules.units[0].hp==0 and panel.rules.selected_id=="striker" and panel.pending.hero_damage==1 and panel.pending.support_damage==0 and panel.pending.counter_damage==0,"Packed finisher caps damage without redirecting support or inventing a protector counter")
+	_courtyard_finish(panel)
+	_check(panel.rules.selected_id=="bracer" and panel.target_cards.striker.button.disabled and panel.target_cards.striker.bar.value==0,"Packed presentation completion selects the survivor and disables the fallen target")
+	panel.rules.units[1].hp=1; _courtyard_sync_fixture(panel)
+	await _courtyard_click(panel.action_buttons[0].get_global_rect().get_center())
+	_courtyard_finish(panel)
+	_check(panel.rules.outcome=="win" and panel.notice.text.contains("演武完成") and panel.turn_text.text.begins_with("第2招"),"Packed actual action click completes a reward-free two-target victory")
+	await _courtyard_key(KEY_1)
+	panel.rules.hp=1; _courtyard_sync_fixture(panel)
+	await _courtyard_key(KEY_3)
+	_check(panel.rules.outcome=="defeat" and panel.rules.hp==0 and panel.pending.counter_damage==1,"Packed lethal counter clamps to the last virtual HP")
+	_courtyard_finish(panel)
+	_check(panel.health.value==0 and panel.notice.text.contains("耗尽") and panel.turn_text.text.begins_with("第1招"),"Packed defeat displays zero HP and the actual final move number")
+	await _courtyard_key(KEY_2)
+	_check(not game.active_modal and not game.overlay.has_meta("courtyard_practice") and game.world.visible,"Packed result return key closes the arena without opening pause")
+	_check(_courtyard_source_snapshot()==real and _courtyard_save_files()==files,"Packed win/defeat/flee/retry leave every real field and existing autosave/manual/backup byte unchanged")
+	panel = await _courtyard_open()
+	if panel!=null:
+		await _courtyard_key(KEY_1)
+		var retired = panel
+		var stale_finish: Callable = retired._finished
+		var stale_impact: Callable = retired._impact.bind("striker",99)
+		_courtyard_key_now(KEY_ESCAPE); game._process(0); _courtyard_key_now(KEY_E)
+		panel = game.overlay.get_meta("courtyard_practice") if game.overlay.has_meta("courtyard_practice") else null
+		_check(panel!=null and panel!=retired and not retired.valid(),"Packed mid-animation Escape consumes input before detaching and permits immediate E re-entry")
+		if panel!=null:
+			panel.art.set_process(false)
+			var fresh: Dictionary = panel.rules.snapshot()
+			stale_impact.call(); stale_finish.call()
+			_check(panel.rules.snapshot()==fresh and panel.pending.is_empty() and panel.rules.turn==0,"Packed retired callbacks cannot alter the newly opened attempt")
+			await _courtyard_key(KEY_1); _courtyard_finish(panel)
+			_check(panel.rules.turn==1 and not panel.rules.locked,"Packed replacement attempt completes normally after stale callback replay")
+			await _courtyard_key(KEY_ESCAPE)
+	_check(_courtyard_source_snapshot()==real and _courtyard_save_files()==files,"Packed interrupted and reopened presentations remain source/save neutral")
+	_check(timber==rigs.texture_for("timber") and hemp==rigs.texture_for("hemp") and hall==backdrop.VillageEnvironment.texture_for("hall") and mesh.mesh==backdrop.Tiles.geometry(backdrop.COURT,245.0).mesh,"Packed actual exchanges retain the same texture and geometry cache objects")
+	await _test_courtyard_party_pack()
+	await _test_courtyard_fresh_pack()
+	await _test_courtyard_close_pack()
+	game.set_process(game_process); game.world.set_process(world_process)
+	print("Courtyard runtime pack coverage: %d added checks" % (checks-first_check))
+
+func _test_courtyard_party_pack() -> void:
+	for companion: String in ["沈青","唐栖"]:
+		for formation: String in ["并肩","护后"]:
+			_courtyard_prepare(companion,formation,"伏汐藏锋")
+			var real: Dictionary = _courtyard_source_snapshot()
+			var files: Dictionary = _courtyard_save_files()
+			var panel = await _courtyard_open()
+			if panel==null: continue
+			_check(panel.rules.companion==companion and panel.rules.formation==formation and panel.rules.equipped_art=="伏汐藏锋" and panel.rules.art_rank==3,"Packed snapshot retains legally equipped advanced art and selected party: "+companion+" / "+formation)
+			await _courtyard_key(KEY_TAB)
+			await _courtyard_key(KEY_1)
+			var first: Dictionary = panel.pending
+			_courtyard_finish(panel)
+			await _courtyard_key(KEY_2)
+			var second: Dictionary = panel.pending
+			_check(second.hero_damage==28 and second.hero_qi_delta==-4 and panel.rules.skill_cooldown==3 and panel.rules.focused_damage==34,"Packed legal focus art uses copied mastery and exact catalog damage/cost/cooldown/focus")
+			if formation=="并肩":
+				_check(first.support_damage==0 and second.support_damage==(7 if companion=="沈青" else 4) and second.support_heal==(2 if companion=="沈青" else 0) and second.support_qi==(1 if companion=="唐栖" else 0),"Packed second offensive action invokes the selected companion's exact assist: "+companion)
+				panel.art._process(.33)
+				_check(panel.display.units[1].hp==second.before.units[1].hp-second.hero_damage and panel.display.hp==second.before.hp,"Packed focus contact precedes companion assistance")
+				panel.art._process(.17)
+				_check(panel.display.units[1].hp==second.after.units[1].hp and panel.display.qi==second.before.qi+second.hero_qi_delta+second.support_qi,"Packed support contact updates the same target and exact companion qi")
+				panel.art._process(.061)
+				_check(panel.display.hp==second.before.hp+second.support_heal,"Packed Shen recovery/Tang non-healing matches the separate support beat")
+			else:
+				_check(first.support_damage==0 and second.support_damage==0 and first.counter_damage==(7 if companion=="沈青" else 10) and second.counter_damage==(17 if companion=="沈青" else 15),"Packed rear formation honors Shen shore care or Tang heavy-only protection: "+companion)
+				_check(second.counters.size()==1 and second.counters[0].heavy and second.counters[0].cover==(3 if companion=="沈青" else 5),"Packed rear-guard presentation receives only actual covered damage")
+			_courtyard_finish(panel)
+			_check(panel.display==panel.rules.snapshot() and not panel.rules.locked,"Packed advanced-art party exchange completes with exact final resources")
+			await _courtyard_key(KEY_ESCAPE)
+			_check(_courtyard_source_snapshot()==real and _courtyard_save_files()==files,"Packed selected party/advanced art rehearsal never trains, rewards, spends or saves real progress")
+
+func _test_courtyard_fresh_pack() -> void:
+	game._new_game()
+	game.state.quest_stage=3
+	_check(game.state.recruit_companion() and game.state.select_companion("沈青"),"Packed fresh-strength fixture recruits Shen through the shipped party rules")
+	game._travel("qingwei",Vector2(721,733)); game._process(0)
+	_check(game.state.save_game()==OK,"Packed natural rehearsal starts with an existing isolated save")
+	var real: Dictionary = _courtyard_source_snapshot()
+	var files: Dictionary = _courtyard_save_files()
+	var panel = await _courtyard_open()
+	if panel==null: return
+	_check(panel.rules.attack==16 and panel.rules.defense==4 and panel.rules.max_hp==100 and panel.rules.art_rank==1 and panel.rules.equipped_art=="照夜一线" and panel.rules.companion=="沈青","Packed natural rehearsal keeps genuinely fresh combat strength and base mastery")
+	await _courtyard_key(KEY_TAB)
+	var accepted: bool = true
+	var actions: Array[String] = []
+	# No virtual HP, attack, target or resource fields are edited in this case.
+	# At most24 real UI turns; the actual rules choose support and retargeting.
+	for step: int in range(24):
+		if not panel.rules.active: break
+		var key: int = KEY_1
+		if panel.rules.hp<=40 and panel.rules.medicine>0:
+			key=KEY_4
+		elif panel.rules.action_unavailable_reason("skill").is_empty():
+			key=KEY_2
+		await _courtyard_key(key)
+		if panel.pending.is_empty() or not panel.rules.locked:
+			accepted=false; break
+		actions.append(String(panel.pending.action))
+		_courtyard_finish(panel)
+	_check(accepted and not actions.is_empty() and actions.size()<=24 and panel.rules.outcome=="win" and panel.rules.hp>0,"Packed natural fresh-strength rehearsal completes through bounded legal UI actions")
+	_check(actions.has("skill") and actions.has("attack") and actions.has("item") and panel.rules.units[0].hp==0 and panel.rules.units[1].hp==0,"Packed fresh victory actually uses base art, attacks and free healing to stop both full-health targets")
+	_check(panel.rules.medicine>=0 and panel.rules.medicine<3 and panel.rules.qi>=0 and panel.rules.qi<=panel.rules.max_qi,"Packed natural win stays within its three practice charges and qi budget")
+	await _courtyard_key(KEY_1)
+	_check(panel.rules.active and panel.rules.turn==0 and panel.rules.hp==100 and panel.rules.medicine==3,"Packed natural victory supports a fresh free retry")
+	await _courtyard_key(KEY_ESCAPE)
+	_check(_courtyard_source_snapshot()==real and _courtyard_save_files()==files,"Packed natural win and retry leave fresh hero resources, mastery, victories and save bytes unchanged")
+
+func _test_courtyard_close_pack() -> void:
+	_courtyard_prepare()
+	var panel = await _courtyard_open()
+	if panel==null: return
+	await _courtyard_key(KEY_1)
+	var path: String = game.state.SAVE_PATH
+	var original: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	var blocked: String = ProjectSettings.globalize_path(path+".tmp")
+	var fixture_error: Error = DirAccess.make_dir_absolute(blocked)
+	_check(fixture_error==OK,"Packed courtyard close blocks only its isolated save temporary path")
+	if fixture_error!=OK:
+		await _courtyard_key(KEY_ESCAPE); return
+	game.state.coins+=7
+	var real: Dictionary = _courtyard_source_snapshot()
+	# An actual directory at SAVE_PATH.tmp guarantees save failure. Never invoke
+	# a successful close here: this driver must reach its own final result.
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	_check(not game.quit_pending and game.active_modal and not game.overlay.has_meta("courtyard_practice") and _gather_text(game.overlay).contains("手记未能落笔"),"Packed WM-close during an exchange cancels the arena and opens the real save-failure guard")
+	_check(_courtyard_source_snapshot()==real and FileAccess.get_file_as_bytes(path)==original,"Packed failed close preserves live exploration and the existing good save")
+	var stale_retry: Callable = game.modal_actions[0]
+	await _courtyard_key(KEY_2)
+	stale_retry.call()
+	_check(not game.quit_pending and game.overlay.get_meta("pause_menu",false) and FileAccess.get_file_as_bytes(path)==original,"Packed close cancellation invalidates its old retry callback without quitting")
+	await _courtyard_key(KEY_ESCAPE)
+	await _courtyard_key(KEY_F5)
+	_check(not game.active_modal and game.save_warning and not game.quit_pending and FileAccess.get_file_as_bytes(path)==original,"Packed canceled close permits a protected F5 retry while the test blocker remains")
+	var restored: String = blocked+".courtyard-audit-%d" % Time.get_ticks_usec()
+	_check(DirAccess.rename_absolute(blocked,restored)==OK,"Packed courtyard audit restores only its own synthetic blocker")
+	await _courtyard_key(KEY_F5)
+	var saved = JSON.parse_string(FileAccess.get_file_as_string(path))
+	_check(not game.save_warning and not game.quit_pending and saved.version==10 and saved.player==JSON.parse_string(JSON.stringify(real.save)),"Packed successful F5 recovery writes the real journey with schema10 and stays open")
+	panel = await _courtyard_open()
+	if panel!=null:
+		_check(panel.rules.turn==0 and panel.rules.hp==panel.rules.max_hp and panel.rules.medicine==3,"Packed courtyard remains usable after failed close, cancellation and storage recovery")
+		await _courtyard_key(KEY_ESCAPE)
