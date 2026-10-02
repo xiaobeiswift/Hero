@@ -22,7 +22,7 @@ https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot
 提交稳定源码后执行：
 
 ```sh
-python3 tools/export_web.py --label Hero-Web-0.0.20-web1 --revision 1
+python3 tools/export_web.py --label Hero-Web-0.0.21-web1 --revision 1
 ```
 
 引擎不在PATH时，可显式追加`--godot /绝对路径/官方Godot程序`；Windows可传带空格的完整`.exe`路径。构建使用工程内固定摘要的单线程Web模板，不依赖系统级Godot模板安装目录；配置、缓存与Windows的APPDATA仅对该子进程指向本次构建目录，不改变系统设置。Windows超时终止只作用于本次启动的Godot进程。仍须在真实Windows构建中核验输出，Python分支测试不等于平台运行证明。
@@ -32,10 +32,10 @@ python3 tools/export_web.py --label Hero-Web-0.0.20-web1 --revision 1
 构建后运行该机器生成的精确PCK审计：
 
 ```sh
-python3 tools/audit_web_export.py builds/Hero-Web-0.0.20-web1 --godot /绝对路径/官方Godot程序
+python3 tools/audit_web_export.py builds/Hero-Web-0.0.21-web1 --godot /绝对路径/官方Godot程序
 ```
 
-该命令先核对站点与ZIP的全部成员/摘要，再以单独测试存档加载实际`index.pck`。检查数量以该提交的 `tools/audit_web_export.py` 中 `EXPECTED_CHECKS` 为准；本次四人队伍/格式12冻结要求2352项全过，不能用只跑队伍子集或源码演练的日志替代。固定格式10与格式11读取器夹具均须匹配摘要，新格式12由旧读取器明确拒绝；结果和原始日志写入构建目录的`exact-pack-audit`，拒绝覆盖已有证据。Windows同样传直接引擎EXE，通过Python启动，避免控制台包装器改变进程归属。若Python未启用UTF-8模式，可用 `python -X utf8` 执行相同脚本，避免日志解码受系统区域设置影响；不修改系统设置。此检查仍不是浏览器图形、音频或刷新持久性验收。
+该命令先核对站点与ZIP的全部成员/摘要，再以单独测试存档加载实际`index.pck`。检查数量以该提交的 `tools/audit_web_export.py` 中 `EXPECTED_CHECKS` 为准；本次0.0.21废闸队伍/格式12冻结要求2725项全过（含373项废闸实际运行时检查），不能用只跑队伍子集或源码演练的日志替代。固定格式10与格式11读取器夹具均须匹配摘要，新格式12由旧读取器明确拒绝；结果和原始日志写入构建目录的`exact-pack-audit`，拒绝覆盖已有证据。Windows同样传直接引擎EXE，通过Python启动，避免控制台包装器改变进程归属。若Python未启用UTF-8模式，可用 `python -X utf8` 执行相同脚本，避免日志解码受系统区域设置影响；不修改系统设置。此检查仍不是浏览器图形、音频或刷新持久性验收。
 
 构建要求768MiB起始工作区空间，运行期间保留512MiB，并限制导出大小与时间；这不改变桌面导出的1100MiB门槛。输出为`builds/<标签>/site/`及经过成员字节验证的ZIP，保留源码、引擎和模板摘要。单线程、无扩展、无PWA或第三方请求，不需要共享内存隔离头。
 
