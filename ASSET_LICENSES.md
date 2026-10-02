@@ -77,3 +77,8 @@
 ### 鹤汀埠秤棚与灶棚器物（2026-10-02）
 
 独立生成公秤木案、冷/热两态灶锅、折叠帆布与地面绳圈，紧凑图集约182KiB。秤盘保留空面供任务货物叠放，蒸汽继续由程序绘制；原始提示、生成与缩放范围、脚点/挂货位置见 assets/generated/environment/HETING_WORKSITES_PROVENANCE.md。
+
+
+### 四人队伍界面与秦禾（2026-10-02）
+
+秦禾六种持杖战斗姿态以本项目原有秦禾头像作为身份参考独立生成，按实际透明边界、脚底和兵刃锚点裁切，未使用其他游戏角色图像。来源与完整提示见 `assets/generated/characters/PAINTED_COMBAT_QIN_PROVENANCE.md`。三份原创绘制招式图集位于 `assets/ui/`，来源与提示见 `PARTY_COMMAND_PROVENANCE.md`。界面布局采用常见角色分组与资源提示方式，图像、边框和代码均来自本项目；探索中的秦禾目前使用闲置姿态，并非已完成的四向行走动画。
