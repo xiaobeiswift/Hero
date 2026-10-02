@@ -9,6 +9,8 @@ const Advanced = preload("res://scripts/advanced_martial_rules.gd")
 const ENCOUNTERS: Dictionary = {
 	"story": [{"id": "puheng", "name": "蒲横 · 河帮执事", "hp": 96, "attack": 9, "heavy_attack": 19}],
 	"training": [{"id": "puheng", "name": "蒲横 · 切磋", "hp": 64, "attack": 9, "heavy_attack": 19}],
+	"sluice_scout": [{"id": "sluice_scout", "name": "旧闸巡哨", "hp": 85, "attack": 11, "heavy_attack": 22}],
+	"sluice_boss": [{"id": "sluice_boss", "name": "河帮闸首", "hp": 150, "attack": 16, "heavy_attack": 28}],
 	"heting_receipt": [
 		{"id": "striker", "name": "截签刀客", "hp": 190, "attack": 22, "heavy_attack": 34},
 		{"id": "bracer", "name": "架刀护手", "hp": 110, "attack": 14, "heavy_attack": 14}],
@@ -44,6 +46,10 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 			actor[key] = source.get(key, actor[key])
 		actor.care_defense_bonus = int(source.get("care_defense_bonus", 0))
 		actor.care_healing_bonus = int(source.get("care_healing_bonus", 0))
+		# The counter belongs to this battle, never to catalog/save resources.
+		# `exposed` below remains the independent announced-target indicator.
+		if encounter_id in ["sluice_scout", "sluice_boss"]:
+			actor.status.vulnerability_hits = 0
 		if actor.id == "hero":
 			for art: String in Arts.all_ids():
 				if source.get("art_uses", {}).has(art):
@@ -221,8 +227,7 @@ func accept_action(action_id: String, target_id: String = "") -> Dictionary:
 			actor.cooldowns[action_id] = int(action.cooldown)
 			_perform_art(actor, target, action, events)
 		"guard":
-			actor.status.guard = true
-			_event(events, actor.id, actor.id, "guard", 1)
+			_guard(actor, events)
 			_qi(actor, 1, events)
 		"item":
 			_medicine -= 1
@@ -266,8 +271,7 @@ func _perform_art(actor: Dictionary, target: Dictionary, action: Dictionary, eve
 	if int(effects.get("healing", 0)) > 0:
 		_heal(actor, actor, int(effects.healing), events)
 	if bool(effects.get("guard", false)):
-		actor.status.guard = true
-		_event(events, actor.id, actor.id, "guard", 1)
+		_guard(actor, events)
 	if target.hp > 0 and int(effects.get("weaken_amount", 0)) > 0:
 		target.status.weaken_amount = maxi(int(target.status.weaken_amount), int(effects.weaken_amount))
 		target.status.weaken_strikes = maxi(int(target.status.weaken_strikes), int(effects.weaken_strikes))
@@ -302,11 +306,20 @@ func _enemy_phase(events: Array[Dictionary]) -> void:
 			break
 		var weakened: int = int(enemy.status.weaken_amount) if int(enemy.status.weaken_strikes) > 0 else 0
 		var amount: int = maxi(1, int(intent.damage) - int(target.defense) - weakened)
+		var vulnerable: bool = int(target.status.get("vulnerability_hits", 0)) > 0
+		if vulnerable:
+			amount += 3
 		if target.status.guard:
 			amount = maxi(1, int(ceil(float(amount) * 0.3)))
 		_event(events, enemy.id, target.id, "action", 0, {"name": intent.name, "heavy": intent.heavy, "announced_target_id": intent.target_id})
+		if vulnerable:
+			target.status.vulnerability_hits -= 1
+			_event(events, enemy.id, target.id, "vulnerability_consume", 1, {"remaining": target.status.vulnerability_hits, "bonus": 3})
 		amount = _absorb_barrier(enemy, target, amount, events)
-		_damage(enemy, target, amount, events)
+		var actual: int = _damage(enemy, target, amount, events)
+		if enemy.id == "sluice_boss" and intent.heavy and not target.status.guard and actual > 0 and target.hp > 0:
+			target.status.vulnerability_hits = 2
+			_event(events, enemy.id, target.id, "vulnerability_apply", 2, {"remaining": 2, "bonus": 3, "reason": "unguarded_heavy"})
 		if int(enemy.status.weaken_strikes) > 0:
 			enemy.status.weaken_strikes -= 1
 			if int(enemy.status.weaken_strikes) == 0:
@@ -348,11 +361,20 @@ func _plan_intents() -> void:
 		var title: String = "护手短斩" if enemy.id == "bracer" else ("蓄势重斩" if heavy else "疾刃")
 		if enemy.id == "striker":
 			title = "截签重斩" if heavy else "探刃截签"
+		if enemy.id == "sluice_scout":
+			title = "巡闸重斩" if heavy else "巡闸试刃"
+		elif enemy.id == "sluice_boss":
+			title = "碎潮重劈" if heavy else "闸刀横扫"
+		var description: String = "%s攻击%s；目标倒下后依公开顺序转移。" % [title, _actor(order[0]).name]
+		if enemy.id in ["sluice_scout", "sluice_boss"]:
+			description = "%s · %s（基础%d）攻击%s；目标倒下后依公开顺序转移。" % [title, "重击" if heavy else "轻击", int(enemy.heavy_attack) if heavy else int(enemy.attack), _actor(order[0]).name]
+			if enemy.id == "sluice_boss" and heavy:
+				description += "未以守势接下且实际损失气血者留下破绽2次；此后每次来袭伤害+3，守势可解，护障完全抵消则不施加。"
 		_intents.append({"source_id": enemy.id, "target_id": order[0], "target_order": order,
 			"type": "attack", "name": title, "damage": int(enemy.heavy_attack) if heavy else int(enemy.attack),
 			"heavy": heavy, "order": _intents.size(), "round": _round, "range": "melee",
 			"target_policy": "front_living" if _formation == "护后" else "rotate_front",
-			"description": "%s攻击%s；目标倒下后依公开顺序转移。" % [title, _actor(order[0]).name]})
+			"description": description})
 		attack_index += 1
 
 
@@ -406,7 +428,8 @@ func _resolve_target(actor: Dictionary, action: Dictionary, supplied: String) ->
 func _describe(actor: Dictionary, action: Dictionary, target_id: String) -> String:
 	var target: Dictionary = _unit(target_id)
 	if action.id == "guard":
-		return "回复%d真气；本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0。" % mini(1, int(actor.max_qi) - int(actor.qi))
+		var description: String = "回复%d真气；本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0。" % mini(1, int(actor.max_qi) - int(actor.qi))
+		return description + ("立即清除自身破绽，并阻止本轮重击再次施加。" if _encounter == "sluice_boss" else "")
 	if action.id == "item":
 		return "为%s恢复%d气血（最多%d）；消耗共享回春散1份，余%d份。不能救起倒下的角色。" % [actor.name, mini(int(actor.max_hp) - int(actor.hp), _medicine_heal), _medicine_heal, _medicine]
 	if action.category == "martial":
@@ -434,6 +457,8 @@ func _describe(actor: Dictionary, action: Dictionary, target_id: String) -> Stri
 				details.append("自身恢复%d气血" % mini(int(actor.max_hp) - int(actor.hp), int(effects.healing)))
 			if bool(effects.get("guard", false)):
 				details.append("本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0")
+				if _encounter == "sluice_boss":
+					details.append("立即清除自身破绽，并阻止本轮重击再次施加")
 			if int(effects.get("weaken_amount", 0)) > 0:
 				details.append("仅目标基础伤害减%d，持续其%d次攻击" % [effects.weaken_amount, effects.weaken_strikes])
 			var focus: int = Advanced.focus_damage(effects, actor.attack)
@@ -457,12 +482,27 @@ func _is_braced(target: Dictionary) -> bool:
 	return target.get("id") == "striker" and target.get("hp", 0) > 0 and _enemy("bracer").get("hp", 0) > 0
 
 
-func _damage(source: Dictionary, target: Dictionary, amount: int, events: Array[Dictionary]) -> void:
+func _damage(source: Dictionary, target: Dictionary, amount: int, events: Array[Dictionary]) -> int:
 	var actual: int = _outgoing(target, amount)
 	target.hp -= actual
 	_event(events, source.id, target.id, "damage", actual)
 	if target.hp == 0:
 		_event(events, source.id, target.id, "down", 0)
+		_clear_vulnerability(target, events, "down")
+	return actual
+
+
+func _guard(actor: Dictionary, events: Array[Dictionary]) -> void:
+	actor.status.guard = true
+	_event(events, actor.id, actor.id, "guard", 1)
+	_clear_vulnerability(actor, events, "guard")
+
+
+func _clear_vulnerability(actor: Dictionary, events: Array[Dictionary], reason: String) -> void:
+	var remaining: int = int(actor.status.get("vulnerability_hits", 0))
+	if remaining > 0:
+		actor.status.vulnerability_hits = 0
+		_event(events, actor.id, actor.id, "vulnerability_expire", remaining, {"remaining": 0, "reason": reason})
 
 
 func _heal(source: Dictionary, target: Dictionary, amount: int, events: Array[Dictionary]) -> void:
@@ -517,6 +557,8 @@ func _finish(outcome: String, events: Array[Dictionary], source: String) -> void
 	_active = false
 	_outcome = outcome
 	_expire_barriers(events, "battle_end")
+	for actor: Dictionary in _actors:
+		_clear_vulnerability(actor, events, "battle_end")
 	_event(events, source, "", "outcome", 0, {"outcome": outcome})
 	_phase = "ended"
 

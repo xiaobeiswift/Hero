@@ -62,6 +62,7 @@ var party_battle_epoch: int = 0
 var party_settlement: Dictionary = {}
 var _party_pending_token: int = -1
 var _party_encounter: String = ""
+var _party_sluice_entry: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -966,6 +967,7 @@ func _clear_battle() -> void:
 	party_settlement = {}
 	_party_pending_token = -1
 	_party_encounter = ""
+	_party_sluice_entry = {}
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -1225,6 +1227,25 @@ func party_resource_snapshot() -> Dictionary:
 	return PartyCatalog.immutable({"ok": true, "reason": "", "roster": party_roster, "actors": actors})
 
 
+func _sluice_party_progress() -> Dictionary:
+	return {"quest_stage": quest_stage, "map_id": map_id, "side_stage": side_stage,
+		"side_choice": side_choice, "side_clues": side_clues,
+		"side_found": side_found.duplicate(), "side_reward_claimed": side_reward_claimed}
+
+
+func can_start_sluice_party_battle(encounter_id: String) -> bool:
+	if battle_active or _party_gate() or hp < 1 or map_id != "sluice" or quest_stage != 6:
+		return false
+	if side_reward_claimed or not side_choice in ["rescue", "pursuit"] or side_clues != side_found.size():
+		return false
+	if encounter_id == "sluice_scout":
+		# The first route can survive a retreat before either clue is collected.
+		return side_stage == 1 and (side_found.is_empty() or side_found == ["boatman"])
+	if encounter_id == "sluice_boss":
+		return side_stage == 2 and side_clues == 2 and side_found.has("boatman") and side_found.has("ledger")
+	return false
+
+
 func start_party_battle(encounter_id: String) -> bool:
 	if battle_active or _party_gate() or hp < 1 or not PartyCombat.ENCOUNTERS.has(encounter_id):
 		return false
@@ -1233,6 +1254,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	if encounter_id == "training" and (quest_stage < 4 or map_id != "qingwei"):
 		return false
 	if encounter_id == "heting_receipt" and (receipt_stage != 1 or not Receipt.can_begin(self)):
+		return false
+	if encounter_id in ["sluice_scout", "sluice_boss"] and not can_start_sluice_party_battle(encounter_id):
 		return false
 	var projection: Dictionary = PartyRoster.battle_resources(self, _party_payload())
 	if not projection.ok:
@@ -1246,6 +1269,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	_clear_battle()
 	party_session = candidate
 	_party_encounter = encounter_id
+	if encounter_id in ["sluice_scout", "sluice_boss"]:
+		_party_sluice_entry = _sluice_party_progress()
 	battle_kind = encounter_id
 	battle_active = true
 	return true
@@ -1334,16 +1359,43 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	if not plan.ok:
 		return {"ok": false, "reason": plan.reason}
 	candidate._apply_party_plan(plan)
+	# Validate the recovered boundary before adding rewards. A bonus must not
+	# accidentally repair malformed live data (for example medicine -1 +2).
+	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
+		return {"ok": false, "reason": "交锋结算前的完整存档校验未通过。"}
 	var coins_before: int = candidate.coins
 	var level_before: int = candidate.level
 	var awarded: bool = false
 	var reward_xp: int = 0
+	var branch_reward_xp: int = 0
 	var messages: Array[String] = []
 	if snapshot.outcome == "win":
 		if _party_encounter == "heting_receipt":
 			if not Receipt.settle_victory(candidate):
 				return {"ok": false, "reason": "复签进度不再允许本次结算。"}
 			reward_xp = Receipt.REWARD_XP
+			awarded = true
+		elif _party_encounter in ["sluice_scout", "sluice_boss"]:
+			if not candidate.can_start_sluice_party_battle(_party_encounter) or candidate._sluice_party_progress() != _party_sluice_entry:
+				return {"ok": false, "reason": "废闸的路线或线索已改变，不能结算本次交锋。"}
+			var is_boss: bool = _party_encounter == "sluice_boss"
+			reward_xp = 70 if is_boss else 25
+			candidate.coins = mini(999999, candidate.coins + (35 if is_boss else 14))
+			candidate.victories = mini(999999, candidate.victories + 1)
+			messages.append_array(candidate.gain_xp(reward_xp))
+			if is_boss:
+				# Existing branch completion follows the battle award, including its
+				# second XP step, so level-up recovery cannot be overwritten by HP/qi.
+				var branch_level: int = candidate.level
+				if not candidate.finish_side_quest():
+					return {"ok": false, "reason": "废闸水令不能重复领取。"}
+				branch_reward_xp = 80
+				for gained_level: int in range(branch_level + 1, candidate.level + 1):
+					messages.append("境界精进！升至 %d 级，气血与真气已恢复。" % gained_level)
+				candidate.coins = mini(999999, candidate.coins)
+				candidate.medicine = mini(999, candidate.medicine)
+			elif not candidate.find_side_clue("ledger"):
+				return {"ok": false, "reason": "传令人的账页已被收起，不能重复结算。"}
 			awarded = true
 		else:
 			if (_party_encounter == "story" and candidate.quest_stage != 3) or (_party_encounter == "training" and candidate.quest_stage < 4):
@@ -1364,8 +1416,13 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
 		return {"ok": false, "reason": "交锋结算未通过完整存档校验。"}
 	var settlement: Dictionary = {"outcome": snapshot.outcome, "encounter_id": _party_encounter,
-		"awarded": awarded, "reward_xp": reward_xp, "coin_change": candidate.coins - coins_before,
+		"awarded": awarded, "reward_xp": reward_xp + branch_reward_xp,
+		"battle_reward_xp": reward_xp, "branch_reward_xp": branch_reward_xp,
+		"coin_change": candidate.coins - coins_before,
 		"level_before": level_before, "level_after": candidate.level, "quest_stage": candidate.quest_stage,
+		"side_stage": candidate.side_stage, "side_choice": candidate.side_choice,
+		"side_found": candidate.side_found.duplicate(), "side_reward_claimed": candidate.side_reward_claimed,
+		"branch_reward_claimed": branch_reward_xp > 0,
 		"receipt_stage": candidate.receipt_stage, "map_id": candidate.map_id,
 		"position": candidate.position, "messages": messages, "resources": candidate.party_resource_snapshot()}
 	return {"ok": true, "state": candidate, "settlement": settlement}
