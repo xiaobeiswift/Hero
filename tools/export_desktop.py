@@ -24,7 +24,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = "4.6.3.stable.official.7d41c59c4"
-PACK_SMOKE_CHECKS = 761
+PACK_SMOKE_CHECKS = 872
 SOURCE_DIRS = ("assets", "scripts", "scenes", "licenses")
 SOURCE_FILES = ("project.godot", "export_presets.cfg")
 TARGETS = {

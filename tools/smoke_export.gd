@@ -126,6 +126,11 @@ func _run() -> void:
 	await _test_village_finish_pack()
 	print("Retained village/view pack coverage: %d checks"%checks)
 	await _test_courtyard_props_pack()
+	await _test_reading_party_pack()
+	await _test_clear_visibility_pack()
+	await _test_tang_combat_pack()
+	await _test_martial_folio_pack()
+	await _test_close_guard_pack()
 	game.music.stop()
 	game.sfx.stop()
 	game.music.stream = null
@@ -191,7 +196,8 @@ func _test_mentor_trials() -> void:
 		game._interact("mentor")
 		_check(_find_button(game.overlay, "开始受试") == null and _find_button(game.overlay, "领取内门荐记") == null, "Packed completed mentor cannot duplicate rewards: " + school)
 		_press("研读武学")
-		_check(_gather_text(game.overlay).contains("内门") and _gather_text(game.overlay).contains("考绩3"), "Packed martial panel displays rank and merit: " + school)
+		var rank_caption=game.overlay.find_child("MartialRank",true,false)
+		_check(rank_caption!=null and rank_caption.text=="内门弟子 · 考绩 3", "Packed martial panel displays its exact earned rank and merit: " + school)
 		game._close_modal()
 		game._load()
 		_check(game.state.to_dict() == before, "Packed promoted state persists without duplication: " + school)
@@ -1341,3 +1347,169 @@ func _test_courtyard_props_pack()->void:
 	_check(not game.active_modal and game.state.quest_stage==0,"Packed notice dismissal preserves opening quest state")
 	var prompt:Rect2=game.world._interaction_prompt_rect(Vector2(720,480))
 	_check(not prompt.intersects(Rect2(game.world.player_pos-Vector2(20,62),Vector2(40,70))),"Packed local prompt leaves the traveller visible")
+
+func _test_reading_party_pack()->void:
+	var tang=load("res://scripts/painted_tang_sprite.gd")
+	var sheet=load("res://scripts/dialogue_sheet.gd")
+	_check(tang!=null and sheet!=null,"Packed reading and Tang helpers retained")
+	if tang==null or sheet==null:return
+	for direction in tang.ROWS:
+		for frame in [0,4]:
+			var image=tang.texture_for(direction,frame)
+			_check(image!=null and image.atlas.get_size()==Vector2(2048,1024) and image.region==Rect2(frame*256,tang.ROWS[direction]*256,256,256),"Packed Tang directional contact frame retained")
+	_check(tang.texture_for("front",0)==tang.texture_for("front",8),"Packed Tang frames reuse one crop")
+	var foot=Vector2(720,480)
+	_check((tang.drawing_rect(foot).position+tang.FOOT*72.0/256.0).distance_to(foot)<.001,"Packed Tang keeps shared ground anchor")
+	game._new_game();game._interact("elder");await process_frame;await process_frame
+	var page=game.overlay.find_child("DialogueSheet",true,false)
+	var body=game.overlay.find_child("DialogueBody",true,false)
+	_check(page!=null and body!=null,"Packed conversation uses the fitted paper page")
+	_check(page!=null and page.size.y<500,"Packed short dialogue fits its actual content")
+	_check(body!=null and body.get_theme_font_size("normal_font_size")==19,"Packed body keeps readable font size")
+	var stale:Callable=game.modal_actions[0]
+	await _key(KEY_ESCAPE);stale.call()
+	_check(game.state.quest_stage==0 and not game.active_modal,"Packed abandoned dialogue callback cannot accept quest")
+	await _key(KEY_E);await _key(KEY_ENTER)
+	_check(game.state.quest_stage==1 and not game.active_modal,"Packed actual dialogue keys still accept original quest")
+	game._modal("沈青 · 试读","纸面与头像","完整原始文字。",[["一",game._close_modal],["二",game._close_modal],["三",game._close_modal],["四",game._close_modal],["查看告示",game._show_board]],true)
+	await process_frame;await process_frame
+	body=game.overlay.find_child("DialogueBody",true,false)
+	var portrait=game.overlay.find_child("Portrait_shen",true,false)
+	_check(portrait!=null and not portrait.get_rect().intersects(body.get_rect()),"Packed portrait remains outside text")
+	for i in range(1,6):
+		var button=game.overlay.find_child("DialogueChoice"+str(i),true,false)
+		_check(button!=null and not button.get_rect().intersects(body.get_rect()),"Packed numbered choice stays outside text")
+	await _key(KEY_5)
+	_check(_gather_text(game.overlay).contains("青苇渡告示"),"Packed fifth-choice shortcut reaches real notice")
+	await _key(KEY_ESCAPE)
+	game.world.teleport(Vector2(720.63916015625,469.580535888672))
+	_check(game.world._noticeboard_opacity(foot)==.38,"Packed exact release obstruction position stays visible")
+	game.world.teleport(Vector2(720,520))
+	_check(game.world._noticeboard_opacity(foot)==1.0,"Packed board returns opaque in front")
+	game.state.quest_stage=6;game.state.side_stage=3;game.state.chapter_two_stage=4;game.state.bridge_repaired=true;game.state.tangqi_stage=3;game.state.tangqi_choice="preserve";game.state.tangqi_unlocked=true;game.state.select_companion("唐栖");game._sync_world_state()
+	_check(game.world.companion_active and game.world.companion_name=="唐栖","Packed painted follower keeps Tang identity")
+	game.state.map_id="frostbridge";game.world.change_map("frostbridge",Vector2(700,805))
+	_check(game.world.get_npc_name("bridge_worker")=="修桥工位","Packed travelling Tang leaves his work station")
+	game._new_game()
+
+func _test_clear_visibility_pack()->void:
+	var prefs=load("res://scripts/view_preferences.gd")
+	_check(prefs!=null,"Packed display preferences retained")
+	if prefs==null:return
+	var path="user://v17-preference-audit.cfg"
+	for detail in [false,true]:
+		for zoom in range(3):
+			var selected=prefs.new();selected.full_resolution=detail;selected.zoom_index=zoom;selected.sound_enabled=detail
+			_check(selected.save_settings(path)==OK,"Packed display settings write independently of character save")
+			var restored=prefs.new()
+			_check(restored.load_settings(path)==OK and restored.zoom_index==zoom and restored.full_resolution==detail and restored.sound_enabled==detail,"Packed sound/detail/zoom restore together")
+	game._new_game();game._stop_audio();game.audio_on=false
+	game.view_preferences.zoom_index=2;game.view_preferences.full_resolution=true;game._apply_view_zoom()
+	_check(game.world_view.size==Vector2i(1280,800) and game.world.viewport_rect.size==Vector2(800,500),"Packed clear view preserves full pixels and close logical camera")
+	_check(game.world.ui_font==game.world_detail_font,"Packed clear world uses separate detail font")
+	await _key(KEY_ESCAPE);await _key(KEY_MINUS)
+	_check(game.view_zoom==1.25 and game.active_modal and game.overlay.get_meta("pause_menu",false),"Packed pause minus key keeps menu open")
+	await _key(KEY_KP_ADD)
+	_check(game.view_zoom==1.6 and game.active_modal,"Packed keypad zoom returns to detail view")
+	var button=game.overlay.find_child("PauseQuality",true,false)
+	_check(button!=null and button.text.contains("清晰"),"Packed rest menu exposes detail choice")
+	if button!=null:button.pressed.emit()
+	await process_frame
+	_check(not game.view_preferences.full_resolution and game.world_view.size==Vector2i(800,500),"Packed light choice reduces render pixels without changing zoom")
+	game.overlay.find_child("PauseQuality",true,false).pressed.emit();await process_frame;await _key(KEY_ESCAPE)
+	game.world.teleport(Vector2(300,185));game.toast_time=0;game.hud.quest_notice_time=0;game._process(0)
+	var target:Vector2=game.world.interactables.elder.pos-game.world.camera_pos
+	_check(game.world._navigation_target_visible(target),"Packed visible elder has no duplicate lower-edge compass")
+	_check(game.world._building_opacity(game.world.buildings[0])==.35,"Packed clinic roof preserves traveller visibility")
+	game.world.teleport(Vector2(900,695))
+	_check(game.world._building_opacity(game.world.buildings[4])==.35,"Packed legal shrine-back position remains readable")
+	game.world.teleport(Vector2(900,820))
+	_check(game.world._building_opacity(game.world.buildings[4])==1.0,"Packed shrine facade remains opaque in front")
+	for region in ["qingwei","sluice","frostbridge","mistwood"]:
+		game.state.map_id=region;game.world.change_map(region,Vector2(600,480));game._show_map();await process_frame;await process_frame
+		var page=game.overlay.find_child("DialogueSheet",true,false);var chart=game.overlay.find_child("RegionChart",true,false);var close=game.overlay.find_child("DialogueChoice1",true,false)
+		_check(page!=null and chart!=null and close!=null,"Packed regional chart and close control retained")
+		if page!=null and chart!=null and close!=null:
+			_check(page.size.y==570 and Rect2(Vector2.ZERO,page.size).encloses(chart.get_rect()),"Packed chart fits its full paper page")
+			_check(not chart.get_rect().intersects(close.get_rect()) and chart.map_id==region,"Packed regional chart leaves close control visible")
+		await _key(KEY_1);_check(not game.active_modal,"Packed numbered map dismissal works")
+	game._new_game()
+
+func _test_tang_combat_pack()->void:
+	var art=load("res://scripts/painted_battle_tang.gd")
+	_check(art!=null,"Packed Tang combat helper retained")
+	if art==null:return
+	for pose in art.POSES:
+		var texture=art.texture_for(pose);var i:int=art.POSES[pose]
+		_check(texture!=null and texture.atlas.get_size()==Vector2(1024,1024),"Packed Tang pose texture survives export filters")
+		_check(texture.region==Rect2((i%2)*512,(i/2)*512,512,512) and texture==art.texture_for(pose),"Packed Tang pose crop remains grounded and cached")
+	game._new_game();game._stop_audio();game.audio_on=false
+	game.state.tangqi_unlocked=true;game.state.select_companion("唐栖");game.battle_presentation_enabled=true;game.battle_art.set_process(false)
+	game._start_battle("training");game.state.qi=0;game.state._companion_attack_count=1;game._refresh_battle();game._battle_action("attack")
+	var facts=game.battle_art.presentation_details.support
+	_check(facts.name=="唐栖" and facts.damage==4 and facts.qi==1 and game.state.qi==3,"Packed Tang assist preserves actual damage and qi contributions")
+	var accepted=game.state.to_dict().duplicate(true)
+	game.battle_art._process(.50)
+	_check(game.battle_art.support_visual_pose()=="assist","Packed accepted support action displays Tang assist pose")
+	game.battle_art._process(.20)
+	_check(game.battle_art.support_visual_pose()=="recover" and game.state.to_dict()==accepted,"Packed Tang recovery pose is presentation-only")
+	game.battle_art._process(2);await process_frame
+	_check(game.hud.battle_qi.text.contains("3 / 6"),"Packed qi feedback settles at accepted model value")
+	game.battle_presentation_enabled=false;game._battle_action("flee");game._close_modal();game.battle_art.set_process(true);game._new_game()
+
+func _test_martial_folio_pack()->void:
+	_check(ResourceLoader.exists("res://scripts/martial_panel.gd"),"Packed martial folio helper retained")
+	game._new_game();game.state.choose_sect("听潮阁");game.state.quest_stage=6;game.state.sect_rank=2;game.state.sect_merit=5
+	game._show_martials();await process_frame;await process_frame
+	var page=game.overlay.find_child("MartialFolio",true,false)
+	_check(page!=null and game.modal_actions.size()==3,"Packed folio preserves two learned choices andReturn")
+	var ids=game.state.school_art_ids()
+	for id in [ids[2],ids[3]]:
+		var card=game.overlay.find_child("ArtCard_"+id,true,false)
+		_check(card!=null and card.find_child("ArtLocked",true,false).disabled,"Packed unlearned school page is clearly unavailable")
+	_check(game.state.sect_merit==5 and game.state.learned_arts.is_empty(),"Packed comparison never silently spends merit")
+	await _key(KEY_3);_check(not game.active_modal,"Packed limited-loadout Return keeps original numeric position")
+	_check(game.state.learn_art(ids[2]) and game.state.learn_art(ids[3]),"Packed existing mentor rules still unlock the two advanced moves")
+	game._show_martials();await process_frame;await process_frame
+	page=game.overlay.find_child("MartialFolio",true,false)
+	_check(page!=null and game.modal_actions.size()==5,"Packed full loadout fits the original five-key contract")
+	for id in ids:
+		var card=page.find_child("ArtCard_"+id,true,false)
+		_check(card!=null and Rect2(Vector2.ZERO,page.size).encloses(card.get_rect()),"Packed learned card stays inside the folio")
+		_check(card.find_child("ArtEquip",true,false)!=null,"Packed learned move exposes equip control")
+	await _key(KEY_4)
+	_check(game.state.equipped_art==ids[3] and not game.active_modal,"Packed fourth key equips the chosen focus move")
+	game._show_martials();await process_frame;await process_frame
+	_check(game.overlay.find_child("EquippedArtTitle",true,false).text==ids[3],"Packed folio marks the actual equipped move")
+	var description=game.overlay.find_child("EquippedArtDescription",true,false)
+	_check(description.size.x==248 and description.get_minimum_size().y<=58,"Packed long Chinese description wraps inside its column")
+	await _key(KEY_5);game._new_game()
+
+func _test_close_guard_pack() -> void:
+	game._new_game()
+	_check(game.state.save_game()==OK,"Packed close fixture starts with a valid saved journey")
+	var save_path:String=game.state.SAVE_PATH
+	var original=FileAccess.get_file_as_bytes(save_path)
+	var blocked=ProjectSettings.globalize_path(save_path+".tmp")
+	var fixture_error=DirAccess.make_dir_absolute(blocked)
+	_check(fixture_error==OK,"Packed close fixture blocks only its own temporary file path")
+	if fixture_error!=OK:return
+	game.state.coins+=1
+	game._notification(game.NOTIFICATION_WM_CLOSE_REQUEST)
+	_check(not game.quit_pending and game.active_modal,"Packed WM-close stays open when the actual save fails")
+	_check(_gather_text(game.overlay).contains("手记未能落笔"),"Packed failed close opens the recovery page")
+	_check(FileAccess.get_file_as_bytes(save_path)==original,"Packed failed close preserves existing saved bytes")
+	await _key(KEY_2)
+	_check(game.active_modal and game.overlay.get_meta("pause_menu",false),"Packed failed close can return to rest without quitting")
+	await _key(KEY_ESCAPE)
+	_check(not game.active_modal and game.save_warning,"Packed rest cancellation keeps unsaved journey active")
+	_check(game.status_label.text.count("F5")==1 and game.status_label.text.count("存档失败")==1,"Packed autosave failure shows one recovery warning")
+	await _key(KEY_F5)
+	_check(game.status_label.text.count("F5")==1 and game.status_label.text.contains("错误码"),"Packed failed retry retains details without duplicate warning")
+	_check(FileAccess.get_file_as_bytes(save_path)==original,"Packed failed retry leaves good save byte-identical")
+	var restored=blocked+".closed-audit-%d"%Time.get_ticks_usec()
+	_check(DirAccess.rename_absolute(blocked,restored)==OK,"Packed audit restores only the test-owned blocked path")
+	await _key(KEY_F5)
+	_check(not game.save_warning and not game.quit_pending,"Packed successful retry clears warning and stays in exploration")
+	var saved=JSON.parse_string(FileAccess.get_file_as_string(save_path))
+	_check(saved.player.coins==game.state.coins and game.state.coins==25,"Packed recovered write persists actual new progress")
