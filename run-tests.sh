@@ -18,6 +18,7 @@ run_checked() {
 }
 run_checked --headless --path . --editor --import --quit
 run_checked --headless --path . --script tests/state_test.gd
+run_checked --headless --path . --script tests/courtyard_exercise_rules_test.gd
 run_checked --headless --path . --script tests/audit_progression_test.gd
 
 run_checked --headless --path . --script tests/audit_second_region_test.gd
