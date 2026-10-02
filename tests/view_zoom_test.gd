@@ -54,6 +54,16 @@ func run()->void:
 	for reserved in app.world.hud_exclusion_rects:
 		assert(not bubble.intersects(Rect2(reserved.position*app.view_zoom,reserved.size*app.view_zoom)))
 	await key(KEY_ESCAPE);assert(app.overlay.get_meta("pause_menu",false))
+	writes=app.view_preferences.writes
+	await key(KEY_MINUS);assert(app.view_zoom==1.25 and app.active_modal and app.overlay.get_meta("pause_menu",false))
+	assert(app.view_preferences.writes==writes+1 and app.overlay.find_child("PauseView",true,false).text.contains("125%"))
+	await key(KEY_EQUAL);assert(app.view_zoom==1.6 and app.active_modal)
+	await key(KEY_KP_SUBTRACT);assert(app.view_zoom==1.25 and app.active_modal)
+	await key(KEY_KP_ADD);assert(app.view_zoom==1.6 and app.active_modal)
+	app.view_preferences.fail=true;await key(KEY_MINUS)
+	assert(app.view_zoom==1.25 and app.overlay.find_child("PauseDisplayStatus",true,false).text.contains("未能保存"))
+	app.view_preferences.fail=false;await key(KEY_PLUS)
+	assert(app.view_zoom==1.6 and app.display_settings_warning.is_empty())
 	var button=app.overlay.find_child("PauseView",true,false);assert(button!=null and button.text.contains("160%"))
 	button.pressed.emit();await process_frame;assert(app.view_zoom==1.0 and app.overlay.find_child("PauseView",true,false).text.contains("100%"))
 	await key(KEY_ESCAPE);await key(KEY_I);writes=app.view_preferences.writes
