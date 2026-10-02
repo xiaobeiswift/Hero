@@ -1,0 +1,124 @@
+{
+  "source_commit": "7761262f83037f8d4061bf862896e59ccc8eb405",
+  "game_version": "0.0.22",
+  "web_revision": 1,
+  "status": "Exact cloud Web package and uninterrupted source suite passed; independent Windows build and direct deployment pending",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+  "runtime_source_entries": 286,
+  "runtime_source_bytes": 70196569,
+  "source_manifest_sha256": "47fbbe53379153978f2f10d5326f03fcd30606ef1e75c793b5d1f9dce62526f4",
+  "build_report_sha256": "c22671383bbaf2286385f9d71e87682cd2c5182613d1ec678e9c8c400c50dd42",
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "ebe81d986296a3b7bf3912b5bf2876acae1054a4120c6b60dc7b4218b5e912b0",
+      "bytes": 7772
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "e861dc02c8514b0c7880aeeb4537923cf91816c714fb46a678db34023f0b71e2",
+      "bytes": 6748
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "ebfd6dfcfd503955777bc828b24b2a38135e874bcf98dd8eb7c6f2104dedc3fb",
+      "bytes": 9095
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "26f38924a2ecfa192fbcb5619df1b92da3d2ef1049a7e08b54e162c9b4ea3486",
+      "bytes": 51081516
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "archive": {
+    "file": "Hero-Web-0.0.22-web1.zip",
+    "bytes": 60484016,
+    "sha256": "57373f7a240c2696bdb19d0feb7a2a156c56c2cdebd6b04e7c7ed92490cdf806"
+  },
+  "audit": {
+    "source_commit": "7761262f83037f8d4061bf862896e59ccc8eb405",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "26f38924a2ecfa192fbcb5619df1b92da3d2ef1049a7e08b54e162c9b4ea3486",
+    "audit_sha256": "7c87373aa82d129a9b103100ee097c9b6610edc937870f4c81dddc860a2ff7ca",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "47fbbe53379153978f2f10d5326f03fcd30606ef1e75c793b5d1f9dce62526f4",
+    "save_schema": 13,
+    "party_capacity": 4,
+    "log_sha256": "d1706290da5bf7274a285f046b51e0e978da8e7b0a2748f0c1b8653f694b5bdf",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 2799,
+    "preserved_checks": 1471,
+    "unified_checks": 1237,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "audit_output": [
+    "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org",
+    "",
+    "Preserved noncombat exact-runtime coverage: 1471 checks; original asset/story/recruitment/menu/save assertions adapted to current schema",
+    "JOURNEY: school=听潮阁 level=6 hp=160/160 coins=490 medicines=7",
+    "JOURNEY: school=照野堂 level=6 hp=184/184 coins=484 medicines=7",
+    "JOURNEY: school=问石门 level=6 hp=160/160 coins=508 medicines=7",
+    "Schema13 unified automatic exact-runtime coverage: 1237 checks; all10 actual controllers; fixed3 skill slots; no-input basics; queued skills/CD;1-4 real rosters; explicit lessons; frozen9/10/11/12 readers; natural3-school journey; practice byte isolation; trial provenance; real save-failure/close/retry; no browser or physical desktop-close claim",
+    "Audit scope: complete; prepared state/input only; no browser or physical desktop-close claim",
+    "PASS: 2799 exported-pack checks; 0 failures"
+  ],
+  "regression": {
+    "source_commit": "7761262f83037f8d4061bf862896e59ccc8eb405",
+    "scope": "Single uninterrupted full run-tests.sh from clean frozen source; all child commands exit0",
+    "exit_code": 0,
+    "godot_commands": 114,
+    "python_tests": 62,
+    "pass_summaries": 112,
+    "engine_errors": 0,
+    "log_sha256": "57bdfde2dc5795a1285111f6ec45a86f793e0466f2dc83ecabaec8b02dfcd920",
+    "log_bytes": 101371,
+    "runner_sha256": "955f9f0ef4fbe9150840b3fbc9e4f32f0d23bbc44da6796ddb5440727982773d"
+  },
+  "limits": [
+    "Actual browser graphics/audio/reload persistence unverified",
+    "Independent Windows output must pass its own complete2799-check audit before deployment",
+    "No GitHub package or release upload",
+    "Live Web0.0.21 unchanged by this source evidence commit"
+  ]
+}

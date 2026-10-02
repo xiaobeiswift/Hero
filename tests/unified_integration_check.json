@@ -1,5 +1,5 @@
 {
-  "source_scope": "Unified automatic party battle integration; working source, aggregate and exact PCK still pending",
+  "source_scope": "Unified automatic party battle integration; exact7761262 clean source suite and cloud Web PCK passed",
   "live_web": "0.0.21 Web1 unchanged",
   "schema": 13,
   "focused": {
@@ -265,7 +265,7 @@
     "unified-practice-lifecycle.log": "76fcea3e080ab4c5c846596061298fd0cf122df32550f9b268354641bfd63b2e",
     "unified-terminal-close.log": "95f13f4e38b77ad71d78f87081522059ee2cff31230a83b4ce4fe1a845fc52db"
   },
-  "remaining": "Fresh uninterrupted aggregate rerun, actual exported Web PCK and deployment. LiveWeb21 unchanged.",
+  "remaining": "Independent Windows export/exact-PCK audit and authorized direct deployment; live Web21 remains unchanged",
   "regression": {
     "godot_commands": 114,
     "python_tests": 62,
@@ -294,5 +294,24 @@
     "sha256": "0e7a6c59865b714a1eff9058a759c3a958525eb743aaed58bd307ce3e67d0d7d",
     "checks_with_report_output_assertion": 3246,
     "aggregate_without_report_output_assertion": 3245
+  },
+  "uninterrupted_regression": {
+    "source_commit": "7761262f83037f8d4061bf862896e59ccc8eb405",
+    "scope": "Single uninterrupted full run-tests.sh from clean frozen source; all child commands exit0",
+    "exit_code": 0,
+    "godot_commands": 114,
+    "python_tests": 62,
+    "pass_summaries": 112,
+    "engine_errors": 0,
+    "log_sha256": "57bdfde2dc5795a1285111f6ec45a86f793e0466f2dc83ecabaec8b02dfcd920",
+    "log_bytes": 101371,
+    "runner_sha256": "955f9f0ef4fbe9150840b3fbc9e4f32f0d23bbc44da6796ddb5440727982773d"
+  },
+  "exact_web_pck": {
+    "source_commit": "7761262f83037f8d4061bf862896e59ccc8eb405",
+    "passed": true,
+    "checks": 2799,
+    "pck_sha256": "26f38924a2ecfa192fbcb5619df1b92da3d2ef1049a7e08b54e162c9b4ea3486",
+    "record": "tests/web22_candidate_check.json"
   }
 }
