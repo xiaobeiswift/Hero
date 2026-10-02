@@ -1,0 +1,21 @@
+Hero / 渡灯录: frozen v0.0.17 save-reader fixture
+
+File: v017_game_state.gd.txt
+Source path: scripts/game_state.gd
+Source snapshot: b063f53059eb6068743d9be53cd052776e315178
+Snapshot title: build: freeze v0.0.17 desktop pack validation
+Git blob: 6899f95176d6fb86e4892329e749bd5be32118bb
+Exact size: 35431 bytes
+SHA-256: fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f
+
+Extracted byte-for-byte using git show <snapshot>:scripts/game_state.gd.
+The fixture itself is unchanged, including its class declaration and newlines.
+Snapshot IDs describe origin only; running the test does not require Git or
+matching local/remote history. The portable identity check is the SHA-256.
+
+The regression hashes the loaded bytes before compiling them in memory, then
+removes only "class_name HeroState\n" to avoid global-class-name collision.
+The older loader must reject schema 10 before mutating state or save bytes.
+Dependencies resolve from the current project; version rejection occurs before
+restore logic, so this verifies the actual frozen reader's version gate, not
+a complete historical runtime or an old exported executable.
