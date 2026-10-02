@@ -1,0 +1,64 @@
+{
+  "source_base": "2a75606",
+  "version": "0.0.18",
+  "save_schema": 10,
+  "checks": {
+    "rules": 7940,
+    "geometry": 3466,
+    "world_and_chart": 5570,
+    "scene_routes": 4137,
+    "current_ui_storage_migration": 249,
+    "three_school_fresh_journey": 122
+  },
+  "method": "Full run-tests command list: primary pass completed runtime through archive tools, then resumed from version metadata after replacing an obsolete test-only literal with the project version; all remaining commands exited0. Prior failures and corrected focused passes retained. No new release build.",
+  "logs": [
+    {
+      "label": "primary aggregate",
+      "sha256": "ab13392f204e0329de35c927572be4a67ea63d9d5132ad127d84b6edb8fe7dec"
+    },
+    {
+      "label": "remaining tool/UI checks",
+      "sha256": "9436166af372e972aeddcf6e7fcfbeac578f66de907c5c9cae4f287195544033"
+    }
+  ],
+  "captures": [
+    {
+      "file": "screenshots/223-heting-north-arrival.png",
+      "sha256": "9bfd81fb75ce12b1c69d3897b531a7bec25cc0f6cad40138acd832521cd0f155"
+    },
+    {
+      "file": "screenshots/224-heting-working-harbor.png",
+      "sha256": "3c60b1d89564fa6f5e75dd7856aa56b4f1651435826ece5dff7a6e5889cd68b2"
+    },
+    {
+      "file": "screenshots/225-heting-cargo-paper.png",
+      "sha256": "8c389234cb04e541672a02a53820af4ba3c1ddd61d9c12d6472cb690f036208e"
+    },
+    {
+      "file": "screenshots/226-heting-winch-choice.png",
+      "sha256": "dd731a2b0760bc3c5401b257b533facdd3304e5eee374432085d7583e3ac2232"
+    },
+    {
+      "file": "screenshots/227-heting-loaded-east-pontoon.png",
+      "sha256": "0daf5ef13b96b2ab0320845915ce151e3eef52581958913d1d9a5f70f3ba7dcb"
+    },
+    {
+      "file": "screenshots/228-heting-paper-chart.png",
+      "sha256": "3bd76fff77cef13fc1079969edfbad8fe9d5f6bfa854b11b47d57eac6462027b"
+    },
+    {
+      "file": "screenshots/229-heting-night-choice.png",
+      "sha256": "7edef50ff3a2711a1e81617246658aecb4de1a828ff5ac20584f2191a98b0122"
+    },
+    {
+      "file": "screenshots/230-heting-short-ferries-aftermath.png",
+      "sha256": "07c32c6f44ce34ebc6a96fd22ded9c74c04caa0336d4aecc69a06b2b090afa1f"
+    }
+  ],
+  "limitations": [
+    "Native images are prepared source scenes, not a continuous manual playthrough or exported0.0.18",
+    "Fresh journey uses real resources/choices but interaction-position placement; separate scene audit uses60,120px actual movement and105E events",
+    "Harbor machinery/cargo props remain prototype art; texture world scale needs refinement",
+    "Windows/macOS native, audio listening and frame performance not tested in this chapter pass"
+  ]
+}

@@ -37,7 +37,7 @@ func _route(route:String)->void:
  _check(game.region_header.text.contains("雾竹坡") and game.chapter_header.text.contains("第三章"),"Region heading reflects fourth map and third chapter")
  await _key(KEY_M)
  var chart=_find_chart(game.overlay)
- _check(chart!=null and chart.map_id=="mistwood" and chart.markers.size()==8,"Map uses new geography and all eight landmarks")
+ _check(chart!=null and chart.map_id=="mistwood" and chart.markers.size()==9,"Map uses new geography and all chapter landmarks and downstream exit")
  _check(chart.current_target=="mist_rain_gauge","Initial world/map target points to rain gauge")
  await _key(KEY_ESCAPE)
  await _talk("mist_stone_gauge")

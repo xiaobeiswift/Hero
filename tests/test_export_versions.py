@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 from pathlib import Path
 import plistlib
+import re
 import tempfile
 import unittest
 import zipfile
@@ -71,7 +72,9 @@ class ExportVersionTests(unittest.TestCase):
             EXPORT.verify_macos_bundle_version(self.bundle(duplicate=True), "0.0.17")
 
     def test_current_repository_metadata_matches_project(self):
-        self.assertEqual(EXPORT.validate_macos_version(Path(__file__).resolve().parents[1]), "0.0.17")
+        root = Path(__file__).resolve().parents[1]
+        expected = re.search(r'^config/version="([^\"]+)"', (root / "project.godot").read_text(), re.MULTILINE).group(1)
+        self.assertEqual(EXPORT.validate_macos_version(root), expected)
 
 
 if __name__ == "__main__": unittest.main()

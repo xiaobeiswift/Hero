@@ -117,8 +117,34 @@ func _run()->void:
   check(app.state.lightness_relics==["reed_islet"] and app.state.coins==saved_coins+18,"Natural exploration grants only one island reward")
   app._save();before=app.state.to_dict();app.state.reset_game();app._load()
   check(app.state.to_dict()==before and app.world.player_pos==app.state.Lightness.SHORE,"Island discovery and safe return persist in full journey")
+  # Continue existing organically earned party/resources into the harbor.
+  var before_port_coins=app.state.coins
+  var before_port_xp=app.state.xp+30*app.state.level*(app.state.level-1)
+  var before_port_resources=app.state.resources.duplicate(true)
+  interact("exit_sluice");choose();interact("exit_frostbridge");choose();interact("exit_mistwood");choose()
+  port_interact("exit_heting");choose()
+  check(app.state.map_id=="heting" and app.state.heting_stage==1,"Natural completed chapter unlocks harbor without injected progress")
+  var order=["sealed","meal"] if school==0 else ["meal","sealed"]
+  for cargo in order:
+   port_interact("heting_cargo")
+   choose(1 if cargo=="sealed" and not app.state.heting_delivered.has("meal") else 0)
+   check(app.state.heting_cargo==cargo,"Actual finite cargo choice loads expected batch")
+   port_interact("heting_relief" if cargo=="meal" else "heting_scale");choose()
+  port_interact("heting_dispatch");choose(school%2)
+  port_interact("heting_lighter");choose()
+  port_interact("heting_relief" if school%2==0 else "heting_scale");choose()
+  check(app.state.heting_stage==4 and app.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
+  check(app.state.coins==before_port_coins+60 and app.state.xp+30*app.state.level*(app.state.level-1)==before_port_xp+120 and app.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
+  app._close_modal();app._save();before=app.state.to_dict();app.state.reset_game();app._load()
+  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through schema10")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
  app._stop_audio();await create_timer(0.25).timeout;app.queue_free();await process_frame
  if failures==0:print("PASS: %d full fresh-start journey checks across three schools" % checks)
  else:push_error("FAIL: %d of %d full journey checks" % [failures,checks])
  quit(0 if failures==0 else 1)
+
+func port_interact(id:String)->void:
+ if app.active_modal:app._close_modal()
+ app.world.teleport(app.world.interactables[id].pos)
+ app._process(0)
+ app._interact(id)

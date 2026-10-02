@@ -311,9 +311,9 @@ func test_invalid_and_legacy() -> void:
 	write_document(original, 1)
 	var oldest = State.new()
 	check(oldest.load_game(PATH) == OK and oldest.heting_stage == 0 and oldest.map_id == "qingwei", "Literal original save still loads")
-	write_document(final_state.to_dict(), 10)
+	write_document(final_state.to_dict(), State.SAVE_VERSION+1)
 	check(oldest.load_game(PATH) == ERR_FILE_UNRECOGNIZED, "Future schema remains incompatible")
-	check(State.SAVE_VERSION == 9, "Schema is nine")
+	check(State.SAVE_VERSION == 10, "Playable harbor schema rejects older executables")
 
 
 func test_caps_and_restore() -> void:

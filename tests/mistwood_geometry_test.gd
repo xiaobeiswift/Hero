@@ -5,7 +5,7 @@ var failures=0
 func _initialize() -> void:
 	var expected={"return_frostbridge":Vector2(150,550),"mist_guide":Vector2(350,360),"mist_rain_gauge":Vector2(550,245),"mist_stone_gauge":Vector2(1000,300),"mist_basin":Vector2(1250,765),"mist_camp":Vector2(290,790),"mist_scout":Vector2(1030,560),"mist_gate":Vector2(1320,500)}
 	var locations=Region.points()
-	_check(locations.size()==8,"Exactly eight chapter-four interaction points")
+	_check(locations.size()==9,"Eight chapter landmarks plus the downstream harbor exit")
 	for id in expected:
 		_check(locations.has(id) and locations[id].pos==expected[id],"Fixed position: "+id)
 		_check(Region.walkable(expected[id]),"Landmark center walkable: "+id)
