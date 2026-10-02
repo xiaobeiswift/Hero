@@ -63,6 +63,7 @@ var party_settlement: Dictionary = {}
 var _party_pending_token: int = -1
 var _party_encounter: String = ""
 var _party_sluice_entry: Dictionary = {}
+var _party_archive_entry: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -968,6 +969,7 @@ func _clear_battle() -> void:
 	_party_pending_token = -1
 	_party_encounter = ""
 	_party_sluice_entry = {}
+	_party_archive_entry = {}
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -1103,16 +1105,31 @@ func gather_resource(id:String) -> Dictionary:
 	return Economy.gather(self,id)
 
 func begin_chapter_two() -> bool:
+	if _party_gate(): return false
 	return Chapter.begin(self)
 func add_archive_clue(id:String) -> bool:
+	if _party_gate(): return false
 	return Chapter.clue(self,id)
 func try_seal(index:int) -> Dictionary:
+	if _party_gate():
+		return {"valid":false,"complete":false,"message":"交锋中不能转动封印。"}
 	return Chapter.seal(self,index)
 func mark_archive_victory() -> bool:
+	if _party_gate(): return false
 	return Chapter.victory(self)
 func resolve_chapter_two(choice:String) -> bool:
-	return Chapter.resolve(self,choice)
+	if _party_gate() or not _stage_save_data(to_dict(), SAVE_VERSION).ok:
+		return false
+	var candidate = _detached_persistent_state()
+	if not Chapter.resolve(candidate, choice):
+		return false
+	candidate.coins = mini(999999, candidate.coins)
+	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
+		return false
+	_copy_persistent_from(candidate)
+	return true
 func repair_bridge() -> bool:
+	if _party_gate(): return false
 	return Chapter.repair_bridge(self)
 
 func sect_art() -> String:return Sects.art(self)
@@ -1246,6 +1263,30 @@ func can_start_sluice_party_battle(encounter_id: String) -> bool:
 	return false
 
 
+func _archive_party_progress() -> Dictionary:
+	var progress: Dictionary = _sluice_party_progress()
+	progress.chapter_two_stage = chapter_two_stage
+	progress.chapter_two_ending = chapter_two_ending
+	progress.archive_clues = archive_clues.duplicate()
+	progress.seal_sequence = seal_sequence.duplicate()
+	return progress
+
+
+func can_start_archive_party_battle() -> bool:
+	if battle_active or _party_gate() or hp < 1 or map_id != "frostbridge" or quest_stage != 6:
+		return false
+	if side_stage != 3 or not side_reward_claimed or not side_choice in ["rescue", "pursuit"]:
+		return false
+	if side_clues != 2 or side_found.size() != 2 or not side_found.has("boatman") or not side_found.has("ledger"):
+		return false
+	if chapter_two_stage != 2 or not chapter_two_ending.is_empty():
+		return false
+	if archive_clues.size() != 2 or not archive_clues.has("clerk") or not archive_clues.has("inscription") or seal_sequence != Chapter.SEAL_ORDER:
+		return false
+	# A save-normalizing load must not repair malformed entry prerequisites.
+	return _stage_save_data(to_dict(), SAVE_VERSION).ok
+
+
 func start_party_battle(encounter_id: String) -> bool:
 	if battle_active or _party_gate() or hp < 1 or not PartyCombat.ENCOUNTERS.has(encounter_id):
 		return false
@@ -1256,6 +1297,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	if encounter_id == "heting_receipt" and (receipt_stage != 1 or not Receipt.can_begin(self)):
 		return false
 	if encounter_id in ["sluice_scout", "sluice_boss"] and not can_start_sluice_party_battle(encounter_id):
+		return false
+	if encounter_id == "archive_boss" and not can_start_archive_party_battle():
 		return false
 	var projection: Dictionary = PartyRoster.battle_resources(self, _party_payload())
 	if not projection.ok:
@@ -1271,6 +1314,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	_party_encounter = encounter_id
 	if encounter_id in ["sluice_scout", "sluice_boss"]:
 		_party_sluice_entry = _sluice_party_progress()
+	elif encounter_id == "archive_boss":
+		_party_archive_entry = _archive_party_progress()
 	battle_kind = encounter_id
 	battle_active = true
 	return true
@@ -1363,6 +1408,8 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	# accidentally repair malformed live data (for example medicine -1 +2).
 	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
 		return {"ok": false, "reason": "交锋结算前的完整存档校验未通过。"}
+	if _party_encounter == "archive_boss" and (not candidate.can_start_archive_party_battle() or candidate._archive_party_progress() != _party_archive_entry):
+		return {"ok": false, "reason": "霜桥的线索或封印进度已改变，不能结算本次交锋。"}
 	var coins_before: int = candidate.coins
 	var level_before: int = candidate.level
 	var awarded: bool = false
@@ -1374,6 +1421,15 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 			if not Receipt.settle_victory(candidate):
 				return {"ok": false, "reason": "复签进度不再允许本次结算。"}
 			reward_xp = Receipt.REWARD_XP
+			awarded = true
+		elif _party_encounter == "archive_boss":
+			if not candidate.mark_archive_victory():
+				return {"ok": false, "reason": "封仓原账已经取得，不能重复结算。"}
+			reward_xp = 80
+			candidate.coins = mini(999999, candidate.coins + 40)
+			candidate.victories = mini(999999, candidate.victories + 1)
+			messages.append_array(candidate.gain_xp(reward_xp))
+			# The later innkeeper ending remains an explicit player choice.
 			awarded = true
 		elif _party_encounter in ["sluice_scout", "sluice_boss"]:
 			if not candidate.can_start_sluice_party_battle(_party_encounter) or candidate._sluice_party_progress() != _party_sluice_entry:
@@ -1423,6 +1479,8 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 		"side_stage": candidate.side_stage, "side_choice": candidate.side_choice,
 		"side_found": candidate.side_found.duplicate(), "side_reward_claimed": candidate.side_reward_claimed,
 		"branch_reward_claimed": branch_reward_xp > 0,
+		"chapter_two_stage": candidate.chapter_two_stage, "chapter_two_ending": candidate.chapter_two_ending,
+		"archive_clues": candidate.archive_clues.duplicate(), "seal_sequence": candidate.seal_sequence.duplicate(),
 		"receipt_stage": candidate.receipt_stage, "map_id": candidate.map_id,
 		"position": candidate.position, "messages": messages, "resources": candidate.party_resource_snapshot()}
 	return {"ok": true, "state": candidate, "settlement": settlement}
