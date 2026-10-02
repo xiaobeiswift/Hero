@@ -1,0 +1,19 @@
+{
+  "base_commit": "4f52f5b67fe2318ccdaba1d0094c0ca7fa435284",
+  "scope": "Archive model/state only. Actual scene and two-person formation refinements remain separate work; deployed Web21 unchanged.",
+  "save_schema": 12,
+  "focused": {
+    "archive_state_rules": 1814,
+    "chapter": 64,
+    "sluice_state": 736,
+    "sluice_rules": 2082,
+    "party_state": 701
+  },
+  "full_suite": "Not rerun for this isolated checkpoint",
+  "source_sha256": {
+    "scripts/game_state.gd": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "scripts/party_combat_rules.gd": "95f49405e646a033fe45ad1cb6ab52f722522bb697f4627a140b7aa79ba5d4cc",
+    "tests/party_archive_state_test.gd": "b014e873e88b2970284555c98de19f61a70b61e08ee6e615926c8278d2c4a8be"
+  },
+  "source_contained_check_total": 5397
+}

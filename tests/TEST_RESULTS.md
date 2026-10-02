@@ -635,3 +635,7 @@ Clean0c4012aca2fb28f0033a7b69f216c19c30a65c97 export:2725 exact exported-pack ch
 ## 2026-10-02 — Windows Web21 and live deployment
 
 Independent Windows PCK7d2aa33a005b840d8e3d002c16b2e204fd03e7a794e7626d79dc3bc1b24c33c2 passed2725 checks and single373 sluice marker.275 runtime source hashes/14 site files/profile isolation verified. Live19:29:12 UTC:14 complete HTTPS hashes,36 checks, proper version/TLS/MIME/cache validation; Caddy unchanged/Git200. See web_deployment_021.json. Source capture wording now separates actual E/number entry and controller command playback from separately tested mouse dispatch. No runtime change or new test run in this docs-only checkpoint.
+
+## 2026-10-02 — Archive party model/state checkpoint
+
+Bounded isolated Godot runs PASS: archive1814, chapter64, sluice state736, sluice rules2082, party state701. Total5397; zero engine errors. Exact gate/context, natural solo/Shen progression, mechanical1–4 capacity, recipient vulnerability/shields/guard arts, outcome/retry, malformed data, finite combat80XP/40coins and separate ending100XP/65coins, schema12 and cap boundaries covered. Scene/formation and complete aggregate remain outside this isolated checkpoint.

@@ -115,8 +115,9 @@ func _test_templates_and_legacy() -> void:
 		"heting_receipt": [{"id": "striker", "name": "截签刀客", "hp": 190, "attack": 22, "heavy_attack": 34}, {"id": "bracer", "name": "架刀护手", "hp": 110, "attack": 14, "heavy_attack": 14}],
 		"sluice_scout": [{"id": "sluice_scout", "name": "旧闸巡哨", "hp": 85, "attack": 11, "heavy_attack": 22}],
 		"sluice_boss": [{"id": "sluice_boss", "name": "河帮闸首", "hp": 150, "attack": 16, "heavy_attack": 28}],
+		"archive_boss": [{"id": "archive_boss", "name": "韩砚 · 仓门执事", "hp": 205, "attack": 17, "heavy_attack": 31}],
 	}
-	check(Rules.ENCOUNTERS == expected, "Three original and two distinct sluice templates retain exact names/stats")
+	check(Rules.ENCOUNTERS == expected, "Existing encounter templates retain exact names/stats alongside the archive adapter")
 	for id: String in ["story", "training", "heting_receipt"]:
 		var rules = _arena(_source(), ["hero"], id)
 		var snap: Dictionary = rules.snapshot()
