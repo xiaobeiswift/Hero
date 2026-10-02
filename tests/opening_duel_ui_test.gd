@@ -26,6 +26,7 @@ func settle()->void:
 func fresh(kind:String,companion:String="",formation:String="护后")->void:
 	app._close_modal();app.state=NoSave.new();app.state.companion_unlocked=companion=="沈青";app.state.tangqi_unlocked=companion=="唐栖";app.state.tangqi_stage=3 if companion=="唐栖" else 0
 	app.state.active_companion=companion;app.state.formation=formation
+	app.state._apply_party_plan(app.state.PartyRoster.load_plan(app.state,{"active_companion":companion},11))
 	app._start_battle(kind);app._process(0)
 func run()->void:
 	app=Scene.instantiate();app.state=NoSave.new();app.view_preferences=NoPrefs.new();root.add_child(app);await process_frame

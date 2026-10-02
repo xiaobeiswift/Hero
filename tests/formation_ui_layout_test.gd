@@ -7,6 +7,8 @@ func _run()->void:
 		for mode:String in ["并肩","护后"]:
 			for companion:String in ["","沈青","唐栖"]:
 				await _create();s.formation=mode;s.companion_unlocked=companion=="沈青";s.tangqi_unlocked=companion=="唐栖";s.active_companion=companion;s.defense=20
+				if companion=="唐栖":s.bridge_repaired=true;s.tangqi_stage=3;s.tangqi_choice="teach"
+				s._apply_party_plan(s.PartyRoster.load_plan(s,{"active_companion":companion},11))
 				var ui=_begin();await process_frame
 				var before:Dictionary=s.to_dict().duplicate(true);var writes:int=s.writes
 				check(not ui.art.draw_labels,"Live stage uses real GUI labels instead of duplicated painted text")

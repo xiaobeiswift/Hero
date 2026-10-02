@@ -1,6 +1,7 @@
 extends SceneTree
 ## Controller boundary tests use actual HeroState rules and a synchronous host
-## double: no player save is read/written and no scene/battle UI is substituted.
+## double. The host implements the new party-entry method contract but keeps
+## its existing mocked battle behavior; no actual party-controller claim.
 const State = preload("res://scripts/game_state.gd")
 const Story = preload("res://scripts/heting_receipt_story.gd")
 var checks: int = 0
@@ -60,7 +61,7 @@ class HostStub:
 		if not fail_save:
 			persisted = state.to_dict().duplicate(true)
 
-	func _start_receipt_battle() -> void:
+	func _start_party_receipt_battle() -> void:
 		events.append("start")
 		if state.start_receipt_battle():
 			starts += 1

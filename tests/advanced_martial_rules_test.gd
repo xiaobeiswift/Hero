@@ -375,6 +375,10 @@ func _set_companion(s, companion: String, formation: String = "并肩") -> void:
 	s.tangqi_unlocked = companion == "唐栖"
 	s.active_companion = companion
 	s.formation = formation
+	# Explicitly migrate this legacy battle fixture without resetting any of
+	# its seeded encounter transients or granting production fallback selection.
+	var migrated = s._detached_persistent_state()
+	s._apply_party_plan(s.PartyRoster.load_plan(migrated, {"active_companion": companion}, 11))
 
 func _test_focus() -> void:
 	for id: String in ["伏汐藏锋", "续灯引锋", "藏锋立岳"]:

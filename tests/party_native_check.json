@@ -1,0 +1,91 @@
+{
+  "captured_at_utc": "2026-10-02T17:20:18Z",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "renderer": "Compatibility / Mesa llvmpipe (LLVM19.1.7,256bit), cloud Linux X11",
+  "audio": "DummyAudio; no listening verification",
+  "status": "nine native captures PASS; all inspected",
+  "scope": "Actual full-game controller and scripted native input.298–299 use fresh opening NPC/recruitment actions;300–306 use prepared level5 completed-chapter state plus actual invitations.163 focused controller checks later extended to183 with full-party defeat/recovery.Final full source regression subsequently passed.",
+  "limits": [
+    "No browser gameplay or persistent-storage acceptance",
+    "No native Windows/macOS GUI claim",
+    "No real-time FPS claim",
+    "Other encounters retain legacy adapters",
+    "Exploration currently renders one selected representative companion; Qin uses an original idle pose, not a completed directional walk cycle"
+  ],
+  "files": [
+    {
+      "path": "screenshots/298-party-opening-real-recruitment.png",
+      "bytes": 1688532,
+      "sha256": "0ec353b786839a91d0d6bc3f05c9b2dbe505972863a142c6cfcc3cb17e139d14"
+    },
+    {
+      "path": "screenshots/299-party-opening-actual-contact.png",
+      "bytes": 1684542,
+      "sha256": "0c9ad9f0a5215677ee0db1ccc8c0921ea6011c10fabe263c714c26402e14c0f2"
+    },
+    {
+      "path": "screenshots/300-party-four-live-ready.png",
+      "bytes": 1723161,
+      "sha256": "515b3eb617da6ffd8a6169532cf64a42b82f5d197e0c3aaecc389766639833bd"
+    },
+    {
+      "path": "screenshots/301-party-four-live-compact.png",
+      "bytes": 1535131,
+      "sha256": "41abbcb6f1ec8de579e4254f53bb0e66d0bad7fea12848d16beac4a6b87c0750"
+    },
+    {
+      "path": "screenshots/302-party-qin-choose-ally.png",
+      "bytes": 1697926,
+      "sha256": "4c478eb24f4f76f2bd0e3a934a2f6a3a55fd00d6408126133c3db432ac3813f6"
+    },
+    {
+      "path": "screenshots/303-party-qin-protection-contact.png",
+      "bytes": 1713545,
+      "sha256": "68b249736ad5827f98613b8c811e1e032277fc9ad958bfec06f8a7a8bdd4addd"
+    },
+    {
+      "path": "screenshots/304-party-shen-healing-contact.png",
+      "bytes": 1711418,
+      "sha256": "65924ede6f7d7ebf8fbf6f86a6d0c5a14b63d383d0e6443832a4b38749932c77"
+    },
+    {
+      "path": "screenshots/305-party-enemy-actual-phase.png",
+      "bytes": 1708066,
+      "sha256": "fa7103ca907e9d123518de85c6db2378a0ab17ab84d878628d9ade92f95b510c"
+    },
+    {
+      "path": "screenshots/306-party-four-roster.png",
+      "bytes": 375939,
+      "sha256": "d6c9a6f28ef7e1fd902a85e16be69b069245d9a56203b18367bde37f856a77a9"
+    }
+  ],
+  "runtime_sha256": {
+    "scripts/main.gd": "862f0d1bca83be00017c81b49f5aa1552e4eb1e21be95777a71180a0515cb783",
+    "scripts/game_state.gd": "d95615d3e97dd8577e8caf829b9ccbdd54837da95d69dcd047fcc75112c000b2",
+    "scripts/party_actor_catalog.gd": "62f9920d5ce3a44457c11216688ffda31288ee0e821a550dd8abcb0e84e9a4c6",
+    "scripts/party_combat_rules.gd": "55987278a2780bf62d1ab17ffa2cb59a957effa78a014038bdc1b6309fd43c66",
+    "scripts/party_roster_rules.gd": "7c734b16f5d5eeac00f83bb1968ada42a94a98f71809107b3216831ef447a9d2",
+    "scripts/party_battle_art.gd": "4d070062629053bfb53e4ca173f5f46185072ab1cb1d2a43869e3ae7bd9a29b1",
+    "scripts/party_battle_ui.gd": "20cd12daf3886a7d35665c7373fb2adb595e3a8007a24134c5a79a997f8ae3f5",
+    "scripts/party_command_hud.gd": "b6eb58cb720df044b6eb57b47220917ceadd5ca20952a7ea2c8d84f3ab916f97",
+    "scripts/party_roster_ui.gd": "5cf20be76ab9b60fd24d7f61f78cc2cdd1c8b9a72d00d80798dbcac3d658523d",
+    "scripts/qin_companion_rules.gd": "e9cba8b3626e8a8e3ada3dcb728e524a9c3b85e2ca22a8e9b6929ecf6d09ed72",
+    "scripts/qin_companion_story.gd": "beb2913b4fd9a14cd2e947769770515c537beb145cfd3d19c984fc61f6352611",
+    "scripts/painted_battle_qin.gd": "e14f83baa2f57b14e3843af98c0e6b78e0016dad7a1f0c7027ef8729b22bb43d",
+    "scripts/companion_story.gd": "e07133e2f271bd7bf8a363fb90ca24df687556375f0d684d96b2e66445c1dc4a",
+    "scripts/heting_receipt_story.gd": "89fe0be4f612cde96251644fb1db9ef73d4c88fe222154cbc4c8d68e552b0a7c",
+    "scripts/shen_care_story.gd": "b89797629a9b18b210dfa80f0766f48e7f89f7af3dc2be0f34f0838147aad604",
+    "scripts/inventory_panel.gd": "f0b94653f21a73f6dad8f78cc6b48bee2ada113782ae26027632a35dcb72dcff",
+    "scripts/world.gd": "4d757e43d3ebea8f8357b5bc7d6ac46aae796348d5323f438a51dad0249b5be1"
+  },
+  "driver": {
+    "path": "tests/visual_party_battle.gd",
+    "sha256": "1a57c2d6cc17d90f763e04df7d2b207c54f948178dba502e620ffa0a14360870"
+  },
+  "final_aggregate": {
+    "godot_commands": 105,
+    "python_tests": 58,
+    "status": "passed",
+    "engine_errors": 0
+  }
+}

@@ -84,6 +84,7 @@ func _prepare(prior: String, party: String = "") -> void:
 	elif party == "唐栖":
 		probe.bridge_repaired = true; probe.tangqi_stage = 3; probe.tangqi_choice = "teach"
 		probe.tangqi_unlocked = true; probe.active_companion = party
+	probe._apply_party_plan(probe.PartyRoster.load_plan(probe, {"active_companion": party}, 11))
 	game._travel("mistwood", Vector2(1440, 505))
 	game._process(0)
 

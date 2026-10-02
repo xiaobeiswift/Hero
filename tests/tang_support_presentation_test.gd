@@ -27,7 +27,9 @@ func run()->void:
 	assert(Feedback.pose_for({"name":"唐栖","qi":1,"cover":5},.70,true)=="cover")
 	app=Scene.instantiate();app.state=NoSave.new();root.add_child(app);await process_frame
 	app._new_game();app._stop_audio();app.battle_presentation_enabled=true;app.battle_art.set_process(false)
-	app.state.tangqi_unlocked=true;assert(app.state.select_companion("唐栖"));app._start_battle("training")
+	app.state.tangqi_unlocked=true
+	app.state._apply_party_plan(app.state.PartyRoster.load_plan(app.state,{"active_companion":"唐栖"},11))
+	assert(app.state.select_companion("唐栖"));app._start_battle("training")
 	app.state.qi=0;app.state._companion_attack_count=1;app._refresh_battle();app._battle_action("attack")
 	var facts=app.battle_art.presentation_details.support
 	assert(facts.name=="唐栖" and facts.damage==4 and facts.qi==1 and facts.healing==0)

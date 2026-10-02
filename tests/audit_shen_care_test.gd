@@ -162,9 +162,12 @@ func migrations_and_invalid_documents() -> void:
 	for stage in range(6):
 		var canonical = ready_state().to_dict(); canonical.shen_care_stage = stage; canonical.shen_care_choice = "mobile" if stage >= 4 else ""
 		canonical.quest_stage = 5; canonical.side_stage = 1; canonical.side_reward_claimed = true
+		document(canonical, 11, path)
+		var restored = State.new(); check(restored.load_game(path) == OK, "Legacy11 effective completion accepts stage " + str(stage))
+		check(restored.quest_stage == 6 and restored.side_stage == 3 and restored.shen_care_stage == stage, "Legacy migration restores coherent progression and exact stage")
+		var before_current: Dictionary = restored.to_dict()
 		document(canonical, State.SAVE_VERSION, path)
-		var restored = State.new(); check(restored.load_game(path) == OK, "Compatible effective completion accepts stage " + str(stage))
-		check(restored.quest_stage == 6 and restored.side_stage == 3 and restored.shen_care_stage == stage, "Migration restores coherent progression and exact stage")
+		check(restored.load_game(path) == ERR_FILE_CORRUPT and restored.to_dict() == before_current, "Current12 rejects noncanonical effective completion without mutating the migrated state")
 func manual_archived_branches() -> void:
 	prepare(game.state); progress(game.state); game._travel("qingwei", Vector2(330, 365))
 	check(slots.save_slot(game.state, 1) == OK, "Archive pre-choice branch")

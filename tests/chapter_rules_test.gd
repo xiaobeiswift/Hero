@@ -7,6 +7,7 @@ func _init() -> void:
 		var s=State.new()
 		check(not s.begin_chapter_two(),"Chapter gated behind prior stories")
 		s.quest_stage=6;s.side_stage=3;s.side_choice="rescue";s.side_reward_claimed=true
+		s.side_found.assign(["boatman","ledger"]);s.side_clues=2
 		check(s.begin_chapter_two() and s.chapter_two_stage==1,"Start chapter")
 		check(not s.begin_chapter_two(),"Cannot restart chapter")
 		check(not s.try_seal(2).valid,"Seal requires both clues")
@@ -28,7 +29,7 @@ func _init() -> void:
 		s=restored
 		check(s.try_seal(1).complete and s.chapter_two_stage==2,"Seal solved")
 		check(not s.try_seal(1).valid,"Solved seal cannot replay")
-		s.level=3;s.attack=26;s.max_hp=124;s.hp=124;s.defense=6;s.qi=6;s.companion_unlocked=true
+		s.level=3;s.attack=26;s.max_hp=124;s.hp=124;s.defense=6;s.qi=6;s.recruit_companion()
 		s.start_battle("archive_boss")
 		check(s.enemy_hp==205 and s.enemy_base_attack==17,"Archive enemy stats")
 		for attempt in range(50):

@@ -68,7 +68,10 @@ func _init()->void:
   DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
  # Heavy support follows the new three-phase pattern, not old turn parity.
  var s=ready_state();s.begin_mistwood();s.mist_approach="repair";s.mist_stage=2
- s.tangqi_unlocked=true;s.active_companion="唐栖";s.formation="护后";s.start_battle("mist_keeper");s.turn=4
+ s.tangqi_unlocked=true;s.active_companion="唐栖";s.formation="护后"
+ # Explicit legacy fixture migration supplies selection/resources before combat.
+ s._apply_party_plan(s.PartyRoster.load_plan(s,{"active_companion":"唐栖"},11))
+ s.start_battle("mist_keeper");s.turn=4
  var before_hp=s.hp;var expected=maxi(1,33-s.defense-5)
  s.battle_action("attack")
  check(s.hp==before_hp-expected,"Tang blocks heavy on turn5 of a three-phase enemy")

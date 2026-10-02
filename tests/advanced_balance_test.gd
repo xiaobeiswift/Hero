@@ -33,6 +33,8 @@ func _init() -> void:
 							if companion=="沈青": s.companion_unlocked=true
 							if companion=="唐栖": s.tangqi_unlocked=true
 							s.active_companion=companion; s.formation=mode
+							# This matrix describes old single-companion encounters.
+							s._apply_party_plan(s.PartyRoster.load_plan(s, {"active_companion": companion}, 11))
 							s.start_battle("archive_boss")
 							var hp0:int=s.hp
 							assert(s.battle_action("skill").valid)

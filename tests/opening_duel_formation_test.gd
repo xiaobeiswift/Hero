@@ -24,6 +24,7 @@ func source_for(kind:String="story",companion:String="",formation:String="并肩
 	state.active_companion=companion
 	state.shen_care_stage=5;state.shen_care_choice="mobile"
 	state.formation=formation
+	state._apply_party_plan(state.PartyRoster.load_plan(state,{"active_companion":companion},11))
 	state.start_battle(kind)
 	state.hp=40;state.qi=4
 	state._companion_attack_count=1

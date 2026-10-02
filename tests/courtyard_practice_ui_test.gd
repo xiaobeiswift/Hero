@@ -96,8 +96,17 @@ func _create() -> void:
 	app.state.xp = 33
 	app.state.victories = 6
 	app.state.art_uses["照夜一线"] = 15
+	# Prepared prior-story prerequisites make the real schema12 checkpoint
+	# canonical; this practice fixture does not claim a natural earned journey.
+	app.state.quest_stage = 6
+	app.state.side_stage = 3; app.state.side_choice = "rescue"; app.state.side_reward_claimed = true
+	app.state.side_found.assign(["boatman", "ledger"]); app.state.side_clues = 2
+	app.state.chapter_two_stage = 4; app.state.chapter_two_ending = "protect_witness"
+	app.state.archive_clues.assign(["clerk", "inscription"]); app.state.seal_sequence.assign([2, 0, 1])
+	app.state.bridge_repaired = true; app.state.tangqi_stage = 3; app.state.tangqi_choice = "teach"
 	app.state.tangqi_unlocked = true
 	app.state.active_companion = "唐栖"
+	app.state._apply_party_plan(app.state.PartyRoster.load_plan(app.state, {"active_companion": "唐栖"}, 11))
 	app.world.teleport(Vector2(721, 733))
 	app.world._update_nearby()
 	app._process(0)
@@ -283,6 +292,7 @@ func _test_interruption_and_normal_battle() -> void:
 
 	app.state.tangqi_unlocked = false
 	app.state.active_companion = ""
+	app.state._apply_party_plan(app.state.PartyRoster.load_plan(app.state, {"active_companion": ""}, 11))
 	app.state.hp = 100
 	app.state.qi = 2
 	app._start_battle("training")

@@ -1,5 +1,6 @@
 extends SceneTree
-## Real main scene, presentation enabled even headlessly, isolated no-save state.
+## Retained legacy battle adapter: real main scene, presentation enabled even
+## headlessly, isolated no-save state. New actor-controller coverage is separate.
 const Scene = preload("res://scenes/main.tscn")
 const Model = preload("res://scripts/game_state.gd")
 class NoSaveState extends Model:
@@ -104,7 +105,7 @@ func _run() -> void:
 	_test_health_impact_beats()
 	game._stop_audio();game.queue_free()
 	await process_frame
-	print("%s: %d battle presentation UI checks" % ["PASS" if failures==0 else "FAIL",checks])
+	print("%s: %d retained legacy battle presentation UI checks" % ["PASS" if failures==0 else "FAIL",checks])
 	quit(0 if failures==0 else 1)
 
 
@@ -115,10 +116,12 @@ func _settle_health_tweens(seconds: float = 0.25) -> void:
 			tween.pause()
 			tween.custom_step(seconds)
 
-func _fresh_health_battle(hp: int = 100) -> void:
+func _fresh_health_battle(hp: int = 100, with_shen: bool = false) -> void:
 	game._close_modal()
 	game.state=NoSaveState.new()
 	game.state.hp=hp
+	if with_shen:
+		_check(game.state.recruit_companion(), "Prepared legacy support actor is explicitly recruited before battle")
 	game._start_battle("training")
 
 func _test_health_impact_beats() -> void:
@@ -141,8 +144,8 @@ func _test_health_impact_beats() -> void:
 	_finish()
 	_check(game._battle_health_tweens.is_empty() and game._battle_health_values.is_empty(), "Final reconciliation kills and clears completed presentation tweens")
 
-	_fresh_health_battle()
-	game.state.recruit_companion();game.state._companion_attack_count=1
+	_fresh_health_battle(100, true)
+	game.state._companion_attack_count=1
 	game._battle_action("attack")
 	game.battle_art._process(0.33)
 	var direct_tween: Tween=game._battle_health_tweens.enemy

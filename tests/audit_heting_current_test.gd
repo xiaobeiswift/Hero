@@ -77,6 +77,7 @@ func _base() -> void:
 	state_probe.mist_approach = "duel"; state_probe.mist_ending = "release_water"
 	state_probe.companion_unlocked = true; state_probe.active_companion = "沈青"
 	state_probe.shen_care_stage = 5; state_probe.shen_care_choice = "mobile"
+	state_probe._apply_party_plan(state_probe.PartyRoster.load_plan(state_probe, {"active_companion": "沈青"}, 11))
 	game._travel("mistwood", Vector2(1440,505))
 
 func _port(stage: int = 3, cargo: String = "reserve", plan: String = "short_ferries", bridge: String = "east") -> void:

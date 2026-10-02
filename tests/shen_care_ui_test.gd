@@ -28,7 +28,7 @@ func _step_saved(stage:int)->void:
 	_check(game.state.shen_care_stage==stage,"Esc/reload preserves story stage "+str(stage))
 func _story_route(old_route:String,ending:String,choice:String)->void:
 	_prepare_shen(old_route,ending)
-	game.companion_story.roster();_press("沈青的近况")
+	game.companion_story.roster();_open_shen_roster_story()
 	_check(game.state.shen_care_stage==0 and _modal_text().contains("青苇药铺"),"Roster hint cannot remotely start story")
 	game._close_modal()
 	await _talk_shen("healer")
@@ -91,7 +91,19 @@ func _story_route(old_route:String,ending:String,choice:String)->void:
 	game._close_modal();game._show_journal()
 	_check(_modal_text().contains("药箱之外") and _modal_text().contains("✓ 把照护约"),"Journal records complete personal history")
 	game._close_modal();game.companion_story.roster()
-	_check(_modal_text().contains("减伤3") if choice=="shore" else _modal_text().contains("恢复2气血"),"Roster displays derived support outcome")
+	var folio=game.overlay.get_meta("party_roster",null)
+	var shen:Dictionary={}
+	if is_instance_valid(folio):
+		for actor:Dictionary in folio.displayed_snapshot.actors:
+			if actor.id=="shen":shen=actor
+	_check(not shen.is_empty() and shen.care_defense_bonus==(1 if choice=="shore" else 0) and shen.care_healing_bonus==(2 if choice=="mobile" else 0),"Actual Shen card projects the agreed independent defense/healing benefit")
+	if is_instance_valid(folio):
+		_check(folio.cells.shen.actions.tooltip_text.contains(str(30 if choice=="mobile" else 28)),"Native Shen martial tooltip displays the actual derived healing amount")
+	_open_shen_roster_story()
+	_check(_modal_text().contains("留岸照护" if choice=="shore" else "随船问诊"),"Native Shen story callback preserves the agreed care branch")
+	_check(_modal_text().contains("自身防御提高1") if choice=="shore" else (_modal_text().contains("青灯渡脉") and _modal_text().contains("治疗提高2点") and _modal_text().contains("目标气血上限")),"Native story description matches independent actor benefits and target healing cap")
+	_press("回到同行册")
+	_check(game.overlay.has_meta("party_roster"),"Native story return reopens the real folio")
 	_check(game.state.xp==40 and game.state.coins==24,"Revisits do not regrant rewards or require purchases")
 func _prepare_tang()->void:
 	game.state.chapter_two_stage=4;game.state.chapter_two_ending="protect_witness";game.state.bridge_repaired=true;game.state.archive_clues.assign(["clerk","inscription"]);game.state.seal_sequence.assign([2,0,1])
@@ -126,3 +138,16 @@ func _navigation_priority()->void:
 	_check(game.world._quest_target_id()=="mist_rain_gauge" and game.quest_label.text==game.mist_story.title(),"Unfinished local Mistwood still has consistent priority")
 	game._travel("qingwei",Vector2(650,720));game.state.sect_trial_won=true;game.state.sect_rank=1;game._process(0);game._refresh()
 	_check(game.world._quest_target_id()=="mentor" and game.quest_label.text=="待领门中荐记","Pending mentor reward remains visible in village")
+
+func _open_shen_roster_story()->bool:
+	var folio=game.overlay.get_meta("party_roster",null)
+	var valid:bool=is_instance_valid(folio) and folio.cells.has("shen")
+	if valid:
+		var cell:Dictionary=folio.cells.shen
+		valid=cell.panel.get_meta("actor_id","")=="shen" and cell.name.text=="沈青" and cell.story.name=="Story_shen" and cell.story.visible and not cell.story.disabled
+	_check(valid,"Native Story_shen button belongs to the actual Shen card")
+	if not valid:return false
+	var before:Dictionary=game.state.to_dict()
+	folio.cells.shen.story.pressed.emit()
+	_check(game.state.to_dict()==before and game.active_modal and not game.overlay.has_meta("party_roster"),"Native Shen story callback is read-only and opens its actual story page")
+	return true

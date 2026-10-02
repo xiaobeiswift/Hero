@@ -33,7 +33,8 @@ func _test_ui_gates() -> void:
 	_check(_find_button(game.overlay,"收好工册")==null and _find_button(game.overlay,"静坐调息")!=null,"Notebook cannot be collected before its quest; old rest station works")
 	game._close_modal();game._show_inventory()
 	await _key(KEY_5)
-	_check(_modal_text().contains("独行") and _find_button(game.overlay,"与唐栖同行")==null and _find_button(game.overlay,"与沈青同行")==null,"Fifth inventory shortcut opens locked roster safely")
+	var roster=game.overlay.get_meta("party_roster",null)
+	_check(roster!=null and roster.displayed_snapshot.actors.size()==1 and roster.cells.tang.toggle.disabled and roster.cells.shen.toggle.disabled and roster.cells.qin.toggle.disabled,"Fifth inventory shortcut opens four cells with only the real hero and locked companions")
 	_press("返回行囊");await _key(KEY_4)
 	_check(not game.active_modal,"Existing fourth inventory shortcut still returns to exploration")
 func _test_personal_route(choice:String,shen:bool) -> void:
@@ -100,7 +101,8 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	_press("切换阵型")
 	_check(game.state.formation=="护后" and game.status_label.text.contains("重击") and game.status_label.text.contains("5"),"Formation switch explains selected Tang support")
 	await _key(KEY_5)
-	_check(_find_button(game.overlay,"与唐栖同行")!=null and (_find_button(game.overlay,"与沈青同行")!=null)==shen,"Roster offers only recruited companions")
+	var roster=game.overlay.get_meta("party_roster",null)
+	_check(roster!=null and not roster.cells.tang.toggle.disabled and roster.cells.shen.toggle.disabled==not shen and roster.cells.qin.toggle.disabled,"Roster toggles only genuinely recruited companions")
 	_press("返回行囊");await _key(KEY_4)
 	game._travel("qingwei",Vector2(330,330));game._process(0)
 	_check(game.world.nearby_name=="沈青","Inactive or unrecruited Shen is present at the clinic while Tang follows")
@@ -111,11 +113,18 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 		_check(game.state.available_companions()==["沈青","唐栖"] and game.state.current_companion()=="唐栖","Later Shen recruitment preserves Tang selection")
 	game._show_inventory();await _key(KEY_5)
 	var hp=game.state.hp;var qi=game.state.qi
-	_press("与沈青同行");game._process(0);await process_frame;await process_frame
+	var party_resources=game.state.party_resources.duplicate(true)
+	roster=game.overlay.get_meta("party_roster")
+	_check(game.state.party_roster.has("shen") and game.state.party_roster.has("tang"),"Both actual invitations retain their own party membership")
+	roster.cells.tang.toggle.pressed.emit();_press("返回行囊");await _key(KEY_4)
+	game._process(0);await process_frame;await process_frame
 	_check(game.state.current_companion()=="沈青" and game.state.hp==hp and game.state.qi==qi,"Party selection spends no resources and changes active companion")
+	_check(game.state.party_resources==party_resources,"Benched companion keeps exact resources")
 	_check(game.world.nearby_name=="药铺伙计","Clinic stand-in appears when active Shen travels")
 	_check(game.near_label.text.contains("药铺伙计"),"Stationary nearby interaction prompt refreshes after selecting Shen")
-	game._show_inventory();await _key(KEY_5);_press("与唐栖同行");game._process(0);await process_frame;await process_frame
+	game._show_inventory();await _key(KEY_5);roster=game.overlay.get_meta("party_roster")
+	roster.cells.tang.toggle.pressed.emit();roster.cells.shen.toggle.pressed.emit()
+	_press("返回行囊");await _key(KEY_4);game._process(0);await process_frame;await process_frame
 	_check(game.world.nearby_name=="沈青","Switching back restores inactive Shen's clinic identity")
 	_check(game.near_label.text.contains("沈青"),"Stationary nearby interaction prompt refreshes after selecting Tang")
 	game._save();game._load()

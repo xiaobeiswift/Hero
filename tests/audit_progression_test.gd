@@ -196,9 +196,12 @@ func _test_story_completion() -> void:
 func _test_repeat_battle() -> void:
 	var before_coins: int = game.state.coins
 	var before_victories: int = game.state.victories
+	game.world.teleport(game.world.interactables.bandit.pos)
+	game._process(0)
 	game._bandit_dialogue()
 	_press("友好切磋")
-	_check(game.state.enemy_max_hp == 64, "UI starts the intended lighter repeat encounter")
+	var repeated: Dictionary = game.state.party_battle_snapshot()
+	_check(game.current_screen == "party_battle" and not repeated.is_empty() and repeated.encounter_id == "training" and repeated.enemies[0].max_hp == 64, "Ordinary dialogue starts the actual lighter party training encounter")
 	_win_battle()
 	_check(game.state.coins == before_coins + 12 and game.state.victories == before_victories + 1, "Repeat encounter grants training rewards")
 	_check(game.state.quest_stage == 6, "Repeat encounter preserves completed chapter")
@@ -265,7 +268,11 @@ func _win_battle() -> void:
 	for attempt in range(50):
 		if not game.state.battle_active:
 			return
-		game._battle_action("skill" if game.state.qi >= 3 and game.state.skill_cooldown == 0 else "attack")
+		if game.current_screen == "party_battle":
+			if not _drive_party_action():
+				return
+		else:
+			game._battle_action("skill" if game.state.qi >= 3 and game.state.skill_cooldown == 0 else "attack")
 	_check(false, "Battle resolves within fifty accepted actions")
 
 
@@ -291,3 +298,49 @@ func _check(condition: bool, label: String) -> void:
 	if not condition:
 		failures += 1
 		push_error(label)
+
+
+func _drive_party_action() -> bool:
+	var panel = game.overlay.get_meta("party_battle", null)
+	if not is_instance_valid(panel):
+		_check(false, "Active party encounter has its real controller")
+		return false
+	panel.art.set_process(false)
+	var snapshot: Dictionary = game.state.party_battle_snapshot()
+	var actor: Dictionary = {}
+	for candidate: Dictionary in snapshot.actors:
+		if candidate.id == snapshot.active_actor_id:
+			actor = candidate
+	if actor.is_empty():
+		_check(false, "Party encounter exposes a living selected actor")
+		return false
+	var chosen: Dictionary = {}
+	var ally_target: String = ""
+	for action: Dictionary in actor.actions:
+		if action.id == "attack" and action.available:
+			chosen = action
+	for action: Dictionary in actor.actions:
+		if action.available and action.category == "martial" and action.target_team == "enemy":
+			chosen = action
+	for action: Dictionary in actor.actions:
+		if action.available and action.category == "martial" and action.target_team == "ally" and action.effects.get("healing", 0) > 0:
+			for ally: Dictionary in snapshot.actors:
+				if action.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
+					chosen = action
+					ally_target = ally.id
+	for action: Dictionary in actor.actions:
+		if action.id == "item" and action.available and actor.hp < 45:
+			chosen = action
+	if chosen.is_empty():
+		_check(false, "Selected actor has a legal journey action")
+		return false
+	panel.request_command(actor.id, chosen.id)
+	if not panel.pending_action.is_empty():
+		panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
+	_check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
+	if panel.pending.is_empty():
+		return false
+	# Complete the actual renderer timeline so its presentation-finished signal
+	# acknowledges the real epoch/token and performs the real state settlement.
+	panel.art._process(panel.art.get_presentation_duration() + 0.1)
+	return true

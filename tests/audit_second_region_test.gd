@@ -376,10 +376,28 @@ func _test_legacy_completed_chapter() -> void:
 	game.state.quest_stage = 5
 	game.state.ending = "守望"
 	game.state.choose_sect("听潮阁")
-	game._save()
+	var noncanonical: Dictionary = game.state.to_dict()
+	var previous_bytes: PackedByteArray = FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH)
+	_check(game.state.save_game() == ERR_FILE_CORRUPT and game.state.to_dict() == noncanonical and FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH) == previous_bytes, "Schema12 refuses noncanonical completion without rewriting the previous save or live progress")
+	var rejected_path: String = "user://hero_audit_legacy_completion_current.json"
+	var current_file = FileAccess.open(rejected_path, FileAccess.WRITE)
+	current_file.store_string(JSON.stringify({"version": game.state.SAVE_VERSION, "player": noncanonical}))
+	current_file.close()
+	_check(game.state.load_game(rejected_path) == ERR_FILE_CORRUPT and game.state.to_dict() == noncanonical, "Schema12 rejects the same old completion shape before mutating live state")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(rejected_path))
+	# Write the intended historical envelope with only original version1 fields.
+	var legacy: Dictionary = {}
+	for field: String in ["player_name", "level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "sect", "ending", "position", "victories"]:
+		legacy[field] = noncanonical[field]
+	var old_file = FileAccess.open(AuditState.AUDIT_PATH, FileAccess.WRITE)
+	old_file.store_string(JSON.stringify({"version": 1, "player": legacy}))
+	old_file.close()
+	var old_bytes: PackedByteArray = FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH)
+	var historical_reader = AuditState.new()
+	_check(historical_reader.load_game() == OK and FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH) == old_bytes, "State migration reads without replacing historical source bytes")
 	_forget_session_without_saving()
 	game._load()
-	_check(game.state.quest_stage == 6 and game.state.sect == "听潮阁", "Legacy completed chapter with stage five and chosen sect migrates to stage six")
+	_check(game.state.quest_stage == 6 and game.state.sect == "听潮阁", "Actual version1 completed chapter with stage five and chosen sect migrates to stage six")
 	game._exit_sluice_dialogue()
 	_check(_find_button(game.overlay, "前往废闸") != null, "Legacy completed save can access the newly added region")
 	game._close_modal()

@@ -1,5 +1,6 @@
 extends SceneTree
-## Prepared-scene/input audit, not browser or physical desktop-close evidence.
+## Prepared legacy-receipt-adapter scene/input audit. Normal new party-route
+## controller coverage belongs to party_battle_ui_test, not this historical renderer suite.
 ## Every save and preference is isolated by caller XDG dirs plus a routed fixture.
 const Main = preload("res://scripts/main.gd")
 const Model = preload("res://scripts/game_state.gd")
@@ -27,6 +28,10 @@ class RoutedState extends Model:
 		return FileAccess.file_exists(directory.path_join("hero_save.json"))
 
 class CloseProbe extends Main:
+	# Explicitly retain this suite and its descendants on their historical
+	# renderer adapter; production dialogs still use the real party entry.
+	func _start_party_receipt_battle() -> bool:
+		return _start_receipt_battle()
 	var exits: int = 0
 	var exit_save: bool = true
 	func _quit_cleanly(save_progress: bool = true) -> void:
@@ -111,7 +116,7 @@ func _begin():
 	if s.receipt_stage==0: _press("接下取签之事")
 	_press("保存后应战")
 	var ui = _controller()
-	check(ui!=null and s.battle_active and app.current_screen=="receipt_battle","Real controller starts after checkpoint")
+	check(ui!=null and s.battle_active and app.current_screen=="receipt_battle","Explicit legacy receipt adapter starts after checkpoint")
 	if ui!=null: ui.art.set_process(false)
 	return ui
 
@@ -136,7 +141,7 @@ func _run() -> void:
 	await _close_save_failure(true)
 	await _old_save_and_slot_boundaries()
 	await _menu_and_stale_guards()
-	print("%s: %d prepared-scene receipt UI checks (actual input/signals, checkpoint failures, close/settlement, legacy slots); no browser or physical WM-close claim" % ["PASS" if failures==0 else "FAIL",checks])
+	print("%s: %d prepared legacy-receipt-adapter UI checks (actual input/signals, checkpoint failures, close/settlement, legacy slots); no browser or physical WM-close claim" % ["PASS" if failures==0 else "FAIL",checks])
 	quit(0 if failures==0 else 1)
 
 func _title_versions() -> void:
@@ -255,7 +260,9 @@ func _input_resources_and_flee() -> void:
 
 func _victory_and_compare() -> void:
 	for ending:String in ["short_ferries","open_scale"]:
-		await _create(ending); s.attack=999; s.defense=99
+		# Two accepted hits win this renderer fixture; leave room for the real
+		# XP level-up so the resulting schema12 attack stays in valid range.
+		await _create(ending); s.attack=200; s.defense=99
 		var coins:int=s.coins; var xp:int=_xp(); var ui=_begin()
 		ui.target_cards.bracer.button.pressed.emit(); await _key(KEY_1); _finish(ui)
 		check(ui.target_cards.bracer.button.disabled and ui.rules.selected_id=="striker","Defeated target disables and surviving target is selected")
@@ -297,7 +304,7 @@ func _close_during_action() -> void:
 	await _dispose()
 
 func _close_terminal(outcome:String) -> void:
-	await _create(); s.attack=999 if outcome=="win" else 1; s.defense=99 if outcome=="win" else 0
+	await _create(); s.attack=200 if outcome=="win" else 1; s.defense=99 if outcome=="win" else 0
 	if outcome=="defeat": s.hp=1; s.coins=3
 	var coins:int=s.coins; var xp:int=_xp(); var ui=_begin()
 	if outcome=="win": ui.target_cards.bracer.button.pressed.emit(); await _key(KEY_1); _finish(ui)

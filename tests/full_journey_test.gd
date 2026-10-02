@@ -21,17 +21,23 @@ func choose(index:int=0)->void:
  app.modal_actions[index].call()
 func interact(id:String)->void:
  if app.active_modal:app._close_modal()
+ if id=="bandit":
+  app.world.teleport(app.world.interactables.bandit.pos);app._process(0)
  app._interact(id)
 func fight()->void:
  check(app.state.battle_active,"Story action starts battle")
+ var independent:bool=app.current_screen=="party_battle"
  for i in range(120):
   if not app.state.battle_active:break
-  if app.state.hp<45 and app.state.medicine>0:app._battle_action("item")
+  if app.current_screen=="party_battle":
+   if not _drive_party_action():break
+  elif app.state.hp<45 and app.state.medicine>0:app._battle_action("item")
   elif bool(app.state.Patterns.phase(app.state.battle_kind,app.state.turn).get("heavy",app.state.turn%2==1)):
    if app.state.qi>=app.state.active_art_cost() and app.state.skill_cooldown==0:app._battle_action("skill")
    else:app._battle_action("guard")
   else:app._battle_action("attack")
- check(not app.state.battle_active and app.state.enemy_hp==0,"Natural stats/resources win "+app.encounter_kind)
+ var won:bool=app.state.party_settlement.get("outcome")=="win" if independent else app.state.enemy_hp==0
+ check(not app.state.battle_active and won,"Natural stats/resources win the actual selected encounter route")
  if app.active_modal:app._close_modal()
 func _run()->void:
  app=Scene.instantiate();app.state=JourneyState.new();root.add_child(app)
@@ -139,7 +145,7 @@ func _run()->void:
   check(app.state.heting_stage==4 and app.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
   check(app.state.coins==before_port_coins+60 and app.state.xp+30*app.state.level*(app.state.level-1)==before_port_xp+120 and app.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
   app._close_modal();app._save();before=app.state.to_dict();app.state.reset_game();app._load()
-  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through schema10")
+  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through current schema12")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
   receipt_checks.run(app.state,receipt_before_harbor,check)
  app._stop_audio();await create_timer(0.25).timeout;app.queue_free();await process_frame
@@ -152,3 +158,49 @@ func port_interact(id:String)->void:
  app.world.teleport(app.world.interactables[id].pos)
  app._process(0)
  app._interact(id)
+
+
+func _drive_party_action() -> bool:
+ var panel = app.overlay.get_meta("party_battle", null)
+ if not is_instance_valid(panel):
+  check(false, "Active party encounter has its real controller")
+  return false
+ panel.art.set_process(false)
+ var snapshot: Dictionary = app.state.party_battle_snapshot()
+ var actor: Dictionary = {}
+ for candidate: Dictionary in snapshot.actors:
+  if candidate.id == snapshot.active_actor_id:
+   actor = candidate
+ if actor.is_empty():
+  check(false, "Party encounter exposes a living selected actor")
+  return false
+ var chosen: Dictionary = {}
+ var ally_target: String = ""
+ for action: Dictionary in actor.actions:
+  if action.id == "attack" and action.available:
+   chosen = action
+ for action: Dictionary in actor.actions:
+  if action.available and action.category == "martial" and action.target_team == "enemy":
+   chosen = action
+ for action: Dictionary in actor.actions:
+  if action.available and action.category == "martial" and action.target_team == "ally" and action.effects.get("healing", 0) > 0:
+   for ally: Dictionary in snapshot.actors:
+    if action.valid_target_ids.has(ally.id) and ally.hp <= ally.max_hp - 20:
+     chosen = action
+     ally_target = ally.id
+ for action: Dictionary in actor.actions:
+  if action.id == "item" and action.available and actor.hp < 45:
+   chosen = action
+ if chosen.is_empty():
+  check(false, "Selected actor has a legal journey action")
+  return false
+ panel.request_command(actor.id, chosen.id)
+ if not panel.pending_action.is_empty():
+  panel.select_target(ally_target if not ally_target.is_empty() else String(chosen.valid_target_ids[0]))
+ check(not panel.pending.is_empty() and panel.pending.get("accepted", false), "Earned journey action is accepted by the real party controller")
+ if panel.pending.is_empty():
+  return false
+ # Complete the actual renderer timeline so its presentation-finished signal
+ # acknowledges the real epoch/token and performs the real state settlement.
+ panel.art._process(panel.art.get_presentation_duration() + 0.1)
+ return true

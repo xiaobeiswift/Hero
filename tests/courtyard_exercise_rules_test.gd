@@ -69,7 +69,11 @@ func _source(id: String = Arts.BASE_ART):
 
 func _arena(state):
 	var rules = Rules.new()
-	rules.configure(state)
+	# These legacy exercise fixtures encode selection with old companion
+	# fields. Migrate a detached copy before configuring their old model.
+	var migrated = state._detached_persistent_state()
+	migrated._apply_party_plan(state.PartyRoster.load_plan(migrated, {"active_companion": state.active_companion}, 11))
+	rules.configure(migrated)
 	return rules
 
 

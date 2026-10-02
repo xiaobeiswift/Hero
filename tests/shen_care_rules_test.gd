@@ -69,7 +69,10 @@ func _init()->void:
 		check(not s.battle_action("skill").valid and s._companion_attack_count==tick and s.hp==hp,"Invalid skill cannot trigger healing or assist counter")
 		s.battle_action("flee")
 		check(s.shen_care_stage==5 and s.shen_care_choice==choice,"Battle end keeps persistent story")
-		s.tangqi_unlocked=true;s.active_companion="唐栖";s.start_battle("spar");s.enemy_hp=999;s._companion_attack_count=1;s.hp=s.max_hp-8
+		s.tangqi_unlocked=true;s.active_companion="唐栖"
+		# This old-combat fixture explicitly selects its newly prepared Tang.
+		s._apply_party_plan(s.PartyRoster.load_plan(s,{"active_companion":"唐栖"},11))
+		s.start_battle("spar");s.enemy_hp=999;s._companion_attack_count=1;s.hp=s.max_hp-8
 		s.Companions.assist(s,messages)
 		check(s.hp==s.max_hp-8,"Tang never receives Shen care heal")
 		s.battle_action("flee");s.reset_game()

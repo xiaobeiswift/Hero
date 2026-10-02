@@ -29,6 +29,8 @@ func ready_state(mist: String = "release_water", sect: String = "听潮阁", par
 	if party == "唐栖":
 		s.bridge_repaired = true; s.tangqi_stage = 3; s.tangqi_choice = "preserve"; s.tangqi_unlocked = true
 	s.active_companion = party
+	# Normalize the prepared legacy ownership/selection before current XP/save APIs.
+	s._apply_party_plan(s.PartyRoster.load_plan(s, {"active_companion": party}, 11))
 	return s
 
 
