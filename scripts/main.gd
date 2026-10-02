@@ -379,10 +379,11 @@ func _sync_hud_navigation(force:bool=false)->void:
 	world.hud_exclusion_rects=projected
 	world.queue_redraw()
 
-func _toast(text: String, is_save_notice: bool = false) -> void:
+func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -> void:
 	# Save-specific feedback already explains recovery; other notices keep the warning.
 	status_label.text = text + ("  ⚠ 自动存档失败，请按 F5 重试。" if save_warning and not is_save_notice else "")
-	toast_time = 7.0
+	# Brief routine feedback must never shorten an unresolved save failure.
+	toast_time = 7.0 if save_warning else duration
 
 func _clear_overlay() -> void:
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")

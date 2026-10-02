@@ -89,16 +89,18 @@ func _resync_position()->void:
 	host._sync_world_state()
 	host.world.teleport(host.world.player_pos)
 	host.state.position=host.world.player_pos
+func _success_notice(text:String)->void:
+	host._toast(text,false,3.0)
 func take(id:String)->void:
 	if not _at("heting_lighter" if id=="reserve" else "heting_cargo"):return
 	if host.state.take_heting_cargo(id):
-		_resync_position();host._close_modal();host._autosave();host._toast("已押"+CARGO_NAMES[id]+"。货不扣行囊资源；请按货签交割。")
+		_resync_position();host._close_modal();host._autosave();_success_notice("已押"+CARGO_NAMES[id]+"。货不扣行囊资源；请按货签交割。")
 func _can_park_here()->bool:
 	return _at("heting_dispatch") or _at("heting_lighter" if host.state.heting_cargo=="reserve" else "heting_cargo")
 func park()->void:
 	if not _can_park_here():return
 	if host.state.park_heting_cargo():
-		_resync_position();host._close_modal();host._autosave();host._toast("未交货物已退回原位。已交记录和夜工草案保留。")
+		_resync_position();host._close_modal();host._autosave();_success_notice("未交货物已退回原位。已交记录和夜工草案保留。")
 func winch()->void:
 	var s=host.state;var choices:Array=[]
 	if s.heting_bridge!="west":choices.append(["改接西岸",_guard(change_bridge.bind("west"))])
@@ -108,7 +110,7 @@ func winch()->void:
 func change_bridge(side:String)->void:
 	if not _at("heting_winch"):return
 	if host.state.set_heting_bridge(side):
-		_resync_position();host._close_modal();host._autosave();host._toast("浮栈已接往"+("西" if side=="west" else "东")+"岸。货物与草案不变。")
+		_resync_position();host._close_modal();host._autosave();_success_notice("浮栈已接往"+("西" if side=="west" else "东")+"岸。货物与草案不变。")
 func receiver(id:String)->void:
 	var s=host.state;var is_relief=id=="heting_relief";var title="顾婶 · 掌勺人" if is_relief else "施衡 · 秤房记手"
 	if s.heting_cargo=="reserve":
@@ -148,7 +150,7 @@ func deliver(id:String)->void:
 		_modal("实交记号","交割完成 / 修为+10",base_result(id),[["收好货签",host._close_modal]],true)
 func rest()->void:
 	if not _at("heting_relief") or host.state.battle_active:return
-	host.state.heal_rest();host._close_modal();host._autosave();host._toast("棚下调息，气血与真气恢复。所押货物不变。")
+	host.state.heal_rest();host._close_modal();host._autosave();_success_notice("棚下调息，气血与真气恢复。所押货物不变。")
 func decision()->void:
 	_modal("孟绫","今夜 / 粮够分，人只一班","“锅开了，假损耗也留下了对照。可南泊还有两担粮，今夜能轮出的埠工只有一班两人。”\n\n[color=#d3b276]短渡分粮[/color]：两人随船，把粮送给不便上岸的几处泊船；公秤棚夜里无人值守，新交割等天亮复核。\n\n[color=#d3b276]守秤留粮[/color]：两人留秤棚，粮作共同存粮，今晚交割有人复称；远泊的人仍须靠岸，或等明日短渡。\n\n“两边都有人肯接。你押最后一车，把同意的安排送到实处。”",[["拟作短渡分粮",_guard(choose.bind("short_ferries",""))],["拟作守秤留粮",_guard(choose.bind("open_scale",""))],["再想一想",host._close_modal]],true)
 func choose(id:String,receiver_after:String="")->void:
