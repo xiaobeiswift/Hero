@@ -1,0 +1,42 @@
+{
+  "audio_driver": "Dummy",
+  "display": "X11",
+  "engine": "4.6.3-stable (official)",
+  "failures": [],
+  "scope": "Native source runtime, actual imported streams and scripted UI signals; Dummy audio, no listening or exported-binary claim",
+  "source_sha256": {
+    "scripts/main.gd": "251abd45338352444af1da448ef95e38c95ac0483df3ea4b6de56bd2d0c69574",
+    "scripts/view_preferences.gd": "d6a9df9fc9659382e356d368a21f1580452d6d75812dae10c96632a91434be27"
+  },
+  "steps": [
+    {
+      "music_loaded": true,
+      "music_paused": false,
+      "music_playing": false,
+      "sound_enabled": false,
+      "step": "muted-title-startup"
+    },
+    {
+      "music_loaded": true,
+      "music_paused": false,
+      "music_playing": true,
+      "sound_enabled": true,
+      "step": "enable-from-hud"
+    },
+    {
+      "music_loaded": true,
+      "music_paused": true,
+      "music_playing": false,
+      "sound_enabled": false,
+      "step": "mute-from-rest"
+    },
+    {
+      "music_loaded": true,
+      "music_paused": false,
+      "music_playing": false,
+      "sound_enabled": false,
+      "step": "muted-after-restart"
+    }
+  ],
+  "utc": "2026-10-02T00:32:57"
+}
