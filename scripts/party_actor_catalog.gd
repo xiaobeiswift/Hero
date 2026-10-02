@@ -4,22 +4,27 @@ extends RefCounted
 ## escapes build_team. Companion tuning is provisional; recruitment remains real.
 const Arts = preload("res://scripts/martial_catalog.gd")
 const ShenCare = preload("res://scripts/shen_care_rules.gd")
-const IDS: Array[String] = ["hero", "shen", "tang"]
+const MAX_PARTY_SIZE: int = 4
+const IDS: Array[String] = ["hero", "shen", "tang", "qin"]
 const SHEN_ART: String = "art:shen_xumai"
 const TANG_ART: String = "art:tang_fenjin"
+const QIN_ART: String = "art:qin_shoudu"
 const COMPANIONS: Dictionary = {
 	"shen": {"name": "沈青", "max_hp": 82, "max_qi": 6, "attack": 13, "defense": 3,
 		"hp_per_level": 8, "attack_per_level": 2, "defense_per_level": 1},
 	"tang": {"name": "唐栖", "max_hp": 94, "max_qi": 6, "attack": 14, "defense": 5,
 		"hp_per_level": 9, "attack_per_level": 2, "defense_per_level": 1},
+	# Prepared combat tuning only. Qin still requires explicit story recruitment.
+	"qin": {"name": "秦禾", "max_hp": 110, "max_qi": 6, "attack": 12, "defense": 6,
+		"hp_per_level": 10, "attack_per_level": 2, "defense_per_level": 1},
 }
 
 
 static func build_team(state, roster_ids: Array, persisted_resources: Dictionary = {}) -> Dictionary:
 	if state == null:
 		return _error("缺少角色状态。")
-	if not roster_ids.has("hero") or roster_ids.size() > 3:
-		return _error("出战名单必须包含主角，最多三人。")
+	if not roster_ids.has("hero") or roster_ids.size() > MAX_PARTY_SIZE:
+		return _error("出战名单必须包含主角，最多四人。")
 	var seen: Array[String] = []
 	for id: Variant in roster_ids:
 		if not id is String or not IDS.has(id) or seen.has(id):
@@ -27,6 +32,8 @@ static func build_team(state, roster_ids: Array, persisted_resources: Dictionary
 		seen.append(id)
 		if (id == "shen" and not state.companion_unlocked) or (id == "tang" and not state.tangqi_unlocked):
 			return _error("尚未结识并招募这位同行人。")
+		if id == "qin" and (not state.has_method("qin_recruited") or not state.qin_recruited()):
+			return _error("尚未结识并招募秦禾。")
 	if not ["并肩", "护后"].has(String(state.formation)):
 		return _error("阵法无效。")
 	for id: Variant in persisted_resources:
@@ -88,7 +95,9 @@ static func _companion(id: String, level: int) -> Dictionary:
 	var growth: int = clampi(level - 1, 0, 98)
 	var actor: Dictionary = _actor(id, spec.name, int(spec.max_hp) + growth * int(spec.hp_per_level), int(spec.max_qi), int(spec.attack) + growth * int(spec.attack_per_level), int(spec.defense) + growth * int(spec.defense_per_level))
 	actor.actions = action_definitions(id)
-	actor.cooldowns[SHEN_ART if id == "shen" else TANG_ART] = 0
+	for action: Dictionary in actor.actions:
+		if action.category == "martial":
+			actor.cooldowns[action.id] = 0
 	return actor
 
 
@@ -96,7 +105,7 @@ static func _actor(id: String, title: String, health: int, energy: int, power: i
 	return {"id": id, "name": title, "team": "ally", "sect": "", "equipment": "", "armor": "",
 		"hp": health, "max_hp": health, "qi": energy, "max_qi": energy,
 		"attack": power, "defense": protection, "acted": false, "cooldowns": {},
-		"status": {"guard": false, "focused_damage": 0, "weaken_amount": 0, "weaken_strikes": 0},
+		"status": {"guard": false, "focused_damage": 0, "weaken_amount": 0, "weaken_strikes": 0, "barrier": 0},
 		"equipped_art": "", "art_rank": 1, "art_uses": {}, "actions": [],
 		"care_defense_bonus": 0, "care_healing_bonus": 0}
 
@@ -105,6 +114,8 @@ static func action_definitions(actor_id: String, hero_art: String = "", care_hea
 	if not IDS.has(actor_id) or (actor_id == "hero" and not Arts.has_art(hero_art)):
 		return immutable({"items": []}).items
 	var basic_name: String = "平击" if actor_id == "hero" else ("银针点穴" if actor_id == "shen" else "短尺平击")
+	if actor_id == "qin":
+		basic_name = "杖击"
 	var result: Array = [_action("attack", "attack", basic_name, "enemy", 0, 0, "攻击一名敌人，回复2真气；消耗已有蓄锋。")]
 	if actor_id == "hero":
 		var art: Dictionary = Arts.definition(hero_art)
@@ -116,11 +127,15 @@ static func action_definitions(actor_id: String, hero_art: String = "", care_hea
 		var move: Dictionary = _action(SHEN_ART, "martial", "青灯渡脉", "ally", 3, 2, "为一名仍站立的队友恢复%d气血；不能救起倒下的角色。" % healing)
 		move.effects = {"healing": healing}
 		result.append(move)
-	else:
+	elif actor_id == "tang":
 		var move: Dictionary = _action(TANG_ART, "martial", "分劲尺", "enemy", 3, 2, "短尺击敌并卸劲：目标基础伤害减5，持续其两次攻击。")
 		move.effects = {"attack_multiplier": 1, "damage_bonus": 2, "weaken_amount": 5, "weaken_strikes": 2}
 		result.append(move)
-	result.append(_action("guard", "guard", "守势", "self", 0, 0, "回复1真气；本轮受到的每次伤害乘三成，向上取整且至少1点。"))
+	else:
+		var move: Dictionary = _action(QIN_ART, "martial", "守渡横杖", "ally", 3, 2, "为一名仍站立的队友施加18点护障，不叠加；抵消其下一次来袭经防御、守势结算后的伤害，可减至0。该次受击后余量消散，未受击则本轮结束消散；不治疗、不救起倒下者。")
+		move.effects = {"barrier": 18}
+		result.append(move)
+	result.append(_action("guard", "guard", "守势", "self", 0, 0, "回复1真气；本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0。"))
 	result.append(_action("item", "item", "回春散", "self", 0, 0, "消耗共享行囊的一份回春散，治疗当前行动角色；不能救起倒下的角色。"))
 	result.append(_action("flee", "flee", "退避", "none", 0, 0, "全队立即退离，不再受本轮反击；已使用资源不返还，无战胜奖励。"))
 	return immutable({"items": result}).items

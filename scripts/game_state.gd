@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 11
+const SAVE_VERSION: int = 12
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
@@ -13,6 +13,10 @@ const ReceiptCombat=preload("res://scripts/heting_receipt_combat.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
+const QinCompanion = preload("res://scripts/qin_companion_rules.gd")
+const PartyCatalog = preload("res://scripts/party_actor_catalog.gd")
+const PartyCombat = preload("res://scripts/party_combat_rules.gd")
+const PartyRoster = preload("res://scripts/party_roster_rules.gd")
 const Sects=preload("res://scripts/sect_rules.gd")
 const Chapter = preload("res://scripts/chapter_rules.gd")
 const Items = preload("res://scripts/item_catalog.gd")
@@ -45,10 +49,19 @@ var lightness_unlocked:bool=false
 var lightness_relics:Array[String]=[]
 var shen_care_stage:int=0
 var shen_care_choice:String=""
+var qin_stage: int = 0
+var qin_unlocked: bool = false
 var tangqi_unlocked:bool=false
 var tangqi_stage:int=0
 var tangqi_choice:String=""
 var active_companion:String=""
+var party_roster: Array[String] = ["hero"]
+var party_resources: Dictionary = {}
+var party_session
+var party_battle_epoch: int = 0
+var party_settlement: Dictionary = {}
+var _party_pending_token: int = -1
+var _party_encounter: String = ""
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -129,6 +142,10 @@ func reset_game() -> void:
 	lightness_unlocked=false;lightness_relics.clear()
 	shen_care_stage=0;shen_care_choice=""
 	tangqi_unlocked=false;tangqi_stage=0;tangqi_choice="";active_companion=""
+	qin_stage = 0
+	qin_unlocked = false
+	party_roster.assign(["hero"])
+	party_resources = {}
 	formation = "并肩"
 	equipment = "旧铁剑"
 	heting_stage=0;heting_bridge="";heting_delivered.clear();heting_cargo="";heting_draft="";heting_ending=""
@@ -160,6 +177,20 @@ func xp_to_next() -> int:
 
 
 func gain_xp(amount: int) -> Array[String]:
+	if _party_gate():
+		return []
+	var before = _detached_persistent_state()
+	var candidate = _detached_persistent_state()
+	var messages: Array[String] = candidate._gain_xp_core(amount)
+	var plan: Dictionary = PartyRoster.reconcile_growth(before, candidate, _party_payload())
+	if not plan.ok:
+		return []
+	candidate._apply_party_plan(plan)
+	_copy_persistent_from(candidate)
+	return messages
+
+
+func _gain_xp_core(amount: int) -> Array[String]:
 	var messages: Array[String] = []
 	xp += maxi(0, amount)
 	while xp >= xp_to_next() and level < 99:
@@ -177,12 +208,18 @@ func gain_xp(amount: int) -> Array[String]:
 
 
 func heal_rest() -> void:
-	hp = max_hp
-	qi = max_qi
+	if battle_active or _party_gate():
+		return
+	var plan: Dictionary = PartyRoster.rest_plan(self, _party_payload())
+	if not plan.ok:
+		return
+	_apply_party_plan(plan)
 	skill_cooldown = 0
 
 
 func use_medicine() -> bool:
+	if _party_gate():
+		return false
 	if medicine <= 0 or hp >= max_hp:
 		return false
 	medicine -= 1
@@ -192,6 +229,8 @@ func use_medicine() -> bool:
 
 
 func choose_sect(id: String) -> void:
+	if _party_gate():
+		return
 	# Joining is a one-time choice. Repeated UI events cannot stack bonuses.
 	if sect != "未入门" or not SECTS.has(id):
 		return
@@ -281,9 +320,39 @@ func _active_art_definition() -> Dictionary:
 
 func recruit_companion() -> bool:
 	# Narrative eligibility is controlled by the healer dialogue in the scene.
-	if companion_unlocked:
+	return _recruit_party_companion("shen")
+
+
+func _recruit_party_companion(id: String) -> bool:
+	if battle_active or _party_gate() or not id in ["shen", "tang", "qin"]:
 		return false
-	companion_unlocked = true
+	if (id == "shen" and companion_unlocked) or (id == "tang" and (tangqi_unlocked or tangqi_stage != 3)):
+		return false
+	if id == "qin" and (qin_unlocked or qin_stage != 3 or mist_stage != 4 or not mist_ending in Mist.ENDINGS):
+		return false
+	var candidate = _detached_persistent_state()
+	if id == "shen":
+		candidate.companion_unlocked = true
+	elif id == "tang":
+		candidate.tangqi_unlocked = true
+	else:
+		candidate.qin_stage = 4
+		candidate.qin_unlocked = true
+	var plan: Dictionary = PartyRoster.reconcile_growth(self, candidate, _party_payload())
+	if not plan.ok:
+		return false
+	candidate._apply_party_plan(plan)
+	# An invitation explicitly enrolls that actor and preserves other choices.
+	var invited: Array = candidate.party_roster.duplicate()
+	invited.append(id)
+	# Preserve the legacy follower choice: Tang invitation foregrounds Tang;
+	# recruiting Shen later keeps an existing selected companion. Membership
+	# remains explicit and this choice never enrolls an unrelated actor.
+	if id != "shen" or candidate.current_companion().is_empty():
+		candidate.active_companion = {"shen": Companions.SHEN, "tang": Companions.TANG, "qin": Companions.QIN}[id]
+	if not candidate.set_party_roster(invited):
+		return false
+	_copy_persistent_from(candidate)
 	_companion_attack_count = 0
 	return true
 
@@ -304,8 +373,14 @@ func begin_tangqi_quest() -> bool:return Companions.begin(self)
 func recover_craft_notes() -> bool:return Companions.recover(self)
 func resolve_tangqi_quest(choice:String) -> bool:return Companions.resolve(self,choice)
 func recruit_tangqi() -> bool:return Companions.recruit(self)
+func begin_qin_quest() -> bool:return QinCompanion.begin(self)
+func inspect_qin_rope() -> bool:return QinCompanion.inspect_rope(self)
+func arrange_qin_handoff() -> bool:return QinCompanion.arrange_handoff(self)
+func recruit_qin() -> bool:return QinCompanion.invite(self)
 
 func set_formation(id: String) -> bool:
+	if _party_gate():
+		return false
 	if current_companion().is_empty() or not ["并肩", "护后"].has(id):
 		return false
 	if formation != id:
@@ -315,6 +390,8 @@ func set_formation(id: String) -> bool:
 
 
 func buy_equipment() -> bool:
+	if _party_gate():
+		return false
 	if equipment != "旧铁剑" or coins < 45:
 		return false
 	coins -= 45
@@ -329,6 +406,8 @@ func current_region_name() -> String:
 
 
 func choose_side_route(choice: String) -> bool:
+	if _party_gate():
+		return false
 	if not side_choice.is_empty() or side_stage != 0 or not ["rescue", "pursuit"].has(choice):
 		return false
 	side_choice = choice
@@ -337,6 +416,8 @@ func choose_side_route(choice: String) -> bool:
 
 
 func find_side_clue(id: String) -> bool:
+	if _party_gate():
+		return false
 	if side_stage != 1 or side_choice.is_empty() or not ["boatman", "ledger"].has(id) or side_found.has(id):
 		return false
 	side_found.append(id)
@@ -347,6 +428,8 @@ func find_side_clue(id: String) -> bool:
 
 
 func finish_side_quest() -> bool:
+	if _party_gate():
+		return false
 	if side_stage != 2 or side_reward_claimed or side_clues != 2 or not ["rescue", "pursuit"].has(side_choice):
 		return false
 	side_reward_claimed = true
@@ -361,6 +444,8 @@ func finish_side_quest() -> bool:
 
 
 func start_battle(kind: String = "story") -> void:
+	if _party_gate():
+		return
 	# Group encounters have their own transaction and one-time settlement path.
 	if kind=="heting_receipt":return
 	if kind=="mist_scout" and (mist_stage!=1 or not mist_approach.is_empty()):return
@@ -408,6 +493,8 @@ func start_battle(kind: String = "story") -> void:
 
 
 func battle_action(action: String) -> Dictionary:
+	if _party_gate():
+		return _result(false, "独立出战交锋须由当前角色行动。")
 	if battle_kind=="heting_receipt":
 		return _result(false,"复签交锋需要先选定当前目标。")
 	if not battle_active:
@@ -597,7 +684,9 @@ func to_dict() -> Dictionary:
 		"victories": victories, "companion_unlocked": companion_unlocked,
 		"lightness_unlocked":lightness_unlocked,"lightness_relics":lightness_relics.duplicate(),
 		"shen_care_stage":shen_care_stage,"shen_care_choice":shen_care_choice,
+		"qin_stage": qin_stage, "qin_unlocked": qin_unlocked,
 		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
+		"party_roster": party_roster.duplicate(), "party_resources": party_resources.duplicate(true),
 		"formation": formation, "equipment": equipment,
 		"heting_stage":heting_stage,"heting_bridge":heting_bridge,"heting_delivered":heting_delivered.duplicate(),
 		"heting_cargo":heting_cargo,"heting_draft":heting_draft,"heting_ending":heting_ending,
@@ -622,12 +711,15 @@ func save_game(path: String = SAVE_PATH) -> Error:
 		return ERR_INVALID_PARAMETER
 	# This fight is transient. Preserve the pre-entry checkpoint until its
 	# accepted action is presented and its terminal outcome has settled.
-	if battle_active and battle_kind=="heting_receipt":return ERR_BUSY
+	if _party_gate() or (battle_active and battle_kind=="heting_receipt"):return ERR_BUSY
+	var data: Dictionary = to_dict()
+	if not _stage_save_data(data, SAVE_VERSION).ok:
+		return ERR_FILE_CORRUPT
 	var temporary: String = path + ".tmp"
 	var file: FileAccess = FileAccess.open(temporary, FileAccess.WRITE)
 	if file == null:
 		return FileAccess.get_open_error()
-	file.store_string(JSON.stringify({"version": SAVE_VERSION, "player": to_dict()}, "\t"))
+	file.store_string(JSON.stringify({"version": SAVE_VERSION, "player": data}, "\t"))
 	file.flush()
 	var write_error: Error = file.get_error()
 	file.close()
@@ -643,6 +735,8 @@ func save_game(path: String = SAVE_PATH) -> Error:
 
 
 func load_game(path: String = SAVE_PATH) -> Error:
+	if _party_gate() or (battle_active and battle_kind == "heting_receipt"):
+		return ERR_BUSY
 	if not FileAccess.file_exists(path):
 		return ERR_FILE_NOT_FOUND
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
@@ -660,15 +754,36 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return ERR_FILE_UNRECOGNIZED
 	if not document.get("player") is Dictionary:
 		return ERR_FILE_CORRUPT
 	var data: Dictionary = document["player"]
-	if not _valid_save_data(data, int(document["version"])):
+	var staged: Dictionary = _stage_save_data(data, int(document["version"]))
+	if not staged.ok:
 		return ERR_FILE_CORRUPT
-	# Validation completes before touching the current game.
-	reset_game()
+	_copy_persistent_from(staged.state)
+	_clear_battle()
+	return OK
+
+
+func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
+	if not _valid_save_data(data, version):
+		return {"ok": false}
+	var candidate = get_script().new()
+	candidate._restore_save_candidate(data, version)
+	# Pass RAW data: schema12 hero HP0 must fail before legacy HP clamping.
+	var plan: Dictionary = PartyRoster.load_plan(candidate, data, version)
+	if not plan.ok:
+		return {"ok": false}
+	candidate._apply_party_plan(plan)
+	if version >= 12 and not _same_save_value(candidate.to_dict(), data):
+		return {"ok": false}
+	return {"ok": true, "state": candidate}
+
+
+func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> void:
+	# This method is used only on a fresh detached candidate, never live state.
 	player_name = String(data.get("player_name", "无名客")).strip_edges().left(18)
 	if player_name.is_empty():
 		player_name = "无名客"
@@ -701,6 +816,8 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	Heting.restore(self,data)
 	receipt_stage=_bounded_int(data,"receipt_stage",0,0,3)
 	Companions.restore(self,data)
+	qin_stage = int(data.get("qin_stage", 0)) if version >= 12 else 0
+	qin_unlocked = bool(data.get("qin_unlocked", false)) if version >= 12 else false
 	ShenCare.restore(self,data)
 	Lightness.restore(self,data)
 	_restore_side_progress(data)
@@ -727,10 +844,11 @@ func load_game(path: String = SAVE_PATH) -> Error:
 		clampf(float(saved_position.get("x", 460)), 0.0, 10000.0),
 		clampf(float(saved_position.get("y", 430)), 0.0, 10000.0)
 	)
-	return OK
 
 
 func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
+	if version >= 12 and not _valid_schema12_core(data):
+		return false
 	# All original version-one fields are required. Only later feature fields
 	# receive compatibility defaults, so truncated saves cannot strand a quest.
 	for key: String in ["player_name", "level", "xp", "coins", "hp", "max_hp",
@@ -755,6 +873,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Heting.valid(data,version):return false
 	if not Receipt.valid(data,version):return false
 	if not Companions.valid(data):return false
+	if version >= 12 and not _valid_qin_progress(data):return false
 	if not ShenCare.valid(data,version):return false
 	if not Lightness.valid(data,version):return false
 	if data.has("companion_unlocked") and not data["companion_unlocked"] is bool:
@@ -842,6 +961,11 @@ func _bounded_int(data: Dictionary, key: String, fallback: int, low: int, high: 
 
 
 func _clear_battle() -> void:
+	party_battle_epoch += 1
+	party_session = null
+	party_settlement = {}
+	_party_pending_token = -1
+	_party_encounter = ""
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -872,6 +996,7 @@ func compare_receipt() -> bool:
 
 
 func start_receipt_battle() -> bool:
+	if _party_gate():return false
 	if receipt_stage!=1 or not Receipt.can_begin(self):return false
 	var candidate=ReceiptCombat.new()
 	if not candidate.configure(self):return false
@@ -1014,3 +1139,284 @@ func park_heting_cargo()->bool:return Heting.park_cargo(self)
 func deliver_heting_base(receiver:String)->bool:return Heting.deliver_base(self,receiver)
 func choose_heting_plan(id:String)->bool:return Heting.choose_plan(self,id)
 func finish_heting_delivery(receiver:String,expected_plan:String)->bool:return Heting.finish_delivery(self,receiver,expected_plan)
+
+
+## Schema12 actor-party boundary. Callers choose a roster outside combat, save a
+## pre-entry checkpoint, then acknowledge each accepted presentation token.
+func _party_gate() -> bool:
+	return party_session != null and (battle_active or _party_pending_token >= 0)
+
+
+func _party_payload() -> Dictionary:
+	return {"party_roster": party_roster.duplicate(), "party_resources": party_resources.duplicate(true)}
+
+
+func _apply_party_plan(plan: Dictionary) -> void:
+	party_roster.assign(plan.payload.party_roster)
+	party_resources = plan.payload.party_resources.duplicate(true)
+	hp = int(plan.hero_resources.hp)
+	qi = int(plan.hero_resources.qi)
+	active_companion = active_party_companion()
+
+
+func _copy_persistent_from(source) -> void:
+	for key: String in source.to_dict():
+		if key == "position":
+			position = source.position
+			continue
+		var value: Variant = source.get(key)
+		# assign preserves the destination's typed Array declaration.
+		if value is Array:
+			get(key).assign(value)
+		else:
+			set(key, value.duplicate(true) if value is Dictionary else value)
+
+
+func _detached_persistent_state():
+	var candidate = get_script().new()
+	candidate._copy_persistent_from(self)
+	return candidate
+
+
+func active_party_companion() -> String:
+	var chosen_id: String = {Companions.SHEN: "shen", Companions.TANG: "tang", Companions.QIN: "qin"}.get(active_companion, "")
+	if party_roster.has(chosen_id) and ((chosen_id == "shen" and companion_unlocked) or (chosen_id == "tang" and tangqi_unlocked) or (chosen_id == "qin" and qin_recruited())):
+		return active_companion
+	for id: String in party_roster:
+		if id == "shen" and companion_unlocked:
+			return Companions.SHEN
+		if id == "tang" and tangqi_unlocked:
+			return Companions.TANG
+		if id == "qin" and qin_recruited():
+			return Companions.QIN
+	return ""
+
+
+func set_party_roster(ids: Variant) -> bool:
+	if battle_active or _party_gate():
+		return false
+	var plan: Dictionary = PartyRoster.select_roster(self, _party_payload(), ids)
+	if not plan.ok:
+		return false
+	_apply_party_plan(plan)
+	_companion_attack_count = 0
+	return true
+
+
+func party_resource_snapshot() -> Dictionary:
+	var plan: Dictionary = PartyRoster.validate_payload(self, _party_payload())
+	if not plan.ok:
+		return PartyCatalog.immutable({"ok": false, "reason": plan.reason, "actors": []})
+	var all_ids: Array = ["hero"]
+	var all_resources: Dictionary = party_resources.duplicate(true)
+	all_resources["hero"] = {"hp": hp, "qi": qi}
+	if companion_unlocked:
+		all_ids.append("shen")
+	if tangqi_unlocked:
+		all_ids.append("tang")
+	if qin_recruited():
+		all_ids.append("qin")
+	var built: Dictionary = PartyCatalog.build_team(self, all_ids, all_resources)
+	if not built.ok:
+		return PartyCatalog.immutable({"ok": false, "reason": built.reason, "actors": []})
+	var actors: Array = built.team.actors.duplicate(true)
+	for actor: Dictionary in actors:
+		actor.selected = party_roster.has(actor.id)
+	return PartyCatalog.immutable({"ok": true, "reason": "", "roster": party_roster, "actors": actors})
+
+
+func start_party_battle(encounter_id: String) -> bool:
+	if battle_active or _party_gate() or hp < 1 or not PartyCombat.ENCOUNTERS.has(encounter_id):
+		return false
+	if encounter_id == "story" and (quest_stage != 3 or map_id != "qingwei"):
+		return false
+	if encounter_id == "training" and (quest_stage < 4 or map_id != "qingwei"):
+		return false
+	if encounter_id == "heting_receipt" and (receipt_stage != 1 or not Receipt.can_begin(self)):
+		return false
+	var projection: Dictionary = PartyRoster.battle_resources(self, _party_payload())
+	if not projection.ok:
+		return false
+	var team: Dictionary = PartyCatalog.build_team(self, party_roster, projection.resources)
+	if not team.ok:
+		return false
+	var candidate = PartyCombat.new()
+	if not candidate.configure(team.team, encounter_id):
+		return false
+	_clear_battle()
+	party_session = candidate
+	_party_encounter = encounter_id
+	battle_kind = encounter_id
+	battle_active = true
+	return true
+
+
+func party_battle_snapshot() -> Dictionary:
+	if party_session == null:
+		return {}
+	var result: Dictionary = party_session.snapshot().duplicate(true)
+	result.epoch = party_battle_epoch
+	result.pending_token = _party_pending_token
+	result.settlement = party_settlement
+	return PartyCatalog.immutable(result)
+
+
+func select_party_actor(id: String) -> bool:
+	return _party_gate() and battle_active and party_session.select_actor(id)
+
+
+func select_party_target(id: String) -> bool:
+	return _party_gate() and battle_active and party_session.select_target(id)
+
+
+func _party_rejection(reason: String) -> Dictionary:
+	return PartyCatalog.immutable({"ok": false, "accepted": false, "settled": false, "reason": reason,
+		"epoch": party_battle_epoch, "token": -1})
+
+
+func party_battle_action(action: String, target: String = "") -> Dictionary:
+	if not _party_gate() or not battle_active:
+		return _party_rejection("当前没有独立出战交锋。")
+	var tx: Dictionary = party_session.accept_action(action, target)
+	var decorated: Dictionary = tx.duplicate(true)
+	decorated.epoch = party_battle_epoch
+	if not tx.accepted:
+		return PartyCatalog.immutable(decorated)
+	_party_pending_token = int(tx.token)
+	# Accepted model transactions are already atomic. Mirror exactly once,
+	# including HP0, without legacy companion assistance or terminal recovery.
+	medicine = int(tx.after.medicine)
+	for actor: Dictionary in tx.after.actors:
+		if actor.id == "hero":
+			hp = int(actor.hp)
+			qi = int(actor.qi)
+			art_uses = actor.art_uses.duplicate(true)
+		else:
+			party_resources[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
+	return PartyCatalog.immutable(decorated)
+
+
+func finish_party_presentation(epoch: int, token: int) -> Dictionary:
+	if epoch != party_battle_epoch or token < 0 or token != _party_pending_token or not _party_gate() or not battle_active:
+		return _party_rejection("演绎凭据已失效。")
+	var snapshot: Dictionary = party_session.snapshot()
+	if not snapshot.locked:
+		return _party_rejection("交锋未等待演绎确认。")
+	if snapshot.active:
+		if not party_session.complete_presentation(token):
+			return _party_rejection("演绎凭据已失效。")
+		_party_pending_token = -1
+		return PartyCatalog.immutable({"ok": true, "accepted": true, "settled": false,
+			"reason": "", "epoch": epoch, "token": token, "snapshot": party_battle_snapshot()})
+	# Build and validate the entire resource + progression + XP settlement on a
+	# detached state before unlocking the accepted terminal transaction.
+	var staged: Dictionary = _party_terminal_plan(snapshot)
+	if not staged.ok:
+		return _party_rejection(staged.reason)
+	if not party_session.complete_presentation(token):
+		return _party_rejection("演绎凭据已失效。")
+	_party_pending_token = -1
+	battle_active = false
+	_copy_persistent_from(staged.state)
+	skill_cooldown = 0
+	party_settlement = PartyCatalog.immutable(staged.settlement)
+	return PartyCatalog.immutable({"ok": true, "accepted": true, "settled": true,
+		"reason": "", "epoch": epoch, "token": token, "outcome": snapshot.outcome,
+		"settlement": party_settlement, "snapshot": party_battle_snapshot()})
+
+
+func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
+	var candidate = _detached_persistent_state()
+	var terminal: Dictionary = {}
+	for actor: Dictionary in snapshot.actors:
+		terminal[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
+	var plan: Dictionary = PartyRoster.settle_plan(candidate, _party_payload(), terminal, String(snapshot.outcome))
+	if not plan.ok:
+		return {"ok": false, "reason": plan.reason}
+	candidate._apply_party_plan(plan)
+	var coins_before: int = candidate.coins
+	var level_before: int = candidate.level
+	var awarded: bool = false
+	var reward_xp: int = 0
+	var messages: Array[String] = []
+	if snapshot.outcome == "win":
+		if _party_encounter == "heting_receipt":
+			if not Receipt.settle_victory(candidate):
+				return {"ok": false, "reason": "复签进度不再允许本次结算。"}
+			reward_xp = Receipt.REWARD_XP
+			awarded = true
+		else:
+			if (_party_encounter == "story" and candidate.quest_stage != 3) or (_party_encounter == "training" and candidate.quest_stage < 4):
+				return {"ok": false, "reason": "交锋进度不再允许本次结算。"}
+			reward_xp = 30 if _party_encounter == "training" else 60
+			candidate.coins = mini(999999, candidate.coins + (12 if _party_encounter == "training" else 26))
+			candidate.victories = mini(999999, candidate.victories + 1)
+			if _party_encounter == "story":
+				candidate.quest_stage = 4
+			messages.append_array(candidate.gain_xp(reward_xp))
+			awarded = true
+	elif snapshot.outcome == "defeat":
+		candidate.coins = maxi(0, candidate.coins - mini(candidate.coins, 8))
+		candidate.map_id = "heting" if _party_encounter == "heting_receipt" else "qingwei"
+		candidate.position = Vector2(230, 735) if _party_encounter == "heting_receipt" else Vector2(420, 450)
+	# gain_xp reconciles growth after its explicit hero refill. Reapplying the
+	# pre-XP resource plan here would wrongly erase that refill.
+	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
+		return {"ok": false, "reason": "交锋结算未通过完整存档校验。"}
+	var settlement: Dictionary = {"outcome": snapshot.outcome, "encounter_id": _party_encounter,
+		"awarded": awarded, "reward_xp": reward_xp, "coin_change": candidate.coins - coins_before,
+		"level_before": level_before, "level_after": candidate.level, "quest_stage": candidate.quest_stage,
+		"receipt_stage": candidate.receipt_stage, "map_id": candidate.map_id,
+		"position": candidate.position, "messages": messages, "resources": candidate.party_resource_snapshot()}
+	return {"ok": true, "state": candidate, "settlement": settlement}
+
+
+func _valid_schema12_core(data: Dictionary) -> bool:
+	# Current saves are complete and canonical. Older versions retain their
+	# documented normalization policy; the schema12 reader never silently fixes
+	# malformed fields or incomplete party resources.
+	for key: String in to_dict():
+		if not data.has(key):
+			return false
+	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:
+		if not _is_number(data[key]) or float(data[key]) != floor(float(data[key])):
+			return false
+	return true
+
+
+func _same_save_value(normalized: Variant, raw: Variant) -> bool:
+	# Godot Dictionary equality distinguishes nested JSON floats from ints.
+	# Compare numeric leaves without weakening any shape or field validation.
+	if normalized is Dictionary and raw is Dictionary:
+		if normalized.size() != raw.size():
+			return false
+		for key: Variant in normalized:
+			if not raw.has(key) or not _same_save_value(normalized[key], raw[key]):
+				return false
+		return true
+	if normalized is Array and raw is Array:
+		if normalized.size() != raw.size():
+			return false
+		for index: int in range(normalized.size()):
+			if not _same_save_value(normalized[index], raw[index]):
+				return false
+		return true
+	if normalized is float and raw is float:
+		# JSON writes a finite decimal approximation of Vector2 float32 values.
+		return JSON.stringify(normalized) == JSON.stringify(raw)
+	if _is_number(normalized) and _is_number(raw):
+		return float(normalized) == float(raw)
+	return typeof(normalized) == typeof(raw) and normalized == raw
+
+
+func qin_recruited() -> bool:
+	return qin_unlocked and qin_stage == 4
+
+
+func _valid_qin_progress(data: Dictionary) -> bool:
+	var stage: Variant = data.get("qin_stage")
+	if not _is_number(stage) or float(stage) != floor(float(stage)) or stage < 0 or stage > 4:
+		return false
+	if not data.get("qin_unlocked") is bool or data.qin_unlocked != (stage == 4):
+		return false
+	return stage == 0 or (data.get("mist_stage", 0) == 4 and data.get("mist_ending", "") in Mist.ENDINGS)

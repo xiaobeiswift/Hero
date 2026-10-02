@@ -38,9 +38,12 @@ static func load_plan(state, player_data: Variant, source_version: Variant) -> D
 	if not catalog.ok:
 		return _error(catalog.reason)
 	var roster: Array[String] = ["hero"]
-	# Legacy active() intentionally supplies the old first-recruited fallback.
-	# Explicit schema-12 hero-only rosters never go through this fallback.
-	var chosen: String = Companions.active(state)
+	# Keep the schema1–11 fallback explicit: modern active() honors hero-only.
+	# Explicit schema12 rosters never go through this compatibility path.
+	var available: Array[String] = Companions.available(state)
+	var chosen: String = String(state.active_companion)
+	if not available.has(chosen):
+		chosen = available[0] if not available.is_empty() else ""
 	var saved_choice: Variant = player_data.get("active_companion", chosen)
 	if not saved_choice is String:
 		return _error("旧同行选择无效。")
@@ -192,6 +195,8 @@ static func _catalog(state) -> Dictionary:
 		ids.append("shen")
 	if state.tangqi_unlocked:
 		ids.append("tang")
+	if state.has_method("qin_recruited") and state.qin_recruited():
+		ids.append("qin")
 	var built: Dictionary = Catalog.build_team(state, ids)
 	if not built.ok:
 		return {"ok": false, "reason": built.reason}
@@ -205,8 +210,8 @@ static func _catalog(state) -> Dictionary:
 
 
 static func _validate_roster(roster: Variant, actors: Dictionary) -> Dictionary:
-	if not roster is Array or roster.is_empty() or roster.size() > 3 or roster[0] != "hero":
-		return {"ok": false, "reason": "名单须以主角为首，最多三人。"}
+	if not roster is Array or roster.is_empty() or roster.size() > Catalog.MAX_PARTY_SIZE or roster[0] != "hero":
+		return {"ok": false, "reason": "名单须以主角为首，最多四人。"}
 	var seen: Array[String] = []
 	for id: Variant in roster:
 		if not id is String or not actors.has(id) or seen.has(id):

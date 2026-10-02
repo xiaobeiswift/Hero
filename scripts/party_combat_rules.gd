@@ -72,7 +72,7 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 
 
 func _valid_team(team: Dictionary) -> bool:
-	if not team.get("actors") is Array or team.actors.is_empty() or team.actors.size() > 3:
+	if not team.get("actors") is Array or team.actors.is_empty() or team.actors.size() > Catalog.MAX_PARTY_SIZE:
 		return false
 	if not team.get("formation") in ["并肩", "护后"] or not team.get("medicine") is int or int(team.medicine) < 0:
 		return false
@@ -152,7 +152,7 @@ func available_actions(actor_id: String = "") -> Array:
 		var targets: Array[String] = _valid_targets(actor, action)
 		var reason: String = _actor_action_reason(actor, action)
 		if reason.is_empty() and action.target_team != "none" and targets.is_empty():
-			reason = "没有可用目标；治疗不能救起倒下的角色。" if action.target_team == "ally" else "没有可用目标。"
+			reason = "没有可用目标；治疗不能救起倒下的角色。" if _is_ally_heal(action) else "没有可用的存活目标。"
 		action.available = reason.is_empty()
 		action.reason = reason
 		action.valid_target_ids = targets
@@ -175,9 +175,9 @@ func action_unavailable_reason(action_id: String, target_id: String = "") -> Str
 	if target.is_empty():
 		return "请先选择有效目标。"
 	if target.hp <= 0:
-		return "治疗不能救起倒下的角色。" if action.target_team == "ally" else "目标已经倒下。"
+		return "治疗不能救起倒下的角色。" if _is_ally_heal(action) else "目标已经倒下，不能接受此行动。"
 	if not _valid_targets(actor, action).has(resolved):
-		if action.target_team == "ally" and target.team == "ally":
+		if _is_ally_heal(action) and target.team == "ally":
 			return "目标气血充盈，无需治疗。"
 		return "此行动不能用于该目标。"
 	return ""
@@ -256,7 +256,10 @@ func complete_presentation(token: int) -> bool:
 func _perform_art(actor: Dictionary, target: Dictionary, action: Dictionary, events: Array[Dictionary]) -> void:
 	var effects: Dictionary = action.effects
 	if action.target_team == "ally":
-		_heal(actor, target, int(effects.healing), events)
+		if int(effects.get("healing", 0)) > 0:
+			_heal(actor, target, int(effects.healing), events)
+		if int(effects.get("barrier", 0)) > 0:
+			_grant_barrier(actor, target, int(effects.barrier), events)
 		return
 	var rank: int = int(actor.art_rank) if actor.id == "hero" else 1
 	_damage(actor, target, Advanced.direct_damage(effects, int(actor.attack), rank), events)
@@ -302,6 +305,7 @@ func _enemy_phase(events: Array[Dictionary]) -> void:
 		if target.status.guard:
 			amount = maxi(1, int(ceil(float(amount) * 0.3)))
 		_event(events, enemy.id, target.id, "action", 0, {"name": intent.name, "heavy": intent.heavy, "announced_target_id": intent.target_id})
+		amount = _absorb_barrier(enemy, target, amount, events)
 		_damage(enemy, target, amount, events)
 		if int(enemy.status.weaken_strikes) > 0:
 			enemy.status.weaken_strikes -= 1
@@ -312,6 +316,7 @@ func _enemy_phase(events: Array[Dictionary]) -> void:
 			break
 	if not _active:
 		return
+	_expire_barriers(events, "round_end")
 	_round += 1
 	_phase = "ally"
 	for actor: Dictionary in _actors:
@@ -382,7 +387,7 @@ func _valid_targets(actor: Dictionary, action: Dictionary) -> Array[String]:
 		"enemy", "ally":
 			var candidates: Array[Dictionary] = _enemies if action.target_team == "enemy" else _actors
 			for target: Dictionary in candidates:
-				if target.hp > 0 and (action.target_team == "enemy" or target.hp < target.max_hp):
+				if target.hp > 0 and (not _is_ally_heal(action) or target.hp < target.max_hp):
 					ids.append(target.id)
 		"self":
 			if actor.hp > 0:
@@ -401,13 +406,21 @@ func _resolve_target(actor: Dictionary, action: Dictionary, supplied: String) ->
 func _describe(actor: Dictionary, action: Dictionary, target_id: String) -> String:
 	var target: Dictionary = _unit(target_id)
 	if action.id == "guard":
-		return "回复%d真气；本轮受到的每次伤害乘三成，向上取整且至少1点。" % mini(1, int(actor.max_qi) - int(actor.qi))
+		return "回复%d真气；本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0。" % mini(1, int(actor.max_qi) - int(actor.qi))
 	if action.id == "item":
 		return "为%s恢复%d气血（最多%d）；消耗共享回春散1份，余%d份。不能救起倒下的角色。" % [actor.name, mini(int(actor.max_hp) - int(actor.hp), _medicine_heal), _medicine_heal, _medicine]
 	if action.category == "martial":
 		var effects: Dictionary = action.effects
 		var details: Array[String] = []
-		if action.target_team == "ally":
+		if action.target_team == "ally" and int(effects.get("barrier", 0)) > 0:
+			var capacity: int = int(effects.barrier)
+			if target.get("team") == "ally" and int(target.get("hp", 0)) > 0:
+				var existing: int = int(target.status.barrier)
+				details.append("为%s施加%d点护障（新增%d，不叠加）" % [target.name, maxi(existing, capacity), maxi(0, capacity - existing)])
+			else:
+				details.append("请先选择仍站立的队友，施加%d点护障（不叠加）" % capacity)
+			details.append("抵消下一次来袭经防御、守势结算后的伤害，可减至0；该次受击后余量消散，未受击则本轮结束消散；不治疗、不救起倒下者")
+		elif _is_ally_heal(action):
 			var maximum: int = int(effects.healing)
 			if target.get("team") == "ally" and int(target.get("hp", 0)) > 0:
 				var actual: int = mini(int(target.max_hp) - int(target.hp), maximum)
@@ -420,7 +433,7 @@ func _describe(actor: Dictionary, action: Dictionary, target_id: String) -> Stri
 			if int(effects.get("healing", 0)) > 0:
 				details.append("自身恢复%d气血" % mini(int(actor.max_hp) - int(actor.hp), int(effects.healing)))
 			if bool(effects.get("guard", false)):
-				details.append("本轮来袭伤害乘三成，向上取整且至少1点")
+				details.append("本轮守势将来袭伤害乘三成，向上取整且至少1点；护障随后抵消，可降至0")
 			if int(effects.get("weaken_amount", 0)) > 0:
 				details.append("仅目标基础伤害减%d，持续其%d次攻击" % [effects.weaken_amount, effects.weaken_strikes])
 			var focus: int = Advanced.focus_damage(effects, actor.attack)
@@ -464,6 +477,36 @@ func _qi(actor: Dictionary, amount: int, events: Array[Dictionary]) -> void:
 	_event(events, actor.id, actor.id, "qi", int(actor.qi) - before)
 
 
+func _is_ally_heal(action: Dictionary) -> bool:
+	return action.get("target_team") == "ally" and int(action.get("effects", {}).get("healing", 0)) > 0
+
+
+func _grant_barrier(source: Dictionary, target: Dictionary, amount: int, events: Array[Dictionary]) -> void:
+	var before: int = int(target.status.barrier)
+	target.status.barrier = maxi(before, amount)
+	_event(events, source.id, target.id, "barrier_grant", int(target.status.barrier) - before, {"remaining": target.status.barrier})
+
+
+func _absorb_barrier(source: Dictionary, target: Dictionary, amount: int, events: Array[Dictionary]) -> int:
+	var barrier: int = int(target.status.barrier)
+	if barrier <= 0:
+		return amount
+	var absorbed: int = mini(barrier, amount)
+	target.status.barrier = 0
+	_event(events, source.id, target.id, "barrier_absorb", absorbed, {"remaining": 0, "incoming_after_guard": amount})
+	if barrier > absorbed:
+		_event(events, target.id, target.id, "barrier_expire", barrier - absorbed, {"remaining": 0, "reason": "hit_end"})
+	return amount - absorbed
+
+
+func _expire_barriers(events: Array[Dictionary], reason: String) -> void:
+	for actor: Dictionary in _actors:
+		var remaining: int = int(actor.status.barrier)
+		if remaining > 0:
+			actor.status.barrier = 0
+			_event(events, actor.id, actor.id, "barrier_expire", remaining, {"remaining": 0, "reason": reason})
+
+
 func _event(events: Array[Dictionary], source: String, target: String, type: String, amount: int, extras: Dictionary = {}) -> void:
 	var event: Dictionary = {"source_id": source, "target_id": target, "type": type, "amount": amount, "phase": _phase, "round": _round}
 	event.merge(extras)
@@ -473,6 +516,7 @@ func _event(events: Array[Dictionary], source: String, target: String, type: Str
 func _finish(outcome: String, events: Array[Dictionary], source: String) -> void:
 	_active = false
 	_outcome = outcome
+	_expire_barriers(events, "battle_end")
 	_event(events, source, "", "outcome", 0, {"outcome": outcome})
 	_phase = "ended"
 
