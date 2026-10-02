@@ -66,7 +66,12 @@ func _source(id: String = Arts.BASE_ART):
 
 func _arena(state):
 	var rules = Rules.new()
-	check(rules.configure(state), "Living source configures a fresh real encounter")
+	# These detached legacy-combat fixtures describe recruitment with old
+	# fields. Migrate a clone explicitly; never heal or select the original.
+	var migrated = state._detached_persistent_state()
+	var plan: Dictionary = state.PartyRoster.load_plan(migrated, {"active_companion": state.active_companion}, 11)
+	migrated._apply_party_plan(plan)
+	check(rules.configure(migrated), "Living migrated source configures a fresh real encounter")
 	return rules
 
 

@@ -1,7 +1,7 @@
 extends SceneTree
 ## Independent detached-model audit. No scenes, UI, save I/O, or publication.
-## The settlement example below demonstrates a proposed caller contract only;
-## production HeroState still writes schema11 and has no party integration.
+## The settlement example checks the schema12 state integration order. Actual
+## save migration and exact schema11-reader rejection live in party_state_integration_test.
 const State = preload("res://scripts/game_state.gd")
 const Catalog = preload("res://scripts/party_actor_catalog.gd")
 const Combat = preload("res://scripts/party_combat_rules.gd")
@@ -23,7 +23,7 @@ func _init() -> void:
 	_test_detachment_and_dead_healing()
 	_test_settlement_then_level_gain()
 	if failures == 0:
-		print("PASS: %d independent party-model audit checks (amounts/exposure/setup/transactions/detachment/proposed settlement ordering)" % checks)
+		print("PASS: %d independent party-model audit checks (amounts/exposure/setup/transactions/detachment/settlement ordering)" % checks)
 	else:
 		push_error("FAIL: %d of %d independent party-model audit checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -224,9 +224,9 @@ func _test_settlement_then_level_gain() -> void:
 	check(win.after.outcome == "win" and terminal.size() == 2, "Actual terminal model yields every selected actor's resources")
 	var settled: Dictionary = Roster.settle_plan(before, payload, terminal, "win")
 	check(settled.ok and settled.hero_resources == terminal.hero and settled.payload.party_resources.shen == terminal.shen and settled.payload.party_resources.tang == payload.party_resources.tang, "Settlement conserves terminal selected and prior benched resources")
-	# Proposed integration order: accept terminal/epoch, clear battle gate, settle
+	# Integration order: accept terminal/epoch, clear battle gate, settle
 	# resource plan, then award XP, then reconcile companion maxima. This does not
-	# modify HeroState's real battle or save implementation.
+	# replace the independent state/save transaction tests.
 	before.hp = settled.hero_resources.hp
 	before.qi = settled.hero_resources.qi
 	var after = _state()
@@ -234,6 +234,8 @@ func _test_settlement_then_level_gain() -> void:
 	after.qi = before.qi
 	after.xp = before.xp
 	after.attack = before.attack
+	# The actual XP API now requires complete persistent party resources.
+	after._apply_party_plan(Roster.load_plan(after, {"active_companion": after.active_companion}, 11))
 	after.gain_xp(1)
 	var grown: Dictionary = Roster.reconcile_growth(before, after, settled.payload)
 	check(grown.ok and after.level == 2 and grown.hero_resources == {"hp": after.max_hp, "qi": after.max_qi}, "Settlement before earned XP preserves existing explicit level-up hero recovery")
@@ -241,7 +243,7 @@ func _test_settlement_then_level_gain() -> void:
 	check(Roster.select_roster(after, grown.payload, ["hero", "tang"]).payload.party_resources.tang.hp == 0, "Selection after growth cannot revive benched companion")
 	var raw: Dictionary = grown.payload.duplicate(true)
 	raw.hp = 0
-	check(not Roster.load_plan(after, raw, 12).ok, "Proposed schema12 raw hero HP0 cannot hide behind leveled normalized state")
+	check(not Roster.load_plan(after, raw, 12).ok, "Schema12 raw hero HP0 cannot hide behind leveled normalized state")
 	var incomplete: Dictionary = terminal.duplicate(true)
 	incomplete.erase("shen")
 	check(not Roster.settle_plan(before, payload, incomplete, "win").ok, "Terminal resources must include all selected actors")
@@ -256,4 +258,4 @@ func _test_settlement_then_level_gain() -> void:
 	living.shen.hp = 0
 	check(not Roster.settle_plan(before, payload, living, "win").ok and not Roster.settle_plan(before, payload, living, "flee").ok, "All selected down cannot claim win or flee")
 	check(Roster.settle_plan(before, payload, living, "defeat").ok, "All-selected-down explicitly permits safe defeat recovery")
-	check(State.SAVE_VERSION == 11 and not before.to_dict().has("party_roster"), "Production schema remains11; helper tests do not establish save integration")
+	check(State.SAVE_VERSION == 12 and before.to_dict().has("party_roster") and before.has_method("start_party_battle"), "Production schema12 exposes integrated party state; exact historical-reader rejection is checked by the filesystem integration suite")

@@ -136,7 +136,9 @@ func _test_read_only_autosave_and_metadata() -> void:
 	var data: Dictionary = state.to_dict()
 	data.level = 10000
 	data.map_id = "unknown-map"
-	_write_document(store.path_for(2), State.SAVE_VERSION, data)
+	# Historical schema11 clamps these fields; current schema12 rejects them.
+	_write_document(store.path_for(2), 11, data)
+	_write_document(store.path_for(3), State.SAVE_VERSION, data)
 	var before: Dictionary = _folder_snapshot(store.path_for(0).get_base_dir())
 	var active_before: Dictionary = _state_snapshot(state)
 	for ignored: int in range(3):
@@ -145,7 +147,8 @@ func _test_read_only_autosave_and_metadata() -> void:
 		_check(metadata.modified == FileAccess.get_modified_time(store.path_for(1)) and metadata.modified > 0, "Metadata includes source modification timestamp")
 		var backup: Dictionary = store.describe_backup(1)
 		_check(backup.status == "valid" and backup.level == 7 and backup.location == "frostbridge", "Backup metadata describes backup progress")
-		_check(store.describe(2).level == 99 and store.describe(2).location == "qingwei", "Metadata reflects model validation and normalization")
+		_check(store.describe(2).level == 99 and store.describe(2).location == "qingwei", "Legacy schema11 metadata retains historical normalization")
+		_check(store.describe(3).status == "corrupt" and store.load_slot(state, 3) == ERR_FILE_CORRUPT, "Current schema12 rejects the same malformed metadata without changing live state")
 		_check(store.describe(0).status == "valid" and store.describe(0).level == 7, "Autosave can be described")
 	_check(_state_snapshot(state) == active_before, "Metadata never mutates the active model")
 	var loaded := State.new()

@@ -30,10 +30,13 @@ func _run() -> void:
 	_test_healing_and_shared_medicine()
 	_test_formation_and_death()
 	_test_protector_and_effects()
+	_test_four_actor_rosters_and_rounds()
+	_test_qin_barrier_rules()
+	_test_four_actor_formation_and_death()
 	_test_natural_opening()
 	await _test_earned_three_party()
 	if failures == 0:
-		print("PASS: %d actor party combat checks (catalog/ten arts/rounds/targets/resources/transactions/formation/death/earned journeys)" % checks)
+		print("PASS: %d actor party combat checks (four-person catalog/ten arts/rounds/targets/resources/transactions/formation/barrier/death/earned journeys)" % checks)
 	else:
 		push_error("FAIL: %d of %d party combat checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -333,6 +336,133 @@ func _test_protector_and_effects() -> void:
 	check(_events(uncovered, "damage", "ally")[0].amount == chosen.attack, "Next attack receives no stale protection")
 
 
+func _prepared_four_source():
+	# Prepared rule fixture only. This does not claim Qin was earned in a journey.
+	var source = _source()
+	source.qin_stage = 4
+	source.qin_unlocked = true
+	return source
+
+
+func _test_four_actor_rosters_and_rounds() -> void:
+	check(not Catalog.build_team(RefCounted.new(), ["hero", "qin"]).ok, "Absent Qin eligibility method rejects safely before legacy source fields are read")
+	var unrecruited = _source()
+	check(not Catalog.build_team(unrecruited, ["hero", "qin"]).ok, "Unrecruited Qin is not automatically granted")
+	var source = _prepared_four_source()
+	for roster: Array in [["hero"], ["hero", "qin"], ["hero", "shen", "qin"], ["hero", "shen", "tang", "qin"]]:
+		var team: Dictionary = Catalog.build_team(source, roster).team
+		check(team.actors.size() == roster.size() and Rules.new().configure(team), "Prepared legal roster supports every size1through4: " + str(roster))
+	check(not Catalog.build_team(source, ["hero", "shen", "tang", "qin", "qin"]).ok, "Roster exceeding four rejects")
+	var ordered: Dictionary = Catalog.build_team(source, ["qin", "hero", "tang", "shen"]).team
+	check(ordered.actors[0].id == "hero" and ordered.actors[1].id == "qin" and ordered.actors[2].id == "tang" and ordered.actors[3].id == "shen", "Hero front and explicit three-companion order are preserved")
+	var qin: Dictionary = ordered.actors[1]
+	check(qin.max_hp == 110 and qin.max_qi == 6 and qin.attack == 12 and qin.defense == 6, "Provisional Qin level1 has higher HP/defense and lower attack than current allies")
+	check(qin.actions.size() == 5 and qin.actions[0].name == "杖击" and qin.actions[1].id == Catalog.QIN_ART and qin.actions[1].name == "守渡横杖", "Qin exposes one staff attack and one genuine protector martial")
+	check(qin.cooldowns == {Catalog.QIN_ART: 0} and qin.status.barrier == 0, "Qin starts with own cooldown and empty barrier")
+	source.hp = source.max_hp
+	var original: Dictionary = source.to_dict().duplicate(true)
+	var rules = _arena(source, ["hero", "shen", "tang", "qin"])
+	check(rules.select_actor("qin"), "Fourth actor may be chosen first")
+	var shield_action: Dictionary = rules.available_actions()[1]
+	check(shield_action.available and shield_action.valid_target_ids == ["hero", "shen", "tang", "qin"], "Shield accepts all living allies including full-health self")
+	check(shield_action.cost == 3 and shield_action.cooldown == 2 and shield_action.effects == {"barrier": 18}, "Shield descriptor carries exact cost cooldown effect without healing")
+	var before: Dictionary = rules.snapshot()
+	check(not rules.accept_action(Catalog.QIN_ART, "striker").ok and rules.snapshot() == before, "Shield rejects enemy target atomically")
+	check(rules.action_description(Catalog.QIN_ART, "hero").contains("18点护障") and rules.action_description(Catalog.QIN_ART, "hero").contains("不治疗") and rules.action_description(Catalog.QIN_ART, "striker").contains("请先选择仍站立的队友"), "Shield description distinguishes real living-ally protection from healing")
+	var grant: Dictionary = rules.accept_action(Catalog.QIN_ART, "hero")
+	check(grant.ok and grant.after.round == 1 and grant.after.active_actor_id == "hero" and _events(grant, "damage", "enemy").is_empty(), "Chosen fourth actor does not prematurely trigger enemy phase")
+	check(_actor(grant.after, "hero").hp == source.hp and _actor(grant.after, "hero").status.barrier == 18 and _actor(grant.after, "qin").qi == 3 and _events(grant, "heal").is_empty(), "Shield grants18 without phantom healing and spends only Qin qi")
+	check(_events(grant, "barrier_grant")[0].amount == 18 and _events(grant, "barrier_grant")[0].source_id == "qin" and _events(grant, "barrier_grant")[0].target_id == "hero" and grant.events.is_read_only(), "Immutable grant event exposes actual source target amount")
+	var locked: Dictionary = rules.snapshot()
+	check(not rules.accept_action(Catalog.QIN_ART, "hero").ok and not rules.complete_presentation(grant.token + 1) and rules.snapshot() == locked, "Repeated shield/stale callback cannot stack barrier or spend again")
+	check(rules.complete_presentation(grant.token) and not rules.complete_presentation(grant.token) and not rules.select_actor("qin"), "Fourth actor still acts exactly once per round")
+	var hero_turn: Dictionary = _step(rules, "guard")
+	var shen_turn: Dictionary = _step(rules, "guard")
+	check(hero_turn.after.round == 1 and shen_turn.after.round == 1 and _events(shen_turn, "damage", "enemy").is_empty(), "Enemy waits until all four living actors have acted")
+	var end: Dictionary = _step(rules, "guard")
+	check(end.after.round == 2 and _events(end, "damage", "enemy").size() == 1 and _events(end, "damage", "enemy")[0].amount == 0, "Fourth accepted action resolves one enemy strike with zero damage after shield")
+	check(_events(end, "barrier_absorb")[0].amount == 6 and _events(end, "barrier_absorb")[0].incoming_after_guard == 6, "Defense22−4 then guard ceil30percent gives6, which barrier absorbs exactly")
+	check(_events(end, "barrier_expire")[0].amount == 12 and _events(end, "barrier_expire")[0].reason == "hit_end" and _actor(end.after, "hero").status.barrier == 0, "Next-hit shield discards unused12 capacity with truthful expiry event")
+	check(_actor(end.after, "qin").cooldowns[Catalog.QIN_ART] == 2 and source.to_dict() == original, "Other actors do not tick Qin cooldown or mutate source")
+	rules.select_actor("qin")
+	var staff: Dictionary = _step(rules, "attack", "bracer")
+	check(_events(staff, "damage", "ally")[0].amount == 12 and _events(staff, "damage", "ally")[0].source_id == "qin" and _actor(staff.after, "qin").cooldowns[Catalog.QIN_ART] == 1, "Genuine staff attack deals Qin own damage and ticks only own cooldown")
+
+
+func _test_qin_barrier_rules() -> void:
+	# Prepared fixtures exercise exact defensive arithmetic without tuning enemies.
+	var source = _prepared_four_source()
+	source.formation = "护后"
+	var rules = _arena(source, ["hero", "qin"])
+	_step(rules, "guard")
+	_step(rules, "guard")
+	var before: Dictionary = rules.snapshot()
+	rules.select_actor("qin")
+	_step(rules, Catalog.QIN_ART, "hero")
+	var heavy: Dictionary = _step(rules, "attack", "bracer")
+	check(_events(heavy, "barrier_absorb")[0].amount == 18 and _events(heavy, "damage", "enemy")[0].amount == 12, "Heavy34 minus defense4 minus shield18 leaves real12 damage")
+	check(_actor(heavy.after, "hero").hp == _actor(before, "hero").hp - 12 and _actor(heavy.after, "hero").status.barrier == 0, "Shield changes received damage and is consumed after one hit")
+	check(_events(heavy, "barrier_expire").is_empty(), "Fully absorbed capacity does not emit fictitious positive expiry")
+	var idle = _arena(source, ["hero", "qin"], "story")
+	_step(idle, "guard")
+	var unused: Dictionary = _step(idle, Catalog.QIN_ART, "qin")
+	check(_events(unused, "barrier_absorb").is_empty() and _events(unused, "barrier_expire")[0].amount == 18 and _events(unused, "barrier_expire")[0].reason == "round_end", "Unhit self shield expires at round end instead of carrying into future rounds")
+	check(_actor(unused.after, "qin").status.barrier == 0 and _events(unused, "heal").is_empty(), "Expired shield never alters HP")
+	var fleeing = _arena(source, ["hero", "qin"])
+	fleeing.select_actor("qin")
+	_step(fleeing, Catalog.QIN_ART, "hero")
+	var fled: Dictionary = _step(fleeing, "flee")
+	check(_events(fled, "barrier_expire")[0].amount == 18 and _events(fled, "barrier_expire")[0].reason == "battle_end" and _actor(fled.after, "hero").status.barrier == 0, "Terminal retreat explicitly expires protection without refunding Qin qi")
+	check(_actor(fled.after, "qin").qi == 3 and _events(fled, "heal").is_empty(), "Retreat preserves real shield cost and never grants healing")
+	var down = _arena(source, ["hero", "qin"], "story", {"hero": {"hp": 0}})
+	var down_before: Dictionary = down.snapshot()
+	check(not down.accept_action(Catalog.QIN_ART, "hero").ok and down.snapshot() == down_before and down.action_description(Catalog.QIN_ART, "hero").contains("不救起"), "Shield cannot target or revive a downed ally")
+	# Unit-level nonstacking invariant: public turns permit only one Qin action,
+	# so repeat application is deliberately exercised on a local detached actor.
+	var target: Dictionary = Catalog._actor("hero", "护障检验", 100, 6, 16, 4)
+	var giver: Dictionary = Catalog._actor("qin", "秦禾", 110, 6, 12, 6)
+	var events: Array[Dictionary] = []
+	var probe = Rules.new()
+	probe._grant_barrier(giver, target, 18, events)
+	probe._grant_barrier(giver, target, 18, events)
+	check(target.status.barrier == 18 and events[0].amount == 18 and events[1].amount == 0 and events[1].remaining == 18, "Repeated application never stacks and reports zero new barrier")
+	check(probe._absorb_barrier(giver, target, 5, events) == 0 and target.status.barrier == 0 and events[2].amount == 5 and events[3].amount == 13, "Absorption caps at actual incoming5 and explicitly expires remaining13")
+	check(probe._absorb_barrier(giver, target, 7, events) == 7 and events.size() == 4, "Next hit cannot reuse consumed barrier")
+
+
+func _test_four_actor_formation_and_death() -> void:
+	for formation: String in ["并肩", "护后"]:
+		var source = _prepared_four_source()
+		source.formation = formation
+		var rules = _arena(source, ["hero", "shen", "tang", "qin"], "story")
+		for round_index: int in 4:
+			var expected: String = Catalog.IDS[round_index] if formation == "并肩" else "hero"
+			var snapshot: Dictionary = rules.snapshot()
+			check(snapshot.enemy_intents[0].target_id == expected and snapshot.enemy_intents[0].target_order.size() == 4, "Four-person formation exposes deterministic target and fallback order: " + formation)
+			for actor: Dictionary in snapshot.actors:
+				check(actor.front == (formation == "并肩" or actor.id == "hero") and actor.exposed == (actor.id == expected), "Stable four-person row remains distinct from rotating exposure")
+			for actor_index: int in 4:
+				var tx: Dictionary = _step(rules, "guard")
+				check(_events(tx, "damage", "enemy").size() == (1 if actor_index == 3 else 0), "Every round waits for all four living actors")
+				if actor_index == 3:
+					check(_events(tx, "damage", "enemy")[0].target_id == expected, "Four-person actual receiver matches announced formation target")
+	var source = _prepared_four_source()
+	source.formation = "护后"
+	var defeated = _arena(source, ["hero", "shen", "tang", "qin"], "heting_receipt", {"hero": {"hp": 1}, "shen": {"hp": 1}, "tang": {"hp": 1}, "qin": {"hp": 1}})
+	for round_index: int in 4:
+		var living_count: int = 4 - round_index
+		for action_index: int in living_count:
+			var tx: Dictionary = _step(defeated, "guard")
+			if action_index < living_count - 1:
+				check(_events(tx, "damage", "enemy").is_empty(), "Downed allies are skipped but all remaining living allies still act")
+		var snapshot: Dictionary = defeated.snapshot()
+		check(_actor(snapshot, Catalog.IDS[round_index]).hp == 0, "Deterministic front casualty receives actual damage and falls")
+		if round_index < 3:
+			check(snapshot.active and snapshot.active_actor_id == Catalog.IDS[round_index + 1] and not defeated.select_actor(Catalog.IDS[round_index]), "Battle continues and chooses next survivor; dead actor cannot act")
+		else:
+			check(not snapshot.active and snapshot.outcome == "defeat", "Four-person defeat occurs only when last Qin also falls")
+
+
 func _play(rules) -> Dictionary:
 	for action_index: int in 160:
 		var state: Dictionary = rules.snapshot()
@@ -352,7 +482,12 @@ func _play(rules) -> Dictionary:
 			for action: Dictionary in actor.actions:
 				if action.category != "martial" or not action.available:
 					continue
-				if action.target_team == "ally":
+				if action.target_team == "ally" and int(action.effects.get("barrier", 0)) > 0:
+					for intent: Dictionary in state.enemy_intents:
+						if intent.type == "attack" and action.valid_target_ids.has(intent.target_id):
+							chosen = action.id
+							selected_target = intent.target_id
+				elif action.target_team == "ally":
 					for candidate: String in action.valid_target_ids:
 						var friend: Dictionary = _actor(state, candidate)
 						if int(friend.max_hp) - int(friend.hp) >= 28:
@@ -396,7 +531,7 @@ func _legacy_fight() -> void:
 			break
 		if app.state.hp < 45 and app.state.medicine > 0:
 			app._battle_action("item")
-		elif app.state.turn % 2 == 1:
+		elif bool(app.state.Patterns.phase(app.state.battle_kind, app.state.turn).get("heavy", app.state.turn % 2 == 1)):
 			app._battle_action("skill" if app.state.qi >= app.state.active_art_cost() and app.state.skill_cooldown == 0 else "guard")
 		else:
 			app._battle_action("attack")
@@ -456,10 +591,96 @@ func _test_earned_three_party() -> void:
 		print("PARTY JOURNEY: level=%d formation=%s hp=%d/%d rounds=%d medicines=%d outcome=%s" % [app.state.level, formation, app.state.hp, app.state.max_hp, result.round, result.medicine, result.outcome])
 	app.state.set_formation(original.formation)
 	check(app.state.to_dict() == original, "All natural party probes preserve exact earned source")
+	_test_earned_four_party()
 	app._stop_audio()
 	await create_timer(0.25).timeout
 	app.queue_free()
 	await process_frame
+
+
+func _test_earned_four_party() -> void:
+	# Continue the same generated save through real progression; no level, gear,
+	# recruitment flags, medicine, qi, proficiency or resource injection.
+	check(app.state.claim_sect_deed("sluice") and app.state.claim_sect_deed("archive"), "Completed actual chapters earn existing sect deed merit")
+	check(app.state.learn_art("伏汐藏锋") and app.state.equip_art("伏汐藏锋"), "Earned merit learns and equips the real focus art")
+	_interact("exit_mistwood"); _choose()
+	check(app.state.map_id == "mistwood" and app.state.mist_stage == 1, "Actual travel enters Mistwood through completed archive prerequisites")
+	_interact("mist_rain_gauge"); _choose()
+	_interact("mist_basin"); _choose()
+	_interact("mist_scout"); _choose(2)
+	_interact("mist_stone_gauge"); _choose()
+	_interact("mist_camp"); _choose()
+	_interact("mist_gate"); _choose(); _legacy_fight()
+	_interact("mist_guide"); _choose(0)
+	check(app.state.mist_stage == 4 and app.state.mist_ending == "release_water" and not app.state.qin_unlocked, "Actual keeper victory and water-ending choice finish Mistwood without granting Qin")
+	var before_invitation: Dictionary = app.state.to_dict().duplicate(true)
+	check(app.state.begin_qin_quest() and app.state.qin_stage == 1 and not app.state.qin_unlocked, "Real Qin invitation begins only after earned Mistwood ending")
+	check(app.state.inspect_qin_rope() and app.state.qin_stage == 2 and not app.state.qin_unlocked, "Real rope inspection advances without auto-recruitment")
+	check(app.state.arrange_qin_handoff() and app.state.qin_stage == 3 and not app.state.qin_unlocked, "Real camp handoff advances without auto-recruitment")
+	check(app.state.recruit_qin() and app.state.qin_stage == 4 and app.state.qin_unlocked and app.state.party_roster.has("qin"), "Explicit real invite recruits fourth actor and initializes her resources")
+	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "equipment", "armor", "resources", "art_uses"]:
+		check(app.state.to_dict()[key] == before_invitation[key], "Qin invitation preserves earned hero stats/resources: " + key)
+	var earned: Dictionary = app.state.to_dict().duplicate(true)
+	for formation: String in ["并肩", "护后"]:
+		var probe_source = app.state._detached_persistent_state()
+		probe_source.set_formation(formation)
+		var balance: Array[Dictionary] = []
+		for roster: Array in [["hero"], ["hero", "shen"], ["hero", "shen", "tang"], ["hero", "shen", "tang", "qin"]]:
+			check(probe_source.set_party_roster(roster), "Actual roster selection chooses earned party size: " + str(roster.size()))
+			var source: Dictionary = probe_source.to_dict().duplicate(true)
+			var projection: Dictionary = State.PartyRoster.battle_resources(probe_source, probe_source._party_payload())
+			check(projection.ok, "Existing persistence layer projects genuine selected resources")
+			var built: Dictionary = Catalog.build_team(probe_source, roster, projection.resources)
+			check(built.ok, "Earned one-to-four actor team builds with actual persisted resources")
+			var rules = Rules.new()
+			check(rules.configure(built.team, "heting_receipt"), "Earned team configures detached receipt balance probe")
+			var result: Dictionary = _play(rules)
+			check(result.outcome == "win", "Earned unboosted party size%d wins receipt: %s" % [roster.size(), formation])
+			check(probe_source.to_dict() == source, "Natural balance probe preserves entire earned source and selected resources")
+			balance.append({"actor_count": roster.size(), "formation": formation, "outcome": result.outcome, "rounds": result.round, "medicine_remaining": result.medicine})
+			print("EARNED FOUR ROUTE: level=%d actors=%d formation=%s rounds=%d medicines=%d outcome=%s" % [probe_source.level, roster.size(), formation, result.round, result.medicine, result.outcome])
+			if roster.size() == 4 and result.outcome == "win":
+				_capture_earned_four_team(built.team, probe_source.level, probe_source.mist_ending, result, balance)
+	check(app.state.to_dict() == earned, "All earned one-to-four probes preserve the completed Qin journey")
+
+
+func _capture_earned_four_team(team: Dictionary, level: int, ending: String, result: Dictionary, balance: Array[Dictionary]) -> void:
+	var directory: String = ""
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--party-four-demo-output="):
+			directory = argument.trim_prefix("--party-four-demo-output=")
+	if directory.is_empty():
+		return
+	var error: Error = DirAccess.make_dir_recursive_absolute(directory)
+	check(error == OK, "Earned four-person fixture directory is writable")
+	if error != OK:
+		return
+	var basename: String = "earned_four_team_side_by_side" if team.formation == "并肩" else "earned_four_team"
+	var file: FileAccess = FileAccess.open(directory.path_join(basename + ".json"), FileAccess.WRITE)
+	check(file != null, "Exact earned four-person team fixture opens")
+	if file == null:
+		return
+	file.store_string(JSON.stringify(team, "\t"))
+	file.close()
+	var hashes: Dictionary = {}
+	for path: String in ["scripts/party_actor_catalog.gd", "scripts/party_combat_rules.gd", "scripts/party_roster_rules.gd", "scripts/game_state.gd", "scripts/main.gd", "scripts/mistwood_rules.gd", "scripts/mistwood_story.gd", "scripts/qin_companion_rules.gd", "tests/party_combat_rules_test.gd"]:
+		hashes[path] = FileAccess.get_sha256("res://" + path)
+	var provenance: Dictionary = {
+		"fixture": basename + ".json", "fixture_sha256": FileAccess.get_sha256(directory.path_join(basename + ".json")),
+		"generated_at_utc": Time.get_datetime_string_from_system(true), "source": "Generated fresh-start JourneyState, no player profile or imported save",
+		"level": level, "formation": team.formation, "selected_actor_ids": ["hero", "shen", "tang", "qin"],
+		"earned_route": "Actual opening/healer recruitment/battle; 听潮阁/sword/trial; sluice; archive clues/seals/boss/open_records; bridge repair; Tang notes/teach/invite; claim completed chapter deeds; learn/equip伏汐藏锋; actual Mistwood travel/rain-basin-stone gauges/records access/free camp rest/keeper victory/release_water ending; begin_qin_quest→inspect_qin_rope→arrange_qin_handoff→recruit_qin APIs (0→1→2→3→4)",
+		"qin": {"stage": 4, "unlocked": true, "mist_ending": ending, "recruitment": "All four real state APIs returned true; no raw unlock assignment"},
+		"proof": {"encounter_id": "heting_receipt", "outcome": result.outcome, "rounds": result.round, "medicine_remaining": result.medicine},
+		"natural_party_size_balance": balance, "source_sha256": hashes,
+		"capture_driver_path": get_script().resource_path, "capture_driver_sha256": FileAccess.get_sha256(get_script().resource_path),
+		"reload_note": "Godot JSON numeric values parse as floats; recursively restore finite integral numbers to int before configure. Preserve actual hp/qi/stats and action definitions.",
+	}
+	var manifest: FileAccess = FileAccess.open(directory.path_join(basename + ".provenance.json"), FileAccess.WRITE)
+	check(manifest != null, "Earned four-person fixture provenance opens")
+	if manifest != null:
+		manifest.store_string(JSON.stringify(provenance, "\t"))
+		manifest.close()
 
 
 func _capture_demo_team(team: Dictionary, level: int, result: Dictionary) -> void:

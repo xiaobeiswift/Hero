@@ -139,6 +139,10 @@ func _test_save_migration() -> void:
 	var unknown=valid.to_dict();unknown.active_companion="not-recruited"
 	write_data(unknown)
 	check(loaded.load_game(PATH)==OK and loaded.current_companion()=="沈青" and loaded.available_companions()==["沈青","唐栖"],"Unknown active companion falls back to a real owned companion")
-	unknown.companion_unlocked=false;write_data(unknown)
+	unknown.companion_unlocked=false
+	# This case exercises historical fallback, so omit the modern party pair
+	# instead of retaining an explicit roster/resource entry for removed Shen.
+	unknown.erase("party_roster");unknown.erase("party_resources")
+	write_data(unknown)
 	check(loaded.load_game(PATH)==OK and loaded.current_companion()=="唐栖","Fallback supports Tang-only roster")
 	check(not loaded.recruit_tangqi() and not loaded.resolve_tangqi_quest("teach"),"Reloaded completed quest cannot reward again")

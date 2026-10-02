@@ -100,7 +100,7 @@ func test_legacy_migration() -> void:
 	var payload: Dictionary = initial_payload(both)
 	payload.party_roster = ["hero"]
 	check(Rules.load_plan(both, payload, 12).payload.party_roster == ["hero"], "Schema12 explicit empty companion selection survives loading")
-	check(both.Companions.active(both) == "沈青", "Legacy active() fallback conflicts with explicit hero-only roster; adapter does not change it")
+	check(both.Companions.active(both).is_empty(), "Modern explicit hero-only roster remains empty; only legacy load_plan uses historical fallback")
 	check(Rules.load_plan(both, payload, 11).payload.party_roster == ["hero"], "Complete optional legacy payload is validated instead of discarded/rehealed")
 	for version: Variant in [0, 13, 1.5, true, "12", null, NAN, INF]:
 		check(not Rules.load_plan(both, payload, version).ok, "Bad source version rejects: " + str(version))
@@ -210,6 +210,9 @@ func test_growth_and_recruitment() -> void:
 	payload.party_resources.shen.hp = 0
 	var before_snapshot: Dictionary = before.to_dict()
 	var payload_snapshot: Dictionary = payload.duplicate(true)
+	# The actual schema12 XP API requires a complete persistent party. Model
+	# this fixture as an explicitly migrated legacy state before exercising it.
+	after._apply_party_plan(Rules.load_plan(after, {"active_companion": after.active_companion}, 11))
 	after.gain_xp(after.xp_to_next())
 	var grown: Dictionary = Rules.reconcile_growth(before, after, payload)
 	check(grown.ok and actors_for(after).shen.max_hp > actors_for(before).shen.max_hp, "Actual level-up increases catalog companion maxima")

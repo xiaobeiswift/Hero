@@ -1,6 +1,7 @@
 extends SceneTree
 ## Use isolated XDG directories. --pure-rules runs before HeroState is wired;
-## the normal invocation also tests actual schema-11 load/reset/save behavior.
+## the normal invocation also tests the current schema12 state boundary and verifies
+## that its frozen historical reader rejects newer saves without mutation.
 const State = preload("res://scripts/game_state.gd")
 const Rules = preload("res://scripts/heting_receipt_rules.gd")
 const Harbor = preload("res://scripts/heting_rules.gd")
@@ -65,7 +66,7 @@ func _init() -> void:
 	_test_text_is_read_only()
 	if not OS.get_cmdline_user_args().has("--pure-rules"):
 		_test_state_integration()
-	var scope: String = "pure rules" if OS.get_cmdline_user_args().has("--pure-rules") else "rules and schema-11 integration"
+	var scope: String = "pure rules" if OS.get_cmdline_user_args().has("--pure-rules") else "rules and schema12 integration"
 	if failures == 0:
 		print("PASS: %d Heting receipt checks (%s)" % [checks, scope])
 	else:
@@ -297,8 +298,8 @@ func _invalid_load(live, data: Dictionary, version: int, label: String) -> void:
 
 func _test_state_integration() -> void:
 	var probe = State.new()
-	if probe.get("receipt_stage") == null or State.SAVE_VERSION != 11:
-		check(false, "HeroState must expose receipt_stage and schema 11 before normal integration checks")
+	if probe.get("receipt_stage") == null or State.SAVE_VERSION != 12:
+		check(false, "HeroState must expose receipt_stage and integrated schema12 before normal integration checks")
 		return
 	check(DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(ROOT)) == OK, "Create isolated save fixture directory")
 	check(probe.receipt_stage == 0 and probe.to_dict().receipt_stage == 0, "Natural HeroState creation and serialization use stage zero")
@@ -580,7 +581,11 @@ func _test_wrapper_flee_and_defeat() -> void:
 			_wrapper_rejected(defeated, func(): return defeated.finish_receipt_presentation(int(terminal.epoch), int(terminal.token)), "Repeated defeat cannot charge twice")
 			path = ROOT + "/defeat-" + ending + "-" + str(starting_coins) + ".json"
 			check(defeated.save_game(path) == OK, "Recovered defeat saves valid live state")
-			check(loaded.load_game(path) == OK and loaded.to_dict() == defeated.to_dict() and loaded.start_receipt_battle(), "Reloaded defeat preserves costs and remains retryable")
+			# The earlier retry remains active. It must not be replaced by a load;
+			# inspect each saved defeat in a fresh reader instead.
+			check(loaded.load_game(path) == ERR_BUSY, "Active prior receipt retry cannot be replaced by loading another save")
+			var recovered = State.new()
+			check(recovered.load_game(path) == OK and recovered.to_dict() == defeated.to_dict() and recovered.start_receipt_battle(), "Reloaded defeat preserves costs and remains retryable")
 
 
 func _test_historical_reader_rejection() -> void:
@@ -602,9 +607,10 @@ func _test_historical_reader_rejection() -> void:
 	if parsed != OK:
 		return
 	var old_reader = old_script.new()
-	check(old_reader.SAVE_VERSION == 10, "Pinned reader declares the actual preceding schema version")
+	check(old_reader.SAVE_VERSION == 10, "Pinned archived reader declares its actual schema10 version")
 	var compatible: Dictionary = _wrapper_ready().to_dict()
-	compatible.erase("receipt_stage")
+	for field: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked"]:
+		compatible.erase(field)
 	_write_document(compatible, 10)
 	check(old_reader.load_game(SAVE) == OK and old_reader.to_dict() == compatible, "Historical-reader control accepts its own schema-10 document")
 	old_reader.coins = 4242
@@ -620,8 +626,8 @@ func _test_historical_reader_rejection() -> void:
 			if stage >= 2: Rules.settle_victory(current)
 			if stage == 3: current.compare_receipt()
 			var path: String = ROOT + "/v019-rejection-" + ending + "-" + str(stage) + ".json"
-			check(current.save_game(path) == OK, "Create an actual schema-11 document for the historical-reader test")
+			check(current.save_game(path) == OK, "Create an actual schema12 document for the historical-reader test")
 			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-			check(old_reader.load_game(path) == ERR_FILE_UNRECOGNIZED, "Actual v0.0.19 reader refuses schema 11 before mutation")
+			check(old_reader.load_game(path) == ERR_FILE_UNRECOGNIZED, "Actual v0.0.19 reader refuses schema12 before mutation")
 			check(_snapshot(old_reader) == before, "Historical rejection preserves all live old progress and active battle fields")
 			check(FileAccess.get_file_as_bytes(path) == bytes and not FileAccess.file_exists(path + ".tmp"), "Historical rejection preserves the new save bytes without a replacement file")
