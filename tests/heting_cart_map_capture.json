@@ -1,0 +1,50 @@
+{
+  "runtime_base_commit": "2315508c8a1d3220be334897c4d437e3578bf7e7",
+  "scope": "Four prepared actual native map views. Paths use loaded movement geometry; not a manual cart journey, FPS measurement or export.",
+  "watch": {
+    "scope": "Prepared native source cart-route maps; no manual journey or release claim",
+    "start_free": 728760320,
+    "minimum_free": 719822848,
+    "exit_code": 0
+  },
+  "source_sha256": {
+    "scripts/main.gd": "37bed827cd90ba5daabf00b1f1f6e1ec2486d3cf7a84bcb8c8a22606e4871272",
+    "scripts/map_chart.gd": "e3d6bd8bc5f4181f0c7b73338e9720530629761de360df4277e416c795899373",
+    "scripts/heting_cart_routes.gd": "b1a15f9faced9fe086466a874a622238ae1d2eb35c4f70547dbd82ad0a1b945c",
+    "tests/visual_heting_cart_map.gd": "cebdb315b02be1223cee7dae76690462450b8ba2288c1e4c171dac099fa5153a"
+  },
+  "images": [
+    {
+      "path": "screenshots/260-heting-cart-map-west-connected.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "c213452ddbdc15f5921e5c940d3241127f95255ae670c6c099b6a9be9dd3f3a1"
+    },
+    {
+      "path": "screenshots/261-heting-cart-map-north-bypass.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "aa91c9338d017f70ff727440c82a4c23be74d2ce694178518df198557e7f7d86"
+    },
+    {
+      "path": "screenshots/262-heting-cart-map-walking-pier.png",
+      "dimensions": [
+        1280,
+        800
+      ],
+      "sha256": "e52522749e8c0c5ce284a3499375d4b05b41bff66c88261c79ffdd57ce291658"
+    },
+    {
+      "path": "screenshots/263-heting-cart-map-compact-east-target.png",
+      "dimensions": [
+        1179,
+        737
+      ],
+      "sha256": "299f7bd04481ec39de5759450696c8e8e0470c1609096c4278f619c0c2d68b7d"
+    }
+  ]
+}
