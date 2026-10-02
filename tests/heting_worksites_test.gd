@@ -1,0 +1,32 @@
+extends SceneTree
+const Props=preload("res://scripts/heting_worksites_art.gd")
+const Cargo=preload("res://scripts/heting_machinery_art.gd")
+func _initialize()->void:
+	var foot=Vector2(1418,697)
+	assert(Props.SPRITES.size()==5)
+	for id in Props.SPRITES:
+		var image=Props.texture_for(id)
+		assert(image!=null and image==Props.texture_for(id) and image.filter_clip)
+		assert(image.atlas.get_size()==Vector2(512,320))
+		var spec=Props.SPRITES[id]
+		assert(Rect2(Vector2.ZERO,image.atlas.get_size()).encloses(spec.region))
+		var rect=Props.drawing_rect(id,foot)
+		assert((rect.position+spec.foot*Props.factor_for(id)).distance_to(foot)<.001)
+		assert(is_equal_approx(rect.size.x/rect.size.y,spec.region.size.x/spec.region.size.y))
+		assert(Props.opacity_for(id,foot,[rect.get_center()])==.4)
+		assert(Props.opacity_for(id,foot,[foot+Vector2(0,10)])==1)
+	assert(Props.pot_id(false)=="soup_pot_cold" and Props.pot_id(true)=="soup_pot_hot")
+	assert(Props.texture_for(Props.pot_id(false))!=Props.texture_for(Props.pot_id(true)))
+	assert(Props.drawing_rect("soup_pot_cold",foot)==Props.drawing_rect("soup_pot_hot",foot))
+	assert(Props.drawing_rect("soup_pot_hot",foot).has_point(Props.steam_origin(foot)))
+	var pans=Props.scale_pan_positions(foot)
+	assert(pans.size()==2 and absf(pans[0].y-pans[1].y)<.001)
+	assert(pans[0].x<foot.x and pans[1].x>foot.x)
+	for pan in pans:
+		assert(Props.drawing_rect("public_scale",foot).has_point(pan))
+		assert(Cargo.drawing_rect("cargo_hampers_sealed",pan,.61).size.x<=19)
+	var center=Vector2(623,659)
+	var coil_foot=center+(Props.SPRITES.rope_coil.foot-Vector2(26,12))*Props.factor_for("rope_coil")
+	assert(Props.drawing_rect("rope_coil",coil_foot).get_center().distance_to(center)<.001)
+	print("PASS: worksite crop/cache/aspect/feet, cold-hot alignment, steam/cargo sockets and coil-center positioning")
+	quit()
