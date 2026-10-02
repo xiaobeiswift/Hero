@@ -35,11 +35,8 @@ func _run() -> void:
 		game._interact("mentor")
 		_check(_find_button(game.overlay,"开始受试")==null and _find_button(game.overlay,"领取内门荐记")==null,"Completed trial cannot be replayed for duplicate permanent bonuses")
 		_press("研读武学")
-		var text=""
-		for node in game.overlay.get_children():
-			for child in node.get_children():
-				if child is RichTextLabel:text+=child.text
-		_check(text.contains("内门") and text.contains("考绩3"),"Martial panel shows rank and merit")
+		var rank_label=game.overlay.find_child("MartialRank",true,false)
+		_check(rank_label!=null and rank_label.text=="内门弟子 · 考绩 3","Martial panel shows the earned rank and exact merit")
 		game._close_modal();game._load()
 		_check(game.state.to_dict()==before,"Rank survives subsequent menu and reload without duplication")
 	# A brute-force win earns ordinary encounter rewards but not a school rank.
