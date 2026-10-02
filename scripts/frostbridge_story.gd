@@ -1,6 +1,7 @@
 class_name FrostbridgeStory
 extends RefCounted
 ## Original chapter dialogue and routing, separate from the general interface.
+const PartyUI=preload("res://scripts/party_battle_ui.gd")
 var host
 func _init(owner) -> void:host=owner
 func handle(id:String) -> bool:
@@ -26,7 +27,7 @@ func enter_region() -> void:
 func innkeeper() -> void:
 	var state=host.state
 	if state.chapter_two_stage==3:
-		host._modal("温行舟 · 驿丞","抉择 / 账目与姓名","原账记下了被改动的水令，也记下了那些被迫按印的船工姓名。\n\n温行舟把灯移近：‘账要见光，人也要有归路。你来决定这份证据怎样留下。’\n\n[color=#d3b276]公示原账[/color]：让过路人自行核对，也会暴露证人的姓名\n[color=#d3b276]隐去姓名[/color]：由驿站和船家互校账目，保全证人",[["公示原账",finish.bind("open_records")],["隐去姓名",finish.bind("protect_witness")]],true)
+		host._modal("温行舟 · 驿丞","抉择 / 账目与姓名","原账记下了被改动的水令，也记下了那些被迫按印的船工姓名。\n\n温行舟把灯移近：‘账要见光，人也要有归路。你来决定这份证据怎样留下。’\n\n[color=#d3b276]公示原账[/color]：让过路人自行核对，也会暴露证人的姓名\n[color=#d3b276]隐去姓名[/color]：由驿站和船家互校账目，保全证人",[["公示原账",finish.bind("open_records",host.modal_generation+1)],["隐去姓名",finish.bind("protect_witness",host.modal_generation+1)]],true)
 		return
 	var body="‘你从青苇渡来？那盏灯总算亮了。’\n\n温行舟说，粮仓的原账被韩砚看守，门上用了水、驿、仓三种印扣。\n先问东北文书房的纪小砚，再看看北桥西头的旧碑。\n\n驿馆可免费歇脚。南桥坏了，工匠唐栖正在找木料。"
 	if state.chapter_two_stage==2:body="三印已经解开。去东南封仓印台，向韩砚问清原账的去向。\n\n驿馆仍有一处热炭，整备好了再动身。"
@@ -50,7 +51,7 @@ func archive() -> void:
 		host._modal("封仓印台","霜桥驿 / 原账已得","印扣已经打开，原账也已收妥。"+("返回西岸驿馆，和温行舟商议怎样留下证据。" if state.chapter_two_stage==3 else "这一处旧账，终于有了新的读法。"))
 		return
 	if state.chapter_two_stage==2:
-		host._modal("韩砚 · 仓门执事","交锋 / 印下有声","‘你识得三印，却未必识得持印的人。’\n\n韩砚将原账压在案下。他说自己只守仓门，不问水令为何被改。\n\n[color=#d3b276]敌方重击带有破绽。守势能化解；工艺装备与门派招式也会帮助你。[/color]",[["请他让路",func():host._start_battle("archive_boss")],["先行整备",host._close_modal]],true)
+		host._modal("韩砚 · 仓门执事","交锋 / 印下有声","‘你识得三印，却未必识得持印的人。’\n\n韩砚将原账压在案下。他说自己只守仓门，不问水令为何被改。\n\n[color=#d3b276]韩砚轻重招交替。未守住的重击会使实际受击队员露出破绽，后续两次来击各多受3点伤害；本人守势可解。[/color]\n\n与在队同伴各自出招，先看清头顶意图。应战前保存；退开保留已用资源与解印进度，驿馆仍可免费休整。战胜只取得原账，如何处置证人姓名留待你另作选择。",[["请他让路",party_entry.bind(host.modal_generation+1)],["先行整备",host._close_modal]],true)
 		return
 	if state.archive_clues.size()<2:
 		host._modal("三道封印","霜桥驿 / 线索未齐","印台上刻着驿、仓、水三个字。先问纪小砚，再读北桥西头的碑文，贸然乱试不会打开它。")
@@ -61,11 +62,23 @@ func seal(index:int) -> void:
 	host._autosave();host._refresh();archive();host._toast(result.message)
 func battle_victory() -> void:
 	host.state.mark_archive_victory()
-	host._modal("印台下的原账","战斗胜利 / 印下有声","韩砚收起兵刃：‘若只问谁的印最大，这仓里永远只有一种答案。’\n\n你翻开原账，发现每次改令前都有一笔提前结算的粮钱。证据已齐，证人却未必愿意被推到众人眼前。\n\n回西岸驿馆，和温行舟作最后的决定。",[["收好原账",host._close_modal]],true)
-func finish(choice:String) -> void:
+	show_victory()
+func show_victory(reward:String="") -> void:
+	host._modal("印台下的原账","战斗胜利 / 印下有声","韩砚收起兵刃：‘若只问谁的印最大，这仓里永远只有一种答案。’\n\n你翻开原账，发现每次改令前都有一笔提前结算的粮钱。证据已齐，证人却未必愿意被推到众人眼前。\n\n"+reward+"回西岸驿馆，和温行舟作最后的决定。",[["收好原账",host._close_modal]],true)
+func _current_dialogue(target:String,generation:int)->bool:
+	return is_instance_valid(host) and not host.quit_pending and host.current_screen=="explore" and host.active_modal and host.modal_generation==generation and not host.state.battle_active and host.state.map_id=="frostbridge" and host.world.map_id=="frostbridge" and host.world.interactables.has(target) and host.world.player_pos.distance_to(host.world.interactables[target].pos)<85
+func party_entry(generation:int)->void:
+	if not _current_dialogue("chapter_archive",generation) or not host.state.can_start_archive_party_battle():return
+	PartyUI.open(host,"archive_boss")
+func finish(choice:String,generation:int=-1) -> void:
+	if not _current_dialogue("chapter_host",generation) or host.state.chapter_two_stage!=3:return
+	var coins_before:int=host.state.coins
 	var success=host.state.resolve_chapter_two(choice)
+	if not success:
+		host._toast("原账选择尚未结算，请重新核对进度后再议。")
+		return
 	host._close_modal()
-	if success:host._toast("第二章完成 · 修为 +100、铜钱 +65。东北竹坡道通往雾竹坡。")
+	host._toast("第二章完成 · 修为奖励已结算、铜钱 +%d。东北竹坡道通往雾竹坡。" % (host.state.coins-coins_before))
 func bridge() -> void:
 	if host.state.bridge_repaired and host.state.chapter_two_stage>=4:
 		host.companion_story.bridge();return

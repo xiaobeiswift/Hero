@@ -16,9 +16,10 @@ const Backdrop = preload("res://scripts/ferry_battle_backdrop.gd")
 const Lantern = preload("res://scripts/painted_lantern_post.gd")
 const WOOD = preload("res://assets/generated/environment/qingwei_deck_wood.png")
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
-const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss"]
+const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss"]
 const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0}
-const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580)}
+const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580), "archive_boss":Vector2(865,580)}
+const ENEMY_TINTS = {"bracer":Color(.70,.88,.91), "striker":Color(1,.88,.76), "sluice_scout":Color(.67,.73,.79), "sluice_boss":Color(.91,.77,.65), "archive_boss":Color(.77,.79,.94)}
 const QIN_CHEST = {"idle":Vector2(245,210),"strike":Vector2(775,233),"protect":Vector2(1290,239),"hurt":Vector2(258,711),"down":Vector2(815,837),"recover":Vector2(1312,767)}
 const ACTION_DURATION = .86
 const ACTION_GAP = .06
@@ -287,7 +288,10 @@ func actor_home(id: String) -> Vector2:
 		var homes: Dictionary = {"hero":Vector2(440,585),"shen":Vector2(160,470),"tang":Vector2(325,350),"qin":Vector2(550,390)} if formation == "护后" else {"hero":Vector2(430,590),"shen":Vector2(180,480),"tang":Vector2(355,345),"qin":Vector2(580,435)}
 		return homes.get(id,Vector2.ZERO)
 	if id == "hero": return Vector2(440,585) if formation == "护后" else Vector2(420,585)
-	if _display.get("actors", []).size() == 2: return Vector2(255,450)
+	# The sole deployed companion takes this slot, regardless of identity.
+	# A wider forward slot leaves an incoming enemy's head/torso visible beside
+	# the uninvolved hero, including the hero's original guarding silhouette.
+	if _display.get("actors", []).size() == 2: return Vector2(255,450) if formation == "护后" else Vector2(140,505)
 	var companions: Array[String] = []
 	for actor: Dictionary in _display.get("actors",[]):
 		if actor.id != "hero": companions.append(actor.id)
@@ -479,11 +483,7 @@ func _draw_actor(id: String) -> void:
 	var atlas = Hero if id == "hero" else (Shen if id == "shen" else (Tang if id == "tang" else Rival))
 	var texture: AtlasTexture = atlas.texture_for("cover" if pose == "down" else pose)
 	if texture == null: return
-	var tint: Color = Color.WHITE
-	if id == "bracer": tint = Color(.70,.88,.91)
-	elif id == "striker": tint = Color(1,.88,.76)
-	elif id == "sluice_scout": tint = Color(.67,.73,.79)
-	elif id == "sluice_boss": tint = Color(.91,.77,.65)
+	var tint: Color = ENEMY_TINTS.get(id,Color.WHITE)
 	if int(_unit(_display,id).get("hp",0)) <= 0 and pose in ["down","kneel"]: tint = tint.darkened(.22)
 	if pose == "down":
 		draw_set_transform_matrix(_down_transform(id))
