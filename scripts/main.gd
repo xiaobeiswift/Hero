@@ -101,6 +101,7 @@ var last_screenshot_path := ""
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
 	view_preferences.load_settings()
+	audio_on=view_preferences.sound_enabled
 	font = load("res://assets/fonts/NotoSansSC.otf")
 	_setup_inputs()
 	_build_theme()
@@ -217,19 +218,25 @@ func _setup_audio() -> void:
 	if DisplayServer.get_name()!="headless" and ResourceLoader.exists("res://assets/river_theme.wav"):
 		music.stream = load("res://assets/river_theme.wav")
 		music.volume_db = -14
-		music.finished.connect(func(): music.play())
-		music.play()
+		music.finished.connect(func():
+			if audio_on:music.play())
 	sfx = AudioStreamPlayer.new()
 	add_child(sfx)
 	if DisplayServer.get_name()!="headless" and ResourceLoader.exists("res://assets/chime.wav"): sfx.stream = load("res://assets/chime.wav")
 	sfx.volume_db = -14
+	_apply_audio_state()
+
+func _apply_audio_state()->void:
+	music.stream_paused=not audio_on
+	if audio_on and music.stream!=null and not music.playing:music.play()
+	if not audio_on:sfx.stop()
 
 func _toggle_audio() -> void:
+	if quit_pending:return
 	audio_on = not audio_on
-	music.stream_paused = not audio_on
-	for child in get_children():
-		if child is Button and child.text.begins_with("♫"):
-			child.text = "♫  开" if audio_on else "♫  关"
+	view_preferences.sound_enabled=audio_on
+	_apply_audio_state()
+	if _save_preferences()!=OK:_toast("乐音已切换，本次设置未能保存。")
 
 func _process(delta: float) -> void:
 	elapsed += delta
@@ -443,14 +450,18 @@ func _apply_view_zoom()->void:
 	if hud!=null:
 		hud.tick(0);_sync_hud_navigation(true)
 
+func _save_preferences()->Error:
+	var error=view_preferences.save_settings()
+	display_settings_warning="" if error==OK else "本次设置未能保存，退出后可能恢复旧设置。"
+	return error
+
 func _change_view_zoom(step:int,cycle:bool=false)->void:
 	if current_screen!="explore" or quit_pending:return
 	if active_modal and not overlay.get_meta("pause_menu",false):return
 	var next=(view_preferences.zoom_index+1)%3 if cycle else clampi(view_preferences.zoom_index+step,0,2)
 	if next==view_preferences.zoom_index:return
 	view_preferences.zoom_index=next;_apply_view_zoom()
-	var error=view_preferences.save_settings()
-	display_settings_warning="" if error==OK else "本次画面设置未能保存，退出后可能恢复旧设置。"
+	var error=_save_preferences()
 	_toast("视野 · "+view_preferences.caption() if error==OK else "视野已调整，本次设置未能保存。")
 	if active_modal:PauseMenu.show(self)
 
@@ -458,8 +469,7 @@ func _toggle_view_detail()->void:
 	if current_screen!="explore" or quit_pending:return
 	if active_modal and not overlay.get_meta("pause_menu",false):return
 	view_preferences.full_resolution=not view_preferences.full_resolution;_apply_view_zoom()
-	var error=view_preferences.save_settings()
-	display_settings_warning="" if error==OK else "本次画面设置未能保存，退出后可能恢复旧设置。"
+	var error=_save_preferences()
 	_toast("画面 · "+view_preferences.quality_caption() if error==OK else "画面已调整，本次设置未能保存。")
 	if active_modal:PauseMenu.show(self)
 
