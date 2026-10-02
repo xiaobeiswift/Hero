@@ -1,0 +1,50 @@
+{
+  "scope": "Detached exploration follower model only; not connected to main/world/renderers and not a live Web change",
+  "live_version": "0.0.23 Web1",
+  "save_schema": 13,
+  "membership": "Ordered unique deployed companion IDs; optional HP0 is ignored rather than healed or excluded",
+  "movement": "Accepted X/Y polyline segments, monotonic cursors and callback-validated substeps; per-ID transient facing/phase; no HeroState or persistence reference",
+  "recovery": "Explicit invalid/topology/history-capacity status, freezes safely until caller reseeds around its accepted player point",
+  "limits": {
+    "followers": 3,
+    "ordinary_gap_world_units": 45,
+    "maximum_delta": 0.1,
+    "substep_world_units": 4,
+    "maximum_substeps": 64,
+    "maximum_nodes": 2048,
+    "maximum_history_world_units": 8192,
+    "retained_history_world_units": 180
+  },
+  "checks": {
+    "detached": 2577,
+    "actual_heting_islet_callbacks": 660,
+    "engine_import": "passed",
+    "full_aggregate": "pending later full-game integration"
+  },
+  "logs": {
+    "exploration-trail-detached.log": {
+      "sha256": "67fcbb30953bd480009eabb4ad17175c1daaec9be1d24cf9dd6cac6566c4ff39",
+      "bytes": 115
+    },
+    "exploration-trail-source-collision.log": {
+      "sha256": "57761d627428bfc36f2618cd9f64bd83394c713f8018068de0f41e5768db5e21",
+      "bytes": 125
+    },
+    "exploration-trail-import.log": {
+      "sha256": "d62ed71f4a32e031c3329b830a846b33b87681359af3f22305fc82258ca24a88",
+      "bytes": 1373
+    }
+  },
+  "source_sha256": {
+    "scripts/exploration_party_trail.gd": "efe5239caa6dafb22f375be79764706f5349800d1eda18329b6c890bd0134812",
+    "tests/exploration_party_trail_test.gd": "b1b2540428c0737fe6b4a2aab8e89fae4cc76bd2a1b6b7f71dd2e966c169b467",
+    "tests/exploration_party_source_collision_test.gd": "996d549be38e5305badd0a214aefde3e924b231c59dea74818956c47e56469ce"
+  },
+  "art_status": "Directional Qin walking art is still under development; no completed four-person exploration visual claim",
+  "remaining": [
+    "Main/roster lifecycle binding",
+    "All-map renderer, collision, occlusion and duplicate-NPC integration",
+    "Genuine Qin directional art acceptance",
+    "Current safety-test migration and full source/PCK gates"
+  ]
+}
