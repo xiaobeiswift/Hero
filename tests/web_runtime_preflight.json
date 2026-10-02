@@ -1,0 +1,89 @@
+{
+  "base_commit": "6d1491ffc8b96c3080633a7241b10c4a8e112980",
+  "engine": "Godot4.6.3",
+  "full_native_headless_regression": {
+    "godot_commands": 87,
+    "python_checks": 39,
+    "exit_code": 0,
+    "log_sha256": "654e8312caf03181d278bd51bbe5f4c533606d784aa804044ea4951792dca360"
+  },
+  "final_python_tools": {
+    "checks": 39,
+    "exit_code": 0,
+    "log_sha256": "098fff6eb06b1dc30a06c501dd9bdcc3c957b050d6c5ff67466d38be22f420b6"
+  },
+  "web_mode_ui_checks": 96,
+  "html_shell_static_checks": 7,
+  "actual_browser_validation": "pending; injected Web branches are not browser persistence proof",
+  "web_export_execution": "pending",
+  "desktop_v19_exports": "held for Web priority",
+  "server_deployment": "not performed",
+  "templates": {
+    "source": "https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_export_templates.tpz",
+    "official_version": "4.6.3.stable",
+    "expected_bytes": 1255918323,
+    "expected_sha512": "da606b61c10157844f8300172df374472665f95015495cb1a7cd132c40ede404faa96cc1016a4b9662db9909ddea69632c4948b2cd11163438dad4808881fb68",
+    "start_tmp": 4371013632,
+    "start_overlay": 1281789952,
+    "start_mem_available": 6064467968,
+    "exit_code": 0,
+    "abort": "",
+    "minimum_tmp": 3115167744,
+    "minimum_mem_available": 4692316160,
+    "actual_sha512": "da606b61c10157844f8300172df374472665f95015495cb1a7cd132c40ede404faa96cc1016a4b9662db9909ddea69632c4948b2cd11163438dad4808881fb68",
+    "web_members": [
+      {
+        "name": "templates/web_debug.zip",
+        "bytes": 10194723,
+        "compressed": 10175635
+      },
+      {
+        "name": "templates/web_dlink_debug.zip",
+        "bytes": 11496268,
+        "compressed": 11392808
+      },
+      {
+        "name": "templates/web_dlink_nothreads_debug.zip",
+        "bytes": 11421692,
+        "compressed": 11316575
+      },
+      {
+        "name": "templates/web_dlink_nothreads_release.zip",
+        "bytes": 11191550,
+        "compressed": 11098312
+      },
+      {
+        "name": "templates/web_dlink_release.zip",
+        "bytes": 11191519,
+        "compressed": 11099287
+      },
+      {
+        "name": "templates/web_nothreads_debug.zip",
+        "bytes": 10120053,
+        "compressed": 10101853
+      },
+      {
+        "name": "templates/web_nothreads_release.zip",
+        "bytes": 9574223,
+        "compressed": 9548031
+      },
+      {
+        "name": "templates/web_release.zip",
+        "bytes": 9567847,
+        "compressed": 9542747
+      }
+    ],
+    "installed": [
+      {
+        "name": "web_nothreads_debug.zip",
+        "bytes": 10120053,
+        "sha256": "4a8a8ef7519637f7898fad25f09d3e466965e99c04e441682e1bc2d97a548922"
+      },
+      {
+        "name": "web_nothreads_release.zip",
+        "bytes": 9574223,
+        "sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9"
+      }
+    ]
+  }
+}
