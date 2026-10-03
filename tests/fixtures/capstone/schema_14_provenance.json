@@ -1,0 +1,10 @@
+{
+  "version": 14,
+  "path": "tests/fixtures/capstone/schema_14_default.json",
+  "sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+  "kind": "original-producer-default",
+  "source": "tests/fixtures/v028_game_state.gd.txt",
+  "source_sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+  "producer": "tests/capstone_package_fixture_producer.gd",
+  "generation": "Byte-pinned actual Web28 script, only class_name HeroState newline removed in memory; original save_game wrote its default schema14 serialization. Current dependencies, not full historical runtime or gameplay acceptance. No modern save version relabeling."
+}
