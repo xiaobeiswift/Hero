@@ -1,0 +1,264 @@
+{
+  "review": "Hero consignee phase-one independent model/schema review",
+  "reviewed_at_utc": "2026-10-03T03:44:00Z",
+  "result": "No blocking source defect found within reviewed model/schema scope",
+  "engine": "Godot 4.6.3.stable.official.7d41c59c4",
+  "baseline_commit": "66008e36",
+  "runtime_files": [
+    {
+      "path": "scripts/heting_consignee_rules.gd",
+      "sha256": "6335c93e09ec8817fb3457900bf5569256cfccf01cd5964aa1af70af69ef7d58"
+    },
+    {
+      "path": "scripts/heting_consignee_combat_data.gd",
+      "sha256": "d4448f637f7e3f78accd83d933493e394d14313e990ead64b05feca080d494f6"
+    },
+    {
+      "path": "scripts/automatic_party_combat.gd",
+      "sha256": "69a5736b5ff713f8aaeea4b68707d50663cd811e689f4c32dc6161d18f1d30d5"
+    },
+    {
+      "path": "scripts/game_state.gd",
+      "sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5"
+    },
+    {
+      "path": "scripts/party_roster_rules.gd",
+      "sha256": "cd0f00a292a81bd9a7b42cdb64298368024c958ce676f7ba41f7a350a129530d"
+    },
+    {
+      "path": "scripts/unified_encounter_rules.gd",
+      "sha256": "f6e6474a7caa58fa9abacb5de3395b06a36377342ca83e45ed65f9814236b757"
+    }
+  ],
+  "verified_tests": [
+    {
+      "driver": "heting_consignee_rules_test",
+      "checks": 18483,
+      "log": "logs/heting_consignee_rules_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "heting_consignee_schema_test",
+      "checks": 500,
+      "log": "logs/heting_consignee_schema_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "heting_consignee_web25_reader_test",
+      "checks": 9,
+      "log": "logs/heting_consignee_web25_reader_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "heting_consignee_combat_test",
+      "checks": 4715,
+      "log": "logs/heting_consignee_combat_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "heting_consignee_state_test",
+      "checks": 954,
+      "log": "logs/heting_consignee_state_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "heting_consignee_balance_test",
+      "checks": 28976,
+      "log": "logs/heting_consignee_balance_test-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "minimal_solo_journey",
+      "checks": 1988,
+      "log": "logs/minimal_solo_journey-final.log",
+      "result": "pass"
+    },
+    {
+      "driver": "adversarial_state",
+      "checks": 1301,
+      "log": "logs/adversarial_state-final.log",
+      "result": "pass"
+    }
+  ],
+  "total_assertions": 56926,
+  "independent_extensions": [
+    "Earned State/API solo journey without any recruited companions, optional receipt, Tang/Qin quests, gear purchases, internal/lightness lessons or repeated training reaches level6 XP15. Across three schools and explicit old-ending/new-plan permutations all12 chapter battles and handovers pass, spending one of seven genuinely earned medicines, eight or nine rounds, fight reward0, final reward120XP+60coins once.",
+    "Old harbor short_ferries is the fully earned route. open_scale permutations copy only the already-finished old choice fields after that route; this is disclosed synthetic choice permutation, not a second full journey.",
+    "Real win/flee terminal mutation sweep rejects every mutable canonical persistent field, plus all detached snapshot-field forgeries, without changing accepted token/model/live state. Restoring exact state allows same genuine token to settle once. The compatibility active_companion member is excluded because serializer derives canonical active_companion from actual roster.",
+    "Reward preflight rejects invalid negative coins, medicine, XP, HP, Qi, stale battle/pending-token blockers and stale handover callbacks; park/change/retake conserves exactly one lot; final no-level-up payment preserves wounds.",
+    "All806 partial chapter-bundle combinations across source schemas1–13 reject; JSON integer-valued floats retain canonical state, malformed envelopes remain detached."
+  ],
+  "review_conclusions": [
+    "Schema14 explicitly admits version13 at whole-save inspection and party schema cap; absent legacy chapter fields default neutral, with no chapter load rewards.",
+    "Frozen Web25 schema13 source is byte-pinned and rejects14 nondestructively. Exact cloud-exported Web25 candidate also rejects14; its bytes are NOT the Windows-deployed live artifact.",
+    "Existing two harbor endings, receipt optionality, solo observation path, companion contribution prerequisites and fallen/benched resource semantics remain separate.",
+    "Plans remain reversible before explicit final handover; one finite cargo location encodes conservation; both endings pay equal once-only reward.",
+    "New combat uses fixed authored260/160HP, staggered published cadence and narrow new-ID branches;80 exact token-normalized old-ten traces pass.",
+    "Save-transfer setting remains false. No scene integration or new browser restoration claim is supported."
+  ],
+  "evidence_limits": [
+    "No independent full aggregate run claimed. Eight focused drivers were executed with isolated XDG config/data/cache paths.",
+    "No new chapter scene, proximity/collision/travel confirmation, renderer, visual/native UI, manual gameplay, exported new runtime package, browser graphics/audio/persistence, live website, or deployment acceptance.",
+    "Historical save producer fixtures are genuine for1 and9–13; schemas2–8 are explicitly authored historical-layout contracts, not recovered genuine producers.",
+    "Frozen source reader uses current dependencies after class-name-only adaptation; rejection occurs at the version gate. Cloud old-PCK is a same-source candidate, not deployed Windows bytes.",
+    "No source changes, player saves, credentials, server/external actions, uploads or publication performed by reviewer."
+  ],
+  "reviewer_driver_corrections": [
+    "First adversarial driver incorrectly treated direct compatibility active_companion alias mutation as a serialized payload change; corrected by excluding derived alias, preserving failure log.",
+    "Second adversarial driver appended a String to typed-int seal_sequence; corrected to type-valid array mutation, preserving failure log. Final1,301checks clean. Neither issue was a runtime source defect."
+  ],
+  "artifacts": [
+    {
+      "path": "adversarial_state.gd",
+      "sha256": "06d3718f3d864657f6b1cc3878c8b900bd120f85388937ae91a96058a27a426e",
+      "bytes": 7723,
+      "status": "review driver or evidence"
+    },
+    {
+      "path": "minimal_solo_journey.gd",
+      "sha256": "a6537de987efec4bd0c0115d4632a9a788ff3ea063bb749cf8c322d429be5ae4",
+      "bytes": 3973,
+      "status": "review driver or evidence"
+    },
+    {
+      "path": "logs/adversarial_state-final.log",
+      "sha256": "30f4fc44c69bb8d521b240fef94489366b1cba76cf9502b9b8bc99c89c676a87",
+      "bytes": 159,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/adversarial_state-initial-driver-error.log",
+      "sha256": "d911e15caf4bc0afb06784fe1658bf3f095a2a6f2486ea10f6c92fdc25fb6d9f",
+      "bytes": 77515,
+      "status": "superseded reviewer-driver error"
+    },
+    {
+      "path": "logs/adversarial_state-second-driver-error.log",
+      "sha256": "e23830b635ba19884152e3302852556289033653754a699618b4624a9dc891fc",
+      "bytes": 52825,
+      "status": "superseded reviewer-driver error"
+    },
+    {
+      "path": "logs/adversarial_state.log",
+      "sha256": "30f4fc44c69bb8d521b240fef94489366b1cba76cf9502b9b8bc99c89c676a87",
+      "bytes": 159,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_balance_test-final.log",
+      "sha256": "6900d78ee9073f64d94999a695bf86510f5aab40dd13d3a814dd6581cfaf87ba",
+      "bytes": 493583,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_balance_test.log",
+      "sha256": "903a891e8a8af1d9263bfe2459e3c16cd1f6798a57face05b2eb28cb5052a8a2",
+      "bytes": 251438,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_combat_test-final.log",
+      "sha256": "54ea27f67ac4e2a821e46ef0ae352aabc104d40974b099a8688a910c466ae9dd",
+      "bytes": 125,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_combat_test.log",
+      "sha256": "54ea27f67ac4e2a821e46ef0ae352aabc104d40974b099a8688a910c466ae9dd",
+      "bytes": 125,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_rules_test-final.log",
+      "sha256": "28c98b7a2dd747e688457cc164e1fbee44d6e543cda563c5f9817795b7d4b7e1",
+      "bytes": 124,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_rules_test.log",
+      "sha256": "28c98b7a2dd747e688457cc164e1fbee44d6e543cda563c5f9817795b7d4b7e1",
+      "bytes": 124,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_schema_test-final.log",
+      "sha256": "49083dbfa28596e338e0b809818d005d93f6d51580b81a69384a3851eb0df1e1",
+      "bytes": 203,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_schema_test.log",
+      "sha256": "a2a19f9377045f3836d74ec41924e886eeacab5e1c25f3ed9050a2b8ca5c3c9c",
+      "bytes": 203,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_state_test-final.log",
+      "sha256": "52cd0d81ecb9e35f29bf4a8f17781dfe0dcb89599bd92b3e14928f7548d798bd",
+      "bytes": 188,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_web25_reader_test-final.log",
+      "sha256": "ae88a70078ffdfc05efd616625a9544e2b4ba9b8797765a85070d135e92f6ab6",
+      "bytes": 186,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/heting_consignee_web25_reader_test.log",
+      "sha256": "a2906df5cdcbbafaf5204737c2ded4fac96989a019bc6da121ea822ed2af6274",
+      "bytes": 172,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "logs/minimal_solo_journey-final.log",
+      "sha256": "98becc00e9de77085dab381533aaf4750a449e4cab091548cf123414e5e04479",
+      "bytes": 12299,
+      "status": "final passing execution"
+    },
+    {
+      "path": "logs/minimal_solo_journey.log",
+      "sha256": "98becc00e9de77085dab381533aaf4750a449e4cab091548cf123414e5e04479",
+      "bytes": 12299,
+      "status": "earlier passing execution"
+    },
+    {
+      "path": "reviewed-source.sha256",
+      "sha256": "faa0b0a231e0663b2cd44985cb62e62f79c069e37da725215676b036e4e6d9c9",
+      "bytes": 591,
+      "status": "review driver or evidence"
+    },
+    {
+      "path": "minimal_solo_results.json",
+      "sha256": "32793cfb902ebe9db32a889b0b6e19d9a1c1a319d47e69e13db61ee4ff43077b",
+      "bytes": 9209,
+      "status": "review driver or evidence"
+    }
+  ],
+  "reproduce": {
+    "cwd": "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+    "environment": {
+      "XDG_CONFIG_HOME": "/workspace/scratch/61762639b34b/Hero-staging/consignee-phase1-review/config",
+      "XDG_DATA_HOME": "/workspace/scratch/61762639b34b/Hero-staging/consignee-phase1-review/data",
+      "XDG_CACHE_HOME": "/workspace/scratch/61762639b34b/Hero-staging/consignee-phase1-review/cache"
+    },
+    "command_pattern": "python3 tools/run_godot_check.py /opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64 --headless --path . --script <driver>",
+    "independent_drivers": [
+      "/workspace/scratch/61762639b34b/Hero-staging/consignee-phase1-review/minimal_solo_journey.gd",
+      "/workspace/scratch/61762639b34b/Hero-staging/consignee-phase1-review/adversarial_state.gd"
+    ]
+  },
+  "retained_independent_drivers": [
+    {
+      "path": "tests/heting_consignee_minimal_solo_test.gd",
+      "sha256": "a6537de987efec4bd0c0115d4632a9a788ff3ea063bb749cf8c322d429be5ae4",
+      "staging_original": "minimal_solo_journey.gd"
+    },
+    {
+      "path": "tests/heting_consignee_adversarial_test.gd",
+      "sha256": "06d3718f3d864657f6b1cc3878c8b900bd120f85388937ae91a96058a27a426e",
+      "staging_original": "adversarial_state.gd"
+    }
+  ],
+  "original_review_sha256": "982470e8241e29dbd3eedfd945fbea2f2b22136820ecd9d0e246f5b99d23a48c"
+}

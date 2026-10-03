@@ -54,8 +54,18 @@ func _prepared(id:String,count:int=1):
 		"heting_receipt":
 			s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
 			s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries";s.receipt_stage=1
+		"heting_consignee":
+			s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
+			s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries"
+			s.map_id="heting";s.position=Vector2(420,450)
+			# Phase-one prepared model; this does not assert a playable chapter scene.
+			check(s.begin_consignee(),"Prepared completed Heting can begin consignee")
+			for observation:String in ["lot_seals","removal_order","southern_counterfoil"]:
+				check(s.observe_consignee(observation),"Actual solo observation "+observation)
+			check(s.resolve_consignee_contradiction("order_before_inspection").ok,"Actual contradiction resolution")
+			check(s.choose_consignee_plan("hold_for_inspection"),"Actual reversible draft before battle")
 	s.map_id=Encounters.LOCATIONS[id][0];s.position=Vector2(420,450)
-	check(s._stage_save_data(s.to_dict(),13).ok,"Prepared %s state is canonical"%id)
+	check(s._stage_save_data(s.to_dict(),State.SAVE_VERSION).ok,"Prepared %s state is canonical"%id)
 	return s
 func _finish(panel) -> void:
 	if is_instance_valid(panel) and panel.art.is_presenting(): panel.art._process(panel.art.get_presentation_duration() + .1)
@@ -88,7 +98,9 @@ func _setup(kind:String,count:int=1)->void:
 	s=_prepared(kind,count);s.fixture=fixture;app.state=s
 	var location:Array=Encounters.LOCATIONS[kind]
 	app.world.change_map(location[0],Vector2(420,450))
-	app.world.teleport(app.world.interactables[location[1]].pos+Vector2(0,24));s.position=app.world.player_pos
+	if kind != "heting_consignee":
+		app.world.teleport(app.world.interactables[location[1]].pos+Vector2(0,24))
+	s.position=app.world.player_pos
 	app._process(0);app._refresh()
 func _step_view(panel)->void:
 	if not is_instance_valid(panel):return
@@ -102,6 +114,19 @@ func _run()->void:
 	root.add_child(app);await process_frame;app._stop_audio();app.audio_on=false;app.world.set_process(false)
 	for kind:String in Encounters.IDS:
 		_setup(kind,2 if kind=="story" else 1)
+		if kind == "heting_consignee":
+			# Phase one has a model, but no warehouse scene or supported art yet.
+			# Assert the unavailable entry rather than fabricate a UI fixture.
+			var before=s.to_dict()
+			check(not app.world.interactables.has("consignee_warehouse") and not app._start_unified_battle(kind),"Phase-one consignee scene entry is unavailable")
+			check(s.to_dict()==before and not s.battle_active and app.current_screen=="explore","Unavailable scene entry leaves state untouched")
+			check(s.start_party_battle(kind),"Canonical phase-one fixture enters actual model directly")
+			var tx=s.advance_party_battle()
+			check(tx.get("accepted",false) and s.finish_party_presentation(tx.epoch,tx.token).get("accepted",false),"Prepared consignee model accepts and acknowledges actual action")
+			var retreat=s.party_battle_action("flee")
+			check(retreat.get("accepted",false) and s.finish_party_presentation(retreat.epoch,retreat.token).get("accepted",false),"Prepared model can retreat without unavailable presentation")
+			check(not s.battle_active and s.consignee_stage==2 and s.consignee_draft=="hold_for_inspection","Model retreat retains accepted observations and plan")
+			continue
 		await _key(KEY_E)
 		check(app.active_modal,"E opens actual entry dialogue: "+kind)
 		if kind == "heting_receipt":

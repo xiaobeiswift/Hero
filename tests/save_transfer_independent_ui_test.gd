@@ -54,7 +54,7 @@ func _run() -> void:
 	game.save_slots.transfer = ui; game.browser_mode = true
 	_check(not game.web_save_transfer_enabled and not ui.allowed(), "Release defaults to no browser transfer before explicit test opt-in")
 	game.web_save_transfer_enabled = true
-	incoming = ("\n" + JSON.stringify({"version": 13, "player": Model.new().to_dict()}, " ") + "\r\n").to_utf8_buffer()
+	incoming = ("\n" + JSON.stringify({"version": Model.SAVE_VERSION, "player": Model.new().to_dict()}, " ") + "\r\n").to_utf8_buffer()
 	await title_and_loaded_read_only()
 	await repeated_and_interrupted_callbacks()
 	await download_changed_source()

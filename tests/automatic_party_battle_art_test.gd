@@ -200,6 +200,21 @@ func test_routes() -> void:
 		for formation: String in ["护后","并肩"]:
 			for count: int in range(1,5):
 				var rules = model(encounter,count,formation)
+				if encounter == "heting_consignee":
+					# Phase one exposes real combat facts but no new enemy art.
+					# Preserve all old ten positive routes and verify rejection
+					# without reading stale/empty presentation as chapter art.
+					var probe=Art.new()
+					probe.set_snapshot(rules.snapshot())
+					check(probe.display_snapshot.is_empty(),"Phase-one enemy IDs cannot fabricate supported presentation")
+					var tx:Dictionary=rules.advance()
+					check(tx.get("accepted",false),"Phase-one model accepts its actual first action")
+					var resolved:Dictionary=rules.snapshot()
+					check(not probe.present(tx) and not probe.is_presenting(),"Unsupported chapter art rejects the accepted transaction")
+					check(rules.snapshot()==resolved,"Rejected renderer leaves real model facts unchanged")
+					check(rules.complete_presentation(tx.token),"Only model owner acknowledges phase-one transaction")
+					probe.free()
+					continue
 				art.set_snapshot(rules.snapshot()); geometry(encounter+" idle")
 				for id: String in art.actor_order(): check(art.unit_label_alpha(id) == 1, "Every idle actor has a clear nameplate: " + encounter + "/" + id)
 				for enemy: Dictionary in rules.snapshot().enemies:

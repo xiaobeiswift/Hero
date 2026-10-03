@@ -31,7 +31,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Remove only this isolated test fixture_root")
 	if failures == 0:
-		print("PASS: %d party state integration checks (schema13/migration/selection/transactions/settlement/save safety)" % checks)
+		print("PASS: %d party state integration checks (schema14/migration/selection/transactions/settlement/save safety)" % checks)
 	else:
 		push_error("FAIL: %d / %d party state integration checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -208,9 +208,9 @@ func test_migration_and_reader() -> void:
 	old.coins = 71
 	old.hp = 23
 	var old_before: Dictionary = old.to_dict()
-	check(original.save_game(path) == OK, "Write actual schema13 save for old-reader rejection")
+	check(original.save_game(path) == OK, "Write actual schema14 save for old-reader rejection")
 	var current_bytes: PackedByteArray = _bytes(path)
-	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == old_before and _bytes(path) == current_bytes, "Exact schema11 reader rejects schema13 without touching state or file")
+	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == old_before and _bytes(path) == current_bytes, "Exact schema11 reader rejects schema14 without touching state or file")
 	var predecessor_path: String = "res://tests/fixtures/v022_game_state.gd.txt"
 	check(FileAccess.get_sha256(predecessor_path) == "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a", "Frozen schema12 reader matches independently recorded exact SHA256")
 	var predecessor = GDScript.new()
@@ -219,9 +219,10 @@ func test_migration_and_reader() -> void:
 	var old12 = predecessor.new()
 	old12.hp = 19; old12.coins = 417; old12.battle_active = true; old12.enemy_hp = 11
 	var old12_before: Dictionary = old12.to_dict()
-	check(old12.load_game(path) == ERR_FILE_UNRECOGNIZED and old12.to_dict() == old12_before and old12.battle_active and old12.enemy_hp == 11 and _bytes(path) == current_bytes, "Exact schema12 reader rejects13 before changing persistent, transient, or disk state")
+	check(old12.load_game(path) == ERR_FILE_UNRECOGNIZED and old12.to_dict() == old12_before and old12.battle_active and old12.enemy_hp == 11 and _bytes(path) == current_bytes, "Exact schema12 reader rejects14 before changing persistent, transient, or disk state")
 	var previous: Dictionary = original.to_dict()
 	previous.erase("internal_unlocked")
+	for field: String in State.Consignee.FIELDS: previous.erase(field)
 	_write(path, previous, 12)
 	var previous_bytes: PackedByteArray = _bytes(path)
 	var migrated12 = State.new()
@@ -245,7 +246,7 @@ func test_strict_loads() -> void:
 	for key: String in good:
 		var missing: Dictionary = good.duplicate(true)
 		missing.erase(key)
-		_reject_load(live, missing, "Missing schema13 field " + key)
+		_reject_load(live, missing, "Missing schema14 field " + key)
 	for roster: Variant in [[], ["shen", "hero"], ["hero", "hero"], ["hero", "ghost"], ["hero", "shen", "tang", "hero"], "hero", null]:
 		var data: Dictionary = good.duplicate(true)
 		data.party_roster = roster
@@ -264,7 +265,7 @@ func test_strict_loads() -> void:
 			_reject_load(live, data, "Invalid raw hero scalar " + key)
 	var zero: Dictionary = good.duplicate(true)
 	zero.hp = 0
-	_reject_load(live, zero, "Raw schema13 heroHP0 cannot hide behind old loader clamp")
+	_reject_load(live, zero, "Raw schema14 heroHP0 cannot hide behind old loader clamp")
 	var extra: Dictionary = good.duplicate(true)
 	extra.party_resources.shen.max_hp = 999
 	_reject_load(live, extra, "Unknown companion entry field")
@@ -282,7 +283,7 @@ func test_strict_loads() -> void:
 	live.position = Vector2(1406.1234, 42.98765)
 	check(live.save_game(path) == OK, "Explicit solo and downed bench serialize")
 	var loaded = State.new()
-	check(loaded.load_game(path) == OK and loaded.to_dict() == live.to_dict() and loaded.current_companion().is_empty(), "Schema13 roundtrip retains solo roster and every benched injury")
+	check(loaded.load_game(path) == OK and loaded.to_dict() == live.to_dict() and loaded.current_companion().is_empty(), "Schema14 roundtrip retains solo roster and every benched injury")
 
 
 func test_entry_and_transactions() -> void:

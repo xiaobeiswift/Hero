@@ -1,0 +1,32 @@
+{
+  "exit_code": 0,
+  "seconds": 353.572,
+  "source_files_compared": 934,
+  "source_changed": [],
+  "log_sha256": "70ba7cca6fabf59898a7b78b2a907ad0e52522726aac494287cb62c60f133537",
+  "runner_sha256": "5adaf23933fa5856c241e3154bdefb37b4f19e28f117de2d54fef39e439e70b1",
+  "old_cloud_web25_pck_enabled": true,
+  "milestone": "0.0.27 phase-one 未损先收 models and schema14; scene and package integration pending",
+  "godot_commands": 137,
+  "normal_source_commands_without_optional_old_pck": 136,
+  "python_tests": 67,
+  "node_mock_dom_assertions": 53,
+  "engine_errors": 0,
+  "first_attempt": {
+    "exit_code": 1,
+    "seconds": 84.111,
+    "source_files_compared": 934,
+    "source_changed": [],
+    "log_sha256": "74e3c2aa231c117fcd11e60f4f2dec8f701033a76cb892067496360b5116b8ce",
+    "runner_sha256": "5adaf23933fa5856c241e3154bdefb37b4f19e28f117de2d54fef39e439e70b1",
+    "old_cloud_web25_pck_enabled": true
+  },
+  "first_attempt_failure": "Existing automatic art test assumed the newly added model ID was already rendered. Explicit unsupported-presentation/model acknowledgement assertions corrected the test; all old10 positive routes retained. Full second run restarted from import.",
+  "limits": [
+    "No playable new chapter scene or new package acceptance",
+    "No browser picker, download, JavaScriptBridge or durable recovery acceptance",
+    "Save transfer remains default-off; live website remains0.0.25/schema13",
+    "Old-PCK check mounts cloud-exported Web25 candidate, not live Windows artifact"
+  ],
+  "source_runtime_review": "tests/consignee_phase1_review.json"
+}

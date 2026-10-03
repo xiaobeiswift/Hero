@@ -31,7 +31,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Only this isolated archive fixture directory is removed")
 	if failures == 0:
-		print("PASS: %d archive party checks (natural solo/Shen/formation/endings/gates/atomic rewards/retry/schema13/capacity mechanics)" % checks)
+		print("PASS: %d archive party checks (natural solo/Shen/formation/endings/gates/atomic rewards/retry/schema14/capacity mechanics)" % checks)
 	else:
 		push_error("FAIL: %d / %d archive party checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -356,7 +356,7 @@ func test_save_failures_and_malformed_loads() -> void:
 		file.store_string(JSON.stringify(document))
 		file.close()
 		before = _snapshot(s)
-		check(s.load_game(malformed) == ERR_FILE_CORRUPT and _snapshot(s) == before and FileAccess.get_file_as_bytes(path) == won, "Malformed schema13 refuses implicit prerequisite repair atomically")
+		check(s.load_game(malformed) == ERR_FILE_CORRUPT and _snapshot(s) == before and FileAccess.get_file_as_bytes(path) == won, "Malformed schema14 refuses implicit prerequisite repair atomically")
 	var loaded = State.new()
 	check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and not loaded.start_party_battle("archive_boss"), "Reloaded stage3 cannot replay archive battle")
 	loaded.reset_game()

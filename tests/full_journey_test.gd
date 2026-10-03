@@ -174,7 +174,7 @@ func _run()->void:
   check(app.state.heting_stage==4 and app.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
   check(app.state.coins==before_port_coins+60 and app.state.xp+30*app.state.level*(app.state.level-1)==before_port_xp+120 and app.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
   app._close_modal();app._save();before=app.state.to_dict();app.state.reset_game();app._load()
-  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through current schema13")
+  check(app.state.to_dict()==before and app.world.map_id=="heting","Organic four-chapter result persists through current schema14")
   print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [app.state.sect,app.state.level,app.state.hp,app.state.max_hp,app.state.coins,app.state.medicine])
   var scene_checks:int=checks
   receipt_checks.run(app.state,receipt_before_harbor,check)

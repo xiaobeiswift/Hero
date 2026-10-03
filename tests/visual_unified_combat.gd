@@ -17,6 +17,11 @@ func _run()->void:
  root.size=Vector2i(1280,800)
  var index=320
  for kind:String in Encounters.IDS:
+  if kind == "heting_consignee":
+   # Phase-one model is tested separately; unavailable scene/art must not
+   # be misrepresented by a screenshot of prior encounter geometry.
+   print("MODEL ONLY: heting_consignee has no chapter scene/art capture")
+   continue
   var count=4 if kind in ["training","courtyard_practice","heting_receipt"] else (3 if kind.begins_with("mist_") else 2)
   _setup(kind,count)
   if kind!="story":s.learn_internal_skill();s.learn_lightness()

@@ -115,7 +115,7 @@ func _run() -> void:
 	inputs.append({"kind": "explicit_synthetic_fixture_setup", "files": seeded_files, "note": "These prepared synthetic files are not player saves and are not gameplay-earned state"})
 	await _click_text("导入到空白手记"); await _click_text("选择文件 → 手记一")
 	await _deliver("selected", FileAccess.get_file_as_bytes(synthetic_path))
-	check(_body().contains("格式 13") and _body().contains("青苇·试验旅人"), "Preview shows validated synthetic metadata")
+	check(_body().contains("格式 %d" % Model.SAVE_VERSION) and _body().contains("青苇·试验旅人"), "Preview shows validated synthetic metadata")
 	check(_body().contains("另外") and _body().contains("空白"), "Preview explains separate loading and empty target")
 	check(core.commits == 0 and not FileAccess.file_exists(app.save_slots.store.path_for(1)), "Preview has not written destination")
 	_assert_unchanged("validated preview before confirmation")

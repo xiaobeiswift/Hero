@@ -52,7 +52,7 @@ func _init() -> void:
 		quit(2); return
 	fixture = "user://transfer-independent-%d-%d" % [OS.get_process_id(), Time.get_ticks_usec()]
 	check(DirAccess.make_dir_recursive_absolute(fixture) == OK, "Create owned test fixture")
-	good = (" \n" + JSON.stringify({"version": 13, "player": Model.new().to_dict()}, "  ") + "\t\n").to_utf8_buffer()
+	good = (" \n" + JSON.stringify({"version": Model.SAVE_VERSION, "player": Model.new().to_dict()}, "  ") + "\t\n").to_utf8_buffer()
 	test_export_is_read_only()
 	test_slot_conflicts()
 	test_preview_lifetime()
@@ -120,7 +120,7 @@ func test_export_is_read_only() -> void:
 	var state: Dictionary = live.to_dict()
 	for slot: int in range(4):
 		var result: Dictionary = service.export_slot(slot)
-		check(result.ok and result.bytes == good and result.version == 13, "Export returns original whitespace and exact bytes slot %d" % slot)
+		check(result.ok and result.bytes == good and result.version == Model.SAVE_VERSION, "Export returns original whitespace and exact bytes slot %d" % slot)
 		check(result.digest == FileAccess.get_sha256(slots.path_for(slot)), "Export digest describes raw source bytes")
 		if slot > 0:
 			result = service.export_slot(slot, true)
@@ -213,8 +213,8 @@ func test_encoding_and_parser_envelope() -> void:
 	var bom: PackedByteArray = PackedByteArray([239, 187, 191]); bom.append_array(good)
 	var valid_cases: Array[PackedByteArray] = [good, bom]
 	var player: String = JSON.stringify(Model.new().to_dict())
-	valid_cases.append(("{\"version\":99,\"version\":13,\"player\":" + player + "}").to_utf8_buffer())
-	valid_cases.append(("{\"version\":13,\"player\":" + player + ",}").to_utf8_buffer())
+	valid_cases.append(("{\"version\":99,\"version\":14,\"player\":" + player + "}").to_utf8_buffer())
+	valid_cases.append(("{\"version\":14,\"player\":" + player + ",}").to_utf8_buffer())
 	var exact: PackedByteArray = good.duplicate(); exact.resize(1048576)
 	for i: int in range(good.size(), exact.size()): exact[i] = 32
 	valid_cases.append(exact)
@@ -224,12 +224,16 @@ func test_encoding_and_parser_envelope() -> void:
 		if p.ok: service.cancel_preview(p.token)
 	var too_big: PackedByteArray = exact.duplicate(); too_big.append(32)
 	var bad_cases: Array[PackedByteArray] = [PackedByteArray(), too_big, "[]".to_utf8_buffer(), good + "false".to_utf8_buffer(), good + PackedByteArray([0]), PackedByteArray([192, 175]), PackedByteArray([237, 160, 128]), PackedByteArray([244, 144, 128, 128]), PackedByteArray([226, 130])]
-	bad_cases.append(("{\"version\":13,\"player\":" + player + ",\"deep\":" + "[".repeat(513) + "0" + "]".repeat(513) + "}").to_utf8_buffer())
-	bad_cases.append(("{\"version\":13,\"player\":" + player + ",\"version\":99}").to_utf8_buffer())
+	bad_cases.append(("{\"version\":14,\"player\":" + player + ",\"deep\":" + "[".repeat(513) + "0" + "]".repeat(513) + "}").to_utf8_buffer())
+	bad_cases.append(("{\"version\":14,\"player\":" + player + ",\"version\":99}").to_utf8_buffer())
 	for bytes: PackedByteArray in bad_cases:
 		check(not service.preview_import(bytes, 1).ok and snapshot(path).is_empty(), "Malformed/oversize/unsupported input stays read-only")
-	for version: int in range(1, 14):
+	for version: int in range(1, Model.SAVE_VERSION + 1):
 		var data: Dictionary = Model.new().to_dict()
+		if version == 13:
+			data = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player
+		if version < 14:
+			for field: String in Model.Consignee.FIELDS: data.erase(field)
 		if version < 13: data.erase("internal_unlocked")
 		var bytes: PackedByteArray = JSON.stringify({"version": version, "player": data}).to_utf8_buffer()
 		var p: Dictionary = service.preview_import(bytes, 1)
@@ -240,7 +244,7 @@ func test_frozen_legacy_exports() -> void:
 	var path: String = subdir("genuine-legacy")
 	var slots := Slots.new(path)
 	var service := Transfer.new(path)
-	for fixture_name: String in ["v017", "v019", "v020"]:
+	for fixture_name: String in ["v017", "v019", "v020", "v025"]:
 		var frozen_path: String = "res://tests/fixtures/" + fixture_name + "_game_state.gd.txt"
 		var old_script := GDScript.new()
 		old_script.source_code = FileAccess.get_file_as_string(frozen_path).replace("class_name HeroState\n", "")
@@ -255,6 +259,6 @@ func test_frozen_legacy_exports() -> void:
 		check(p.ok and service.commit_import(p.token).ok, "Import genuine historical bytes to empty manual slot")
 		check(FileAccess.get_file_as_bytes(slots.path_for(2)) == bytes, "Import never migrates genuine legacy bytes")
 		var loaded := Model.new()
-		check(loaded.load_game(slots.path_for(2)) == OK and loaded.coins == 137 and loaded.hp == 29 and not loaded.internal_unlocked, "Separate explicit load applies normal legacy migration")
+		check(loaded.load_game(slots.path_for(2)) == OK and loaded.coins == 137 and loaded.hp == 29 and not loaded.internal_unlocked and loaded.consignee_stage == 0, "Separate explicit load applies normal legacy migration")
 		check(FileAccess.get_file_as_bytes(slots.path_for(2)) == bytes, "Separate load does not rewrite historical raw bytes")
 		DirAccess.remove_absolute(slots.path_for(2))

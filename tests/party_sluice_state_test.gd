@@ -24,7 +24,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Only this isolated fixture directory is removed")
 	if failures == 0:
-		print("PASS: %d sluice party state checks (gates/routes/atomic rewards/resources/retry/schema13/save failures)" % checks)
+		print("PASS: %d sluice party state checks (gates/routes/atomic rewards/resources/retry/schema14/save failures)" % checks)
 	else:
 		push_error("FAIL: %d / %d sluice party state checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -92,7 +92,7 @@ func _fight(s, finish: bool = true) -> Dictionary:
 
 func _roundtrip(s, name: String) -> void:
 	var path: String = fixture_root.path_join(name + ".json")
-	check(s.save_game(path) == OK, "Complete schema13 save succeeds: " + name)
+	check(s.save_game(path) == OK, "Complete schema14 save succeeds: " + name)
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	var document: Dictionary = JSON.parse_string(bytes.get_string_from_utf8())
 	check(document.version == State.SAVE_VERSION and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Battle-only state adds no field or schema version")
@@ -289,7 +289,7 @@ func test_failed_saves() -> void:
 		var loaded = State.new()
 		check(loaded.load_game(path) == OK and loaded.to_dict() == s.to_dict() and not loaded.start_party_battle(encounter), "Reloaded settled save cannot replay rewarded encounter")
 		s.party_resources.shen["vulnerability_hits"] = 2
-		check(s.save_game(path) == ERR_FILE_CORRUPT and FileAccess.get_file_as_bytes(path) == completed_bytes, "Battle vulnerability cannot enter persistent companion resources or overwrite valid schema13")
+		check(s.save_game(path) == ERR_FILE_CORRUPT and FileAccess.get_file_as_bytes(path) == completed_bytes, "Battle vulnerability cannot enter persistent companion resources or overwrite valid schema14")
 
 
 func _remove_tree(path: String) -> void:

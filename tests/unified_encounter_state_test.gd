@@ -37,8 +37,18 @@ func _prepared(id:String,count:int=1):
   "heting_receipt":
    s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
    s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries";s.receipt_stage=1
+  "heting_consignee":
+   s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
+   s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries"
+   s.map_id="heting";s.position=Vector2(420,450)
+   # Phase-one prepared model; this does not assert a playable chapter scene.
+   check(s.begin_consignee(),"Prepared completed Heting can begin consignee")
+   for observation:String in ["lot_seals","removal_order","southern_counterfoil"]:
+    check(s.observe_consignee(observation),"Actual solo observation "+observation)
+   check(s.resolve_consignee_contradiction("order_before_inspection").ok,"Actual contradiction resolution")
+   check(s.choose_consignee_plan("hold_for_inspection"),"Actual reversible draft before battle")
  s.map_id=Encounters.LOCATIONS[id][0];s.position=Vector2(420,450)
- check(s._stage_save_data(s.to_dict(),13).ok,"Prepared %s state is canonical"%id)
+ check(s._stage_save_data(s.to_dict(),State.SAVE_VERSION).ok,"Prepared %s state is canonical"%id)
  return s
 func _step(s)->Dictionary:
  var tx=s.advance_party_battle();check(tx.get("accepted",false),"Scheduler accepts next action")

@@ -32,7 +32,7 @@ func test_shared() -> void:
 	live.start_battle()
 	var before := state_snapshot(live)
 	var inspected := live.inspect_save_bytes(document())
-	check(inspected.ok and inspected.state != live and inspected.version == 13, "Shared inspector produces detached candidate")
+	check(inspected.ok and inspected.state != live and inspected.version == State.SAVE_VERSION, "Shared inspector produces detached candidate")
 	inspected.state.coins += 100
 	check(state_snapshot(live) == before, "Detached candidate cannot mutate live persistent or combat state")
 	for malformed: PackedByteArray in [PackedByteArray(), "null".to_utf8_buffer(), "[]".to_utf8_buffer(), "{".to_utf8_buffer(), document(99)]:
@@ -79,8 +79,8 @@ func test_import() -> void:
 	var directory := folder("imports")
 	var slots := Slots.new(directory)
 	var transfer := Transfer.new(directory)
-	write(slots.path_for(0), document(13, {"coins": 777}))
-	write(slots.path_for(2), document(13, {"coins": 888}))
+	write(slots.path_for(0), document(State.SAVE_VERSION, {"coins": 777}))
+	write(slots.path_for(2), document(State.SAVE_VERSION, {"coins": 888}))
 	write(slots.path_for(2) + ".bak", "preserved damaged backup".to_utf8_buffer())
 	var old_files := snapshot(directory)
 	var live := State.new()
@@ -130,7 +130,7 @@ func test_path_conflicts() -> void:
 	var transfer := Transfer.new(directory)
 	var preview := transfer.preview_import(document(), 1)
 	check(transfer.commit_import(preview.token).ok, "Prepare committed receipt")
-	write(slots.path_for(1), document(13, {"coins": 999}))
+	write(slots.path_for(1), document(State.SAVE_VERSION, {"coins": 999}))
 	var before := snapshot(directory)
 	check(not transfer.commit_import(preview.token).ok and snapshot(directory) == before, "Committed receipt cannot claim success or overwrite changed primary")
 	DirAccess.remove_absolute(slots.path_for(1))
@@ -152,33 +152,39 @@ func test_envelope() -> void:
 	DirAccess.remove_absolute(Slots.new(directory).path_for(1))
 	for malformed: PackedByteArray in [PackedByteArray(), " ".to_utf8_buffer(), "null".to_utf8_buffer(), "[]".to_utf8_buffer(), "{}".to_utf8_buffer(), "{".to_utf8_buffer(), valid + " false".to_utf8_buffer(), valid + valid]:
 		check(not transfer.preview_import(malformed, 1).ok, "Empty/malformed/trailing second data rejected")
-	for version: Variant in [0, 1.5, 14, 99, "13", true, null]:
+	for version: Variant in [0, 1.5, 15, 99, "14", true, null]:
 		check(not transfer.preview_import(document(version), 1).ok, "Invalid/future version rejected: " + str(version))
 	for patch: Dictionary in [{"hp": 0}, {"hp": 101}, {"qi": 7}, {"resources": {}}, {"resources": {"wood": -1}}, {"internal_unlocked": true}, {"qin_unlocked": true}, {"map_id": "../escape"}, {"level": 100}, {"player_name": "  noncanonical  "}]:
-		check(not transfer.preview_import(document(13, patch), 1).ok, "Current semantic/canonical/progression violation rejected: " + str(patch))
+		check(not transfer.preview_import(document(State.SAVE_VERSION, patch), 1).ok, "Current semantic/canonical/progression violation rejected: " + str(patch))
 	for bad: PackedByteArray in [PackedByteArray([255]), PackedByteArray([192, 175]), PackedByteArray([224, 128, 175]), PackedByteArray([237, 160, 128]), PackedByteArray([244, 144, 128, 128]), PackedByteArray([240, 159]), PackedByteArray([128]), PackedByteArray([0])]:
-		var doc := '{"version":13,"note":"'.to_utf8_buffer() + bad + '","player":'.to_utf8_buffer() + JSON.stringify(State.new().to_dict()).to_utf8_buffer() + '}'.to_utf8_buffer()
+		var doc := '{"version":14,"note":"'.to_utf8_buffer() + bad + '","player":'.to_utf8_buffer() + JSON.stringify(State.new().to_dict()).to_utf8_buffer() + '}'.to_utf8_buffer()
 		check(not transfer.preview_import(doc, 1).ok, "Malformed UTF-8 and raw NUL rejected before decoder substitution")
 	var bom := PackedByteArray([239, 187, 191]) + valid
 	check(transfer.preview_import(bom, 1).ok, "Leading UTF-8 BOM follows existing file reader semantics")
-	var player := JSON.stringify(State.new().to_dict())
-	var duplicate := ('{"version":99,"version":13,"player":%s}' % player).to_utf8_buffer()
-	check(transfer.preview_import(duplicate, 1).ok, "Duplicate keys retain Godot last-key-wins semantics")
-	check(not transfer.preview_import(('{"version":13,"version":99,"player":%s}' % player).to_utf8_buffer(), 1).ok, "Effective duplicate value still undergoes complete semantic validation")
-	check(transfer.preview_import(('{"version":13,"player":%s,}' % player).to_utf8_buffer(), 1).ok, "Godot trailing-comma compatibility is explicit")
-	for depth: int in [Transfer.MAX_JSON_NESTING - 1, Transfer.MAX_JSON_NESTING]:
-		var nested := ('{"version":13,"extra":%s0%s,"player":%s}' % ["[".repeat(depth), "]".repeat(depth), player]).to_utf8_buffer()
-		check(transfer.preview_import(nested, 1).ok == (depth < Transfer.MAX_JSON_NESTING), "Complete nesting is bounded at 512 before parser")
-	var quoted := ('{"version":13,"note":"%s\\\"%s","player":%s}' % ["[".repeat(1000), "]".repeat(1000), player]).to_utf8_buffer()
-	check(transfer.preview_import(quoted, 1).ok, "Nesting guard ignores quoted and escaped brackets")
+	for version: int in [13, State.SAVE_VERSION]:
+		var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player if version == 13 else State.new().to_dict()
+		var player := JSON.stringify(data)
+		var duplicate := ('{"version":99,"version":%d,"player":%s}' % [version, player]).to_utf8_buffer()
+		check(transfer.preview_import(duplicate, 1).ok, "Schema%d duplicate keys retain Godot last-key-wins semantics" % version)
+		check(not transfer.preview_import(('{"version":%d,"version":99,"player":%s}' % [version, player]).to_utf8_buffer(), 1).ok, "Effective duplicate value still undergoes complete semantic validation")
+		check(transfer.preview_import(('{"version":%d,"player":%s,}' % [version, player]).to_utf8_buffer(), 1).ok, "Schema%d Godot trailing-comma compatibility is explicit" % version)
+		for depth: int in [Transfer.MAX_JSON_NESTING - 1, Transfer.MAX_JSON_NESTING]:
+			var nested := ('{"version":%d,"extra":%s0%s,"player":%s}' % [version, "[".repeat(depth), "]".repeat(depth), player]).to_utf8_buffer()
+			check(transfer.preview_import(nested, 1).ok == (depth < Transfer.MAX_JSON_NESTING), "Complete nesting is bounded at512 before parser")
+		var quoted := ('{"version":%d,"note":"%s\\\"%s","player":%s}' % [version, "[".repeat(1000), "]".repeat(1000), player]).to_utf8_buffer()
+		check(transfer.preview_import(quoted, 1).ok, "Nesting guard ignores quoted and escaped brackets")
 	check(snapshot(directory).is_empty(), "Envelope previews leave disk unchanged")
 
 func test_versions() -> void:
-	for version: int in range(1, 14):
+	for version: int in range(1, State.SAVE_VERSION + 1):
 		var directory := folder("legacy-%d" % version)
 		var slots := Slots.new(directory)
 		var transfer := Transfer.new(directory)
 		var data := State.new().to_dict()
+		if version == 13:
+			data = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player
+		if version < 14:
+			for field: String in State.Consignee.FIELDS: data.erase(field)
 		if version < 13: data.erase("internal_unlocked")
 		if version < 12:
 			data.level = 10000
@@ -193,16 +199,22 @@ func test_versions() -> void:
 		check(transfer.export_slot(1).bytes == exact, "Schema %d re-export preserves exact byte identity" % version)
 		if version < 12: check(loaded.level == 99 and loaded.hp == 1, "Legacy normalization occurs only when reading")
 		if version < 13: check(not loaded.internal_unlocked, "Legacy import cannot invent learned internal skill")
+		if version < 14: check(loaded.consignee_stage == 0 and loaded.consignee_observations.is_empty(), "Legacy import cannot invent consignee progress")
 	var frozen := GDScript.new()
 	frozen.source_code = FileAccess.get_file_as_string("res://tests/fixtures/v022_game_state.gd.txt").replace("class_name HeroState\n", "")
 	check(frozen.reload() == OK, "Genuine frozen schema12 reader still compiles")
 	var old = frozen.new()
 	var before: Dictionary = old.to_dict()
-	var current := Slots.new(_root.path_join("legacy-13")).path_for(1)
-	check(old.load_game(current) == ERR_FILE_UNRECOGNIZED and old.to_dict() == before, "Frozen old reader rejects schema13 without mutation")
+	for version: int in [13, 14]:
+		var current := Slots.new(_root.path_join("legacy-%d" % version)).path_for(1)
+		check(old.load_game(current) == ERR_FILE_UNRECOGNIZED and old.to_dict() == before, "Frozen old reader rejects schema%d without mutation" % version)
 
-func document(version: Variant = 13, patch: Dictionary = {}) -> PackedByteArray:
+func document(version: Variant = State.SAVE_VERSION, patch: Dictionary = {}) -> PackedByteArray:
 	var data := State.new().to_dict()
+	# Synthetic old-layout stress cases; genuine historical13 has its own fixture.
+	if version is int and version < 14:
+		for field: String in State.Consignee.FIELDS: data.erase(field)
+	if version is int and version < 13: data.erase("internal_unlocked")
 	for key: String in patch: data[key] = patch[key]
 	return JSON.stringify({"version": version, "player": data}, "\t").to_utf8_buffer()
 
