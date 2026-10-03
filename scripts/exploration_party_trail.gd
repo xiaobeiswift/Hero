@@ -6,7 +6,9 @@ extends RefCounted
 
 const IDS: Array[String] = ["shen", "tang", "qin"]
 const GAP := 45.0
-const SPEED := 225.0
+# The player moves at 185 Euclidean units/s. Its accepted X/Y breadcrumbs grow
+# at up to 185*sqrt(2) ~= 261.63 route units/s, so the path budget needs headroom.
+const SPEED := 300.0
 const MAX_DELTA := 0.1
 const STEP := 4.0
 const MAX_SUBSTEPS := 64
@@ -232,6 +234,7 @@ func _seed_position(player: Vector2, facing: Vector2, index: int,
 
 func _move_actor(actor: Dictionary, target: float, budget: float,
 		can_walk: Callable, can_step: Callable) -> void:
+	var update_start: Vector2 = actor.position
 	for _iteration: int in range(MAX_SUBSTEPS):
 		if budget <= EPS or target - float(actor.cursor) <= EPS:
 			break
@@ -265,12 +268,17 @@ func _move_actor(actor: Dictionary, target: float, budget: float,
 		actor.walk_distance = float(actor.walk_distance) + walked
 		if walked > EPS:
 			actor.moving = true
-			actor.facing = displacement / walked
 		budget -= walked
 		if amount >= remaining - EPS:
 			actor.position = boundary
 			actor.cursor = boundary_s
 			actor.joining = false
+	# A diagonal input is an X/Y micro-staircase, so its final microleg is not
+	# the visible heading. Use the accepted displacement of this entire update.
+	# A complete out-and-back has no net direction; retain its prior heading.
+	var update_displacement: Vector2 = actor.position - update_start
+	if update_displacement.length_squared() > EPS * EPS:
+		actor.facing = update_displacement.normalized()
 
 
 func _next_index(cursor: float) -> int:
