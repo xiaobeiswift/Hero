@@ -8,6 +8,7 @@ var _unified_basics: Dictionary = {}
 var _unified_skills: Dictionary = {}
 var _unified_basic_encounters: Dictionary = {}
 var _unified_facts_ok: bool = true
+var _exploration_prerequisite_checks: int = 0
 var checks := 0
 var failures := 0
 var game
@@ -49,7 +50,7 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal):
@@ -70,6 +71,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--exploration-only"):
+		await _test_exploration_pack()
+		await _finish_run(rehearsal, "exploration-only")
+		return
 	if OS.get_cmdline_user_args().has("--unified-only"):
 		await _test_unified_pack()
 		await _finish_run(rehearsal, "unified-only")
@@ -165,6 +170,7 @@ func _run() -> void:
 	if OS.get_cmdline_user_args().has("--preserved-only"):
 		await _finish_run(rehearsal, "preserved-only")
 		return
+	await _test_exploration_pack()
 	await _test_unified_pack()
 	await _finish_run(rehearsal)
 
@@ -261,7 +267,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	_press("邀请同行")
 	game._load()
 	await process_frame
-	_check(game.state.tangqi_unlocked and game.state.current_companion() == "唐栖" and game.world.companion_active and game.world.companion_name == "唐栖", "Packed recruitment and follower identity survive reload: " + choice)
+	_check(game.state.tangqi_unlocked and game.state.current_companion() == "唐栖" and game.world.has_follower("tang"), "Packed recruitment and follower identity survive reload: " + choice)
 	var before: Dictionary = game.state.to_dict()
 	game._interact("bridge_worker")
 	_check(_find_button(game.overlay, "邀请同行") == null and _find_button(game.overlay, "传给学徒") == null, "Packed completed quest cannot replay rewards: " + choice)
@@ -271,6 +277,9 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await _key(KEY_5)
 	var folio = game.overlay.get_meta("party_roster", null)
 	_check(folio != null and not folio.cells.tang.toggle.disabled and folio.cells.shen.toggle.disabled == not shen and folio.cells.qin.toggle.disabled, "Packed roster enables only genuinely recruited companions: " + choice)
+	# The selected party can contain both Shen and Tang. Explicitly bench Shen
+	# through the real roster UI before checking the original inactive-clinic case.
+	if shen: folio.cells.shen.toggle.pressed.emit()
 	_press("返回行囊")
 	await _key(KEY_4)
 	_check(not game.active_modal, "Packed original fourth inventory shortcut still closes: " + choice)
@@ -879,14 +888,14 @@ func _test_lightness_exploration() -> void:
 	expected = before.duplicate(true)
 	expected.position = {"x": lightness.LANDING.x, "y": lightness.LANDING.y}
 	_check(game.world.player_pos == lightness.LANDING and game.state.position == lightness.LANDING and game.state.to_dict() == expected, "Packed explicit crossing changes only position and spends no resources")
-	_check(game.world.companion_active and lightness.on_islet(game.world.companion_pos), "Packed active follower lands on safe island ground")
+	_check(_packed_followers_on_islet(lightness), "Packed active follower lands on safe island ground")
 	game._load()
-	_check(game.world.player_pos == lightness.LANDING and game.state.position == lightness.LANDING and lightness.on_islet(game.world.companion_pos), "Packed crossing autosave restores both hero and follower on the island")
+	_check(game.world.player_pos == lightness.LANDING and game.state.position == lightness.LANDING and _packed_followers_on_islet(lightness), "Packed crossing autosave restores both hero and follower on the island")
 	for facing in [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]:
 		game.world.teleport(lightness.ISLET_CENTER + Vector2(35, 0))
 		game.world.facing = facing
 		game.world._process(0.25)
-		_check(lightness.on_islet(game.world.companion_pos), "Packed follower stays inside island bounds for facing: " + str(facing))
+		_check(_packed_followers_on_islet(lightness), "Packed follower stays inside island bounds for facing: " + str(facing))
 	game.world.teleport(Vector2(1474, 930))
 	Input.action_press("move_left")
 	game.world._process(1.0)
@@ -988,9 +997,9 @@ func _test_painted_hud_pack() -> void:
 	for role in ["elder","healer","bandit","mentor"]:
 		cast_contract=cast_contract and cast.texture_for(role)!=null and game.world._painted_npc_role(role)==role
 	_check(cast_contract,"Packed key village cast resolves its original identities")
-	game.world.companion_active=true;game.world.companion_name="沈青"
+	assert(game.state.recruit_companion());game._sync_world_state()
 	_check(game.world._painted_npc_role("healer").is_empty() and game.world.get_npc_name("healer")=="药铺伙计","Packed travelling Shen is not duplicated inside pharmacy")
-	game.world.companion_active=false
+	assert(game.state.set_party_roster(["hero"]));game._sync_world_state()
 	_check(game.hud!=null and game.world_view.size==Vector2i(1280,800) and game.world.viewport_rect==Rect2(0,0,1280,800),"Packed HUD and world use the full1280x800 canvas")
 	_check(game.hud.nav_buttons.size()==5 and game.hud.exploration.visible,"Packed exploration quick actions are visible")
 	for key in [KEY_M,KEY_K,KEY_I,KEY_J,KEY_B]:
@@ -1031,14 +1040,33 @@ func _test_party_inventory_pack()->void:
 	game._close_modal();game._show_inventory();await _key(KEY_B)
 	_check(game.active_modal and not game.overlay.get_meta("inventory",false) and _gather_text(game.overlay).contains("工艺"),"Packed inventory B shortcut opens actual crafting")
 	game._close_modal();game.state.quest_stage=6;game.state.recruit_companion();game._sync_world_state();game.world.teleport(Vector2(435,650))
+	# Actual cardinal input establishes path legality, gait and safe trailing space.
 	var valid_spacing=true
-	for facing in [Vector2.UP,Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT]:
-		game.world.facing=facing
-		var target=game.world._companion_follow_target()
-		valid_spacing=valid_spacing and game.world._can_step(game.world.player_pos,target) and target.distance_to(game.world.player_pos)>35
-	_check(valid_spacing,"Packed party trailing space keeps both figures on reachable ground")
-	game.world.player_pos=Vector2(600,650);game.world.companion_pos=Vector2(500,670)
-	_check(game.world._tree_opacity({"pos":Vector2(510,740),"scale":1.0})==.4,"Packed foreground canopy also preserves painted follower readability")
+	for pair in [[Vector2.UP,"move_up"],[Vector2.DOWN,"move_down"],[Vector2.LEFT,"move_left"],[Vector2.RIGHT,"move_right"]]:
+		game.world.facing=pair[0];game.world.teleport(Vector2(600,450));game.world.active=true
+		var initial:Dictionary=game.world.follower_view("shen")
+		valid_spacing=valid_spacing and not initial.is_empty()
+		Input.action_press(pair[1])
+		for _frame in range(8):
+			var before_position:Vector2=game.world.follower_view("shen").position
+			game.world._process(.05)
+			var actor:Dictionary=game.world.follower_view("shen")
+			valid_spacing=valid_spacing and game.world._follower_can_step(before_position,actor.position) and actor.moving==(actor.position.distance_to(before_position)>.0001)
+		Input.action_release(pair[1])
+		var travelled:Dictionary=game.world.follower_view("shen")
+		valid_spacing=valid_spacing and game.world.player_pos.distance_to(Vector2(600,450)+pair[0]*74)<.01 and travelled.walk_distance>initial.walk_distance and travelled.position.distance_to(game.world.player_pos)>35
+		for _frame in range(30):game.world._process(.05)
+		valid_spacing=valid_spacing and not game.world.follower_view("shen").moving
+	_check(valid_spacing,"Packed actual party walking keeps legal segments, moving gait, idle feet and reachable trailing space")
+	game.world.teleport(Vector2(600,450))
+	# Prepared render fixture only: opacity coverage never represents movement.
+	var canopy_valid:bool=true
+	for id in ["shen","tang","qin"]:
+		var frames:Array[Dictionary]=[{"id":id,"position":Vector2(500,670),"facing":Vector2.DOWN,"moving":false,"walk_phase":0.0,"walk_distance":0.0}]
+		game.world._follower_frames=frames
+		canopy_valid=canopy_valid and game.world._tree_opacity({"pos":Vector2(510,740),"scale":1.0})==.4
+	_check(canopy_valid,"Packed foreground canopy preserves each painted follower's readability")
+	game.world._refresh_follower_view()
 	game._show_inventory();await _key(KEY_2)
 	_check(game.state.formation=="护后" and _gather_text(game.overlay).contains("护后"),"Packed structured inventory retains formation action and current display")
 	await _key(KEY_4)
@@ -1218,7 +1246,7 @@ func _test_reading_party_pack()->void:
 	game.world.teleport(Vector2(720,520))
 	_check(game.world._noticeboard_opacity(foot)==1.0,"Packed board returns opaque in front")
 	game.state.quest_stage=6;game.state.side_stage=3;game.state.chapter_two_stage=4;game.state.bridge_repaired=true;game.state.tangqi_stage=3;game.state.tangqi_choice="preserve";game.state.recruit_tangqi();game.state.select_companion("唐栖");game._sync_world_state()
-	_check(game.world.companion_active and game.world.companion_name=="唐栖","Packed painted follower keeps Tang identity")
+	_check(game.world.has_follower("tang"),"Packed painted follower keeps Tang identity")
 	game.state.map_id="frostbridge";game.world.change_map("frostbridge",Vector2(700,805))
 	_check(game.world.get_npc_name("bridge_worker")=="修桥工位","Packed travelling Tang leaves his work station")
 	game._new_game()
@@ -1334,7 +1362,7 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.23", "V23 contextual unified project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.24", "V24 ordered exploration project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 13, "V22 requires save schema13")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
@@ -2238,7 +2266,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all10 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.23", "Packed actual title retains contextual0.0.23 identity")
+	_check(title != null and title.text=="0.0.24", "Packed actual title retains ordered-exploration0.0.24 identity")
 	for kind: String in encounters.IDS: await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -2628,3 +2656,216 @@ func _schema9_legacy_prerequisite(rehearsal: bool) -> bool:
 	schema9_reader = script.new()
 	_check(schema9_reader.SAVE_VERSION == 9, "Frozen prior reader retains actual schema9 gate")
 	return schema9_reader.SAVE_VERSION == 9
+
+func _packed_followers_on_islet(lightness) -> bool:
+	if game.world.follower_ids().is_empty():return false
+	for id in game.world.follower_ids():
+		if not lightness.on_islet(game.world.follower_view(id).position):return false
+	return true
+
+func _exploration_prerequisites() -> bool:
+	var previous: int = failures
+	var first: int = checks
+	for module: String in ["exploration_party_trail", "painted_qin_sprite"]:
+		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "Exploration package retains runtime module: " + module)
+	for direction: String in ["front", "right", "back", "left"]:
+		_check(ResourceLoader.exists("res://assets/generated/characters/painted_qin_walk_" + direction + ".png"), "Exploration package retains authored Qin direction: " + direction)
+	_check(ResourceLoader.exists("res://assets/generated/characters/painted_qin_idle.png"), "Exploration package retains separate authored Qin neutral idle atlas")
+	_exploration_prerequisite_checks = checks - first
+	return failures == previous
+
+func _exploration_positions() -> Dictionary:
+	var result: Dictionary = {}
+	for id: String in game.world.follower_ids(): result[id] = game.world.follower_view(id).position
+	return result
+
+func _exploration_safe() -> bool:
+	var occupied: Array = []
+	for id: String in game.world.follower_ids():
+		var actor: Dictionary = game.world.follower_view(id)
+		if not actor.position.is_finite() or not game.world._follower_can_walk(actor.position) or occupied.has(actor.position): return false
+		occupied.append(actor.position)
+	return true
+
+func _test_exploration_pack() -> void:
+	var first: int = checks
+	var qin = load("res://scripts/painted_qin_sprite.gd")
+	_check(qin != null and qin.FRAME_COUNT == 4 and game.world.QinWalk == qin, "Packed world uses the four-key exploration Qin renderer")
+	if qin == null: return
+	var all_hashes: Dictionary = {}
+	for pair: Array in [["front", Vector2.DOWN], ["right", Vector2.RIGHT], ["back", Vector2.UP], ["left", Vector2.LEFT]]:
+		var direction: String = pair[0]
+		_check(qin.direction_for(pair[1]) == direction, "Packed Qin renderer resolves direction: " + direction)
+		var hashes: Dictionary = {}
+		for frame: int in range(4):
+			var texture = qin.texture_for(direction, frame)
+			_check(texture != null and texture.atlas.get_size() == Vector2(1254,1254) and texture.get_size() == Vector2(672,672), "Packed Qin imported atlas/cell dimensions: " + direction + str(frame))
+			if texture == null: continue
+			_check(texture.filter_clip and texture.margin.position.x >= 0 and texture.margin.position.y >= 0 and texture.region.size.x + texture.margin.position.x <= 672 and texture.region.size.y + texture.margin.position.y <= 672, "Packed Qin authored key fits stable cell without clipping: " + direction + str(frame))
+			var image: Image = texture.atlas.get_image()
+			_check(image != null and not image.is_empty(), "Packed Qin imported pixels are readable: " + direction + str(frame))
+			if image != null and not image.is_empty():
+				var pixels: PackedByteArray = image.get_region(Rect2i(texture.region)).get_data()
+				var hasher := HashingContext.new(); hasher.start(HashingContext.HASH_SHA256); hasher.update(pixels)
+				var digest: String = hasher.finish().hex_encode()
+				_check(not hashes.has(digest) and not all_hashes.has(digest), "Packed Qin key has genuinely distinct source pixels: " + direction + str(frame))
+				hashes[digest] = true; all_hashes[digest] = true
+			_check(qin.texture_for(direction,frame+4) == texture and qin.texture_for(direction,frame-4) == texture, "Packed Qin positive/negative wrapping reuses authored crop: " + direction + str(frame))
+		_check(hashes.size() == 4, "Packed Qin has four distinct authored poses: " + direction)
+	_check(all_hashes.size() == 16, "Packed Qin has sixteen distinct authored direction/pose crops")
+	var foot := Vector2(123,234)
+	var rect: Rect2 = qin.drawing_rect(foot)
+	_check(rect.size == Vector2(72,72) and (rect.position + qin.FOOT * (72.0/672.0)).is_equal_approx(foot), "Packed Qin retains fixed 72px scale and ground anchor")
+	_check(qin.texture_for("unknown",0) == null, "Packed Qin rejects an unknown direction")
+	_test_qin_idle_pack(qin, all_hashes)
+	# Recruitment APIs establish eligibility. Damage is applied only after setup.
+	_party_prepare(4)
+	_check(game.state.begin_heting(), "Packed exploration starts eligible harbor chapter through actual API")
+	game.set_process(false); game.world.set_process(false); game.world.active = true
+	game.state.party_resources.shen = {"hp":7,"qi":0}
+	game.state.party_resources.tang = {"hp":0,"qi":1}
+	game.state.party_resources.qin = {"hp":9,"qi":2}
+	var resources: Dictionary = game.state.party_resources.duplicate(true)
+	var routes: Dictionary = {"qingwei":Vector2(400,450), "sluice":Vector2(300,500), "frostbridge":Vector2(350,805), "mistwood":Vector2(400,450), "heting":Vector2(400,350)}
+	for map_id: String in routes:
+		for count: int in range(1,4):
+			var selected: Array = ["qin","tang","shen"].slice(0,count)
+			_check(game.state.set_party_roster(["hero"] + selected), "Packed actual roster selects ordered exploration count: " + map_id + str(count))
+			game.state.map_id = map_id; game._sync_world_state()
+			game.world.facing = Vector2.RIGHT; game.world.change_map(map_id,routes[map_id]); game.world.active = true
+			_check(game.world.follower_ids() == selected and game.world.exploration_actor_positions().size() == count+1, "Packed map includes every selected actor in order: " + map_id + str(count))
+			_check(_exploration_safe() and game.world._can_step(routes[map_id],routes[map_id]+Vector2(277.5,0)), "Packed exploration fixture has a legal full input route: " + map_id + str(count))
+			var initial: Dictionary = _exploration_positions()
+			var reseeds: int = game.world._follower_reseed_count
+			var valid: bool = true
+			Input.action_press("move_right")
+			for _frame: int in range(30):
+				var before: Dictionary = _exploration_positions()
+				game.world._process(.05)
+				for id: String in selected:
+					var actor: Dictionary = game.world.follower_view(id)
+					valid = valid and game.world._follower_can_step(before[id],actor.position) and actor.moving == (actor.position.distance_to(before[id])>.0001)
+			Input.action_release("move_right")
+			_check(valid and game.world.player_pos.distance_to(routes[map_id]+Vector2(277.5,0)) < .01, "Packed actual ordered following moves only through legal accepted segments: " + map_id + str(count))
+			_check(game.world._follower_reseed_count == reseeds and _exploration_safe(), "Packed ordinary following never uses a reseed shortcut: " + map_id + str(count))
+			for rank: int in range(selected.size()):
+				var actor: Dictionary = game.world.follower_view(selected[rank])
+				_check(actor.position != initial[selected[rank]] and actor.walk_distance > 0 and actor.walk_phase > 0 and actor.facing.dot(Vector2.RIGHT) > .99, "Packed actor advances authored gait from actual displacement: " + map_id + selected[rank])
+				_check(absf(game.world.player_pos.x-actor.position.x-45.0*(rank+1)) < .03, "Packed actual follower rank stays at its 45-unit path gap: " + map_id + selected[rank])
+			for _frame: int in range(20): game.world._process(.05)
+			var idle: Array = game.world._party_trail.snapshot(); game.world._process(.05)
+			_check(game.world._party_trail.snapshot() == idle and not game.world.follower_view(selected[-1]).moving, "Packed stopped feet and gait remain stable: " + map_id + str(count))
+			var layers: Array = []; game.world.append_follower_layers(layers)
+			var ids: Array = []
+			for layer: Dictionary in layers: ids.append(layer.id)
+			_check(ids == selected and layers.size() == count, "Packed shared renderer receives exactly selected follower layers: " + map_id + str(count))
+			_check(game.state.party_resources == resources and game.state.party_resources.tang.hp == 0, "Packed exploration leaves injured and HP0 resources exact: " + map_id + str(count))
+	# Actual selected HP0 remains visible; benched and unrecruited actors do not.
+	_check(game.world.has_follower("tang") and game.state.party_resources.tang.hp == 0, "Packed selected HP0 Tang is visible without healing")
+	_check(game.state.set_party_roster(["hero","qin"]), "Packed roster benches two actors")
+	game._sync_world_state()
+	_check(game.world.follower_ids() == ["qin"] and not game.world.has_follower("shen") and not game.world.has_follower("tang") and game.state.party_resources == resources, "Packed benched followers disappear without changing injuries")
+	_check(game.state.set_party_roster(["hero","tang","shen","qin"]), "Packed roster reselects injured actors in new order")
+	game._sync_world_state()
+	_check(game.world.follower_ids() == ["tang","shen","qin"] and game.state.party_resources == resources, "Packed reordered reselection preserves each actor's resources")
+	await _exploration_boundaries()
+	game._process(0) # Actual main loop synchronizes the accepted player position before save.
+	var durable: Dictionary = game.state.to_dict()
+	_check(game.state.save_game() == OK, "Packed exploration writes ordinary schema13 save")
+	game._load(); game.set_process(false); game.world.set_process(false)
+	_check(game.state.to_dict() == durable and game.world.follower_ids() == ["tang","shen","qin"] and _exploration_safe(), "Packed reload reconstructs selected followers without adding persistent trail state or healing")
+	game._new_game(); game.set_process(false); game.world.set_process(false)
+	_check(game.world.follower_ids().is_empty(), "Packed unrecruited new game has no fabricated followers")
+	print("Ordered exploration party exact-runtime coverage: %d checks; actual input, 1-3 followers, all5maps, HP0/noheal, exclusion,16 distinct Qin walk poses plus4 separate neutral idles,collision/reseed; native PCK resource semantics only" % (checks-first+_exploration_prerequisite_checks))
+
+func _test_qin_idle_pack(qin, walking_hashes: Dictionary) -> void:
+	var path := "res://assets/generated/characters/painted_qin_idle.png"
+	_check(qin.IDLE_PATH == path and qin.IDLE_SCALE == 1.125 and qin.CELL == Vector2(672,672) and qin.FOOT == Vector2(336,633), "Packed Qin idle retains one fixed scale, logical cell and foot contract")
+	var expected: Dictionary = {
+		"front": [Rect2(233,49,289,553), Vector2(191,88)],
+		"left": [Rect2(799,53,259,551), Vector2(207,90)],
+		"back": [Rect2(234,646,288,546), Vector2(190,95)],
+		"right": [Rect2(798,649,254,542), Vector2(201,99)],
+	}
+	var hashes: Dictionary = {}
+	for direction: String in ["front", "right", "back", "left"]:
+		var texture = qin.idle_texture_for(direction)
+		_check(texture != null and texture.atlas.get_size() == Vector2(1254,1254) and texture.get_size() == Vector2(672,672), "Packed Qin neutral idle atlas/cell dimensions: " + direction)
+		if texture == null: continue
+		_check(texture.atlas.resource_path == path and texture.atlas != qin.texture_for(direction,0).atlas, "Packed Qin idle uses separate neutral artwork rather than a walking key: " + direction)
+		_check(qin.idle_texture_for(direction) == texture, "Packed Qin idle cache preserves stable direction texture: " + direction)
+		_check(texture.filter_clip and texture.margin.position.x >= 0 and texture.margin.position.y >= 0 and texture.region.size.x + texture.margin.position.x <= 672 and texture.region.size.y + texture.margin.position.y <= 672, "Packed Qin neutral idle fits stable cell without clipping: " + direction)
+		_check(texture.region == expected[direction][0] and texture.margin.position == expected[direction][1], "Packed Qin neutral idle keeps authored direction crop and ground placement: " + direction)
+		var image: Image = texture.atlas.get_image()
+		_check(image != null and not image.is_empty(), "Packed Qin imported neutral idle pixels are readable: " + direction)
+		if image != null and not image.is_empty():
+			var hasher := HashingContext.new(); hasher.start(HashingContext.HASH_SHA256); hasher.update(image.get_region(Rect2i(texture.region)).get_data())
+			var digest: String = hasher.finish().hex_encode()
+			_check(not hashes.has(digest) and not walking_hashes.has(digest), "Packed Qin neutral idle has distinct authored pixels: " + direction)
+			hashes[digest] = true
+	_check(hashes.size() == 4, "Packed Qin has four distinct separate neutral standing crops")
+	_check(qin.idle_texture_for("unknown") == null, "Packed Qin neutral idle rejects an unknown direction")
+	var foot := Vector2(321,432)
+	var height: float = 72.0 * qin.IDLE_SCALE
+	var rect: Rect2 = qin.drawing_rect(foot,height)
+	_check(rect.size == Vector2(81,81) and (rect.position + qin.FOOT * (height / 672.0)).is_equal_approx(foot), "Packed Qin idle uses fixed source-scale correction without shifting the foot anchor")
+
+func _exploration_boundaries() -> void:
+	# All four diagonal quadrants use actual input and the packed corrected model.
+	game.state.map_id = "qingwei"; game._sync_world_state(); game.world.change_map("qingwei",Vector2(600,450))
+	for pair: Array in [["move_right","move_down",Vector2(1,1)],["move_left","move_down",Vector2(-1,1)],["move_left","move_up",Vector2(-1,-1)],["move_right","move_up",Vector2(1,-1)]]:
+		game.world.facing = pair[2].normalized(); game.world.teleport(Vector2(600,450)); game.world.active = true
+		var reseeds: int = game.world._follower_reseed_count
+		var valid: bool = true
+		Input.action_press(pair[0]); Input.action_press(pair[1])
+		for _frame: int in range(40):
+			game.world._process(1.0/60.0)
+			valid = valid and _exploration_safe() and game.world._party_trail.status().ok
+		Input.action_release(pair[0]); Input.action_release(pair[1])
+		_check(valid and game.world._follower_reseed_count == reseeds and game.world.player_pos.distance_to(Vector2(600,450)+pair[2].normalized()*185.0*40.0/60.0)<.03, "Packed diagonal input preserves legal trails without spontaneous reseed: " + str(pair[2]))
+		var debug: Dictionary = game.world._party_trail.debug_snapshot()
+		for rank: int in range(3):
+			var actor: Dictionary = debug.actors[game.world.follower_ids()[rank]]
+			_check(absf(debug.head-actor.cursor-45.0*(rank+1))<.03, "Packed diagonal rank retains bounded arc gap: " + str(pair[2]) + str(rank))
+	var lightness = load("res://scripts/lightness_rules.gd")
+	var before: Dictionary = game.state.party_resources.duplicate(true)
+	var reseeds: int = game.world._follower_reseed_count
+	game.world.teleport(lightness.LANDING)
+	_check(game.world._follower_reseed_count == reseeds+1 and game.world.follower_recovery_reason == "teleport" and _packed_followers_on_islet(lightness) and _exploration_safe(), "Packed explicit island teleport reseeds all three on separate legal island ground")
+	_check(not game.world._follower_can_step(lightness.SHORE,lightness.LANDING) and game.state.party_resources == before, "Packed island arrival cannot fabricate a walkable water segment or heal")
+	# Real removable deck topology: all actors walk on west deck before removal.
+	game.state.map_id="heting"; game.state.heting_bridge="west"; game.state.heting_cargo=""
+	game._sync_world_state(); game.world.facing=Vector2.LEFT; game.world.change_map("heting",Vector2(820,725)); game.world.active=true
+	Input.action_press("move_left")
+	for _frame: int in range(65): game.world._process(.05)
+	Input.action_release("move_left")
+	var region = load("res://scripts/heting_region.gd")
+	var on_deck: bool = false
+	for id: String in game.world.follower_ids(): on_deck = on_deck or region.WEST_PONTOON.has_point(game.world.follower_view(id).position)
+	_check(on_deck, "Packed topology fixture actually has a follower on removable west deck")
+	game.state.heting_bridge="east"; game._sync_world_state()
+	var player: Vector2=game.world.player_pos
+	var durable: Dictionary=game.state.to_dict()
+	reseeds=game.world._follower_reseed_count; game.world._process(.05)
+	_check(game.world._follower_reseed_count==reseeds+1 and game.world.follower_recovery_reason=="topology" and game.world.player_pos==player and _exploration_safe(), "Packed removed deck reseeds legal followers on the current connected shore")
+	_check(game.state.to_dict()==durable and game.state.party_resources==before, "Packed topology repair preserves hero position, progress and injured resources")
+	game.state.heting_cargo="meal"; game._sync_world_state(); game.world.change_map("heting",Vector2(820,665))
+	_check(not game.world._can_walk(Vector2(805,510)) and game.world._follower_can_walk(Vector2(805,510)), "Packed followers retain pedestrian pier collision while loaded hero obeys cart limits")
+	game.state.heting_cargo=""; game._sync_world_state(); game.world._process(0)
+	# Real packed model fault outcomes must stop; only topology/teleport may reseed.
+	var trail=load("res://scripts/exploration_party_trail.gd").new()
+	var walk: Callable=func(p:Vector2)->bool:return p.is_finite()
+	var step: Callable=func(a:Vector2,b:Vector2)->bool:return a.is_finite() and b.is_finite()
+	_check(trail.set_members(["shen"],Vector2.ZERO,Vector2.RIGHT,walk,step).ok and trail.record_segment(Vector2.ZERO,Vector2(200,0)).ok, "Packed trail accepts explicit legal control route")
+	var wall: Callable=func(a:Vector2,b:Vector2)->bool:return a.x<90 and b.x<90
+	for _frame: int in range(100): trail.advance(.1,walk,wall)
+	var outcome: Dictionary=trail.status()
+	_check(outcome.reason=="blocked_history" and trail.snapshot()[0].position.x<90, "Packed trail stops at changed collision instead of shortcutting")
+	var positions: Dictionary=_exploration_positions(); reseeds=game.world._follower_reseed_count
+	game.world._recover_follower_fault(outcome)
+	_check(game.world._follower_reseed_count==reseeds and _exploration_positions()==positions, "Packed world does not reseed a blocked-history outcome")
+	trail=load("res://scripts/exploration_party_trail.gd").new()
+	trail.set_members(["shen"],Vector2.ZERO,Vector2.RIGHT,walk,step)
+	outcome=trail.record_segment(Vector2.ZERO,Vector2(9000,0)); game.world._recover_follower_fault(outcome)
+	_check(outcome.reason=="history_capacity" and game.world._follower_reseed_count==reseeds and _exploration_positions()==positions, "Packed history capacity fails closed without teleporting actors")
+	game.world.follower_recovery_reason="" # Clear diagnostic only; no membership/resource mutation.
