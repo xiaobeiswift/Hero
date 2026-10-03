@@ -1,0 +1,198 @@
+{
+  "status": "cloud_package_and_old15_passed_runtime_source_published_windows_and_deployment_pending",
+  "verified_utc": "2026-10-03T15:28:24.985390+00:00",
+  "runtime_source_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+  "runtime_source_tree": "686bcd211c7221a807aaaa52dc22e6cb3b1bcd96",
+  "frozen_source_manifest": {
+    "path": "Hero-staging/equipment-fitting-phase2/final-freeze/source-sha256.json",
+    "bytes": 175963,
+    "sha256": "0d4eef5ceb2fa2eec59679c45e9d5bc08c5a1a1422dbaa7bd817efd826ba5198"
+  },
+  "whole_source_files_during_gates": 1571,
+  "post_run_records": {
+    "path": "Hero-staging/equipment-fitting-phase2/final-freeze/POST-RUN-RECORDS.json",
+    "bytes": 3833,
+    "sha256": "69118ec3aceec9e5da32e1817a344efc9854adf3bdf553087ba45d8e21ae504e"
+  },
+  "source_rehearsal_checks": 18752,
+  "actual_pck_checks": 18757,
+  "complete_old15_checks": 20,
+  "actual_pck": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.30-web1/site/index.pck",
+    "bytes": 59285968,
+    "sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6"
+  },
+  "archive": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.30-web1/Hero-Web-0.0.30-web1.zip",
+    "bytes": 68627694,
+    "sha256": "56cce0e0fe52eb89a0d23d20c60a51ace50a0db8b9f266325c0357789e7f9f76"
+  },
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "795b3c707f85631818efff18c5af5b87b939a1c9a3489e0f6c7c13e775c5fe82",
+      "bytes": 9951
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "854aae6607961f965195c32319483d5acbe676bbb507962e7e7b31fb5c608867",
+      "bytes": 13447
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "e07b973883d61a660b7f8b725f013d41a01b4d6cdc0450759f11e28a0a757872",
+      "bytes": 11864
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6",
+      "bytes": 59285968
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "runtime_entries": 360,
+  "audit_inputs": 32,
+  "partitions": {
+    "PRESERVED": 1471,
+    "UNIFIED": 1247,
+    "EXPLORATION": 349,
+    "CONDITION": 191,
+    "TRANSFER": 363,
+    "CONSIGNEE": 1036,
+    "POLISH": 460,
+    "CAPSTONE": 1179,
+    "FITTING": 12369
+  },
+  "actual16_subject": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.30-web1/exact-pack-audit/CURRENT16-SUBJECT.json",
+    "bytes": 1872,
+    "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+  },
+  "old15_pck": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.29-web1/site/index.pck",
+    "bytes": 59251392,
+    "sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1"
+  },
+  "genuine15_control": {
+    "path": "Hero-staging/equipment-fitting-phase2/package-export/run-01/complete-old15/GENUINE15-CONTROL.json",
+    "bytes": 1843,
+    "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6"
+  },
+  "package_receipt": {
+    "path": "Hero-staging/equipment-fitting-phase2/package-export/run-01/RESULT.json",
+    "bytes": 5125,
+    "sha256": "e7cbc1dc64bda7548ea0fdfdf35c6101b5a943a1a1c3dad7858d0dd7c5c80019"
+  },
+  "audit_receipt": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.30-web1/exact-pack-audit/PCK-AUDIT.json",
+    "bytes": 6603,
+    "sha256": "f8ef528abf4859e76c8957e99fe84d15485e5de20c7154389ff6ce631b8b98ca"
+  },
+  "audit_log": {
+    "path": "Hero-recovery-20261002-0918/source/builds/Hero-Web-0.0.30-web1/exact-pack-audit/PCK-AUDIT.log",
+    "bytes": 3820,
+    "sha256": "ac6dad9862c9d960b6b20138e9328a11ee1d7f1504f0cfd1517c234c73df8bc5"
+  },
+  "package_owner_binding": {
+    "path": "Hero-staging/equipment-fitting-phase2/package-export/FINAL_BINDING.json",
+    "bytes": 92541,
+    "sha256": "10d5b37bffa4f74a806fa238a4d2fb866472c4a8b6962b19a9ca5a02bc41698a"
+  },
+  "package_owner_preserved_outputs": 337,
+  "independent_package_review": {
+    "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/actual-package/VERIFIED.json",
+    "bytes": 2830,
+    "sha256": "61a934f14aa615d29bcb261051038ed4bbd0603b4c9ae7eb228c0b505df563a0"
+  },
+  "old15_log": {
+    "path": "Hero-staging/equipment-fitting-phase2/package-export/run-01/complete-old15.log",
+    "bytes": 404,
+    "sha256": "7cb1d11675ddc27a60ae4bcdecacbdda916afc2732c8aa45f66c299a1ed3ea80"
+  },
+  "native_commit_mapping": {
+    "path": "Hero-staging/equipment-fitting-phase2/native/final-commit-binding.json",
+    "bytes": 3339,
+    "sha256": "211722deec1f89d26c8ac713de05f3d3e2d45ebd186c9d39c8fe7ea897ab303d"
+  },
+  "native_identity_scope": "Post-capture equality binding of final git objects; does not claim capture ran after final commit existed. Imported cache independently preserved.",
+  "owner_asset_upload": {
+    "status": "Library_upload_verified_parent_owns_chat_delivery",
+    "filename": "Hero-0.0.30-剑上配件-原生画面.png",
+    "version": 0,
+    "mime_type": "image/png",
+    "bytes": 360360,
+    "sha256": "9a7ca6268e481c29e5c0198910c17dca94b0fa609ec499a4bd2d150c8f51f142",
+    "note": "Library identifiers and private transfer metadata stay outside public source records; upload receipt alone is not proof of chat delivery."
+  },
+  "published_source_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+  "publication_receipt": {
+    "path": "Hero-recovery-20261002-0918/publication-f6e8ec5/final-verification.json",
+    "bytes": 9182,
+    "sha256": "3bbfac3445ce69e811d7bdbad510e9ffd8e99e555dbefcfffab37cf7f595e00c"
+  },
+  "evidence_only_commit": null,
+  "windows": "pending_independent_actual_build",
+  "browser": "not_verified_graphics_audio_IndexedDB",
+  "transfer_default_off": true,
+  "writer_schema": 16,
+  "live": "0.0.29 Web1 schema15; no deployment performed by these gates",
+  "published_source_tree": "686bcd211c7221a807aaaa52dc22e6cb3b1bcd96",
+  "verified_changed_source_files": 45,
+  "publication_ci": {
+    "check_runs": 0,
+    "statuses": 0,
+    "state": "pending",
+    "claim": "No remote CI pass is claimed; local full185/85/53 acceptance is separate."
+  },
+  "evidence_only_record_scope": {
+    "runtime_identity": "The exported runtime remains localf6e8ec59/publishedc280d497 with the recorded exact tree. A later documentation/evidence commit is not a new execution identity.",
+    "post_package_document_paths": [
+      "README.md",
+      "ROADMAP.md",
+      "PROGRESS.md",
+      "DEVELOPMENT.md",
+      "COMBAT.md",
+      "WEB_EXPORT.md",
+      "tests/TEST_RESULTS.md"
+    ],
+    "new_qa_path": "tests/weapon_fitting_phase2_package_closure.json",
+    "checksum_update": "Lead regenerates CHECKSUMS separately after review.",
+    "unchanged": "Runtime, tests, audit inputs, export settings, packaged bytes and all raw producer evidence must remain unchanged.",
+    "temporal_binding": "1571 frozen files were unchanged through all four export/audit checkpoints. The subsequent evidence/docs commit adds records and is not claimed identical to that complete tested tree."
+  }
+}
