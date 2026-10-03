@@ -1,0 +1,176 @@
+{
+  "game_version": "0.0.27",
+  "web_revision": 1,
+  "source_commit": "4dde6ff5203148fe2b0cc239fbe305a76e9afe30",
+  "source_tree": "f0329347a26a405ca9213ef8faefe64fe04f3aa6",
+  "save_schema": 14,
+  "accepted_save_versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "party_capacity": 4,
+  "production_default_web_transfer_enabled": false,
+  "build": {
+    "label": "Hero-Web-0.0.27-web1",
+    "source_commit": "4dde6ff5203148fe2b0cc239fbe305a76e9afe30",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+    "source_entries": 331,
+    "source_bytes": 78963585,
+    "build_script_sha256": "bd708be5604634c4e7cdb04efaeb3a933c5b5163ece5a50e501582c313067c5a",
+    "start_free": 21692706816,
+    "minimum_free": 21527330816,
+    "reserve_bytes": 536870912,
+    "status": "archive verified; browser testing pending",
+    "browser_validation": "pending",
+    "deployment": "not performed",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "web_build": {
+      "game_version": "0.0.27",
+      "web_revision": 1,
+      "caption": "0.0.27 · Web 1"
+    },
+    "build_identity_tool_sha256": "eb80c29fce4e7eb0c92aab56fb3d603a2a05f37d41119a98f21ebd0a454735fc",
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "9ce8dbd4e4b0595206460cf3dfb6dcf587e93d96c2d6385ba430aebbb28ee547",
+        "bytes": 8880
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "afb8add66cdd7aee0909ad78866be70f5b47dd634c978a8c551a8bd15704f090",
+        "bytes": 7616
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "b00f4fbb0412d3fdc5a83033457d8e63c0927d5c6137fa94874a8fefc680b9c4",
+        "bytes": 11864
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "422615fa207870d974e1709ff5f1e8c47102e895bf9033275e6839841ae30074",
+        "bytes": 57193256
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "archive": {
+      "file": "Hero-Web-0.0.27-web1.zip",
+      "bytes": 66544129,
+      "sha256": "59e46a2292a502f256919dd8406149c8ddb9be4d34f1ee184e3e4c926e02be23"
+    }
+  },
+  "exact_pck_audit": {
+    "source_commit": "4dde6ff5203148fe2b0cc239fbe305a76e9afe30",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "422615fa207870d974e1709ff5f1e8c47102e895bf9033275e6839841ae30074",
+    "audit_sha256": "80c952e78c9eee8142bf49dcc55c2543aff087f60dda0965d1dc65ec315c424e",
+    "audit_input_sha256": {
+      "tools/smoke_export.gd": "80c952e78c9eee8142bf49dcc55c2543aff087f60dda0965d1dc65ec315c424e",
+      "tools/audit_web_export.py": "cdb67798e75909c2279e0302c9226c29ec169a681b8c8a79bf7d51e542ed63c5",
+      "tools/run_godot_check.py": "cff12672a20925f1d0a4500fe57cacf7c20437927c39bc95aa47444f575be586",
+      "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+      "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+      "tests/fixtures/v017_game_state.gd.txt": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+      "tests/fixtures/v022_game_state.gd.txt": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+      "tests/fixtures/v025_game_state.gd.txt": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+      "tests/fixtures/legacy_saves/provenance.json": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+      "tests/fixtures/legacy_saves/schema_01_default.json": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+      "tests/fixtures/legacy_saves/schema_02_default.json": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+      "tests/fixtures/legacy_saves/schema_03_default.json": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+      "tests/fixtures/legacy_saves/schema_04_default.json": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+      "tests/fixtures/legacy_saves/schema_05_default.json": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+      "tests/fixtures/legacy_saves/schema_06_default.json": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+      "tests/fixtures/legacy_saves/schema_07_default.json": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+      "tests/fixtures/legacy_saves/schema_08_default.json": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+      "tests/fixtures/legacy_saves/schema_09_default.json": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+      "tests/fixtures/legacy_saves/schema_10_default.json": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+      "tests/fixtures/legacy_saves/schema_11_default.json": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+      "tests/fixtures/legacy_saves/schema_12_default.json": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+      "tests/fixtures/legacy_saves/schema_13_default.json": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc"
+    },
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "3692787fcdc1f020ddb493c96eb2e9a6c7f2f443cb4743bf4e55828d3a993e1a",
+    "schema13_reader_sha256": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "legacy_fixtures_manifest_sha256": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+    "save_schema": 14,
+    "party_capacity": 4,
+    "log_sha256": "94d593f25be226b30fe0b9a93c725092af7e415f4c2840203b673b582291fe1d",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 4735,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "condition_checks": 191,
+    "transfer_checks": 349,
+    "consignee_checks": 1036,
+    "transfer_transport": "native injected fake; real packed core/UI; not browser download/persistence",
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "native_capture_binding": {
+    "file": "tests/consignee_native_frozen_source.json",
+    "tracked_paths": 331,
+    "import_cache_paths": 80,
+    "manifest_sha256": "da469370ab810d823349c11821491f5dffce5df289559feff8fd0406f4d75fb7"
+  },
+  "limits": [
+    "Actual cloud-exported Web PCK under native Godot, not browser graphics/audio/persistence proof",
+    "Independent Windows build/audit and live rollout still pending",
+    "Browser file transfer remains production default-off",
+    "Older readers reject14 nondestructively; retain pre-upgrade saves and avoid mixed-version tabs",
+    "20–40min remains unmeasured design target",
+    "No GitHub package/release upload or server mutation performed"
+  ]
+}

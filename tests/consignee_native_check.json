@@ -6,7 +6,7 @@
   "save_schema": 14,
   "source_manifest_sha256": "da469370ab810d823349c11821491f5dffce5df289559feff8fd0406f4d75fb7",
   "corrected_story_sha256": "20bc34b03bd57294d985ee73c4e49143d9414f3c8f32c43e43417ea402874673",
-  "scope": "Native Godot4.6.3; prepared canonical completed-harbor level6 with genuine invitation APIs and ordinary stats; new chapter actual scripted Input/choices/PartyUI/explicit handovers and exact reload. Not full manual/real-time/browser/audio acceptance. Clean commit binding follows candidate commit.",
+  "scope": "Native Godot4.6.3; prepared canonical completed-harbor level6 with genuine invitation APIs and ordinary stats; new chapter actual scripted Input/choices/PartyUI/explicit handovers and exact reload. Not full manual/real-time/browser/audio acceptance. All331 tracked capture dependency paths exactly match the frozen candidate commit;80 import caches are separately recorded capture evidence, not Git objects.",
   "selected_source_screenshots": {
     "01-north-warehouse-duhui-party.png": "357-consignee-warehouse.png",
     "03-battle-full-guard.png": "358-consignee-battle.png",
@@ -72,5 +72,10 @@
     "Small returned-lot physical record partly under reseeded party; explicit confirmation page is readable",
     "Browser graphics/audio/refresh persistence not validated; transfer default-off"
   ],
-  "facts_sha256": "ab7673de472ef9b579d89fea6efc3f46c499166ee5709de7deb50f25c469cede"
+  "facts_sha256": "ab7673de472ef9b579d89fea6efc3f46c499166ee5709de7deb50f25c469cede",
+  "source_commit": "4dde6ff5203148fe2b0cc239fbe305a76e9afe30",
+  "source_tree": "f0329347a26a405ca9213ef8faefe64fe04f3aa6",
+  "tracked_captured_paths_byte_matched": 331,
+  "generated_import_cache_separately_bound": 80,
+  "frozen_binding_file": "tests/consignee_native_frozen_source.json"
 }
