@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 13
+const SAVE_VERSION: int = 14
 const MAX_SAVE_BYTES: int = 1048576
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
@@ -11,6 +11,7 @@ const Mist=preload("res://scripts/mistwood_rules.gd")
 const Heting=preload("res://scripts/heting_rules.gd")
 const Receipt=preload("res://scripts/heting_receipt_rules.gd")
 const ReceiptCombat=preload("res://scripts/heting_receipt_combat.gd")
+const Consignee = preload("res://scripts/heting_consignee_rules.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
@@ -69,6 +70,7 @@ var _party_sluice_entry: Dictionary = {}
 var _party_archive_entry: Dictionary = {}
 var _party_extra_entry: Dictionary = {}
 var _party_practice_before: Dictionary = {}
+var _party_consignee_identity: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -78,6 +80,12 @@ var heting_cargo:String=""
 var heting_draft:String=""
 var heting_ending:String=""
 var receipt_stage:int=0
+var consignee_stage: int = 0
+var consignee_observations: Array[String] = []
+var consignee_contributions: Array[String] = []
+var consignee_draft: String = ""
+var consignee_cargo_location: String = ""
+var consignee_ending: String = ""
 var mist_stage:int=0
 var mist_gauges:Array[String]=[]
 var mist_approach:String=""
@@ -158,6 +166,12 @@ func reset_game() -> void:
 	equipment = "旧铁剑"
 	heting_stage=0;heting_bridge="";heting_delivered.clear();heting_cargo="";heting_draft="";heting_ending=""
 	receipt_stage=0
+	consignee_stage = 0
+	consignee_observations.clear()
+	consignee_contributions.clear()
+	consignee_draft = ""
+	consignee_cargo_location = ""
+	consignee_ending = ""
 	mist_stage=0;mist_gauges.clear();mist_approach="";mist_ending=""
 	chapter_two_stage=0
 	archive_clues.clear()
@@ -709,6 +723,9 @@ func to_dict() -> Dictionary:
 		"heting_stage":heting_stage,"heting_bridge":heting_bridge,"heting_delivered":heting_delivered.duplicate(),
 		"heting_cargo":heting_cargo,"heting_draft":heting_draft,"heting_ending":heting_ending,
 		"receipt_stage":receipt_stage,
+		"consignee_stage": consignee_stage, "consignee_observations": consignee_observations.duplicate(),
+		"consignee_contributions": consignee_contributions.duplicate(), "consignee_draft": consignee_draft,
+		"consignee_cargo_location": consignee_cargo_location, "consignee_ending": consignee_ending,
 		"mist_stage":mist_stage,"mist_gauges":mist_gauges.duplicate(),"mist_approach":mist_approach,"mist_ending":mist_ending,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
@@ -792,7 +809,7 @@ func inspect_save_bytes(bytes: PackedByteArray) -> Dictionary:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return {"ok": false, "error": ERR_FILE_UNRECOGNIZED}
 	if not document.get("player") is Dictionary:
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
@@ -815,6 +832,11 @@ func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
 	if version >= 12:
 		var normalized: Dictionary = candidate.to_dict()
 		var original: Dictionary = data.duplicate(true)
+		# Only an absent legacy chapter bundle receives neutral defaults. A
+		# present bundle remains strictly validated and compared, never dropped.
+		if version < 14 and not data.has("consignee_stage"):
+			for key: String in Consignee.FIELDS:
+				normalized.erase(key)
 		if version == 12:
 			normalized.erase("internal_unlocked")
 			original.erase("internal_unlocked")
@@ -856,6 +878,7 @@ func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> v
 	Chapter.restore(self,data)
 	Mist.restore(self,data)
 	Heting.restore(self,data)
+	Consignee.restore(self, data)
 	receipt_stage=_bounded_int(data,"receipt_stage",0,0,3)
 	Companions.restore(self,data)
 	qin_stage = int(data.get("qin_stage", 0)) if version >= 12 else 0
@@ -914,6 +937,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Mist.valid(data,version):return false
 	if not Heting.valid(data,version):return false
 	if not Receipt.valid(data,version):return false
+	if not Consignee.valid(data, version): return false
 	if not Companions.valid(data):return false
 	if version >= 12 and not _valid_qin_progress(data):return false
 	if not ShenCare.valid(data,version):return false
@@ -1015,6 +1039,7 @@ func _clear_battle() -> void:
 	_party_archive_entry = {}
 	_party_extra_entry = {}
 	_party_practice_before = {}
+	_party_consignee_identity = {}
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -1355,6 +1380,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	party_session = candidate
 	_party_encounter = encounter_id
 	_party_extra_entry = UnifiedEncounters.progress(self, encounter_id)
+	if encounter_id == "heting_consignee":
+		_party_consignee_identity = {"persistent": before, "epoch": candidate.snapshot().epoch, "encounter_id": encounter_id, "provenance": candidate.snapshot().get("consignee_provenance", {}).duplicate(true)}
 	if encounter_id == "courtyard_practice": _party_practice_before = before
 	if encounter_id in ["sluice_scout", "sluice_boss"]: _party_sluice_entry = _sluice_party_progress()
 	elif encounter_id == "archive_boss": _party_archive_entry = _archive_party_progress()
@@ -1450,6 +1477,8 @@ func finish_party_presentation(epoch: int, token: int) -> Dictionary:
 
 
 func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
+	if _party_encounter == "heting_consignee" and not _valid_consignee_terminal(snapshot):
+		return {"ok": false, "reason": "收货交锋的凭据、进度或已消耗资源已经改变。"}
 	var candidate = _detached_persistent_state()
 	if _party_encounter == "courtyard_practice":
 		if not _same_save_value(to_dict(), _party_practice_before): return {"ok": false, "reason": "演练期间的持久状态发生变化，拒绝覆盖。"}
@@ -1480,6 +1509,11 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 			var extra: Dictionary = UnifiedEncounters.settle_extra_win(candidate, _party_encounter, snapshot)
 			if not extra.get("ok", false): return {"ok": false, "reason": "调查或验艺结算条件已失效。"}
 			reward_xp = int(extra.xp); messages.append_array(extra.messages); awarded = true
+		elif _party_encounter == "heting_consignee":
+			if not Consignee.settle_victory(candidate, String(_party_extra_entry.get("consignee_draft", ""))):
+				return {"ok": false, "reason": "收货暂缓方案或调查进度已失效。"}
+			# Securing this finite lot is not its final disposition or reward.
+			candidate.victories = mini(999999, candidate.victories + 1)
 		elif _party_encounter == "heting_receipt":
 			if not Receipt.settle_victory(candidate):
 				return {"ok": false, "reason": "复签进度不再允许本次结算。"}
@@ -1528,8 +1562,8 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 			awarded = true
 	elif snapshot.outcome == "defeat":
 		candidate.coins = maxi(0, candidate.coins - mini(candidate.coins, 8))
-		candidate.map_id = "heting" if _party_encounter == "heting_receipt" else "qingwei"
-		candidate.position = Vector2(230, 735) if _party_encounter == "heting_receipt" else Vector2(420, 450)
+		candidate.map_id = "heting" if _party_encounter in ["heting_receipt", "heting_consignee"] else "qingwei"
+		candidate.position = Vector2(230, 735) if _party_encounter in ["heting_receipt", "heting_consignee"] else Vector2(420, 450)
 	# gain_xp reconciles growth after its explicit hero refill. Reapplying the
 	# pre-XP resource plan here would wrongly erase that refill.
 	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
@@ -1547,6 +1581,9 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 		"mist_stage": candidate.mist_stage, "mist_approach": candidate.mist_approach, "sect_trial_won": candidate.sect_trial_won,
 		"receipt_stage": candidate.receipt_stage, "map_id": candidate.map_id,
 		"position": candidate.position, "messages": messages, "resources": candidate.party_resource_snapshot()}
+	if _party_encounter == "heting_consignee":
+		settlement["consignee_stage"] = candidate.consignee_stage
+		settlement["consignee_ending"] = candidate.consignee_ending
 	return {"ok": true, "state": candidate, "settlement": settlement}
 
 
@@ -1556,6 +1593,7 @@ func _valid_schema12_core(data: Dictionary, version: int = SAVE_VERSION) -> bool
 	# malformed fields or incomplete party resources.
 	for key: String in to_dict():
 		if key == "internal_unlocked" and version < 13: continue
+		if key in Consignee.FIELDS and version < 14: continue
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:
@@ -1600,3 +1638,94 @@ func _valid_qin_progress(data: Dictionary) -> bool:
 	if not data.get("qin_unlocked") is bool or data.qin_unlocked != (stage == 4):
 		return false
 	return stage == 0 or (data.get("mist_stage", 0) == 4 and data.get("mist_ending", "") in Mist.ENDINGS)
+
+
+## Format14 chapter mutations are detached whole-state transactions. Pending
+## presentation tokens block them even if a stale caller clears battle_active.
+func _consignee_candidate():
+	if battle_active or _party_pending_token >= 0 or _party_gate(): return null
+	if not _stage_save_data(to_dict(), SAVE_VERSION).ok: return null
+	return _detached_persistent_state()
+
+
+func _commit_consignee_candidate(candidate) -> bool:
+	if candidate == null or battle_active or _party_pending_token >= 0 or _party_gate(): return false
+	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok: return false
+	_copy_persistent_from(candidate)
+	return true
+
+
+func begin_consignee() -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.begin(candidate) and _commit_consignee_candidate(candidate)
+
+
+func observe_consignee(id: String, method: String = "solo") -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.observe(candidate, id, method) and _commit_consignee_candidate(candidate)
+
+
+func resolve_consignee_contradiction(answer: String) -> Dictionary:
+	var candidate = _consignee_candidate()
+	if candidate == null: return {"ok": false, "correct": false, "reason": "当前不能核对收货凭据。"}
+	var result: Dictionary = Consignee.resolve_contradiction(candidate, answer)
+	if result.get("ok", false) and not _commit_consignee_candidate(candidate):
+		return {"ok": false, "correct": false, "reason": "完整进度校验未通过。"}
+	return result
+
+
+func choose_consignee_plan(id: String) -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.choose_plan(candidate, id) and _commit_consignee_candidate(candidate)
+
+
+func available_consignee_cargo(source: String) -> Array[String]:
+	return Consignee.available_cargo(self, source)
+
+
+func take_consignee_cargo(id: String, source: String) -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.take_cargo(candidate, id, source) and _commit_consignee_candidate(candidate)
+
+
+func park_consignee_cargo() -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.park_cargo(candidate) and _commit_consignee_candidate(candidate)
+
+
+func finish_consignee_delivery(receiver: String, expected_plan: String) -> bool:
+	var candidate = _consignee_candidate()
+	return candidate != null and Consignee.finish_delivery(candidate, receiver, expected_plan) and _commit_consignee_candidate(candidate)
+
+
+## This new encounter accepts only its real controller snapshot. The entry
+## document is immutable evidence of every non-battle field; current HP, qi,
+## medicine and proficiency must be precisely the accepted model's resources.
+## Validate before defeat recovery or any XP award can conceal malformed data.
+func _valid_consignee_terminal(snapshot: Dictionary) -> bool:
+	if party_session == null or _party_consignee_identity.is_empty(): return false
+	if snapshot.get("encounter_id") != "heting_consignee" or snapshot.get("epoch") != _party_consignee_identity.epoch: return false
+	if not _same_save_value(snapshot.get("consignee_provenance", {}), _party_consignee_identity.provenance): return false
+	if snapshot.get("active", true) or not snapshot.get("locked", false): return false
+	if snapshot.get("pending_token", -1) != _party_pending_token or _party_pending_token < 0: return false
+	if not _same_save_value(snapshot, party_session.snapshot()): return false
+	if not snapshot.get("actors") is Array or not snapshot.get("enemies") is Array: return false
+	var expected: Dictionary = _party_consignee_identity.persistent.duplicate(true)
+	var ids: Array[String] = []
+	for actor: Dictionary in snapshot.actors:
+		if ids.has(String(actor.id)): return false
+		ids.append(String(actor.id))
+		if actor.id == "hero":
+			expected.hp = actor.hp
+			expected.qi = actor.qi
+			expected.art_uses = actor.art_uses.duplicate(true)
+		else:
+			if not expected.party_resources.has(actor.id): return false
+			expected.party_resources[actor.id] = {"hp": actor.hp, "qi": actor.qi}
+	if ids != expected.party_roster: return false
+	expected.medicine = snapshot.medicine
+	if not _same_save_value(to_dict(), expected): return false
+	if snapshot.outcome == "win":
+		for enemy: Dictionary in snapshot.enemies:
+			if enemy.hp != 0: return false
+	return snapshot.outcome in ["win", "flee", "defeat"]

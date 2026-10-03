@@ -1,8 +1,8 @@
 extends RefCounted
 ## Entry/progression evidence for the shared automatic battle controller.
 ## Resource changes belong to the battle model and atomic HeroState settlement.
-const IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt"]
-const LOCATIONS = {"story":["qingwei","bandit"], "training":["qingwei","bandit"], "sect_trial":["qingwei","mentor"], "courtyard_practice":["qingwei","courtyard_practice"], "sluice_scout":["sluice","ledger_runner"], "sluice_boss":["sluice","sluice_boss"], "archive_boss":["frostbridge","chapter_archive"], "mist_scout":["mistwood","mist_scout"], "mist_keeper":["mistwood","mist_gate"], "heting_receipt":["heting","heting_scale"]}
+const IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt", "heting_consignee"]
+const LOCATIONS = {"story":["qingwei","bandit"], "training":["qingwei","bandit"], "sect_trial":["qingwei","mentor"], "courtyard_practice":["qingwei","courtyard_practice"], "sluice_scout":["sluice","ledger_runner"], "sluice_boss":["sluice","sluice_boss"], "archive_boss":["frostbridge","chapter_archive"], "mist_scout":["mistwood","mist_scout"], "mist_keeper":["mistwood","mist_gate"], "heting_receipt":["heting","heting_scale"], "heting_consignee":["heting","consignee_warehouse"]}
 static func can_enter(s, id:String)->bool:
  if not IDS.has(id) or s.battle_active or s.hp<1 or s._party_gate():return false
  if s.map_id!=LOCATIONS[id][0]:return false
@@ -14,10 +14,12 @@ static func can_enter(s, id:String)->bool:
   "sluice_scout","sluice_boss":return s.can_start_sluice_party_battle(id)
   "archive_boss":return s.can_start_archive_party_battle()
   "heting_receipt":return s.receipt_stage==1 and s.Receipt.can_begin(s)
+  "heting_consignee":return s._party_pending_token < 0 and s.Consignee.can_confront(s)
   "mist_scout":return s.mist_stage==1 and s.mist_approach.is_empty() and s.chapter_two_stage==4
   "mist_keeper":return s.mist_stage==2 and not s.mist_approach.is_empty() and s.mist_gauges.size()==3 and s.chapter_two_stage==4
  return false
 static func progress(s,id:String)->Dictionary:
+ if id=="heting_consignee":return s.Consignee.progress(s)
  if id.begins_with("mist_"):
   return {"map":s.map_id,"chapter":s.chapter_two_stage,"chapter_ending":s.chapter_two_ending,"stage":s.mist_stage,"approach":s.mist_approach,"gauges":s.mist_gauges.duplicate(),"ending":s.mist_ending}
  if id=="sect_trial":

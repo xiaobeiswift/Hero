@@ -5,7 +5,7 @@ extends RefCounted
 ## existing battle epoch/settlement gate. This does NOT change SAVE_VERSION.
 const Catalog = preload("res://scripts/party_actor_catalog.gd")
 const Companions = preload("res://scripts/companion_rules.gd")
-const PAYLOAD_VERSION: int = 13
+const PAYLOAD_VERSION: int = 14
 const PARTY_KEYS: Array[String] = ["party_roster", "party_resources"]
 const RESOURCE_KEYS: Array[String] = ["hp", "qi"]
 
