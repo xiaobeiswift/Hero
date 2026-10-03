@@ -1,0 +1,16 @@
+{
+  "commit": "8a8b580fdd03ceaa5ca6be8160a299a12877360a",
+  "public_commit": "e1f8b420",
+  "path": "scripts/game_state.gd",
+  "git_blob": "b5bbe1f304a0e562e77d0a9c2d2a054bcee16b09",
+  "sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+  "bytes": 72931,
+  "schema": 14,
+  "scope": "Byte-exact actual Web28 reader, frozen before schema15 edits. Tests remove only class_name HeroState\\n in memory. Dependencies resolve from current source. This authentic-reader version-gate proof is not a full historical runtime, gameplay, scene, browser, or rollout acceptance claim. Never package or upload this fixture as runtime code.",
+  "reference_pck": {
+    "path": "builds/Hero-Web-0.0.28-web1/site/index.pck",
+    "bytes": 57195048,
+    "sha256": "c8e652c0c716ef1c78ae80b1a70a08db97b9395e0ab8be1407e954ed52d46bad",
+    "use": "Separate-process full-old-runtime rejection is an optional independent gate using this retained cloud artifact. Do not copy its PCK into source, export or upload it."
+  }
+}
