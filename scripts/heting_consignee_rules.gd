@@ -9,7 +9,10 @@ extends RefCounted
 ## saving the settled state, never repeat the award or roll back in memory.
 const Heting = preload("res://scripts/heting_rules.gd")
 const TITLE: String = "鹤汀续事·未损先收"
-const SAVE_VERSION: int = 14
+const INTRODUCED_VERSION: int = 14
+const MAX_SAVE_VERSION: int = 15
+# Compatibility alias denotes this bundle's introduction, not host schema.
+const SAVE_VERSION: int = INTRODUCED_VERSION
 const REWARD_XP: int = 120
 const REWARD_COINS: int = 60
 const FIELDS: Array[String] = ["consignee_stage", "consignee_observations", "consignee_contributions", "consignee_draft", "consignee_cargo_location", "consignee_ending"]
@@ -223,12 +226,12 @@ static func restore(s, data: Dictionary) -> void:
 
 
 static func valid(data: Dictionary, version: int) -> bool:
-	if version < 1 or version > SAVE_VERSION:
+	if version < 1 or version > MAX_SAVE_VERSION:
 		return false
 	var present: int = 0
 	for key: String in FIELDS:
 		present += int(data.has(key))
-	if (version >= SAVE_VERSION and present != FIELDS.size()) or (present > 0 and present != FIELDS.size()):
+	if (version >= INTRODUCED_VERSION and present != FIELDS.size()) or (present > 0 and present != FIELDS.size()):
 		return false
 	var stage = data.get("consignee_stage", 0)
 	if not _integer(stage, 0, 5):
@@ -285,7 +288,7 @@ static func _can_mutate(s) -> bool:
 	if s.has_method("_party_gate") and s._party_gate():
 		return false
 	var data: Dictionary = progress(s)
-	return _valid_prior_story(data) and valid(data, SAVE_VERSION)
+	return _valid_prior_story(data) and valid(data, MAX_SAVE_VERSION)
 
 
 static func _valid_prior_story(data: Dictionary) -> bool:

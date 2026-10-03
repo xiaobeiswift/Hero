@@ -58,6 +58,9 @@ class UnitPlate extends Button:
 				draw_string(FONT, Vector2(0,59), status_caption(), HORIZONTAL_ALIGNMENT_CENTER, size.x, 11, Color("edbf82"))
 
 static func open(owner, kind: String) -> Control:
+	# A known model is not a ready scene until its original art/title is integrated.
+	# Reject before autosave or model entry; phase-one capstone stays model-only.
+	if not ENCOUNTER_TITLES.has(kind): return null
 	if owner.current_screen != "explore" or owner.quit_pending or owner.state.battle_active: return null
 	if kind == "heting_consignee" and not owner.consignee_story.battle_entry_ready(): return null
 	# Every real entry checkpoints before accepting any new combat costs.

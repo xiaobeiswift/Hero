@@ -18,7 +18,7 @@ func _ready() -> bool:
 		and host.state._party_pending_token < 0 and not host.state._party_gate() \
 		and host.state.map_id == "heting" and host.world.map_id == "heting" \
 		and host.state.hp > 0 and host.state.heting_stage == 4 \
-		and host.state._stage_save_data(host.state.to_dict(), Rules.SAVE_VERSION).ok
+		and host.state._stage_save_data(host.state.to_dict(), host.state.SAVE_VERSION).ok
 
 func _at(site: String) -> bool:
 	return _ready() and host.world.interactables.has(site) and host.world.player_pos.is_finite() \

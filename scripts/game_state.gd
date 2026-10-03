@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 14
+const SAVE_VERSION: int = 15
 const MAX_SAVE_BYTES: int = 1048576
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
@@ -12,6 +12,7 @@ const Heting=preload("res://scripts/heting_rules.gd")
 const Receipt=preload("res://scripts/heting_receipt_rules.gd")
 const ReceiptCombat=preload("res://scripts/heting_receipt_combat.gd")
 const Consignee = preload("res://scripts/heting_consignee_rules.gd")
+const Capstone = preload("res://scripts/volume_one_capstone_rules.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const ShenCare=preload("res://scripts/shen_care_rules.gd")
 const Companions=preload("res://scripts/companion_rules.gd")
@@ -71,6 +72,7 @@ var _party_archive_entry: Dictionary = {}
 var _party_extra_entry: Dictionary = {}
 var _party_practice_before: Dictionary = {}
 var _party_consignee_identity: Dictionary = {}
+var _party_capstone_identity: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
 var heting_stage:int=0
@@ -86,6 +88,9 @@ var consignee_contributions: Array[String] = []
 var consignee_draft: String = ""
 var consignee_cargo_location: String = ""
 var consignee_ending: String = ""
+var capstone_stage: int = 0
+var capstone_draft: String = ""
+var capstone_ending: String = ""
 var mist_stage:int=0
 var mist_gauges:Array[String]=[]
 var mist_approach:String=""
@@ -172,6 +177,9 @@ func reset_game() -> void:
 	consignee_draft = ""
 	consignee_cargo_location = ""
 	consignee_ending = ""
+	capstone_stage = 0
+	capstone_draft = ""
+	capstone_ending = ""
 	mist_stage=0;mist_gauges.clear();mist_approach="";mist_ending=""
 	chapter_two_stage=0
 	archive_clues.clear()
@@ -726,6 +734,7 @@ func to_dict() -> Dictionary:
 		"consignee_stage": consignee_stage, "consignee_observations": consignee_observations.duplicate(),
 		"consignee_contributions": consignee_contributions.duplicate(), "consignee_draft": consignee_draft,
 		"consignee_cargo_location": consignee_cargo_location, "consignee_ending": consignee_ending,
+		"capstone_stage": capstone_stage, "capstone_draft": capstone_draft, "capstone_ending": capstone_ending,
 		"mist_stage":mist_stage,"mist_gauges":mist_gauges.duplicate(),"mist_approach":mist_approach,"mist_ending":mist_ending,
 		"chapter_two_stage":chapter_two_stage,"archive_clues":archive_clues.duplicate(),"seal_sequence":seal_sequence.duplicate(),"chapter_two_ending":chapter_two_ending,"bridge_repaired":bridge_repaired,
 		"armor":armor, "resources":resources.duplicate(true), "gathered_nodes":gathered_nodes.duplicate(),
@@ -809,7 +818,7 @@ func inspect_save_bytes(bytes: PackedByteArray) -> Dictionary:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return {"ok": false, "error": ERR_FILE_UNRECOGNIZED}
 	if not document.get("player") is Dictionary:
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
@@ -836,6 +845,9 @@ func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
 		# present bundle remains strictly validated and compared, never dropped.
 		if version < 14 and not data.has("consignee_stage"):
 			for key: String in Consignee.FIELDS:
+				normalized.erase(key)
+		if version < 15 and not data.has("capstone_stage"):
+			for key: String in Capstone.FIELDS:
 				normalized.erase(key)
 		if version == 12:
 			normalized.erase("internal_unlocked")
@@ -879,6 +891,7 @@ func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> v
 	Mist.restore(self,data)
 	Heting.restore(self,data)
 	Consignee.restore(self, data)
+	Capstone.restore(self, data)
 	receipt_stage=_bounded_int(data,"receipt_stage",0,0,3)
 	Companions.restore(self,data)
 	qin_stage = int(data.get("qin_stage", 0)) if version >= 12 else 0
@@ -938,6 +951,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Heting.valid(data,version):return false
 	if not Receipt.valid(data,version):return false
 	if not Consignee.valid(data, version): return false
+	if not Capstone.valid(data, version): return false
 	if not Companions.valid(data):return false
 	if version >= 12 and not _valid_qin_progress(data):return false
 	if not ShenCare.valid(data,version):return false
@@ -1040,6 +1054,7 @@ func _clear_battle() -> void:
 	_party_extra_entry = {}
 	_party_practice_before = {}
 	_party_consignee_identity = {}
+	_party_capstone_identity = {}
 	receipt_battle_epoch+=1
 	receipt_session=null
 	receipt_settlement={}
@@ -1382,6 +1397,8 @@ func start_party_battle(encounter_id: String) -> bool:
 	_party_extra_entry = UnifiedEncounters.progress(self, encounter_id)
 	if encounter_id == "heting_consignee":
 		_party_consignee_identity = {"persistent": before, "epoch": candidate.snapshot().epoch, "encounter_id": encounter_id, "provenance": candidate.snapshot().get("consignee_provenance", {}).duplicate(true)}
+	if encounter_id == "capstone_authorizer":
+		_party_capstone_identity = {"persistent": before, "encounter_id": encounter_id, "epoch": candidate.snapshot().epoch, "host_epoch": party_battle_epoch, "session_id": candidate.get_instance_id(), "enemy": candidate.snapshot().enemies[0].duplicate(true), "provenance": candidate.snapshot().get("capstone_provenance", {}).duplicate(true)}
 	if encounter_id == "courtyard_practice": _party_practice_before = before
 	if encounter_id in ["sluice_scout", "sluice_boss"]: _party_sluice_entry = _sluice_party_progress()
 	elif encounter_id == "archive_boss": _party_archive_entry = _archive_party_progress()
@@ -1477,13 +1494,18 @@ func finish_party_presentation(epoch: int, token: int) -> Dictionary:
 
 
 func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
+	if (_party_encounter == "capstone_authorizer" or not _party_capstone_identity.is_empty()) and not _valid_capstone_terminal(snapshot):
+		return {"ok": false, "reason": "截令交锋的凭据、进度或已消耗资源已经改变。"}
 	if _party_encounter == "heting_consignee" and not _valid_consignee_terminal(snapshot):
 		return {"ok": false, "reason": "收货交锋的凭据、进度或已消耗资源已经改变。"}
 	var candidate = _detached_persistent_state()
 	if _party_encounter == "courtyard_practice":
 		if not _same_save_value(to_dict(), _party_practice_before): return {"ok": false, "reason": "演练期间的持久状态发生变化，拒绝覆盖。"}
 		return {"ok": true, "state": candidate, "settlement": {"outcome": snapshot.outcome, "encounter_id": _party_encounter, "awarded": false, "reward_xp": 0, "coin_change": 0, "practice": true, "map_id": map_id, "position": position, "resources": candidate.party_resource_snapshot()}}
-	if not _party_extra_entry.is_empty() and UnifiedEncounters.progress(candidate, _party_encounter) != _party_extra_entry:
+	# Capstone progress includes live helper resources. Its stronger entry
+	# validator above already reconciles exactly the accepted battle resources;
+	# comparing those mutable values to entry again would reject genuine costs.
+	if _party_encounter != "capstone_authorizer" and not _party_extra_entry.is_empty() and UnifiedEncounters.progress(candidate, _party_encounter) != _party_extra_entry:
 		return {"ok": false, "reason": "本次交锋的调查或验艺条件已经改变。"}
 	var terminal: Dictionary = {}
 	for actor: Dictionary in snapshot.actors:
@@ -1509,6 +1531,11 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 			var extra: Dictionary = UnifiedEncounters.settle_extra_win(candidate, _party_encounter, snapshot)
 			if not extra.get("ok", false): return {"ok": false, "reason": "调查或验艺结算条件已失效。"}
 			reward_xp = int(extra.xp); messages.append_array(extra.messages); awarded = true
+		elif _party_encounter == "capstone_authorizer":
+			if not Capstone.settle_victory(candidate):
+				return {"ok": false, "reason": "签令责任或未发簿进度已失效。"}
+			# Victory only acquires the book: no classification, plan or award.
+			candidate.victories = mini(999999, candidate.victories + 1)
 		elif _party_encounter == "heting_consignee":
 			if not Consignee.settle_victory(candidate, String(_party_extra_entry.get("consignee_draft", ""))):
 				return {"ok": false, "reason": "收货暂缓方案或调查进度已失效。"}
@@ -1564,6 +1591,9 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 		candidate.coins = maxi(0, candidate.coins - mini(candidate.coins, 8))
 		candidate.map_id = "heting" if _party_encounter in ["heting_receipt", "heting_consignee"] else "qingwei"
 		candidate.position = Vector2(230, 735) if _party_encounter in ["heting_receipt", "heting_consignee"] else Vector2(420, 450)
+		if _party_encounter == "capstone_authorizer":
+			candidate.map_id = "frostbridge"
+			candidate.position = Vector2(405, 430)
 	# gain_xp reconciles growth after its explicit hero refill. Reapplying the
 	# pre-XP resource plan here would wrongly erase that refill.
 	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok:
@@ -1584,6 +1614,10 @@ func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
 	if _party_encounter == "heting_consignee":
 		settlement["consignee_stage"] = candidate.consignee_stage
 		settlement["consignee_ending"] = candidate.consignee_ending
+	if _party_encounter == "capstone_authorizer":
+		settlement["capstone_stage"] = candidate.capstone_stage
+		settlement["capstone_draft"] = candidate.capstone_draft
+		settlement["capstone_ending"] = candidate.capstone_ending
 	return {"ok": true, "state": candidate, "settlement": settlement}
 
 
@@ -1594,6 +1628,7 @@ func _valid_schema12_core(data: Dictionary, version: int = SAVE_VERSION) -> bool
 	for key: String in to_dict():
 		if key == "internal_unlocked" and version < 13: continue
 		if key in Consignee.FIELDS and version < 14: continue
+		if key in Capstone.FIELDS and version < 15: continue
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:
@@ -1728,4 +1763,119 @@ func _valid_consignee_terminal(snapshot: Dictionary) -> bool:
 	if snapshot.outcome == "win":
 		for enemy: Dictionary in snapshot.enemies:
 			if enemy.hp != 0: return false
+	return snapshot.outcome in ["win", "flee", "defeat"]
+
+
+## Format15 mutations validate a complete detached state before committing.
+## Map guards are model scope; the scene host must separately prove the live
+## site, proximity and explicit input. Saving retries serialize accepted state.
+func _capstone_candidate():
+	if battle_active or _party_pending_token >= 0 or _party_gate(): return null
+	if not _stage_save_data(to_dict(), SAVE_VERSION).ok: return null
+	return _detached_persistent_state()
+
+
+func _commit_capstone_candidate(candidate, homecoming: bool = false) -> bool:
+	if candidate == null or battle_active or _party_pending_token >= 0 or _party_gate(): return false
+	if not _stage_save_data(candidate.to_dict(), SAVE_VERSION).ok: return false
+	if not homecoming:
+		# In particular 3→4 is excluded: only authenticated battle settlement
+		# commits that transition, never a generic noncombat candidate.
+		var step: Vector2i = Vector2i(capstone_stage, candidate.capstone_stage)
+		if step not in [Vector2i(0, 1), Vector2i(1, 2), Vector2i(2, 3), Vector2i(4, 5), Vector2i(5, 5), Vector2i(5, 6)]: return false
+		if step == Vector2i(5, 5) and candidate.capstone_draft == capstone_draft: return false
+	var expected = _detached_persistent_state()
+	for key: String in Capstone.FIELDS: expected.set(key, candidate.get(key))
+	if homecoming:
+		if capstone_stage != 6 or candidate.capstone_stage != 7 or candidate.capstone_draft != capstone_draft or candidate.capstone_ending != capstone_ending: return false
+		# Independently compute only the ordinary capped XP/growth delta. Do not
+		# invoke another reward callback or grant a second live award.
+		expected.coins = mini(999999, expected.coins + Capstone.REWARD_COINS)
+		var before_growth = expected._detached_persistent_state()
+		expected._gain_xp_core(Capstone.REWARD_XP)
+		var growth: Dictionary = PartyRoster.reconcile_growth(before_growth, expected, _party_payload())
+		if not growth.ok: return false
+		expected._apply_party_plan(growth)
+	if not _same_save_value(candidate.to_dict(), expected.to_dict()): return false
+	_copy_persistent_from(candidate)
+	return true
+
+
+func begin_capstone() -> bool:
+	var candidate = _capstone_candidate()
+	return candidate != null and Capstone.begin(candidate) and _commit_capstone_candidate(candidate)
+
+
+func reveal_capstone_letter() -> bool:
+	var candidate = _capstone_candidate()
+	return candidate != null and Capstone.reveal_letter(candidate) and _commit_capstone_candidate(candidate)
+
+
+func resolve_capstone_evidence(answer: String, method: String = "solo") -> Dictionary:
+	var candidate = _capstone_candidate()
+	if candidate == null: return {"ok": false, "correct": false, "reason": "当前不能核定签令责任。"}
+	var result: Dictionary = Capstone.resolve_evidence(candidate, answer, method)
+	if result.get("ok", false) and not _commit_capstone_candidate(candidate):
+		return {"ok": false, "correct": false, "reason": "完整进度校验未通过。"}
+	return result
+
+
+func classify_capstone_orders(partition: Variant, method: String = "solo") -> Dictionary:
+	var candidate = _capstone_candidate()
+	if candidate == null: return {"ok": false, "correct": false, "reason": "当前不能分类四号未发令。"}
+	var result: Dictionary = Capstone.classify_orders(candidate, partition, method)
+	if result.get("ok", false) and not _commit_capstone_candidate(candidate):
+		return {"ok": false, "correct": false, "reason": "完整进度校验未通过。"}
+	return result
+
+
+func choose_capstone_plan(plan: String) -> bool:
+	var candidate = _capstone_candidate()
+	return candidate != null and Capstone.choose_plan(candidate, plan) and _commit_capstone_candidate(candidate)
+
+
+func confirm_capstone_disposition(expected_plan: String) -> bool:
+	var candidate = _capstone_candidate()
+	return candidate != null and Capstone.confirm_disposition(candidate, expected_plan) and _commit_capstone_candidate(candidate)
+
+
+func finish_capstone_homecoming() -> bool:
+	var candidate = _capstone_candidate()
+	return candidate != null and Capstone.finish_homecoming(candidate) and _commit_capstone_candidate(candidate, true)
+
+
+## No direct capstone victory wrapper exists. Only this exact accepted terminal
+## from the controller entered by start_party_battle may earn the book. Whole
+## entry identity is checked before recovery/rewards can conceal corruption.
+func _valid_capstone_terminal(snapshot: Dictionary) -> bool:
+	if party_session == null or _party_capstone_identity.is_empty(): return false
+	if _party_encounter != "capstone_authorizer" or battle_kind != "capstone_authorizer": return false
+	if party_session.get_instance_id() != _party_capstone_identity.session_id: return false
+	if party_battle_epoch != _party_capstone_identity.host_epoch: return false
+	if snapshot.get("encounter_id") != "capstone_authorizer" or snapshot.get("epoch") != _party_capstone_identity.epoch: return false
+	if not _same_save_value(snapshot.get("capstone_provenance", {}), _party_capstone_identity.provenance): return false
+	if snapshot.get("active", true) or not snapshot.get("locked", false): return false
+	if snapshot.get("pending_token", -1) != _party_pending_token or _party_pending_token < 0: return false
+	if not _same_save_value(snapshot, party_session.snapshot()): return false
+	if not snapshot.get("actors") is Array or not snapshot.get("enemies") is Array: return false
+	if snapshot.enemies.size() != 1 or snapshot.enemies[0].get("id") != "liang_zhen": return false
+	if snapshot.enemies[0].get("max_hp") != _party_capstone_identity.provenance.get("liang_zhen_max_hp"): return false
+	for key: String in ["id", "name", "team", "max_hp", "attack", "heavy_attack"]:
+		if not _same_save_value(snapshot.enemies[0].get(key), _party_capstone_identity.enemy.get(key)): return false
+	var expected: Dictionary = _party_capstone_identity.persistent.duplicate(true)
+	var ids: Array[String] = []
+	for actor: Dictionary in snapshot.actors:
+		if ids.has(String(actor.id)): return false
+		ids.append(String(actor.id))
+		if actor.id == "hero":
+			expected.hp = actor.hp
+			expected.qi = actor.qi
+			expected.art_uses = actor.art_uses.duplicate(true)
+		else:
+			if not expected.party_resources.has(actor.id): return false
+			expected.party_resources[actor.id] = {"hp": actor.hp, "qi": actor.qi}
+	if ids != expected.party_roster: return false
+	expected.medicine = snapshot.medicine
+	if not _same_save_value(to_dict(), expected): return false
+	if snapshot.outcome == "win" and snapshot.enemies[0].hp != 0: return false
 	return snapshot.outcome in ["win", "flee", "defeat"]

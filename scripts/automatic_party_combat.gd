@@ -5,9 +5,10 @@ extends "res://scripts/party_combat_rules.gd"
 const Skills = preload("res://scripts/combat_skill_catalog.gd")
 const Patterns = preload("res://scripts/battle_patterns.gd")
 const Consignee = preload("res://scripts/heting_consignee_combat_data.gd")
+const Capstone = preload("res://scripts/volume_one_capstone_combat_data.gd")
 const Sects = preload("res://scripts/sect_rules.gd")
 const CATEGORIES: Array[String] = ["martial", "internal", "lightness"]
-const ENCOUNTER_IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt", "heting_consignee"]
+const ENCOUNTER_IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt", "heting_consignee", "capstone_authorizer"]
 const SUPPORTED_ENCOUNTERS: Array[String] = ENCOUNTER_IDS
 static var _global_epoch: int = 0
 static var _global_token: int = 0
@@ -20,6 +21,7 @@ var _pause_requested: bool = false
 var _queues: Dictionary = {}
 var _queue_serial: int = 0
 var _consignee_entry: Dictionary = {}
+var _capstone_entry: Dictionary = {}
 var _trial: Dictionary = {"art_used": false, "healing": 0, "guarded_heavy": false, "required_art": "", "met": false}
 
 
@@ -76,7 +78,10 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 	_medicine_heal = 40 if encounter_id == "courtyard_practice" else int(team.medicine_heal)
 	_encounter = encounter_id
 	var specs: Array = []
-	if encounter_id == Consignee.ENCOUNTER_ID:
+	if encounter_id == Capstone.ENCOUNTER_ID:
+		_capstone_entry = Capstone.endurance()
+		specs = Capstone.specs(_capstone_entry)
+	elif encounter_id == Consignee.ENCOUNTER_ID:
 		_consignee_entry = Consignee.endurance()
 		specs = Consignee.specs(_consignee_entry)
 	elif ENCOUNTERS.has(encounter_id):
@@ -153,6 +158,11 @@ func snapshot() -> Dictionary:
 			enemy.brace = bool(cadence.guarded)
 			enemy.opening_bonus = int(cadence.opening)
 			enemy.cadence_phase = String(cadence.phase)
+		if _encounter == Capstone.ENCOUNTER_ID:
+			var cadence: Dictionary = Capstone.phase(enemy.id, _round)
+			enemy.brace = bool(cadence.guarded)
+			enemy.opening_bonus = int(cadence.opening)
+			enemy.cadence_phase = String(cadence.phase)
 	var view: Dictionary = {"actors": actors, "enemies": enemies, "enemy_intents": _intents,
 		"active_actor_id": _acting_actor, "selected_actor_id": _selected_actor, "selected_target_id": _target_id,
 		"next_actor_id": _first_unspent(), "round": _round, "phase": _phase, "formation": _formation,
@@ -162,6 +172,8 @@ func snapshot() -> Dictionary:
 		"action_sequence": _serial, "trial_provenance": _trial, "automatic": true}
 	if _encounter == Consignee.ENCOUNTER_ID:
 		view.consignee_provenance = _consignee_entry
+	if _encounter == Capstone.ENCOUNTER_ID:
+		view.capstone_provenance = _capstone_entry
 	return Catalog.immutable(view)
 
 
@@ -522,6 +534,16 @@ func _plan_intents() -> void:
 			if int(intent.opening) > 0:
 				intent.description += "回势露隙：本轮每次攻击此人伤害+%d；不恢复气血。" % int(intent.opening)
 			intent.description += "入场气血%d；轻击、重击、回势三轮错拍循环。" % int(_enemy(intent.source_id).max_hp)
+		if _encounter == Capstone.ENCOUNTER_ID:
+			var cadence: Dictionary = Capstone.phase(intent.source_id, _round)
+			for key: String in ["name", "damage", "heavy", "guarded", "opening", "phase"]:
+				intent[key] = cadence[key]
+			intent.description = "%s · %s（基础%d）攻击%s；目标倒下后依公开顺序转移。" % [intent.name, "重击" if intent.heavy else ("回势轻击" if cadence.phase == "recovery" else "守势轻击"), intent.damage, _actor(intent.target_id).name]
+			if intent.guarded:
+				intent.description += "本轮自身受到的攻击伤害减半并向上取整。"
+			if int(intent.opening) > 0:
+				intent.description += "回势露隙：本轮每次攻击此人伤害+%d；不恢复气血。" % int(intent.opening)
+			intent.description += "入场气血%d；守锋、重斩、回势三轮循环。" % int(_enemy(intent.source_id).max_hp)
 		if not pattern.is_empty():
 			for key: String in ["name", "damage", "heavy", "guarded", "opening", "exposes"]:
 				intent[key] = pattern[key]
@@ -537,6 +559,8 @@ func _plan_intents() -> void:
 func _outgoing(target: Dictionary, amount: int) -> int:
 	if target.is_empty() or target.hp <= 0:
 		return 0
+	if target.get("team") == "enemy" and _encounter == Capstone.ENCOUNTER_ID:
+		amount = Capstone.outgoing(String(target.id), _round, amount)
 	if target.get("team") == "enemy" and _encounter == Consignee.ENCOUNTER_ID:
 		amount = Consignee.outgoing(String(target.id), _round, amount)
 	if target.get("team") == "enemy" and _encounter in ["mist_scout", "mist_keeper"]:
