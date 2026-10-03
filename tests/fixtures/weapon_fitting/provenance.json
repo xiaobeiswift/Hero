@@ -1,0 +1,32 @@
+{
+  "scope": "Synthetic defaults. Authentic producer1 and9–15; authored historical-layout contracts2–8 remain explicitly described by legacy_saves/provenance.json. Frozen source readers with current dependencies and complete actual old PCK process are separate proof scopes.",
+  "legacy_manifest": "tests/fixtures/legacy_saves/provenance.json",
+  "legacy_manifest_sha256": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+  "fixtures": [
+    {
+      "version": 14,
+      "path": "tests/fixtures/weapon_fitting/schema_14_default.json",
+      "bytes": 1771,
+      "sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v028_game_state.gd.txt",
+      "source_bytes": 72931,
+      "source_sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+      "generation": "weapon_fitting_fixture_producer.gd loads byte-exact historical14 source with only class_name registration removed in memory and calls its SAVE_VERSION14/save_game with current dependencies. No current HeroState data or header relabeling; complete old14 PCK rejection is separately scoped."
+    },
+    {
+      "version": 15,
+      "path": "tests/fixtures/weapon_fitting/schema_15_default.json",
+      "bytes": 1843,
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "kind": "actual-old15-pck-producer-default",
+      "source": "tests/fixtures/v029_game_state.gd.txt",
+      "source_bytes": 81624,
+      "source_sha256": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+      "runtime_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+      "pck_bytes": 59251392,
+      "pck_sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1",
+      "generation": "weapon_fitting_old15_pack_probe.gd launched in separate official4.6.3 process with exact old15 --main-pack. Actual packed HeroState.new().save_game wrote this default; pinned source-only producer with current dependencies independently produced identical bytes. No version relabeling."
+    }
+  ]
+}
