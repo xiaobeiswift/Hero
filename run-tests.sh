@@ -32,7 +32,47 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
-# 截令归灯: schema15, original scene/art, finite orders and earned routes.
+# Equipment fitting phase1: schema16 and detached, reward-free trial models.
+# No fitting controls/native/new-package acceptance is implied by this suite.
+run_checked --headless --path . --script tests/weapon_fitting_rules_test.gd
+run_checked --headless --path . --script tests/weapon_fitting_state_test.gd
+run_checked --headless --path . --script tests/weapon_fitting_read_consumers_test.gd
+run_checked --headless --path . --script tests/weapon_fitting_history_test.gd
+run_checked --headless --path . --script tests/weapon_fitting_schema_test.gd
+FITTING_LEGACY_MODEL="$(realpath "$TEST_ROOT")/fitting-legacy-automatic.gd"
+python3 - "$FITTING_LEGACY_MODEL" <<'PYFITTINGLEGACY'
+import hashlib
+import sys
+from pathlib import Path
+blob = Path("tests/fixtures/weapon_fitting/legacy_automatic.gd.txt").read_bytes()
+assert hashlib.sha256(blob).hexdigest() == "e1184548085af19dc0142fd01c25fe667b2be7e661bee50c03fd821899fb1c42", "Pinned automatic baseline changed"
+target = Path(sys.argv[1])
+assert not target.exists(), "Preserve prior isolated baseline evidence"
+target.write_bytes(blob)
+PYFITTINGLEGACY
+run_checked --headless --path . --script tests/weapon_fitting_trial_model_test.gd -- --legacy-model="$FITTING_LEGACY_MODEL"
+python3 - <<'PYFITTINGREFERENCE'
+import hashlib
+from pathlib import Path
+path = Path("tests/fixtures/weapon_fitting/pressure_entry_reference.json")
+assert hashlib.sha256(path.read_bytes()).hexdigest() == "cc8874ab19261538ff4bc092e6bb84a2db9f0d0534435217a83197e7602c1b0b", "Frozen numerical input changed"
+PYFITTINGREFERENCE
+run_checked --headless --path . --script tests/weapon_fitting_trial_metrics_test.gd -- --numerical-entry="$(pwd)/tests/fixtures/weapon_fitting/pressure_entry_reference.json"
+# Optional complete old15 PCK boundary, distinct from old source/current deps.
+if [[ -n "${HERO_WEB29_PCK:-}" ]]; then
+  FITTING_PROBE_ROOT="$(mktemp -d "$(realpath "$TEST_ROOT")/fitting-old15.XXXXXX")"
+  FITTING_OLD_PCK="$(realpath "$HERO_WEB29_PCK")"
+  FITTING_SUBJECT="$FITTING_PROBE_ROOT/current16.json"
+  FITTING_CONTROL="$FITTING_PROBE_ROOT/actual15-control.json"
+  run_checked --headless --path . --script tests/weapon_fitting_fixture_producer.gd -- 16 "$FITTING_SUBJECT"
+  mkdir -p "$FITTING_PROBE_ROOT/old"/{data,config,cache}
+  XDG_DATA_HOME="$FITTING_PROBE_ROOT/old/data" \
+  XDG_CONFIG_HOME="$FITTING_PROBE_ROOT/old/config" \
+  XDG_CACHE_HOME="$FITTING_PROBE_ROOT/old/cache" \
+    run_checked --headless --main-pack "$FITTING_OLD_PCK" \
+    --script "$(pwd)/tests/weapon_fitting_old15_pack_probe.gd" -- "$FITTING_OLD_PCK" "$FITTING_SUBJECT" "$FITTING_CONTROL"
+fi
+# 截令归灯 introduced schema15; current writer16 retains all its gates.
 # Native framebuffer, exact new PCK and browser acceptance remain separate.
 run_checked --headless --path . --script tests/capstone_rules_test.gd
 run_checked --headless --path . --script tests/capstone_schema_test.gd
@@ -63,7 +103,7 @@ run_checked --headless --fixed-fps 60 --path . --script tests/capstone_independe
 if [[ -n "${HERO_WEB28_PCK:-}" ]]; then
   CAPSTONE_PROBE_ROOT="$(mktemp -d "$(realpath "$TEST_ROOT")/capstone-old14.XXXXXX")"
   CAPSTONE_OLD_PCK="$(realpath "$HERO_WEB28_PCK")"
-  CAPSTONE_SUBJECT="$CAPSTONE_PROBE_ROOT/current15.json"
+  CAPSTONE_SUBJECT="$CAPSTONE_PROBE_ROOT/historical15.json"
   run_checked --headless --path . --script tests/capstone_independent_fixture_producer.gd -- "$CAPSTONE_SUBJECT"
   mkdir -p "$CAPSTONE_PROBE_ROOT/old"/{data,config,cache}
   XDG_DATA_HOME="$CAPSTONE_PROBE_ROOT/old/data" \
