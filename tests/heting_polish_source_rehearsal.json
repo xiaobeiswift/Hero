@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "scope": "source rehearsal only; exact final PCK and native/browser pixel acceptance remain separate",
+  "exit_code": 0,
+  "source_checks": 5190,
+  "expected_pck_only_additional": 5,
+  "coverage": {
+    "Preserved noncombat exact-runtime coverage:": 1471,
+    "Ordered exploration party exact-runtime coverage:": 349,
+    "Schema13 unified automatic exact-runtime coverage:": 1247,
+    "Exploration companion condition exact-runtime coverage:": 191,
+    "Empty-slot save transfer exact-runtime coverage:": 349,
+    "Schema14 consignee chapter exact-runtime coverage:": 1036,
+    "Heting paint-only polish exact-runtime coverage:": 460
+  },
+  "seconds": 53.71270568699401,
+  "inputs_unchanged": true,
+  "log_sha256": "f72b90a048379651bb71323fe52bfe9b7afbe4c83b5b81903e50e6d519184441",
+  "input_manifest_sha256": "199a9eae298054db69326a67044db8b706d7b5c7f033b5c791fc69145b9cec93",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "tools/run_godot_check.py",
+    "godot",
+    "--headless",
+    "--audio-driver",
+    "Dummy",
+    "--path",
+    ".",
+    "--script",
+    "tools/smoke_export.gd",
+    "--",
+    "--source-rehearsal"
+  ],
+  "original_evidence_sha256": "997b40114f56cc0284a8447feac284899222a6a8dcf6c0da055c96fc5e85e754"
+}

@@ -26,6 +26,7 @@ class PackAuditTests(unittest.TestCase):
                 + audit.CONDITION_COVERAGE + f' {audit.EXPECTED_CONDITION_CHECKS} checks; actual runtime\n'
                 + audit.TRANSFER_COVERAGE + f' {audit.EXPECTED_TRANSFER_CHECKS} checks; actual runtime\n'
                 + audit.CONSIGNEE_COVERAGE + f' {audit.EXPECTED_CONSIGNEE_CHECKS} checks; actual runtime\n'
+                + audit.POLISH_COVERAGE + f' {audit.EXPECTED_POLISH_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
     def test_complete_schema14_pack_log_required(self):
@@ -59,12 +60,14 @@ class PackAuditTests(unittest.TestCase):
                               (audit.EXPLORATION_COVERAGE,audit.EXPECTED_EXPLORATION_CHECKS),
                               (audit.CONDITION_COVERAGE,audit.EXPECTED_CONDITION_CHECKS),
                               (audit.TRANSFER_COVERAGE,audit.EXPECTED_TRANSFER_CHECKS),
-                              (audit.CONSIGNEE_COVERAGE,audit.EXPECTED_CONSIGNEE_CHECKS)):
+                              (audit.CONSIGNEE_COVERAGE,audit.EXPECTED_CONSIGNEE_CHECKS),
+                              (audit.POLISH_COVERAGE,audit.EXPECTED_POLISH_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
                 (complete.replace(marker,'Old adapter only:'),0),
                 (complete.replace(line,marker+' 1 checks; partial runtime\n'),0),
+                (complete.replace(line,marker+' 0 checks; absent runtime\n'),0),
                 (complete.replace(line,marker+f' {count+1} checks; unreviewed extension\n'),0),
                 (complete+line,0),
                 (complete+marker+' malformed duplicate\n',0),
@@ -90,21 +93,22 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.EXPECTED_CONDITION_CHECKS,191)
         self.assertEqual(audit.EXPECTED_TRANSFER_CHECKS,349)
         self.assertEqual(audit.EXPECTED_CONSIGNEE_CHECKS,1036)
-        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,4730)
-        self.assertEqual(audit.EXPECTED_CHECKS,4735)
-        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS)
+        self.assertEqual(audit.EXPECTED_POLISH_CHECKS,460)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,5190)
+        self.assertEqual(audit.EXPECTED_CHECKS,5195)
+        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS+audit.EXPECTED_POLISH_CHECKS)
         self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.27"',driver)
-        self.assertIn('title.text=="0.0.27"',driver)
+        self.assertIn('== "0.0.28"',driver)
+        self.assertIn('title.text=="0.0.28"',driver)
         self.assertNotIn('"0.0.21"',driver)
-        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS'):
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS','EXPECTED_POLISH_CHECKS'):
             with patch.object(audit,name,0):
                 self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
@@ -117,13 +121,14 @@ class PackAuditTests(unittest.TestCase):
                       ' '+audit.EXPLORATION_COVERAGE+' malformed duplicate',
                       ' '+audit.CONDITION_COVERAGE+' malformed duplicate',
                       ' '+audit.TRANSFER_COVERAGE+' malformed duplicate',
-                      ' '+audit.CONSIGNEE_COVERAGE+' malformed duplicate'):
+                      ' '+audit.CONSIGNEE_COVERAGE+' malformed duplicate',
+                      ' '+audit.POLISH_COVERAGE+' malformed duplicate'):
             with self.subTest(extra=extra):
                 self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
 
     def test_exploration_scope_cannot_impersonate_full_pack(self):
         complete=self.complete_log()
-        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only'):
+        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only','polish-only'):
             self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
@@ -150,6 +155,7 @@ class PackAuditTests(unittest.TestCase):
                             ('EXPECTED_CONDITION_CHECKS',audit.EXPECTED_CONDITION_CHECKS+1),
                             ('EXPECTED_TRANSFER_CHECKS',audit.EXPECTED_TRANSFER_CHECKS+1),
                             ('EXPECTED_CONSIGNEE_CHECKS',audit.EXPECTED_CONSIGNEE_CHECKS+1),
+                            ('EXPECTED_POLISH_CHECKS',audit.EXPECTED_POLISH_CHECKS+1),
                             ('EXPECTED_PRESERVED_CHECKS',audit.EXPECTED_PRESERVED_CHECKS+1),
                             ('EXPECTED_UNIFIED_CHECKS',audit.EXPECTED_UNIFIED_CHECKS+1)):
             with self.subTest(field=field),patch.object(audit,field,value):
@@ -186,6 +192,36 @@ class PackAuditTests(unittest.TestCase):
                      f'PASS: {audit.EXPECTED_SOURCE_CHECKS} source-rehearsal checks; 0 failures',
                      'FAIL: current package prerequisites; 43 checks; 1 failures; no game instantiated'):
             self.assertIsNone(audit.completed_pack_checks(line+'\n',0))
+
+    def test_polish_runtime_is_separate_actual_and_bounded(self):
+        root=Path(__file__).resolve().parents[1]
+        driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        self.assertIn(audit.POLISH_COVERAGE,driver)
+        self.assertIn('await _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _finish_run(rehearsal)',driver)
+        for actual in ('scenery.prepare()', 'scenery.draw(self,floor_mesh,encounter,.375)',
+                       'mesh.surface_get_arrays(0)', 'art._make_floor()',
+                       'harbor._route_label(probe,item.p,item.text,item.size,item.width,HORIZONTAL_ALIGNMENT_CENTER)',
+                       'font.get_texture_image(0,cache_size,texture_index)',
+                       'font.render_glyph(0,cache_size,glyph)', 'unique_labels.size() == 4 and labels.size() == 5',
+                       'game.state.SAVE_VERSION == 14 and not game.web_save_transfer_enabled',
+                       'no native framebuffer or browser pixel acceptance'):
+            self.assertIn(actual,driver)
+        for fixture in ('warehouse_backdrop_polish_test','heting_route_label_test'):
+            self.assertNotIn('res://tests/'+fixture,driver)
+        self.assertNotIn('FileAccess.get_file_as_string("res://scripts/heting_region.gd")',driver)
+
+    def test_old_web27_or_partial_polish_cannot_impersonate_current_pack(self):
+        complete=self.complete_log()
+        line=audit.POLISH_COVERAGE+f' {audit.EXPECTED_POLISH_CHECKS} checks; actual runtime\n'
+        for old_total in (4735,4730):
+            old=complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack',str(old_total)+' exported-pack')
+            self.assertIsNone(audit.completed_pack_checks(old,0))
+            self.assertIsNone(audit.completed_pack_checks(old.replace(line,''),0))
+        for replacement in ('',audit.POLISH_COVERAGE+' 0 checks; no polish\n',
+                            audit.POLISH_COVERAGE+' 1 checks; partial polish\n'):
+            self.assertIsNone(audit.completed_pack_checks(complete.replace(line,replacement),0))
+        self.assertIsNone(audit.completed_pack_checks(complete+line,0))
+        self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: polish-only'),0))
 
     def test_frozen_historical_readers_are_byte_exact(self):
         root = Path(__file__).resolve().parents[1]

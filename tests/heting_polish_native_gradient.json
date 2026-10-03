@@ -1,0 +1,767 @@
+{
+  "run": "Hero-staging/heting-polish-review/final-native-input",
+  "baseline_checks": 902,
+  "baseline_failures": 0,
+  "candidate_checks": 902,
+  "candidate_failures": 0,
+  "legacy": [
+    {
+      "name": "legacy-story-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-training-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sect_trial-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-courtyard_practice-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_scout-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_boss-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-archive_boss-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_scout-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_keeper-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-heting_receipt-protect-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-story-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-training-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sect_trial-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-courtyard_practice-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_scout-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_boss-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-archive_boss-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_scout-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_keeper-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-heting_receipt-side-full",
+      "shape": [
+        800,
+        1280,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-story-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-training-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sect_trial-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-courtyard_practice-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_scout-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_boss-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-archive_boss-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_scout-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_keeper-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-heting_receipt-protect-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-story-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-training-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sect_trial-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-courtyard_practice-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_scout-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-sluice_boss-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-archive_boss-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_scout-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-mist_keeper-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    },
+    {
+      "name": "legacy-heting_receipt-side-compact",
+      "shape": [
+        736,
+        1179,
+        3
+      ],
+      "changed_pixels": 0,
+      "max_channel_delta": 0,
+      "same_snapshot": true,
+      "same_clock": true,
+      "same_units": true
+    }
+  ],
+  "labels": [],
+  "gradient": [
+    {
+      "name": "warehouse-protect-full-guard",
+      "band_logical_y": 180,
+      "side": "left",
+      "roi": [
+        12,
+        177,
+        64,
+        184
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-protect-full-guard",
+      "band_logical_y": 180,
+      "side": "right",
+      "roi": [
+        1216,
+        177,
+        1268,
+        184
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-protect-full-guard",
+      "band_logical_y": 278,
+      "side": "left",
+      "roi": [
+        12,
+        275,
+        64,
+        282
+      ],
+      "baseline_max_adjacent_channel_step": 46,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-protect-full-guard",
+      "band_logical_y": 278,
+      "side": "right",
+      "roi": [
+        1216,
+        275,
+        1268,
+        282
+      ],
+      "baseline_max_adjacent_channel_step": 43,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-side-full-guard",
+      "band_logical_y": 180,
+      "side": "left",
+      "roi": [
+        12,
+        177,
+        64,
+        184
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-side-full-guard",
+      "band_logical_y": 180,
+      "side": "right",
+      "roi": [
+        1216,
+        177,
+        1268,
+        184
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-side-full-guard",
+      "band_logical_y": 278,
+      "side": "left",
+      "roi": [
+        12,
+        275,
+        64,
+        282
+      ],
+      "baseline_max_adjacent_channel_step": 46,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-side-full-guard",
+      "band_logical_y": 278,
+      "side": "right",
+      "roi": [
+        1216,
+        275,
+        1268,
+        282
+      ],
+      "baseline_max_adjacent_channel_step": 43,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-protect-compact-guard",
+      "band_logical_y": 180,
+      "side": "left",
+      "roi": [
+        11,
+        163,
+        59,
+        170
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-protect-compact-guard",
+      "band_logical_y": 180,
+      "side": "right",
+      "roi": [
+        1120,
+        163,
+        1168,
+        170
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-protect-compact-guard",
+      "band_logical_y": 278,
+      "side": "left",
+      "roi": [
+        11,
+        253,
+        59,
+        260
+      ],
+      "baseline_max_adjacent_channel_step": 49,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-protect-compact-guard",
+      "band_logical_y": 278,
+      "side": "right",
+      "roi": [
+        1120,
+        253,
+        1168,
+        260
+      ],
+      "baseline_max_adjacent_channel_step": 46,
+      "candidate_max_adjacent_channel_step": 2,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-side-compact-guard",
+      "band_logical_y": 180,
+      "side": "left",
+      "roi": [
+        11,
+        163,
+        59,
+        170
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-side-compact-guard",
+      "band_logical_y": 180,
+      "side": "right",
+      "roi": [
+        1120,
+        163,
+        1168,
+        170
+      ],
+      "baseline_max_adjacent_channel_step": 31,
+      "candidate_max_adjacent_channel_step": 0,
+      "candidate_p99_adjacent_channel_step": 0.0
+    },
+    {
+      "name": "warehouse-side-compact-guard",
+      "band_logical_y": 278,
+      "side": "left",
+      "roi": [
+        11,
+        253,
+        59,
+        260
+      ],
+      "baseline_max_adjacent_channel_step": 49,
+      "candidate_max_adjacent_channel_step": 1,
+      "candidate_p99_adjacent_channel_step": 1.0
+    },
+    {
+      "name": "warehouse-side-compact-guard",
+      "band_logical_y": 278,
+      "side": "right",
+      "roi": [
+        1120,
+        253,
+        1168,
+        260
+      ],
+      "baseline_max_adjacent_channel_step": 46,
+      "candidate_max_adjacent_channel_step": 2,
+      "candidate_p99_adjacent_channel_step": 1.0
+    }
+  ],
+  "summary": {
+    "legacy_count": 40,
+    "legacy_exact_pass": true,
+    "label_sample_count": 0,
+    "min_label_contrast": null,
+    "failed_label_samples": [],
+    "gradient_sample_count": 16,
+    "max_gradient_step": 2
+  },
+  "method": "Raw native root PNGs, no image rescaling. Original-ten complete root framebuffer exact comparison. At each point of need, sample actual near-opaque glyph fill/PAPER support within8/255 of their colors, requiring change from baseline and nearby support; conservative ratio=min actual support luminance/max actual fill luminance. Excludes antialiased fringe and is not a claim that all text pixels or every glyph stroke are opaque. Separate actual visual inspection required. Gradient samples use unobstructed left/right strips around former180/278 bands.",
+  "original_evidence_sha256": "4c9e9ae04398468c61c670094e188040cd3206a157d25d9c2b26d19351d06f90"
+}

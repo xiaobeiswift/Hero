@@ -1,0 +1,37 @@
+{
+  "exit_code": 0,
+  "seconds": 485.022,
+  "source_files_compared": 995,
+  "source_changed": [],
+  "godot_commands": 148,
+  "python_tests": 73,
+  "engine_errors": 0,
+  "log_sha256": "46465aa6ec2ca6170a7db4adca124960383b9a8c7a29cced98a5f7d5623fc9f0",
+  "runner_sha256": "221fccaed4f62b9dcde38053675404e9988400d526df4751e412c33e7d0b5ebd",
+  "old_cloud_web25_pck_enabled": true,
+  "game_version": "0.0.28",
+  "save_schema": 14,
+  "scope": "Complete source suite; exact new PCK and native/Windows/browser gates recorded separately",
+  "node_mock_dom_assertions": 53,
+  "normal_godot_commands_without_optional_old_pck": 147,
+  "candidate_status": "Final #142b26 runtime and retained native drivers; all current aggregate checks passed. Later changes are evidence/docs/screenshots only.",
+  "prior_candidate": {
+    "full_result": {
+      "exit_code": 0,
+      "seconds": 476.033,
+      "source_files_compared": 989,
+      "source_changed": [],
+      "godot_commands": 148,
+      "python_tests": 73,
+      "engine_errors": 0,
+      "log_sha256": "8aef2f44a3620c1287e6624f98f5ec3ae067c21cd81c6179f921165ee3ddfba9",
+      "runner_sha256": "221fccaed4f62b9dcde38053675404e9988400d526df4751e412c33e7d0b5ebd",
+      "old_cloud_web25_pck_enabled": true,
+      "game_version": "0.0.28",
+      "save_schema": 14,
+      "scope": "Complete source suite; exact new PCK and native/Windows/browser gates recorded separately"
+    },
+    "native_contrast_failure": 4.3244712292935565,
+    "resolution": "Only route ink changed from213c36 to142b26; exact same480 coordinate pairs remeasured, full source/native/audit gates repeated."
+  }
+}

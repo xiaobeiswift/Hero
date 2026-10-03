@@ -1,0 +1,1347 @@
+{
+  "run": "Hero-staging/heting-polish-native/candidate2-20261003-060744",
+  "binding": {
+    "original_before_after_run": "Hero-staging/heting-polish-native/run-20261003-055025",
+    "immutable_main_baseline": "Hero-staging/heting-polish-native/run-20261003-055025/baseline",
+    "immutable_supplement_baseline": "Hero-staging/heting-polish-native/run-20261003-055025/supplement/baseline",
+    "source_head": "129aa616dba62eefec3cf0709c468b02030d2657",
+    "heting_region_sha256": "d341c4f009390fcb52691d00f82988c8c65a3d31dc7025fde470472f84dc9be6",
+    "purpose": "Fresh candidate-only native rerun after measured contrast correction; no earlier evidence overwritten",
+    "resource_scope": "All original candidate scripts/scenes/assets unchanged except heting_region.gd. Both capture drivers equal retained final source bytes; main driver adds dynamic actual-palette metadata versus the immutable original baseline driver."
+  },
+  "resource_manifest_unchanged": true,
+  "changed_resources": [],
+  "native": {
+    "main": {
+      "exit_status": 0,
+      "engine": {
+        "build": "official",
+        "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+        "hex": 263683,
+        "major": 4,
+        "minor": 6,
+        "patch": 3,
+        "status": "stable",
+        "string": "4.6.3-stable (official)",
+        "timestamp": 0
+      },
+      "display_server": "X11",
+      "checks": 902,
+      "failures": 0,
+      "frames": 140,
+      "frame_hashes": {
+        "harbor-compact-z100-east-loaded-foot.png": "cbc02782ebd73e9f51deeb1e61f065e3e2b049d6548ff0fd0ad8835bbf8b93d4",
+        "harbor-compact-z100-east-loaded-north.png": "cc118a56bb634d0c7ee5ec5996f59421aae0a6b605403de250ee081b477b467a",
+        "harbor-compact-z100-east-loaded-pontoon.png": "61734e05f1efaf4bfde307537fb3033f42f5cd5d332ad7cc1a7f7fc9e20e91c7",
+        "harbor-compact-z100-east-unloaded-foot.png": "8808316a70ba06b26e096fe930713490e6e6be822840cde75470458210bfd7d2",
+        "harbor-compact-z100-east-unloaded-north.png": "dc927dacd2e20c712b90ac916f54a97957163ae5c32bd17a65c4228e0b7af8ba",
+        "harbor-compact-z100-east-unloaded-pontoon.png": "d46354d3c05c8374a499cee262983021dbc1c1b5ebfdc7eaf58724a6979edcb9",
+        "harbor-compact-z100-west-loaded-foot.png": "bd444bb86cb7560c0d3aec3aa60b51a28ff11f3aee0bd4301caf15d0fcab881d",
+        "harbor-compact-z100-west-loaded-north.png": "4cdf2912bd4dd5882202ab2878a104161cee6a7d3382d20a08593b983a1ae811",
+        "harbor-compact-z100-west-loaded-pontoon.png": "da8dbdda0c518a99232ec7e48813102574b26fca786245c5d074bffd2a00fdd5",
+        "harbor-compact-z100-west-unloaded-foot.png": "f11887d3fcf05832e3fa13d34d0f63eb867a29b3a0fd447270b5f1a27c9546cf",
+        "harbor-compact-z100-west-unloaded-north.png": "e93eb4cd4b1db8638b2e90fdb5eef3e7982dbc87ec80eed1a297450ff1d4bbb1",
+        "harbor-compact-z100-west-unloaded-pontoon.png": "905e1540041a9a7028510e13e43aba45eea6923079edc72af60f1091b85978f0",
+        "harbor-compact-z125-east-loaded-foot.png": "9262a50d2ac7a2d56459df99b8ae3168c6b61154b69a0826a046b3fff227686b",
+        "harbor-compact-z125-east-loaded-north.png": "f97039328c9b7f4aec99320aa35e99540ad2e57e456009d8014d9f0208368498",
+        "harbor-compact-z125-east-loaded-pontoon.png": "d1151dfda0869bb61e111177efbe365bcafd1cab0077b5e10681bdf2bdace656",
+        "harbor-compact-z125-east-unloaded-foot.png": "0d07aab48f428c5af70290c44c38cbc0144bcb3d1b7182c448c27128bff2ae44",
+        "harbor-compact-z125-east-unloaded-north.png": "72af1da12bfefdc09edaf0dca0940c917677588dc27872059d9546b54389259a",
+        "harbor-compact-z125-east-unloaded-pontoon.png": "febf35ade89deda0c5bd26091ee93e74d39a2462a50728f1ef27ad6646853f0d",
+        "harbor-compact-z125-west-loaded-foot.png": "1dfe7009aee221e716417592c25eef2c8bcab3ce797bcd367cd69e0d44ce77a1",
+        "harbor-compact-z125-west-loaded-north.png": "7b9d3eb4a99106b08c5027b3671f6c7acba7c71db7cc0b14af71e8152b521132",
+        "harbor-compact-z125-west-loaded-pontoon.png": "993286e18316eed27314375c54dc78168e596e7be5da68b0a607c17aa0824bf1",
+        "harbor-compact-z125-west-unloaded-foot.png": "91a3628eb7ce2a66815f76a44b208c26a83c05516d89ade7b483db07801f1cba",
+        "harbor-compact-z125-west-unloaded-north.png": "98380ba8049992ffa2e88f26eb0cea822cff5928366449272a7b5d5cec3febf0",
+        "harbor-compact-z125-west-unloaded-pontoon.png": "684350945a9df5295d15d9e614553f988eec7a1665ffd1d38772d4b02f955d5e",
+        "harbor-compact-z160-east-loaded-foot.png": "71d5509ec285682c5fee4a3c91c86b4f972ca4c755dec7ff7546407428211263",
+        "harbor-compact-z160-east-loaded-north.png": "20d203c3f9f96f75a4b66b2476b1a93c977b9e49fab5c1f01d33a55ae985cfa3",
+        "harbor-compact-z160-east-loaded-pontoon.png": "93425ef3d219b4b57ec1183b632c517dc4e1417dde878d1dcff0cbb3a6608a75",
+        "harbor-compact-z160-east-unloaded-foot.png": "51d7b097465ba08ae11c5a5bdd264a5390ed19bd5ba9facc3b77773c0784d1dc",
+        "harbor-compact-z160-east-unloaded-north.png": "81f5d1aa77968d09b2b1808869f56b0f4696e7783373d273bbeecb0f0c07bf27",
+        "harbor-compact-z160-east-unloaded-pontoon.png": "e4f51969185ffe35146967dbc4c35515ffd773a834853c8c76447c36d190f0de",
+        "harbor-compact-z160-west-loaded-foot.png": "88f3b855c7aa568b45bacc0c7cf8c5159373e65561639977daa1a395c9b26f5c",
+        "harbor-compact-z160-west-loaded-north.png": "20d203c3f9f96f75a4b66b2476b1a93c977b9e49fab5c1f01d33a55ae985cfa3",
+        "harbor-compact-z160-west-loaded-pontoon.png": "c65ae8480ce9c9776567e833c3ffe7ddda90876c9c4bf62a7173eaa562a71343",
+        "harbor-compact-z160-west-unloaded-foot.png": "33a5acffe52c498e9e800b1ead6df056ddecf137349ecb0374526d236f966dbb",
+        "harbor-compact-z160-west-unloaded-north.png": "81f5d1aa77968d09b2b1808869f56b0f4696e7783373d273bbeecb0f0c07bf27",
+        "harbor-compact-z160-west-unloaded-pontoon.png": "1edafe7e5701d80aa74e91e07cebf696934f6fc499bc7aca0e4c660ad4e097bb",
+        "harbor-full-z100-east-loaded-foot.png": "c6e562f7a769655bd34ab8f573a4afef917b579082bb2b720a789d4d83b4b31b",
+        "harbor-full-z100-east-loaded-north.png": "1a249f3b8d0ce8e68b20b10a85d5edd0678f8d1700120e23b6b4ef442c9052e0",
+        "harbor-full-z100-east-loaded-pontoon.png": "f07f9025230dd57ec7ad1e40381ebccd2b4e0f76910a3177735922a6c25ac4c3",
+        "harbor-full-z100-east-unloaded-foot.png": "14043cf6890a82ffbebc167cd1ca84876ca7d23a7c8594dbe70c0f9d08ff043f",
+        "harbor-full-z100-east-unloaded-north.png": "a87bf3ef94015922467b78ea90452be5a426ab636c06424bc89f7d2a20a951ea",
+        "harbor-full-z100-east-unloaded-pontoon.png": "220ce61e096413cd7ebc2d0908ff574a85d920446763cef714ebd17b88a6932a",
+        "harbor-full-z100-west-loaded-foot.png": "f9acee8e932eeea65cf6a5a5deaa06fc3faaf550edd6661d23824624b3ef05eb",
+        "harbor-full-z100-west-loaded-north.png": "d641bb008005af4ca25b4439529ef10a1e7f5287cc9aeb123b247fcab5ee9728",
+        "harbor-full-z100-west-loaded-pontoon.png": "12fb888124e65a623fc30ea03a7d3b227e6bc6693461e0b1b52fa967fdd8992d",
+        "harbor-full-z100-west-unloaded-foot.png": "07605bc919a59e831bc06f6d0cfe6f0049ef19013c746fccd09af130c75005f2",
+        "harbor-full-z100-west-unloaded-north.png": "37a52e8752f237271c72b1a58ebe6d27f1d02b4782eb55fef664ae5fa68d8603",
+        "harbor-full-z100-west-unloaded-pontoon.png": "455602c1237029838e23a513ba415a6a929194642982ff40060f5dbf9782cc03",
+        "harbor-full-z125-east-loaded-foot.png": "f07f063e05d1e4ff074ea030416e97b04e2bae54f015fbb76f51d5eab7042846",
+        "harbor-full-z125-east-loaded-north.png": "aafe91f8bcdcd523eacbea485e8983e28d4fe497be54b2c4be48eb71bf67544f",
+        "harbor-full-z125-east-loaded-pontoon.png": "c67fe8bbc9a671c5d10c0bced9106b69f67e713822f4c58b1e6d588c3f007df2",
+        "harbor-full-z125-east-unloaded-foot.png": "6fdcf7982f0c0c807e0ae549238e33ff70a7574499fedc421267461bd016dfee",
+        "harbor-full-z125-east-unloaded-north.png": "e9faa8b6a1581c20756ca90a9f1da31830f7f5dd77286037784046704e876c67",
+        "harbor-full-z125-east-unloaded-pontoon.png": "be44b6e267a589c8d6f4fe47b5363583b5b39b82431f6095b30454bb76b367ca",
+        "harbor-full-z125-west-loaded-foot.png": "3c6982b55aa758a003c14d208c004516a3023a38b8025b7ccfec0b9af90b2861",
+        "harbor-full-z125-west-loaded-north.png": "f36657590146ab2352cdcdeea19a98aedd3b3f522fb21fba5c47db9d6757df0a",
+        "harbor-full-z125-west-loaded-pontoon.png": "e630625e8efef4d03b0715ea62f368393de068b5f92538b7a7bdbd7a7db5a0a1",
+        "harbor-full-z125-west-unloaded-foot.png": "33e970ead28665ceabd6e5a0fca9778a95e29b84b6f31cbcb3f3a747235bc167",
+        "harbor-full-z125-west-unloaded-north.png": "6424823b77567565b3f17c484afcae988b8b0333ee0906a3dec048c7480ae7d8",
+        "harbor-full-z125-west-unloaded-pontoon.png": "22cff3a288c9d307d06c5c4ce9dedc27240e53b5d44a4b870fb1a52d50ca37fb",
+        "harbor-full-z160-east-loaded-foot.png": "251517d87e8942433af0ffa3204e66f1d2a9750deb687db6e3b290118241632d",
+        "harbor-full-z160-east-loaded-north.png": "dc64663347dc294c660dd2d9ae18b2f2daf185ce85f2f4f287d32ac8555193bd",
+        "harbor-full-z160-east-loaded-pontoon.png": "c6c9ffddfe324495a21eecbb664fb09c6381c65e12bc83d035cafb74b94a8e69",
+        "harbor-full-z160-east-unloaded-foot.png": "98739f08632db84c37ff7e7da018d84c9b6fda2c2beca1730cce190551cd24db",
+        "harbor-full-z160-east-unloaded-north.png": "83851f4be3f511e71c30a81460afcb45b6215f39789efed0d540cd60fae639d5",
+        "harbor-full-z160-east-unloaded-pontoon.png": "36d5560854562673482d88d0c5a73d6b626767ba2626b01520801d06a3ea5c26",
+        "harbor-full-z160-west-loaded-foot.png": "737bb3509ff22785f59bcc4e1ddc96d4bb406bd331e04b6fb31c3c2e6a4ea8bc",
+        "harbor-full-z160-west-loaded-north.png": "dc64663347dc294c660dd2d9ae18b2f2daf185ce85f2f4f287d32ac8555193bd",
+        "harbor-full-z160-west-loaded-pontoon.png": "8235fed818193c02fa513cb1009ce90765477b6d2da25db1919bb27e3202cc03",
+        "harbor-full-z160-west-unloaded-foot.png": "db990c3cdfc6c814572b90776cd00774308a398c192655ae104b2a585d75451c",
+        "harbor-full-z160-west-unloaded-north.png": "83851f4be3f511e71c30a81460afcb45b6215f39789efed0d540cd60fae639d5",
+        "harbor-full-z160-west-unloaded-pontoon.png": "a46279c4eb62f3ff9ddfd873999973dadabe6364ff3d348bdced8bb706297a3e",
+        "legacy-archive_boss-protect-compact.png": "432e90b927e311e0f08172482d04ac41df118acef42fa174f924d7d4c881161a",
+        "legacy-archive_boss-protect-full.png": "32aef4d103e9660b2cd9c76edcfee8008013f89dbf4169bba6a231d54967dd71",
+        "legacy-archive_boss-side-compact.png": "944bd351dcffd9c89d3b8e007afca57b5c4d3cdc49610fa65e7bbb7b954bc48c",
+        "legacy-archive_boss-side-full.png": "f46a48d8ebac658e4eb4f0d0dba68d78c851ee6d038fcee3e770a0d06ab1305e",
+        "legacy-courtyard_practice-protect-compact.png": "940574a7347e8b5587e955a3d88e34a2180f010ae53ed86da34606223db28100",
+        "legacy-courtyard_practice-protect-full.png": "b8e389a40d7ca8260ef14fc0d93bad3f9cc85b7fd7514138fcf32559949443a1",
+        "legacy-courtyard_practice-side-compact.png": "20c7e1398a466c2b1d15c63f1b75821daebab875438f7db3d663aa20427a6504",
+        "legacy-courtyard_practice-side-full.png": "07e6b78b643a700b48783ae5550dc22097a35b175461215e82f3ec633ffc21a7",
+        "legacy-heting_receipt-protect-compact.png": "9b9da7b0cc58caa0563562390cccdadd04a321d6689373a29935ee248f6dbc1f",
+        "legacy-heting_receipt-protect-full.png": "14a1677b1d392b01c296f92ae08b40e1aeded626771fa6399f12d8cc8c3298fd",
+        "legacy-heting_receipt-side-compact.png": "76f8cc68cce0f77702e5edaa08cf8009e62e41ab9aa8ed4243aed5892f75cbfd",
+        "legacy-heting_receipt-side-full.png": "07fdfd82706e18364f06aa28ccde8aeb454a51b8187d038c747e036139a7c190",
+        "legacy-mist_keeper-protect-compact.png": "cae13097180cbb4fdc979dbe54a179f26e2e285c1424ee824bee17e1443469f6",
+        "legacy-mist_keeper-protect-full.png": "d76da01794fb64177b1f5f38d89f53a8b68ec26251432e95a9762d5396c4f777",
+        "legacy-mist_keeper-side-compact.png": "4c362d773f8f74fd4565ea8205b27290c5d47cdcca9fbf50327c0ad9fe66df3d",
+        "legacy-mist_keeper-side-full.png": "a7f5f8dfb9c949eb710fd18b071ab045e7dcf67e79dc4a4fe1b9e629f3b202ba",
+        "legacy-mist_scout-protect-compact.png": "71986092360436372cc6408e59caf6444595abaeeb6e6de51018d088fea963e1",
+        "legacy-mist_scout-protect-full.png": "553afca59b682ee01884bf9ee4bac2c4b4b2008fc7d836df16d2d7a9394c6662",
+        "legacy-mist_scout-side-compact.png": "2de7ec8e91af45729fb1214d14c06a09089cfc53b927daf1e9c35d3590189539",
+        "legacy-mist_scout-side-full.png": "e47154474fe0f9817aeb9767d4569ef37056d253bb1d576f8fd2d7fe27d32d10",
+        "legacy-sect_trial-protect-compact.png": "a65f3e6f382eaaf807e0fae874e5b37cfc36de116faeb8e62eac8a077518001d",
+        "legacy-sect_trial-protect-full.png": "9ee9de067c76338f61bfa5154b5a14bdac7020a28fe79f50f13719da90567c5d",
+        "legacy-sect_trial-side-compact.png": "f3149ba96fee71b1c8a2ff5efee036aff994d51ab76c5a35292b84bc1c588504",
+        "legacy-sect_trial-side-full.png": "77166133076049d191516a98a53b510589987944448e98d255fd35bc0eaee2f1",
+        "legacy-sluice_boss-protect-compact.png": "bd961538d70e3efa34d29acc34d791df2db070f1792aca8d5b23d6d634ce4aa4",
+        "legacy-sluice_boss-protect-full.png": "d21b8662a0a5ae21542873f0168372461f6550a67bb86507869c417275e725d6",
+        "legacy-sluice_boss-side-compact.png": "68c6c8f97006bd32c032b8ee181f9b371ade0fca33cabb31cfa495322bbbe747",
+        "legacy-sluice_boss-side-full.png": "86449223ee06a88af64678b8a3bae7df2fba97a21aa11da5967cdef415c0c800",
+        "legacy-sluice_scout-protect-compact.png": "307bfdf5560ae8f24acc578c7fad47ca27d0264596308f1b1589bd76f122a4b3",
+        "legacy-sluice_scout-protect-full.png": "6f6e4ac4c5d095fa2dcf7f95061b2312fac887e40aa7b05fef5ee8d7eb379ae3",
+        "legacy-sluice_scout-side-compact.png": "7cdce161840d6ff32db40caeccfd84dbd04c3f06df559413197105a2a912483c",
+        "legacy-sluice_scout-side-full.png": "41bf260a4bcbfe5ec1fc964c701b267b686a29278a580512944d6ac9558a6c78",
+        "legacy-story-protect-compact.png": "d8970c611b3d808a2642a3b88911dde815f7588145834673f278ae0834f0ebf5",
+        "legacy-story-protect-full.png": "3147155229d2a8da9b59923d578261ce0ea66b4b511b17190df7c8fcafcced05",
+        "legacy-story-side-compact.png": "090125abd9edf29fa7f5059e566212d20905f6fee06333c7e8a7d420ae867b2a",
+        "legacy-story-side-full.png": "e5e2cfb20f1c4f62bbaae0a1ca94cb432d70d0a5289cdd95c08c24b395b675e4",
+        "legacy-training-protect-compact.png": "501256e75f96da3ac792ab1af3e8b8342c392f08a140fc7ca3cc8d1d298e32fc",
+        "legacy-training-protect-full.png": "faece097fc9866e0b228f6a73a17f615ad1f6b3b31b776f0176e1ef76ac4500d",
+        "legacy-training-side-compact.png": "dfe78a47f54d945cae3bf80809a6250a210a8b8c40f3d21bf4c8f8cca6153b8a",
+        "legacy-training-side-full.png": "0fa105c140d60a65c294ef9e01243074cff86f2cbac8105adf1011eb776135ac",
+        "warehouse-protect-compact-contact.png": "0822f9a7dfb93a2802fbe8be49608b6051281b18cb18bd04458669b898fd42ff",
+        "warehouse-protect-compact-guard.png": "c6f4282b6d4e498d4d838850ace8bd6a1366168b38b4a5441e598f7e04945641",
+        "warehouse-protect-compact-hurt.png": "22d3789cca281c48587892c209dcb51c369d5545271074e7b3829460a7c4ff4c",
+        "warehouse-protect-compact-kneel.png": "1a2180c4b8e1ad3ed992400b2a8a86150c3b841b8ab77e18e7b3a5cf1efa0ed2",
+        "warehouse-protect-compact-opening.png": "99e81c0475b111c09afd828b64acf488586154b9038711436c0dc96ef207aecd",
+        "warehouse-protect-compact-return.png": "8a645194fb00e999fc76cdbd59d552f17b31fb94471aa6bbd9edbfd0af3729b1",
+        "warehouse-protect-compact-windup.png": "008013017baa038e398c555cd0ea38b16a5738e0ab7c3cf9a0271fb671e85e8a",
+        "warehouse-protect-full-contact.png": "00479dcbf741c54d1efe519deae05ea3f128a6c5a2a7c70ef18f9d0631cf801a",
+        "warehouse-protect-full-guard.png": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b",
+        "warehouse-protect-full-hurt.png": "fcbd81c3e6a01d9ddd0999058429345f023432f789be2c049d2c3648809259a0",
+        "warehouse-protect-full-kneel.png": "3c0403b653f9e74898d7ced1525260b0bc161eeac54fad03bcbeddd309b61ab1",
+        "warehouse-protect-full-opening.png": "183f14b405fed7f4b8a70e85c99c71b34cf50fe24206fa32ef1a61588c95d0a7",
+        "warehouse-protect-full-return.png": "261f09f34c59c8c57c678900c6eb8f1cbb9e5129b47897e25a277ca2f12955fc",
+        "warehouse-protect-full-windup.png": "c1a1e21ca7edc24500d769ddfe219fc355d887cefa8951ca192b359d5ab5f506",
+        "warehouse-side-compact-contact.png": "8f073fd5cf14c36ae8bcf6ab71bb5a4faed42f4cf1a7f3468f3d1f66d715e5d4",
+        "warehouse-side-compact-guard.png": "0b2334c8be9b7c18482c316359699fe4065dc2cf12825e357d41774aee90a3b9",
+        "warehouse-side-compact-hurt.png": "e222aa5ba8e5b8c9181e8230cde860cd2f25afd487fcc3bec9af0b2ae4529270",
+        "warehouse-side-compact-kneel.png": "2a7708ac717da5315d4eb1e5542090834224b56bc051b44a5fcefad831f556be",
+        "warehouse-side-compact-opening.png": "9c8ccc7aaf0cdcbb4c69d9f578fe3fcaaa906612579cca5dde49838d7c1afc24",
+        "warehouse-side-compact-return.png": "012ef623fc0bb0b5987acf5121fd22d265d05332877b71ace56c4bd4caaa5856",
+        "warehouse-side-compact-windup.png": "a5d075438c98d72af152d7b506ee4a3a667d8f2bb8c7069fa777ff6f797db97c",
+        "warehouse-side-full-contact.png": "760b91bda7dd3bf2dded82c366c01688e80799ff723aaa363a7bf5ff263a7a87",
+        "warehouse-side-full-guard.png": "587b63e71b49ba1c67bd925d13ff698312a8ee78557532344c525e7ab9cc5f5d",
+        "warehouse-side-full-hurt.png": "597d109e5e1277dfbefb45d0c9a446aa8ded9bafc8604a879474eaf52e3782d9",
+        "warehouse-side-full-kneel.png": "87c423abb62d67e484769d3c27952ab675422b4e4464d552bb2b78814dc40857",
+        "warehouse-side-full-opening.png": "856c16b1adedb39f6528a399195265b41408b3ca5d3398cbc6adf49038b5987c",
+        "warehouse-side-full-return.png": "7806d34d3275b2ac4bb7d5d2b1be98250344c63169ec5ad38ada28f84ebd6d80",
+        "warehouse-side-full-windup.png": "83e66a143049f9273492179ce020efaba4804911083a568e7de078f0d88ca27d"
+      }
+    },
+    "supplement": {
+      "exit_status": 0,
+      "engine": {
+        "build": "official",
+        "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+        "hex": 263683,
+        "major": 4,
+        "minor": 6,
+        "patch": 3,
+        "status": "stable",
+        "string": "4.6.3-stable (official)",
+        "timestamp": 0
+      },
+      "display_server": "X11",
+      "checks": 382,
+      "failures": 0,
+      "frames": 36,
+      "frame_hashes": {
+        "north-clear-compact-z100-east-loaded.png": "8f579129cabb9fce0f7fc0b131756e263c91bd87438e18d95d89b78d41cfe466",
+        "north-clear-compact-z100-east-unloaded.png": "b5821d4e246ca999c8eca4e0a58774179fb90bc52940fc2e64a3c802319fed22",
+        "north-clear-compact-z100-west-loaded.png": "e81b0c2bfa2ad4b9c8330302ad3c7a661b5c4ed385a0616ad1b8d6a539a70eb6",
+        "north-clear-compact-z100-west-unloaded.png": "cc303eba515f52f2ce6443a93e72e0ca8e26a76f87ba9088d73a5efc14635b41",
+        "north-clear-compact-z125-east-loaded.png": "c104e81ba3f99b6f5ae3a23f56728412d4f5e6c5ae2cabaa653db0c249574b35",
+        "north-clear-compact-z125-east-unloaded.png": "ce944f3b9f04846eb8e9a677f0cbbc30c0449011f525626962daf10e9f83c2e4",
+        "north-clear-compact-z125-west-loaded.png": "e832a3f092a7ac2559a0872c15e1f1095be3068396be35335c91579cba787c18",
+        "north-clear-compact-z125-west-unloaded.png": "e2c003c2e28f80260d37d08cbeafe8dd3a7fae470b09b4cca1446918b85c90c5",
+        "north-clear-compact-z160-east-loaded.png": "7640b2e7d38806a3fec9cb4a14ff6d0576bd54813650464fd151e893759a6b21",
+        "north-clear-compact-z160-east-unloaded.png": "192613aeaa9d0e2733896d26a3179d820c014a800f9ce401b03ca27bba95229e",
+        "north-clear-compact-z160-west-loaded.png": "7640b2e7d38806a3fec9cb4a14ff6d0576bd54813650464fd151e893759a6b21",
+        "north-clear-compact-z160-west-unloaded.png": "192613aeaa9d0e2733896d26a3179d820c014a800f9ce401b03ca27bba95229e",
+        "north-clear-full-z100-east-loaded.png": "ac8320560b105a1403b0bc2883bd4d9d94da4bda4f3b56a67d05d1caa7dbc2e2",
+        "north-clear-full-z100-east-unloaded.png": "c5107a7b7aa47e6f7b2623e8bfebcb85c7353ccff6109b1dbfa0bcf27d2cf6c0",
+        "north-clear-full-z100-west-loaded.png": "58d28c1283935708dffd695a6baca3b0ac0069408abd4499c1fcae4feed48c8b",
+        "north-clear-full-z100-west-unloaded.png": "d7462d1a6ed20f8202cfe3a57a92a1144bb7324aaeb8942d4996d075fae114e1",
+        "north-clear-full-z125-east-loaded.png": "b7e2de3fa4474d8fe3959501bf474c6aaeb86958727e64c87a875d0e71b2b156",
+        "north-clear-full-z125-east-unloaded.png": "7b6d07c39c8681b15607aaa433f69f40cb29d0e8286239d427977bf457bd8ac8",
+        "north-clear-full-z125-west-loaded.png": "db8ce64fb74231c2d96813366801b84890f7dfb665d69912cce57100ae294cf0",
+        "north-clear-full-z125-west-unloaded.png": "d0fd63d3e872c06c8e5ce96adfb59d74cc29ca0a36589402aa796a2ca72f7dbd",
+        "north-clear-full-z160-east-loaded.png": "3ab077c67132efe3dab5e1cbd516621c5554ffa1adb99d015ad16e03eea1331b",
+        "north-clear-full-z160-east-unloaded.png": "b5ccaa4afacde2008f56fa84297fc795afc0e2f56f577ad42e59da2cc85b9f2b",
+        "north-clear-full-z160-west-loaded.png": "3ab077c67132efe3dab5e1cbd516621c5554ffa1adb99d015ad16e03eea1331b",
+        "north-clear-full-z160-west-unloaded.png": "b5ccaa4afacde2008f56fa84297fc795afc0e2f56f577ad42e59da2cc85b9f2b",
+        "zoom-battle-protect-compact-z100.png": "c6f4282b6d4e498d4d838850ace8bd6a1366168b38b4a5441e598f7e04945641",
+        "zoom-battle-protect-compact-z125.png": "c6f4282b6d4e498d4d838850ace8bd6a1366168b38b4a5441e598f7e04945641",
+        "zoom-battle-protect-compact-z160.png": "c6f4282b6d4e498d4d838850ace8bd6a1366168b38b4a5441e598f7e04945641",
+        "zoom-battle-protect-full-z100.png": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b",
+        "zoom-battle-protect-full-z125.png": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b",
+        "zoom-battle-protect-full-z160.png": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b",
+        "zoom-battle-side-compact-z100.png": "0b2334c8be9b7c18482c316359699fe4065dc2cf12825e357d41774aee90a3b9",
+        "zoom-battle-side-compact-z125.png": "0b2334c8be9b7c18482c316359699fe4065dc2cf12825e357d41774aee90a3b9",
+        "zoom-battle-side-compact-z160.png": "0b2334c8be9b7c18482c316359699fe4065dc2cf12825e357d41774aee90a3b9",
+        "zoom-battle-side-full-z100.png": "587b63e71b49ba1c67bd925d13ff698312a8ee78557532344c525e7ab9cc5f5d",
+        "zoom-battle-side-full-z125.png": "587b63e71b49ba1c67bd925d13ff698312a8ee78557532344c525e7ab9cc5f5d",
+        "zoom-battle-side-full-z160.png": "587b63e71b49ba1c67bd925d13ff698312a8ee78557532344c525e7ab9cc5f5d"
+      }
+    }
+  },
+  "legacy_parity": [
+    {
+      "name": "legacy-archive_boss-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-archive_boss-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-archive_boss-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-archive_boss-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-courtyard_practice-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-courtyard_practice-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-courtyard_practice-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-courtyard_practice-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-heting_receipt-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-heting_receipt-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-heting_receipt-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-heting_receipt-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_keeper-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_keeper-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_keeper-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_keeper-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_scout-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_scout-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_scout-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-mist_scout-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sect_trial-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sect_trial-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sect_trial-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sect_trial-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_boss-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_boss-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_boss-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_boss-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_scout-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_scout-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_scout-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-sluice_scout-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-story-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-story-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-story-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-story-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-training-protect-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-training-protect-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-training-side-compact.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    },
+    {
+      "name": "legacy-training-side-full.png",
+      "changed_pixels": 0,
+      "max_channel_delta": 0
+    }
+  ],
+  "battle_zoom_parity": [
+    {
+      "formation": "protect",
+      "size": "full",
+      "all_three_identical": true,
+      "max_channel_delta": 0
+    },
+    {
+      "formation": "protect",
+      "size": "compact",
+      "all_three_identical": true,
+      "max_channel_delta": 0
+    },
+    {
+      "formation": "side",
+      "size": "full",
+      "all_three_identical": true,
+      "max_channel_delta": 0
+    },
+    {
+      "formation": "side",
+      "size": "compact",
+      "all_three_identical": true,
+      "max_channel_delta": 0
+    }
+  ],
+  "candidate1_battle_parity": [
+    {
+      "name": "warehouse-protect-compact-contact.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-guard.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-hurt.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-kneel.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-opening.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-return.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-compact-windup.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-contact.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-guard.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-hurt.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-kneel.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-opening.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-return.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-protect-full-windup.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-contact.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-guard.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-hurt.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-kneel.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-opening.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-return.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-compact-windup.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-contact.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-guard.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-hurt.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-kneel.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-opening.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-return.png",
+      "changed_pixels": 0
+    },
+    {
+      "name": "warehouse-side-full-windup.png",
+      "changed_pixels": 0
+    }
+  ],
+  "harbor_change_scope": [
+    {
+      "name": "harbor-full-z100-west-unloaded-north.png",
+      "all_changed_pixels": 3899,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-west-unloaded-foot.png",
+      "all_changed_pixels": 3905,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-west-unloaded-pontoon.png",
+      "all_changed_pixels": 3811,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-west-loaded-north.png",
+      "all_changed_pixels": 3899,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-west-loaded-foot.png",
+      "all_changed_pixels": 3905,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-west-loaded-pontoon.png",
+      "all_changed_pixels": 3811,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-unloaded-north.png",
+      "all_changed_pixels": 3847,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-unloaded-foot.png",
+      "all_changed_pixels": 3892,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-unloaded-pontoon.png",
+      "all_changed_pixels": 3918,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-loaded-north.png",
+      "all_changed_pixels": 3847,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-loaded-foot.png",
+      "all_changed_pixels": 3892,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z100-east-loaded-pontoon.png",
+      "all_changed_pixels": 3918,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-unloaded-north.png",
+      "all_changed_pixels": 5241,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-unloaded-foot.png",
+      "all_changed_pixels": 5619,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-unloaded-pontoon.png",
+      "all_changed_pixels": 2849,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-loaded-north.png",
+      "all_changed_pixels": 5241,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-loaded-foot.png",
+      "all_changed_pixels": 5619,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-west-loaded-pontoon.png",
+      "all_changed_pixels": 2849,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-unloaded-north.png",
+      "all_changed_pixels": 5241,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-unloaded-foot.png",
+      "all_changed_pixels": 5887,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-unloaded-pontoon.png",
+      "all_changed_pixels": 2836,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-loaded-north.png",
+      "all_changed_pixels": 5241,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-loaded-foot.png",
+      "all_changed_pixels": 5887,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z125-east-loaded-pontoon.png",
+      "all_changed_pixels": 2836,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-unloaded-north.png",
+      "all_changed_pixels": 7767,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-unloaded-foot.png",
+      "all_changed_pixels": 8464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-unloaded-pontoon.png",
+      "all_changed_pixels": 1516,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-loaded-north.png",
+      "all_changed_pixels": 7767,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-loaded-foot.png",
+      "all_changed_pixels": 8464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-west-loaded-pontoon.png",
+      "all_changed_pixels": 1516,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-unloaded-north.png",
+      "all_changed_pixels": 7767,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-unloaded-foot.png",
+      "all_changed_pixels": 8464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-unloaded-pontoon.png",
+      "all_changed_pixels": 1515,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-loaded-north.png",
+      "all_changed_pixels": 7767,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-loaded-foot.png",
+      "all_changed_pixels": 8464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-full-z160-east-loaded-pontoon.png",
+      "all_changed_pixels": 1515,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-unloaded-north.png",
+      "all_changed_pixels": 3958,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-unloaded-foot.png",
+      "all_changed_pixels": 3948,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-unloaded-pontoon.png",
+      "all_changed_pixels": 3730,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-loaded-north.png",
+      "all_changed_pixels": 3958,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-loaded-foot.png",
+      "all_changed_pixels": 3948,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-west-loaded-pontoon.png",
+      "all_changed_pixels": 3730,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-unloaded-north.png",
+      "all_changed_pixels": 3909,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-unloaded-foot.png",
+      "all_changed_pixels": 3910,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-unloaded-pontoon.png",
+      "all_changed_pixels": 3957,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-loaded-north.png",
+      "all_changed_pixels": 3909,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-loaded-foot.png",
+      "all_changed_pixels": 3910,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z100-east-loaded-pontoon.png",
+      "all_changed_pixels": 3957,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-unloaded-north.png",
+      "all_changed_pixels": 5136,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-unloaded-foot.png",
+      "all_changed_pixels": 5416,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-unloaded-pontoon.png",
+      "all_changed_pixels": 2697,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-loaded-north.png",
+      "all_changed_pixels": 5136,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-loaded-foot.png",
+      "all_changed_pixels": 5416,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-west-loaded-pontoon.png",
+      "all_changed_pixels": 2697,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-unloaded-north.png",
+      "all_changed_pixels": 5136,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-unloaded-foot.png",
+      "all_changed_pixels": 5674,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-unloaded-pontoon.png",
+      "all_changed_pixels": 2694,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-loaded-north.png",
+      "all_changed_pixels": 5136,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-loaded-foot.png",
+      "all_changed_pixels": 5674,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z125-east-loaded-pontoon.png",
+      "all_changed_pixels": 2694,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-unloaded-north.png",
+      "all_changed_pixels": 7349,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-unloaded-foot.png",
+      "all_changed_pixels": 8026,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-unloaded-pontoon.png",
+      "all_changed_pixels": 1464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-loaded-north.png",
+      "all_changed_pixels": 7349,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-loaded-foot.png",
+      "all_changed_pixels": 8026,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-west-loaded-pontoon.png",
+      "all_changed_pixels": 1464,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-unloaded-north.png",
+      "all_changed_pixels": 7349,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-unloaded-foot.png",
+      "all_changed_pixels": 8026,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-unloaded-pontoon.png",
+      "all_changed_pixels": 1444,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-loaded-north.png",
+      "all_changed_pixels": 7349,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-loaded-foot.png",
+      "all_changed_pixels": 8026,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "harbor-compact-z160-east-loaded-pontoon.png",
+      "all_changed_pixels": 1444,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z100-west-unloaded.png",
+      "all_changed_pixels": 3917,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z100-west-loaded.png",
+      "all_changed_pixels": 3917,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z100-east-unloaded.png",
+      "all_changed_pixels": 3865,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z100-east-loaded.png",
+      "all_changed_pixels": 3865,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z125-west-unloaded.png",
+      "all_changed_pixels": 5267,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z125-west-loaded.png",
+      "all_changed_pixels": 5267,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z125-east-unloaded.png",
+      "all_changed_pixels": 5267,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z125-east-loaded.png",
+      "all_changed_pixels": 5267,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z160-west-unloaded.png",
+      "all_changed_pixels": 6389,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z160-west-loaded.png",
+      "all_changed_pixels": 6389,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z160-east-unloaded.png",
+      "all_changed_pixels": 6389,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-full-z160-east-loaded.png",
+      "all_changed_pixels": 6389,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z100-west-unloaded.png",
+      "all_changed_pixels": 3981,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z100-west-loaded.png",
+      "all_changed_pixels": 3981,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z100-east-unloaded.png",
+      "all_changed_pixels": 3932,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z100-east-loaded.png",
+      "all_changed_pixels": 3932,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z125-west-unloaded.png",
+      "all_changed_pixels": 5163,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z125-west-loaded.png",
+      "all_changed_pixels": 5163,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z125-east-unloaded.png",
+      "all_changed_pixels": 5163,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z125-east-loaded.png",
+      "all_changed_pixels": 5163,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z160-west-unloaded.png",
+      "all_changed_pixels": 6065,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z160-west-loaded.png",
+      "all_changed_pixels": 6065,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z160-east-unloaded.png",
+      "all_changed_pixels": 6065,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    },
+    {
+      "name": "north-clear-compact-z160-east-loaded.png",
+      "all_changed_pixels": 6065,
+      "changed_pixels_outside_four_label_bounds": 0,
+      "declared_fill_values": [
+        "142b26"
+      ]
+    }
+  ],
+  "capture_and_parity_pass": true,
+  "visual_contrast_gate": "Independent actual fixed-coordinate remeasurement required; not inferred from native execution/parity.",
+  "original_evidence_sha256": "9be2dc4df54af8b08db72d6090f1c5b3e71c3700248c7a86a2540b1dab423958"
+}

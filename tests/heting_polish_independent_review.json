@@ -1,0 +1,77 @@
+{
+  "status": "PASS: independent narrow paint/scope/sampled-native review; aggregate and exact package gates remain lead-owned",
+  "baseline_commit": "129aa616dba62eefec3cf0709c468b02030d2657",
+  "final_ink": "142b26",
+  "retained_outline_size": 2,
+  "final_native_run": "Hero-staging/heting-polish-native/candidate2-20261003-060744",
+  "runtime_sha256": {
+    "scripts/heting_region.gd": "d341c4f009390fcb52691d00f82988c8c65a3d31dc7025fde470472f84dc9be6",
+    "scripts/party_battle_backdrop.gd": "f85ada18e581942d02aa3d3e8b0d317b6e4ff9ae3f1ff6af2cbdf6603b363668",
+    "project.godot": "42c35cddee33f97d25ea4145887bdba3d3e055aeee69abc762f6a90e58e5fda1",
+    "export_presets.cfg": "56a3f5d75432c62e94a28547608a847835db9c986c7eb9bd5c4af7c64c9df6d6"
+  },
+  "scope": {
+    "tracked_runtime_config_files": 328,
+    "unchanged_assets": 121,
+    "final_capture_bound_current_runtime_files": 327,
+    "changes": "Only two approved paint scripts and0.0.28 version metadata; tests/audit additions independently reviewed"
+  },
+  "native": {
+    "legacy_exact_full_framebuffers": 40,
+    "legacy_max_channel_delta": 0,
+    "warehouse_final_vs_first_candidate_exact_frames": 28,
+    "gradient_unobstructed_strip_samples": 16,
+    "gradient_max_adjacent_channel_step": 2,
+    "gradient_max_allowed": 4,
+    "caption_instances": 96,
+    "fixed_actual_rgb_pairs": 480,
+    "contrast_min": 5.160043719338189,
+    "contrast_target": 4.5,
+    "contrast_failures": 0,
+    "known_previous_failed_crossing_retained": true,
+    "known_previous_min": 4.3244712292935565,
+    "known_worst_final_fill_rgb": [
+      33,
+      53,
+      46
+    ],
+    "known_worst_final_support_rgb": [
+      168,
+      164,
+      135
+    ],
+    "known_worst_fill_xy": [
+      640,
+      375
+    ],
+    "known_worst_support_xy": [
+      641,
+      377
+    ],
+    "final_zoom_groups": 4,
+    "final_zoom_frames": 12,
+    "final_zoom_identical": true
+  },
+  "visual_review": "All96 captions inspected as six1:1 native crop sheets; full native context reviewed across both window sizes and formations and guard/windup/contact/return/opening/hurt/kneel. Labels remain separated; bollards/planks/ropes, actors/feet/target rings and HUD retain readability. Existing dynamic label fading and actor overlap were not reclassified as changes.",
+  "regression": "Nine focused suites passed before the palette-only correction; final route font/draw test512 passed.18 exact-PCK parser tests passed, original audit body preserved after one new call/version labels normalized.",
+  "limits": [
+    "480 fixed contrast samples are non-exhaustive; no claim every text pixel passes or full accessibility certification",
+    "Prepared native Godot4.6.3/Mesa llvmpipe source-frame evidence; no browser, manual play, release executable, audio or realtime-performance claim",
+    "Full aggregate and exact5195-check PCK acceptance handled by lead; not claimed here"
+  ],
+  "artifacts": [
+    "review.md",
+    "scope-audit.json",
+    "final-native-parity-gradient.json",
+    "final-warehouse-recapture-parity.json",
+    "final-fixed-contrast.json",
+    "first-candidate-480-pairs.json",
+    "package-audit-review.json",
+    "focused-tests-retry.log",
+    "final-route-test.log",
+    "package-parser-tests.log",
+    "label-sheets/",
+    "final-zoom-invariance-review.json"
+  ],
+  "original_evidence_sha256": "f325be4e55d768dc3260286e93697273d29fdf75c7768db8429849acfec08701"
+}

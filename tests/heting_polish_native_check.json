@@ -1,0 +1,101 @@
+{
+  "status": "PASS: final candidate native execution/resource integrity/parity plus independently measured fixed-coordinate contrast and native gradient gates. Final release/commit binding belongs to lead.",
+  "final_label_sha256": "d341c4f009390fcb52691d00f82988c8c65a3d31dc7025fde470472f84dc9be6",
+  "main_checks": 902,
+  "supplement_checks": 382,
+  "failures": 0,
+  "final_candidate_raw_frames": 176,
+  "raw_history_total": 528,
+  "exact_legacy_frame_comparisons": 40,
+  "legacy_max_channel_delta": 0,
+  "battle_zoom_groups": 4,
+  "battle_zoom_max_channel_delta": 0,
+  "unchanged_warehouse_frames_after_ink_fix": 28,
+  "harbor_frames_with_only_bounded_four_label_changes": 96,
+  "harbor_out_of_label_changes": 0,
+  "manifest_paths": [
+    "Hero-staging/heting-polish-native/run-20261003-055025/baseline/source-sha256.json",
+    "Hero-staging/heting-polish-native/run-20261003-055025/supplement/baseline/source-sha256.json",
+    "Hero-staging/heting-polish-native/candidate2-20261003-060744/source-sha256.json"
+  ],
+  "manifests_sha256": {
+    "Hero-staging/heting-polish-native/run-20261003-055025/baseline/source-sha256.json": "6e1bce0c80d85da74fb0d3bb5b7249fdccba1c8b44466d867d8605b22b8807ee",
+    "Hero-staging/heting-polish-native/run-20261003-055025/supplement/baseline/source-sha256.json": "57ad3510ed68e4a43de853d8e2d8ad1dc17371201228abe915a9127fc3ca8c28",
+    "Hero-staging/heting-polish-native/candidate2-20261003-060744/source-sha256.json": "905c873d194f5f93d2ec760ffac6cb9ce839ea030987d769accde9765b00ea7a"
+  },
+  "driver_hashes": {
+    "record_heting_polish.gd": "aa3481896a15f239a00e6277f4991ba9b87eb2d793d90233af3b03781ca651fc",
+    "record_heting_zoom_invariance.gd": "d34da430a11fdd9a60dc15fe2e815042f0dc7436b4ef223721c5628b1c35799e"
+  },
+  "selected_raw_frames": [
+    {
+      "role": "before warehouse guard",
+      "path": "Hero-staging/heting-polish-native/run-20261003-055025/baseline/screenshots/warehouse-protect-full-guard.png",
+      "sha256": "99ea5e7a2de075489be3b7ffe5fa7afb20d3fb6d74782e8617cd9345a3393424"
+    },
+    {
+      "role": "after warehouse guard",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-protect-full-guard.png",
+      "sha256": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b"
+    },
+    {
+      "role": "compact side contact",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-side-compact-contact.png",
+      "sha256": "8f073fd5cf14c36ae8bcf6ab71bb5a4faed42f4cf1a7f3468f3d1f66d715e5d4"
+    },
+    {
+      "role": "compact hurt pose",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-protect-compact-hurt.png",
+      "sha256": "22d3789cca281c48587892c209dcb51c369d5545271074e7b3829460a7c4ff4c"
+    },
+    {
+      "role": "compact kneel pose",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-protect-compact-kneel.png",
+      "sha256": "1a2180c4b8e1ad3ed992400b2a8a86150c3b841b8ab77e18e7b3a5cf1efa0ed2"
+    },
+    {
+      "role": "loaded foot-pier labels full100",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-full-z100-east-loaded-foot.png",
+      "sha256": "c6e562f7a769655bd34ab8f573a4afef917b579082bb2b720a789d4d83b4b31b"
+    },
+    {
+      "role": "loaded foot-pier labels compact160",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z160-east-loaded-foot.png",
+      "sha256": "71d5509ec285682c5fee4a3c91c86b4f972ca4c755dec7ff7546407428211263"
+    },
+    {
+      "role": "formerly failing east pontoon compact125",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z125-east-loaded-pontoon.png",
+      "sha256": "d1151dfda0869bb61e111177efbe365bcafd1cab0077b5e10681bdf2bdace656"
+    },
+    {
+      "role": "clear north road full125",
+      "path": "Hero-staging/heting-polish-native/candidate2-20261003-060744/supplement/screenshots/north-clear-full-z125-east-loaded.png",
+      "sha256": "b7e2de3fa4474d8fe3959501bf474c6aaeb86958727e64c87a875d0e71b2b156"
+    }
+  ],
+  "limits": "Prepared source-native observations with real combat/loading APIs, fixed clocks and legal relocated observation points. No manual-play, browser, release/export, audio or real-time FPS claim.",
+  "independent_contrast": {
+    "caption_count": 96,
+    "pair_count": 480,
+    "min_ratio": 5.160043719338189,
+    "below_target_count": 0,
+    "below_target_names": []
+  },
+  "independent_gradient_max_adjacent_channel_jump": 2,
+  "independent_gradient_required_max": 4,
+  "independent_reports": {
+    "Hero-staging/heting-polish-review/final-fixed-contrast.json": "eee144e0cdcf2b64866af3c80e9b4db7ff57716074b3fd776fe8584e71f94266",
+    "Hero-staging/heting-polish-review/final-native-parity-gradient.json": "4c9e9ae04398468c61c670094e188040cd3206a157d25d9c2b26d19351d06f90",
+    "Hero-staging/heting-polish-review/final-warehouse-recapture-parity.json": "186293b3e953d06fae6cdb02fc7bc57b7bf4c9b47a83e3dd052c6879f7c1ec1a"
+  },
+  "snapshot_source_head": "129aa616dba62eefec3cf0709c468b02030d2657",
+  "final_commit_binding": "Pending lead; this report binds exact captured bytes instead of claiming a future commit.",
+  "four_primary_raw_frames": [
+    "Hero-staging/heting-polish-native/run-20261003-055025/baseline/screenshots/warehouse-protect-full-guard.png",
+    "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-protect-full-guard.png",
+    "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z160-east-loaded-foot.png",
+    "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z125-east-loaded-pontoon.png"
+  ],
+  "original_evidence_sha256": "e022e27f32c073944a3223d5d159971f2c7891fc3d7314d4d1e14d4ea43b213b"
+}
