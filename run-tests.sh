@@ -43,6 +43,9 @@ run_checked --headless --path . --script tests/heting_consignee_minimal_solo_tes
 run_checked --headless --path . --script tests/heting_consignee_adversarial_test.gd
 run_checked --headless --path . --script tests/painted_duhui_test.gd
 run_checked --headless --path . --script tests/heting_consignee_art_test.gd
+# Bounded paint-only harbor captions and warehouse depth; native pixel gates are separate.
+run_checked --headless --path . --script tests/heting_route_label_test.gd
+run_checked --headless --path . --script tests/warehouse_backdrop_polish_test.gd
 run_checked --headless --path . --script tests/heting_consignee_geometry_test.gd
 run_checked --headless --path . --script tests/heting_consignee_world_test.gd
 run_checked --headless --path . --script tests/heting_consignee_story_test.gd
