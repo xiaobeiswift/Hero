@@ -54,11 +54,11 @@ static func card(host,parent:Node,rect:Rect2,id:String,number:int,generation:int
 	text(host,panel,String(art.style)+(" · 当前出战" if selected else " · 已习得" if owned else " · 藏页未习"),Rect2(16,8,338,19),12,GOLD if selected else MUTED)
 	text(host,panel,id,Rect2(15,31,338,31),23,INK)
 	text(host,panel,"真气 %d  ·  调息 %d 回合"%[int(art.cost),int(art.cooldown)],Rect2(17,70,337,24),15,MUTED).name="ArtCost"
-	var effects:Array[String]=["基础伤害 %d"%Rules.direct_damage(art,host.state.attack,host.state.art_rank(id))]
+	var effects:Array[String]=["基础伤害 %d"%Rules.direct_damage(art,host.state.effective_attack(),host.state.art_rank(id))]
 	if int(art.healing)>0:effects.append("回血 %d"%int(art.healing))
 	if art.guard:effects.append("守势 / 清破绽")
 	if int(art.weaken_amount)>0:effects.append("卸劲 %d × %d击"%[int(art.weaken_amount),int(art.weaken_strikes)])
-	var focus:int=Rules.focus_damage(art,host.state.attack)
+	var focus:int=Rules.focus_damage(art,host.state.effective_attack())
 	if focus>0:effects.append("下次平击 +%d"%focus)
 	text(host,panel," · ".join(effects),Rect2(17,103,337,36),15,INK).name="ArtEffects"
 	if owned:

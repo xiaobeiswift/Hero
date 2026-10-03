@@ -7,6 +7,7 @@ const Patterns = preload("res://scripts/battle_patterns.gd")
 const Consignee = preload("res://scripts/heting_consignee_combat_data.gd")
 const Capstone = preload("res://scripts/volume_one_capstone_combat_data.gd")
 const Sects = preload("res://scripts/sect_rules.gd")
+const FittingTrials = preload("res://scripts/weapon_fitting_trial_rules.gd")
 const CATEGORIES: Array[String] = ["martial", "internal", "lightness"]
 const ENCOUNTER_IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt", "heting_consignee", "capstone_authorizer"]
 const SUPPORTED_ENCOUNTERS: Array[String] = ENCOUNTER_IDS
@@ -22,6 +23,9 @@ var _queues: Dictionary = {}
 var _queue_serial: int = 0
 var _consignee_entry: Dictionary = {}
 var _capstone_entry: Dictionary = {}
+var _fitting_metadata: Dictionary = {}
+var _fitting_metrics: Dictionary = {}
+var _fitting_recorded_tokens: Dictionary = {}
 var _trial: Dictionary = {"art_used": false, "healing": 0, "guarded_heavy": false, "required_art": "", "met": false}
 
 
@@ -106,6 +110,74 @@ func configure(team: Dictionary, encounter_id: String = "story") -> bool:
 	return true
 
 
+## Authentic State is used only inside the detached whitelist factory. This
+## cannot configure an arbitrary enemy profile or install the borrowed fitting.
+func configure_fitting_practice(source_state, fitting_id: String, profile_id: String = "ordinary") -> bool:
+	if _configured:
+		return false
+	var prepared: Dictionary = FittingTrials.build(source_state, fitting_id, profile_id)
+	if not prepared.ok:
+		return false
+	if not configure(prepared.team, FittingTrials.ENCOUNTER_ID):
+		return false
+	# All input validation completed before configure. Exact frozen specs are
+	# from the internal enum-only factory, never from a caller-supplied payload.
+	for index: int in _enemies.size():
+		var spec: Dictionary = prepared.metadata.enemy_specs[index]
+		for key: String in ["hp", "attack", "heavy_attack"]:
+			_enemies[index][key] = int(spec[key])
+		_enemies[index].max_hp = int(spec.hp)
+	_fitting_metadata = prepared.metadata
+	var losses: Dictionary = {}
+	for actor: Dictionary in _actors:
+		losses[actor.id] = 0
+	_fitting_metrics = {"actual_hp_lost_by_actor": losses, "total_actual_hp_lost": 0,
+		"medicine_used": 0, "enemy_attacks_executed": 0, "completed_rounds": 0,
+		"terminal_round": 0, "outcome": "", "accepted_transactions": 0,
+		"remaining_resources": _fitting_resources()}
+	_plan_intents()
+	return true
+
+
+func fitting_trial_metadata() -> Dictionary:
+	return Catalog.immutable(_fitting_metadata)
+
+
+func fitting_trial_snapshot() -> Dictionary:
+	if _fitting_metadata.is_empty():
+		return Catalog.immutable({})
+	return Catalog.immutable({"metadata": _fitting_metadata, "metrics": _fitting_metrics})
+
+
+func _fitting_resources() -> Dictionary:
+	var actors: Dictionary = {}
+	for actor: Dictionary in _actors:
+		actors[actor.id] = {"hp": int(actor.hp), "qi": int(actor.qi)}
+	return {"actors": actors, "medicine": _medicine, "medicine_heal": _medicine_heal}
+
+
+## Called only at model transaction acceptance. No presentation callbacks,
+## rendered/truncated logs, event prose or external metric payloads are read.
+func _record_fitting_transaction(tx: Dictionary, enemy_attack_executed: bool) -> void:
+	if _fitting_metadata.is_empty() or not tx.get("accepted", false):
+		return
+	var token: int = int(tx.token)
+	if token != _pending_token or int(tx.epoch) != _epoch or _fitting_recorded_tokens.has(token):
+		return
+	_fitting_recorded_tokens[token] = true
+	for prior: Dictionary in tx.before.actors:
+		var loss: int = maxi(0, int(prior.hp) - int(_actor(prior.id).hp))
+		_fitting_metrics.actual_hp_lost_by_actor[prior.id] += loss
+		_fitting_metrics.total_actual_hp_lost += loss
+	_fitting_metrics.medicine_used += maxi(0, int(tx.before.medicine) - _medicine)
+	_fitting_metrics.enemy_attacks_executed += int(enemy_attack_executed)
+	_fitting_metrics.completed_rounds += maxi(0, _round - int(tx.before.round))
+	_fitting_metrics.accepted_transactions += 1
+	_fitting_metrics.outcome = _outcome
+	_fitting_metrics.terminal_round = _round if not _active else 0
+	_fitting_metrics.remaining_resources = _fitting_resources()
+
+
 func _trial_endurance() -> Dictionary:
 	# Fixed once at entry, from the exact recruited roster and learned action
 	# descriptors. Two rounds of basics plus one use of every current offensive
@@ -174,6 +246,8 @@ func snapshot() -> Dictionary:
 		view.consignee_provenance = _consignee_entry
 	if _encounter == Capstone.ENCOUNTER_ID:
 		view.capstone_provenance = _capstone_entry
+	if not _fitting_metadata.is_empty():
+		view.fitting_trial = fitting_trial_snapshot()
 	return Catalog.immutable(view)
 
 
@@ -352,13 +426,14 @@ func _begin_transaction(source_id: String, action_id: String, target_id: String)
 	return {"ok": true, "accepted": true, "reason": "", "epoch": _epoch, "sequence": _serial, "token": _pending_token, "action_id": action_id, "source_id": source_id, "target_id": target_id, "before": before}
 
 
-func _end_transaction(tx: Dictionary, events: Array[Dictionary]) -> Dictionary:
+func _end_transaction(tx: Dictionary, events: Array[Dictionary], enemy_attack_executed: bool = false) -> Dictionary:
 	if _unit(_target_id).is_empty() or int(_unit(_target_id).get("hp", 0)) <= 0:
 		_target_id = _first_living(_enemies)
 	if int(_actor(_selected_actor).get("hp", 0)) <= 0:
 		_selected_actor = _first_living(_actors)
 		_actor_id = _selected_actor
 	tx.events = events
+	_record_fitting_transaction(tx, enemy_attack_executed)
 	tx.after = snapshot()
 	return Catalog.immutable(tx)
 
@@ -479,7 +554,7 @@ func _execute_enemy(intent: Dictionary) -> Dictionary:
 			_finish("defeat", events, enemy.id)
 	if _active and not _remaining_enemy_intent():
 		_complete_round(events)
-	return _end_transaction(tx, events)
+	return _end_transaction(tx, events, intent.type == "attack" and not target.is_empty())
 
 
 func _remaining_enemy_intent() -> bool:

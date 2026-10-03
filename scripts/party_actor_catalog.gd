@@ -3,6 +3,7 @@ extends RefCounted
 ## Detached inputs for the first actor-based battle model. No HeroState reference
 ## escapes build_team. Companion tuning is provisional; recruitment remains real.
 const Arts = preload("res://scripts/martial_catalog.gd")
+const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 const ShenCare = preload("res://scripts/shen_care_rules.gd")
 const MAX_PARTY_SIZE: int = 4
 const IDS: Array[String] = ["hero", "shen", "tang", "qin"]
@@ -25,6 +26,8 @@ static func build_team(state, roster_ids: Array, persisted_resources: Dictionary
 		return _error("缺少角色状态。")
 	if not roster_ids.has("hero") or roster_ids.size() > MAX_PARTY_SIZE:
 		return _error("出战名单必须包含主角，最多四人。")
+	if not Fittings.from_state(state).ok:
+		return _error("主角配件或基础属性无效。")
 	var seen: Array[String] = []
 	for id: Variant in roster_ids:
 		if not id is String or not IDS.has(id) or seen.has(id):
@@ -74,7 +77,7 @@ static func _hero(state) -> Dictionary:
 	var art: String = String(state.equipped_art)
 	if not Arts.has_art(art) or not state.available_arts().has(art):
 		art = Arts.BASE_ART
-	var actor: Dictionary = _actor("hero", String(state.player_name), maxi(1, int(state.max_hp)), maxi(0, int(state.max_qi)), maxi(1, int(state.attack)), maxi(0, int(state.defense)))
+	var actor: Dictionary = _actor("hero", String(state.player_name), maxi(1, int(state.max_hp)), maxi(0, int(state.max_qi)), Fittings.attack_for(state), Fittings.defense_for(state))
 	actor.hp = clampi(int(state.hp), 0, int(actor.max_hp))
 	actor.qi = clampi(int(state.qi), 0, int(actor.max_qi))
 	actor.sect = String(state.sect)

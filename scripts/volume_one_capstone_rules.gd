@@ -11,7 +11,7 @@ extends RefCounted
 const Consignee = preload("res://scripts/heting_consignee_rules.gd")
 const TITLE: String = "第一卷终章·截令归灯"
 const INTRODUCED_VERSION: int = 15
-const MAX_SUPPORTED_VERSION: int = 15
+const MAX_SUPPORTED_VERSION: int = 16
 const REWARD_XP: int = 160
 const REWARD_COINS: int = 80
 const FIELDS: Array[String] = ["capstone_stage", "capstone_draft", "capstone_ending"]

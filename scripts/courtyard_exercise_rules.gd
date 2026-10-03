@@ -3,6 +3,7 @@ extends RefCounted
 ## Optional, reward-free rehearsal. The source HeroState is read only during
 ## configure and is never retained. Every resource below belongs to this arena.
 const Arts = preload("res://scripts/martial_catalog.gd")
+const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 const Advanced = preload("res://scripts/advanced_martial_rules.gd")
 const PRACTICE_HEAL: int = 40
 const PRACTICE_CHARGES: int = 3
@@ -40,6 +41,8 @@ var _pending_token: int = -1
 func configure(hero_state) -> bool:
 	if hero_state == null:
 		return false
+	if not Fittings.from_state(hero_state).ok:
+		return false
 	var art: String = String(hero_state.equipped_art)
 	if not hero_state.available_arts().has(art) or not Arts.has_art(art):
 		art = Arts.BASE_ART
@@ -47,7 +50,7 @@ func configure(hero_state) -> bool:
 		"player_name": String(hero_state.player_name), "sect": String(hero_state.sect),
 		"max_hp": maxi(1, int(hero_state.max_hp)), "max_qi": maxi(0, int(hero_state.max_qi)),
 		"source_hp": int(hero_state.hp), "source_qi": int(hero_state.qi),
-		"attack": maxi(1, int(hero_state.attack)), "defense": maxi(0, int(hero_state.defense)),
+		"attack": Fittings.attack_for(hero_state), "defense": Fittings.defense_for(hero_state),
 		"equipped_art": art, "art_rank": int(hero_state.art_rank(art)),
 		"art_uses": hero_state.art_uses.duplicate(true),
 		"companion": String(hero_state.current_companion()),

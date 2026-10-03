@@ -56,7 +56,7 @@ static func show(host)->void:
 	text(host,frame,"绝招 · "+host.state.equipped_art,Rect2(40,175,249,22),13,MUTED)
 	var figure=TextureRect.new();figure.name="InventoryTraveller";figure.texture=HeroArt.texture_for("front",0);figure.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;figure.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;figure.position=Vector2(44,200);figure.size=Vector2(248,220);figure.mouse_filter=Control.MOUSE_FILTER_IGNORE;frame.add_child(figure)
 	var stats=RichTextLabel.new();stats.position=Vector2(41,425);stats.size=Vector2(249,80);stats.bbcode_enabled=true;stats.scroll_active=false;stats.add_theme_color_override("default_color",INK);stats.add_theme_font_size_override("normal_font_size",17)
-	stats.text="攻击 %d   ·   防御 %d\n修为 %d / %d"%[host.state.attack,host.state.defense,host.state.xp,host.state.xp_to_next()];frame.add_child(stats)
+	stats.text="攻击 %d   ·   防御 %d\n修为 %d / %d"%[host.state.effective_attack(),host.state.effective_defense(),host.state.xp,host.state.xp_to_next()];frame.add_child(stats)
 	var exp=host._bar(frame,Rect2(42,493,232,5),Color("94844f"));exp.max_value=host.state.xp_to_next();exp.value=host.state.xp
 	text(host,frame,"气血 %d / %d\n真气 %d / %d"%[host.state.hp,host.state.max_hp,host.state.qi,host.state.max_qi],Rect2(42,512,248,47),15,MUTED)
 	item(host,frame,Rect2(333,115,337,110),"sword","佩剑 · 已装备",host.state.equipment,"兵刃随成长与工艺提升")

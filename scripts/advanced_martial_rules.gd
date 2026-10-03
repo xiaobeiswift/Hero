@@ -2,6 +2,7 @@ class_name AdvancedMartialRules
 extends RefCounted
 ## Atomic learning, one-time deed receipts, and transient martial effects.
 const Arts = preload("res://scripts/martial_catalog.gd")
+const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 const DEEDS: Array[String] = ["sluice", "archive"]
 
 
@@ -82,7 +83,7 @@ static func apply_effects(state, definition: Dictionary, messages: Array[String]
 		state.enemy_weaken_amount = maxi(state.enemy_weaken_amount, amount)
 		state.enemy_weaken_strikes = maxi(state.enemy_weaken_strikes, strikes)
 		messages.append("施加卸劲：敌方基础伤害 -%d，剩余 %d 次攻击。" % [state.enemy_weaken_amount, state.enemy_weaken_strikes])
-	var focus: int = focus_damage(definition, state.attack)
+	var focus: int = focus_damage(definition, Fittings.attack_for(state))
 	if focus > 0:
 		state.focused_damage = maxi(state.focused_damage, focus)
 		messages.append("蓄锋：下一次平击额外 +%d 点伤害。" % state.focused_damage)

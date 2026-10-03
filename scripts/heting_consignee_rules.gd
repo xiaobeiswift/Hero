@@ -10,7 +10,7 @@ extends RefCounted
 const Heting = preload("res://scripts/heting_rules.gd")
 const TITLE: String = "鹤汀续事·未损先收"
 const INTRODUCED_VERSION: int = 14
-const MAX_SAVE_VERSION: int = 15
+const MAX_SAVE_VERSION: int = 16
 # Compatibility alias denotes this bundle's introduction, not host schema.
 const SAVE_VERSION: int = INTRODUCED_VERSION
 const REWARD_XP: int = 120

@@ -4,6 +4,7 @@ extends RefCounted
 ## resources; the owner commits accepted snapshots and settles the outcome.
 ## Never retains/mutates HeroState, awards rewards, or offers a free retry.
 const Arts = preload("res://scripts/martial_catalog.gd")
+const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 const Advanced = preload("res://scripts/advanced_martial_rules.gd")
 ## Provisional encounter tuning, pending continuous-play balance review.
 const STRIKER_HP: int = 190
@@ -42,6 +43,8 @@ var _pending_token: int = -1
 func configure(hero_state) -> bool:
 	if hero_state == null or not hero_snapshot.is_empty() or int(hero_state.hp) <= 0:
 		return false
+	if not Fittings.from_state(hero_state).ok:
+		return false
 	var art: String = String(hero_state.equipped_art)
 	if not hero_state.available_arts().has(art) or not Arts.has_art(art):
 		art = Arts.BASE_ART
@@ -51,7 +54,7 @@ func configure(hero_state) -> bool:
 		"source_hp": int(hero_state.hp), "source_qi": int(hero_state.qi),
 		"source_medicine": maxi(0, int(hero_state.medicine)),
 		"medicine_heal": 55 if String(hero_state.sect) == "照野堂" else 45,
-		"attack": maxi(1, int(hero_state.attack)), "defense": maxi(0, int(hero_state.defense)),
+		"attack": Fittings.attack_for(hero_state), "defense": Fittings.defense_for(hero_state),
 		"equipped_art": art, "art_rank": int(hero_state.art_rank(art)),
 		"equipment": String(hero_state.equipment), "armor": String(hero_state.armor),
 		"art_uses": hero_state.art_uses.duplicate(true),

@@ -25,11 +25,11 @@ func learning()->void:
 func summary(id:String)->String:
  var s=host.state
  var a=Arts.definition(id)
- var parts:Array[String]=["伤%d" % Rules.direct_damage(a,s.attack,s.art_rank(id)),"气%d" % int(a.cost),"息%d" % int(a.cooldown)]
+ var parts:Array[String]=["伤%d" % Rules.direct_damage(a,s.effective_attack(),s.art_rank(id)),"气%d" % int(a.cost),"息%d" % int(a.cooldown)]
  if int(a.healing)>0:parts.append("回血%d" % int(a.healing))
  if a.guard:parts.append("守势")
  if int(a.get("weaken_amount",0))>0:parts.append("卸劲%d×%d击" % [int(a.weaken_amount),int(a.weaken_strikes)])
- var focus=Rules.focus_damage(a,s.attack)
+ var focus=Rules.focus_damage(a,s.effective_attack())
  if focus>0:parts.append("蓄锋+%d" % focus)
  return " · ".join(parts)
 func detail(id:String)->void:

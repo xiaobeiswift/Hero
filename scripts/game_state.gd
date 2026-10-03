@@ -2,7 +2,7 @@ class_name HeroState
 extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
-const SAVE_VERSION: int = 15
+const SAVE_VERSION: int = 16
 const MAX_SAVE_BYTES: int = 1048576
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
@@ -27,6 +27,7 @@ const Items = preload("res://scripts/item_catalog.gd")
 const Economy = preload("res://scripts/economy_rules.gd")
 const Arts = preload("res://scripts/martial_catalog.gd")
 const Advanced = preload("res://scripts/advanced_martial_rules.gd")
+const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 
 var player_name: String = "无名客"
 var level: int = 1
@@ -71,10 +72,14 @@ var _party_sluice_entry: Dictionary = {}
 var _party_archive_entry: Dictionary = {}
 var _party_extra_entry: Dictionary = {}
 var _party_practice_before: Dictionary = {}
+var _fitting_comparison_key: String = ""
+var _fitting_comparisons: Array[Dictionary] = []
+var _fitting_last_result_epoch: int = -1
 var _party_consignee_identity: Dictionary = {}
 var _party_capstone_identity: Dictionary = {}
 var formation: String = "并肩"
 var equipment: String = "旧铁剑"
+var weapon_fitting: String = "plain"
 var heting_stage:int=0
 var heting_bridge:String=""
 var heting_delivered:Array[String]=[]
@@ -169,6 +174,7 @@ func reset_game() -> void:
 	party_resources = {}
 	formation = "并肩"
 	equipment = "旧铁剑"
+	weapon_fitting = Fittings.PLAIN
 	heting_stage=0;heting_bridge="";heting_delivered.clear();heting_cargo="";heting_draft="";heting_ending=""
 	receipt_stage=0
 	consignee_stage = 0
@@ -199,7 +205,51 @@ func reset_game() -> void:
 	art_uses = {Arts.BASE_ART: 0}
 	learned_arts.clear()
 	claimed_deeds.clear()
+	_reset_fitting_comparisons()
 	_clear_battle()
+
+
+func fitting_projection() -> Dictionary:
+	return Fittings.from_state(self)
+
+
+func effective_attack() -> int:
+	return Fittings.attack_for(self)
+
+
+func effective_defense() -> int:
+	return Fittings.defense_for(self)
+
+
+func preview_weapon_fitting(candidate: Variant) -> Dictionary:
+	if not _stage_save_data(to_dict(), SAVE_VERSION).ok:
+		return {"ok": false, "reason": "当前角色未通过完整存档校验。"}
+	return Fittings.project(attack, defense, quest_stage, sect, candidate)
+
+
+## Explicit model transaction only. A UI must separately establish its live
+## controller/modal/state/preview identity before calling; no UI is exposed here.
+## Never saves, heals, changes bases, or copies unrelated normalized fields.
+func set_weapon_fitting(candidate: Variant) -> Dictionary:
+	if battle_active or _party_gate() or _party_pending_token >= 0:
+		return {"ok": false, "changed": false, "reason": "交锋或演绎中不能更换配件。"}
+	var preview: Dictionary = preview_weapon_fitting(candidate)
+	if not preview.ok:
+		return {"ok": false, "changed": false, "reason": preview.reason}
+	if candidate == weapon_fitting:
+		return {"ok": true, "changed": false, "reason": "", "fitting": weapon_fitting}
+	var before: Dictionary = to_dict()
+	var desired: Dictionary = before.duplicate(true)
+	desired.weapon_fitting = candidate
+	var staged: Dictionary = _stage_save_data(desired, SAVE_VERSION)
+	if not staged.ok:
+		return {"ok": false, "changed": false, "reason": "配件选择未通过完整存档校验。"}
+	var comparison: Dictionary = staged.state.to_dict()
+	comparison.weapon_fitting = before.weapon_fitting
+	if not _same_save_value(comparison, before):
+		return {"ok": false, "changed": false, "reason": "配件选择不得改变其他行程资料。"}
+	weapon_fitting = staged.state.weapon_fitting
+	return {"ok": true, "changed": true, "reason": "", "fitting": weapon_fitting}
 
 
 func xp_to_next() -> int:
@@ -312,7 +362,7 @@ func art_description(id: String) -> String:
 	var definition: Dictionary = Arts.definition(id)
 	if definition.is_empty():
 		return ""
-	var damage: int = Advanced.direct_damage(definition, attack, art_rank(id))
+	var damage: int = Advanced.direct_damage(definition, effective_attack(), art_rank(id))
 	var effects: Array[String] = ["造成 %d 点伤害" % damage]
 	if int(definition["healing"]) > 0:
 		effects.append("恢复 %d 点气血" % int(definition["healing"]))
@@ -320,7 +370,7 @@ func art_description(id: String) -> String:
 		effects.append("进入守势并清除破绽")
 	if int(definition.get("weaken_amount", 0)) > 0:
 		effects.append("卸劲：敌方基础伤害 -%d，持续 %d 次攻击" % [int(definition["weaken_amount"]), int(definition["weaken_strikes"])])
-	var focus: int = Advanced.focus_damage(definition, attack)
+	var focus: int = Advanced.focus_damage(definition, effective_attack())
 	if focus > 0:
 		effects.append("蓄锋：下一次平击额外 +%d" % focus)
 	return "%s\n%s · 真气 %d · 调息 %d 回合 · %s" % [
@@ -509,7 +559,7 @@ func start_battle(kind: String = "story") -> void:
 			enemy_name="听雨关守令使";enemy_max_hp=300
 		"sect_trial":
 			enemy_name="岑远 · 代试游师"
-			enemy_max_hp=maxi(180,attack*4+30)
+			enemy_max_hp=maxi(180,effective_attack()*4+30)
 			enemy_base_attack=18
 			enemy_strong_attack=30
 		"archive_boss":
@@ -559,12 +609,12 @@ func battle_action(action: String) -> Dictionary:
 	match action:
 		"attack":
 			var focus: int = focused_damage
-			var damage: int = attack + focus
+			var damage: int = effective_attack() + focus
 			focused_damage = 0
 			damage=deal_enemy_damage(damage)
 			qi = mini(max_qi, qi + 2)
 			if focus > 0:
-				messages.append("你使出平击，基础 %d + 蓄锋 %d，经敌方架势后造成 %d 点伤害，凝聚 2 点真气。" % [attack, focus, damage])
+				messages.append("你使出平击，基础 %d + 蓄锋 %d，经敌方架势后造成 %d 点伤害，凝聚 2 点真气。" % [effective_attack(), focus, damage])
 			else:
 				messages.append("你使出平击，造成 %d 点伤害，凝聚 2 点真气。" % damage)
 		"skill":
@@ -574,7 +624,7 @@ func battle_action(action: String) -> Dictionary:
 			if battle_kind=="sect_trial" and art_id==sect_art():_trial_art_used=true
 			qi -= int(definition["cost"])
 			skill_cooldown = int(definition["cooldown"])
-			var damage: int = Advanced.direct_damage(definition, attack, rank_before)
+			var damage: int = Advanced.direct_damage(definition, effective_attack(), rank_before)
 			damage=deal_enemy_damage(damage)
 			messages.append("%s！造成 %d 点伤害。" % [art_id, damage])
 			if int(definition["healing"]) > 0:
@@ -649,9 +699,9 @@ func battle_action(action: String) -> Dictionary:
 	if battle_kind=="sect_trial" and guard and action=="skill" and equipped_art==sect_art() and turn%2==0:_trial_guarded_heavy=true
 	var enemy_phase=Patterns.phase(battle_kind,turn-1)
 	var raw_damage: int = int(enemy_phase.damage) if not enemy_phase.is_empty() else (enemy_base_attack if turn % 2 == 1 else enemy_strong_attack)
-	var without_weaken: int = maxi(1, raw_damage - defense)
+	var without_weaken: int = maxi(1, raw_damage - effective_defense())
 	var weaken: int = enemy_weaken_amount if enemy_weaken_strikes > 0 else 0
-	var incoming: int = maxi(1, raw_damage - defense - weaken)
+	var incoming: int = maxi(1, raw_damage - effective_defense() - weaken)
 	if enemy_weaken_strikes > 0:
 		messages.append("卸劲使本次基础伤害实际减少 %d 点。" % (without_weaken - incoming))
 	if exposed_turns > 0:
@@ -727,7 +777,7 @@ func to_dict() -> Dictionary:
 		"qin_stage": qin_stage, "qin_unlocked": qin_unlocked,
 		"tangqi_unlocked":tangqi_unlocked,"tangqi_stage":tangqi_stage,"tangqi_choice":tangqi_choice,"active_companion":current_companion(),
 		"party_roster": party_roster.duplicate(), "party_resources": party_resources.duplicate(true),
-		"formation": formation, "equipment": equipment,
+		"formation": formation, "equipment": equipment, "weapon_fitting": weapon_fitting,
 		"heting_stage":heting_stage,"heting_bridge":heting_bridge,"heting_delivered":heting_delivered.duplicate(),
 		"heting_cargo":heting_cargo,"heting_draft":heting_draft,"heting_ending":heting_ending,
 		"receipt_stage":receipt_stage,
@@ -800,6 +850,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	if not inspected.ok:
 		return inspected.error
 	_copy_persistent_from(inspected.state)
+	_reset_fitting_comparisons()
 	_clear_battle()
 	return OK
 
@@ -818,7 +869,7 @@ func inspect_save_bytes(bytes: PackedByteArray) -> Dictionary:
 	var document: Dictionary = json.data
 	if not _is_number(document.get("version")):
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, float(SAVE_VERSION)].has(float(document["version"])):
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, float(SAVE_VERSION)].has(float(document["version"])):
 		return {"ok": false, "error": ERR_FILE_UNRECOGNIZED}
 	if not document.get("player") is Dictionary:
 		return {"ok": false, "error": ERR_FILE_CORRUPT}
@@ -849,6 +900,8 @@ func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
 		if version < 15 and not data.has("capstone_stage"):
 			for key: String in Capstone.FIELDS:
 				normalized.erase(key)
+		if version < 16 and not data.has("weapon_fitting"):
+			normalized.erase("weapon_fitting")
 		if version == 12:
 			normalized.erase("internal_unlocked")
 			original.erase("internal_unlocked")
@@ -872,6 +925,7 @@ func _restore_save_candidate(data: Dictionary, version: int = SAVE_VERSION) -> v
 	qi = _bounded_int(data, "qi", 2, 0, max_qi)
 	attack = _bounded_int(data, "attack", 16, 1, 999)
 	defense = _bounded_int(data, "defense", 4, 0, 999)
+	weapon_fitting = data.get("weapon_fitting", Fittings.PLAIN)
 	medicine = _bounded_int(data, "medicine", 3, 0, 999)
 	herbs = _bounded_int(data, "herbs", 0, 0, 999)
 	quest_stage = _bounded_int(data, "quest_stage", 0, 0, 6)
@@ -952,6 +1006,7 @@ func _valid_save_data(data: Dictionary, version: int = SAVE_VERSION) -> bool:
 	if not Receipt.valid(data,version):return false
 	if not Consignee.valid(data, version): return false
 	if not Capstone.valid(data, version): return false
+	if not Fittings.valid_save(data, version): return false
 	if not Companions.valid(data):return false
 	if version >= 12 and not _valid_qin_progress(data):return false
 	if not ShenCare.valid(data,version):return false
@@ -1407,6 +1462,63 @@ func start_party_battle(encounter_id: String) -> bool:
 	return true
 
 
+## Model-level trial entry. The future guarded scene controller must additionally
+## prove the actual South Courtyard site/proximity; a map ID is not that proof.
+## Borrowed candidates never temporarily overwrite this State's installed enum.
+func start_fitting_practice(candidate: Variant, profile: Variant = "ordinary") -> bool:
+	if _party_pending_token >= 0 or not candidate is String or not profile is String:
+		return false
+	if not UnifiedEncounters.can_enter(self, "courtyard_practice"):
+		return false
+	if quest_stage != 6 or not SECTS.has(sect):
+		return false
+	var before: Dictionary = to_dict().duplicate(true)
+	var model = PartyCombat.new()
+	if not model.configure_fitting_practice(self, candidate, profile):
+		return false
+	if not _same_save_value(to_dict(), before):
+		return false
+	var metadata: Dictionary = model.fitting_trial_metadata()
+	if metadata.is_empty(): return false
+	if _fitting_comparison_key != String(metadata.comparison_key):
+		_fitting_comparisons.clear()
+		_fitting_comparison_key = String(metadata.comparison_key)
+	_clear_battle()
+	party_session = model
+	_party_encounter = "courtyard_practice"
+	_party_extra_entry = UnifiedEncounters.progress(self, "courtyard_practice")
+	_party_practice_before = before
+	battle_kind = "courtyard_practice"
+	battle_active = true
+	return true
+
+
+func fitting_comparison_snapshot() -> Dictionary:
+	return PartyCatalog.immutable({"comparison_key": _fitting_comparison_key, "results": _fitting_comparisons})
+
+
+func _reset_fitting_comparisons() -> void:
+	_fitting_comparison_key = ""
+	_fitting_comparisons.clear()
+	_fitting_last_result_epoch = -1
+
+
+## Only accepted terminal presentation reaches this call. The model's metrics
+## were already accumulated once from its accepted transactions, never UI text.
+func _record_fitting_comparison() -> void:
+	if _party_encounter != "courtyard_practice" or party_session == null or _fitting_last_result_epoch == party_battle_epoch:
+		return
+	if battle_active or _party_pending_token >= 0 or not party_settlement.get("practice", false):
+		return
+	var result: Dictionary = party_session.fitting_trial_snapshot()
+	if result.is_empty() or result.metrics.outcome != party_settlement.get("outcome", ""): return
+	if String(result.metadata.comparison_key) != _fitting_comparison_key or not result.metrics.outcome in ["win", "defeat", "flee"]:
+		return
+	_fitting_comparisons.append(result.duplicate(true))
+	while _fitting_comparisons.size() > 2: _fitting_comparisons.pop_front()
+	_fitting_last_result_epoch = party_battle_epoch
+
+
 func party_battle_snapshot() -> Dictionary:
 	if party_session == null:
 		return {}
@@ -1488,6 +1600,7 @@ func finish_party_presentation(epoch: int, token: int) -> Dictionary:
 	_copy_persistent_from(staged.state)
 	skill_cooldown = 0
 	party_settlement = PartyCatalog.immutable(staged.settlement)
+	_record_fitting_comparison()
 	return PartyCatalog.immutable({"ok": true, "accepted": true, "settled": true,
 		"reason": "", "epoch": epoch, "token": token, "outcome": snapshot.outcome,
 		"settlement": party_settlement, "snapshot": party_battle_snapshot()})
@@ -1629,6 +1742,7 @@ func _valid_schema12_core(data: Dictionary, version: int = SAVE_VERSION) -> bool
 		if key == "internal_unlocked" and version < 13: continue
 		if key in Consignee.FIELDS and version < 14: continue
 		if key in Capstone.FIELDS and version < 15: continue
+		if key == "weapon_fitting" and version < 16: continue
 		if not data.has(key):
 			return false
 	for key: String in ["level", "xp", "coins", "hp", "max_hp", "qi", "max_qi", "attack", "defense", "medicine", "herbs", "quest_stage", "victories", "side_stage", "side_clues", "chapter_two_stage", "sect_rank", "sect_merit", "tangqi_stage", "mist_stage"]:

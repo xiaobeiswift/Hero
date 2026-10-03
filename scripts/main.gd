@@ -387,7 +387,7 @@ func _refresh() -> void:
 	qi_bar.value = state.qi
 	hp_caption.text = "气血  %d / %d" % [state.hp,state.max_hp]
 	qi_caption.text = "真气  %d / %d" % [state.qi,state.max_qi]
-	stat_label.text = "攻击 %d    防御 %d    铜钱 %d" % [state.attack,state.defense,state.coins]
+	stat_label.text = "攻击 %d    防御 %d    铜钱 %d" % [state.effective_attack(),state.effective_defense(),state.coins]
 	exp_label.text = "修为  %d / %d      回春散 ×%d" % [state.xp,state.xp_to_next(),state.medicine]
 	quest_label.text = state.quest_title()
 	hint_label.text = state.quest_hint()
