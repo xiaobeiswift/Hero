@@ -1,0 +1,100 @@
+{
+  "scope": "Independent static review only of six manifest-listed capture-only v2 tooling files. No engine, Windows, source changes, publication or transfer actions.",
+  "status": "no_remaining_concrete_static_blocker_for_bounded_capture_only_path",
+  "reviewed_files": {
+    "capture_imported_windows.py": {
+      "bytes": 17940,
+      "sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899"
+    },
+    "first_render.gd": {
+      "bytes": 12530,
+      "sha256": "e6548e95ff94c4bee92e7ec199fed3387d9e7d661ddc5857f23d6331e30beda8"
+    },
+    "source-sha256.json": {
+      "bytes": 183836,
+      "sha256": "b02494ed1bd254e6ad022421659eac67638ece8518fb2bcb29178233dd045a66"
+    },
+    "test_capture_static.py": {
+      "bytes": 4698,
+      "sha256": "6e48c21e24633f1d5b6f3db0c4b5ccbd6f3b4480ea99d9e008b542bdb46b189e"
+    },
+    "README.md": {
+      "bytes": 10485,
+      "sha256": "a2bb52eacdae96b43ac02e982be82a0988ee285f4f097285b7e5ea26d99da141"
+    },
+    "static-checks-v2.log": {
+      "bytes": 1505,
+      "sha256": "682b695f78bdc28f381c6dee1743562b5e8738e69e7ee2360e88e12e5eb0f9e1"
+    }
+  },
+  "manifest_sha256": "bc4fa3e7e035e1612ae26f247b3064e255c7590d286bf1866264fc8e3ca6814e",
+  "static_tests": {
+    "passed": 14,
+    "execution": "Independent portable Linux Python -B, no engine invocation. String/source tests are static evidence; filesystem helper tests use temporary local data. Windows paths, receipts and native engine integration were not executed.",
+    "independent_log_sha256": "cdec76888255819d865bcc5772c884708c419c959fa9e8845a69a015aea6a893"
+  },
+  "nonblocking_limits": [
+    "Enter is queued but repeated postcondition does not prove activation; no separate keyboard-behavior acceptance.",
+    "Receipts and Windows import/profile observations were supplied by parent and not independently fetched in this review.",
+    "Receipt SHA pins establish identity and owner-reviewed historical observations; this helper does not rerun import.",
+    "File-byte equality does not prove zero save attempts, same-byte rewrites, inode identity, transient State or shutdown persistence."
+  ],
+  "confirmed_static_contract": [
+    "Public runtime87/tree84 and original1639 manifest remain fixed; helper external.",
+    "Direct GUI binary is profile-receipt hash bound; optional mapped console wrapper; no process-tree gate claim.",
+    "Existing guard-created userdir allowed only empty except separately inventoried shader_cache; exclusive profile claim prevents reuse.",
+    "Original and generated source sidecars checked before and after; generated cache inputs separately bound before and observed after.",
+    "External launcher/probe/manifest/receipts/engine SHA checks repeat before and after launch.",
+    "Prepared genuine production save before baseline; actual Main/J queued native input; exact automatic Qin/mist_rain_gauge snapshot tuple.",
+    "Frame/window1280x800 and PNG hash; output pending visual review only."
+  ],
+  "primary_api_source": "https://raw.githubusercontent.com/godotengine/godot/4.6.3-stable/core/io/dir_access.cpp#L550-L570",
+  "resolved_findings": [
+    {
+      "id": "inventory_fail_open",
+      "file": "first_render.gd",
+      "lines": [
+        22,
+        29
+      ],
+      "finding": "Unopenable directory yields empty inventory; failed/empty file hashes are accepted; before/after equality can falsely establish all-file coverage.",
+      "required": "Fail closed for required roots and discovered children, validate all file digests, and distinguish optional absent shader-cache roots."
+    },
+    {
+      "id": "inventory_enumeration_and_traversal",
+      "file": "first_render.gd",
+      "lines": [
+        22,
+        29,
+        74,
+        77
+      ],
+      "finding": "Hidden entries are not explicitly included; get_files/get_directories do not expose list_dir_begin errors; recursion lacks child-link rejection.",
+      "required": "Checked explicit list_dir_begin/get_next iteration, hidden entries included, navigational entries excluded, and encountered links rejected before hashing or descending."
+    }
+  ],
+  "unresolved_static_blockers": [],
+  "fix_verification": {
+    "listing": "Required DirAccess.open and list_dir_begin failures set io_failed and fail; include_hidden=true; navigational entries skipped; encountered links rejected before hash/recursion.",
+    "hashing": "Every enumerated file digest must have64 hex characters.",
+    "optional_cache": "Absent shader_cache accepted only after successful user-root listing; existing unreadable root is not treated as absent.",
+    "propagation": "io_failed checked before production State/Main, before browsing baseline and in final acceptance predicate.",
+    "unchanged_helper_sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899"
+  },
+  "execution_caveats": [
+    "The helper consumes caller-pinned, owner-reviewed Windows receipt identities; this review did not fetch or replay those remote observations.",
+    "Windows owner must verify retrieval hashes and actual receipt pins before one launch; no automatic retries or previously claimed profile reuse.",
+    "The capture makes one direct-GUI process launch with no verified descendant/process-tree cleanup claim. Markers are preserved and compared.",
+    "Existing imported cache may change; supplied cache inputs are hash-checked before launch and cache observations retained separately. This is not a pristine commit-only execution identity.",
+    "Success is only captured_pending_visual_review:1280x800 framebuffer with prepared fixture, queued J, actual Tang pointer focus/browse, automatic Qin/mist_rain_gauge coherence and before/after state/file-byte/position equality.",
+    "Enter is dispatched and invariance checked, not proven to activate a handler. No full keyboard, font fallback, span contrast, all UI states, earned gameplay, browser, PCK, release, audio or performance acceptance.",
+    "All engine compilation, Windows execution and first-pixel inspection remain unrun by this reviewer."
+  ],
+  "reviewed_runtime_identity": {
+    "published_commit": "87c4c3f3f9a5c39c39118e0202177b46f35ebae1",
+    "local_reference": "e6bd39027c9a4d86d82bc385024e3a7b28d945e8",
+    "tree": "84d995012e92e20bac1db1abe28e78eef5c67904",
+    "original_count": 1639,
+    "observation_scope": "Tooling constants and frozen manifest checked here; actual import result and101 generated inputs are parent-supplied observations revalidated by helper during the authorized Windows invocation."
+  }
+}
