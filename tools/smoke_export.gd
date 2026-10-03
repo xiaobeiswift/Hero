@@ -75,10 +75,10 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites() or not _consignee_prerequisites() or not _capstone_prerequisites() or not _fitting_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites() or not _consignee_prerequisites() or not _capstone_prerequisites() or not _fitting_prerequisites() or not _journal_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
-	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal) or not _consignee_legacy_prerequisite(rehearsal) or not _capstone_legacy_prerequisite(rehearsal) or not _fitting_legacy_prerequisite(rehearsal):
+	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal) or not _consignee_legacy_prerequisite(rehearsal) or not _capstone_legacy_prerequisite(rehearsal) or not _fitting_legacy_prerequisite(rehearsal) or not _journal_oracle_prerequisite(rehearsal):
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -97,6 +97,10 @@ func _run() -> void:
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
 	_transfer_fresh_title()
+	if OS.get_cmdline_user_args().has("--journal-only"):
+		await _test_journal_pack()
+		await _finish_run(rehearsal, "journal-only")
+		return
 	if OS.get_cmdline_user_args().has("--fitting-only"):
 		await _test_fitting_pack()
 		await _finish_run(rehearsal, "fitting-only")
@@ -224,6 +228,7 @@ func _run() -> void:
 	await _test_heting_polish_pack()
 	await _test_capstone_pack()
 	await _test_fitting_pack()
+	await _test_journal_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -313,7 +318,8 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	game._load()
 	_check(not game.state.tangqi_unlocked and game.state.tangqi_stage == 3 and game.state.tangqi_choice == choice, "Packed recruitment deferral persists: " + choice)
 	game._show_journal()
-	_check(_gather_text(game.overlay).contains("尺上旧痕") and _gather_text(game.overlay).contains("邀请唐栖"), "Packed journal retains pending invitation: " + choice)
+	_journal_legacy_browse("tang_notes")
+	_check(_gather_text(game.overlay).contains("尺上旧痕") and _gather_text(game.overlay).contains("与唐栖商议同行") and game.state.tangqi_stage == 3 and not game.state.tangqi_unlocked and game.journal_session.tracked_arc_id.is_empty() and game.JournalObjectives.row(game.state,"tang_notes").trackable, "Packed journal retains pending invitation: " + choice)
 	game._close_modal()
 	game._interact("bridge_worker")
 	_press("邀请同行")
@@ -366,6 +372,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
 	_check(saved is Dictionary and saved.get("version") == 16 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema16 and active party identity: " + choice)
 	game._show_journal()
+	_journal_legacy_history()
 	_check(_gather_text(game.overlay).contains("工册已传给学徒" if choice == "teach" else "原稿与水令一同留存"), "Packed journal preserves personal quest ending: " + choice)
 	game._close_modal()
 
@@ -493,7 +500,8 @@ func _test_mistwood() -> void:
 	_check(_find_button(game.overlay, "先鸣渡船钟") == null and game.state.to_dict() == before, "Packed completed ending cannot replay rewards")
 	game._close_modal()
 	await _key(KEY_J)
-	_check(_gather_text(game.overlay).contains("听雨辨令") and _gather_text(game.overlay).contains("先鸣渡船钟"), "Packed journal records third chapter and chosen ending")
+	_journal_legacy_history()
+	_check(_gather_text(game.overlay).contains("竹坡余声") and _gather_text(game.overlay).contains("先鸣渡船钟") and game.state.mist_stage == 4 and game.state.mist_ending == "warn_ferries" and game.JournalObjectives.row(game.state,"mistwood").display_title == "竹坡余声" and game.JournalObjectives.row(game.state,"mistwood").status == "completed" and not game.JournalObjectives.row(game.state,"mistwood").trackable, "Packed journal records third chapter and chosen ending")
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
@@ -861,6 +869,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	_check(_gather_text(game.overlay).contains("轮值纸" if choice == "shore" else "短渡停泊"), "Packed shelter reflects the same saved care choice: " + choice)
 	await _key(KEY_ESCAPE)
 	await _key(KEY_J)
+	_journal_legacy_history()
 	_check(_gather_text(game.overlay).contains("药箱之外") and _gather_text(game.overlay).contains("✓ 把照护约"), "Packed journal marks the personal story complete: " + choice)
 	game._close_modal()
 	game.companion_story.roster()
@@ -973,6 +982,7 @@ func _test_lightness_exploration() -> void:
 	_check(_find_button(game.overlay, "拓录残碑") == null and _gather_text(game.overlay).contains("已经收入江湖志"), "Packed discovered relic stays exhausted after reload")
 	game._close_modal()
 	await _key(KEY_J)
+	_journal_legacy_history()
 	_check(_gather_text(game.overlay).contains("苇心残碑已拓录") and _gather_text(game.overlay).contains("留刻度，不留渡价"), "Packed journal retains learned technique and recovered lore")
 	game._close_modal()
 	await _key(KEY_M)
@@ -1341,7 +1351,10 @@ func _test_clear_visibility_pack()->void:
 		var page=game.overlay.find_child("DialogueSheet",true,false);var chart=game.overlay.find_child("RegionChart",true,false);var close=game.overlay.find_child("DialogueChoice1",true,false)
 		_check(page!=null and chart!=null and close!=null,"Packed regional chart and close control retained")
 		if page!=null and chart!=null and close!=null:
-			_check(page.size.y==570 and Rect2(Vector2.ZERO,page.size).encloses(chart.get_rect()),"Packed chart fits its full paper page")
+			# M-only old570 page -> exact720 caption page; chart remains780x330.
+			var caption = game.overlay.find_child("MapGuidanceCaption",true,false)
+			var paper: Rect2 = Rect2(Vector2.ZERO,page.size)
+			_check(page.size.y==720 and chart.size==Vector2(780,330) and chart.position.y==255 and paper.encloses(chart.get_rect()) and paper.encloses(close.get_rect()) and caption != null and caption.visible and not caption.text.is_empty() and paper.encloses(caption.get_rect()) and not caption.get_rect().intersects(chart.get_rect()) and not caption.get_rect().intersects(close.get_rect()),"Packed chart fits its full paper page")
 			_check(not chart.get_rect().intersects(close.get_rect()) and chart.map_id==region,"Packed regional chart leaves close control visible")
 		await _key(KEY_1);_check(not game.active_modal,"Packed numbered map dismissal works")
 	game._new_game()
@@ -1414,9 +1427,9 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.30", "Equipment fitting V30 project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.31", "Journal guidance V31 project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 16, "V30 requires actual writer schema16")
+	_check(model != null and model.SAVE_VERSION == 16, "V31 keeps actual writer schema16 without a migration")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -2321,7 +2334,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee", "capstone_authorizer"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all12 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.30", "Packed actual title retains fitting0.0.30 identity")
+	_check(title != null and title.text=="0.0.31", "Packed actual title retains journal0.0.31 identity")
 	for kind: String in encounters.IDS.slice(0,10): await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -3562,8 +3575,15 @@ func _transfer_actual_ui() -> void:
 	_check(_gather_text(game.overlay).contains("手记转存暂不可用") and _find_button(game.overlay,"导入到空白手记") == null, "Packed absent browser adapter disables unsafe action controls")
 	fake.enabled = true
 	panel.targets(); _press("选择文件 → 手记三"); operation = fake.operation
-	game._show_map(); fake.selection_finished.emit(operation,"selected",bytes)
-	_check(not game.overlay.get_meta("save_transfer",false) and panel._preview_token == -1 and not FileAccess.file_exists(store.path_for(3)), "Packed replacement modal invalidates in-flight selection lifecycle")
+	# J/M now protect a live transfer instead of replacing it. Preserve that
+	# exact owner/token/state/files first, then test FORCED HOST replacement
+	# through the actual generic modal path (not an ordinary user shortcut).
+	var pending: Dictionary = {"owner":game.save_slots.transfer,"generation":game.modal_generation,"operation":panel._operation,"pending":panel._pending_generation,"preview":panel._preview_token,"state":_receipt_variables(game.state),"files":_transfer_files(directory),"autosaves":_courtyard_save_files()}
+	game._show_journal(); game._show_map()
+	var protected: bool = game.overlay.get_meta("save_transfer",false) and game.save_slots.transfer == pending.owner and game.modal_generation == pending.generation and panel._operation == pending.operation and panel._pending_generation == pending.pending and panel._preview_token == pending.preview and _receipt_variables(game.state) == pending.state and _transfer_files(directory) == pending.files and _courtyard_save_files() == pending.autosaves
+	game._modal("Audit forced host replacement", "Prepared lifecycle input", "Generic host replacement invalidates an old picker; not a normal J/M shortcut.", [["Close",game._close_modal]])
+	fake.selection_finished.emit(operation,"selected",bytes)
+	_check(protected and not game.overlay.get_meta("save_transfer",false) and panel._preview_token == -1 and not FileAccess.file_exists(store.path_for(3)) and _receipt_variables(game.state) == pending.state and _transfer_files(directory) == pending.files and _courtyard_save_files() == pending.autosaves, "Packed replacement modal invalidates in-flight selection lifecycle")
 	game.modal_autosave_on_close = false; game._close_modal()
 	for screen: String in ["battle","receipt_battle","party_battle"]:
 		game.current_screen = screen
@@ -4455,6 +4475,7 @@ func _capstone_checkpoint(label: String) -> void:
 	game._show_map(); var chart = game.overlay.find_child("RegionChart",true,false)
 	_check(chart != null and chart.current_target == game.world._quest_target_id() and not game.modal_autosave_on_close, "Actual map shares exact world navigation target without autosave")
 	game._close_modal(); game._show_journal()
+	_journal_legacy_history()
 	_check(_gather_text(game.overlay).contains(s.Capstone.TITLE) and not game.modal_autosave_on_close, "Actual journal includes chapter record and remains read-only")
 	game._close_modal()
 	_check(s.to_dict() == before and _receipt_bytes() == disk, "Repeated real map/journal views preserve all fields and disk")
@@ -5250,3 +5271,402 @@ func _test_fitting_pack() -> void:
 	await _fitting_explicit_close()
 	_check(not game.web_save_transfer_enabled and not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Complete fitting scope leaves transfer default-off")
 	print("Schema16 equipment fitting exact-runtime coverage: %d checks; actual shipped Main/controller/native prepared keys/mouse/PartyUI; live Main processing/divergent position; explicit enum-only equip/revert and save-failure retry versus borrowed full virtual resources/no reward/no practice saves; original-source ordinary parity with current dependencies; frozen unfitted comparison/accepted metrics/latest-two/history/load; authentic1,9-15 and authored2-8; frozen15 accepts genuine15/rejects actual16 nondestructively; since13/14/15/16 separate; native return-to-title close injection only; no earned-route/browser/physical-close/pixel/full-old-PCK claim" % (checks-first+_fitting_prerequisite_checks))
+
+# JOURNAL LEGACY COVERAGE LEDGER (old -> new, no removed checks/partitions):
+# 1. Pending Tang global checklist -> earned tang_notes detail; frozen model says
+#    "与唐栖商议同行", with explicit stage3/unrecruited/trackable/Auto invariants.
+# 2. Tang chosen ending -> actual earned History; both unchanged branch literals.
+# 3. Mist static aggregate heading "听雨辨令" -> immutable completed row
+#    "竹坡余声"; exact warn_ferries ending retained, plus stage4/completed/untrackable.
+# 4. Shen completion -> actual earned History; unchanged completed-care checkmark.
+# 5. Learned lightness/lore -> actual earned History; unchanged two lore literals.
+# 6. Capstone record -> actual earned History; unchanged title/read-only/disk gates.
+# View entry only changes for (2,4–6); (1,3) have exact frozen-model mappings.
+# 7. Map570 page -> exact720 caption page, same780x330 chart/region/close/
+#    numbered dismissal; original four page checks retain containment plus caption.
+# 8. Old M-replaces-transfer shortcut -> prove J/M protection, then actual generic
+#    FORCED HOST replacement; original picker invalidation and all-file invariants.
+# All nine prior partition counts remain pinned.
+func _journal_legacy_history() -> void:
+	var panel = game.overlay.get_meta("journal_ui",null)
+	if panel != null: panel.show_history()
+	else: push_error("Legacy earned-history coverage requires actual JournalUI")
+
+func _journal_legacy_browse(id: String) -> void:
+	var panel = game.overlay.get_meta("journal_ui",null)
+	if panel != null: panel.browse(id)
+	else: push_error("Legacy earned-detail coverage requires actual JournalUI")
+
+# Same-schema16 journal partition. Driver and immutable oracle remain external;
+# only actual shipped scripts are loaded from the subject PCK. Prepared canonical
+# states and native injected inputs are not an organically earned walkthrough.
+const JOURNAL_ORACLE_SHA256 := "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443"
+const JOURNAL_TUPLE: Array[String] = ["mode","kind","arc_id","step_key","destination_map","destination_site","next_target_id","route_status"]
+var _journal_prerequisite_checks: int = 0
+var _journal_oracle: Dictionary = {}
+
+func _journal_prerequisites() -> bool:
+	var previous: int = failures; var first: int = checks
+	for module: String in ["journal_objective_rules","journal_guidance_rules","journal_guidance_session","journal_guidance_view","journal_ui"]:
+		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Journal actual shipped resource precedes scene/save: "+module)
+	_journal_prerequisite_checks += checks-first
+	return failures == previous
+
+func _journal_oracle_prerequisite(rehearsal: bool) -> bool:
+	var previous: int = failures; var first: int = checks
+	var path: String = ""
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--journal-oracle="): path = argument.trim_prefix("--journal-oracle=")
+	if rehearsal and path.is_empty(): path = ProjectSettings.globalize_path("res://tests/journal_guidance_frozen_oracle.json")
+	_check(path.is_absolute_path() and FileAccess.file_exists(path) and FileAccess.get_sha256(path) == JOURNAL_ORACLE_SHA256, "Journal immutable117 oracle externally byte-pinned before scene/save")
+	if failures != previous: return false
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	_check(parsed is Dictionary and parsed.get("rows",[]).size() == 117 and parsed.get("reviewed_target_differences",[]).size() == 14, "Frozen117 corpus retains exactly14 approved Qin-over-Tang target repairs")
+	if failures != previous: return false
+	_journal_oracle = parsed
+	_journal_prerequisite_checks += checks-first
+	return failures == previous
+
+func _journal_panel(): return game.overlay.get_meta("journal_ui") if game.overlay.has_meta("journal_ui") else null
+
+func _journal_tuple(value: Dictionary) -> Dictionary:
+	var result: Dictionary = {}
+	for key: String in JOURNAL_TUPLE: result[key] = value.get(key)
+	return result
+
+func _journal_shared(label: String, target: String = "*", arc: String = "*") -> void:
+	var value: Dictionary = game.journal_guidance_snapshot
+	var tuple: Dictionary = _journal_tuple(value)
+	_check(_journal_tuple(game.world.journal_guidance_snapshot) == tuple and game.world.journal_guidance_revision == game.journal_guidance_revision, "Journal World receives exact host tuple/revision: "+label)
+	_check(_journal_tuple(game.hud.journal_guidance_snapshot) == tuple and game.hud.journal_guidance_revision == game.journal_guidance_revision, "Journal HUD receives exact host tuple/revision: "+label)
+	_check(game.world._quest_target_id() == value.next_target_id and game.quest_label.text == value.arc_title, "Journal actual diamond/compass/HUD share validated target/title: "+label)
+	if value.route_status == "local":
+		_check(not String(value.route_note).contains("暂无可标出的下一处") and not String(value.next_target_id).is_empty(), "Journal valid local target never carries unavailable default prose: "+label)
+	elif value.route_status == "unavailable":
+		_check(not String(value.route_note).is_empty() and String(value.next_target_id).is_empty(), "Journal genuinely unavailable route retains explanatory note and no marker: "+label)
+	if _journal_panel() != null:
+		_check(_journal_tuple(_journal_panel().guidance_copy()) == tuple and _journal_panel().guidance_revision == game.journal_guidance_revision, "Journal actual folio current strip shares tuple/revision: "+label)
+	if game.overlay.get_meta("journal_map",false):
+		var chart = game.overlay.find_child("RegionChart",true,false)
+		_check(chart != null and _journal_tuple(chart.journal_guidance_snapshot) == tuple and chart.current_target == value.next_target_id, "Journal M shares host tuple/physical target: "+label)
+		_check(chart != null and chart.cart_route == value.cart_route, "Journal M consumes exact supplied route: "+label)
+	if target != "*": _check(value.next_target_id == target, "Journal independent expected target "+target+": "+label)
+	if arc != "*": _check(value.arc_id == arc, "Journal independent expected arc "+arc+": "+label)
+
+func _journal_state(label: String):
+	for row: Dictionary in _journal_oracle.rows:
+		if row.label != label: continue
+		var model = load("res://scripts/game_state.gd")
+		var read: Dictionary = model.new().inspect_save_bytes(JSON.stringify({"version":16,"player":row.state}).to_utf8_buffer())
+		_check(read.ok and read.state._same_save_value(read.state.to_dict(),row.state), "Journal genuine current16 reader preserves prepared oracle state: "+label)
+		return read.state
+	_check(false,"Journal required frozen fixture missing: "+label)
+	return null
+
+func _journal_apply(state) -> void:
+	game.modal_autosave_on_close = false
+	game.current_screen = "explore"
+	game._close_modal()
+	game.state = state
+	game._apply_loaded_state()
+	game._stop_audio(); game.audio_on = false
+	game.set_process(true); game.world.set_process(true)
+	game._sync_world_state(); game._refresh()
+	_check(game.get_script() == load("res://scripts/main.gd") and game.state.get_script().resource_path == "res://scripts/game_state.gd", "Journal uses unwrapped actual shipped Main and HeroState")
+	_check(game.state.SAVE_VERSION == 16 and game.journal_session.tracked_arc_id.is_empty(), "Journal applied prepared16 journey starts transient Auto without migration")
+
+func _journal_disk(path: String = "user://") -> Dictionary:
+	var result: Dictionary = {}; var directory = DirAccess.open(path)
+	if directory == null: return result
+	directory.list_dir_begin(); var name: String = directory.get_next()
+	while not name.is_empty():
+		if name not in [".","..","logs"]:
+			var full: String = path.path_join(name)
+			if directory.current_is_dir(): result[full+"/"] = true; result.merge(_journal_disk(full))
+			else: result[full] = {"bytes":FileAccess.get_file_as_bytes(full),"modified":FileAccess.get_modified_time(full)}
+		name = directory.get_next()
+	directory.list_dir_end()
+	return result
+
+func _journal_identities() -> Dictionary:
+	# The already-running Python wrapper supplies its own interpreter, including
+	# Windows; this subprocess only stats the isolated audit profile, never source.
+	var python: String = OS.get_environment("HERO_AUDIT_PYTHON")
+	var output: Array = []
+	var code: String = "import os,json,sys; r=sys.argv[1]; out={};\nfor p,ds,fs in os.walk(r):\n ds[:]=[d for d in ds if d!='logs'];\n for n in sorted(ds+fs):\n  f=os.path.join(p,n); s=os.lstat(f); out[os.path.relpath(f,r)]=[str(s.st_ino),str(s.st_mtime_ns),s.st_size]\nprint(json.dumps(out,sort_keys=True))"
+	var status: int = OS.execute(python,PackedStringArray(["-c",code,ProjectSettings.globalize_path("user://")]),output) if not python.is_empty() else -1
+	_check(status == 0 and output.size() == 1, "Journal read-only isolated-file inode/nanosecond inventory succeeds")
+	if status != 0 or output.is_empty(): return {}
+	var parsed: Variant = JSON.parse_string(output[0])
+	_check(parsed is Dictionary, "Journal isolated-file identity inventory is structured")
+	return parsed if parsed is Dictionary else {}
+
+func _journal_capture() -> Dictionary:
+	return {"state":_receipt_variables(game.state),"canonical":game.state.to_dict().duplicate(true),"state_id":game.state.get_instance_id(),"world_map":game.world.map_id,"world_position":game.world.player_pos,"files":_journal_disk(),"identities":_journal_identities(),"zoom":game.view_zoom}
+
+func _journal_same(before: Dictionary, label: String, disk: bool = true) -> void:
+	_check(game.state.to_dict() == before.canonical and _receipt_variables(game.state) == before.state, "Journal entire canonical/transient State/resources/gates unchanged: "+label)
+	_check(game.state.get_instance_id() == before.state_id and game.world.map_id == before.world_map and game.world.player_pos == before.world_position and game.view_zoom == before.zoom, "Journal actual identity/map/world position/preferences unchanged: "+label)
+	if disk:
+		_check(_journal_disk() == before.files, "Journal all nonlog user files/exact bytes/observed timestamps unchanged: "+label)
+		_check(_journal_identities() == before.identities, "Journal no same-byte rewrite, inode replacement or nanosecond timestamp write: "+label)
+	_check(game.is_processing(), "Journal actual Main processing retained: "+label)
+
+func _journal_callback(button) -> Callable:
+	var captured: Callable = Callable()
+	if button is Button:
+		for connection: Dictionary in button.pressed.get_connections():
+			if connection.callable.is_valid(): captured = connection.callable; break
+	_check(captured.is_valid(), "Journal captures an actual live connected native-control callback: "+str(button.name if button is Button else "missing"))
+	return captured
+
+func _journal_activate(key: String) -> void:
+	await process_frame; await process_frame # Settle deferred owner focus before deliberately focusing an action.
+	var panel = _journal_panel()
+	var button = panel.action_buttons.get(key) if panel != null else null
+	_check(button is Button and not button.disabled, "Journal actual native action exists/enabled: "+key)
+	if button is Button and not button.disabled:
+		button.grab_focus()
+		await _fitting_key(KEY_ENTER) # Both native press and release before assertion.
+
+func _journal_track(id: String) -> void:
+	await process_frame; await process_frame # Fresh J schedules initial row focus; do not race it.
+	var panel = _journal_panel()
+	_check(panel != null and panel.row_buttons.has(id), "Journal earned visible row required: "+id)
+	if panel == null or not panel.row_buttons.has(id): return
+	panel.row_buttons[id].grab_focus(); await _fitting_key(KEY_ENTER)
+	_check(_journal_panel() == panel and panel.browse_arc_id == id, "Journal native row Enter browses only: "+id)
+	await _journal_activate("track")
+	_check(game.journal_session.tracked_arc_id == id and _journal_panel() == panel, "Journal explicit native Track selects and retains owner: "+id)
+
+func _journal_stale(callback: Callable, label: String) -> void:
+	var before: Dictionary = _journal_capture(); var selected: String = game.journal_session.tracked_arc_id; var generation: int = game.modal_generation
+	_check(callback.is_valid(), "Journal stale replay requires previously captured still-live callback: "+label)
+	if callback.is_valid(): callback.call()
+	_journal_same(before,label)
+	_check(game.journal_session.tracked_arc_id == selected and game.modal_generation == generation, "Journal stale callback cannot replace selection/owner: "+label)
+
+func _journal_frozen_runtime() -> void:
+	var repairs: Dictionary = {}; var visited: Dictionary = {}; var changed: int = 0
+	for row: Dictionary in _journal_oracle.reviewed_target_differences: repairs[row.label] = row
+	for row: Dictionary in _journal_oracle.rows:
+		_journal_apply(_journal_state(row.label))
+		# Oracle physical context can deliberately differ from serialized position.
+		game.world.player_pos = Vector2(row.context.player_position[0],row.context.player_position[1])
+		game._sync_journal_guidance(true)
+		var before: Dictionary = game.state.to_dict().duplicate(true)
+		var expected: String = String(row.frozen_observation.target)
+		if repairs.has(row.label):
+			expected = String(repairs[row.label].new_target); changed += 1
+			_check(row.frozen_observation.target == repairs[row.label].old_target and game.journal_guidance_snapshot.arc_id == "qin_rope", "Journal reviewed Qin repair retains frozen prior target/winning arc: "+row.label)
+		var expected_hint: String = String(row.frozen_observation.hint)
+		# Frozen capstone HUD appended travel prose; phase1's accepted contract
+		# separates unchanged goal next_action from the current route explanation.
+		# This exact mapping applies only to the retained capstone0–6 rows.
+		if String(row.label).begins_with("capstone_") and int(row.state.capstone_stage) < 7:
+			var core: String = expected_hint.get_slice(" 先沿",0)
+			var suffix: String = " 先沿" + String(row.context.markers[expected].name) + "行路。" if expected_hint.contains(" 先沿") else ""
+			_check(expected_hint == core+suffix and core == String(game.state.Capstone.goal(game.state).objective), "Journal frozen capstone instruction has exact unchanged core and independently named prior route suffix: "+row.label)
+			var rendered_suffix: String = " 先往" + String(row.context.markers[expected].name) + "。" if not suffix.is_empty() else ""
+			_check(game.hint_label.text == core+rendered_suffix, "Journal complete rendered capstone HUD exactly maps frozen core/physical-route suffix: "+row.label)
+			expected_hint = core
+		_check(game.quest_label.text == row.frozen_observation.title and game.journal_guidance_snapshot.next_action == expected_hint, "Journal frozen automatic title/action retained exactly: "+row.label)
+		_journal_shared("frozen "+row.label,expected)
+		game._show_map(); _journal_shared("frozen M "+row.label,expected); game._close_modal()
+		_check(game.state.to_dict() == before, "Journal frozen actual M open/close remains canonical read-only: "+row.label)
+		visited[row.label] = true
+	_check(visited.size() == 117 and changed == 14 and repairs.size() == 14, "Journal no-skip actual Main117/14 frozen matrix executed exactly once")
+
+func _journal_input_readonly() -> void:
+	_journal_apply(_journal_state("opening_0"))
+	game._show_journal()
+	_check(_journal_panel() != null and _journal_panel().row_buttons.keys() == ["opening"] and game.modal_actions.is_empty(), "Journal fresh actual UI reveals only earned opening and no generic modal actions")
+	var fresh: Dictionary = _journal_capture()
+	await _fitting_key(KEY_ENTER); await _fitting_key(KEY_SPACE)
+	_check(_journal_panel() != null and game.journal_session.tracked_arc_id.is_empty(), "Journal initial Enter/Space never implicitly tracks or closes")
+	await _journal_activate("history"); await _fitting_key(KEY_ESCAPE)
+	_check(_journal_panel() != null and _journal_panel().page == "journal", "Journal History Esc returns once to folio")
+	await _fitting_key(KEY_ESCAPE); _journal_same(fresh,"fresh browse/history/back/close")
+	for fitting: String in ["plain","edge","guard"]:
+		var state = _journal_state("bounded_qin_tang_fix_1_1")
+		_check(state.set_weapon_fitting(fitting).ok, "Journal prepared real fitting choice "+fitting)
+		_journal_apply(state)
+		_check(game.state.save_game() == OK, "Journal test-owned real16 baseline before read-only window")
+		game.state.coins += 7; game.state.position = game.world.player_pos + Vector2(-9,0)
+		var before: Dictionary = _journal_capture()
+		game._show_journal(); await _fitting_idle()
+		_check(_journal_panel() != null and not game.modal_autosave_on_close and not game.world.active and not game._journal_position_hold.is_empty(), "Journal actual folio owns held divergent position without autosave")
+		var automatic: Dictionary = _journal_tuple(game.journal_guidance_snapshot)
+		var panel = _journal_panel()
+		panel.browse("opening")
+		_check(panel._row("opening").status == "completed" and not panel._row("opening").trackable and panel.action_buttons.track.disabled, "Journal completed earned row is readable but cannot Track")
+		panel.browse("heting_delivery")
+		_check(panel._row("heting_delivery").status == "available" and panel._row("heting_delivery").trackable and game.state.heting_stage == 0, "Journal stage0 earned destination is available without accepting its story")
+		panel.browse("tang_notes")
+		_check(_journal_tuple(game.journal_guidance_snapshot) == automatic and game.journal_session.tracked_arc_id.is_empty(), "Journal browse never publishes the preview as guidance")
+		var stale: Callable = _journal_callback(panel.action_buttons.track)
+		panel.browse("qin_rope"); panel.browse("tang_notes"); _journal_stale(stale,"row A-B-A")
+		await _journal_track("tang_notes"); _journal_shared("manual Tang","return_frostbridge","tang_notes")
+		var selected_revision: int = game.journal_guidance_revision
+		panel.track_selected(); panel.track_selected()
+		_check(game.journal_guidance_revision == selected_revision and panel.action_buttons.track.disabled, "Journal redundant Track is inert and disabled")
+		for key: Key in [KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_E,KEY_M,KEY_F5,KEY_F9,KEY_F6,KEY_F10,KEY_B,KEY_I,KEY_K,KEY_EQUAL,KEY_MINUS]:
+			await _fitting_key(key)
+			_check(_journal_panel() == panel and game.journal_session.tracked_arc_id == "tang_notes", "Journal consumes protected global key "+str(key))
+		await _fitting_key(KEY_J,true); await _fitting_key(KEY_ESCAPE,true)
+		_check(_journal_panel() == panel, "Journal key echoes cannot close or reopen owner")
+		stale = _journal_callback(panel.action_buttons.auto)
+		await _journal_activate("history"); await _fitting_key(KEY_END); await _fitting_key(KEY_HOME); await _fitting_key(KEY_ESCAPE)
+		_journal_stale(stale,"history roundtrip Auto")
+		await _journal_activate("auto"); _journal_shared("restored Auto","mist_rain_gauge","qin_rope")
+		_check(game.journal_session.tracked_arc_id.is_empty() and panel.action_buttons.auto.disabled, "Journal explicit Auto disables repeat and keeps owner")
+		stale = _journal_callback(panel.action_buttons.close)
+		# Close through the real guarded owner, then replay before queued-free so
+		# this proves a live stale callable rejects, not merely a freed Node.
+		panel.close(); game._show_map(); _journal_shared("read-only M")
+		_journal_stale(stale,"closed J callback cannot affect M")
+		await _fitting_key(KEY_1); await _fitting_idle(); _journal_same(before,"J/Track/Auto/history/M fitting "+fitting)
+		var save: Dictionary = JSON.parse_string(_receipt_bytes().get_string_from_utf8())
+		_check(save.version == 16 and save.player.size() == game.state.to_dict().size() and save.player.keys().all(func(key): return game.state.to_dict().has(key)) and not _receipt_bytes().get_string_from_utf8().contains("tracked_arc_id") and not _receipt_bytes().get_string_from_utf8().contains("journal_guidance"), "Journal serialized schema/keys unchanged, no session or view fields")
+
+func _journal_route_valid(label: String) -> void:
+	var value: Dictionary = game.journal_guidance_snapshot; var route: PackedVector2Array = value.cart_route
+	_check(not route.is_empty(), "Journal loaded cart has an actual collision route: "+label)
+	if route.is_empty(): return
+	_check(route[0] == game.world.player_pos and route[-1] == value.next_target_position, "Journal loaded route exact start and immediate target: "+label)
+	var region = load("res://scripts/heting_region.gd")
+	for index: int in range(1,route.size()):
+		_check(region.can_step(route[index-1],route[index],game.state.heting_bridge,true), "Journal every loaded route segment legal: "+label+" "+str(index))
+
+func _journal_routes_gates() -> void:
+	_journal_apply(_journal_state("bounded_qin_tang_fix_1_1"))
+	game._show_journal(); await _journal_track("tang_notes"); await _fitting_key(KEY_ESCAPE)
+	var markers: Dictionary = game.world.interactables.duplicate(true)
+	var target: String = game.journal_guidance_snapshot.next_target_id
+	game.world.interactables.erase(target)
+	_check(game.world._quest_target_id().is_empty(), "Journal World immediately suppresses removed marker before host refresh")
+	game._sync_journal_guidance(); _journal_shared("missing marker","","tang_notes")
+	_check(game.journal_session.tracked_arc_id == "tang_notes" and game.journal_guidance_snapshot.route_status == "unavailable", "Journal unavailable route retains explicit selection")
+	game.world.interactables = markers.duplicate(true); game._sync_journal_guidance()
+	_journal_shared("restored marker",target,"tang_notes")
+	game.world.map_id = "qingwei"; game._sync_journal_guidance()
+	_journal_shared("half-transition","","tang_notes")
+	game.world.map_id = game.state.map_id; game._sync_journal_guidance()
+	game.world.interactables[target].pos = Vector2.INF; game._sync_journal_guidance()
+	_journal_shared("nonfinite marker","","tang_notes")
+	game.world.interactables = markers.duplicate(true); game._sync_journal_guidance()
+	var metrics: Dictionary = game.journal_view.metrics
+	for unused: int in range(100): game._sync_journal_guidance()
+	_check(game.journal_view.metrics.full_resolves == metrics.full_resolves and game.journal_view.metrics.catalog_builds == metrics.catalog_builds, "Journal100 unchanged idle refreshes do not rebuild catalog or resolver")
+	var detached: Dictionary = game.journal_preview("tang_notes")
+	detached.arc_title = "caller mutation"; detached.marker_view.markers[target].pos = Vector2.ZERO
+	_check(game.journal_preview("tang_notes").arc_title != "caller mutation" and game.world.interactables[target].pos == markers[target].pos, "Journal published preview/marker values are detached from caller mutation")
+	for gate: String in ["battle","pending","quit"]:
+		var before_generation: int = game.modal_generation
+		if gate == "battle": game.state.battle_active = true
+		elif gate == "pending": game.state._party_pending_token = 44
+		else: game.quit_pending = true
+		game._show_journal(); game._show_map()
+		_check(_journal_panel() == null and not game.overlay.get_meta("journal_map",false) and game.modal_generation == before_generation, "Journal J/M cannot enter guarded state: "+gate)
+		game.state.battle_active = false; game.state._party_pending_token = -1; game.quit_pending = false
+	for owner: String in ["weapon_fitting","party_roster","party_roster_direct_info","receipt_battle","party_battle","courtyard_practice","save_transfer","fitting_workshop_readonly","fitting_exit_readonly"]:
+		game.overlay.set_meta(owner,true); var generation: int = game.modal_generation
+		game._show_journal(); game._show_map()
+		_check(_journal_panel() == null and game.modal_generation == generation, "Journal does not replace protected owner: "+owner)
+		game.overlay.remove_meta(owner)
+	for learned: bool in [false,true]:
+		var state = _journal_state("bounded_qin_tang_fix_1_1")
+		state.map_id = "qingwei"; state.position = Vector2(1514,930); state.lightness_unlocked = learned
+		_journal_apply(state); var before: Dictionary = _journal_capture()
+		game._show_journal(); await _journal_track("tang_notes"); _journal_shared("islet return","reed_return","tang_notes")
+		await _fitting_key(KEY_ESCAPE); game._show_map(); _journal_shared("islet M","reed_return","tang_notes"); game._close_modal()
+		_journal_same(before,"islet guidance never crosses")
+	for modern: bool in [false,true]:
+		for side: String in ["west","east"]:
+			var state = _journal_state("harbor_overlap_1_4")
+			state.heting_bridge = side; state.position = Vector2(820,665)
+			if not modern:
+				state.consignee_stage = 0; state.consignee_observations.clear(); state.consignee_draft = ""; state.consignee_cargo_location = ""; state.receipt_stage = 0
+				state.heting_stage = 1; state.heting_delivered.clear(); state.heting_cargo = "meal"; state.heting_draft = ""; state.heting_ending = ""
+			_journal_apply(state); var before: Dictionary = _journal_capture()
+			game._show_journal(); await _journal_track("heting_consignee" if modern else "heting_delivery")
+			_journal_route_valid("loaded "+str(modern)+side); await _fitting_key(KEY_ESCAPE)
+			game._show_map(); _journal_shared("loaded M"); _journal_route_valid("loaded M "+str(modern)+side); game._close_modal()
+			var route_metrics: Dictionary = game.journal_view.metrics
+			var origin: Vector2 = game.world.player_pos
+			for step: int in range(1,6):
+				game.world.player_pos = origin + Vector2(step,0)
+				game._sync_journal_guidance(); _journal_route_valid("exact loaded reanchor "+str(step))
+			_check(game.journal_view.metrics.full_resolves == route_metrics.full_resolves and game.journal_view.metrics.route_reanchors == route_metrics.route_reanchors+5, "Journal measured five certified loaded reanchors avoid a full route solve")
+			game.world.player_pos = origin; game._sync_journal_guidance()
+			game._show_journal(); await _journal_track("qin_rope"); _journal_shared("loaded departure","return_mistwood","qin_rope")
+			_check(game.journal_guidance_snapshot.route_status == "departure_confirmation" and game.journal_guidance_snapshot.route_note.contains("确认"), "Journal loaded remote objective truthfully requires parking confirmation")
+			await _fitting_key(KEY_ESCAPE); _journal_same(before,"loaded guidance never parks or moves cargo")
+
+func _journal_session_lifecycle() -> void:
+	_journal_apply(_journal_state("bounded_qin_tang_fix_1_1"))
+	_check(game.state.save_game() == OK and game.save_slots.store.save_slot(game.state,1) == OK, "Journal prepared actual auto/manual save baselines")
+	game._show_journal(); await _journal_track("tang_notes"); await _fitting_key(KEY_ESCAPE)
+	var identity: int = game.state.get_instance_id(); game._load()
+	_check(game.state.get_instance_id() == identity and game.journal_session.tracked_arc_id.is_empty(), "Journal successful same-State quickload resets session")
+	game._show_journal(); await _journal_track("tang_notes"); await _fitting_key(KEY_ESCAPE)
+	game.save_slots.request_load(1,false); _press("返回详情")
+	_check(game.journal_session.tracked_arc_id == "tang_notes", "Journal cancelled actual manual-load prompt retains selection")
+	game.save_slots.perform_load(1,false)
+	_check(game.state.get_instance_id() == identity and game.journal_session.tracked_arc_id.is_empty(), "Journal successful actual manual-load application resets selection")
+	game._show_journal(); await _journal_track("tang_notes"); await _fitting_key(KEY_ESCAPE)
+	var genuine: PackedByteArray = _receipt_bytes()
+	_transfer_write("user://hero_save.json","{owned malformed journal test".to_utf8_buffer())
+	var failed: Dictionary = _journal_capture(); game._load(); _journal_same(failed,"failed actual quickload")
+	_check(game.journal_session.tracked_arc_id == "tang_notes", "Journal failed quickload retains selection")
+	_transfer_write("user://hero_save.json",genuine)
+	_check(game.save_slots.store.save_slot(game.state,2) == OK, "Journal prepared actual manual slot for failed-load control")
+	var manual: PackedByteArray = FileAccess.get_file_as_bytes(game.save_slots.store.path_for(2))
+	_transfer_write(game.save_slots.store.path_for(2),"{owned malformed manual journal test".to_utf8_buffer())
+	failed = _journal_capture(); game.save_slots.perform_load(2,false); _journal_same(failed,"failed actual manual load")
+	_check(game.journal_session.tracked_arc_id == "tang_notes", "Journal failed manual load retains selection")
+	_transfer_write(game.save_slots.store.path_for(2),manual)
+	var directory: String = _transfer_directory("journal-storage")
+	var store = load("res://scripts/local_save_slots.gd").new(directory)
+	_check(store.save_slot(game.state,1) == OK, "Journal isolated storage-only source prepared")
+	var transfer = load("res://scripts/local_save_transfer.gd").new(directory)
+	var before: Dictionary = _journal_capture(); var exported: Dictionary = transfer.export_slot(1)
+	_check(exported.ok, "Journal underlying store exports actual16 bytes")
+	_journal_same(before,"storage-only export")
+	var preview: Dictionary = transfer.preview_import(exported.bytes,2)
+	_check(preview.ok, "Journal storage-only import preview is valid")
+	transfer.cancel_preview(preview.token)
+	_check(not transfer.commit_import(preview.token).ok and game.journal_session.tracked_arc_id == "tang_notes", "Journal cancelled import preview cannot apply or reset")
+	_journal_same(before,"cancelled storage-only import")
+	preview = transfer.preview_import(exported.bytes,2)
+	_check(preview.ok and transfer.commit_import(preview.token).ok, "Journal storage-only import writes only empty destination")
+	_journal_same(before,"storage-only import retains active journey",false)
+	_check(game.journal_session.tracked_arc_id == "tang_notes" and FileAccess.get_file_as_bytes(store.path_for(2)) == exported.bytes and not game.web_save_transfer_enabled, "Journal import retains tracking/default-off browser feature and exact bytes")
+	for destination: String in ["frostbridge","sluice","qingwei","mistwood"]:
+		game._travel(destination,Vector2(460,430))
+		_check(game.journal_session.tracked_arc_id == "tang_notes", "Journal ordinary travel retains manual selection: "+destination)
+		_journal_shared("travel "+destination)
+	_check(game.state.recover_craft_notes(), "Journal prepared actual Tang stage1-to2 helper")
+	game._refresh(); _check(game.journal_session.tracked_arc_id == "tang_notes", "Journal same-arc stage change retains tracking")
+	_check(game.state.resolve_tangqi_quest("teach"), "Journal prepared actual Tang stage2-to3 helper")
+	game._refresh(); _check(game.journal_session.tracked_arc_id == "tang_notes" and not game.state.tangqi_unlocked, "Journal pending invitation does not complete or auto-recruit")
+	_check(game.state.recruit_tangqi(), "Journal prepared explicit final recruitment helper")
+	var completed: Dictionary = _journal_capture(); game._refresh()
+	_check(game.journal_session.tracked_arc_id.is_empty() and game.journal_guidance_snapshot.mode == "auto", "Journal terminal completion restores Auto")
+	_check(game.journal_guidance_snapshot.selection_changed and game.journal_guidance_snapshot.selection_notice.contains("已完成，已恢复自动指引"), "Journal completion publishes one truthful transition notice")
+	for unused: int in range(100): game._sync_journal_guidance()
+	_check(not game.journal_guidance_snapshot.selection_changed and game.journal_guidance_snapshot.selection_notice.is_empty(), "Journal cached idle refresh does not replay completion notice")
+	_journal_same(completed,"100 idle completion refreshes do not replay reward/save")
+	game._show_journal(); await _journal_track("qin_rope"); await _fitting_key(KEY_ESCAPE)
+	game._show_title(); game._request_new_game(); _press("返回")
+	_check(game.current_screen == "title" and game.journal_session.tracked_arc_id == "qin_rope", "Journal title and cancelled new-game prompt preserve selection until applied new journey")
+	game._new_game()
+	_check(game.journal_session.tracked_arc_id.is_empty() and game.state.SAVE_VERSION == 16, "Journal actual new journey resets transient selection, same schema16")
+
+func _test_journal_pack() -> void:
+	var first: int = checks
+	_journal_frozen_runtime()
+	await _journal_input_readonly()
+	await _journal_routes_gates()
+	await _journal_session_lifecycle()
+	print("Schema16 journal guidance exact-runtime coverage: %d checks; actual unwrapped Main/session/J/HUD/World/M; immutable117/14 prepared oracle; earned catalog/native Track/Auto/read-only canonical/resources/position/files; loaded routing/gates/stale callbacks/applied-load-only reset; same schema16/no migration/no serialized journal; Web30 full-PCK compatibility separate; no earned-walk/browser/pixel claim" % (checks-first+_journal_prerequisite_checks))

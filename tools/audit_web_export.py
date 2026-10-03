@@ -26,11 +26,13 @@ CAPSTONE_SOURCE_ASSETS={
 }
 SCHEMA13='4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d'
 LEGACY_FIXTURES='9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46'
+JOURNAL_ORACLE='38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443'
+EXPECTED_JOURNAL_CHECKS=2832  # Independently measured full-measure02; real Main/J/HUD/World/M, immutable117/14.
 EXPECTED_POLISH_CHECKS=460  # Independently measured actual paint resources/draw calls/font-cache gates.
 EXPECTED_CONSIGNEE_CHECKS=1036  # Independently measured actual chapter14 scene/model/save/art gates.
 EXPECTED_CAPSTONE_CHECKS=1179  # Measured source rehearsal02; later stable rerun must pass.
-EXPECTED_CHECKS=18757  # Measured full source18752 plus exactly five pending PCK-only checks; no PCK pass claim.
-EXPECTED_SOURCE_CHECKS=18752  # Measured final-UI full-measure-01; strict unchanged-input repeat required.
+EXPECTED_CHECKS=21589  # Measured source21584 plus exactly five still-pending PCK-only checks; no PCK pass claim.
+EXPECTED_SOURCE_CHECKS=21584  # Measured full-measure02 with zero failures; fresh strict repeat required.
 EXPECTED_FITTING_CHECKS=12369  # Measured real Main/controller/native input/metrics/history/schema16 partition.
 EXPECTED_TRANSFER_CHECKS=363  # Measured full16 raw transport matrix, retaining1–14 and adding15/16.
 EXPECTED_CONDITION_CHECKS=191  # Independently marked actual companion-condition runtime gates.
@@ -47,6 +49,7 @@ CONSIGNEE_COVERAGE='Schema14 consignee chapter exact-runtime coverage:'
 POLISH_COVERAGE='Heting paint-only polish exact-runtime coverage:'
 CAPSTONE_COVERAGE='Schema15 capstone chapter exact-runtime coverage:'
 FITTING_COVERAGE='Schema16 equipment fitting exact-runtime coverage:'
+JOURNAL_COVERAGE='Schema16 journal guidance exact-runtime coverage:'
 SOURCE_PENDING='SOURCE REHEARSAL: PENDING exactly5 packaging-only assertions until exact final PCK; no exported-pack claim'
 OLD_COVERAGE=('Schema12 four-actor exact-runtime coverage:', 'Schema12 sluice exact-runtime coverage:', 'Schema12 archive exact-runtime coverage:')
 
@@ -96,7 +99,7 @@ def audit_environment(directory, platform=None):
     env=os.environ.copy();platform=os.name if platform is None else platform
     data=directory/'web-smoke-data';config=directory/'config';cache=directory/'cache';home=directory/'home'
     for path in (data,config,cache,home):path.mkdir(parents=True,exist_ok=False)
-    env.update(HOME=str(home),XDG_DATA_HOME=data.as_posix(),XDG_CONFIG_HOME=config.as_posix(),XDG_CACHE_HOME=cache.as_posix())
+    env.update(HOME=str(home),XDG_DATA_HOME=data.as_posix(),XDG_CONFIG_HOME=config.as_posix(),XDG_CACHE_HOME=cache.as_posix(),HERO_AUDIT_PYTHON=sys.executable)
     if platform=='nt':env.update(APPDATA=str(data),LOCALAPPDATA=str(cache))
     return env
 
@@ -116,21 +119,21 @@ def verify_source_manifest(build, report, root=None):
     actual={path.relative_to(root).as_posix():sha(path) for path in paths}
     if not entries or entries!=actual or len(entries)!=report['source_entries'] or not report['source_unchanged']:
         raise RuntimeError('Export source manifest does not match frozen audit source')
-    if root == ROOT:verify_capstone_inputs(root);verify_fitting_inputs(root)
+    if root == ROOT:verify_capstone_inputs(root);verify_fitting_inputs(root);verify_journal_inputs(root)
     return sha(manifest)
 
 
 def completed_pack_checks(text, exit_code):
-    """Fail closed on pre-automatic, partial, rehearsal, duplicate, pre-transfer, pre-consignee, pre-polish, pre-capstone, pre-fitting, unmeasured or error logs."""
-    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS,EXPECTED_TRANSFER_CHECKS,EXPECTED_CONSIGNEE_CHECKS,EXPECTED_POLISH_CHECKS,EXPECTED_CAPSTONE_CHECKS,EXPECTED_FITTING_CHECKS)<=0:
+    """Fail closed on pre-automatic, partial, rehearsal, duplicate, pre-transfer, pre-consignee, pre-polish, pre-capstone, pre-fitting, pre-journal, unmeasured or error logs."""
+    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS,EXPECTED_TRANSFER_CHECKS,EXPECTED_CONSIGNEE_CHECKS,EXPECTED_POLISH_CHECKS,EXPECTED_CAPSTONE_CHECKS,EXPECTED_FITTING_CHECKS,EXPECTED_JOURNAL_CHECKS)<=0:
         return None
     if EXPECTED_SOURCE_CHECKS != EXPECTED_CHECKS-5: return None
-    if EXPECTED_CHECKS != 92+EXPECTED_PRESERVED_CHECKS+EXPECTED_UNIFIED_CHECKS+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS+EXPECTED_TRANSFER_CHECKS+EXPECTED_CONSIGNEE_CHECKS+EXPECTED_POLISH_CHECKS+EXPECTED_CAPSTONE_CHECKS+EXPECTED_FITTING_CHECKS: return None
+    if EXPECTED_CHECKS != 92+EXPECTED_PRESERVED_CHECKS+EXPECTED_UNIFIED_CHECKS+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS+EXPECTED_TRANSFER_CHECKS+EXPECTED_CONSIGNEE_CHECKS+EXPECTED_POLISH_CHECKS+EXPECTED_CAPSTONE_CHECKS+EXPECTED_FITTING_CHECKS+EXPECTED_JOURNAL_CHECKS: return None
     lines=text.splitlines()
     if [line for line in lines if line.lstrip().startswith('Audit scope:')] != [COMPLETE_SCOPE]: return None
     if 'SOURCE REHEARSAL:' in text or any(marker in text for marker in OLD_COVERAGE): return None
     if any(line.lstrip().startswith(('ERROR:', 'SCRIPT ERROR:')) for line in lines): return None
-    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS),(TRANSFER_COVERAGE,EXPECTED_TRANSFER_CHECKS),(CONSIGNEE_COVERAGE,EXPECTED_CONSIGNEE_CHECKS),(POLISH_COVERAGE,EXPECTED_POLISH_CHECKS),(CAPSTONE_COVERAGE,EXPECTED_CAPSTONE_CHECKS),(FITTING_COVERAGE,EXPECTED_FITTING_CHECKS)):
+    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS),(TRANSFER_COVERAGE,EXPECTED_TRANSFER_CHECKS),(CONSIGNEE_COVERAGE,EXPECTED_CONSIGNEE_CHECKS),(POLISH_COVERAGE,EXPECTED_POLISH_CHECKS),(CAPSTONE_COVERAGE,EXPECTED_CAPSTONE_CHECKS),(FITTING_COVERAGE,EXPECTED_FITTING_CHECKS),(JOURNAL_COVERAGE,EXPECTED_JOURNAL_CHECKS)):
         coverage=[line for line in lines if line.lstrip().startswith(marker.removesuffix(':'))]
         if len(coverage)!=1 or re.fullmatch(re.escape(marker)+r' '+str(expected)+r' checks;[^\n]+',coverage[0]) is None: return None
     summaries=[line for line in lines if line.lstrip().startswith(('PASS:', 'FAIL:'))]
@@ -148,7 +151,7 @@ def audit_inputs(root=None):
         'capstone/schema_14_default.json','capstone/schema_14_provenance.json',
         'v029_game_state.gd.txt','weapon_fitting/schema_14_default.json','weapon_fitting/schema_15_default.json',
         'weapon_fitting/provenance.json','weapon_fitting/legacy_automatic.gd.txt')]
-    names += ['tests/capstone_package_fixture_producer.gd']
+    names += ['tests/capstone_package_fixture_producer.gd','tests/journal_guidance_frozen_oracle.json']
     names += ['tests/fixtures/legacy_saves/provenance.json']
     names += [f'tests/fixtures/legacy_saves/schema_{version:02d}_default.json' for version in range(1,14)]
     return {name:sha(root/name) for name in names}
@@ -201,8 +204,24 @@ def verify_fitting_inputs(root=None):
     return pins
 
 
+def verify_journal_inputs(root=None):
+    """Immutable phase-1 observation corpus, external to every release PCK."""
+    root=ROOT if root is None else Path(root)
+    name='tests/journal_guidance_frozen_oracle.json';path=root/name
+    if path.is_symlink() or not path.is_file() or sha(path)!=JOURNAL_ORACLE:
+        raise RuntimeError('Pinned journal observation oracle changed: '+name)
+    oracle=json.loads(path.read_text(encoding='utf-8'))
+    labels=[row['label'] for row in oracle['rows']]
+    repairs=oracle['reviewed_target_differences']
+    if len(labels)!=117 or len(set(labels))!=117 or len(repairs)!=14 or len({row['label'] for row in repairs})!=14:
+        raise RuntimeError('Journal frozen117/14 coverage changed')
+    if any(row['label'] not in labels or row['winning_arc']!='qin_rope' for row in repairs):
+        raise RuntimeError('Journal reviewed target repair scope changed')
+    return {name:JOURNAL_ORACLE}
+
+
 def completed_source_checks(text, exit_code):
-    """Same full nine-partition gate, with precisely the five pack-only checks pending."""
+    """Same full ten-partition gate, with precisely the five pack-only checks pending."""
     lines=text.splitlines()
     if [line for line in lines if line.lstrip().startswith('SOURCE REHEARSAL:')] != [SOURCE_PENDING]:return None
     if [line for line in lines if line.lstrip().startswith(('PASS:', 'FAIL:'))] != [f'PASS: {EXPECTED_SOURCE_CHECKS} source-rehearsal checks; 0 failures']:return None
@@ -230,12 +249,13 @@ def source_rehearsal(directory,godot):
     env.setdefault('HERO_CHECK_TIMEOUT_SECONDS','900')
     version=subprocess.check_output([godot,'--headless','--version'],env=env,text=True).strip()
     if version!=ENGINE:raise RuntimeError('Unexpected Godot engine')
-    verify_legacy_fixtures(ROOT/'tests/fixtures/legacy_saves');verify_capstone_inputs();verify_fitting_inputs()
+    verify_legacy_fixtures(ROOT/'tests/fixtures/legacy_saves');verify_capstone_inputs();verify_fitting_inputs();verify_journal_inputs()
     before=source_snapshot()
     (directory/'SOURCE-BEFORE.json').write_text(json.dumps(before,indent=2)+'\n',encoding='utf-8')
     command=[sys.executable,str(ROOT/'tools/run_godot_check.py'),godot,'--headless','--audio-driver','Dummy',
              '--path',str(ROOT),'--script',str(ROOT/'tools/smoke_export.gd'),'--','--source-rehearsal',
-             '--schema16-subject='+str(directory/'CURRENT16-SUBJECT.json')]
+             '--schema16-subject='+str(directory/'CURRENT16-SUBJECT.json'),
+             '--journal-oracle='+str(ROOT/'tests/journal_guidance_frozen_oracle.json')]
     log=directory/'SOURCE-REHEARSAL.log'
     with log.open('wb') as output:
         result=subprocess.run(command,env=env,cwd=ROOT,stdout=output,stderr=subprocess.STDOUT)
@@ -279,7 +299,7 @@ def main():
     schema15=ROOT/'tests/fixtures/v029_game_state.gd.txt'
     schema15_save=ROOT/'tests/fixtures/weapon_fitting/schema_15_default.json'
     legacy_model=ROOT/'tests/fixtures/weapon_fitting/legacy_automatic.gd.txt'
-    verify_capstone_inputs();verify_fitting_inputs()
+    verify_capstone_inputs();verify_fitting_inputs();verify_journal_inputs()
     legacy_fixtures=ROOT/'tests/fixtures/legacy_saves'
     verify_legacy_fixtures(legacy_fixtures)
     inputs=audit_inputs()
@@ -293,7 +313,8 @@ def main():
              '--path',str(build/'site'),'--main-pack',str(build/'site/index.pck'),'--script',str(driver),
              '--','--legacy-reader='+legacy.as_posix(),'--schema11-reader='+schema11.as_posix(),'--schema12-reader='+schema12.as_posix(),'--schema9-reader='+schema9.as_posix(),'--schema13-reader='+schema13.as_posix(),'--schema14-reader='+schema14.as_posix(),'--schema14-save='+schema14_save.as_posix(),'--legacy-save-fixtures='+legacy_fixtures.as_posix(),
              '--schema15-reader='+schema15.as_posix(),'--schema15-save='+schema15_save.as_posix(),
-             '--fitting-legacy-model='+legacy_model.as_posix(),'--schema16-subject='+str(directory/'CURRENT16-SUBJECT.json')]
+             '--fitting-legacy-model='+legacy_model.as_posix(),'--schema16-subject='+str(directory/'CURRENT16-SUBJECT.json'),
+             '--journal-oracle='+str(ROOT/'tests/journal_guidance_frozen_oracle.json')]
     with log.open('wb') as output:
         result=subprocess.run(command,env=env,cwd=build/'site',stdout=output,stderr=subprocess.STDOUT)
     text=log.read_text(encoding='utf-8',errors='replace')
@@ -305,7 +326,7 @@ def main():
     verify_legacy_fixtures(legacy_fixtures)
     evidence={'source_commit':report['source_commit'],'engine':version,'pck_sha256':sha(build/'site/index.pck'),
               'audit_sha256':inputs['tools/smoke_export.gd'],'audit_input_sha256':inputs,'legacy_sha256':LEGACY,'schema11_reader_sha256':SCHEMA11,'schema9_reader_sha256':SCHEMA9,'schema12_reader_sha256':SCHEMA12,'source_manifest_sha256':source_manifest_sha256,'schema13_reader_sha256':SCHEMA13,'legacy_fixtures_manifest_sha256':LEGACY_FIXTURES,'schema14_reader_sha256':SCHEMA14,'schema14_save_sha256':SCHEMA14_SAVE,'schema14_provenance_sha256':SCHEMA14_PROVENANCE,'schema15_reader_sha256':SCHEMA15,'schema15_save_sha256':SCHEMA15_SAVE,'fitting_provenance_sha256':FITTING_PROVENANCE,'fitting_legacy_model_sha256':FITTING_LEGACY_MODEL,'save_schema':16,'party_capacity':4,'log_sha256':sha(log),'exit_code':result.returncode,
-              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'transfer_checks':EXPECTED_TRANSFER_CHECKS if passed else None,'consignee_checks':EXPECTED_CONSIGNEE_CHECKS if passed else None,'polish_checks':EXPECTED_POLISH_CHECKS if passed else None,'capstone_checks':EXPECTED_CAPSTONE_CHECKS if passed else None,'fitting_checks':EXPECTED_FITTING_CHECKS if passed else None,'schema16_subject_sha256':sha(directory/'CURRENT16-SUBJECT.json') if (directory/'CURRENT16-SUBJECT.json').is_file() else None,'historical_reader_scope':'Authentic byte-pinned13/14/15 sources with current packed dependencies;13 rejects genuine14,14 rejects genuine15,15 rejects actual packed16; complete-old15 process on this subject is a separate later gate','polish_scope':'actual paint resource/draw-call/font-cache contracts; no native framebuffer or browser pixel acceptance','transfer_transport':'native injected fake; real packed core/UI; not browser download/persistence','scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
+              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'transfer_checks':EXPECTED_TRANSFER_CHECKS if passed else None,'consignee_checks':EXPECTED_CONSIGNEE_CHECKS if passed else None,'polish_checks':EXPECTED_POLISH_CHECKS if passed else None,'capstone_checks':EXPECTED_CAPSTONE_CHECKS if passed else None,'fitting_checks':EXPECTED_FITTING_CHECKS if passed else None,'journal_checks':EXPECTED_JOURNAL_CHECKS if passed else None,'journal_oracle_sha256':JOURNAL_ORACLE,'journal_scope':'Prepared actual shipped Main/session/J/HUD/World/M; no migration, no serialized journal, external117/14 oracle; actual retained Web30 PCK roundtrip separately required','schema16_subject_sha256':sha(directory/'CURRENT16-SUBJECT.json') if (directory/'CURRENT16-SUBJECT.json').is_file() else None,'historical_reader_scope':'Authentic byte-pinned13/14/15 sources with current packed dependencies;13 rejects genuine14,14 rejects genuine15,15 rejects actual packed16; complete-old15 process on this subject is a separate later gate','polish_scope':'actual paint resource/draw-call/font-cache contracts; no native framebuffer or browser pixel acceptance','transfer_transport':'native injected fake; real packed core/UI; not browser download/persistence','scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
     (directory/'PCK-AUDIT.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(evidence));return 0 if passed else 1
 
