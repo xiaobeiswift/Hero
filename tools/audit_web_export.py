@@ -9,9 +9,12 @@ LEGACY='e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5'
 SCHEMA11='fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30'
 SCHEMA9='fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f'
 SCHEMA12='7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a'
-EXPECTED_CHECKS=3692  # Measured full source3687 plus five PCK-only assertions.
-EXPECTED_SOURCE_CHECKS=3687  # Exactly five project/exclusion assertions require a PCK.
-EXPECTED_TRANSFER_CHECKS=342  # Independently measured actual empty-slot transfer runtime gates.
+SCHEMA13='4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d'
+LEGACY_FIXTURES='9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46'
+EXPECTED_CONSIGNEE_CHECKS=1036  # Independently measured actual chapter14 scene/model/save/art gates.
+EXPECTED_CHECKS=4735  # Measured full source4730 plus five PCK-only assertions.
+EXPECTED_SOURCE_CHECKS=4730  # Exactly five project/exclusion assertions require a PCK.
+EXPECTED_TRANSFER_CHECKS=349  # Independently measured actual empty-slot transfer runtime gates.
 EXPECTED_CONDITION_CHECKS=191  # Independently marked actual companion-condition runtime gates.
 EXPECTED_EXPLORATION_CHECKS=349
 EXPECTED_UNIFIED_CHECKS=1247
@@ -22,6 +25,7 @@ UNIFIED_COVERAGE='Schema13 unified automatic exact-runtime coverage:'
 EXPLORATION_COVERAGE='Ordered exploration party exact-runtime coverage:'
 CONDITION_COVERAGE='Exploration companion condition exact-runtime coverage:'
 TRANSFER_COVERAGE='Empty-slot save transfer exact-runtime coverage:'
+CONSIGNEE_COVERAGE='Schema14 consignee chapter exact-runtime coverage:'
 OLD_COVERAGE=('Schema12 four-actor exact-runtime coverage:', 'Schema12 sluice exact-runtime coverage:', 'Schema12 archive exact-runtime coverage:')
 
 def sha(path):
@@ -52,6 +56,20 @@ def verify_site(build, report):
             if hashlib.sha256(bundle.read('Hero-Web/'+name)).hexdigest()!=meta['sha256']:
                 raise RuntimeError('Archive bytes changed: '+name)
 
+def verify_legacy_fixtures(directory):
+    directory=Path(directory)
+    manifest=directory/'provenance.json'
+    if sha(manifest)!=LEGACY_FIXTURES:raise RuntimeError('Legacy fixture provenance changed')
+    fixtures=json.loads(manifest.read_text(encoding='utf-8'))['fixtures']
+    if [item['version'] for item in fixtures]!=list(range(1,14)):raise RuntimeError('Legacy fixture schema coverage changed')
+    for item in fixtures:
+        path=relative(item['path'])
+        if path.as_posix()!=f"tests/fixtures/legacy_saves/schema_{item['version']:02d}_default.json":raise RuntimeError('Unexpected historical fixture path')
+        source=directory/path.name
+        if source.is_symlink() or sha(source)!=item['sha256']:raise RuntimeError('Legacy save fixture changed: '+path.name)
+    return LEGACY_FIXTURES
+
+
 def audit_environment(directory, platform=None):
     env=os.environ.copy();platform=os.name if platform is None else platform
     data=directory/'web-smoke-data';config=directory/'config';cache=directory/'cache'
@@ -80,21 +98,33 @@ def verify_source_manifest(build, report, root=None):
 
 
 def completed_pack_checks(text, exit_code):
-    """Fail closed on pre-automatic, partial, rehearsal, duplicate, pre-transfer or error logs."""
-    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS,EXPECTED_TRANSFER_CHECKS)<=0:
+    """Fail closed on pre-automatic, partial, rehearsal, duplicate, pre-transfer, pre-consignee or error logs."""
+    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS,EXPECTED_TRANSFER_CHECKS,EXPECTED_CONSIGNEE_CHECKS)<=0:
         return None
     if EXPECTED_SOURCE_CHECKS != EXPECTED_CHECKS-5: return None
-    if EXPECTED_CHECKS != 2810+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS+EXPECTED_TRANSFER_CHECKS: return None
+    if EXPECTED_CHECKS != 92+EXPECTED_PRESERVED_CHECKS+EXPECTED_UNIFIED_CHECKS+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS+EXPECTED_TRANSFER_CHECKS+EXPECTED_CONSIGNEE_CHECKS: return None
     lines=text.splitlines()
     if [line for line in lines if line.lstrip().startswith('Audit scope:')] != [COMPLETE_SCOPE]: return None
     if 'SOURCE REHEARSAL:' in text or any(marker in text for marker in OLD_COVERAGE): return None
     if any(line.lstrip().startswith(('ERROR:', 'SCRIPT ERROR:')) for line in lines): return None
-    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS),(TRANSFER_COVERAGE,EXPECTED_TRANSFER_CHECKS)):
+    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS),(TRANSFER_COVERAGE,EXPECTED_TRANSFER_CHECKS),(CONSIGNEE_COVERAGE,EXPECTED_CONSIGNEE_CHECKS)):
         coverage=[line for line in lines if line.lstrip().startswith(marker.removesuffix(':'))]
         if len(coverage)!=1 or re.fullmatch(re.escape(marker)+r' '+str(expected)+r' checks;[^\n]+',coverage[0]) is None: return None
     summaries=[line for line in lines if line.lstrip().startswith(('PASS:', 'FAIL:'))]
     if summaries != [f'PASS: {EXPECTED_CHECKS} exported-pack checks; 0 failures']: return None
     return EXPECTED_CHECKS
+
+
+def audit_inputs(root=None):
+    """Bind external driver/wrapper/readers/fixtures before and after execution."""
+    root=ROOT if root is None else Path(root)
+    names=['tools/smoke_export.gd','tools/audit_web_export.py','tools/run_godot_check.py']
+    names += ['tests/fixtures/'+name for name in (
+        'v019_game_state.gd.txt','v020_game_state.gd.txt','v017_game_state.gd.txt',
+        'v022_game_state.gd.txt','v025_game_state.gd.txt')]
+    names += ['tests/fixtures/legacy_saves/provenance.json']
+    names += [f'tests/fixtures/legacy_saves/schema_{version:02d}_default.json' for version in range(1,14)]
+    return {name:sha(root/name) for name in names}
 
 
 def main():
@@ -112,6 +142,11 @@ def main():
     if sha(schema9)!=SCHEMA9:raise RuntimeError('Historical schema9 reader changed')
     schema12=ROOT/'tests/fixtures/v022_game_state.gd.txt'
     if sha(schema12)!=SCHEMA12:raise RuntimeError('Historical schema12 reader changed')
+    schema13=ROOT/'tests/fixtures/v025_game_state.gd.txt'
+    if sha(schema13)!=SCHEMA13:raise RuntimeError('Historical schema13 Web25 reader changed')
+    legacy_fixtures=ROOT/'tests/fixtures/legacy_saves'
+    verify_legacy_fixtures(legacy_fixtures)
+    inputs=audit_inputs()
     directory=build/'exact-pack-audit'
     directory.mkdir()  # Refuse to overwrite previous audit evidence or test profiles.
     env=audit_environment(directory)
@@ -120,7 +155,7 @@ def main():
     log=directory/'PCK-AUDIT.log';driver=ROOT/'tools/smoke_export.gd'
     command=[sys.executable,str(ROOT/'tools/run_godot_check.py'),args.godot,'--headless','--audio-driver','Dummy',
              '--path',str(build/'site'),'--main-pack',str(build/'site/index.pck'),'--script',str(driver),
-             '--','--legacy-reader='+legacy.as_posix(),'--schema11-reader='+schema11.as_posix(),'--schema12-reader='+schema12.as_posix(),'--schema9-reader='+schema9.as_posix()]
+             '--','--legacy-reader='+legacy.as_posix(),'--schema11-reader='+schema11.as_posix(),'--schema12-reader='+schema12.as_posix(),'--schema9-reader='+schema9.as_posix(),'--schema13-reader='+schema13.as_posix(),'--legacy-save-fixtures='+legacy_fixtures.as_posix()]
     with log.open('wb') as output:
         result=subprocess.run(command,env=env,cwd=build/'site',stdout=output,stderr=subprocess.STDOUT)
     text=log.read_text(encoding='utf-8',errors='replace')
@@ -128,9 +163,11 @@ def main():
     passed=checks is not None
     verify_site(build,report)
     if verify_source_manifest(build,report)!=source_manifest_sha256:raise RuntimeError('Source manifest changed during audit')
+    if audit_inputs()!=inputs:raise RuntimeError('Audit tool/reader/fixture inputs changed during execution')
+    verify_legacy_fixtures(legacy_fixtures)
     evidence={'source_commit':report['source_commit'],'engine':version,'pck_sha256':sha(build/'site/index.pck'),
-              'audit_sha256':sha(driver),'legacy_sha256':LEGACY,'schema11_reader_sha256':SCHEMA11,'schema9_reader_sha256':SCHEMA9,'schema12_reader_sha256':SCHEMA12,'source_manifest_sha256':source_manifest_sha256,'save_schema':13,'party_capacity':4,'log_sha256':sha(log),'exit_code':result.returncode,
-              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'transfer_checks':EXPECTED_TRANSFER_CHECKS if passed else None,'transfer_transport':'native injected fake; real packed core/UI; not browser download/persistence','scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
+              'audit_sha256':inputs['tools/smoke_export.gd'],'audit_input_sha256':inputs,'legacy_sha256':LEGACY,'schema11_reader_sha256':SCHEMA11,'schema9_reader_sha256':SCHEMA9,'schema12_reader_sha256':SCHEMA12,'source_manifest_sha256':source_manifest_sha256,'schema13_reader_sha256':SCHEMA13,'legacy_fixtures_manifest_sha256':LEGACY_FIXTURES,'save_schema':14,'party_capacity':4,'log_sha256':sha(log),'exit_code':result.returncode,
+              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'transfer_checks':EXPECTED_TRANSFER_CHECKS if passed else None,'consignee_checks':EXPECTED_CONSIGNEE_CHECKS if passed else None,'transfer_transport':'native injected fake; real packed core/UI; not browser download/persistence','scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
     (directory/'PCK-AUDIT.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(evidence));return 0 if passed else 1
 

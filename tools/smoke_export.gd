@@ -19,6 +19,12 @@ var game
 var legacy_reader
 var schema9_reader
 var schema12_reader
+var schema13_reader
+var _consignee_prerequisite_checks: int = 0
+var _legacy_save_fixtures: String = ""
+const SCHEMA13_READER_SHA256 := "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d"
+const LEGACY_FIXTURE_MANIFEST_SHA256 := "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46"
+const CONSIGNEE_FIELDS: Array[String] = ["consignee_stage", "consignee_observations", "consignee_contributions", "consignee_draft", "consignee_cargo_location", "consignee_ending"]
 var schema11_reader
 const SCHEMA11_READER_SHA256 := "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30"
 const LEGACY_READER_SHA256 := "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5"
@@ -54,10 +60,10 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites() or not _consignee_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
-	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal):
+	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal) or not _consignee_legacy_prerequisite(rehearsal):
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -76,6 +82,10 @@ func _run() -> void:
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
 	_transfer_fresh_title()
+	if OS.get_cmdline_user_args().has("--consignee-only"):
+		await _test_consignee_pack()
+		await _finish_run(rehearsal, "consignee-only")
+		return
 	if OS.get_cmdline_user_args().has("--transfer-only"):
 		await _test_transfer_pack()
 		await _finish_run(rehearsal, "transfer-only")
@@ -187,6 +197,7 @@ func _run() -> void:
 	await _test_unified_pack()
 	await _test_condition_pack()
 	await _test_transfer_pack()
+	await _test_consignee_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -327,7 +338,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 13 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema13 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 14 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema14 and active party identity: " + choice)
 	game._show_journal()
 	_check(_gather_text(game.overlay).contains("工册已传给学徒" if choice == "teach" else "原稿与水令一同留存"), "Packed journal preserves personal quest ending: " + choice)
 	game._close_modal()
@@ -460,7 +471,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 13 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema13 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 14 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema14 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -540,7 +551,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 13 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 14 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
@@ -806,7 +817,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game._load()
 	_check(game.state.to_dict() == completed, "Packed finalized care state round-trips exactly: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 13 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema13 document records the final care plan: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 14 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema14 document records the final care plan: " + choice)
 	stale_post.call()
 	game.shen_story.post()
 	game.shen_story.choose("mobile" if choice == "shore" else "shore")
@@ -951,7 +962,7 @@ func _test_lightness_exploration() -> void:
 	game._load()
 	_check(game.world.player_pos == lightness.SHORE and game.state.position == lightness.SHORE and game.state.lightness_relics == [lightness.RELIC_ID], "Packed return autosave keeps shore position and discovered lore")
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 13 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema13 document writes lightness progression explicitly")
+	_check(saved is Dictionary and saved.get("version") == 14 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema14 document writes lightness progression explicitly")
 	_unified_open_training()
 	before = game.state.to_dict()
 	game.lightness_story.cross(true)
@@ -1377,9 +1388,9 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.26", "V26 empty-slot save transfer project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.27", "V27 consignee project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 13, "V22 requires save schema13")
+	_check(model != null and model.SAVE_VERSION == 14, "V27 requires save schema14")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -1474,7 +1485,7 @@ func _test_heting_pack() -> void:
 		game.world.teleport(Vector2(820,665)); game._save()
 		var saved: Dictionary = s.to_dict()
 		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
-		_check(document.version == 13, "Packed autosave writes schema13")
+		_check(document.version == 14, "Packed autosave writes schema14")
 		game.world.heting_bridge = "east" if s.heting_bridge == "west" else "west"; game.world.heting_cargo=""
 		game._load()
 		_check(s.to_dict() == saved and game.world.heting_bridge == s.heting_bridge and game.world.heting_cargo == "reserve", "Packed reload applies saved cargo and bridge before coordinate repair")
@@ -1489,7 +1500,7 @@ func _test_heting_pack() -> void:
 		_check(s.to_dict() == complete, "Packed stale delivery callback cannot duplicate rewards")
 		await _key(KEY_ESCAPE); game._show_map(); await process_frame
 		var chart = game.overlay.find_child("RegionChart",true,false)
-		_check(chart != null and chart.map_id == "heting" and chart.heting_bridge == s.heting_bridge and chart.markers.size() == 7, "Packed paper chart retains actual harbor topology and seven sites")
+		_check(chart != null and chart.map_id == "heting" and chart.heting_bridge == s.heting_bridge and chart.markers.size() == 8, "Packed paper chart retains original harbor topology plus available chapter warehouse")
 		await _key(KEY_1)
 		_check(not game.active_modal, "Packed harbor map keeps numeric close control")
 	game.set_process(true); game.world.set_process(true)
@@ -1502,7 +1513,7 @@ func _test_heting_pack() -> void:
 	var file = FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":9,"player":player})); file.close()
 	_check(probe.load_game(path) == OK and probe.to_dict() == player, "Packed reader accepts complete legitimate v9 progress")
 	var stable: Dictionary = probe.to_dict()
-	for version in [10,14]:
+	for version in [10,15]:
 		var corrupt: Dictionary = player.duplicate(true)
 		if version == 10: corrupt.erase("heting_bridge")
 		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
@@ -1590,6 +1601,7 @@ func _receipt_variables(state) -> Dictionary:
 func _test_receipt_migration_pack() -> void:
 	_receipt_prepare(); var model = load("res://scripts/game_state.gd"); var probe = model.new()
 	var current: Dictionary = game.state.to_dict(); var legacy: Dictionary = current.duplicate(true)
+	for key: String in CONSIGNEE_FIELDS: legacy.erase(key)
 	for key: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked","internal_unlocked"]: legacy.erase(key)
 	var path: String = "user://receipt-schema-audit.json"
 	for version: int in range(1,11):
@@ -1604,16 +1616,16 @@ func _test_receipt_migration_pack() -> void:
 		_receipt_prepare(ending)
 		for stage: int in range(4):
 			game.state.receipt_stage=stage
-			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema13 receipt stage: "+ending+"/"+str(stage))
+			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema14 receipt stage: "+ending+"/"+str(stage))
 			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema13 stage round-trip preserves exact durable fields")
+			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema14 stage round-trip preserves exact durable fields")
 			_check(legacy_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader)==old_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Pinned old reader rejects actual new save before mutating memory or bytes")
 	var stable: Dictionary = probe.to_dict()
 	for bad: Variant in [-1,4,1.5,"1",true,null]:
 		var corrupt: Dictionary = current.duplicate(true); corrupt.receipt_stage=bad
 		_receipt_reject_document(probe,path,{"version":13,"player":corrupt},stable,"malformed receipt stage "+str(bad))
 	_receipt_reject_document(probe,path,{"version":13,"player":legacy},stable,"missing current receipt field")
-	_receipt_reject_document(probe,path,{"version":14,"player":current},stable,"future schema14")
+	_receipt_reject_document(probe,path,{"version":15,"player":current},stable,"future schema15")
 	var impossible: Dictionary = current.duplicate(true); impossible.receipt_stage=1; impossible.heting_stage=3
 	_receipt_reject_document(probe,path,{"version":13,"player":impossible},stable,"receipt before harbor ending")
 
@@ -1741,7 +1753,7 @@ func _test_party_roster_pack() -> void:
 	_check(game.state.party_roster == before.party_roster and game.state.party_resources == before.party_resources, "Packed bench/reselect preserves Qin and every other injured resource")
 	_check(folio.cells.tang.status.text.contains("倒下") and folio.cells.tang.hp_bar.value == 0, "Packed downed companion stays down in actual roster")
 	folio.formation_buttons["护后"].pressed.emit()
-	_check(game.state.formation == "护后" and _receipt_document().version == 13, "Packed roster formation writes current schema13 checkpoint")
+	_check(game.state.formation == "护后" and _receipt_document().version == 14, "Packed roster formation writes current schema14 checkpoint")
 	game._close_modal(); before = game.state.to_dict(); stale.call()
 	_check(game.state.to_dict() == before, "Packed dismissed roster callback cannot change selection or resources")
 
@@ -1763,7 +1775,7 @@ func _test_party_qin_recruitment_pack() -> void:
 		for index: int in range(4):
 			await _talk(landmarks[index]); _press(choices[index])
 			_check(s.qin_stage == index+1 and s.qin_unlocked == (index==3), "Packed Qin stage advances only through its actual explicit choice: " + str(index+1))
-			_check(_receipt_document().version == 13 and s.load_game() == OK and s.qin_stage == index+1, "Packed Qin stage autosaves and reloads exactly")
+			_check(_receipt_document().version == 14 and s.load_game() == OK and s.qin_stage == index+1, "Packed Qin stage autosaves and reloads exactly")
 			if index < 3: _check(s.party_roster == ["hero"] and not s.party_resources.has("qin"), "Packed work and handoff never silently recruit Qin")
 		_check(s.party_roster == ["hero","qin"] and s.qin_recruited() and s.party_resources.size() == 3, "Packed final spoken invitation enrolls fourth real companion")
 		_check(s.hp == before.hp and s.qi == before.qi and s.party_resources.shen == before.party_resources.shen and s.party_resources.tang == before.party_resources.tang, "Packed Qin story preserves existing hero and benched injuries")
@@ -1780,6 +1792,7 @@ func _test_party_migration_pack() -> void:
 	var model = load("res://scripts/game_state.gd"); var probe = model.new()
 	var path: String = "user://schema12-party-audit.json"
 	var historical: Dictionary = s.to_dict()
+	for key: String in CONSIGNEE_FIELDS: historical.erase(key)
 	for key: String in ["party_roster","party_resources","qin_stage","qin_unlocked","internal_unlocked"]: historical.erase(key)
 	for version: int in range(1,12):
 		for choice: String in ["沈青","唐栖",""]:
@@ -1801,14 +1814,15 @@ func _test_party_migration_pack() -> void:
 	_party_prepare(); s=game.state
 	s.party_resources.shen={"hp":0,"qi":0}; s.party_resources.tang={"hp":5,"qi":1}; s.party_resources.qin={"hp":9,"qi":2}
 	for roster: Array in [["hero"],["hero","qin"],["hero","tang","shen"],["hero","shen","tang","qin"]]:
-		_check(s.set_party_roster(roster) and s.save_game(path)==OK, "Packed actual schema13 serializes explicit%d actor roster" % roster.size())
+		_check(s.set_party_roster(roster) and s.save_game(path)==OK, "Packed actual schema14 serializes explicit%d actor roster" % roster.size())
 		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-		_check(probe.load_game(path)==OK and probe.to_dict()==s.to_dict(), "Packed schema13 roundtrip preserves downed, benched and active own resources")
-		_check(schema11_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(schema11_reader)==frozen_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Frozen exact schema11 reader rejects real schema13 before changing any live field or source bytes")
+		_check(probe.load_game(path)==OK and probe.to_dict()==s.to_dict(), "Packed schema14 roundtrip preserves downed, benched and active own resources")
+		_check(schema11_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(schema11_reader)==frozen_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Frozen exact schema11 reader rejects real schema14 before changing any live field or source bytes")
 	var current: Dictionary = s.to_dict(); var stable: Dictionary = probe.to_dict()
 	for key: String in current:
+		if CONSIGNEE_FIELDS.has(key): continue
 		var missing: Dictionary = current.duplicate(true); missing.erase(key)
-		_receipt_reject_document(probe,path,{"version":13,"player":missing},stable,"missing schema13 field "+key)
+		_receipt_reject_document(probe,path,{"version":14,"player":missing},stable,"missing current field "+key)
 	for roster: Variant in [[],["shen","hero"],["hero","hero"],["hero","ghost"],["hero","shen","tang","qin","hero"],"hero",null]:
 		var invalid: Dictionary = current.duplicate(true); invalid.party_roster=roster
 		_receipt_reject_document(probe,path,{"version":13,"player":invalid},stable,"malformed exact party roster")
@@ -1824,7 +1838,7 @@ func _test_party_migration_pack() -> void:
 	for extra: String in ["party_session","party_battle_epoch","party_settlement"]:
 		var invalid: Dictionary = current.duplicate(true); invalid[extra]={}
 		_receipt_reject_document(probe,path,{"version":13,"player":invalid},stable,"transient battle field "+extra)
-	_receipt_reject_document(probe,path,{"version":14,"player":current},stable,"future schema14 with valid current roster")
+	_receipt_reject_document(probe,path,{"version":15,"player":current},stable,"future schema15 with valid current roster")
 
 func _sluice_prepare(count: int = 2, boss: bool = false) -> void:
 	game._new_game()
@@ -1848,7 +1862,7 @@ func _sluice_open(encounter: String):
 	var enemy: Dictionary = _party_unit(game.state.party_battle_snapshot(),encounter)
 	_check(enemy.hp == (85 if encounter == "sluice_scout" else 150) and enemy.attack == (11 if encounter == "sluice_scout" else 16) and enemy.heavy_attack == (22 if encounter == "sluice_scout" else 28), "Packed actual opponent retains exact HP/light/heavy stats: " + encounter)
 	_check(panel.commands.context.title == ("半页水令" if encounter == "sluice_scout" else "逆水而行") and panel.unit_plates.has(encounter) and not panel.unit_plates.has("puheng"), "Packed encounter HUD names its real opponent and story: " + encounter)
-	_check(_receipt_document().version == 13 and _receipt_document().player.side_choice == game.state.side_choice and _receipt_document().player.side_found == game.state.side_found, "Packed pre-entry checkpoint includes current route and clue order")
+	_check(_receipt_document().version == 14 and _receipt_document().player.side_choice == game.state.side_choice and _receipt_document().player.side_found == game.state.side_found, "Packed pre-entry checkpoint includes current route and clue order")
 	return panel
 
 func _sluice_events(tx: Dictionary, kind: String, team: String = "") -> Array:
@@ -1870,9 +1884,9 @@ func _sluice_terminal(panel, expected: String = "win") -> Dictionary:
 
 func _sluice_checkpoint(label: String) -> void:
 	var s = game.state; var before: Dictionary = s.to_dict()
-	_check(s.save_game() == OK, "Packed schema13 sluice checkpoint writes: " + label)
+	_check(s.save_game() == OK, "Packed schema14 sluice checkpoint writes: " + label)
 	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
-	_check(document.version == 13 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Packed checkpoint keeps full canonical state and excludes battle-only fields: " + label)
+	_check(document.version == 14 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Packed checkpoint keeps full canonical state and excludes battle-only fields: " + label)
 	game._load()
 	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_sluice_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves actual resources/clue order and clears transient encounter: " + label)
 
@@ -1958,7 +1972,7 @@ func _test_sluice_route_pack(route: String, count: int) -> void:
 	settled = s.to_dict()
 	_check(not s.finish_side_quest() and not s.finish_party_presentation(tx.epoch,tx.token).accepted and not s.start_party_battle("sluice_boss") and s.to_dict() == settled, "Packed legacy turn-in and repeated boss terminal cannot replay either reward")
 	game._close_modal(); _receipt_unblock_save(blocker); await _key(KEY_F5)
-	_check(not game.save_warning and _receipt_document().version == 13 and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed real F5 retry persists already-settled sluice resources once")
+	_check(not game.save_warning and _receipt_document().version == 14 and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed real F5 retry persists already-settled sluice resources once")
 	_sluice_checkpoint(route+"-complete-"+str(count))
 
 func _test_sluice_close_pack(encounter: String, outcome: String) -> void:
@@ -2026,18 +2040,18 @@ func _archive_open():
 	var enemy: Dictionary = _party_unit(s.party_battle_snapshot(),"archive_boss")
 	_check(enemy.hp == 205 and enemy.attack == 17 and enemy.heavy_attack == 31, "Packed live archive opponent retains exact HP/light/heavy stats")
 	_check(panel.commands.context.title == "封仓问剑" and panel.commands.context.location == "霜桥仓台 · 韩砚 · "+(s.formation if s.party_roster.size() > 1 else "独行") and panel.unit_plates.has("archive_boss") and not panel.unit_plates.has("puheng"), "Packed archive title, location, formation and target plates identify real encounter")
-	_check(_receipt_document().version == 13 and _receipt_document().player.chapter_two_stage == 2 and _receipt_document().player.seal_sequence == JSON.parse_string(JSON.stringify([2,0,1])), "Packed pre-entry archive checkpoint durably records solved seal")
+	_check(_receipt_document().version == 14 and _receipt_document().player.chapter_two_stage == 2 and _receipt_document().player.seal_sequence == JSON.parse_string(JSON.stringify([2,0,1])), "Packed pre-entry archive checkpoint durably records solved seal")
 	return panel
 
 func _archive_checkpoint(label: String) -> void:
 	var s = game.state; var before: Dictionary = s.to_dict()
-	_check(s.save_game() == OK, "Packed schema13 archive checkpoint writes: "+label)
+	_check(s.save_game() == OK, "Packed schema14 archive checkpoint writes: "+label)
 	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
-	_check(document.version == 13 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Packed archive checkpoint preserves complete canonical state without encounter-only fields: "+label)
+	_check(document.version == 14 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Packed archive checkpoint preserves complete canonical state without encounter-only fields: "+label)
 	game._load()
 	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_archive_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves exact archive resources/progress and clears transient encounter: "+label)
 	var old10: Dictionary = _receipt_variables(legacy_reader); var old11: Dictionary = _receipt_variables(schema11_reader)
-	_check(legacy_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and schema11_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader) == old10 and _receipt_variables(schema11_reader) == old11 and _receipt_bytes() == bytes, "Packed actual schema10/11 readers reject archive schema13 without any mutation: "+label)
+	_check(legacy_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and schema11_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader) == old10 and _receipt_variables(schema11_reader) == old11 and _receipt_bytes() == bytes, "Packed actual schema10/11 readers reject archive schema14 without any mutation: "+label)
 
 func _test_archive_gates_pack() -> void:
 	_archive_prepare()
@@ -2279,10 +2293,10 @@ func _test_unified_pack() -> void:
 	var first: int = checks
 	game.set_process(false); game.world.set_process(false)
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
-	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all10 normal encounters share one explicit automatic catalog")
+	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all11 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.26", "Packed actual title retains empty-slot-transfer0.0.26 identity")
-	for kind: String in encounters.IDS: await _test_unified_entry(kind)
+	_check(title != null and title.text=="0.0.27", "Packed actual title retains consignee0.0.27 identity")
+	for kind: String in encounters.IDS.slice(0,10): await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
 	_test_unified_migration()
@@ -2397,23 +2411,24 @@ func _test_unified_learning() -> void:
 	game._close_modal(); await _talk("mentor"); _press("内功与轻身"); _press("内功 · 调息归元")
 	var coins: int = s.coins; _press("修习调息归元 · 免费")
 	_check(s.internal_unlocked and s.coins == coins and not s.lightness_unlocked, "Packed explicit free lesson grants only the selected internal skill")
-	game._load(); _check(s.internal_unlocked and _receipt_document().version == 13, "Packed actual lesson autosaves and reloads schema13")
+	game._load(); _check(s.internal_unlocked and _receipt_document().version == 14, "Packed actual lesson autosaves and reloads schema14")
 	await _talk("mentor"); _press("内功与轻身"); _press("轻功 · 踏苇行"); _press("修习踏苇行")
 	_check(s.lightness_unlocked and s.internal_unlocked, "Packed separately chosen free lightness lesson remains independent")
 
 func _test_unified_migration() -> void:
 	var model = load("res://scripts/game_state.gd"); var fresh = model.new(); var legacy: Dictionary = fresh.to_dict(); legacy.erase("internal_unlocked")
+	for key: String in CONSIGNEE_FIELDS: legacy.erase(key)
 	var path: String = "user://unified-schema13-audit.json"
 	for version: int in range(1,13):
 		_receipt_write_document(path,{"version":version,"player":legacy}); var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 		var probe = model.new()
 		_check(probe.load_game(path) == OK and not probe.internal_unlocked and FileAccess.get_file_as_bytes(path) == bytes, "Packed schema%d migration never grants internal lesson or rewrites old bytes" % version)
 	var before: Dictionary = game.state.to_dict()
-	_check(game.state.save_game(path) == OK, "Packed learned schema13 creates actual complete save")
+	_check(game.state.save_game(path) == OK, "Packed learned schema14 creates actual complete save")
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	for reader in [schema9_reader,legacy_reader,schema11_reader,schema12_reader]:
 		var stable: Dictionary = _receipt_variables(reader)
-		_check(reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(reader) == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed exact frozen prior reader rejects schema13 without memory or disk mutation")
+		_check(reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(reader) == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed exact frozen prior reader rejects schema14 without memory or disk mutation")
 	var probe = model.new()
 	_check(probe.load_game(path) == OK and probe.to_dict() == before, "Packed new reader retains earned internal/lightness and all complete party fields")
 	for malformed: Variant in [null,1,"true",{},[]]:
@@ -2628,7 +2643,7 @@ func _test_unified_journey() -> void:
 		_check(game.state.heting_stage==4 and game.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
 		_check(game.state.coins==before_port_coins+60 and game.state.xp+30*game.state.level*(game.state.level-1)==before_port_xp+120 and game.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
 		game._close_modal();game._save();before=game.state.to_dict();game.state.reset_game();game._load()
-		_check(game.state.to_dict()==before and game.world.map_id=="heting","Organic four-chapter result persists through current schema13")
+		_check(game.state.to_dict()==before and game.world.map_id=="heting","Organic four-chapter result persists through current schema14")
 		print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [game.state.sect,game.state.level,game.state.hp,game.state.max_hp,game.state.coins,game.state.medicine])
 
 func _journey_interact(id: String) -> void:
@@ -2786,7 +2801,7 @@ func _test_exploration_pack() -> void:
 	await _exploration_boundaries()
 	game._process(0) # Actual main loop synchronizes the accepted player position before save.
 	var durable: Dictionary = game.state.to_dict()
-	_check(game.state.save_game() == OK, "Packed exploration writes ordinary schema13 save")
+	_check(game.state.save_game() == OK, "Packed exploration writes ordinary schema14 save")
 	game._load(); game.set_process(false); game.world.set_process(false)
 	_check(game.state.to_dict() == durable and game.world.follower_ids() == ["tang","shen","qin"] and _exploration_safe(), "Packed reload reconstructs selected followers without adding persistent trail state or healing")
 	game._new_game(); game.set_process(false); game.world.set_process(false)
@@ -3237,17 +3252,19 @@ func _transfer_files(directory: String) -> Dictionary:
 		result[name+"/"] = _transfer_files(directory.path_join(name))
 	return result
 
-func _transfer_document(version: int = 13) -> Dictionary:
+func _transfer_document(version: int = 14) -> Dictionary:
 	var model = load("res://scripts/game_state.gd").new()
 	var data: Dictionary = model.to_dict()
 	data.player_name = "归舟客"
+	if version < 14:
+		for key: String in CONSIGNEE_FIELDS: data.erase(key)
 	if version < 13: data.erase("internal_unlocked")
 	if version < 12:
 		for key: String in ["party_roster","party_resources","qin_stage","qin_unlocked"]: data.erase(key)
 	if version < 11: data.erase("receipt_stage")
 	return {"version":version,"player":data}
 
-func _transfer_bytes(version: int = 13) -> PackedByteArray:
+func _transfer_bytes(version: int = 14) -> PackedByteArray:
 	# BOM, spacing and trailing newlines make any reserialization observable.
 	return ("\ufeff  "+JSON.stringify(_transfer_document(version),"  ")+"\n\n").to_utf8_buffer()
 
@@ -3294,7 +3311,7 @@ func _test_transfer_pack() -> void:
 	var first: int = checks
 	var core = load("res://scripts/local_save_transfer.gd")
 	var model = load("res://scripts/game_state.gd")
-	_check(core.MAX_IMPORT_BYTES == 1048576 and model.MAX_SAVE_BYTES == 1048576 and model.SAVE_VERSION == 13, "Packed transfer preserves schema13 and exact one-MiB envelope")
+	_check(core.MAX_IMPORT_BYTES == 1048576 and model.MAX_SAVE_BYTES == 1048576 and model.SAVE_VERSION == 14, "Packed transfer preserves schema14 and exact one-MiB envelope")
 	_check(game.save_slots.transfer.get_script() == load("res://scripts/save_transfer_ui.gd") and game.save_slots.transfer.adapter.get_script() == load("res://scripts/browser_save_transfer.gd"), "Packed real SaveSlots owns shipped transfer UI and production browser adapter")
 	_check(not game.save_slots.transfer.adapter.available(), "Native exact-pack audit does not impersonate the Web JavaScript bridge")
 	_transfer_core_versions(core,model)
@@ -3302,10 +3319,10 @@ func _test_transfer_pack() -> void:
 	_transfer_core_targets(core)
 	_transfer_core_transactions(core)
 	await _transfer_actual_ui()
-	print("Empty-slot save transfer exact-runtime coverage: %d checks; actual packaged byte inspector/core/UI; schemas1-13; raw bytes; 1MiB/UTF8/semantic gates; empty manual slots only; staged/readback/final-recheck and failure preservation; native injected transport/lifecycle; no browser download or durability claim" % (checks-first+_transfer_prerequisite_checks+_transfer_setup_checks))
+	print("Empty-slot save transfer exact-runtime coverage: %d checks; actual packaged byte inspector/core/UI; schemas1-14; raw bytes; 1MiB/UTF8/semantic gates; empty manual slots only; staged/readback/final-recheck and failure preservation; native injected transport/lifecycle; no browser download or durability claim" % (checks-first+_transfer_prerequisite_checks+_transfer_setup_checks))
 
 func _transfer_core_versions(core,model) -> void:
-	for version: int in range(1,14):
+	for version: int in range(1,15):
 		var directory: String = _transfer_directory("schema%d" % version)
 		var store = load("res://scripts/local_save_slots.gd").new(directory)
 		var helper = core.new(directory)
@@ -3344,7 +3361,7 @@ func _transfer_core_rejections(core) -> void:
 	var helper = core.new(directory)
 	var valid: PackedByteArray = _transfer_bytes()
 	var invalid: Array = [PackedByteArray(),"{".to_utf8_buffer(),"[]".to_utf8_buffer(),"null".to_utf8_buffer(),PackedByteArray([0]),PackedByteArray([0xc0,0x80]),PackedByteArray([0xed,0xa0,0x80]),PackedByteArray([0xf4,0x90,0x80,0x80]),PackedByteArray([0xe2,0x82]),PackedByteArray([0xff])]
-	for version: Variant in [0,14,-1,13.5,"13",true,null]:
+	for version: Variant in [0,15,-1,14.5,"14",true,null]:
 		var document: Dictionary = _transfer_document(); document.version = version
 		invalid.append(JSON.stringify(document).to_utf8_buffer())
 	for key: String in ["hp","level","quest_stage","internal_unlocked","party_roster","party_resources"]:
@@ -3362,10 +3379,10 @@ func _transfer_core_rejections(core) -> void:
 	var exact: PackedByteArray = valid.duplicate()
 	var padding := PackedByteArray(); padding.resize(1048576-exact.size()); padding.fill(32); exact.append_array(padding)
 	_check(helper.preview_import(exact,1).get("ok",false), "Packed exact one-MiB valid save remains accepted")
-	var future: Dictionary = _transfer_document(); future.version = 14
+	var future: Dictionary = _transfer_document(); future.version = 15
 	var result: Dictionary = helper.preview_import(JSON.stringify(future).to_utf8_buffer(),1)
 	_check(not result.ok and result.error == ERR_FILE_UNRECOGNIZED, "Packed future schema returns incompatibility rather than rewriting")
-	for text: String in [JSON.stringify(_transfer_document()).trim_suffix("}")+",}",JSON.stringify(_transfer_document()).replace('"version":13','"version":1,"version":13')]:
+	for text: String in [JSON.stringify(_transfer_document()).trim_suffix("}")+",}",JSON.stringify(_transfer_document()).replace('"version":14','"version":1,"version":14')]:
 		var result_legacy: Dictionary = helper.preview_import(text.to_utf8_buffer(),1)
 		_check(result_legacy.get("ok",false), "Packed byte wrapper preserves existing trailing-comma and duplicate-key parser semantics")
 
@@ -3549,3 +3566,439 @@ func _transfer_actual_ui() -> void:
 	game.save_slots.transfer = load("res://scripts/save_transfer_ui.gd").new(game.save_slots)
 	game.browser_mode = original_browser; game.web_save_transfer_enabled = original_gate; game.browser_storage_available = original_storage
 	game._show_title()
+
+# Chapter14 is separately measured. Historical coverage above stays independent;
+# this scope binds actual new scenes/controls to finite cargo, battle and saves.
+func _consignee_prerequisites() -> bool:
+	var previous: int = failures; var first: int = checks
+	for module: String in ["heting_consignee_rules", "heting_consignee_combat_data", "heting_consignee_story", "painted_battle_duhui"]:
+		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Consignee exact runtime retained before any scene or save: "+module)
+	_check(ResourceLoader.exists("res://assets/generated/characters/painted_duhui_combat.png"), "Consignee original Du Hui atlas retained in actual pack")
+	_check(not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Actual package keeps unverified browser transfer feature default-off")
+	_consignee_prerequisite_checks = checks-first
+	return failures == previous
+
+func _consignee_legacy_prerequisite(rehearsal: bool) -> bool:
+	var previous: int = failures; var first: int = checks
+	var path: String = OS.get_environment("HERO_AUDIT_SCHEMA13_READER")
+	_legacy_save_fixtures = OS.get_environment("HERO_AUDIT_LEGACY_SAVE_FIXTURES")
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--schema13-reader="): path = argument.trim_prefix("--schema13-reader=")
+		if argument.begins_with("--legacy-save-fixtures="): _legacy_save_fixtures = argument.trim_prefix("--legacy-save-fixtures=")
+	if rehearsal:
+		if path.is_empty(): path = ProjectSettings.globalize_path("res://tests/fixtures/v025_game_state.gd.txt")
+		if _legacy_save_fixtures.is_empty(): _legacy_save_fixtures = ProjectSettings.globalize_path("res://tests/fixtures/legacy_saves")
+	_check(path.is_absolute_path() and FileAccess.file_exists(path), "Consignee audit requires explicit external genuine Web25 schema13 reader")
+	if not path.is_absolute_path() or not FileAccess.file_exists(path): return false
+	_check(FileAccess.get_sha256(path) == SCHEMA13_READER_SHA256, "Genuine frozen Web25 reader matches immutable byte pin")
+	if FileAccess.get_sha256(path) != SCHEMA13_READER_SHA256: return false
+	var script = GDScript.new(); script.source_code = FileAccess.get_file_as_string(path).replace("class_name HeroState\n", "")
+	var error: Error = script.reload()
+	_check(error == OK, "Genuine Web25 reader compiles with only global registration removed")
+	if error != OK: return false
+	schema13_reader = script.new()
+	_check(schema13_reader.SAVE_VERSION == 13 and not schema13_reader.to_dict().has("consignee_stage"), "Actual old reader retains schema13 gate and old field layout")
+	var manifest: String = _legacy_save_fixtures.path_join("provenance.json")
+	_check(_legacy_save_fixtures.is_absolute_path() and FileAccess.file_exists(manifest) and FileAccess.get_sha256(manifest) == LEGACY_FIXTURE_MANIFEST_SHA256, "External schemas1–13 fixture provenance is pinned before scene instantiation")
+	if failures != previous: return false
+	var provenance: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(manifest))
+	_check(provenance.fixtures.size() == 13, "Frozen compatibility manifest covers exactly1–13")
+	for item: Dictionary in provenance.fixtures:
+		var filename: String = "schema_%02d_default.json" % int(item.version)
+		var source: String = _legacy_save_fixtures.path_join(filename)
+		_check(item.path == "tests/fixtures/legacy_saves/"+filename and FileAccess.file_exists(source) and FileAccess.get_sha256(source) == item.sha256, "External historical bytes retain exact manifest identity: "+filename)
+	_consignee_prerequisite_checks += checks-first
+	return failures == previous
+
+func _test_consignee_pack() -> void:
+	var first: int = checks
+	game.set_process(false); game.world.set_process(false)
+	_check(game.consignee_story.get_script() == load("res://scripts/heting_consignee_story.gd"), "Main owns actual shipped consignee story controller")
+	_test_consignee_migrations()
+	_test_consignee_art()
+	for route: Array in [["short_ferries","hold_for_inspection",0],["open_scale","return_to_owner",3]]:
+		await _test_consignee_route(route[0],route[1],route[2])
+	await _test_consignee_optional_methods()
+	await _test_consignee_battle_boundaries()
+	await _test_consignee_failures()
+	_check(_unified_facts_ok and _unified_basic_encounters.has("heting_consignee"), "Actual chapter11 transactions retain unique living-actor basics and skill cooldown rules")
+	_check(not game.web_save_transfer_enabled, "Actual chapter completion never enables browser transfer")
+	print("Schema14 consignee chapter exact-runtime coverage: %d checks; actual E/guarded choices/proximity; both prior harbor endings and new handovers; optional receipt/companions; schema1–13 neutral migration and genuine frozen Web25 rejection; stage0–5/backup/reload; explicit120XP60coins once; finite same-lot cargo; eleventh automatic controller/targets/once-per-living-actor/3skills/resources/stale/retreat/defeat/presentation; exact DuHui art; read-only views and failed-save retries; native prepared-state audit, no browser claim" % (checks-first+_consignee_prerequisite_checks))
+
+func _test_consignee_migrations() -> void:
+	var model = load("res://scripts/game_state.gd"); var probe = model.new()
+	probe.coins = 919; probe.skill_cooldown = 3; probe.battle_active = true
+	var untouched: Dictionary = _receipt_variables(probe)
+	var neutral: Dictionary = model.new().to_dict()
+	for version: int in range(1,14):
+		var path: String = _legacy_save_fixtures.path_join("schema_%02d_default.json" % version)
+		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+		var inspected: Dictionary = probe.inspect_save_bytes(bytes)
+		_check(inspected.ok and inspected.version == version and inspected.state != probe, "Actual packed reader accepts pinned legacy layout: "+str(version))
+		_check(_receipt_variables(probe) == untouched and FileAccess.get_file_as_bytes(path) == bytes, "Legacy inspection preserves all live/transient fields and genuine source bytes")
+		if not inspected.ok: continue
+		for key: String in CONSIGNEE_FIELDS:
+			_check(inspected.state.to_dict()[key] == neutral[key], "Schemas1–13 default absent chapter fields neutral: %d/%s" % [version,key])
+		_check(inspected.state.coins == 24 and inspected.state.hp == 100 and inspected.state.qi == 2 and inspected.state.medicine == 3 and inspected.state.party_roster == ["hero"] and not inspected.state.internal_unlocked, "Legacy migration grants no reward, recovery, recruit or lesson")
+		if version == 13:
+			var genuine: Dictionary = JSON.parse_string(bytes.get_string_from_utf8())
+			_check(probe._same_save_value(schema13_reader.to_dict(),genuine.player), "Pinned schema13 fixture is actual Web25 default producer serialization")
+			_check(schema13_reader.load_game(path) == OK and not schema13_reader.to_dict().has("consignee_stage"), "Genuine frozen schema13 reader accepts its own real13 control")
+		var new_path: String = "user://consignee-migrated-%d.json" % version
+		_check(inspected.state.save_game(new_path) == OK and JSON.parse_string(FileAccess.get_file_as_string(new_path)).version == 14 and FileAccess.get_file_as_bytes(path) == bytes, "Only explicit current save upgrades legacy bytes to14")
+		var bad: Dictionary = JSON.parse_string(bytes.get_string_from_utf8()); bad.player.consignee_stage = 0
+		_check(not probe.inspect_save_bytes(JSON.stringify(bad).to_utf8_buffer()).ok, "Partial new field bundle is rejected even on legacy schema")
+	var current: Dictionary = model.new().to_dict()
+	for key: String in CONSIGNEE_FIELDS:
+		var missing: Dictionary = current.duplicate(true); missing.erase(key)
+		_check(not probe.inspect_save_bytes(JSON.stringify({"version":14,"player":missing}).to_utf8_buffer()).ok, "Actual schema14 requires complete chapter bundle: "+key)
+	var path: String = "user://consignee-real14-reader-rejection.json"
+	_check(model.new().save_game(path) == OK, "Actual packed current writer produces schema14 rejection subject")
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	schema13_reader.coins = 913; schema13_reader.skill_cooldown = 3; schema13_reader.battle_active = true
+	var old_before: Dictionary = _receipt_variables(schema13_reader)
+	_check(schema13_reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(schema13_reader) == old_before and FileAccess.get_file_as_bytes(path) == bytes and not FileAccess.file_exists(path+".tmp"), "Genuine Web25 schema13 gate rejects true14 before any persistent/transient memory or disk mutation")
+
+func _test_consignee_art() -> void:
+	var art = load("res://scripts/painted_battle_duhui.gd")
+	var hashes: Dictionary = {}
+	# Source PNG pin4b44e7ff… is bound by the whole-source manifest. Godot lossless
+	# import applies its authored fix_alpha_border setting; pin those runtime pixels.
+	var pixels: Image = art.texture_for("idle").atlas.get_image(); pixels.convert(Image.FORMAT_RGBA8)
+	var pixel_hash = HashingContext.new(); pixel_hash.start(HashingContext.HASH_SHA256); pixel_hash.update(pixels.get_data())
+	_check(pixel_hash.finish().hex_encode() == "a2a74a0ea15cb2c1bdc60fc6490db76aecd89049f6482d92dab325e012749989", "Actual packed DuHui full atlas preserves approved Godot-imported RGBA pixel identity")
+	for pose: String in ["idle","windup","strike","guard","hurt","kneel"]:
+		var texture = art.texture_for(pose)
+		_check(texture is AtlasTexture and texture.atlas.get_size() == Vector2(1536,1024) and texture.region == art.source_rect(pose) and texture.filter_clip, "Exact packed DuHui pose uses measured original atlas crop: "+pose)
+		if texture == null: continue
+		var image: Image = texture.get_image(); var hash = HashingContext.new(); hash.start(HashingContext.HASH_SHA256); hash.update(image.get_data())
+		var digest: String = hash.finish().hex_encode()
+		_check(not hashes.has(digest), "Six packed DuHui actions are distinct actual pixels: "+pose); hashes[digest] = true
+		var foot := Vector2(1045,460); var rect: Rect2 = art.drawing_rect(foot,236,pose)
+		_check((rect.position+(art.FOOT_ANCHORS[pose]-art.source_rect(pose).position)*(236.0/512.0)).distance_to(foot)<.001, "DuHui measured action anchor remains on authored foot: "+pose)
+	_check(load("res://scripts/party_battle_backdrop.gd").style_for("heting_consignee") == "warehouse", "Chapter battle selects actual warehouse scenery")
+
+func _consignee_prepare(ending: String = "short_ferries", receipt: int = 0, count: int = 1) -> void:
+	_unified_prepare("heting_receipt",count)
+	var s = game.state
+	s.heting_draft = ending; s.heting_ending = ending; s.receipt_stage = receipt
+	_check(s.learn_internal_skill() and s.learn_lightness(), "Prepared eligible chapter fixture explicitly learns existing internal/lightness skills")
+	s.heal_rest(); game._sync_world_state(); game.world.refresh_heting_points()
+	game.world.teleport(game.world.interactables.heting_dispatch.pos); s.position = game.world.player_pos
+	game._refresh()
+	_check(s.save_game() == OK and s._stage_save_data(s.to_dict(),14).ok, "Prepared prior harbor ending and optional receipt are canonical, with chapter unstarted")
+
+func _consignee_progress() -> Dictionary:
+	var result: Dictionary = {}
+	for key: String in CONSIGNEE_FIELDS: result[key] = game.state.to_dict()[key]
+	return result
+
+func _consignee_economy() -> Dictionary:
+	var s = game.state
+	return {"xp":_receipt_xp(),"coins":s.coins,"hp":s.hp,"qi":s.qi,"medicine":s.medicine,"resources":s.resources.duplicate(true),"party":s.party_resources.duplicate(true)}
+
+func _consignee_old_story() -> Dictionary:
+	var s = game.state
+	return {"harbor":s.heting_ending,"delivered":s.heting_delivered.duplicate(),"cargo":s.heting_cargo,"receipt":s.receipt_stage,"mist":s.mist_ending,"archive":s.chapter_two_ending,"roster":s.party_roster.duplicate()}
+
+func _consignee_open(site: String) -> void:
+	await _heting_open(site)
+	if site != "consignee_warehouse": _press(game.consignee_story.link_label(site))
+	_check(game.active_modal and game.consignee_story._at(site) and _gather_text(game.overlay).contains("未损先收"), "Actual E and original hub link open new chapter at the live site: "+site)
+
+func _consignee_checkpoint(label: String) -> void:
+	if game.active_modal: game._close_modal()
+	game.state.position = game.world.player_pos
+	var before: Dictionary = game.state.to_dict()
+	_check(game.state.save_game() == OK, "Actual chapter checkpoint writes current scene progress: "+label)
+	var bytes: PackedByteArray = _receipt_bytes()
+	_check(_receipt_document().version == 14 and game.state._same_save_value(_receipt_document().player,before) and not bytes.get_string_from_utf8().contains("consignee_provenance"), "Chapter checkpoint includes complete14 fields and excludes transient battle provenance")
+	game._load()
+	_check(game.state.to_dict() == before and game.world.consignee_stage == game.state.consignee_stage and game.world.consignee_cargo_location == game.state.consignee_cargo_location and _receipt_bytes() == bytes, "Actual reload reapplies saved chapter/cargo before player position repair: "+label)
+	var old: Dictionary = _receipt_variables(schema13_reader)
+	_check(schema13_reader.load_game(game.state.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(schema13_reader) == old and _receipt_bytes() == bytes, "Frozen Web25 rejects actual chapter stage without mutation: "+label)
+	_consignee_backup(label)
+
+func _consignee_begin_observe(plan: String, reverse: bool = false) -> void:
+	await _consignee_open("heting_dispatch"); _press("接下本批核查")
+	_check(game.state.consignee_stage == 1 and game.state.consignee_cargo_location == "warehouse", "Actual acceptance creates exactly one uninspected warehouse lot")
+	await _consignee_checkpoint("accepted")
+	var sites: Array[String] = ["consignee_warehouse","heting_dispatch","heting_lighter"]
+	if reverse: sites.reverse()
+	for site: String in sites:
+		await _consignee_open(site); _press("亲自核验")
+		_check(game.state.consignee_observations.size() == sites.find(site)+1 and game.state.consignee_contributions.is_empty(), "Actual independent solo observation persists in chosen visit order: "+site)
+	_press("核对三处矛盾")
+	var before: Dictionary = game.state.to_dict(); var bytes: PackedByteArray = _receipt_bytes()
+	_press("两篓干粮证明整船无损")
+	_check(game.state.to_dict() == before and _receipt_bytes() == bytes and _gather_text(game.overlay).contains("不能"), "Wrong deduction explains evidence boundary without losing clues or changing bytes")
+	_press("重新核对"); _press("必须先补取旧复签")
+	_check(game.state.to_dict() == before and _receipt_bytes() == bytes, "Optional old receipt is never forced or silently advanced")
+	_press("重新核对"); _press("未验先撤，理由倒置")
+	_check(game.state.consignee_stage == 2 and game.state.consignee_draft.is_empty(), "Correct actual deduction earns stage2 without selecting final policy")
+	_press("拟作封粮留验" if plan == "hold_for_inspection" else "拟作撤运还粮")
+	_check(game.state.consignee_stage == 2 and game.state.consignee_draft == plan and game.state.consignee_ending.is_empty(), "Actual chosen draft remains reversible and unpaid")
+	await _consignee_checkpoint("reversible draft")
+
+func _consignee_battle_open():
+	await _consignee_open("consignee_warehouse")
+	_check(_gather_text(game.overlay).contains("260") and _gather_text(game.overlay).contains("160") and _gather_text(game.overlay).contains("不发修为铜钱"), "Actual combat briefing identifies fixed enemies and no victory payment")
+	_press("保存后阻止强提")
+	var panel = _party_panel(); _unified_freeze(panel)
+	_check(panel != null and game.current_screen == "party_battle" and panel.encounter == "heting_consignee" and panel.session.get_script() == load("res://scripts/automatic_party_combat.gd"), "Actual guarded E/choice enters eleventh shared automatic controller")
+	return panel
+
+func _consignee_fight(panel, outcome: String = "win") -> Dictionary:
+	var terminal: Dictionary = {}; var before_hp: Dictionary = {"du_hui":260,"consignee_guard":160}
+	var facts_ok: bool = true; var accepted: bool = true; var tokens: Dictionary = {}; var basics: Dictionary = {}
+	for index: int in range(500):
+		if not game.state.battle_active: break
+		terminal = _unified_begin(panel,outcome == "win")
+		if terminal.is_empty(): accepted = false; break
+		facts_ok = facts_ok and not tokens.has(terminal.token); tokens[terminal.token] = true
+		if terminal.action_id == "attack":
+			var key: String = "%d/%s" % [terminal.before.round,terminal.source_id]
+			facts_ok = facts_ok and not basics.has(key) and _party_actor(terminal.before,terminal.source_id).hp > 0; basics[key] = true
+		for enemy: Dictionary in terminal.after.enemies:
+			facts_ok = facts_ok and enemy.hp <= before_hp[enemy.id] and enemy.max_hp == (260 if enemy.id == "du_hui" else 160)
+			before_hp[enemy.id] = enemy.hp
+		facts_ok = facts_ok and not game.state.finish_party_presentation(terminal.epoch,terminal.token-1).accepted
+		if not terminal.after.active: break
+		panel.art._process(panel.art.get_presentation_duration()+.1)
+	_check(accepted and not terminal.is_empty() and not terminal.after.active and terminal.after.outcome == outcome, "Actual bounded chapter actions reach pending terminal outcome: "+outcome)
+	_check(facts_ok and not basics.is_empty(), "Chapter actual transactions keep fixed enemy caps/no healing, unique tokens and once-per-living-actor basics; stale token rejected")
+	return terminal
+
+func _consignee_visual_lot() -> void:
+	var s = game.state
+	var visual: Dictionary = load("res://scripts/heting_region.gd").consignee_visual_state(true,s.consignee_stage,s.consignee_cargo_location,s.consignee_ending)
+	_check(visual.warehouse_full+visual.cart_full+visual.scale_full == (0 if s.consignee_ending == "return_to_owner" else 2) and visual.cart_full == (2 if s.consignee_stage == 4 else 0), "Actual world projects one finite two-basket lot without source/cart/receiver duplication")
+	_check(visual.duhui == (s.consignee_stage < 3) and (s.consignee_stage != 5 or not String(visual.scale_record).is_empty() and not String(visual.boat_record).is_empty()), "World opponent removal and both final receiver records agree with durable chapter state")
+
+func _test_consignee_route(ending: String, plan: String, receipt: int) -> void:
+	_consignee_prepare(ending,receipt)
+	var s = game.state; var original: Dictionary = _consignee_old_story(); var economy: Dictionary = _consignee_economy()
+	_check(s.party_roster == ["hero"] and not s.companion_unlocked and not s.tangqi_unlocked and not s.qin_unlocked, "Both new endings remain available without recruiting anybody")
+	await _consignee_checkpoint("unstarted")
+	await _consignee_open("heting_dispatch"); var stale: Callable = game.modal_actions[0]; var bytes: PackedByteArray = _receipt_bytes()
+	await _key(KEY_ESCAPE); stale.call()
+	_check(s.consignee_stage == 0 and _receipt_bytes() == bytes, "Canceled acceptance and its stale callback create no progress or write")
+	await _consignee_begin_observe(plan,receipt == 3)
+	_check(_consignee_economy() == economy and _consignee_old_story() == original, "Investigation and draft consume no reward/resources or earlier endings/optional receipt")
+	var panel = await _consignee_battle_open()
+	if panel == null: return
+	var snapshot: Dictionary = s.party_battle_snapshot()
+	_check(snapshot.enemies.size() == 2 and snapshot.enemies[0].id == "du_hui" and snapshot.enemies[0].max_hp == 260 and snapshot.enemies[1].id == "consignee_guard" and snapshot.enemies[1].max_hp == 160, "Actual chapter entry uses two distinct targetable fixed-cap opponents")
+	_check(panel.art.backdrop_style == "warehouse" and panel.commands.context.title == "未损先收" and panel.unit_plates.has("du_hui") and panel.unit_plates.has("consignee_guard"), "Actual chapter presents correct backdrop/title and opponent plates")
+	var terminal: Dictionary = _consignee_fight(panel)
+	if terminal.is_empty(): return
+	_check(s.consignee_stage == 2 and s.coins == economy.coins and _receipt_xp() == economy.xp and panel.art.is_presenting(), "Pending win leaves persistent stage/rewards untouched until real presentation completes")
+	_party_finish(panel)
+	_check(s.consignee_stage == 3 and s.consignee_ending.is_empty() and s.coins == economy.coins and _receipt_xp() == economy.xp and s.party_settlement.outcome == "win", "Only real completed victory secures stage3 and pays no XP or coins")
+	var settled: Dictionary = s.to_dict(); panel._finished()
+	_check(s.to_dict() == settled, "Duplicate terminal renderer callback cannot resettle victory")
+	_consignee_visual_lot(); await _consignee_checkpoint("secured warehouse")
+	await _consignee_open("consignee_warehouse"); _press("押本批两篓封粮"); _press("继续押送")
+	_check(s.consignee_stage == 4 and s.consignee_cargo_location == "cart" and game.world.heting_cart_loaded() and s.heting_cargo.is_empty() and s.available_consignee_cargo("consignee_warehouse").is_empty(), "Actual take moves same finite lot onto loaded cart, independently of old cargo")
+	_consignee_visual_lot(); await _consignee_checkpoint("loaded same lot")
+	_check(not game.world._can_walk(Vector2(805,500)), "Actual new loaded cart rejects narrow pedestrian pier")
+	var start: Vector2 = game.world.player_pos; var cargo_before: Dictionary = _consignee_progress()
+	Input.action_press("move_down"); game.world._process(15.0/game.world.SPEED); Input.action_release("move_down")
+	var moved: bool = game.world.player_pos.distance_to(start+Vector2(0,15)) < .01
+	Input.action_press("move_up"); game.world._process(15.0/game.world.SPEED); Input.action_release("move_up")
+	_check(moved and game.world.player_pos.distance_to(start)<.01 and _consignee_progress() == cargo_before and game.world.heting_cart_loaded(), "Actual movement input transports loaded same lot along legal warehouse approach without altering progress")
+
+	var receiver: String = "heting_scale" if plan == "hold_for_inspection" else "heting_cargo"
+	var wrong: String = "heting_cargo" if receiver == "heting_scale" else "heting_scale"
+	await _consignee_open(wrong)
+	_check(_find_button(game.overlay,"确认交下本批") == null and s.consignee_stage == 4, "Wrong receiver cannot silently finalize current draft")
+	await _key(KEY_ESCAPE)
+	await _consignee_open("consignee_warehouse"); _press("更改本批草案"); _press("拟作撤运还粮" if plan == "hold_for_inspection" else "拟作封粮留验")
+	_check(s.consignee_draft != plan and s.consignee_stage == 4 and s.consignee_cargo_location == "cart", "Actual loaded draft can change without cloning, returning or delivering cargo")
+	_press("更改本批草案"); _press("拟作封粮留验" if plan == "hold_for_inspection" else "拟作撤运还粮"); _press("继续押送")
+	game._show_map(); await process_frame
+	var chart = game.overlay.find_child("RegionChart",true,false)
+	var route: PackedVector2Array = chart.cart_route
+	var safe: bool = route.size() > 1
+	for i: int in range(1,route.size()): safe = safe and load("res://scripts/heting_region.gd").can_step(route[i-1],route[i],s.heting_bridge,true)
+	_check(chart.current_target == receiver and route[0] == game.world.player_pos and route[-1] == game.world.interactables[receiver].pos and safe, "Actual loaded chapter map routes same cart safely to current plan receiver")
+	await _key(KEY_1)
+	await _consignee_open(receiver); stale = game.modal_actions[0]; bytes = _receipt_bytes(); var before: Dictionary = s.to_dict()
+	await _key(KEY_ESCAPE); stale.call()
+	_check(s.to_dict() == before and _receipt_bytes() == bytes and s.consignee_stage == 4, "Canceled handover/stale callback retain complete loaded progress and bytes")
+	await _consignee_open(receiver); stale = game.modal_actions[0]
+	var xp: int = _receipt_xp(); var coins: int = s.coins
+	_press("确认交下本批")
+	_check(s.consignee_stage == 5 and s.consignee_ending == plan and s.consignee_cargo_location == ("public_scale" if plan == "hold_for_inspection" else "grain_boat") and _receipt_xp() == xp+120 and s.coins == coins+60, "Only explicit final handover locks selected branch and grants exactly120XP/60coins once")
+	settled = s.to_dict(); stale.call()
+	_check(s.to_dict() == settled and _consignee_old_story() == original, "Old ending/receipt/party and new ending survive duplicate callback without reward replay")
+	_consignee_visual_lot(); await _consignee_checkpoint("final "+plan)
+	await _consignee_open("consignee_warehouse")
+	_check(_find_button(game.overlay,"押本批两篓封粮") == null and _gather_text(game.overlay).contains("平川粮栈") and _gather_text(game.overlay).contains("待追查"), "Completed warehouse has no respawn and records bounded local finding")
+	await _key(KEY_ESCAPE)
+	var final_before: Dictionary = s.to_dict(); var file_before: PackedByteArray = _receipt_bytes()
+	var view_blocked: String = _receipt_block_save()
+	game._show_journal(); await _key(KEY_ESCAPE); game._show_map(); await _key(KEY_1)
+	_check(s.to_dict() == final_before and _receipt_bytes() == file_before and not game.save_warning, "Final journal/map views do not attempt save even with unwritable temporary path")
+	_receipt_unblock_save(view_blocked)
+
+func _consignee_backup(label: String) -> void:
+	var directory: String = _transfer_directory("consignee-backup-"+label)
+	var store = load("res://scripts/local_save_slots.gd").new(directory)
+	var s = game.state; var prior: Dictionary = s.to_dict(); var probe = load("res://scripts/game_state.gd").new()
+	_check(store.save_slot(s,1) == OK, "Actual new chapter manual slot records terminal stage")
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
+	s.coins += 1
+	_check(store.save_slot(s,1) == OK and FileAccess.get_file_as_bytes(store.path_for(1)+".bak") == bytes, "Ordinary second slot write preserves exact previous chapter backup bytes")
+	_check(store.load_backup(probe,1) == OK and probe.to_dict() == prior, "Actual backup load restores final branch/reward/resources exactly")
+	s.coins -= 1
+	var transfer = load("res://scripts/local_save_transfer.gd").new(directory)
+	var preview: Dictionary = transfer.preview_import(bytes,2)
+	_check(preview.ok and preview.version == 14 and transfer.commit_import(preview.token).ok and FileAccess.get_file_as_bytes(store.path_for(2)) == bytes, "Actual packed core imports chapter14 exact bytes into genuinely empty slot only")
+	_check(not transfer.preview_import(bytes,2).ok and transfer.export_slot(2).bytes == bytes, "Chapter14 occupied slot stays protected and export preserves raw bytes")
+
+func _consignee_seed_ready(count: int = 1, receipt: int = 0) -> void:
+	_consignee_prepare("short_ferries",receipt,count)
+	var s = game.state
+	_check(s.begin_consignee(), "Prepared chapter boundary fixture begins through actual state API")
+	for id: String in ["lot_seals","removal_order","southern_counterfoil"]:
+		_check(s.observe_consignee(id), "Prepared boundary fixture records actual independent observation: "+id)
+	_check(s.resolve_consignee_contradiction("order_before_inspection").correct and s.choose_consignee_plan("hold_for_inspection"), "Prepared boundary fixture earns real deduction and draft without combat shortcut")
+	game._sync_world_state(); game._refresh()
+
+func _test_consignee_optional_methods() -> void:
+	var story = load("res://scripts/heting_consignee_story.gd")
+	for method: String in ["tang_teach","tang_preserve","qin_timing","shen_shore","shen_mobile"]:
+		_consignee_prepare("open_scale",1,4)
+		var s = game.state
+		var actor: String = "tang" if method.begins_with("tang") else ("shen" if method.begins_with("shen") else "qin")
+		var observation: String = "lot_seals" if actor == "tang" else ("southern_counterfoil" if actor == "shen" else "removal_order")
+		var site: String = story.OBSERVATION_SITES[observation]
+		if actor == "tang": s.tangqi_choice = "teach" if method == "tang_teach" else "preserve"
+		if actor == "shen": s.shen_care_stage = 5; s.shen_care_choice = "shore" if method == "shen_shore" else "mobile"
+		await _consignee_open("heting_dispatch"); _press("接下本批核查")
+		await _consignee_open(site)
+		var callback: Callable = game.modal_actions[1]
+		_check(_find_button(game.overlay,story.METHOD_LABELS[method]) != null, "Actual deployed standing earned companion offers alternate method: "+method)
+		s.party_resources[actor].hp = 0; var before: Dictionary = s.to_dict(); var bytes: PackedByteArray = _receipt_bytes(); callback.call()
+		_check(s.to_dict() == before and _receipt_bytes() == bytes and s.consignee_observations.is_empty(), "Actual live downed helper invalidates already-open contribution callback")
+		s.party_resources[actor].hp = 1
+		await _consignee_open(site); callback = game.modal_actions[1]
+		_check(s.set_party_roster(["hero"]), "Actual roster API benches optional contributor")
+		before = s.to_dict(); callback.call()
+		_check(s.to_dict() == before and s.consignee_observations.is_empty(), "Already-open optional contribution rechecks actual current party membership")
+		_check(s.set_party_roster(["hero",actor]), "Actual roster API reselects living earned contributor")
+		game._sync_world_state(); await _consignee_open(site)
+		var economy: Dictionary = _consignee_economy(); _press(story.METHOD_LABELS[method])
+		_check(s.consignee_observations == [observation] and s.consignee_contributions == [method] and _consignee_economy() == economy and _gather_text(game.overlay).contains(s.Consignee.method_description(method)), "Actual alternate method records meaningful prior-role text with no reward/recovery/cost: "+method)
+		await _consignee_checkpoint("optional "+method)
+	for ending: String in ["short_ferries","open_scale"]:
+		for receipt: int in range(4):
+			_consignee_prepare(ending,receipt)
+			await _consignee_open("heting_dispatch")
+			_press("接下本批核查")
+			_check(game.state.consignee_stage == 1 and game.state.receipt_stage == receipt and game.state.heting_ending == ending, "Actual chapter offer accepts either prior ending and every optional receipt stage unchanged")
+
+func _test_consignee_battle_boundaries() -> void:
+	for count: int in range(1,5):
+		_consignee_seed_ready(count)
+		var s = game.state; var panel = await _consignee_battle_open()
+		if panel == null: return
+		var initial: Dictionary = s.party_battle_snapshot(); var bytes: PackedByteArray = _receipt_bytes()
+		_check(panel.commands.groups.size() == count and initial.actors.size() == count, "Chapter occupied groups match actual1–4 selected actors")
+		for actor: Dictionary in initial.actors:
+			_check(panel.commands._slots(actor).size() == 3 and actor.actions[0].category == "martial" and actor.actions[1].category == "internal" and actor.actions[2].category == "lightness", "Every chapter actor retains fixed3 skill slots and autonomous basic")
+		panel.set_pause_request(true)
+		var snapshot: Dictionary = s.party_battle_snapshot(); var persistent: Dictionary = s.to_dict()
+		root.gui_release_focus(); await _key(KEY_ENTER); await _key(KEY_SPACE)
+		panel.request_command("hero","attack"); panel.request_command("hero","guard")
+		_check(s.party_battle_snapshot() == snapshot and s.to_dict() == persistent and panel.pending.is_empty(), "Chapter Enter/Space and direct manual basic/guard cannot execute or consume")
+		panel.unit_plates.consignee_guard.pressed.emit()
+		_check(s.party_battle_snapshot().selected_target_id == "consignee_guard", "Actual distinct guard plate changes shared selected target")
+		await _key(KEY_TAB)
+		_check(s.party_battle_snapshot().selected_target_id == "du_hui", "Actual Tab cycles to authored DuHui target")
+		panel.request_command("hero","lightness:hero_tawei")
+		_check(s.party_battle_snapshot().actors[0].categories.lightness.queued and s.party_battle_snapshot().actors[0].qi == initial.actors[0].qi, "Existing actual lightness queue is free until its accepted slot")
+		panel.cancel_skill("hero","lightness")
+		_check(not s.party_battle_snapshot().actors[0].categories.lightness.queued and s.party_battle_snapshot().actors[0].qi == initial.actors[0].qi, "Actual cancel clears optional skill without Qi charge")
+		panel.set_pause_request(false)
+		var basics: Array = []; var valid: bool = true
+		for step: int in range(16):
+			if s.party_battle_snapshot().round > 1: break
+			var tx: Dictionary = _unified_begin(panel,false)
+			if tx.is_empty(): valid = false; break
+			if tx.action_id == "attack": basics.append(tx.source_id)
+			var display: Dictionary = panel.art.display_snapshot.duplicate(true)
+			valid = valid and not s.advance_party_battle().accepted and not s.finish_party_presentation(tx.epoch,tx.token-1).accepted
+			valid = valid and display == panel.art.display_snapshot
+			panel.art._process(panel.art.get_presentation_duration()+.1)
+		_check(valid and basics == s.party_roster and s.party_battle_snapshot().round == 2, "Actual chapter first round grants exactly once to every living occupied actor, with stale/duplicate presentation locked")
+		_check(_receipt_bytes() == bytes and s.save_game() == ERR_BUSY, "Active chapter preserves exact pre-entry disk checkpoint and rejects mid-action saves")
+		var current: Dictionary = s.party_battle_snapshot(); var economy: Dictionary = _consignee_economy(); var chapter: Dictionary = _consignee_progress()
+		_unified_leave()
+		_check(not s.battle_active and s.party_settlement.outcome == "flee" and _consignee_progress() == chapter and s.coins == economy.coins and _receipt_xp() == economy.xp, "Actual retreat applies no invented fee/reward or chapter stage advancement")
+		_check(s.hp == current.actors[0].hp and s.qi == current.actors[0].qi and s.medicine == current.medicine, "Actual retreat retains consumed resources instead of restoring entry checkpoint")
+		persistent = s.to_dict(); panel._finished(); panel.leave(); panel.request_command("hero","item")
+		_check(s.to_dict() == persistent and not s.battle_active, "Stale real controller cannot replay medicine/retreat/settlement after return")
+		await _consignee_checkpoint("retreat %d actors" % count)
+	_consignee_seed_ready(1,2)
+	game.state.hp = 1; game.state.qi = 0; game.state.medicine = 0
+	var panel = await _consignee_battle_open(); var before: Dictionary = _consignee_economy(); var chapter: Dictionary = _consignee_progress()
+	if panel == null: return
+	var terminal: Dictionary = _consignee_fight(panel,"defeat")
+	if terminal.is_empty(): return
+	_party_finish(panel)
+	_check(game.state.party_settlement.outcome == "defeat" and _consignee_progress() == chapter and game.state.coins == before.coins-mini(8,before.coins) and _receipt_xp() == before.xp, "Actual defeat charges bounded8coins once and preserves stage2/draft without reward")
+	_check(game.state.map_id == "heting" and game.world.player_pos == Vector2(230,735) and game.state.hp == game.state.max_hp and game.state.qi >= 2 and game.state.medicine == 0, "Defeat safely returns to west relief point with documented recovery and no medicine refund")
+	await _consignee_checkpoint("defeat")
+	await _heting_open("heting_relief"); var coins: int = game.state.coins; _press("借棚调息")
+	_check(game.state.hp == game.state.max_hp and game.state.qi == game.state.max_qi and game.state.coins == coins and game.state.consignee_stage == 2, "Actual harbor rest remains free after defeat and leaves investigation ready for retry")
+
+func _test_consignee_failures() -> void:
+	_consignee_prepare()
+	await _consignee_open("heting_dispatch")
+	var s = game.state; var stale: Callable = game.modal_actions[0]; var old: Dictionary = s.to_dict(); var bytes: PackedByteArray = _receipt_bytes()
+	game.world.teleport(Vector2(150,335)); game._process(0); old = s.to_dict(); stale.call()
+	_check(s.to_dict() == old and _receipt_bytes() == bytes and s.consignee_stage == 0, "Moved-away actual acceptance callback rechecks scene proximity before changing anything")
+	await _consignee_open("heting_dispatch")
+	var blocked: String = _receipt_block_save(); _press("接下本批核查")
+	_check(s.consignee_stage == 1 and game.save_warning and _receipt_bytes() == bytes and _find_button(game.overlay,"重试保存") != null, "Failed acceptance save retains accepted in-memory stage and offers actual safe retry")
+	var before: Dictionary = s.to_dict(); _press("重试保存")
+	_check(s.to_dict() == before and _receipt_bytes() == bytes and game.save_warning, "Repeated failed save only retries same accepted progress")
+	_receipt_unblock_save(blocked); _press("重试保存")
+	_check(not game.save_warning and _receipt_document().player.consignee_stage == 1 and s.to_dict() == before, "Successful actual retry writes retained stage once without extra mutation")
+	_consignee_seed_ready()
+	await _consignee_open("consignee_warehouse"); bytes = _receipt_bytes(); before = s.to_dict(); blocked = _receipt_block_save()
+	_press("保存后阻止强提")
+	_check(not s.battle_active and s.to_dict() == before and _receipt_bytes() == bytes and game.save_warning, "Actual failed pre-entry checkpoint blocks fight before any resource cost")
+	_receipt_unblock_save(blocked); _press("重试保存")
+	_check(not s.battle_active and not game.save_warning and _find_button(game.overlay,"保存后阻止强提") != null, "Pre-entry retry restores briefing without automatically starting battle")
+	_press("保存后阻止强提"); var panel = _party_panel(); _unified_freeze(panel)
+	_check(panel != null and s.battle_active, "Actual explicit retry after recovered checkpoint can enter")
+	if panel == null: return
+	var terminal: Dictionary = _consignee_fight(panel)
+	if terminal.is_empty(): return
+	bytes = _receipt_bytes(); blocked = _receipt_block_save(); _party_finish(panel)
+	var settled: Dictionary = s.to_dict()
+	_check(s.consignee_stage == 3 and game.save_warning and _receipt_bytes() == bytes and _find_button(game.overlay,"重试保存") != null, "Failed real victory autosave keeps secured stage and actual consumed resources in memory")
+	panel._finished(); _press("重试保存")
+	_check(s.to_dict() == settled and _receipt_bytes() == bytes, "Duplicate renderer and failed victory retry cannot replay settlement")
+	_receipt_unblock_save(blocked); _press("重试保存")
+	_check(not game.save_warning and s.to_dict() == settled and _receipt_document().player.consignee_stage == 3, "Recovered post-battle retry persists same secured state once")
+	await _consignee_open("consignee_warehouse"); _press("押本批两篓封粮"); _press("继续押送")
+	await _heting_open("return_mistwood"); stale = game.modal_actions[0]; bytes = _receipt_bytes(); before = s.to_dict()
+	_press("留在埠内"); stale.call()
+	_check(s.to_dict() == before and s.consignee_stage == 4 and _receipt_bytes() == bytes, "Canceled actual departure and stale callback cannot discard or park loaded cargo")
+	await _heting_open("return_mistwood"); _press("停回北仓后离开")
+	_check(s.map_id == "mistwood" and s.consignee_stage == 3 and s.consignee_cargo_location == "warehouse" and s.consignee_draft == "hold_for_inspection", "Only explicit departure parks intact same lot and retains secured draft")
+	await _heting_open("exit_heting"); _press("返回鹤汀埠")
+	await _consignee_open("consignee_warehouse"); _press("押本批两篓封粮"); _press("继续押送")
+	_check(s.consignee_stage == 4 and s.available_consignee_cargo("consignee_warehouse").is_empty(), "Returning retrieves original finite lot without replaying combat or duplicating warehouse stock")
+	await _consignee_open("heting_scale"); stale = game.modal_actions[0]; bytes = _receipt_bytes(); blocked = _receipt_block_save()
+	var coins: int = s.coins; var xp: int = _receipt_xp(); _press("确认交下本批")
+	_check(s.consignee_stage == 5 and s.coins == coins+60 and _receipt_xp() == xp+120 and game.save_warning and _receipt_bytes() == bytes, "Failed final write retains one actually paid ending instead of rolling back or duplicating payout")
+	settled = s.to_dict(); stale.call(); _press("重试保存")
+	_check(s.to_dict() == settled and _receipt_bytes() == bytes, "Stale final choice and failed retry cannot pay120XP60coins again")
+	_receipt_unblock_save(blocked); _press("重试保存")
+	_check(not game.save_warning and s.to_dict() == settled and _receipt_document().player.consignee_stage == 5, "Successful actual final retry saves exact already-paid ending")
+	await _consignee_checkpoint("retried final reward")
