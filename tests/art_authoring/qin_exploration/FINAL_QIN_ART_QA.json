@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "walk_unique_authored_keys": 16,
+  "neutral_idle_views": 4,
+  "native_fixture_frames": 28,
+  "transition_frames": 24,
+  "stationary_idle_pixel_equality": "passed for transitions8..11 and20..23, excluding changing header",
+  "walk_to_stop_and_restart": "distinct image regions observed",
+  "engine_errors": 0,
+  "native_inspectors": [
+    "art worker",
+    "integration lead"
+  ],
+  "visual_acceptance": "fixed feet/staff/costume identity, opposing gait keys and genuinely neutral idle accepted at72px and216px",
+  "limits": [
+    "four-key cadence, not eight keyframes",
+    "front knees are high/marching-like",
+    "small cloth/hair/face detail drift",
+    "left contact torso turns slightly",
+    "idle backpack more rectangular than walking satchel",
+    "in-world gameplay/export checks remain parent-owned"
+  ]
+}
