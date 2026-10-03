@@ -1,0 +1,37 @@
+{
+  "completed_at_utc": "2026-10-03T02:43:53.853391+00:00",
+  "passed": {
+    "native_godot_fake_bridge_assertions": 59,
+    "exact_html_javascript_node_mock_dom_assertions": 53,
+    "failures": []
+  },
+  "runtime_fixes_reported_to_implementation_owner": [
+    "Oversize bridge result status computed after clearing buffer; fixed by owner before first native run.",
+    "Fractional callback operation ID coerced to active integer; one failure in bridge-first.log, fixed by owner and retested with nonfinite and inactive IDs."
+  ],
+  "verified_scope": [
+    "Cancellation/empty/multiple/invalid selection before mocked FileReader construction",
+    "Oversize before mocked read and byte-length/type guard after mocked read",
+    "Exactly one MiB boundary",
+    "UTF-8 Chinese byte equality through mocks",
+    "Single inflight operation, duplicate events, stale callbacks, reentrant callbacks, reselect same file",
+    "Callback fields retained while active, cleared on completion/cancel/dispose in mocks",
+    "Supplied bytes passed unmodified to mocked download_buffer, deterministic filenames, requested rather than completed status",
+    "Exact source/test SHA256 identity unchanged during final checks"
+  ],
+  "blocked_or_not_verified": [
+    "Actual browser file picker",
+    "Actual FileReader implementation",
+    "Godot JavaScriptBridge ArrayBuffer conversion",
+    "Browser download completion",
+    "User activation in a real browser",
+    "Fresh browser profile",
+    "Godot WebGL2 runtime",
+    "Cross-reload game persistence"
+  ],
+  "screenshots": "None: browser blocked error-page binding before screenshot; no visual evidence fabricated.",
+  "browser_testing": "Isolated localhost test page could not be opened in the available browser. No alternate route, production origin, real player files or browser-security changes were used.",
+  "genuine_browser_acceptance": false,
+  "production_default_gate": false,
+  "limitations": "Node/mock-DOM and native injected-bridge results do not establish genuine browser operation."
+}

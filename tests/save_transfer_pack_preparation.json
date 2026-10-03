@@ -1,0 +1,36 @@
+{
+  "status": "source rehearsed; exact new PCK still pending",
+  "version": "0.0.26",
+  "save_schema": 13,
+  "default_web_transfer_enabled": false,
+  "source_checks": 3687,
+  "exact_pck_target_checks": 3692,
+  "transfer_checks": 342,
+  "preserved_checks": 1471,
+  "unified_checks": 1247,
+  "exploration_checks": 349,
+  "condition_checks": 191,
+  "python_parser_tests": 12,
+  "source_unchanged": true,
+  "source_entries": 312,
+  "source_seconds": 42.735,
+  "old_web25_rejected_before_game": true,
+  "frozen_readers_unchanged": true,
+  "transport_scope": "actual runtime Transfer, SaveSlotsUI and main lifecycle with injected native fake adapter; browser picker/download/durability not claimed",
+  "owned_files": {
+    "tools/smoke_export.gd": "8314912c4a5f4e4ecd7084c2cfccbed2f2453d5916dfce8fc5f2ac9d45e4666a",
+    "tools/audit_web_export.py": "ed957a5dec7b6eb6d6d9db87b3de51e56b0dbc606d916ba0a7022e4b0f3a4b14",
+    "tests/test_web_pack_audit.py": "cb04a202e071347355d1831fb7777d930ca9f067dffe9eeb6eecd8e0353c5407"
+  },
+  "evidence": [
+    "full-source-01.log",
+    "full-source-01.json",
+    "parser-tests-final.log",
+    "old-web25-rejection-final.log",
+    "old-web25-rejection-final.json"
+  ],
+  "retained_failed_attempts": {
+    "driver-parse-01.log": "first check-only used unwritable default engine home; reran with isolated XDG paths",
+    "old-web25-rejection.log": "initial relative PCK path failed to open; absolute exact-path rerun is authoritative"
+  }
+}

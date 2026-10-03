@@ -24,6 +24,7 @@ class PackAuditTests(unittest.TestCase):
                 + audit.UNIFIED_COVERAGE + f' {audit.EXPECTED_UNIFIED_CHECKS} checks; actual runtime\n'
                 + audit.EXPLORATION_COVERAGE + f' {audit.EXPECTED_EXPLORATION_CHECKS} checks; actual runtime\n'
                 + audit.CONDITION_COVERAGE + f' {audit.EXPECTED_CONDITION_CHECKS} checks; actual runtime\n'
+                + audit.TRANSFER_COVERAGE + f' {audit.EXPECTED_TRANSFER_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
     def test_complete_schema13_pack_log_required(self):
@@ -32,6 +33,8 @@ class PackAuditTests(unittest.TestCase):
         invalid = [
             (complete, 1),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3215 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3350 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3345 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3159 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3154 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2810 exported-pack'), 0),
@@ -53,7 +56,8 @@ class PackAuditTests(unittest.TestCase):
         for marker, count in ((audit.PRESERVED_COVERAGE,audit.EXPECTED_PRESERVED_CHECKS),
                               (audit.UNIFIED_COVERAGE,audit.EXPECTED_UNIFIED_CHECKS),
                               (audit.EXPLORATION_COVERAGE,audit.EXPECTED_EXPLORATION_CHECKS),
-                              (audit.CONDITION_COVERAGE,audit.EXPECTED_CONDITION_CHECKS)):
+                              (audit.CONDITION_COVERAGE,audit.EXPECTED_CONDITION_CHECKS),
+                              (audit.TRANSFER_COVERAGE,audit.EXPECTED_TRANSFER_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
@@ -82,19 +86,22 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.EXPECTED_UNIFIED_CHECKS,1247)
         self.assertEqual(audit.EXPECTED_EXPLORATION_CHECKS,349)
         self.assertEqual(audit.EXPECTED_CONDITION_CHECKS,191)
-        self.assertEqual(audit.EXPECTED_CHECKS,2810+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS)
+        self.assertEqual(audit.EXPECTED_TRANSFER_CHECKS,342)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,3687)
+        self.assertEqual(audit.EXPECTED_CHECKS,3692)
+        self.assertEqual(audit.EXPECTED_CHECKS,2810+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS)
         self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.25"',driver)
-        self.assertIn('title.text=="0.0.25"',driver)
+        self.assertIn('== "0.0.26"',driver)
+        self.assertIn('title.text=="0.0.26"',driver)
         self.assertNotIn('"0.0.21"',driver)
-        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS'):
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS'):
             with patch.object(audit,name,0):
                 self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
@@ -105,13 +112,14 @@ class PackAuditTests(unittest.TestCase):
                       '  SCRIPT ERROR: interrupted assertion',
                       ' '+audit.COMPLETE_SCOPE,
                       ' '+audit.EXPLORATION_COVERAGE+' malformed duplicate',
-                      ' '+audit.CONDITION_COVERAGE+' malformed duplicate'):
+                      ' '+audit.CONDITION_COVERAGE+' malformed duplicate',
+                      ' '+audit.TRANSFER_COVERAGE+' malformed duplicate'):
             with self.subTest(extra=extra):
                 self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
 
     def test_exploration_scope_cannot_impersonate_full_pack(self):
         complete=self.complete_log()
-        for scope in ('exploration-only','preserved-only','unified-only','condition-only'):
+        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only'):
             self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
@@ -135,9 +143,42 @@ class PackAuditTests(unittest.TestCase):
         complete=self.complete_log()
         for field,value in (('EXPECTED_SOURCE_CHECKS',audit.EXPECTED_SOURCE_CHECKS+1),
                             ('EXPECTED_CHECKS',audit.EXPECTED_CHECKS+1),
-                            ('EXPECTED_CONDITION_CHECKS',audit.EXPECTED_CONDITION_CHECKS+1)):
+                            ('EXPECTED_CONDITION_CHECKS',audit.EXPECTED_CONDITION_CHECKS+1),
+                            ('EXPECTED_TRANSFER_CHECKS',audit.EXPECTED_TRANSFER_CHECKS+1)):
             with self.subTest(field=field),patch.object(audit,field,value):
                 self.assertIsNone(audit.completed_pack_checks(complete,0))
+
+    def test_transfer_is_actual_packed_runtime_with_preinstantiation_gate(self):
+        root=Path(__file__).resolve().parents[1]
+        driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        prerequisite=driver.index('not _transfer_prerequisites()')
+        self.assertLess(prerequisite,driver.index('game = scene.instantiate()'))
+        self.assertIn(audit.TRANSFER_COVERAGE,driver)
+        for module in ('local_save_transfer','browser_save_transfer','save_transfer_ui'):
+            self.assertIn('"'+module+'"',driver)
+            self.assertNotIn('preload("res://scripts/'+module+'.gd")',driver)
+        for actual in ('inspect_save_bytes(bytes)','helper.export_slot(slot,backup)',
+                       'helper.preview_import(bytes,slot)','helper.commit_import(first.token)',
+                       'script.source_code = """extends "res://scripts/local_save_transfer.gd"',
+                       'TransferPackBrowser.new()', 'panel.dispose()',
+                       'game.battle_art.hit("flee", {"valid":true})',
+                       'game.web_save_transfer_enabled = true',
+                       'not game.web_save_transfer_enabled',
+                       'await _key(KEY_ESCAPE)'):
+            self.assertIn(actual,driver)
+        self.assertNotIn('res://tests/save_transfer',driver)
+        self.assertNotIn('res://tests/local_save_transfer',driver)
+        self.assertIn('no browser download or durability claim',driver)
+
+    def test_transfer_rehearsal_and_old_web25_cannot_impersonate_pack(self):
+        complete=self.complete_log()
+        old='\n'.join(line for line in complete.splitlines() if not line.startswith(audit.TRANSFER_COVERAGE))+'\n'
+        old=old.replace(str(audit.EXPECTED_CHECKS)+' exported-pack','3350 exported-pack')
+        self.assertIsNone(audit.completed_pack_checks(old,0))
+        for line in ('PASS: 404 source-rehearsal checks; 0 failures',
+                     f'PASS: {audit.EXPECTED_SOURCE_CHECKS} source-rehearsal checks; 0 failures',
+                     'FAIL: current package prerequisites; 43 checks; 1 failures; no game instantiated'):
+            self.assertIsNone(audit.completed_pack_checks(line+'\n',0))
 
     def test_frozen_historical_readers_are_byte_exact(self):
         root = Path(__file__).resolve().parents[1]

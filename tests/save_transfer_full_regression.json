@@ -1,0 +1,21 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 322.982,
+  "log_sha256": "84cbad2449fa666b44d1bb338de1040365ff3d3f0e5e85a0efa54f9289050396",
+  "runner_sha256": "6350c88ed287c532ce78056c9afc95dd77369886ec9179259e073ce044fbd973",
+  "source_content_changes": [],
+  "engine_commands": 129,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "game_version": "0.0.26",
+  "save_schema": 13,
+  "default_web_transfer_enabled": false,
+  "python_tests": 67,
+  "node_exact_source_mock_dom_assertions": 53,
+  "native_fake_bridge_assertions": 59,
+  "engine_errors": 0,
+  "pass_line_count": 238,
+  "pass_line_count_note": "Includes112 individual adapter assertions, not238 independent suites.",
+  "run": "Uninterrupted run-tests.sh with isolated profile;129 Godot commands plus67 Python tests and the separate53-assertion Node transport harness",
+  "genuine_browser_acceptance": false,
+  "deployment": "No rollout for this disabled feature; live0.0.25 unchanged."
+}

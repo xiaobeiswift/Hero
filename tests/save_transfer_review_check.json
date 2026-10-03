@@ -1,0 +1,92 @@
+{
+  "review_time_utc": "2026-10-03T02:54:30Z",
+  "base_commit": "733003e51fd429f3315aaf3a4431db7f8dba06f0",
+  "code_review_status": "passed for default-off gated implementation; real-browser enablement still unverified",
+  "owned_tests": {
+    "save_transfer_independent_test.gd": 212,
+    "save_transfer_independent_ui_test.gd": 46
+  },
+  "targeted_legacy_save_ui_suites": 12,
+  "targeted_legacy_save_ui_checks": 5161,
+  "frozen_fixture_files_unchanged": true,
+  "fixed_findings": [
+    "Failed commit tokens could previously succeed when the error cleared; consumed before I/O now and independent replay tests pass.",
+    "Preview target previously recomputed instead of pinned; destination and directory are pinned and checked now.",
+    "Repeated completed read previously invalidated the visible good preview; operation rotates on terminal callback and independent replay test passes."
+  ],
+  "limitations": [
+    "Injected transport tests are not actual browser upload/picker/JavaScriptBridge/download or persistence QA.",
+    "Atomic rename and final emptiness protect the synchronous local VFS operation, not another tab/process racing the final check.",
+    "Browser VFS success is not a durable IndexedDB sync receipt; UI explicitly says so.",
+    "No authenticity/signature guarantee. The file is structurally and semantically validated; digest verifies retained/readback bytes."
+  ],
+  "reviewed_sha256": {
+    "scripts/game_state.gd": "66f2d79bb5972541e8ba3db1a3d02ff8301a22fef2617e9ae24a5961413aa564",
+    "scripts/local_save_transfer.gd": "0fb101c355acfc8784d004f102596fe30c323a774d8b76c3a0960fa1d47a8ca7",
+    "scripts/save_transfer_ui.gd": "923d5097ca23fd6efa52e0cf6d104af3b5274f541f8e2f7ec1cc59849cf3e553",
+    "scripts/browser_save_transfer.gd": "8f7a90dbdd2175d04b8bfadc4326c54c6c9068aeb73d2d3891bab2d336de41b8",
+    "scripts/main.gd": "ccf1f95ab1a588c765396490e984a3f8a9bca766284855c65de7eba356f20e22",
+    "scripts/save_slots_ui.gd": "87bfb9becce9223f5e6c7df20ea3392fbf7ce56dda90ded82080f673859453d0",
+    "web/hero_shell.html": "f3d7c46693950fa4786425d88ae26bda73d163eafa4eaf853703286cfb153330",
+    "project.godot": "aecc93686713d56605c7ce2f53161be37fc3c36ec635034314c216364e69e3b8",
+    "tests/save_transfer_independent_test.gd": "0058666032ffd91bc3575982c78e569df65c0172ee60daa1de64e89422ec0721",
+    "tests/save_transfer_independent_ui_test.gd": "39ad5b17494b37348f66c66b1fd625d29f4d94f6ab282f70332689ccf2ba3eb5"
+  },
+  "browser_evidence_inspected": [
+    "Hero-staging/save-transfer-browser-qa/evidence/browser-feasibility.json",
+    "Hero-staging/save-transfer-browser-qa/evidence/adapter-qa-summary.json"
+  ],
+  "browser_observed_blocker": "Available browser rejected the isolated local capability page; actual picker/FileReader/ArrayBuffer/download/reload evidence remains absent.",
+  "stable_verification": {
+    "logs": "stable-aggregate.log and stable-save_transfer_independent*.log",
+    "before_hashes": "stable-before-hashes.json",
+    "after_hashes": "stable-after-hashes.json",
+    "all_runtime_scripts_project_shell_and_selected_tests_identical_before_after": true
+  },
+  "superseded_run": {
+    "logs": "final-aggregate.log",
+    "reason": "Launched while global no-autosave was being narrowed to transfer-origin browsing; hashes were collected afterward. Mixed-snapshot evidence is superseded, not current release evidence.",
+    "counts": {
+      "manual": 111,
+      "heting": 247,
+      "total": 5147
+    }
+  },
+  "count_drop_investigation": {
+    "method": "Staging-only copies of original tests inject a subclass reproducing earlier global no-autosave; production runtime and original tests untouched.",
+    "current": {
+      "manual_autosave_path_accesses": 22,
+      "manual_all_path_accesses": 35,
+      "manual_checks": 123,
+      "heting_autosave_path_accesses": 112,
+      "heting_all_path_accesses": 117,
+      "heting_checks": 249
+    },
+    "earlier_global_behavior_reproduction": {
+      "manual_autosave_path_accesses": 10,
+      "manual_all_path_accesses": 23,
+      "manual_checks": 111,
+      "heting_autosave_path_accesses": 110,
+      "heting_all_path_accesses": 115,
+      "heting_checks": 247
+    },
+    "conclusion": "All manual/backup path-access counts stay identical. Earlier 12+2 check drop consists entirely of missing dynamic per-autosave-path checks. Current selective transfer-origin suppression restores baseline counts exactly.",
+    "logs": "pathdiag-0-*.log current; pathdiag-1-*.log earlier-behavior reproduction"
+  },
+  "native_visual_review": {
+    "status": "passed",
+    "inspected_screenshots": {
+      "Hero-staging/save-transfer-native/preflight-001/stills/screenshots/03-synthetic-json-empty-target-preview-1280x800.png": "4ace83622c0945c962e9620625ef70cfa4860c3ed347bfed7ae8b71c8f294c3b",
+      "Hero-staging/save-transfer-native/preflight-001/stills/screenshots/04-confirmed-import-no-autoload-1280x800.png": "c3d08de2a7fed9a3aff827341d35db3be6f19cd0e5da7156c04d8e1abe46686a",
+      "Hero-staging/save-transfer-native/preflight-001/stills/screenshots/07-cancelled-file-no-change-1280x800.png": "2e83b303d8e7c23f75923fbc17ac4150c9dfe09a68d11dab9a45844b73f154c2",
+      "Hero-staging/save-transfer-native/preflight-001/stills/screenshots/08-compact-empty-target-preview-1179x736.png": "927682acde90074496cbb367f03a472d5746c58e24b1c379874cf1d20b6fe6de"
+    },
+    "findings": [
+      "Preview clearly identifies validated metadata, exact empty manual target, no backup, confirmation recheck, raw byte retention and separate loading.",
+      "Success says no autoload/autosave change, no durable browser receipt, keep original JSON; unavailable storage warning is fully visible.",
+      "Cancellation clearly says no import and unchanged current journey/files.",
+      "1280x800 and1179x736 layouts are readable; no clipped text/buttons or overlapping essential controls."
+    ],
+    "scope": "Actual native rendering with explicitly enabled test gate and fake browser transport. No actual browser picker/download/persistence claim."
+  }
+}
