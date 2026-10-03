@@ -1,0 +1,40 @@
+{
+  "source_commit": "8a8b580fdd03ceaa5ca6be8160a299a12877360a",
+  "source_tree": "3389d826586891cb0822e08371cadbdd8aa43f7c",
+  "captured_runtime_entries": 327,
+  "captured_qa_driver_entries": 6,
+  "total_exact_git_objects": 333,
+  "mismatches": [],
+  "captured_manifest_sha256": "905c873d194f5f93d2ec760ffac6cb9ce839ea030987d769accde9765b00ea7a",
+  "selected_raw_screenshots": [
+    {
+      "path": "screenshots/362-heting-warehouse-before.png",
+      "sha256": "99ea5e7a2de075489be3b7ffe5fa7afb20d3fb6d74782e8617cd9345a3393424",
+      "bytes": 1358194,
+      "origin": "Hero-staging/heting-polish-native/run-20261003-055025/baseline/screenshots/warehouse-protect-full-guard.png",
+      "role": "Historical prepared baseline comparison, original4dde6ff5 paint scripts plus common version/QA overlay"
+    },
+    {
+      "path": "screenshots/363-heting-warehouse-softened.png",
+      "sha256": "40d7c784d1343b08e9cb6f75a1f7f77cf78dc2b8c09a0a3f98818c7f41d4ab6b",
+      "bytes": 1346916,
+      "origin": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/warehouse-protect-full-guard.png",
+      "role": "Final candidate native framebuffer, bound to frozen runtime"
+    },
+    {
+      "path": "screenshots/364-heting-route-labels.png",
+      "sha256": "71d5509ec285682c5fee4a3c91c86b4f972ca4c755dec7ff7546407428211263",
+      "bytes": 1223942,
+      "origin": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z160-east-loaded-foot.png",
+      "role": "Final candidate native framebuffer, bound to frozen runtime"
+    },
+    {
+      "path": "screenshots/365-heting-pontoon-contrast.png",
+      "sha256": "d1151dfda0869bb61e111177efbe365bcafd1cab0077b5e10681bdf2bdace656",
+      "bytes": 1391491,
+      "origin": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z125-east-loaded-pontoon.png",
+      "role": "Final candidate native framebuffer, bound to frozen runtime"
+    }
+  ],
+  "scope": "Exact Git-object comparison for all captured runtime resources plus actual inherited/main/supplement QA drivers and UIDs. Broader capture snapshot contains other evidence/test records not represented as final-runtime dependencies. Native capture and raw image hashes retained; not browser or performance evidence."
+}

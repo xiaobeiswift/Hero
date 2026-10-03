@@ -1,5 +1,5 @@
 {
-  "scope": "Captured source-native dependency superset:327 scripts/scenes/assets/project files plus6 QA driver/UID files, all exact current bytes. Other tests and documentation in the broader capture snapshot are not misrepresented as final Git dependencies. Explicit commit binding follows freeze in an evidence-only checkpoint.",
+  "scope": "Captured source-native dependency superset:327 scripts/scenes/assets/project files plus6 QA driver/UID files, all exact current bytes. Other tests and documentation in the broader capture snapshot are not misrepresented as final Git dependencies. Exact333 Git-object and selected-image binding is complete in the linked frozen-source record.",
   "captured_manifest_sha256": "905c873d194f5f93d2ec760ffac6cb9ce839ea030987d769accde9765b00ea7a",
   "runtime_paths": 327,
   "qa_paths": 6,
@@ -363,5 +363,6 @@
       "bytes": 1391491,
       "origin": "Hero-staging/heting-polish-native/candidate2-20261003-060744/main/screenshots/harbor-compact-z125-east-loaded-pontoon.png"
     }
-  ]
+  ],
+  "frozen_source_binding": "tests/heting_polish_native_frozen_source.json"
 }
