@@ -9,7 +9,26 @@
   "engine_display_server": "X11",
   "source_base_commit": "73ec67481ddfa9fdf5581afef8e3d28e64f09c40",
   "source_identity": "73ec67481ddfa9fdf5581afef8e3d28e64f09c40 + prepared integrated working tree",
-  "committed_source_binding": "Pending integration commit; exact frozen runtime hashes are authoritative for these pixels.",
+  "committed_source_binding": {
+    "runtime_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+    "runtime_tree": "b760b13d1a9092958dc4690f9cd66af15102b618",
+    "captured_runtime_entries": 384,
+    "tracked_runtime_entries_byte_matched_to_commit": 306,
+    "generated_import_cache_entries_unchanged": 78,
+    "capture_label": "preflight-004",
+    "source_inventory_sha256": "5d308d3287055d7ea9da47249db5fd78be73b47f49ef8f8af511cbfc1ef6e94c",
+    "scope": "Exact tracked runtime files are bound to commit;78 generated import-cache files are separately byte-bound to the native capture and unchanged local runtime, not misrepresented as tracked git objects.",
+    "screenshot_sha256": {
+      "01-prepared-full-lowhp-lowqi-downed-1280x800.png": "5a78d3b58ad4433679f71dac60ab9923600da8a23f1058eade91d2c3ff30ca0e",
+      "02-prepared-hover-lowhp-detail-1280x800.png": "0948d8020357df1139610b261a2c6cb5ddda5475cb07f8c617402f5f9ae8d760",
+      "03-prepared-keyboard-downed-detail-1280x800.png": "3db75538379d853b00b9eee62a41ecb1e9e6d86624468c70de6bfbb03849b0f1",
+      "04-prepared-direct-roster-1280x800.png": "480066fdacc4a92d1bd5fa10457fed77fd4bca2d8e6f2133a87c64ff38150a66",
+      "05-prepared-roster-escape-exploration-1280x800.png": "63fbc8d56ceb91730ea0d011aa42727209d92882f1ffa595b7e687ee61557379",
+      "06-prepared-solo-hides-empty-1280x800.png": "9c3656fd96d86543cd5cbe6eeb193dbd2020e55e53f9af22fbd872372ee7cbb6",
+      "07-prepared-ordered-subset-1179x736.png": "b998574beac740693e729674c2d2be6fec2cbaeebfd8a3844c10fea8afe33d5d",
+      "08-prepared-compact-world-hud-overlap-1179x736.png": "bdde1343ba1ad8af8c3bad17fb663d5531a17d6802e3f8f3512ee9abba554002"
+    }
+  },
   "qualifiers": [
     "Eight actual Godot framebuffer PNGs from the full main scene. No generated, composited or synthetic screenshot imagery.",
     "Completed-story recruitment eligibility and low/zero resources were explicitly prepared test fixtures; actual recruitment and selected-roster APIs were used. These are not gameplay-produced damage claims.",
@@ -994,7 +1013,7 @@
     "capture_label": "preflight-004",
     "base_commit": "73ec67481ddfa9fdf5581afef8e3d28e64f09c40",
     "captured_source_kind": "Integrated working tree on stated base; not yet claimed to be the later clean commit.",
-    "source_commit_binding_pending": true,
+    "source_commit_binding_pending": false,
     "source_entry_count": 384,
     "source_bytes": 131602548,
     "source_inventory_file": "source-sha256.json",
@@ -1412,7 +1431,27 @@
       "original_source_unchanged": true,
       "frozen_runtime_unchanged": true
     },
-    "excluded_from_runtime_inventory": "Test scripts are independently hashed. Only engine-generated editor/shader caches and test-script UID files lie outside inventoried runtime resources."
+    "excluded_from_runtime_inventory": "Test scripts are independently hashed. Only engine-generated editor/shader caches and test-script UID files lie outside inventoried runtime resources.",
+    "frozen_commit_verification": {
+      "runtime_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+      "runtime_tree": "b760b13d1a9092958dc4690f9cd66af15102b618",
+      "captured_runtime_entries": 384,
+      "tracked_runtime_entries_byte_matched_to_commit": 306,
+      "generated_import_cache_entries_unchanged": 78,
+      "capture_label": "preflight-004",
+      "source_inventory_sha256": "5d308d3287055d7ea9da47249db5fd78be73b47f49ef8f8af511cbfc1ef6e94c",
+      "scope": "Exact tracked runtime files are bound to commit;78 generated import-cache files are separately byte-bound to the native capture and unchanged local runtime, not misrepresented as tracked git objects.",
+      "screenshot_sha256": {
+        "01-prepared-full-lowhp-lowqi-downed-1280x800.png": "5a78d3b58ad4433679f71dac60ab9923600da8a23f1058eade91d2c3ff30ca0e",
+        "02-prepared-hover-lowhp-detail-1280x800.png": "0948d8020357df1139610b261a2c6cb5ddda5475cb07f8c617402f5f9ae8d760",
+        "03-prepared-keyboard-downed-detail-1280x800.png": "3db75538379d853b00b9eee62a41ecb1e9e6d86624468c70de6bfbb03849b0f1",
+        "04-prepared-direct-roster-1280x800.png": "480066fdacc4a92d1bd5fa10457fed77fd4bca2d8e6f2133a87c64ff38150a66",
+        "05-prepared-roster-escape-exploration-1280x800.png": "63fbc8d56ceb91730ea0d011aa42727209d92882f1ffa595b7e687ee61557379",
+        "06-prepared-solo-hides-empty-1280x800.png": "9c3656fd96d86543cd5cbe6eeb193dbd2020e55e53f9af22fbd872372ee7cbb6",
+        "07-prepared-ordered-subset-1179x736.png": "b998574beac740693e729674c2d2be6fec2cbaeebfd8a3844c10fea8afe33d5d",
+        "08-prepared-compact-world-hud-overlap-1179x736.png": "bdde1343ba1ad8af8c3bad17fb663d5531a17d6802e3f8f3512ee9abba554002"
+      }
+    }
   },
   "selected_source_screenshots": [
     {

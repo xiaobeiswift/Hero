@@ -1,0 +1,137 @@
+{
+  "game_version": "0.0.25",
+  "web_revision": 1,
+  "save_schema": 13,
+  "party_capacity": 4,
+  "source_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+  "source_tree": "b760b13d1a9092958dc4690f9cd66af15102b618",
+  "build": {
+    "label": "Hero-Web-0.0.25-web1",
+    "source_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+    "source_entries": 306,
+    "source_bytes": 76878663,
+    "build_script_sha256": "bd708be5604634c4e7cdb04efaeb3a933c5b5163ece5a50e501582c313067c5a",
+    "start_free": 25483096064,
+    "minimum_free": 25320783872,
+    "reserve_bytes": 536870912,
+    "status": "archive verified; browser testing pending",
+    "browser_validation": "pending",
+    "deployment": "not performed",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "web_build": {
+      "game_version": "0.0.25",
+      "web_revision": 1,
+      "caption": "0.0.25 · Web 1"
+    },
+    "build_identity_tool_sha256": "eb80c29fce4e7eb0c92aab56fb3d603a2a05f37d41119a98f21ebd0a454735fc",
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "907dfbe4546bd3c9ec99a24b166985ef7ad12abbcb5aa0bf0ea9c0c529ed068c",
+        "bytes": 8374
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "65b8a2e2539559e3a2b6171313d14bbb21d2e929ce18f3113cfcee64f357e908",
+        "bytes": 6840
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "470f05bed7926f48f627cacb2d291a26a27dfe9461fe7bbed1d1a6bbf6fd42fc",
+        "bytes": 9095
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "1c5d2f6b8f59b1314b179cea2e238c76682b44dbabba15401b03e80d5a738acb",
+        "bytes": 55724532
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "archive": {
+      "file": "Hero-Web-0.0.25-web1.zip",
+      "bytes": 65106533,
+      "sha256": "e77d44eca57421f8aac57bfe23b6b83d51fefc2dff88a0a50333a1925c07b0c9"
+    }
+  },
+  "exact_pack_audit": {
+    "source_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "1c5d2f6b8f59b1314b179cea2e238c76682b44dbabba15401b03e80d5a738acb",
+    "audit_sha256": "afa92e8603ce728771ff3d76649cfbe0c5a8cecab3ae56564d6c4945782f20b0",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "d8d63d8127bb69b6750a7670ff01468bc5a103c754bdcbcfefdaa3863c616a6f",
+    "save_schema": 13,
+    "party_capacity": 4,
+    "log_sha256": "f76b14083e6aaf9df70ce5c6d1e2ce968369a8a23d6e3c2a62bff3aa293f992e",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 3350,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "condition_checks": 191,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "native_capture_binding": {
+    "runtime_commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+    "runtime_tree": "b760b13d1a9092958dc4690f9cd66af15102b618",
+    "captured_runtime_entries": 384,
+    "tracked_runtime_entries_byte_matched_to_commit": 306,
+    "generated_import_cache_entries_unchanged": 78,
+    "capture_label": "preflight-004",
+    "source_inventory_sha256": "5d308d3287055d7ea9da47249db5fd78be73b47f49ef8f8af511cbfc1ef6e94c",
+    "scope": "Exact tracked runtime files are bound to commit;78 generated import-cache files are separately byte-bound to the native capture and unchanged local runtime, not misrepresented as tracked git objects.",
+    "screenshot_sha256": {
+      "01-prepared-full-lowhp-lowqi-downed-1280x800.png": "5a78d3b58ad4433679f71dac60ab9923600da8a23f1058eade91d2c3ff30ca0e",
+      "02-prepared-hover-lowhp-detail-1280x800.png": "0948d8020357df1139610b261a2c6cb5ddda5475cb07f8c617402f5f9ae8d760",
+      "03-prepared-keyboard-downed-detail-1280x800.png": "3db75538379d853b00b9eee62a41ecb1e9e6d86624468c70de6bfbb03849b0f1",
+      "04-prepared-direct-roster-1280x800.png": "480066fdacc4a92d1bd5fa10457fed77fd4bca2d8e6f2133a87c64ff38150a66",
+      "05-prepared-roster-escape-exploration-1280x800.png": "63fbc8d56ceb91730ea0d011aa42727209d92882f1ffa595b7e687ee61557379",
+      "06-prepared-solo-hides-empty-1280x800.png": "9c3656fd96d86543cd5cbe6eeb193dbd2020e55e53f9af22fbd872372ee7cbb6",
+      "07-prepared-ordered-subset-1179x736.png": "b998574beac740693e729674c2d2be6fec2cbaeebfd8a3844c10fea8afe33d5d",
+      "08-prepared-compact-world-hud-overlap-1179x736.png": "bdde1343ba1ad8af8c3bad17fb663d5531a17d6802e3f8f3512ee9abba554002"
+    }
+  },
+  "scope": "Exact clean cloud-source build,14 site/archive members and native-editor actual Web PCK audit. Independent Windows build and deployment are separate pending gates; browser graphics/audio/reload persistence remains unverified. Native screenshot evidence uses prepared resources and scripted input with zero additional save writes."
+}
