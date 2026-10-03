@@ -25,9 +25,10 @@ class PackAuditTests(unittest.TestCase):
                 + audit.EXPLORATION_COVERAGE + f' {audit.EXPECTED_EXPLORATION_CHECKS} checks; actual runtime\n'
                 + audit.CONDITION_COVERAGE + f' {audit.EXPECTED_CONDITION_CHECKS} checks; actual runtime\n'
                 + audit.TRANSFER_COVERAGE + f' {audit.EXPECTED_TRANSFER_CHECKS} checks; actual runtime\n'
+                + audit.CONSIGNEE_COVERAGE + f' {audit.EXPECTED_CONSIGNEE_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
-    def test_complete_schema13_pack_log_required(self):
+    def test_complete_schema14_pack_log_required(self):
         complete = self.complete_log()
         self.assertEqual(audit.completed_pack_checks(complete, 0), audit.EXPECTED_CHECKS)
         invalid = [
@@ -57,7 +58,8 @@ class PackAuditTests(unittest.TestCase):
                               (audit.UNIFIED_COVERAGE,audit.EXPECTED_UNIFIED_CHECKS),
                               (audit.EXPLORATION_COVERAGE,audit.EXPECTED_EXPLORATION_CHECKS),
                               (audit.CONDITION_COVERAGE,audit.EXPECTED_CONDITION_CHECKS),
-                              (audit.TRANSFER_COVERAGE,audit.EXPECTED_TRANSFER_CHECKS)):
+                              (audit.TRANSFER_COVERAGE,audit.EXPECTED_TRANSFER_CHECKS),
+                              (audit.CONSIGNEE_COVERAGE,audit.EXPECTED_CONSIGNEE_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
@@ -86,22 +88,23 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.EXPECTED_UNIFIED_CHECKS,1247)
         self.assertEqual(audit.EXPECTED_EXPLORATION_CHECKS,349)
         self.assertEqual(audit.EXPECTED_CONDITION_CHECKS,191)
-        self.assertEqual(audit.EXPECTED_TRANSFER_CHECKS,342)
-        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,3687)
-        self.assertEqual(audit.EXPECTED_CHECKS,3692)
-        self.assertEqual(audit.EXPECTED_CHECKS,2810+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS)
+        self.assertEqual(audit.EXPECTED_TRANSFER_CHECKS,349)
+        self.assertEqual(audit.EXPECTED_CONSIGNEE_CHECKS,1036)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,4730)
+        self.assertEqual(audit.EXPECTED_CHECKS,4735)
+        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS)
         self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.26"',driver)
-        self.assertIn('title.text=="0.0.26"',driver)
+        self.assertIn('== "0.0.27"',driver)
+        self.assertIn('title.text=="0.0.27"',driver)
         self.assertNotIn('"0.0.21"',driver)
-        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS'):
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS'):
             with patch.object(audit,name,0):
                 self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
@@ -113,13 +116,14 @@ class PackAuditTests(unittest.TestCase):
                       ' '+audit.COMPLETE_SCOPE,
                       ' '+audit.EXPLORATION_COVERAGE+' malformed duplicate',
                       ' '+audit.CONDITION_COVERAGE+' malformed duplicate',
-                      ' '+audit.TRANSFER_COVERAGE+' malformed duplicate'):
+                      ' '+audit.TRANSFER_COVERAGE+' malformed duplicate',
+                      ' '+audit.CONSIGNEE_COVERAGE+' malformed duplicate'):
             with self.subTest(extra=extra):
                 self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
 
     def test_exploration_scope_cannot_impersonate_full_pack(self):
         complete=self.complete_log()
-        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only'):
+        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only'):
             self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
@@ -144,7 +148,10 @@ class PackAuditTests(unittest.TestCase):
         for field,value in (('EXPECTED_SOURCE_CHECKS',audit.EXPECTED_SOURCE_CHECKS+1),
                             ('EXPECTED_CHECKS',audit.EXPECTED_CHECKS+1),
                             ('EXPECTED_CONDITION_CHECKS',audit.EXPECTED_CONDITION_CHECKS+1),
-                            ('EXPECTED_TRANSFER_CHECKS',audit.EXPECTED_TRANSFER_CHECKS+1)):
+                            ('EXPECTED_TRANSFER_CHECKS',audit.EXPECTED_TRANSFER_CHECKS+1),
+                            ('EXPECTED_CONSIGNEE_CHECKS',audit.EXPECTED_CONSIGNEE_CHECKS+1),
+                            ('EXPECTED_PRESERVED_CHECKS',audit.EXPECTED_PRESERVED_CHECKS+1),
+                            ('EXPECTED_UNIFIED_CHECKS',audit.EXPECTED_UNIFIED_CHECKS+1)):
             with self.subTest(field=field),patch.object(audit,field,value):
                 self.assertIsNone(audit.completed_pack_checks(complete,0))
 
@@ -186,6 +193,8 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.sha(root/'tests/fixtures/v020_game_state.gd.txt'), audit.SCHEMA11)
         self.assertEqual(audit.sha(root/'tests/fixtures/v022_game_state.gd.txt'), audit.SCHEMA12)
         self.assertEqual(audit.sha(root/'tests/fixtures/v017_game_state.gd.txt'), audit.SCHEMA9)
+        self.assertEqual(audit.sha(root/'tests/fixtures/v025_game_state.gd.txt'), audit.SCHEMA13)
+        self.assertEqual(audit.verify_legacy_fixtures(root/'tests/fixtures/legacy_saves'), audit.LEGACY_FIXTURES)
 
     def test_exact_site_archive_and_mutation_rejection(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -217,5 +226,59 @@ class PackAuditTests(unittest.TestCase):
                 with self.assertRaises((RuntimeError,ValueError)):audit.verify_source_manifest(build,report,root)
             manifest.write_text(text);(root/'scripts/main.gd').write_bytes(b'changed')
             with self.assertRaises(RuntimeError):audit.verify_source_manifest(build,report,root)
+
+    def test_consignee_preinstantiation_gate_and_genuine_migration(self):
+        root=Path(__file__).resolve().parents[1]
+        driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        for gate in ('not _consignee_prerequisites()', 'not _consignee_legacy_prerequisite(rehearsal)'):
+            self.assertLess(driver.index(gate),driver.index('game = scene.instantiate()'))
+        for value in ('--schema13-reader=','--legacy-save-fixtures=',audit.SCHEMA13,audit.LEGACY_FIXTURES,
+                      'schema13_reader.SAVE_VERSION == 13','schema13_reader.load_game(path) == ERR_FILE_UNRECOGNIZED',
+                      'schema13_reader.to_dict(),genuine.player','inspected.state.to_dict()[key] == neutral[key]',
+                      'for version: int in range(1,14)',audit.CONSIGNEE_COVERAGE):
+            self.assertIn(value,driver)
+        self.assertIn('for kind: String in encounters.IDS.slice(0,10)',driver)
+        self.assertIn('const CONSIGNEE_FIELDS:',driver)
+        self.assertNotIn('res://tests/heting_consignee_',driver)
+        for value in ('game.consignee_story.link_label(site)', 'await _key(KEY_E)',
+                      'panel.unit_plates.consignee_guard.pressed.emit()', 'await _key(KEY_TAB)',
+                      's.coins == coins+60', '_receipt_xp() == xp+120',
+                      'store.load_backup(probe,1)', '_receipt_block_save()'):
+            self.assertIn(value,driver)
+
+    def test_old_web26_and_partial_chapter_cannot_impersonate_current_pack(self):
+        complete=self.complete_log()
+        for count in (3692,3687,3350,1107):
+            old=complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack',str(count)+' exported-pack')
+            self.assertIsNone(audit.completed_pack_checks(old,0))
+        old='\\n'.join(line for line in complete.splitlines() if not line.startswith(audit.CONSIGNEE_COVERAGE))+'\\n'
+        self.assertIsNone(audit.completed_pack_checks(old,0))
+        self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: consignee-only'),0))
+
+    def test_legacy_fixture_bytes_are_fail_closed_and_read_only(self):
+        import shutil
+        root=Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as temp:
+            target=Path(temp)/'legacy'
+            shutil.copytree(root/'tests/fixtures/legacy_saves',target)
+            before={p.name:audit.sha(p) for p in target.iterdir()}
+            self.assertEqual(audit.verify_legacy_fixtures(target),audit.LEGACY_FIXTURES)
+            self.assertEqual(before,{p.name:audit.sha(p) for p in target.iterdir()})
+            (target/'schema_13_default.json').write_text('{}')
+            with self.assertRaises(RuntimeError):audit.verify_legacy_fixtures(target)
+            shutil.copy2(root/'tests/fixtures/legacy_saves/schema_13_default.json',target/'schema_13_default.json')
+            (target/'provenance.json').write_text('{}')
+            with self.assertRaises(RuntimeError):audit.verify_legacy_fixtures(target)
+
+    def test_audit_inputs_bind_tools_readers_and_fixtures(self):
+        root=Path(__file__).resolve().parents[1]
+        inputs=audit.audit_inputs()
+        self.assertEqual(len(inputs),22)
+        self.assertEqual(inputs['tools/smoke_export.gd'],audit.sha(root/'tools/smoke_export.gd'))
+        self.assertEqual(inputs['tests/fixtures/v025_game_state.gd.txt'],audit.SCHEMA13)
+        self.assertEqual(inputs['tests/fixtures/legacy_saves/provenance.json'],audit.LEGACY_FIXTURES)
+        wrapper=(root/'tools/audit_web_export.py').read_text(encoding='utf-8')
+        self.assertLess(wrapper.index('inputs=audit_inputs()'),wrapper.index('result=subprocess.run'))
+        self.assertGreater(wrapper.index('audit_inputs()!=inputs'),wrapper.index('result=subprocess.run'))
 
 if __name__=='__main__':unittest.main()

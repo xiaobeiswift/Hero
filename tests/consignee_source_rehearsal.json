@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "scope": "Measured complete source rehearsal; later runner adds retained independent tests only. Actual new PCK remains pending.",
+  "exit_code": 0,
+  "source_checks": 4730,
+  "future_exact_pck_checks": 4735,
+  "expected_pck_only_additional": 5,
+  "coverage": {
+    "Preserved noncombat exact-runtime coverage:": 1471,
+    "Schema13 unified automatic exact-runtime coverage:": 1247,
+    "Ordered exploration party exact-runtime coverage:": 349,
+    "Exploration companion condition exact-runtime coverage:": 191,
+    "Empty-slot save transfer exact-runtime coverage:": 349,
+    "Schema14 consignee chapter exact-runtime coverage:": 1036
+  },
+  "seconds": 51.19962842200766,
+  "runtime_entries": 331,
+  "inputs_unchanged": true,
+  "source_cannot_impersonate_pck": true,
+  "log_sha256": "868a53370576a8a0159ce64270012c67b0aa5a4c4011bcba2b8f22f9b4dea3ba",
+  "input_manifest_sha256": "267ee38d59cd4b18e1b96a2e87da25654cb9c40bdd25995ffde76fd52d1486a0"
+}

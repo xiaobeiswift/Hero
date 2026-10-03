@@ -1,0 +1,240 @@
+{
+  "reviewed_native_stills": 9,
+  "source_bytes_unchanged": true,
+  "display_server": "X11",
+  "video_full_decode": "passed ffmpeg decode to null with zero errors",
+  "video_cut": "Native fixed-step engine frames0–59 walking/arrival,60–449 actual new PartyUI automatic battle. Edited segment join excludes investigation/travel; not a single continuous end-to-end playthrough. No audio/realtime-performance/browser claim.",
+  "visual_review": {
+    "01": "Four selected party figures, original stationary DuHui, one paired-hamper source sprite and clear feet; no HUD overlap",
+    "02": "Warehouse investigation body and actual Tang alternative fully readable",
+    "03": "Four party, both opponents, original DuHui guard pose, initial HP/Qi, nameplates and feet all clear of HUD",
+    "04": "Native1179x736 compact opening state; independent foe intentions and露隙+6 visible; actual hero149/160,Shen102/122 at this frame; all feet clear",
+    "05": "One paired-hamper new lot on small original vector chassis, no old generic sacks; all4 party on the cargo-legal east pontoon; no HUD overlap",
+    "06": "Explicit hold final handover choices and irreversible destination/reward wording readable",
+    "07": "Exact canonical save/reload preserves hold ending and single paired hamper at public scale; empty source still visible",
+    "08": "Explicit return final handover choices and distinct opening/distribution tradeoff readable",
+    "09": "Exact canonical save/reload preserves return ending; two individual empty baskets at boat. Small physical receipt label partly under reseeded party, so08 is stronger readable alternate-plan view."
+  },
+  "recommended_user_facing_stills": [
+    "screenshots/01-north-warehouse-duhui-party.png",
+    "screenshots/03-battle-full-guard.png"
+  ],
+  "alternate_cart_still": "screenshots/05-new-cart-east-pontoon.png",
+  "fixture_limits": "Prepared canonical completed-harbor level6 fixture with actual invitation APIs and normal stats. New chapter runs via held movement, E, real visible choices and current full-main-scene PartyUI. Actual earned post-victory save forks two isolated handover branches. Native silent fixed-step framebuffer evidence; no browser, manual play, audio, realtime-performance or release claim.",
+  "checks": 16216,
+  "failures": 0,
+  "initial_actor_stats": [
+    {
+      "id": "hero",
+      "hp": 160,
+      "max_hp": 160,
+      "qi": 6,
+      "max_qi": 6,
+      "attack": 35,
+      "defense": 9
+    },
+    {
+      "id": "shen",
+      "hp": 122,
+      "max_hp": 122,
+      "qi": 6,
+      "max_qi": 6,
+      "attack": 23,
+      "defense": 8
+    },
+    {
+      "id": "tang",
+      "hp": 139,
+      "max_hp": 139,
+      "qi": 6,
+      "max_qi": 6,
+      "attack": 24,
+      "defense": 10
+    },
+    {
+      "id": "qin",
+      "hp": 160,
+      "max_hp": 160,
+      "qi": 6,
+      "max_qi": 6,
+      "attack": 22,
+      "defense": 11
+    }
+  ],
+  "branch_final_stats": {
+    "hold_for_inspection": {
+      "stage": 5,
+      "ending": "hold_for_inspection",
+      "coins": 84,
+      "resources": [
+        {
+          "id": "hero",
+          "hp": 149,
+          "max_hp": 160,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "shen",
+          "hp": 72,
+          "max_hp": 122,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "tang",
+          "hp": 138,
+          "max_hp": 139,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "qin",
+          "hp": 138,
+          "max_hp": 160,
+          "qi": 6,
+          "max_qi": 6
+        }
+      ],
+      "visual": {
+        "boat_empty": 0,
+        "boat_record": "本批暂存回条 · 待验不取用",
+        "cart_full": 0,
+        "duhui": false,
+        "scale_full": 2,
+        "scale_record": "本批两篓 · 共同封存待验",
+        "visible": true,
+        "warehouse_empty": 2,
+        "warehouse_full": 0,
+        "warehouse_record": "撤运单划止 · 提货位已空"
+      },
+      "save_sha256": "5584d962ce38526a488a9c7b07b1981b6da0f5af61d3d1e7704f838548a11de6"
+    },
+    "return_to_owner": {
+      "stage": 5,
+      "ending": "return_to_owner",
+      "coins": 84,
+      "resources": [
+        {
+          "id": "hero",
+          "hp": 149,
+          "max_hp": 160,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "shen",
+          "hp": 72,
+          "max_hp": 122,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "tang",
+          "hp": 138,
+          "max_hp": 139,
+          "qi": 6,
+          "max_qi": 6
+        },
+        {
+          "id": "qin",
+          "hp": 138,
+          "max_hp": 160,
+          "qi": 6,
+          "max_qi": 6
+        }
+      ],
+      "visual": {
+        "boat_empty": 2,
+        "boat_record": "本批返还记定 · 开篓分用",
+        "cart_full": 0,
+        "duhui": false,
+        "scale_full": 0,
+        "scale_record": "本批返还抄件 · 封样已开",
+        "visible": true,
+        "warehouse_empty": 2,
+        "warehouse_full": 0,
+        "warehouse_record": "撤运单划止 · 提货位已空"
+      },
+      "save_sha256": "9afde562b2ad90b4bf67f3b18878fe35cd6076428043d462742414f0542d2dbf"
+    }
+  },
+  "stills": {
+    "01-north-warehouse-duhui-party.png": {
+      "sha256": "f71462b1136557fbcd06e7af465b8b1898c24503b2dae532c49ab84abddf193d",
+      "bytes": 1438623,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "02-warehouse-investigation.png": {
+      "sha256": "79e098121fe7bd37f7456b72356c6ac478ff16e0376bcee582070015bac9558b",
+      "bytes": 674782,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "03-battle-full-guard.png": {
+      "sha256": "7d6cb60991b67706f07fc9eb5ebab24e1ed2d42e7e93d6648df28c38da6cd3f0",
+      "bytes": 1352450,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "04-battle-compact-opening.png": {
+      "sha256": "2aa0bdff77657c25925f900d9a26a732671783691ad965e342e7c704350c6283",
+      "bytes": 1201073,
+      "dimensions": [
+        1179,
+        736
+      ]
+    },
+    "05-new-cart-east-pontoon.png": {
+      "sha256": "f33a10e0c8ae7b12e27bc339c40add855f621c741b9004eb54252be6faa39e56",
+      "bytes": 1684310,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "06-hold-explicit-handover.png": {
+      "sha256": "079a118ba3c3a6bc1f4ac8a25dba1cf1b3c9e01996929629d79513c43e535f76",
+      "bytes": 725012,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "07-hold-reloaded-aftermath.png": {
+      "sha256": "082930521a5ca134839404498eb17a462613198ef4c85ec19459041d570e4685",
+      "bytes": 1683250,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "08-return-explicit-handover.png": {
+      "sha256": "031ec387a52190254d0aaa1bc6ca083278c4c12e258b632022e8dd61c1a01486",
+      "bytes": 723947,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    "09-return-reloaded-aftermath.png": {
+      "sha256": "1cc3b06151a469e9e040e68add28bec83ad41677b43350c53bbd0a1d8e81e083",
+      "bytes": 1700599,
+      "dimensions": [
+        1280,
+        800
+      ]
+    }
+  },
+  "review_basis": "All9 final native PNGs are byte-for-byte identical to the already visually inspected accepted set; exact equality recorded in accepted-pixel-equivalence.json. Final MP4 is also byte-identical and independently fully decoded with ffmpeg without errors.",
+  "current_source_manifest_sha256": "da469370ab810d823349c11821491f5dffce5df289559feff8fd0406f4d75fb7",
+  "corrected_story_sha256": "20bc34b03bd57294d985ee73c4e49143d9414f3c8f32c43e43417ea402874673",
+  "source_binding": "Exact working-tree runtime/import/capture-dependency bytes before/after. Final clean commit binding remains parent integration responsibility."
+}

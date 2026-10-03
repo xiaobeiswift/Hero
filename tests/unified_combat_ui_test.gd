@@ -98,8 +98,8 @@ func _setup(kind:String,count:int=1)->void:
 	s=_prepared(kind,count);s.fixture=fixture;app.state=s
 	var location:Array=Encounters.LOCATIONS[kind]
 	app.world.change_map(location[0],Vector2(420,450))
-	if kind != "heting_consignee":
-		app.world.teleport(app.world.interactables[location[1]].pos+Vector2(0,24))
+	app._sync_world_state()
+	app.world.teleport(app.world.interactables[location[1]].pos+Vector2(0,24))
 	s.position=app.world.player_pos
 	app._process(0);app._refresh()
 func _step_view(panel)->void:
@@ -114,19 +114,6 @@ func _run()->void:
 	root.add_child(app);await process_frame;app._stop_audio();app.audio_on=false;app.world.set_process(false)
 	for kind:String in Encounters.IDS:
 		_setup(kind,2 if kind=="story" else 1)
-		if kind == "heting_consignee":
-			# Phase one has a model, but no warehouse scene or supported art yet.
-			# Assert the unavailable entry rather than fabricate a UI fixture.
-			var before=s.to_dict()
-			check(not app.world.interactables.has("consignee_warehouse") and not app._start_unified_battle(kind),"Phase-one consignee scene entry is unavailable")
-			check(s.to_dict()==before and not s.battle_active and app.current_screen=="explore","Unavailable scene entry leaves state untouched")
-			check(s.start_party_battle(kind),"Canonical phase-one fixture enters actual model directly")
-			var tx=s.advance_party_battle()
-			check(tx.get("accepted",false) and s.finish_party_presentation(tx.epoch,tx.token).get("accepted",false),"Prepared consignee model accepts and acknowledges actual action")
-			var retreat=s.party_battle_action("flee")
-			check(retreat.get("accepted",false) and s.finish_party_presentation(retreat.epoch,retreat.token).get("accepted",false),"Prepared model can retreat without unavailable presentation")
-			check(not s.battle_active and s.consignee_stage==2 and s.consignee_draft=="hold_for_inspection","Model retreat retains accepted observations and plan")
-			continue
 		await _key(KEY_E)
 		check(app.active_modal,"E opens actual entry dialogue: "+kind)
 		if kind == "heting_receipt":

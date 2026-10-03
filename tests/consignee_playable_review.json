@@ -1,0 +1,48 @@
+{
+  "scope": "Independent review of phase-two playable 未损先收 integration",
+  "verdict": "PASS final-source behavior and independent native raster inspection; manual/realtime/browser/20–40minute duration not claimed",
+  "source_file_count": 120,
+  "source_before_after_identical": true,
+  "source_manifest_sha256": "0911b53aff0d7c7e41276b06bf97570db095d533437c04a2904eee65b39e1a7f",
+  "counts": {
+    "earned_scene_journey": {
+      "checks": 4028,
+      "failures": 0
+    },
+    "earned_party_scene": {
+      "checks": 4104,
+      "failures": 0
+    },
+    "no_consumable_recovery": {
+      "checks": 1131,
+      "failures": 0
+    }
+  },
+  "authored_scene_reproduction": {
+    "checks": 2992,
+    "failures": 0,
+    "walked_pixels": 34635,
+    "E_interactions": 69,
+    "fixture": "synthetic old-chapter scene conditions; independently rerun"
+  },
+  "product_findings": [
+    {
+      "issue": "Global map/journal Escape inherited save-on-close",
+      "status": "fixed by scene owner; source inspected and both final solo/party actual key replays verify no save"
+    }
+  ],
+  "harness_note": "First party review harness chose Shen herself when only other injured allies were valid; the live UI correctly stayed in target selection. Harness was corrected to select only published valid IDs. Superseded timeout/diagnostic retained as harness records, never a product failure or successful play claim.",
+  "limits": [
+    "Predecessor route is earned State/API evidence with exact original opening callbacks replayed, not every predecessor map walked",
+    "New chapter is actual main-scene E/number/mouse/held-movement, with PartyUI commands/presentation, at scripted fixed60Hz",
+    "Read-only source and isolated fixture/report writes only; no user save, secret, server, commit or publication touched",
+    "Full aggregate and packed build audit remain parent-owned",
+    "Browser-transfer recovery is default-off; no real browser claim or workaround attempted"
+  ],
+  "final_story_sha256": "20bc34b03bd57294d985ee73c4e49143d9414f3c8f32c43e43417ea402874673",
+  "authored_story_reproduction": {
+    "checks": 157,
+    "failures": 0
+  },
+  "prose_fix_verified": "Only source delta was the parent-owned blade-versus-club prose correction. Both reviewer scene drivers and authored story/scene suites rerun against final20bc34b03 story hash, with120-file before/after equality."
+}

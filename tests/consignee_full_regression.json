@@ -1,0 +1,18 @@
+{
+  "exit_code": 0,
+  "seconds": 466.547,
+  "source_files_compared": 971,
+  "source_changed": [],
+  "godot_commands": 146,
+  "python_tests": 71,
+  "engine_errors": 0,
+  "log_sha256": "37a57a545c04c6b72e5ee4b13eb5c99e6e833277981963b35221251d36ecc601",
+  "runner_sha256": "0e84069d98ea5a5e89beec231a25f5f353ab8b7afb4a721a9cc87ca71eceb3e5",
+  "old_cloud_web25_pck_enabled": true,
+  "game_version": "0.0.27",
+  "save_schema": 14,
+  "node_mock_dom_assertions": 53,
+  "normal_godot_commands_without_optional_old_pck": 145,
+  "scope": "Complete source suite; exact new PCK/Windows/browser remain separate gates",
+  "retained_review_driver_adaptation": "Original independent drivers retained as portable res://tests inheritance and isolated user:// process-specific outputs. First adaptation overrode parent _init and timed out; corrected to create output at start of _run. Final three focused and full aggregate pass. Superseded logs preserved outside source; no runtime edits."
+}

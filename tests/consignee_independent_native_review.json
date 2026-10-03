@@ -1,0 +1,26 @@
+{
+  "verdict": "PASS independent raster inspection of all8 supplied native captures; no additional blocker",
+  "capture_directory": "/workspace/scratch/61762639b34b/Hero-staging/consignee-native/run-20261003-042454-native/screenshots",
+  "hashes": {
+    "01-north-warehouse-duhui-party.png": "f71462b1136557fbcd06e7af465b8b1898c24503b2dae532c49ab84abddf193d",
+    "03-battle-full-guard.png": "7d6cb60991b67706f07fc9eb5ebab24e1ed2d42e7e93d6648df28c38da6cd3f0",
+    "04-battle-compact-opening.png": "2aa0bdff77657c25925f900d9a26a732671783691ad965e342e7c704350c6283",
+    "05-new-cart-east-pontoon.png": "f33a10e0c8ae7b12e27bc339c40add855f621c741b9004eb54252be6faa39e56",
+    "06-hold-explicit-handover.png": "079a118ba3c3a6bc1f4ac8a25dba1cf1b3c9e01996929629d79513c43e535f76",
+    "07-hold-reloaded-aftermath.png": "082930521a5ca134839404498eb17a462613198ef4c85ec19459041d570e4685",
+    "08-return-explicit-handover.png": "031ec387a52190254d0aaa1bc6ca083278c4c12e258b632022e8dd61c1a01486",
+    "09-return-reloaded-aftermath.png": "1cc3b06151a469e9e040e68add28bec83ad41677b43350c53bbd0a1d8e81e083"
+  },
+  "observations": [
+    "Four distinct exploration actors and loaded east-pontoon cart are visible",
+    "DuHui has distinct left-facing club guard/idle rendering; second opponent visibly carries blade",
+    "Full and compact combat have distinct readable enemy names, HP and cadence labels and unobscured actor skill controls",
+    "Both explicit handover pages show readable wrapped body, equal120XP60coin reward, cancellation and draft-change choices without clipping",
+    "Reloaded aftermath differs: hold preserves sealed baskets at scale; return has opened baskets/return record at original boat; warehouse visually emptied"
+  ],
+  "boundaries": [
+    "Still frames do not independently prove motion, frame rate or all six animation events"
+  ],
+  "directly_viewed_pixel_origin": "/workspace/scratch/61762639b34b/Hero-staging/consignee-native/run-20261003-041915-native/screenshots",
+  "final_rebinding": "All8 final native files are byte-identical to the pixels directly inspected; final capture verifier reports unchanged source,16,216 checks,0 failures."
+}
