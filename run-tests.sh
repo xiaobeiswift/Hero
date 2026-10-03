@@ -35,6 +35,10 @@ PYMANIFEST
 run_checked --headless --path . --script tests/exploration_party_trail_test.gd
 run_checked --headless --path . --script tests/exploration_party_adversarial_test.gd
 run_checked --headless --path . --script tests/exploration_party_source_collision_test.gd
+run_checked --headless --path . --script tests/exploration_party_world_integration_test.gd
+run_checked --headless --path . --script tests/exploration_party_independent_review_test.gd
+run_checked --headless --path . --script tests/exploration_party_render_consumers_test.gd
+run_checked --headless --path . --script tests/painted_qin_walk_test.gd
 run_checked --headless --path . --script tests/automatic_party_combat_test.gd
 run_checked --headless --path . --script tests/automatic_party_battle_art_test.gd
 run_checked --headless --path . --script tests/party_battle_backdrop_test.gd
