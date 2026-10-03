@@ -54,6 +54,7 @@ static func resolve(s, tracked_arc_id: String, context: Dictionary) -> Dictionar
 		result.route_note = "先沿当前古道前往" + String(Objectives.MAP_NAMES.get(MAPS[here + (1 if here < there else -1)], "下一处")) + "。"
 	else:
 		result.route_status = "local"
+		result.route_note = ""
 		# Completed onward guidance keeps a local legacy exit, but still gates it.
 		if target in FORWARD.values():
 			if target != String(FORWARD.get(map, "")) or not _forward_open(s, map): return _unavailable(result, "这条行路尚未具备通行条件。")

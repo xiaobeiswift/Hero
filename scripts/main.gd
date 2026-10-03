@@ -30,6 +30,10 @@ const ChapterStory = preload("res://scripts/frostbridge_story.gd")
 const Workshop = preload("res://scripts/workshop_ui.gd")
 const WeaponFitting = preload("res://scripts/weapon_fitting_ui.gd")
 const Chart = preload("res://scripts/map_chart.gd")
+const JournalUI = preload("res://scripts/journal_ui.gd")
+const JournalSession = preload("res://scripts/journal_guidance_session.gd")
+const JournalView = preload("res://scripts/journal_guidance_view.gd")
+const JournalObjectives = preload("res://scripts/journal_objective_rules.gd")
 const INK = Color("102e32")
 const DEEP = Color("0b2026")
 const PAPER = Color("e8dec4")
@@ -117,6 +121,12 @@ var save_warning = false
 var quit_pending = false
 # Transient fitting-only position hold; never serialized or restored into State.
 var _fitting_position_hold: Dictionary = {}
+# Journal/map browsing owns an independent, nonserialized position hold.
+var _journal_position_hold: Dictionary = {}
+var journal_session = JournalSession.new()
+var journal_view = JournalView.new()
+var journal_guidance_snapshot: Dictionary = {}
+var journal_guidance_revision: int = 0
 var screenshot_pending := false
 var screenshot_sequence := 0
 var last_screenshot_path := ""
@@ -145,6 +155,7 @@ func _ready() -> void:
 	world.traversal_blocked.connect(_toast)
 	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
+	journal_session.reset(state)
 	_refresh()
 	if browser_mode:_announce_browser_storage(OS.is_userfs_persistent())
 	_show_title()
@@ -297,7 +308,10 @@ func _process(delta: float) -> void:
 	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
-	if _fitting_position_sync_allowed():state.position = world.player_pos
+	_sync_journal_guidance()
+	var fitting_sync: bool = _fitting_position_sync_allowed()
+	var journal_sync: bool = _journal_position_sync_allowed()
+	if fitting_sync and journal_sync:state.position = world.player_pos
 	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" or state.capstone_stage>0 else ""
 	var near_key: String = world.nearby_id+"|"+world.nearby_name+"|"+near_action
 	if near_key != last_near:
@@ -335,8 +349,84 @@ func _fitting_position_sync_allowed() -> bool:
 		_fitting_position_hold.clear();return true
 	return false
 
+func _begin_journal_position_hold() -> void:
+	if not _journal_position_hold.is_empty():
+		var hold: Dictionary = _journal_position_hold
+		if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:
+			_journal_position_hold.clear()
+	if _journal_position_hold.is_empty():
+		_journal_position_hold = {"state":state,"world":world,"state_map":state.map_id,"world_map":world.map_id,"stored":state.position,"anchor":world.player_pos}
+
+func _journal_position_sync_allowed() -> bool:
+	if _journal_position_hold.is_empty():return true
+	var hold: Dictionary = _journal_position_hold
+	if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:
+		_journal_position_hold.clear();return true
+	if overlay.has_meta("journal_ui") or overlay.get_meta("journal_map",false):
+		hold.anchor = world.player_pos
+		return false
+	if world.player_pos != hold.anchor:
+		_journal_position_hold.clear();return true
+	return false
+
+func _reset_journal_session() -> void:
+	journal_session.reset(state)
+	journal_view.reset()
+	journal_guidance_snapshot.clear()
+	_journal_position_hold.clear()
+	if is_instance_valid(world):world.set_journal_guidance({},journal_guidance_revision)
+
+func _can_open_journal() -> bool:
+	if current_screen != "explore" or quit_pending or not is_instance_valid(state) or not is_instance_valid(world):return false
+	if state.battle_active or state._party_gate() or state._party_pending_token >= 0:return false
+	for owner: String in ["weapon_fitting","party_roster","party_roster_direct_info","receipt_battle","party_battle","courtyard_practice","save_transfer","fitting_workshop_readonly","fitting_exit_readonly"]:
+		if overlay.has_meta(owner):return false
+	return true
+
+func journal_catalog() -> Array[Dictionary]:
+	return journal_view.catalog(state)
+
+func journal_preview(arc_id: String) -> Dictionary:
+	return journal_view.preview(state,world,arc_id)
+
+func _sync_journal_guidance(force: bool = false, exact_route: bool = false) -> void:
+	if not is_instance_valid(world) or hud == null:return
+	var result: Dictionary = journal_view.refresh(state,world,journal_session,force,exact_route)
+	var notice: String = String(result.get("selection_notice",""))
+	if result == journal_guidance_snapshot and notice.is_empty() and world.journal_guidance_revision == journal_guidance_revision:return
+	journal_guidance_snapshot = result.duplicate(true)
+	journal_guidance_revision += 1
+	world.set_journal_guidance(result,journal_guidance_revision)
+	hud.set_journal_guidance(result,journal_guidance_revision,notice)
+	if not notice.is_empty():_toast(notice)
+	if overlay.has_meta("journal_ui"):
+		var folio = overlay.get_meta("journal_ui")
+		if is_instance_valid(folio):folio.refresh_guidance(result.duplicate(true),journal_guidance_revision)
+	if overlay.get_meta("journal_map",false):
+		var chart = overlay.find_child("RegionChart",true,false)
+		if is_instance_valid(chart):
+			chart.player_position = world.player_pos
+			chart.markers = world.interactables.duplicate(true)
+			chart.set_journal_guidance(result,journal_guidance_revision)
+		var caption = overlay.find_child("MapGuidanceCaption",true,false)
+		if is_instance_valid(caption):caption.text = journal_guidance_caption(result)
+
+func journal_guidance_caption(value: Dictionary) -> String:
+	var mode: String = "正在追踪" if value.get("mode", "auto") == "manual" else ("自动指引 · 自由行路" if value.get("kind", "") == "exploration" else "自动指引")
+	var text: String = mode + " · " + String(value.get("arc_title", "自由行路"))
+	var action: String = String(value.get("next_action", ""))
+	if not action.is_empty():text += "\n" + action
+	var region: String = String(JournalObjectives.MAP_NAMES.get(value.get("destination_map", ""), ""))
+	if not region.is_empty():text += "\n去处：" + region
+	var target: String = String(value.get("next_target_name", ""))
+	if not target.is_empty():text += (" · " if not region.is_empty() else "\n") + ("先往：" if value.get("route_status", "") in ["via_exit", "via_crossing", "departure_confirmation"] else "当前去处：") + target
+	var note: String = String(value.get("route_note", ""))
+	if not note.is_empty():text += "\n" + note
+	return text
+
 func _sync_position_for_explicit_save() -> void:
 	_fitting_position_hold.clear()
+	_journal_position_hold.clear()
 	state.position=world.player_pos
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -347,6 +437,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	if current_screen in ["receipt_battle","party_battle"]:return # The real group controller owns its keys and exit.
 	if overlay.has_meta("weapon_fitting"):return # Fitting controller and native focus own all page input.
+	if overlay.has_meta("journal_ui"):return # Dedicated folio/native focus owns all journal keys.
 	if overlay.has_meta("party_roster"):
 		if event.physical_keycode==KEY_F5:
 			_party_roster_changed(overlay.get_meta("party_roster"),modal_generation)
@@ -400,7 +491,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_MINUS,KEY_KP_SUBTRACT: _change_view_zoom(-1)
 
 func _refresh() -> void:
-	_sync_exploration_party()
+	_sync_world_state()
+	_sync_journal_guidance()
 	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	region_header.text = state.current_region_name()
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
@@ -421,39 +513,8 @@ func _refresh() -> void:
 	qi_caption.text = "真气  %d / %d" % [state.qi,state.max_qi]
 	stat_label.text = "攻击 %d    防御 %d    铜钱 %d" % [state.effective_attack(),state.effective_defense(),state.coins]
 	exp_label.text = "修为  %d / %d      回春散 ×%d" % [state.xp,state.xp_to_next(),state.medicine]
-	quest_label.text = state.quest_title()
-	hint_label.text = state.quest_hint()
-	if state.quest_stage >= 6:
-		quest_label.text = "废闸疑云" if state.side_stage<3 else "水令留痕"
-		var side_hints = ["沿村东古道前往废闸，追查账册上的水纹印记。", "救下船工，并夺回传令人的账页。行动先后将改变收获。", "证言与账页已齐，去旧闸东南找闸首对质。", "旧闸的水令已寻回。回村休整，继续切磋与修行。"]
-		hint_label.text = side_hints[state.side_stage]
-		if state.map_id=="sluice" and state.side_stage==0: hint_label.text = "南岸有人呼救，东北有人携卷而去。先救人，还是先追线索？"
-	if state.chapter_two_stage>0 or (state.quest_stage>=6 and state.side_stage>=3):
-		quest_label.text=chapter_story.quest_title()
-		hint_label.text=chapter_story.quest_hint()
-	if companion_story.pending():
-		quest_label.text="尺上旧痕"
-		hint_label.text=companion_story.hint()
-	if state.mist_stage>0 and ((state.map_id=="mistwood" and (state.mist_stage<4 or not companion_story.pending())) or (state.mist_stage<4 and not companion_story.pending())):
-		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
-	if _track_shen():
-		quest_label.text="药箱之外";hint_label.text=shen_story.hint()
-	if _track_heting():
-		quest_label.text=heting_story.title();hint_label.text=heting_story.hint()
-	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:
-		quest_label.text=mist_story.title();hint_label.text=mist_story.hint()
-	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
-		quest_label.text="待领门中荐记"
-		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
-
-	var capstone_goal: Dictionary = state.Capstone.goal(state)
-	if not capstone_goal.is_empty():
-		quest_label.text=state.Capstone.TITLE
-		hint_label.text=String(capstone_goal.objective)
-		var next_stop: Dictionary = CapstoneNavigation.resolve(capstone_goal,state.map_id)
-		if next_stop.get("is_exit",false) and world.interactables.has(next_stop.target_id):
-			hint_label.text+=" 先沿"+world.get_npc_name(next_stop.target_id)+"行路。"
-		if state.capstone_stage>0:chapter_header.text="第一卷终章  ·  截令归灯"
+	if state.capstone_stage > 0 and not state.Capstone.goal(state).is_empty():
+		chapter_header.text="第一卷终章  ·  截令归灯"
 
 	if hud!=null:
 		hud.refresh()
@@ -489,6 +550,12 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 
 func _clear_overlay() -> void:
 	if current_screen=="party_battle":return
+	if overlay.has_meta("journal_ui"):
+		var old_journal = overlay.get_meta("journal_ui")
+		if is_instance_valid(old_journal) and old_journal.has_method("invalidate_callbacks"):old_journal.invalidate_callbacks()
+		journal_session.invalidate_callbacks()
+		overlay.remove_meta("journal_ui")
+	if overlay.has_meta("journal_map"):overlay.remove_meta("journal_map")
 	if save_slots != null: save_slots.transfer.overlay_cleared()
 	if overlay.has_meta("save_transfer"): overlay.remove_meta("save_transfer")
 	if overlay.has_meta("party_battle"):overlay.remove_meta("party_battle")
@@ -510,7 +577,9 @@ func _close_modal() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	if current_screen=="title":
 		_show_title();return
+	if overlay.has_meta("journal_ui") or overlay.get_meta("journal_map",false):modal_autosave_on_close=false
 	if not _fitting_position_hold.is_empty():_fitting_position_hold.anchor=world.player_pos
+	if not _journal_position_hold.is_empty():_journal_position_hold.anchor=world.player_pos
 	var save_on_close=modal_autosave_on_close
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -613,6 +682,9 @@ func _show_pause()->void:
 func _show_title() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	_fitting_position_hold.clear()
+	_journal_position_hold.clear()
+	journal_session.invalidate_callbacks()
+	journal_view.reset()
 	current_screen = "title"
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
@@ -630,6 +702,7 @@ func _new_game() -> void:
 	if current_screen=="party_battle":return
 	_fitting_position_hold.clear()
 	state.reset_game()
+	_reset_journal_session()
 	_exploration_party_signature.clear()
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
@@ -841,28 +914,11 @@ func _use_medicine() -> void:
 		_toast("气血已满，或行囊中没有回春散。")
 
 func _show_journal() -> void:
-	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
-	var lines = ["与村中央的陆伯交谈", "到东北苇岸采集青穗草", "回村西药铺，将草药交给沈青", "前往东南旧渡口，夺回引航灯", "向陆伯交还灯芯与账页", "决定证据归处，选择修行方向"]
-	var body = "[color=#d3b276]主线 · 渡口失灯[/color]\n"
-	for i in range(lines.size()):
-		var mark = "✓" if state.quest_stage > i or (state.quest_stage>=5 and state.sect!="未入门") else ("◇" if state.quest_stage==i else "·")
-		body += "%s  %s\n" % [mark, lines[i]]
-	if not state.ending.is_empty(): body += "\n你的抉择：[color=#d3b276]"+state.ending+"[/color]。这条河会记得。"
-	if state.quest_stage>=6:
-		body = "[color=#d3b276]主线 · 渡口失灯：已完成[/color]\n证据归处：%s  /  修行方向：%s\n\n[color=#d3b276]江湖行纪 · 废闸疑云[/color]\n%s 船工的证言（南岸）\n%s 传令人的账页（东北）\n%s 闸首罗沉与伪造水令（东南）\n\n先行之路：%s" % [state.ending,state.sect,"✓" if state.side_found.has("boatman") else "◇","✓" if state.side_found.has("ledger") else "◇","✓" if state.side_stage>=3 else "◇","先救船工" if state.side_choice=="rescue" else ("先追账页" if state.side_choice=="pursuit" else "尚未决定")]
-	if state.chapter_two_stage>0:body=chapter_story.journal()
-	if state.chapter_two_stage>=4:body+=companion_story.journal()
-	if state.mist_stage>0:body+=mist_story.journal()
-	body+=shen_story.journal()
-	body+=lightness_story.journal()
-	var port_journal=heting_story.journal()
-	if not port_journal.is_empty():
-		body=port_journal.strip_edges()+"\n\n"+body if _track_heting() else body+port_journal
-	if state.capstone_stage>0:
-		var capstone_record: String = state.Capstone.journal(state)
-		body=capstone_record+"\n\n"+body if state.capstone_stage<7 else body+"\n\n"+capstone_record
-	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
-	modal_autosave_on_close=false
+	if not _can_open_journal():return
+	_begin_journal_position_hold()
+	world.active = false
+	_sync_world_state()
+	JournalUI.open(self)
 
 func _save() -> void:
 	if current_screen in ["battle","receipt_battle","party_battle","title"]:
@@ -894,6 +950,7 @@ func _load() -> void:
 
 func _apply_loaded_state(message:String="前缘已续 · 读档成功。")->void:
 	_fitting_position_hold.clear()
+	_reset_journal_session()
 	_exploration_party_signature.clear()
 	current_screen = "explore"
 	_sync_world_state()
@@ -1089,6 +1146,8 @@ func _stop_audio() -> void:
 			player.stream=null
 
 func _exit_tree() -> void:
+	journal_session.invalidate_callbacks()
+	journal_view.reset()
 	if save_slots != null: save_slots.transfer.dispose()
 	_stop_battle_health_tweens()
 	_stop_audio()
@@ -1249,26 +1308,46 @@ func _sluice_cache_dialogue() -> void:
 	_modal("旧仓药棚", "休整 / 江湖救急", "废弃药棚里还留着一张干净的草席。墙上写着：‘行水路者，留一处避雨之地。’\n\n你可以在这里恢复气血与真气。"+shen_story.shelter_append(),[["静坐调息",func(): state.heal_rest(); _close_modal(); _toast("调息完毕，可以继续调查。")],["离开",_close_modal]])
 
 func _show_map() -> void:
-	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
+	if not _can_open_journal() or overlay.has_meta("journal_ui"):return
+	_begin_journal_position_hold()
+	world.active = false
+	_sync_world_state()
+	_sync_journal_guidance(false,true)
 	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
 	modal_autosave_on_close=false
+	overlay.set_meta("journal_map",true)
 	var panel = overlay.get_child(overlay.get_child_count()-1)
-	panel.set_meta("minimum_page_height",570.0)
 	panel.find_child("DialogueBody",true,false).hide()
+	var caption: Label = _label(panel,journal_guidance_caption(journal_guidance_snapshot),Rect2(35,123,panel.size.x-70,120),16,Color("304a42"))
+	caption.name = "MapGuidanceCaption"
+	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var chart = Chart.new()
 	chart.name="RegionChart"
-	chart.position = Vector2((panel.size.x-780.0)*.5,133)
+	chart.position = Vector2((panel.size.x-780.0)*.5,255)
 	chart.size = Vector2(780,330)
 	chart.map_id = state.map_id
 	chart.player_position = world.player_pos
-	chart.markers = world.interactables
+	chart.markers = world.interactables.duplicate(true)
 	chart.ui_font = font
-	chart.current_target = world._quest_target_id()
 	chart.heting_bridge=state.heting_bridge
 	chart.heting_cargo=state.heting_cargo
 	chart.consignee_cargo_location=state.consignee_cargo_location
 	chart.bridge_repaired=state.bridge_repaired
+	chart.set_journal_guidance(journal_guidance_snapshot,journal_guidance_revision)
 	panel.add_child(chart)
+	_layout_journal_map.call_deferred(panel,modal_generation)
+
+func _layout_journal_map(panel: Control, generation: int) -> void:
+	if not is_instance_valid(panel) or generation != modal_generation or not overlay.get_meta("journal_map",false):return
+	# Only this embedded map needs a caption band. Ordinary dialogue fit is unchanged.
+	panel.size.y = 720.0
+	panel.position.y = 40.0
+	for child: Node in panel.get_children():
+		if child is DialogueSheet.PaperSurface:child.size.y = 598.0
+	var close = panel.find_child("DialogueChoice1",true,false)
+	if is_instance_valid(close):close.position.y = 628.0
+	var help = panel.find_child("DialogueHelp",true,false)
+	if is_instance_valid(help):help.position.y = 688.0
 
 func _show_martials() -> void:
 	MartialPanel.show(self)
@@ -1290,14 +1369,12 @@ func _sync_world_state() -> void:
 	world.capstone_ending=state.capstone_ending
 	world.capstone_goal=state.Capstone.goal(state)
 	world.capstone_orders=state.Capstone.order_rows(state)
-	world.refresh_capstone_points()
 	world.heting_stage=state.heting_stage
 	world.consignee_stage=state.consignee_stage
 	world.consignee_observations=state.consignee_observations
 	world.consignee_draft=state.consignee_draft
 	world.consignee_cargo_location=state.consignee_cargo_location
 	world.consignee_ending=state.consignee_ending
-	world.refresh_heting_points()
 	world.heting_bridge=state.heting_bridge
 	world.heting_delivered=state.heting_delivered
 	world.heting_cargo=state.heting_cargo
@@ -1305,20 +1382,17 @@ func _sync_world_state() -> void:
 	world.heting_ending=state.heting_ending
 	world.mist_ending=state.mist_ending
 	world.mist_completed=state.mist_stage>=4
-	world.heting_target_id=heting_story.target_id() if _track_heting() else ""
 	world.quest_stage = state.quest_stage
-	world.personal_target_id=companion_story.target_id()
-	world.shen_target_id=shen_story.target_id() if _track_shen() else ""
-	world.mist_target_id=mist_story.target_id()
 	world.mentor_pending=state.sect_trial_won and state.sect_rank==1
 	world.chapter_stage=state.chapter_two_stage
 	world.chapter_ending=state.chapter_two_ending
-	world.chapter_target_id=chapter_story.target_id()
 	world.bridge_repaired=state.bridge_repaired
 	world.resource_depleted=state.gathered_nodes
 	world.side_stage = state.side_stage
 	world.side_target_id = ("ledger_runner" if state.side_found.has("boatman") else "stranded_boatman") if state.side_stage<2 else ""
 	_sync_exploration_party()
+	world.refresh_capstone_points()
+	world.refresh_heting_points()
 
 func _sync_exploration_party() -> void:
 	if not is_instance_valid(world):return
@@ -1350,12 +1424,7 @@ func _show_load_slots()->void:
 	save_slots.load_page()
 
 func _track_shen()->bool:
-	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:return false
-	return state.map_id!="heting" and shen_story.pending() and not companion_story.pending() and not (state.map_id=="mistwood" and state.mist_stage<4) and not (state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1)
+	return JournalObjectives.track_shen(state)
 
 func _track_heting()->bool:
-	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:return false
-	if state.map_id=="heting":return state.heting_stage>0
-	if companion_story.pending() or shen_story.pending():return false
-	if state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1:return false
-	return state.consignee_stage in [1,2,3,4] or state.heting_stage in [1,2,3] or (state.heting_stage==0 and state.mist_stage==4 and state.map_id=="mistwood")
+	return JournalObjectives.track_heting(state)

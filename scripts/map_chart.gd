@@ -3,7 +3,6 @@ extends Control
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 const Heting=preload("res://scripts/heting_region.gd")
-const CartRoutes=preload("res://scripts/heting_cart_routes.gd")
 
 ## Read-only cartographic overview. Marker names and positions come from the world.
 var map_id: String = "qingwei"
@@ -11,6 +10,8 @@ var player_position: Vector2 = Vector2(460, 430)
 var markers: Dictionary = {}
 var ui_font: Font
 var current_target: String = ""
+var journal_guidance_snapshot: Dictionary = {}
+var journal_guidance_revision: int = -1
 var bridge_repaired:bool=false
 var heting_bridge:String="west"
 var heting_cargo:String=""
@@ -33,18 +34,30 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	focus_mode = Control.FOCUS_NONE
 	custom_minimum_size = CHART_SIZE
-	refresh_cart_route()
 	queue_redraw()
 
 func heting_cart_loaded()->bool:
 	return not heting_cargo.is_empty() or consignee_cargo_location=="cart"
 
+func set_journal_guidance(snapshot: Dictionary, revision: int = 0) -> void:
+	journal_guidance_snapshot = snapshot.duplicate(true)
+	journal_guidance_revision = revision
+	current_target = String(snapshot.get("next_target_id",""))
+	cart_route = snapshot.get("cart_route",PackedVector2Array()).duplicate()
+	refresh_cart_route()
+	queue_redraw()
+
 func refresh_cart_route()->void:
-	cart_route=PackedVector2Array()
-	# Resolve the rules' receiver ID without inventing a second overlapping dot.
-	var target="heting_cargo" if current_target=="heting_grain_boat" else current_target
-	if map_id=="heting" and heting_cart_loaded() and markers.has(target):
-		cart_route=CartRoutes.route(player_position,markers[target].pos,heting_bridge)
+	# Compatibility refresh validates an already supplied route; never searches.
+	if String(journal_guidance_snapshot.get("next_target_map","")) != map_id or not markers.has(current_target):
+		current_target = "";cart_route = PackedVector2Array();return
+	var marker: Variant = markers[current_target]
+	if not marker is Dictionary or not marker.get("pos") is Vector2:
+		current_target = "";cart_route = PackedVector2Array();return
+	var point: Vector2 = marker.pos
+	if not point.is_finite() or point.x < 0 or point.y < 0 or point.x > WORLD_SIZE.x or point.y > WORLD_SIZE.y or point != journal_guidance_snapshot.get("next_target_position",Vector2.INF):
+		current_target = "";cart_route = PackedVector2Array();return
+	if not cart_route.is_empty() and (map_id != "heting" or not heting_cart_loaded() or cart_route[0] != player_position or cart_route[-1] != point):cart_route = PackedVector2Array()
 
 func _draw() -> void:
 	# A bordered paper chart, with a restrained surveying grid beneath the terrain.
@@ -177,7 +190,7 @@ func _draw_markers() -> void:
 		if not world_position.is_finite():
 			continue
 		var p := _point(world_position.clamp(Vector2.ZERO, WORLD_SIZE))
-		var is_target := id == ("heting_cargo" if current_target=="heting_grain_boat" else current_target)
+		var is_target := id == current_target
 		if is_target:
 			draw_circle(p, 10, Color(0.83, 0.6, 0.26, 0.18))
 			draw_arc(p, 9, 0, TAU, 32, GOLD, 2, true)
@@ -191,6 +204,7 @@ func _draw_markers() -> void:
 		# label cannot cover the player arrow or the neighbouring discovery.
 		if id=="reed_return":continue
 		var marker_name := "苇心小洲" if id=="reed_relic" else String(data.get("name", id))
+		if is_target:marker_name = String(journal_guidance_snapshot.get("next_target_name",marker_name))
 		# Keep even unexpected long labels inside the chart and prevent collisions.
 		var font := _font()
 		while font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > 135 and marker_name.length() > 2:

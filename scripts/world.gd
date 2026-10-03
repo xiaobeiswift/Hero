@@ -30,6 +30,8 @@ signal moved(position: Vector2)
 signal location_changed(name: String)
 
 var hud_exclusion_rects:Array[Rect2]=[]
+var journal_guidance_snapshot: Dictionary = {}
+var journal_guidance_revision: int = -1
 var ui_scale:float=1.0
 var painted_lanterns_enabled:bool=true
 var painted_tea_tables_enabled:bool=true
@@ -208,6 +210,8 @@ func _ready() -> void:
 		_prepare_terrain_cache.call_deferred()
 
 func change_map(id: String, spawn: Vector2) -> void:
+	journal_guidance_snapshot.clear()
+	journal_guidance_revision = -1
 	if _village_points.is_empty():
 		_village_points = interactables.duplicate(true)
 	map_id = id if id in ["qingwei", "sluice", "frostbridge", "mistwood", "heting"] else "qingwei"
@@ -1189,35 +1193,26 @@ func _draw_view_framing() -> void:
 	draw_colored_polygon(arrow, C_GOLD)
 	var label_p := Vector2(-56, 26)
 	draw_style_box(_round_box(Color(0.13, 0.27, 0.23, 0.9), 4), Rect2(label_p - Vector2(0, 1), Vector2(112, 23)))
-	_label(label_p + Vector2(0, 15), get_npc_name(target_id) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
+	_label(label_p + Vector2(0, 15), String(journal_guidance_snapshot.get("next_target_name", "")) + "  ·  " + str(int(player_pos.distance_to(interactables[target_id]["pos"]) / 10.0)) + "步", 11, C_PAPER, 112, HORIZONTAL_ALIGNMENT_CENTER)
 	draw_set_transform(Vector2.ZERO)
 
+func set_journal_guidance(snapshot: Dictionary, revision: int = 0) -> void:
+	journal_guidance_snapshot = snapshot.duplicate(true)
+	journal_guidance_revision = revision
+	queue_redraw()
+
 func _quest_target_id() -> String:
-	var capstone_target:String=CapstoneNavigation.target_id(capstone_goal,map_id)
-	if interactables.has(capstone_target):return capstone_target
-	var harbor_target=heting_marker_id(heting_target_id)
-	if interactables.has(harbor_target):return harbor_target
-	if interactables.has(shen_target_id):return shen_target_id
-	if map_id=="mistwood" and (not mist_completed or not interactables.has(personal_target_id)):return mist_target_id if interactables.has(mist_target_id) else "mist_guide"
-	if map_id=="qingwei" and mentor_pending:return "mentor"
-	if interactables.has(personal_target_id):return personal_target_id
-	if interactables.has(mist_target_id):return mist_target_id
-	if map_id=="heting":return "heting_dispatch"
-	if map_id=="frostbridge":return chapter_target_id if interactables.has(chapter_target_id) else "chapter_host"
-	if map_id == "sluice":
-		if interactables.has(side_target_id):
-			return side_target_id
-		match side_stage:
-			0: return "stranded_boatman"
-			1: return "ledger_runner"
-			2: return "sluice_boss"
-			_: return "exit_frostbridge" if chapter_stage<4 else "return_village"
-	match quest_stage:
-		0, 4, 5: return "elder"
-		1: return "herb"
-		2: return "healer"
-		3: return "bandit"
-		_: return "exit_sluice" if side_stage < 3 else ""
+	# The host owns all policy. Missing/stale context is deliberately targetless.
+	var snapshot: Dictionary = journal_guidance_snapshot
+	if String(snapshot.get("source_map_id",map_id)) != map_id or String(snapshot.get("context_map_id",map_id)) != map_id:return ""
+	if int(snapshot.get("source_world_id",get_instance_id())) != get_instance_id():return ""
+	if String(snapshot.get("next_target_map","")) != map_id:return ""
+	var id: String = String(snapshot.get("next_target_id",""))
+	if id.is_empty() or not interactables.has(id) or not interactables[id] is Dictionary:return ""
+	var point: Variant = interactables[id].get("pos")
+	if not point is Vector2 or not point.is_finite() or point.x < 0 or point.y < 0 or point.x > WORLD_SIZE.x or point.y > WORLD_SIZE.y:return ""
+	if point != snapshot.get("next_target_position",Vector2.INF):return ""
+	return id
 
 # -----------------------------------------------------------------------------
 # Region II: the abandoned floodgate. Coordinates and collision match its canals.

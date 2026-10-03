@@ -80,6 +80,10 @@ var battle_chrome: Control
 var quest_notice: Label
 var quest_notice_time: float = 0.0
 var previous_quest: String = ""
+var guidance_mode_label: Label
+var journal_guidance_snapshot: Dictionary = {}
+var journal_guidance_revision: int = -1
+var _guidance_notice: String = ""
 var last_warning: int = -1
 var last_audio: int = -1
 var last_near_hint: String = ""
@@ -149,7 +153,8 @@ func _build_place() -> void:
 func _build_quest() -> void:
 	quest_wash=_wash(exploration,Rect2(971,24,284,190),"quest")
 	quest_wash.mouse_filter=Control.MOUSE_FILTER_PASS
-	_text(quest_wash,"行 纪",Rect2(22,10,108,22),12,GOLD)
+	guidance_mode_label=_text(quest_wash,"自动指引",Rect2(22,10,175,22),12,GOLD)
+	guidance_mode_label.name="JournalGuidanceMode"
 	var open_journal: Button = host._button(quest_wash,"J  展卷",Rect2(202,6,67,27),host._show_journal)
 	_flat_button(open_journal,12)
 	host.quest_label=_text(quest_wash,"",Rect2(22,39,242,32),21,IVORY)
@@ -226,20 +231,38 @@ func _sync_player_battle_hp(_value:float=0) -> void:
 func _sync_enemy_battle_hp(_value:float=0) -> void:
 	if is_instance_valid(battle_enemy_value):battle_enemy_value.text="气血  %d / %d" % [roundi(host.battle_hp.value),roundi(host.battle_hp.max_value)]
 
+func set_journal_guidance(snapshot: Dictionary, revision: int = 0, notice: String = "") -> void:
+	var previous: Dictionary = journal_guidance_snapshot
+	journal_guidance_snapshot = snapshot.duplicate(true)
+	journal_guidance_revision = revision
+	_guidance_notice = notice
+	var mode: String = "正在追踪" if snapshot.get("mode","auto") == "manual" else ("自动 · 自由行路" if snapshot.get("kind","") == "exploration" else "自动指引")
+	guidance_mode_label.text = ("◆ " if snapshot.get("mode","auto") == "manual" else "◇ ") + mode
+	host.quest_label.text = String(snapshot.get("arc_title","自由行路"))
+	var hint: String = String(snapshot.get("next_action",""))
+	var route: String = String(snapshot.get("route_status","unavailable"))
+	var target: String = String(snapshot.get("next_target_name",""))
+	if route == "departure_confirmation":hint += " 先往" + target + "，须确认停车。"
+	elif route in ["via_exit","via_crossing"] and not target.is_empty():hint += " 先往" + target + "。"
+	elif route == "unavailable":hint += " " + String(snapshot.get("route_note",""))
+	host.hint_label.text = hint.strip_edges()
+	if previous.get("arc_title") != snapshot.get("arc_title") or previous.get("next_action") != snapshot.get("next_action") or previous.get("mode") != snapshot.get("mode") or previous.get("next_target_id") != snapshot.get("next_target_id") or previous.get("route_status") != snapshot.get("route_status") or not notice.is_empty():refresh()
+
 func refresh() -> void:
 	if host==null:return
 	companion_condition.refresh_snapshot(host.state.party_resource_snapshot())
-	var next_quest: String=host.quest_label.text+"|"+host.hint_label.text
-	if not previous_quest.is_empty() and previous_quest!=next_quest and host.current_screen=="explore":
+	var next_quest: String="|".join([String(journal_guidance_snapshot.get("mode","auto")),String(journal_guidance_snapshot.get("kind","")),String(journal_guidance_snapshot.get("arc_id","")),String(journal_guidance_snapshot.get("step_key",""))])
+	if _guidance_notice.is_empty() and not previous_quest.is_empty() and previous_quest!=next_quest and host.current_screen=="explore":
 		quest_notice.text="◇  行纪有续 · "+host.quest_label.text;quest_notice_time=4.5
 	previous_quest=next_quest
+	_guidance_notice=""
 	var hint_height: float=maxf(42.0,host.hint_label.get_minimum_size().y)
 	host.hint_label.size.y=hint_height
 	quest_wash.size.y=host.hint_label.position.y+hint_height+16
 	quest_wash.queue_redraw()
 	host.weather_label.position.y=quest_wash.position.y+quest_wash.size.y+5
 	identity_wash.tooltip_text=host.stat_label.text+"\n"+host.exp_label.text+"\nI · 查看行囊与装备"
-	quest_wash.tooltip_text=host.quest_label.text+"\n"+host.hint_label.text+"\nJ · 展开完整行纪"
+	quest_wash.tooltip_text=host.journal_guidance_caption(journal_guidance_snapshot)+"\nJ · 展开完整行纪"
 	battle_qi.text="真气  %d / %d" % [host.state.qi,host.state.max_qi]
 	for i in range(host.battle_buttons.size()):
 		var button: Button=host.battle_buttons[i]
