@@ -1,0 +1,8234 @@
+{
+	"checks": 11804,
+	"failures": 0,
+	"journey": [
+		{
+			"accepted_actions": 7,
+			"actors": 2,
+			"coins_change": 26,
+			"detached_probe": false,
+			"encounter": "story",
+			"hp": {
+				"hero": "95/100",
+				"shen": "82/82"
+			},
+			"label": "entry_baseline_听潮阁",
+			"level": 1,
+			"medicine_end": 5,
+			"medicine_start": 5,
+			"outcome": "win",
+			"policy": "queued",
+			"qi": {
+				"hero": "6/6",
+				"shen": "6/6"
+			},
+			"reward_xp": 60,
+			"rounds": 2,
+			"settled_hp": 112,
+			"settled_level": 2,
+			"start": {
+				"hero": {
+					"attack": 16,
+					"defense": 4,
+					"hp": 100,
+					"max_hp": 100,
+					"max_qi": 6,
+					"qi": 6
+				},
+				"shen": {
+					"attack": 13,
+					"defense": 3,
+					"hp": 82,
+					"max_hp": 82,
+					"max_qi": 6,
+					"qi": 6
+				}
+			},
+			"trial_met": false
+		},
+		{
+			"accepted_actions": 7,
+			"actors": 2,
+			"coins_change": 26,
+			"detached_probe": false,
+			"encounter": "story",
+			"hp": {
+				"hero": "95/100",
+				"shen": "82/82"
+			},
+			"label": "entry_baseline_照野堂",
+			"level": 1,
+			"medicine_end": 5,
+			"medicine_start": 5,
+			"outcome": "win",
+			"policy": "queued",
+			"qi": {
+				"hero": "6/6",
+				"shen": "6/6"
+			},
+			"reward_xp": 60,
+			"rounds": 2,
+			"settled_hp": 112,
+			"settled_level": 2,
+			"start": {
+				"hero": {
+					"attack": 16,
+					"defense": 4,
+					"hp": 100,
+					"max_hp": 100,
+					"max_qi": 6,
+					"qi": 6
+				},
+				"shen": {
+					"attack": 13,
+					"defense": 3,
+					"hp": 82,
+					"max_hp": 82,
+					"max_qi": 6,
+					"qi": 6
+				}
+			},
+			"trial_met": false
+		},
+		{
+			"accepted_actions": 7,
+			"actors": 2,
+			"coins_change": 26,
+			"detached_probe": false,
+			"encounter": "story",
+			"hp": {
+				"hero": "95/100",
+				"shen": "82/82"
+			},
+			"label": "entry_baseline_问石门",
+			"level": 1,
+			"medicine_end": 5,
+			"medicine_start": 5,
+			"outcome": "win",
+			"policy": "queued",
+			"qi": {
+				"hero": "6/6",
+				"shen": "6/6"
+			},
+			"reward_xp": 60,
+			"rounds": 2,
+			"settled_hp": 112,
+			"settled_level": 2,
+			"start": {
+				"hero": {
+					"attack": 16,
+					"defense": 4,
+					"hp": 100,
+					"max_hp": 100,
+					"max_qi": 6,
+					"qi": 6
+				},
+				"shen": {
+					"attack": 13,
+					"defense": 3,
+					"hp": 82,
+					"max_hp": 82,
+					"max_qi": 6,
+					"qi": 6
+				}
+			},
+			"trial_met": false
+		}
+	],
+	"mode": "narrow_earned_entry_arena_addendum",
+	"parameters": {
+		"attack": 32,
+		"da": 3,
+		"dd": 2,
+		"heavy": 52,
+		"rounds": 10
+	},
+	"profiles": [
+		{
+			"gear": "starter",
+			"school": "听潮阁",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 26,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 110,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 6,
+				"ending": "秉公",
+				"equipment": "旧铁剑",
+				"equipped_art": "回潮断浪",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 124,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 124,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "听潮阁",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		},
+		{
+			"gear": "steel",
+			"school": "听潮阁",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 30,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 65,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 6,
+				"ending": "秉公",
+				"equipment": "青钢剑",
+				"equipped_art": "回潮断浪",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 124,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 124,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "听潮阁",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		},
+		{
+			"gear": "starter",
+			"school": "照野堂",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 22,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 110,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 6,
+				"ending": "秉公",
+				"equipment": "旧铁剑",
+				"equipped_art": "青灯续脉",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 148,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 148,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "照野堂",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		},
+		{
+			"gear": "steel",
+			"school": "照野堂",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 26,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 65,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 6,
+				"ending": "秉公",
+				"equipment": "青钢剑",
+				"equipped_art": "青灯续脉",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 148,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 148,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "照野堂",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		},
+		{
+			"gear": "starter",
+			"school": "问石门",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 22,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 110,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 9,
+				"ending": "秉公",
+				"equipment": "旧铁剑",
+				"equipped_art": "磐石回锋",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 124,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 124,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "问石门",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		},
+		{
+			"gear": "steel",
+			"school": "问石门",
+			"state": {
+				"active_companion": "沈青",
+				"archive_clues": [],
+				"armor": "粗布行衣",
+				"art_uses": {
+					"照夜一线": 1
+				},
+				"attack": 26,
+				"bridge_repaired": false,
+				"capstone_draft": "",
+				"capstone_ending": "",
+				"capstone_stage": 0,
+				"chapter_two_ending": "",
+				"chapter_two_stage": 0,
+				"claimed_deeds": [],
+				"coins": 65,
+				"companion_unlocked": true,
+				"consignee_cargo_location": "",
+				"consignee_contributions": [],
+				"consignee_draft": "",
+				"consignee_ending": "",
+				"consignee_observations": [],
+				"consignee_stage": 0,
+				"defense": 9,
+				"ending": "秉公",
+				"equipment": "青钢剑",
+				"equipped_art": "磐石回锋",
+				"formation": "并肩",
+				"gathered_nodes": [],
+				"herbs": 0,
+				"heting_bridge": "",
+				"heting_cargo": "",
+				"heting_delivered": [],
+				"heting_draft": "",
+				"heting_ending": "",
+				"heting_stage": 0,
+				"hp": 124,
+				"internal_unlocked": true,
+				"learned_arts": [],
+				"level": 3,
+				"lightness_relics": [],
+				"lightness_unlocked": true,
+				"map_id": "qingwei",
+				"max_hp": 124,
+				"max_qi": 6,
+				"medicine": 5,
+				"mist_approach": "",
+				"mist_ending": "",
+				"mist_gauges": [],
+				"mist_stage": 0,
+				"party_resources": {
+					"shen": {
+						"hp": 98,
+						"qi": 6
+					}
+				},
+				"party_roster": [
+					"hero",
+					"shen"
+				],
+				"player_name": "无名客",
+				"position": {
+					"x": 460.0,
+					"y": 430.0
+				},
+				"qi": 6,
+				"qin_stage": 0,
+				"qin_unlocked": false,
+				"quest_stage": 6,
+				"receipt_stage": 0,
+				"resources": {
+					"cloth": 0,
+					"herb": 0,
+					"iron": 0,
+					"timber": 0
+				},
+				"seal_sequence": [],
+				"sect": "问石门",
+				"sect_merit": 0,
+				"sect_rank": 1,
+				"sect_trial_won": false,
+				"shen_care_choice": "",
+				"shen_care_stage": 0,
+				"side_choice": "",
+				"side_clues": 0,
+				"side_found": [],
+				"side_reward_claimed": false,
+				"side_stage": 0,
+				"tangqi_choice": "",
+				"tangqi_stage": 0,
+				"tangqi_unlocked": false,
+				"victories": 1,
+				"xp": 0
+			}
+		}
+	],
+	"rows": [
+		{
+			"accepted": 20,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 150,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 6,
+			"events_sha256": "19754f5d5e34cdf3a9e959249a996757aadc81ed86f302139b49c437e843b301",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 150,
+			"hero_hp": 86,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 86
+			},
+			"level": 3,
+			"lowest_hero_hp": 16,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 6,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 16,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 132,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 5,
+			"events_sha256": "8a82ccbda757494bb002f1d74084e0a267840f8c9f4e53bdf80b193696279655",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 132,
+			"hero_hp": 48,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 48
+			},
+			"level": 3,
+			"lowest_hero_hp": 46,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 5,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 24,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 184,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 7,
+			"events_sha256": "410fc55580bfdfb8137c11f42293f78fbb05214c4257c25fad2be98d53fbe76f",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 184,
+			"hero_hp": 92,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 92
+			},
+			"level": 3,
+			"lowest_hero_hp": 24,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 276,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "bd198f244db66295332969fe9b921f3e77e5b8b08f532884843973cdfbf3ecef",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 276,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 21,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 208,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 6,
+			"events_sha256": "c6f2f63327c11a1e7469d92ce76aed1b11fc64e38ada4efa88cef764f688720c",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 208,
+			"hero_hp": 68,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 68
+			},
+			"level": 3,
+			"lowest_hero_hp": 8,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 6,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 28,
+			"art": "回潮断浪",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 276,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 10,
+			"events_sha256": "ba4c3c3e23d6bc86ea5f503f8f7f5c6898d8b5f0d7a0aac25f952d44e05023de",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 276,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 36,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 209,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "9c69b3dd01cf4658a4f62512a6849a689e64bab00c57f66bcc7cb255f95dfdd2",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 84,
+			"hero_hp": 72,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 72,
+				"shen": 60
+			},
+			"level": 3,
+			"lowest_hero_hp": 72,
+			"medicine_used": 0,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 33,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 189,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 8,
+			"events_sha256": "dda7c009b3e6b9389a34c862e4da9260e5e256fd01ea32e282d391155abdbcc5",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 64,
+			"hero_hp": 120,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 120,
+				"shen": 52
+			},
+			"level": 3,
+			"lowest_hero_hp": 76,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 37,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 201,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 9,
+			"events_sha256": "41878edf0d9f1f6128dd2bfd17b37428bf9f92c67328c0f54344a8b3847555be",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 76,
+			"hero_hp": 80,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 80,
+				"shen": 60
+			},
+			"level": 3,
+			"lowest_hero_hp": 64,
+			"medicine_used": 0,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 43,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 336,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "df8de6a38d082db969f13103ade799aee2956e774d7a5b6fa917f3c9fa660bd4",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 116,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 28
+			},
+			"level": 3,
+			"lowest_hero_hp": 48,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 42,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 332,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 10,
+			"events_sha256": "80e9e9bb8989229021f3cce24cb7b7e1d136be5aaca7492362745cd6d9f6c995",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 124,
+			"hero_hp": 110,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 110,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 42,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 47,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 328,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "82af3ce558cc17a1b3b8dbe783d3186afd0fb8b9c242974ebf9871e75e8be5f0",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 108,
+			"hero_hp": 82,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 82,
+				"shen": 48
+			},
+			"level": 3,
+			"lowest_hero_hp": 54,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 212,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "f59aa1ccdf9328cdf5395f3b06a5a7634d730896c53fae9b18cd3877c9a63a9c",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 212,
+			"hero_hp": 80,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 80,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 18,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 32,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 208,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 8,
+			"events_sha256": "e85e30e5ac4e799d6337bc3cca40dae6a288485dbd4e8569063cb1d13e6fe158",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 208,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 36,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 198,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 9,
+			"events_sha256": "002d7edf615e87500bf841e3023164915bfafc966152062e14c56514f2934d81",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 198,
+			"hero_hp": 54,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 54,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 338,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "a15e90770f639bd2d215900bb04d1e4014346132b6015f0c8f1d98516fd0fc5e",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 338,
+			"hero_hp": 2,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 2,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 2,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 342,
+			"down": [
+				"bracer",
+				"hero",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 10,
+			"events_sha256": "b95e4096a149d5702a23c2276667d9362f0c9b6a0459d423bec776409702077b",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 342,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 43,
+			"art": "回潮断浪",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 322,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "38be3ad4de5e760c32b75a1082a75638a7a64ee4cfb544b87834bddb3cb81990",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 322,
+			"hero_hp": 16,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 16,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 16,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 20,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 150,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 6,
+			"events_sha256": "df1374005d129c8be52aeef13a20cdacc3ddb8b6e79619b7e0be2b4f891cc06c",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 150,
+			"hero_hp": 86,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 86
+			},
+			"level": 3,
+			"lowest_hero_hp": 16,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 6,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 180,
+					"id": "striker",
+					"max_hp": 180,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 120,
+					"id": "bracer",
+					"max_hp": 120,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 16,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 132,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 5,
+			"events_sha256": "2d0c04975d8e5fbb22d594b9f026ab62a906555144254f71cb2216eaf7ae61fa",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 132,
+			"hero_hp": 48,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 48
+			},
+			"level": 3,
+			"lowest_hero_hp": 46,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 5,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 180,
+					"id": "striker",
+					"max_hp": 180,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 120,
+					"id": "bracer",
+					"max_hp": 120,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 24,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 184,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 7,
+			"events_sha256": "e036ccd8387eec2ef1c12842d358233b9db29a76d624b9590ed46aa770f046c9",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 184,
+			"hero_hp": 92,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 92
+			},
+			"level": 3,
+			"lowest_hero_hp": 24,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 180,
+					"id": "striker",
+					"max_hp": 180,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 120,
+					"id": "bracer",
+					"max_hp": 120,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 276,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "f1a407239ae8419ca556168c5cd045409f5ab3cb4e7e90dab89202603ea23115",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 276,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 216,
+					"id": "striker",
+					"max_hp": 216,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 144,
+					"id": "bracer",
+					"max_hp": 144,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 24,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 268,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 7,
+			"events_sha256": "b26e503fb9cd63adce9c001a550051b3fda19860a85062d331079826860171c6",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 268,
+			"hero_hp": 8,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 8
+			},
+			"level": 3,
+			"lowest_hero_hp": 8,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 216,
+					"id": "striker",
+					"max_hp": 216,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 144,
+					"id": "bracer",
+					"max_hp": 144,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 28,
+			"art": "回潮断浪",
+			"base_attack_budget": 30,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 276,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 10,
+			"events_sha256": "b2632026b778fced4084d98bd658d7699626ab67dabc81887bbedca7fab0793b",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 276,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 216,
+					"id": "striker",
+					"max_hp": 216,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 144,
+					"id": "bracer",
+					"max_hp": 144,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 36,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 209,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "9d348fe2b0f2a4ad30f00d458f08b7dfc4170dc258f477c9fdf7881c09a2fb48",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 84,
+			"hero_hp": 72,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 72,
+				"shen": 60
+			},
+			"level": 3,
+			"lowest_hero_hp": 72,
+			"medicine_used": 0,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 33,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 189,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 8,
+			"events_sha256": "9438469a1e7572056f49993c13b1100f40b22e2d8ac70fd88546110f10c4839a",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 64,
+			"hero_hp": 120,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 120,
+				"shen": 52
+			},
+			"level": 3,
+			"lowest_hero_hp": 76,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 37,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 201,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 9,
+			"events_sha256": "c484d2ff2ab3b310860e05e851677932bce74b6651aad7d945424127470c94c6",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 76,
+			"hero_hp": 80,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 80,
+				"shen": 60
+			},
+			"level": 3,
+			"lowest_hero_hp": 64,
+			"medicine_used": 0,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 43,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 336,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "f6e1342c610e47e99bdad80793dfaeab8112b7397529400cf02be8d27e5abec2",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 116,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 28
+			},
+			"level": 3,
+			"lowest_hero_hp": 48,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 42,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 332,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 10,
+			"events_sha256": "da377c343e90ca53b2183e3c18d869ca230f86427a086c4caa717b276f89f7d2",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 124,
+			"hero_hp": 110,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 110,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 42,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 45,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 328,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "7f9baa086ac5348d8cb6eb4b6ed0ad7e42e4af2979445cc72f14b4564d408408",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 108,
+			"hero_hp": 82,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 82,
+				"shen": 28
+			},
+			"level": 3,
+			"lowest_hero_hp": 54,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 212,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "fd0196840f3b525bb7a0a30d1ba76a9474fc697e9c9dce8fee50afc721bc08b1",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 212,
+			"hero_hp": 80,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 80,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 18,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 32,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 208,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 8,
+			"events_sha256": "c6fcfc4bf65f2d69724c491262a6f8b3d1a9d22c48cef210b7e8e676f0febe59",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 208,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 36,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 7,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 198,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 9,
+			"events_sha256": "6e5bbeb405a5a26fcbf5906ac1aec13db28a2038e7c273afad67e0198f631f24",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 198,
+			"hero_hp": 54,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 54,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 282,
+					"id": "striker",
+					"max_hp": 282,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 188,
+					"id": "bracer",
+					"max_hp": 188,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 338,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 30,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "48055e113c5c077df5f3ea2311994778fc2c1b7fc4ada1734f279549a8c21851",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 338,
+			"hero_hp": 2,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 2,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 2,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 342,
+			"down": [
+				"bracer",
+				"hero",
+				"striker"
+			],
+			"effective_attack": 33,
+			"effective_defense": 4,
+			"enemy_actions": 10,
+			"events_sha256": "3b88afb6ae469c98e97b14c0870580dd186d2677cb55473925fe4d0f744d0324",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 342,
+			"hero_hp": 0,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 0,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 42,
+			"art": "回潮断浪",
+			"base_attack_budget": 47,
+			"base_hero_attack": 30,
+			"base_hero_defense": 6,
+			"damage_taken": 322,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 27,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "600aeb8f3069b24252ce5aed63f5504bda18f37d0805927dc96f38742bf1e16c",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 322,
+			"hero_hp": 16,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 16,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 16,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "听潮阁",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 338,
+					"id": "striker",
+					"max_hp": 338,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 225,
+					"id": "bracer",
+					"max_hp": 225,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 212,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "a6edcb8da11f3dcb09a6f2a125911c7941bc6e594b775b5867695e45c6f0a94b",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 212,
+			"hero_hp": 78,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 78
+			},
+			"level": 3,
+			"lowest_hero_hp": 38,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 226,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 9,
+			"events_sha256": "837aff2023d87df8ecf400f8b47cb4ad3c8d9e25b43bca082527faa55840bf53",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 226,
+			"hero_hp": 64,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 64
+			},
+			"level": 3,
+			"lowest_hero_hp": 32,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 31,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 242,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "794f4458a175d996eda7723fdb358a43c6a29ffcbe536654cc26f67c3b27dec9",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 242,
+			"hero_hp": 118,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 118
+			},
+			"level": 3,
+			"lowest_hero_hp": 48,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 29,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 330,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "a213f5110cb659c5fda91b514b2387aba903075146db957828468fd9fc28be6f",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 330,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 29,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 330,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "69f472c726165b8efa61a1f318a131cd1350c6f615346e53332119d38f9a3c17",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 330,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 37,
+			"art": "青灯续脉",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 376,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 14,
+			"events_sha256": "c22f617ca1a6b69782dbead315b9bf16c8ab35ec128b259c77bab7c86333c557",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 376,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 43,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 256,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "88a8dccc2cf34e515c973d95a19a948d9a935b84c14f1e4b6d3119bd31d9be6c",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 84,
+			"hero_hp": 148,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 148,
+				"shen": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 122,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 264,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "e742555dbb908683a004a251a38200276b448437a2407cb0b8acc07c6afea9f4",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 92,
+			"hero_hp": 148,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 148,
+				"shen": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 118,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 47,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 262,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 12,
+			"events_sha256": "73c9d6c2468631f8dcb9b0e41665419631aaada70bb1d81ac313f2f8003c36f3",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 90,
+			"hero_hp": 134,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 134,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 110,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 57,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 411,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 14,
+			"events_sha256": "37f930730f865b721a2b301998d604878311d837954d1275ea38f259a30de85b",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 140,
+			"hero_hp": 128,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 128,
+				"shen": 36
+			},
+			"level": 3,
+			"lowest_hero_hp": 106,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 50,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 370,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 12,
+			"events_sha256": "6b382b605997ebc0619d33c21906d2856498489f78a1ba7d5103f063ae0ec97d",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 150,
+			"hero_hp": 138,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 138,
+				"shen": 48
+			},
+			"level": 3,
+			"lowest_hero_hp": 96,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 60,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 433,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 15,
+			"events_sha256": "14bd3b349633a9ca5bceee41ed3a9a47c9c530e47a0841554afc6f0521a2edeb",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 162,
+			"hero_hp": 102,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 102,
+				"shen": 36
+			},
+			"level": 3,
+			"lowest_hero_hp": 102,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 39,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 258,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "1dc245a9388dafbb9e3a023bb8143a785e0ac69ff5bd66ea72e8ecebf4e9e199",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 258,
+			"hero_hp": 78,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 78,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 8,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 39,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 274,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "2c7c98e39c22d61e82eedde24de5404588a86b0fb3f4cc05d5ecd4b03d29b73d",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 274,
+			"hero_hp": 102,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 102,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 32,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 266,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 12,
+			"events_sha256": "b4094f2fb8c5605157d33894848432f60d8e4ed8cb07c162b867e427f3202aaf",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 266,
+			"hero_hp": 98,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 98,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 24,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 53,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 420,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 6,
+			"enemy_actions": 14,
+			"events_sha256": "2e15f7ed49cc9a141317b835ff7d18412f291adca0491f6a339e3e0a53233bc7",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 420,
+			"hero_hp": 48,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 48,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 20,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 47,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 390,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 4,
+			"enemy_actions": 12,
+			"events_sha256": "3a6a92518eab0db64414c632edb5987f5cba8e383dfaf5b6be2b50f64d2cc76d",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 390,
+			"hero_hp": 52,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 52,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 34,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 56,
+			"art": "青灯续脉",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 6,
+			"damage_taken": 432,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 8,
+			"enemy_actions": 15,
+			"events_sha256": "378a00ff3babbd0b70ee570f5d482f98008591670e2c38047d9ebbfc3d7dae9b",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 432,
+			"hero_hp": 34,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 34,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 14,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 212,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 9,
+			"events_sha256": "93b3739872ab0acf03177285d253e36fcda860d2011aa92228ac332f830d6d13",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 212,
+			"hero_hp": 78,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 78
+			},
+			"level": 3,
+			"lowest_hero_hp": 38,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 26,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 226,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 9,
+			"events_sha256": "6f7f2bd6a3b7d29905001c552f6ba3bc26e214d6303996119775ba0fa5a7c0ec",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 226,
+			"hero_hp": 64,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 64
+			},
+			"level": 3,
+			"lowest_hero_hp": 32,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 31,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 242,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 11,
+			"events_sha256": "622fe093a6254b7817063d8d4b06ba430bd1c3290ca6ac6d6608c960628601dd",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 242,
+			"hero_hp": 118,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 118
+			},
+			"level": 3,
+			"lowest_hero_hp": 48,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 29,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 330,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "5428e4f7c9512935e79190b9a44885c22ce56f9f8d58cc84db823bb5e0e35dba",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 330,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 29,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 330,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "e19795aec5cedf32f82f76991239c108c67a301247971ccc1c1de062529f31dc",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 330,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 37,
+			"art": "青灯续脉",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 376,
+			"down": [
+				"bracer",
+				"hero"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 14,
+			"events_sha256": "d174018c5296f729660157a72acb4b096d39616990054197e04e6774d4242d67",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 376,
+			"hero_hp": 0,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 0,
+			"medicine_used": 3,
+			"outcome": "defeat",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 43,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 256,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "633fce21f805a681c009d64b9ee95b44aeea7df163f0a93bc8da8efc7de8541e",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 84,
+			"hero_hp": 148,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 148,
+				"shen": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 122,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 41,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 264,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "d6d9bab698504ce6d70e693f52d6080e1dcf2f9dd6bca7dda462cc8ffedb787c",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 92,
+			"hero_hp": 148,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 148,
+				"shen": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 118,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 47,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 262,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 12,
+			"events_sha256": "880f0c4b3277a33cc571b2ce8203ca2916e55562119e3861aa16481801b761c0",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 90,
+			"hero_hp": 134,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 134,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 110,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 55,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 411,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 14,
+			"events_sha256": "9ff283ca3d04a3897c66aeffaaf6c8ed99f71c43504a29d8e7431ad48b05842b",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 140,
+			"hero_hp": 128,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 128,
+				"shen": 8
+			},
+			"level": 3,
+			"lowest_hero_hp": 106,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 50,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 370,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 12,
+			"events_sha256": "d56d1e08213b56ff3207325ecf925016d742a47c6cf96e7f50b45295cb2a039d",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 150,
+			"hero_hp": 138,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 138,
+				"shen": 48
+			},
+			"level": 3,
+			"lowest_hero_hp": 96,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 59,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 433,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 15,
+			"events_sha256": "2d56b3b0f33edc835a8d66a2bd35e778341d64fa7b7847844f30b6e59b44ef6c",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 162,
+			"hero_hp": 102,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 102,
+				"shen": 36
+			},
+			"level": 3,
+			"lowest_hero_hp": 102,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 39,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 258,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 11,
+			"events_sha256": "faa4c669fe537a3194ce932f208daec46be2d3d304122a0a1b81ef2634d4b00f",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 258,
+			"hero_hp": 78,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 78,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 8,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 39,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 274,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 11,
+			"events_sha256": "8c4efaac7b8fb3e4b329abaa3a5d7c50a38215a59bcae2ead16b3aa5fd554f45",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 274,
+			"hero_hp": 102,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 102,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 32,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 266,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 12,
+			"events_sha256": "addd3d0aa2887b2ce1785599dbb57570a9d95fbae5ac940da3b8743c42a29a44",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 266,
+			"hero_hp": 98,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 98,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 24,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 51,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 420,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 6,
+			"enemy_actions": 14,
+			"events_sha256": "47affe41b7c3d2988412a100c813813c33577cb64fe31bb439ab1ebfef133853",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 420,
+			"hero_hp": 20,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 20,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 20,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 47,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 390,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 4,
+			"enemy_actions": 12,
+			"events_sha256": "4d11d04208cb695e38767c37d5f1dc6f9b92cb6b1e9c7215c0cc33cf963fc6a9",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 390,
+			"hero_hp": 52,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 52,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 34,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 55,
+			"art": "青灯续脉",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 6,
+			"damage_taken": 432,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 8,
+			"enemy_actions": 15,
+			"events_sha256": "530108020b800d1872a6b53be4c5da9145e948cdc567d1e09900e4c8b22e61c7",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 432,
+			"hero_hp": 34,
+			"hero_max_hp": 148,
+			"hp": {
+				"hero": 34,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 14,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "照野堂",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 25,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 131,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 9,
+			"events_sha256": "7d7eee08b0fbaab8bb35b57a967c3b707382b1aa014b13908fa180eb207f582a",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 131,
+			"hero_hp": 65,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 65
+			},
+			"level": 3,
+			"lowest_hero_hp": 35,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 23,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 128,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 8,
+			"events_sha256": "593482c18dc7cfaa1ccb4091495e79803ceb638ab7847b8e128ab943500706ed",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 128,
+			"hero_hp": 68,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 68
+			},
+			"level": 3,
+			"lowest_hero_hp": 26,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 7,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 31,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 183,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "3b74610ea7120c76751393c2d65822d8e306c749582829ee7182992dc3ba520a",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 183,
+			"hero_hp": 53,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 34,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 132,
+					"id": "striker",
+					"max_hp": 132,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 88,
+					"id": "bracer",
+					"max_hp": 88,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 32,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "098ee01eb14d73bcd2c39b50250971851de673bbe8cb5a846986f333f68ae1ed",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 269,
+			"hero_hp": 7,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 7
+			},
+			"level": 3,
+			"lowest_hero_hp": 7,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 27,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 195,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 9,
+			"events_sha256": "5cde94f98c75d6d56823b294e7792fa2f42df88fb6087b64187aafefde77aa37",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 195,
+			"hero_hp": 81,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 19,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 34,
+			"art": "磐石回锋",
+			"base_attack_budget": 22,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 253,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "791bd4c177edbc749d5668351fc57b291f227cd48827a93ed40bcf863a13d8e6",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 253,
+			"hero_hp": 39,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 39
+			},
+			"level": 3,
+			"lowest_hero_hp": 12,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 158,
+					"id": "striker",
+					"max_hp": 158,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 105,
+					"id": "bracer",
+					"max_hp": 105,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 46,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 257,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "9c9177eba38c68d7a16efea3aa934384fbc2bf33bf4d16838b7414e5379eff6a",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 85,
+			"hero_hp": 71,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 71,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 68,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 267,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 12,
+			"events_sha256": "5dde52b0db36ba2930770f06484320051c30767d55a5a0e4237322369c2acaee",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 95,
+			"hero_hp": 61,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 61,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 60,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 54,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 307,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 15,
+			"events_sha256": "0a4937108f23b2a1e51927aad2f4b5c812054f890051cbd1b2e0c5fb030d5af1",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 96,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 62
+			},
+			"level": 3,
+			"lowest_hero_hp": 60,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 60,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 463,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 16,
+			"events_sha256": "0c5f6fe696a819e77a00366e1e5f687ec41ed5f1ae3f7d656a8a6f0f04af3ecb",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 156,
+			"hero_hp": 49,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 49,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 49,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 13,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 56,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 439,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 15,
+			"events_sha256": "4044e5886acdc8ee12a78517464dc4235c5e6d7f315dc7e49b1593ec01b4b607",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 168,
+			"hero_hp": 39,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 39,
+				"shen": 36
+			},
+			"level": 3,
+			"lowest_hero_hp": 39,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 62,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 449,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 18,
+			"events_sha256": "29c52311464fc16ee792ee137318d08fe21d7f34b03185d9fcf229102d322d86",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "starter",
+			"hero_damage_taken": 163,
+			"hero_hp": 65,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 65,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 65,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 14,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 40,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 174,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 11,
+			"events_sha256": "e655f183f0abd5ca0dfffdf4b90b4689a8757aadf9520442f6250a64584d8e56",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 174,
+			"hero_hp": 88,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 88,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 20,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 143,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 9,
+			"events_sha256": "e1a57c59bf1dc470e7ea44900a0e63aa61c4b61fb1bb274eb6be8287aedee177",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 143,
+			"hero_hp": 94,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 94,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 39,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 42,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 183,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "f04875129ffc86b8fa181e503e8f1bbb58bfdbd4bc4a0def3bb9931c6866ed0f",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 183,
+			"hero_hp": 77,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 77,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 30,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 234,
+					"id": "striker",
+					"max_hp": 234,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 156,
+					"id": "bracer",
+					"max_hp": 156,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 46,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 22,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "95f69721d8b3befe3acfb83ef6c9be7f9de016bef6cd75b88507e9faadc7f636",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 269,
+			"hero_hp": 84,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 84,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 285,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 25,
+			"effective_defense": 7,
+			"enemy_actions": 12,
+			"events_sha256": "398dfbb7a9a5940adabe50b23538c03fcdb25af12066b4e600197927ee1fdc52",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 285,
+			"hero_hp": 54,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 54,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 14,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 52,
+			"art": "磐石回锋",
+			"base_attack_budget": 39,
+			"base_hero_attack": 22,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 19,
+			"effective_defense": 11,
+			"enemy_actions": 14,
+			"events_sha256": "cfdab79f1ca9ac5eb68eb2c6ecd1b386a866b179eba30cb986467b0328166d01",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "starter",
+			"hero_damage_taken": 269,
+			"hero_hp": 107,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 107,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 280,
+					"id": "striker",
+					"max_hp": 280,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 187,
+					"id": "bracer",
+					"max_hp": 187,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 25,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 131,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 9,
+			"events_sha256": "85dc5dc646221daf053c970891c4ded6d4b016f9f7a06173204ed831477369e1",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 131,
+			"hero_hp": 65,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 65
+			},
+			"level": 3,
+			"lowest_hero_hp": 35,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 25,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 143,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 9,
+			"events_sha256": "bf3108236b47d06fcb54079b1c0ee08d0036e513de0bcdafca3819570834ac25",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 143,
+			"hero_hp": 53,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 26,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 31,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 183,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "984ec5c2d9a121fd2a9e041d6e8a884c638ff1ab4a34d081aa6139c695acd0b4",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 183,
+			"hero_hp": 53,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 53
+			},
+			"level": 3,
+			"lowest_hero_hp": 34,
+			"medicine_used": 2,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 156,
+					"id": "striker",
+					"max_hp": 156,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 104,
+					"id": "bracer",
+					"max_hp": 104,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 32,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "bc6845fafdc002febfa21fe97847d6b7a0313c52d596fb1e5fe68511325c0726",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 269,
+			"hero_hp": 7,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 7
+			},
+			"level": 3,
+			"lowest_hero_hp": 7,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 29,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 252,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 10,
+			"events_sha256": "03bf1b4222f20281c6637591f238b5b6ad3557f385f1d34acc22ccf467553396",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 252,
+			"hero_hp": 24,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 24
+			},
+			"level": 3,
+			"lowest_hero_hp": 19,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 9,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 34,
+			"art": "磐石回锋",
+			"base_attack_budget": 26,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 253,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "73f97428796b0ac786fa64d137646159aa17b1b1109015d9a8a7beae99ec7978",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 253,
+			"hero_hp": 39,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 39
+			},
+			"level": 3,
+			"lowest_hero_hp": 12,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 187,
+					"id": "striker",
+					"max_hp": 187,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 124,
+					"id": "bracer",
+					"max_hp": 124,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 46,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 257,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "92a245d69d3f23c0eab2020985e5a899c5e4deff4ab765faa96470ecd4bf501a",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 85,
+			"hero_hp": 71,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 71,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 68,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 267,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 12,
+			"events_sha256": "2912f4ef492b92a9e1c90a7f930c5b51f34835d8e3f533ab0a18014c90e77b8b",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 95,
+			"hero_hp": 61,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 61,
+				"shen": 81
+			},
+			"level": 3,
+			"lowest_hero_hp": 60,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 54,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 307,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 15,
+			"events_sha256": "8fea6840cef42ce70ed36129f39a375ba0ecc0c66b29c0b155294e6624849b10",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 96,
+			"hero_hp": 76,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 76,
+				"shen": 62
+			},
+			"level": 3,
+			"lowest_hero_hp": 60,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 60,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 463,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 16,
+			"events_sha256": "45239962eb2bbf799fedc66f5001fbd0576a030aae6d5f3140af1c9cd2e84b32",
+			"fitting": "original",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 156,
+			"hero_hp": 49,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 49,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 49,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 13,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 56,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 439,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 15,
+			"events_sha256": "936994813c97dddb19c4f5b05b2db95c95e0fa37d9a344f617764d956c2d261b",
+			"fitting": "offense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 168,
+			"hero_hp": 39,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 39,
+				"shen": 36
+			},
+			"level": 3,
+			"lowest_hero_hp": 39,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 12,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 62,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 449,
+			"down": [
+				"bracer",
+				"shen",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 18,
+			"events_sha256": "3d3b5e36afb4b096dc0a38150ea53e1c976f3143474012a4c54b9ef4458e3c44",
+			"fitting": "defense",
+			"formation": "并肩",
+			"gear": "steel",
+			"hero_damage_taken": 163,
+			"hero_hp": 65,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 65,
+				"shen": 0
+			},
+			"level": 3,
+			"lowest_hero_hp": 65,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 14,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 40,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 174,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 11,
+			"events_sha256": "eae0b05b3be661ca67430829a788793976c0ab0dd48dfce15d9a68e04a77221d",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 174,
+			"hero_hp": 88,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 88,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 20,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 9,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 35,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 143,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 9,
+			"events_sha256": "fd383c6abc8e04606dabeeb4f66ca4315b8b700c625ac11cb87dd43de45ccef2",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 143,
+			"hero_hp": 94,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 94,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 39,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 8,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 42,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 183,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 12,
+			"events_sha256": "3bb5c9b85a83d95570aa73a7bf9bcf44deab795ee56cb38fcbc4a2641d73d2d9",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 183,
+			"hero_hp": 77,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 77,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 30,
+			"medicine_used": 1,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "exploratory32_52",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 32,
+					"brace": true,
+					"heavy_attack": 52,
+					"hp": 258,
+					"id": "striker",
+					"max_hp": 258,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 172,
+					"id": "bracer",
+					"max_hp": 172,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 46,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 26,
+			"effective_defense": 9,
+			"enemy_actions": 12,
+			"events_sha256": "7aebd373725cd6e0917174ed7179ebba8acec2c58b1538b0cfa73dcb11c36889",
+			"fitting": "original",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 269,
+			"hero_hp": 84,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 84,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 44,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 285,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 29,
+			"effective_defense": 7,
+			"enemy_actions": 12,
+			"events_sha256": "c1a4c84080fef5826a4bc3d5124fa4885c2bb54dd208a53924a99623fe349108",
+			"fitting": "offense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 285,
+			"hero_hp": 54,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 54,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 14,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 10,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		},
+		{
+			"accepted": 52,
+			"art": "磐石回锋",
+			"base_attack_budget": 43,
+			"base_hero_attack": 26,
+			"base_hero_defense": 9,
+			"damage_taken": 269,
+			"down": [
+				"bracer",
+				"striker"
+			],
+			"effective_attack": 23,
+			"effective_defense": 11,
+			"enemy_actions": 14,
+			"events_sha256": "26902820d0ca60040ebb5b8ad8bd3e9e0075dab13ca7c6a65c29c0cd3e8a1874",
+			"fitting": "defense",
+			"formation": "护后",
+			"gear": "steel",
+			"hero_damage_taken": 269,
+			"hero_hp": 107,
+			"hero_max_hp": 124,
+			"hp": {
+				"hero": 107,
+				"shen": 98
+			},
+			"level": 3,
+			"lowest_hero_hp": 28,
+			"medicine_used": 3,
+			"outcome": "win",
+			"policy": "queued",
+			"preset": "recommended40_64",
+			"roster": [
+				"hero",
+				"shen"
+			],
+			"rounds": 11,
+			"school": "问石门",
+			"specs": [
+				{
+					"attack": 40,
+					"brace": true,
+					"heavy_attack": 64,
+					"hp": 309,
+					"id": "striker",
+					"max_hp": 309,
+					"name": "执棍木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				},
+				{
+					"attack": 16,
+					"brace": false,
+					"heavy_attack": 16,
+					"hp": 206,
+					"id": "bracer",
+					"max_hp": 206,
+					"name": "架盾木人",
+					"opening_bonus": 0,
+					"status": {
+						"weaken_amount": 0,
+						"weaken_strikes": 0
+					},
+					"team": "enemy"
+				}
+			]
+		}
+	]
+}
