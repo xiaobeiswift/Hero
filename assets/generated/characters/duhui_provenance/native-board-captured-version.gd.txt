@@ -1,0 +1,51 @@
+extends SceneTree
+const Art = preload("res://scripts/painted_battle_duhui.gd")
+const POSE_KEYS := ["idle", "windup", "strike", "guard", "hurt", "kneel"]
+
+class Board extends Node2D:
+	var geometry := false
+	var light_background := false
+	func _draw() -> void:
+		var bg := Color("eee4cf") if light_background else Color("20383c")
+		var ink := Color("1e2d34") if light_background else Color("ecdfc4")
+		draw_rect(Rect2(0, 0, 1280, 720), bg)
+		var font := ThemeDB.fallback_font
+		draw_string(font, Vector2(24, 32), "DU HUI / SIX ORIGINAL COMBAT KEYS / 236px cells", HORIZONTAL_ALIGNMENT_LEFT, -1, 22, ink)
+		draw_string(font, Vector2(24, 59), "Native Godot CanvasItem + unchanged RGBA atlas | no walking cycle | 150-188px painted bounds", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ink)
+		for index in range(6):
+			var pose: String = POSE_KEYS[index]
+			var column := index % 3
+			var row := index / 3
+			var foot := Vector2(240 + 402 * column, 328 + 320 * row)
+			var panel := Rect2(36 + 402 * column, 80 + 320 * row, 384, 288)
+			draw_rect(panel, Color(ink, 0.12), false, 1)
+			draw_line(foot + Vector2(-172, 0), foot + Vector2(145, 0), Color(ink, 0.22), 1)
+			draw_string(font, panel.position + Vector2(12, 26), "%d  %s" % [index + 1, pose], HORIZONTAL_ALIGNMENT_LEFT, -1, 19, ink)
+			var texture := Art.texture_for(pose)
+			draw_texture_rect(texture, Art.drawing_rect(foot, Art.DEFAULT_CELL_SIZE, pose), false)
+			if geometry:
+				draw_rect(Art.opaque_rect(foot, Art.DEFAULT_CELL_SIZE, pose), Color("7ca9cd"), false, 1)
+				draw_circle(foot, 3, Color("ebbc55"))
+				draw_circle(Art.chest_point(foot, Art.DEFAULT_CELL_SIZE, pose), 3, Color("cc5a4f"))
+				draw_circle(Art.weapon_point(foot, Art.DEFAULT_CELL_SIZE, pose), 3, Color("78d6a0"))
+		draw_string(font, Vector2(24, 707), "Review facing / identity / full weapon + shoes / visible alpha edges / foot stability before integration", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ink)
+
+func _initialize() -> void:
+	call_deferred("run")
+
+func run() -> void:
+	root.size = Vector2i(1280, 720)
+	root.content_scale_size = Vector2i(1280, 720)
+	var board := Board.new()
+	root.add_child(board)
+	for variant: String in ["dark", "light", "anchors"]:
+		board.light_background = variant == "light"
+		board.geometry = variant == "anchors"
+		board.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var result := root.get_texture().get_image().save_png("res://evidence/duhui-native-%s.png" % variant)
+		assert(result == OK)
+		await create_timer(0.3).timeout
+	print("PASS: native Du Hui six-key dark/light/anchor review boards captured; human visual acceptance still required")
+	quit()

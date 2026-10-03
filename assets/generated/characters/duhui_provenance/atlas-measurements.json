@@ -1,0 +1,290 @@
+{
+  "selected_version": "v4",
+  "tool": "built-in image_gen; one original generation and three targeted edits",
+  "pixel_operations": "None. Selected PNG copied byte-for-byte. Python reads raster data only.",
+  "sha256": "4b44e7ff892123479fcd31b7d043291c2207fffe602f676d41401581d590962a",
+  "original_matches": true,
+  "image_size": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_zero_pixels": 1164292,
+  "alpha_one_or_two_pixels": 31203,
+  "max_alpha": 254,
+  "visible_bounds_threshold": "alpha > 2/255",
+  "default_cell_size": 236,
+  "native_small_scale_visual_acceptance": "See provenance/native-visual-acceptance.json for reviewed evidence and status",
+  "poses": {
+    "idle": {
+      "source_rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        81,
+        78,
+        399,
+        398
+      ],
+      "gutters_left_top_right_bottom": [
+        81,
+        78,
+        32,
+        36
+      ],
+      "foot_anchor_atlas": [
+        330,
+        472
+      ],
+      "chest_anchor_atlas": [
+        300,
+        212
+      ],
+      "weapon_tip_atlas": [
+        99,
+        360
+      ],
+      "visible_height_at_236_cell": 183.453125,
+      "rgba_pixel_sha256": "d6906e92f882761cf3d2f1153d203bf2560fbdc0380243c0e7479edd41a7d76e",
+      "alpha_greater_than_zero_bounds_cell": [
+        41,
+        33,
+        512,
+        512
+      ]
+    },
+    "windup": {
+      "source_rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        588,
+        70,
+        374,
+        408
+      ],
+      "gutters_left_top_right_bottom": [
+        76,
+        70,
+        62,
+        34
+      ],
+      "foot_anchor_atlas": [
+        786,
+        474
+      ],
+      "chest_anchor_atlas": [
+        770,
+        236
+      ],
+      "weapon_tip_atlas": [
+        780,
+        86
+      ],
+      "visible_height_at_236_cell": 188.0625,
+      "rgba_pixel_sha256": "c2f8af6497b1a665b2661dab38a6a1cf2194b3c8396a469921761ec5844be160",
+      "alpha_greater_than_zero_bounds_cell": [
+        1,
+        21,
+        496,
+        512
+      ]
+    },
+    "strike": {
+      "source_rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        1072,
+        136,
+        421,
+        326
+      ],
+      "gutters_left_top_right_bottom": [
+        48,
+        136,
+        43,
+        50
+      ],
+      "foot_anchor_atlas": [
+        1336,
+        455
+      ],
+      "chest_anchor_atlas": [
+        1320,
+        240
+      ],
+      "weapon_tip_atlas": [
+        1088,
+        226
+      ],
+      "visible_height_at_236_cell": 150.265625,
+      "rgba_pixel_sha256": "51e627c05df9cbb43e1ac22c1713b80e4eb9a2d0a90cbc5cde30b38d1cd8dc21",
+      "alpha_greater_than_zero_bounds_cell": [
+        46,
+        87,
+        488,
+        488
+      ]
+    },
+    "guard": {
+      "source_rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        116,
+        564,
+        367,
+        377
+      ],
+      "gutters_left_top_right_bottom": [
+        116,
+        52,
+        29,
+        83
+      ],
+      "foot_anchor_atlas": [
+        300,
+        936
+      ],
+      "chest_anchor_atlas": [
+        294,
+        710
+      ],
+      "weapon_tip_atlas": [
+        182,
+        582
+      ],
+      "visible_height_at_236_cell": 173.7734375,
+      "rgba_pixel_sha256": "053445f9fa78d4577d088e0c04158ae39ea246bdbd48d846ef5a6ddc82081507",
+      "alpha_greater_than_zero_bounds_cell": [
+        0,
+        1,
+        512,
+        488
+      ]
+    },
+    "hurt": {
+      "source_rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        552,
+        574,
+        442,
+        366
+      ],
+      "gutters_left_top_right_bottom": [
+        40,
+        62,
+        30,
+        84
+      ],
+      "foot_anchor_atlas": [
+        842,
+        936
+      ],
+      "chest_anchor_atlas": [
+        795,
+        711
+      ],
+      "weapon_tip_atlas": [
+        571,
+        861
+      ],
+      "visible_height_at_236_cell": 168.703125,
+      "rgba_pixel_sha256": "cb1fbb4b23ced57a8babe003668b9dff0ef9a2f6b616fdf6e0687822d45ce1c7",
+      "alpha_greater_than_zero_bounds_cell": [
+        1,
+        8,
+        494,
+        460
+      ]
+    },
+    "kneel": {
+      "source_rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "visible_rect_atlas": [
+        1131,
+        604,
+        326,
+        333
+      ],
+      "gutters_left_top_right_bottom": [
+        107,
+        92,
+        79,
+        87
+      ],
+      "foot_anchor_atlas": [
+        1288,
+        928
+      ],
+      "chest_anchor_atlas": [
+        1282,
+        766
+      ],
+      "weapon_tip_atlas": [
+        1236,
+        918
+      ],
+      "visible_height_at_236_cell": 153.4921875,
+      "rgba_pixel_sha256": "6c64b256ecab1ba35def81dc3a934da9632d672aef4b655517cc082377880601",
+      "alpha_greater_than_zero_bounds_cell": [
+        23,
+        59,
+        460,
+        490
+      ]
+    }
+  },
+  "variants": [
+    {
+      "version": 1,
+      "original_output": "/workspace/scratch/61762639b34b/generated_images/exec-8f2ed369-8db5-402a-8c2d-d57dc95bbe90.png",
+      "staged_path": "variants/painted_duhui_combat-v1.png",
+      "sha256": "e1f5342c594802723bfb7588ec1b2c7fca5ccf18526bf25b52a6bc77f19ff71b",
+      "byte_identical": true
+    },
+    {
+      "version": 2,
+      "original_output": "/workspace/scratch/61762639b34b/generated_images/exec-690a7129-59bc-49ee-9326-799832b62de0.png",
+      "staged_path": "variants/painted_duhui_combat-v2.png",
+      "sha256": "2ef92bf55ce279c907fb953fb2b066067f32fca8319f3a48490a2ad779af6451",
+      "byte_identical": true
+    },
+    {
+      "version": 3,
+      "original_output": "/workspace/scratch/61762639b34b/generated_images/exec-c5a05994-10ac-47b9-9701-a4d4af1a08bf.png",
+      "staged_path": "variants/painted_duhui_combat-v3.png",
+      "sha256": "c67c40feff2a5041d6dd5c3e8e060479b58932e3bad7967c3cf4e80302a55f33",
+      "byte_identical": true
+    },
+    {
+      "version": 4,
+      "original_output": "/workspace/scratch/61762639b34b/generated_images/exec-0e527459-9c21-4634-a41b-3e44bc3fdadc.png",
+      "staged_path": "variants/painted_duhui_combat-v4.png",
+      "sha256": "4b44e7ff892123479fcd31b7d043291c2207fffe602f676d41401581d590962a",
+      "byte_identical": true
+    }
+  ]
+}

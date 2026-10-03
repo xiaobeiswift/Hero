@@ -1,0 +1,37 @@
+{
+  "status": "accepted for phase-2 integration; staging remains unintegrated by art author",
+  "reviewed_at_utc": "2026-10-03T03:42:19Z",
+  "asset": "assets/generated/characters/painted_duhui_combat.png",
+  "asset_sha256": "4b44e7ff892123479fcd31b7d043291c2207fffe602f676d41401581d590962a",
+  "review_surface": "Native Godot 4.6.3 GL compatibility viewport, launched through supported native Terminal",
+  "native_capture_size": [
+    1280,
+    720
+  ],
+  "cell_size": 236,
+  "visible_sprite_height_range_px": [
+    150.265625,
+    188.0625
+  ],
+  "reviewers": [
+    "lead: actual dark/light/anchor PNG inspection, accepted v4",
+    "art author: independently opened all three unchanged capture PNGs after lead acceptance"
+  ],
+  "observations": [
+    "All six poses face left and retain consistent face, cap, vest, pouch, shoes and baton",
+    "Idle, windup, strike, guard, hurt and kneel remain distinct at small runtime scale",
+    "Full shoes and full weapon remain visible; no neighboring-cell fragments",
+    "Dark and light backgrounds show clean transparent edges without the hidden RGB backdrop",
+    "Anchor board places ground, chest and weapon-tip markers correctly"
+  ],
+  "audio_scope": "Visual evidence only. Original native run reported ALSA device-open error followed by dummy fallback. Future launcher uses --audio-driver Dummy.",
+  "evidence_sha256": {
+    "evidence/duhui-native-anchors.png": "fdaae84470c0e34e7e5779c83464f49d32c4235047584ab31ace3bf639219417",
+    "evidence/duhui-native-dark.png": "0559e6129f3f46f9f70ea3c9397d17689bc93f76cbe3ea7bef9152a768750c17",
+    "evidence/duhui-native-light.png": "b4a50d8f89818c864e9f21b44127ce0b40b07d49e58d0a773c95b52a150386b4"
+  },
+  "captured_board_source_sha256": "987a66184390063cfef1614f6a9e7ad97a43243b33388b0e0277ac3addd2ea6f",
+  "captured_launcher_source_sha256": "58d0e0214bd1f35b93c3d2599354e6833b0f40e39d4248de36ca1bd83ed733c9",
+  "post_acceptance_changes": "Only evidence output directory uniqueness, explicit dummy audio, and provenance status/hashes; original PNG, helper, anchors and draw scale unchanged",
+  "next_gate": "Lead integrates only after source phase-1 model checkpoint and phase-2 authorization; no extra generation needed"
+}

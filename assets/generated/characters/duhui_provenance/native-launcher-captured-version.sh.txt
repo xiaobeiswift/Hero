@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+export XDG_CACHE_HOME="$PWD/.qa-cache"
+export XDG_CONFIG_HOME="$PWD/.qa-config"
+export XDG_DATA_HOME="$PWD/.qa-data"
+mkdir -p "$XDG_CACHE_HOME" "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" evidence
+GODOT="${GODOT:-godot}"
+"$GODOT" --headless --path "$PWD" --editor --import --quit
+"$GODOT" --headless --path "$PWD" --script res://tests/painted_duhui_test.gd
+# Run this last command from a supported native Terminal with a display.
+# Do not pass --headless: that would not establish rendered pixel evidence.
+"$GODOT" --path "$PWD" --rendering-method gl_compatibility --script res://tests/duhui_native_board.gd
