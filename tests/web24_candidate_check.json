@@ -1,0 +1,100 @@
+{
+  "version": "0.0.24 Web1",
+  "source_commit": "0760f091c370b8b5777ec1de646ad32045d26ea7",
+  "save_schema": 13,
+  "party_capacity": 4,
+  "build": {
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "source_entries": 304,
+    "source_bytes": 76862895,
+    "source_unchanged": true,
+    "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "907dfbe4546bd3c9ec99a24b166985ef7ad12abbcb5aa0bf0ea9c0c529ed068c",
+        "bytes": 8374
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "02fdd27578759003f133bf24f0e69f144425ec1edb0e40db4ed35ab2dcb1a09f",
+        "bytes": 6771
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "f29ddfbc5f3496869bd93eba3c5c5d78b95b4758e2b0d419601525267c805996",
+        "bytes": 9095
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "a7477a8512f505c24a12fd021dd9f366000f0c91bcc5a93671aeffb4e2976402",
+        "bytes": 55712200
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "archive": {
+      "file": "Hero-Web-0.0.24-web1.zip",
+      "bytes": 65095554,
+      "sha256": "219f89ae76109f9419ef692eb0ab95a87abfb4f5c04f1d5a5346dad43a5ef0c3"
+    }
+  },
+  "exact_pck_audit": {
+    "source_commit": "0760f091c370b8b5777ec1de646ad32045d26ea7",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "a7477a8512f505c24a12fd021dd9f366000f0c91bcc5a93671aeffb4e2976402",
+    "audit_sha256": "da7bf89f4ca67bcd0ab97d706af234cd75f62fe7c42d0f111971434a977479c5",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "e114cea49acb14f7ac89d5c4429edd40a31cd49a4b3166505fcd737fb4df39a1",
+    "save_schema": 13,
+    "party_capacity": 4,
+    "log_sha256": "11974305297808848bd0645be719e21db78e53977d6e9a43c12dc593ab191bd2",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 3159,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "native_source_binding": "party_exploration_native_check.json",
+  "limitations": "Native editor executing exact Web resource package; browser graphics, audio, refresh persistence and Windows rebuilt artifact remain separate. Website still0.0.23Web1; no GitHub intermediate release package.",
+  "next_gate": "Windows independently builds from verified published source, audits its own actualPCK and deploys through existing authorized path"
+}

@@ -649,3 +649,9 @@ Independent Windows PCK7d2aa33a005b840d8e3d002c16b2e204fd03e7a794e7626d79dc3bc1b
 ## 2026-10-02 — Archive party model/state checkpoint
 
 Bounded isolated Godot runs PASS: archive1814, chapter64, sluice state736, sluice rules2082, party state701. Total5397; zero engine errors. Exact gate/context, natural solo/Shen progression, mechanical1–4 capacity, recipient vulnerability/shields/guard arts, outcome/retry, malformed data, finite combat80XP/40coins and separate ending100XP/65coins, schema12 and cap boundaries covered. Scene/formation and complete aggregate remain outside this isolated checkpoint.
+
+## 2026-10-03 00:53 UTC — 四人探索实际Web资源包通过
+
+干净0760f09导出的0.0.24 · Web1实际PCK通过3159项检查，零失败；保留1471、统一交锋1247、探索349项均独立计数，五项打包专有断言实际执行。304项运行资源、14份站点文件与ZIP成员逐字节核验通过，源文件前后未变。PCK为55712200字节，SHA256为a7477a8512f505c24a12fd021dd9f366000f0c91bcc5a93671aeffb4e2976402。
+
+格式仍13，四人容量、自动普攻/三类技能、伤势与持久资源规则未变。真实四人探索截图与18.033秒原生固定步长短片绑定同一冻结运行时，已准备好私下预览附件。下一步仍须用户Windows从核验后的公开源码独立构建、审计自己的实际产物，再按既有授权流程滚动上线。当前网站尚为0.0.23，不上传GitHub中间发行包；本资源包验收不等同浏览器图形、音频或刷新持久性。
