@@ -38,6 +38,8 @@ var view_zoom:float=1.0
 var world_detail_font:Font
 var display_settings_warning:String=""
 var browser_mode:bool=OS.has_feature("web")
+# Dormant until real-browser transfer QA is reviewed. Never read URL/storage toggles.
+var web_save_transfer_enabled:bool=ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false)==true
 var browser_storage_available:bool=true
 var browser_build_revision:String=""
 var workshop
@@ -313,6 +315,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return # Native focus and the folio own other keys.
 	if event.physical_keycode == KEY_ESCAPE and not active_modal and current_screen=="explore":
 		_show_pause();get_viewport().set_input_as_handled();return
+	if event.physical_keycode == KEY_ESCAPE and active_modal and overlay.get_meta("save_transfer", false):
+		save_slots.transfer.back();get_viewport().set_input_as_handled();return
 	if event.physical_keycode == KEY_ESCAPE and active_modal and current_screen != "title":
 		_close_modal()
 		return
@@ -437,6 +441,8 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 
 func _clear_overlay() -> void:
 	if current_screen=="party_battle":return
+	if save_slots != null: save_slots.transfer.overlay_cleared()
+	if overlay.has_meta("save_transfer"): overlay.remove_meta("save_transfer")
 	if overlay.has_meta("party_battle"):overlay.remove_meta("party_battle")
 	if overlay.has_meta("party_roster"):overlay.remove_meta("party_roster")
 	if overlay.has_meta("party_roster_direct_info"):overlay.remove_meta("party_roster_direct_info")
@@ -462,7 +468,7 @@ func _close_modal() -> void:
 	_refresh()
 	if current_screen == "explore" and save_on_close: _autosave()
 
-func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
+func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false) -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -472,7 +478,7 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	veil.color = Color(0.01,0.06,0.08,0.62)
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(veil)
-	if current_screen!="title":
+	if current_screen!="title" or paper:
 		DialogueSheet.build(self,title,subtitle,body,options,wide)
 		return
 	if current_screen == "title" and ResourceLoader.exists("res://assets/generated/qingwei_ferry_title.png"):
@@ -558,6 +564,7 @@ func _show_title() -> void:
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
 	if save_slots.store.has_manual_saves():choices.append(["查阅手记",_show_load_slots])
+	if browser_mode and web_save_transfer_enabled:choices.append(["导入 / 导出手记",save_slots.transfer.show])
 	_modal("渡灯录", "H E R O  ·  原创武侠角色扮演", "[color=#d3b276]第一章 · 灯火不问归人[/color]\n\n你带着一封没有署名的旧信，来到水路尽头的青苇渡。\n今夜，渡口的引航灯没有亮。\n\n江湖未必始于名山大派，也可能始于一盏被人摘走的灯。", choices)
 
 func _request_new_game() -> void:
@@ -1014,6 +1021,7 @@ func _stop_audio() -> void:
 			player.stream=null
 
 func _exit_tree() -> void:
+	if save_slots != null: save_slots.transfer.dispose()
 	_stop_battle_health_tweens()
 	_stop_audio()
 
@@ -1242,8 +1250,12 @@ func _sync_exploration_party() -> void:
 	var applied:Dictionary=world.set_exploration_party(manifest)
 	if applied.get("ok",false):_exploration_party_signature=signature.duplicate(true)
 
-func _show_save_slots()->void:save_slots.save_page()
-func _show_load_slots()->void:save_slots.load_page()
+func _show_save_slots()->void:
+	save_slots.transfer_browse=false
+	save_slots.save_page()
+func _show_load_slots()->void:
+	save_slots.transfer_browse=false
+	save_slots.load_page()
 
 func _track_shen()->bool:
 	if state.map_id=="mistwood" and state.qin_stage in [1,2,3]:return false

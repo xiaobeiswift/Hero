@@ -3,6 +3,7 @@ extends RefCounted
 ## Pure, deterministic rules for 青苇渡. No scene tree or UI dependencies.
 
 const SAVE_VERSION: int = 13
+const MAX_SAVE_BYTES: int = 1048576
 const SAVE_PATH: String = "user://hero_save.json"
 const SECTS: Array[String] = ["听潮阁", "照野堂", "问石门"]
 const Patterns=preload("res://scripts/battle_patterns.gd")
@@ -759,29 +760,46 @@ func load_game(path: String = SAVE_PATH) -> Error:
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return FileAccess.get_open_error()
-	# Avoid parsing an unexpectedly large or unrelated file as a save.
-	if file.get_length() > 1048576:
+	# Both file loading and transfer inspect the same detached candidate. Reading
+	# bytes rather than text also lets transfers preserve the original document.
+	var length: int = file.get_length()
+	if length > MAX_SAVE_BYTES:
 		file.close()
 		return ERR_FILE_CORRUPT
-	var json: JSON = JSON.new()
-	var parse_error: Error = json.parse(file.get_as_text())
+	var bytes: PackedByteArray = file.get_buffer(length)
 	file.close()
-	if parse_error != OK or not json.data is Dictionary:
-		return ERR_FILE_CORRUPT
-	var document: Dictionary = json.data
-	if not _is_number(document.get("version")):
-		return ERR_FILE_CORRUPT
-	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, float(SAVE_VERSION)].has(float(document["version"])):
-		return ERR_FILE_UNRECOGNIZED
-	if not document.get("player") is Dictionary:
-		return ERR_FILE_CORRUPT
-	var data: Dictionary = document["player"]
-	var staged: Dictionary = _stage_save_data(data, int(document["version"]))
-	if not staged.ok:
-		return ERR_FILE_CORRUPT
-	_copy_persistent_from(staged.state)
+	if bytes.size() != length:
+		return ERR_FILE_CANT_READ
+	var inspected: Dictionary = inspect_save_bytes(bytes)
+	if not inspected.ok:
+		return inspected.error
+	_copy_persistent_from(inspected.state)
 	_clear_battle()
 	return OK
+
+
+func inspect_save_bytes(bytes: PackedByteArray) -> Dictionary:
+	# Read-only, shared schema/semantic validation. The returned state is a new
+	# detached candidate, never this instance. Preserve Godot JSON's historical
+	# BOM handling, last-key-wins duplicates, and permissive trailing commas.
+	# Transfer's untrusted-byte envelope additionally bounds UTF-8 and nesting.
+	if bytes.is_empty() or bytes.size() > MAX_SAVE_BYTES:
+		return {"ok": false, "error": ERR_FILE_CORRUPT}
+	var json: JSON = JSON.new()
+	var parse_error: Error = json.parse(bytes.get_string_from_utf8())
+	if parse_error != OK or not json.data is Dictionary:
+		return {"ok": false, "error": ERR_FILE_CORRUPT}
+	var document: Dictionary = json.data
+	if not _is_number(document.get("version")):
+		return {"ok": false, "error": ERR_FILE_CORRUPT}
+	if not [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, float(SAVE_VERSION)].has(float(document["version"])):
+		return {"ok": false, "error": ERR_FILE_UNRECOGNIZED}
+	if not document.get("player") is Dictionary:
+		return {"ok": false, "error": ERR_FILE_CORRUPT}
+	var staged: Dictionary = _stage_save_data(document["player"], int(document["version"]))
+	if not staged.ok:
+		return {"ok": false, "error": ERR_FILE_CORRUPT}
+	return {"ok": true, "error": OK, "state": staged.state, "version": int(document["version"])}
 
 
 func _stage_save_data(data: Dictionary, version: int) -> Dictionary:
