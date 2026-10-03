@@ -1,0 +1,19 @@
+test_direct_gui_identity_without_marker_changes (__main__.CaptureChecks.test_direct_gui_identity_without_marker_changes) ... ok
+test_empty_existing_user_is_allowed (__main__.CaptureChecks.test_empty_existing_user_is_allowed) ... ok
+test_error_scan (__main__.CaptureChecks.test_error_scan) ... ok
+test_existing_application_data_is_rejected (__main__.CaptureChecks.test_existing_application_data_is_rejected) ... ok
+test_frozen_manifest (__main__.CaptureChecks.test_frozen_manifest) ... ok
+test_generated_cannot_replace_original (__main__.CaptureChecks.test_generated_cannot_replace_original) ... ok
+test_inventory_errors_are_fail_closed (__main__.CaptureChecks.test_inventory_errors_are_fail_closed) ... ok
+test_no_import_stage_or_marker_manipulation (__main__.CaptureChecks.test_no_import_stage_or_marker_manipulation) ... ok
+test_optional_wrapper_binding (__main__.CaptureChecks.test_optional_wrapper_binding) ... ok
+test_pre_main_guards_and_route_tuple_retained (__main__.CaptureChecks.test_pre_main_guards_and_route_tuple_retained) ... ok
+test_python_ast (__main__.CaptureChecks.test_python_ast) ... ok
+test_shader_cache_is_separate (__main__.CaptureChecks.test_shader_cache_is_separate) ... ok
+test_source_sidecars_and_cache_are_distinct (__main__.CaptureChecks.test_source_sidecars_and_cache_are_distinct) ... ok
+test_unsafe_generated_paths (__main__.CaptureChecks.test_unsafe_generated_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.006s
+
+OK
