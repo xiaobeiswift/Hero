@@ -1,0 +1,70 @@
+{
+  "scope": "Detached party trail diagonal route-budget and accepted-update heading fix only; not yet integrated into exploration",
+  "base_commit": "5105d95cc30c0efc3645445dc3d19a3cedd7607b",
+  "live_version": "0.0.23 Web1",
+  "save_schema": 13,
+  "checks": {
+    "model": 2722,
+    "source_collision": 660,
+    "engine_import": "passed",
+    "aggregate": "pending full integration",
+    "adversarial": 6020
+  },
+  "reproduced_failure": {
+    "diagonal_fps": [
+      30,
+      60
+    ],
+    "quadrants": 4,
+    "seconds": 20,
+    "old_front_lag_path_units": 777.6,
+    "old_speed": 225
+  },
+  "fix": {
+    "route_speed": 300,
+    "max_player_euclidean_speed": 185,
+    "worst_case_route_growth": 261.63,
+    "substep_limit": 4,
+    "max_delta": 0.1,
+    "stable_rank_gaps": [
+      45,
+      90,
+      135
+    ],
+    "heading": "normalized whole-update accepted displacement; retain prior when net zero"
+  },
+  "logs": {
+    "trail-diagonal-before.log": {
+      "sha256": "c044a8573aa4110190a8405a3da63a54d3eac5dd2bc9277151400cd346cc405c",
+      "bytes": 484
+    },
+    "trail-fix-import.log": {
+      "sha256": "88e430163b5162f562cf480c16654357b59fd0944fe3815a9f14cca3812a14f2",
+      "bytes": 1315
+    },
+    "trail-fix-source.log": {
+      "sha256": "25b9114cd229d3e31cbf1a4ea2b1e194a2c09e725552f8b282082358a8ecd468",
+      "bytes": 1187
+    },
+    "trail-fix-collision.log": {
+      "sha256": "57761d627428bfc36f2618cd9f64bd83394c713f8018068de0f41e5768db5e21",
+      "bytes": 125
+    },
+    "trail-fix-final-import.log": {
+      "sha256": "9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f",
+      "bytes": 1017
+    },
+    "trail-fix-adversarial.log": {
+      "sha256": "5afd09a9001425f69384424dcb58cd4603c49957942375e4d5be5567f1c48abd",
+      "bytes": 324
+    }
+  },
+  "source_sha256": {
+    "scripts/exploration_party_trail.gd": "115b5346f5502b3e7674d2aeb222d5eb1a8167dd0907064248e5d6835d8e0e6f",
+    "tests/exploration_party_trail_test.gd": "e5417b9b84326fa66c27dfc2d92d8a12a62caf281a2d25867bbb5c766ec37d08",
+    "tests/exploration_party_source_collision_test.gd": "996d549be38e5305badd0a214aefde3e924b231c59dea74818956c47e56469ce",
+    "tests/exploration_party_adversarial_test.gd": "8766e3ee444d27dbf8fc279b2d58e5710e6996ec041ad0cc18fc813150d57155",
+    "run-tests.sh": "010ffa3bfa66ffd5691e4b7b6b82b8a66b980b70cf5e1297596d962d416ab193"
+  },
+  "review": "Independent reviewer found no must-fix issues; permanent adversarial suite promoted and source-run passed."
+}

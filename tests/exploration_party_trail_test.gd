@@ -12,6 +12,8 @@ func _initialize() -> void:
 	_membership()
 	_corner()
 	_u_turn()
+	_turn_frame_heading()
+	_diagonal_motion()
 	_blocked_history()
 	_invalid_position()
 	_limits_and_invalid_inputs()
@@ -154,6 +156,122 @@ func _u_turn() -> void:
 	check(trail.snapshot()[0].position.distance_to(Vector2(180, 45)) < 0.02, "first actor follows latest U-turn route")
 	check(trail.snapshot()[1].position.distance_to(Vector2(180, 0)) < 0.02, "second actor reaches elbow")
 	check(trail.snapshot()[2].position.distance_to(Vector2(135, 0)) < 0.02, "third actor remains on correct historical leg")
+
+func _turn_frame_heading() -> void:
+	open_world()
+	var trail = create(["shen"])
+	trail.record_segment(Vector2.ZERO, Vector2(100, 0))
+	settle(trail)
+	trail.record_segment(Vector2(100, 0), Vector2(100, 100))
+	trail.advance(0.1, walk, step)
+	var before: Dictionary = trail.snapshot()[0]
+	check(before.position.distance_to(Vector2(85, 0)) < 0.01, "corner frame starts before elbow")
+	trail.advance(0.1, walk, step)
+	var after: Dictionary = trail.snapshot()[0]
+	var actual: Vector2 = after.position - before.position
+	check(after.position.distance_to(Vector2(100, 15)) < 0.01, "corner frame consumes both stored legs")
+	check(after.facing.dot(actual.normalized()) > 0.999, "corner heading uses whole-update displacement")
+	check(absf(after.walk_distance - before.walk_distance - 30.0) < 0.01, "corner phase follows actual 30-unit path")
+	trail.record_segment(Vector2(100, 100), Vector2(100, -100))
+	trail.advance(0.1, walk, step)
+	trail.advance(0.1, walk, step)
+	before = trail.snapshot()[0]
+	check(before.position.distance_to(Vector2(100, 75)) < 0.01, "U-turn frame starts before turnaround")
+	trail.advance(0.1, walk, step)
+	after = trail.snapshot()[0]
+	actual = after.position - before.position
+	check(after.position.distance_to(Vector2(100, 95)) < 0.01, "U-turn frame moves 25 forward then five back")
+	check(after.facing.dot(actual.normalized()) > 0.999 and after.facing.y > 0.99,
+		"U-turn heading follows net movement despite opposite final microleg")
+	check(absf(after.walk_distance - before.walk_distance - 30.0) < 0.01,
+		"U-turn phase counts actual path, not shorter net displacement")
+
+func _diagonal_motion() -> void:
+	# The player moves at 185 Euclidean units/s, but accepted X-then-Y legs
+	# add 185*sqrt(2) route units/s. All ranks must keep up indefinitely.
+	for fps: int in [30, 60]:
+		for quadrant: Vector2 in [Vector2(1, 1), Vector2(-1, 1), Vector2(-1, -1), Vector2(1, -1)]:
+			open_world()
+			var direction := quadrant.normalized()
+			var trail = create(["shen", "tang", "qin"], Vector2.ZERO, direction)
+			var player := Vector2.ZERO
+			var delta := 1.0 / float(fps)
+			var max_lag_error := 0.0
+			var bad_facing := 0
+			var bad_cursor := 0
+			var bad_budget := 0
+			var bad_result := 0
+			var bad_phase := 0
+			var largest_step := 0.0
+			var checkpoint_lags: Array = []
+			var previous_head := 0.0
+			for frame: int in range(fps * 20):
+				var before: Dictionary = trail.debug_snapshot()
+				var next := player + direction * 185.0 * delta
+				var elbow := Vector2(next.x, player.y)
+				if not trail.record_segment(player, elbow).ok or not trail.record_segment(elbow, next).ok:
+					bad_result += 1
+				player = next
+				var outcome: Dictionary = trail.advance(delta, walk, step)
+				if not outcome.ok or outcome.recovery_required or outcome.last_reseed_reason != "initial":
+					bad_result += 1
+				var after: Dictionary = trail.debug_snapshot()
+				if float(after.head) < previous_head:
+					bad_cursor += 1
+				previous_head = float(after.head)
+				var walked_total := 0.0
+				var lags: Array = []
+				for rank: int in range(3):
+					var id: String = Trail.IDS[rank]
+					var actor: Dictionary = after.actors[id]
+					var old: Dictionary = before.actors[id]
+					var actual: Vector2 = actor.position - old.position
+					if actual.length() > 0.001 and actor.facing.dot(actual.normalized()) < 0.999:
+						bad_facing += 1
+					if float(actor.cursor) < float(old.cursor) - 0.001:
+						bad_cursor += 1
+					var walked := float(actor.walk_distance) - float(old.walk_distance)
+					walked_total += walked
+					if walked < 0.0 or walked > Trail.SPEED * delta + 0.01:
+						bad_budget += 1
+					var lag := float(after.head) - float(actor.cursor)
+					lags.append(lag)
+					max_lag_error = maxf(max_lag_error, absf(lag - Trail.GAP * float(rank + 1)))
+				var measured_walk := 0.0
+				for segment: Array in logged_steps:
+					var length: float = segment[0].distance_to(segment[1])
+					measured_walk += length
+					largest_step = maxf(largest_step, length)
+				if absf(walked_total - measured_walk) > 0.01:
+					bad_phase += 1
+				logged_steps.clear()
+				if frame == fps * 10 - 1 or frame == fps * 20 - 1:
+					checkpoint_lags.append(lags)
+			var label := "%dHz quadrant %s" % [fps, str(quadrant)]
+			check(bad_result == 0, label + " remains healthy without unsolicited reseed")
+			check(max_lag_error < 0.03, label + " all ranks bounded within .03 of 45/90/135 path units")
+			check(bad_facing == 0, label + " facing matches whole-update displacement")
+			check(bad_cursor == 0, label + " cursors and head monotonic")
+			check(bad_budget == 0 and largest_step <= Trail.STEP + 0.01, label + " speed and collision substeps bounded")
+			check(bad_phase == 0, label + " phase distance equals actually validated movement")
+			check(trail.status().history_nodes < 100, label + " consumed diagonal history stays bounded")
+			for rank: int in range(3):
+				check(absf(float(checkpoint_lags[0][rank]) - float(checkpoint_lags[1][rank])) < 0.03,
+					label + " 10s-to-20s rank lag remains stable")
+			var paused: Array = trail.snapshot()
+			trail.advance(0.0, walk, step)
+			for rank: int in range(3):
+				var row: Dictionary = trail.snapshot()[rank]
+				check(row.position == paused[rank].position and row.walk_distance == paused[rank].walk_distance
+					and not row.moving, label + " pause preserves positions and phase")
+			for frame: int in range(fps * 2):
+				trail.advance(delta, walk, step)
+			for rank: int in range(3):
+				var actor: Dictionary = trail.debug_snapshot().actors[Trail.IDS[rank]]
+				check(absf(float(trail.debug_snapshot().head) - float(actor.cursor) - Trail.GAP * float(rank + 1)) < 0.03
+					and not actor.moving, label + " stationary party settles at stable rank gaps")
+			print("DIAGONAL ", label, " lags10s=", checkpoint_lags[0], " lags20s=", checkpoint_lags[1],
+				" max_lag_error=", max_lag_error, " bad_facing=", bad_facing)
 
 func _blocked_history() -> void:
 	open_world()
