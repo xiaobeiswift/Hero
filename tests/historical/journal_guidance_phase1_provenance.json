@@ -1,0 +1,20 @@
+{
+  "classification": "Historical phase1 test source, retained byte-for-byte; intentionally not an executable current suite",
+  "source_path": "tests/journal_guidance_independent_test.gd",
+  "retained_path": "tests/historical/journal_guidance_phase1_independent_test.gd.txt",
+  "retained_sha256": "37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8",
+  "frozen_at_commit": "785718d266bd1383610460f3b568fa3f4d86cd0f",
+  "original_runtime_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+  "frozen_observations": {
+    "path": "tests/journal_guidance_frozen_oracle.json",
+    "sha256": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443",
+    "rows": 117,
+    "approved_target_differences": 14
+  },
+  "pck_input_bundle": {
+    "path": "tests/journal_guidance_baseline_inputs.json",
+    "sha256": "aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed",
+    "fixtures": 6
+  },
+  "policy": "Never regenerate frozen expectations from integrated selectors or consumers. Maintained current suite remains tests/journal_guidance_independent_test.gd; original source is evidence, not current acceptance."
+}
