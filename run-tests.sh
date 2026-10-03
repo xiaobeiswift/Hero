@@ -32,8 +32,8 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
-# 截令归灯 phase 1: schema15 / independent state and earned combat models.
-# Scene, accepted art, final chapter UI and new package acceptance are separate.
+# 截令归灯: schema15, original scene/art, finite orders and earned routes.
+# Native framebuffer, exact new PCK and browser acceptance remain separate.
 run_checked --headless --path . --script tests/capstone_rules_test.gd
 run_checked --headless --path . --script tests/capstone_schema_test.gd
 run_checked --headless --path . --script tests/capstone_state_test.gd
@@ -46,6 +46,18 @@ run_checked --headless --path . --script tests/capstone_independent_earned_test.
 run_checked --headless --path . --script tests/capstone_independent_recovery_test.gd
 run_checked --headless --path . --script tests/capstone_independent_party_test.gd
 run_checked --headless --path . --script tests/capstone_independent_boundary_test.gd
+run_checked --headless --path . --script tests/painted_liang_test.gd
+run_checked --headless --path . --script tests/capstone_liang_art_test.gd
+run_checked --headless --path . --script tests/capstone_liang_portrait_test.gd
+run_checked --headless --path . --script tests/capstone_navigation_test.gd
+run_checked --headless --path . --script tests/capstone_world_test.gd
+run_checked --headless --path . --script tests/capstone_world_render_consumers_test.gd
+run_checked --headless --path . --script tests/capstone_navigation_main_test.gd
+run_checked --headless --path . --script tests/capstone_story_test.gd
+# Twelve real walked routes measured353s; bound this one check separately.
+# Other checks keep the120s default, and an explicit caller timeout is honored.
+HERO_CHECK_TIMEOUT_SECONDS="${HERO_CHECK_TIMEOUT_SECONDS:-900}" run_checked --headless --fixed-fps 60 --path . --script tests/capstone_independent_earned_scene_test.gd
+run_checked --headless --fixed-fps 60 --path . --script tests/capstone_independent_scene_interruptions_test.gd
 # Optional exact old28 reader, isolated in a separate engine process.
 # Its bytes/dependencies are not replaced by current source; no browser claim.
 if [[ -n "${HERO_WEB28_PCK:-}" ]]; then
