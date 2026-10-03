@@ -3,6 +3,7 @@ extends RefCounted
 ## Host fields and action callbacks stay intact for saves, stories and combat.
 const Portraits = preload("res://scripts/character_portraits.gd")
 const WorldScene = preload("res://scripts/world.gd")
+const CompanionCondition = preload("res://scripts/exploration_companion_condition.gd")
 const OpeningDuelHUD = preload("res://scripts/opening_duel_hud.gd")
 const IVORY = Color("f1e6ca")
 const GOLD = Color("dfbd7a")
@@ -85,6 +86,7 @@ var last_near_hint: String = ""
 var last_status_text: String = ""
 var toast_in_battle:bool=false
 var duel_hud
+var companion_condition
 
 func build(game) -> void:
 	host = game
@@ -99,6 +101,11 @@ func build(game) -> void:
 	_wash(exploration,Rect2(0,0,1280,165),"top")
 	_wash(exploration,Rect2(0,660,1280,140),"bottom")
 	_build_identity()
+	companion_condition=CompanionCondition.new()
+	companion_condition.position=Vector2(20,185)
+	companion_condition.active_guard=host._can_open_exploration_party_roster
+	companion_condition.entry_requested.connect(host._show_exploration_party_roster)
+	exploration.add_child(companion_condition)
 	_build_place()
 	_build_quest()
 	_build_actions()
@@ -221,6 +228,7 @@ func _sync_enemy_battle_hp(_value:float=0) -> void:
 
 func refresh() -> void:
 	if host==null:return
+	companion_condition.refresh_snapshot(host.state.party_resource_snapshot())
 	var next_quest: String=host.quest_label.text+"|"+host.hint_label.text
 	if not previous_quest.is_empty() and previous_quest!=next_quest and host.current_screen=="explore":
 		quest_notice.text="◇  行纪有续 · "+host.quest_label.text;quest_notice_time=4.5
@@ -243,12 +251,14 @@ func refresh() -> void:
 func tick(delta: float) -> void:
 	if host==null:return
 	exploration.visible=host.current_screen=="explore"
+	companion_condition.set_context(host._can_open_exploration_party_roster(host.modal_generation),host._can_open_exploration_party_roster(host.modal_generation),host.modal_generation)
 	host.location_label.visible=host.location_label.text!=host.region_header.text
 	if exploration.visible:
 		var actor_rects:Array[Rect2]=[]
 		for foot:Vector2 in host.world.exploration_actor_positions():
 			var point:Vector2=(foot-host.world.camera_pos)*host.view_zoom
 			actor_rects.append(Rect2(point-Vector2(27,80)*host.view_zoom,Vector2(54,90)*host.view_zoom))
+		companion_condition.update_occlusion(actor_rects,delta)
 		for item in [identity_wash,quest_wash,place_wash]:
 			var target_alpha: float=.23 if _overlaps_party(Rect2(item.position,item.size),actor_rects) else 1.0
 			item.modulate.a=move_toward(item.modulate.a,target_alpha,delta*5.0)

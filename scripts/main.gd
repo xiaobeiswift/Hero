@@ -408,10 +408,11 @@ func _refresh() -> void:
 		_sync_hud_navigation(true)
 
 func _sync_hud_navigation(force:bool=false)->void:
-	var flags=int(hud.toast_wash.visible)+2*int(hud.quest_notice.visible)
+	var flags=int(hud.toast_wash.visible)+2*int(hud.quest_notice.visible)+4*hud.companion_condition.navigation_revision
 	if not force and flags==_hud_navigation_flags:return
 	_hud_navigation_flags=flags
 	var reserved:Array[Rect2]=[hud.identity_wash.get_rect(),hud.place_wash.get_rect(),hud.quest_wash.get_rect().merge(weather_label.get_rect()),hud.interaction.get_rect().merge(hud.movement_hint.get_rect())]
+	reserved.append_array(hud.companion_condition.reserved_rects())
 	# The bottom ink wash is transparent scenery, not a solid HUD obstruction.
 	# Reserve the real controls so visible targets in the gaps need no duplicate arrow.
 	for button: Button in hud.nav_buttons:
@@ -438,6 +439,7 @@ func _clear_overlay() -> void:
 	if current_screen=="party_battle":return
 	if overlay.has_meta("party_battle"):overlay.remove_meta("party_battle")
 	if overlay.has_meta("party_roster"):overlay.remove_meta("party_roster")
+	if overlay.has_meta("party_roster_direct_info"):overlay.remove_meta("party_roster_direct_info")
 	if overlay.has_meta("receipt_battle"):overlay.remove_meta("receipt_battle")
 	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
@@ -664,19 +666,51 @@ func _unified_entry(kind: String, generation: int) -> void:
 	if not active_modal or modal_generation != generation: return
 	_start_unified_battle(kind)
 
-func _show_party_roster()->void:
+func _can_open_exploration_party_roster(generation:int)->bool:
+	return generation==modal_generation and current_screen=="explore" and not active_modal and not quit_pending and not state.battle_active and not overlay.has_meta("courtyard_practice")
+
+func _show_exploration_party_roster(generation:int)->void:
+	if not _can_open_exploration_party_roster(generation):return
+	if not state.party_resource_snapshot().get("ok",false):return
+	_show_party_roster(true)
+
+func _show_party_roster(return_to_exploration:bool=false)->void:
 	if current_screen!="explore" or quit_pending or state.battle_active:return
+	return_to_exploration=return_to_exploration or overlay.get_meta("party_roster_direct_info",false)
 	modal_generation+=1;_clear_overlay();active_modal=true
+	modal_autosave_on_close=false
 	var generation=modal_generation
 	var folio=PartyRosterUI.new()
 	folio.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var guard=func():return not quit_pending and current_screen=="explore" and active_modal and modal_generation==generation and overlay.get_meta("party_roster",null)==folio
-	folio.bind_state(state,{"shen":shen_story.route_info,"tang":func():_modal("唐栖的近况","同行机缘 / 尺上旧痕",companion_story.journal(),[["返回同行册",_show_party_roster],["继续赶路",_close_modal]],true),"qin":mist_story.qin_story.route_info},_show_inventory,_party_roster_changed.bind(folio,generation),guard)
+	var stories:Dictionary={}
+	for id:String in ["shen","tang","qin"]:
+		stories[id]=_party_roster_info.bind(id,folio,generation,return_to_exploration)
+	folio.bind_state(state,stories,_return_from_party_roster.bind(folio,generation,return_to_exploration),_party_roster_changed.bind(folio,generation),guard)
 	overlay.set_meta("party_roster",folio);overlay.add_child(folio)
+	if return_to_exploration:folio.return_button.text="继续赶路"
 	folio.set_save_notice("队伍仍保留在当前旅程，但尚未存妥；请点击重试保存。" if save_warning else "")
+	if hud!=null:hud.tick(0)
+
+func _return_from_party_roster(folio,generation:int,direct:bool)->void:
+	if quit_pending or current_screen!="explore" or state.battle_active or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
+	if direct:
+		modal_autosave_on_close=false;_close_modal()
+	else:_show_inventory()
+
+func _party_roster_info(id:String,folio,generation:int,direct:bool)->void:
+	if quit_pending or current_screen!="explore" or state.battle_active or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
+	match id:
+		"shen":shen_story.route_info()
+		"tang":_modal("唐栖的近况","同行机缘 / 尺上旧痕",companion_story.journal(),[["返回同行册",_show_party_roster],["继续赶路",_close_modal]],true)
+		"qin":mist_story.qin_story.route_info()
+		_:return
+	# Read-only detours inherit their entry origin, including Esc / 继续赶路.
+	modal_autosave_on_close=false
+	if direct:overlay.set_meta("party_roster_direct_info",true)
 
 func _party_roster_changed(folio,generation:int)->void:
-	if not is_instance_valid(folio) or current_screen!="explore" or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
+	if not is_instance_valid(folio) or quit_pending or state.battle_active or current_screen!="explore" or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
 	_sync_world_state()
 	_autosave();_refresh()
 	folio.set_save_notice("队伍仍保留在当前旅程，但尚未存妥；请点击重试保存。" if save_warning else "")
