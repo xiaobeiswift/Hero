@@ -20,6 +20,13 @@ var legacy_reader
 var schema9_reader
 var schema12_reader
 var schema13_reader
+var schema14_reader
+var _schema14_save: String = ""
+var _capstone_prerequisite_checks: int = 0
+const SCHEMA14_READER_SHA256 := "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5"
+const SCHEMA14_SAVE_SHA256 := "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2"
+const SCHEMA14_PROVENANCE_SHA256 := "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1"
+const CAPSTONE_FIELDS: Array[String] = ["capstone_stage", "capstone_draft", "capstone_ending"]
 var _consignee_prerequisite_checks: int = 0
 var _legacy_save_fixtures: String = ""
 const SCHEMA13_READER_SHA256 := "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d"
@@ -60,10 +67,10 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites() or not _consignee_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites() or not _consignee_prerequisites() or not _capstone_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
-	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal) or not _consignee_legacy_prerequisite(rehearsal):
+	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal) or not _consignee_legacy_prerequisite(rehearsal) or not _capstone_legacy_prerequisite(rehearsal):
 		quit(1); return
 	_check(FileAccess.file_exists("res://assets/fonts/LICENSE.txt"), "Font license retained")
 	_check(FileAccess.file_exists("res://licenses/GODOT-LICENSE.txt"), "Engine license retained")
@@ -82,6 +89,10 @@ func _run() -> void:
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
 	_transfer_fresh_title()
+	if OS.get_cmdline_user_args().has("--capstone-only"):
+		await _test_capstone_pack()
+		await _finish_run(rehearsal, "capstone-only")
+		return
 	if OS.get_cmdline_user_args().has("--consignee-only"):
 		await _test_consignee_pack()
 		await _finish_run(rehearsal, "consignee-only")
@@ -199,6 +210,7 @@ func _run() -> void:
 	await _test_transfer_pack()
 	await _test_consignee_pack()
 	await _test_heting_polish_pack()
+	await _test_capstone_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -339,7 +351,7 @@ func _test_companion_route(choice: String, shen: bool) -> void:
 	await process_frame
 	_check(game.state.current_companion() == "唐栖" and game.state.formation == "护后" and game.world.nearby_name == "沈青", "Packed selected companion, formation and clinic identity persist: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 14 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema14 and active party identity: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 15 and saved.get("player", {}).get("active_companion") == "唐栖", "Packed save writes schema15 and active party identity: " + choice)
 	game._show_journal()
 	_check(_gather_text(game.overlay).contains("工册已传给学徒" if choice == "teach" else "原稿与水令一同留存"), "Packed journal preserves personal quest ending: " + choice)
 	game._close_modal()
@@ -472,7 +484,7 @@ func _test_mistwood() -> void:
 	await _key(KEY_ESCAPE)
 	game._save()
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 14 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema14 and Mistwood ending")
+	_check(saved is Dictionary and saved.get("version") == 15 and saved.get("player", {}).get("mist_ending") == "warn_ferries", "Packed local save writes schema15 and Mistwood ending")
 	before = game.state.to_dict()
 	game._load()
 	_check(game.state.to_dict() == before and game.world.map_id == "mistwood", "Packed complete Mistwood state round-trips locally")
@@ -552,7 +564,7 @@ func _test_manual_slots() -> void:
 	_check(store.describe(1).status == "valid" and game.status_label.text.contains("已写下"), "Packed empty slot saves through actual keyboard UI")
 	var first: PackedByteArray = FileAccess.get_file_as_bytes(store.path_for(1))
 	var first_doc = JSON.parse_string(first.get_string_from_utf8())
-	_check(first_doc is Dictionary and first_doc.get("version") == 14 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
+	_check(first_doc is Dictionary and first_doc.get("version") == 15 and first_doc.player.coins == 24, "Packed manual save writes the current schema and branch")
 	_check(not FileAccess.file_exists(store.path_for(1) + ".bak"), "Packed first save creates no spurious backup")
 	_check(store.describe(1).level == game.state.level and store.describe(1).location == "qingwei" and store.describe(1).modified > 0, "Packed slot preview reports validated level, location and timestamp")
 	game.state.coins = 55
@@ -818,7 +830,7 @@ func _test_shen_care_route(choice: String, earlier: String, ending: String) -> v
 	game._load()
 	_check(game.state.to_dict() == completed, "Packed finalized care state round-trips exactly: " + choice)
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 14 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema14 document records the final care plan: " + choice)
+	_check(saved is Dictionary and saved.get("version") == 15 and saved.player.shen_care_stage == 5 and saved.player.shen_care_choice == choice, "Packed schema15 document records the final care plan: " + choice)
 	stale_post.call()
 	game.shen_story.post()
 	game.shen_story.choose("mobile" if choice == "shore" else "shore")
@@ -963,7 +975,7 @@ func _test_lightness_exploration() -> void:
 	game._load()
 	_check(game.world.player_pos == lightness.SHORE and game.state.position == lightness.SHORE and game.state.lightness_relics == [lightness.RELIC_ID], "Packed return autosave keeps shore position and discovered lore")
 	var saved = JSON.parse_string(FileAccess.get_file_as_string("user://hero_save.json"))
-	_check(saved is Dictionary and saved.get("version") == 14 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema14 document writes lightness progression explicitly")
+	_check(saved is Dictionary and saved.get("version") == 15 and saved.player.lightness_unlocked and saved.player.lightness_relics == [lightness.RELIC_ID], "Packed schema15 document writes lightness progression explicitly")
 	_unified_open_training()
 	before = game.state.to_dict()
 	game.lightness_story.cross(true)
@@ -1389,9 +1401,9 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.28", "V28 paint-only polish project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.29", "Complete capstone V29 project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 14, "V28 retains save schema14")
+	_check(model != null and model.SAVE_VERSION == 15, "V29 requires actual writer schema15")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -1486,7 +1498,7 @@ func _test_heting_pack() -> void:
 		game.world.teleport(Vector2(820,665)); game._save()
 		var saved: Dictionary = s.to_dict()
 		var document = JSON.parse_string(FileAccess.get_file_as_string(s.SAVE_PATH))
-		_check(document.version == 14, "Packed autosave writes schema14")
+		_check(document.version == 15, "Packed autosave writes schema15")
 		game.world.heting_bridge = "east" if s.heting_bridge == "west" else "west"; game.world.heting_cargo=""
 		game._load()
 		_check(s.to_dict() == saved and game.world.heting_bridge == s.heting_bridge and game.world.heting_cargo == "reserve", "Packed reload applies saved cargo and bridge before coordinate repair")
@@ -1514,7 +1526,7 @@ func _test_heting_pack() -> void:
 	var file = FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":9,"player":player})); file.close()
 	_check(probe.load_game(path) == OK and probe.to_dict() == player, "Packed reader accepts complete legitimate v9 progress")
 	var stable: Dictionary = probe.to_dict()
-	for version in [10,15]:
+	for version in [10,16]:
 		var corrupt: Dictionary = player.duplicate(true)
 		if version == 10: corrupt.erase("heting_bridge")
 		file=FileAccess.open(path,FileAccess.WRITE); file.store_string(JSON.stringify({"version":version,"player":corrupt})); file.close()
@@ -1602,7 +1614,7 @@ func _receipt_variables(state) -> Dictionary:
 func _test_receipt_migration_pack() -> void:
 	_receipt_prepare(); var model = load("res://scripts/game_state.gd"); var probe = model.new()
 	var current: Dictionary = game.state.to_dict(); var legacy: Dictionary = current.duplicate(true)
-	for key: String in CONSIGNEE_FIELDS: legacy.erase(key)
+	for key: String in CONSIGNEE_FIELDS + CAPSTONE_FIELDS: legacy.erase(key)
 	for key: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked","internal_unlocked"]: legacy.erase(key)
 	var path: String = "user://receipt-schema-audit.json"
 	for version: int in range(1,11):
@@ -1617,16 +1629,16 @@ func _test_receipt_migration_pack() -> void:
 		_receipt_prepare(ending)
 		for stage: int in range(4):
 			game.state.receipt_stage=stage
-			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema14 receipt stage: "+ending+"/"+str(stage))
+			_check(game.state.save_game(path)==OK, "Packed writer creates actual schema15 receipt stage: "+ending+"/"+str(stage))
 			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema14 stage round-trip preserves exact durable fields")
+			_check(probe.load_game(path)==OK and probe.to_dict()==game.state.to_dict(), "Packed schema15 stage round-trip preserves exact durable fields")
 			_check(legacy_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader)==old_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Pinned old reader rejects actual new save before mutating memory or bytes")
 	var stable: Dictionary = probe.to_dict()
 	for bad: Variant in [-1,4,1.5,"1",true,null]:
 		var corrupt: Dictionary = current.duplicate(true); corrupt.receipt_stage=bad
 		_receipt_reject_document(probe,path,{"version":13,"player":corrupt},stable,"malformed receipt stage "+str(bad))
 	_receipt_reject_document(probe,path,{"version":13,"player":legacy},stable,"missing current receipt field")
-	_receipt_reject_document(probe,path,{"version":15,"player":current},stable,"future schema15")
+	_receipt_reject_document(probe,path,{"version":16,"player":current},stable,"future schema16")
 	var impossible: Dictionary = current.duplicate(true); impossible.receipt_stage=1; impossible.heting_stage=3
 	_receipt_reject_document(probe,path,{"version":13,"player":impossible},stable,"receipt before harbor ending")
 
@@ -1754,7 +1766,7 @@ func _test_party_roster_pack() -> void:
 	_check(game.state.party_roster == before.party_roster and game.state.party_resources == before.party_resources, "Packed bench/reselect preserves Qin and every other injured resource")
 	_check(folio.cells.tang.status.text.contains("倒下") and folio.cells.tang.hp_bar.value == 0, "Packed downed companion stays down in actual roster")
 	folio.formation_buttons["护后"].pressed.emit()
-	_check(game.state.formation == "护后" and _receipt_document().version == 14, "Packed roster formation writes current schema14 checkpoint")
+	_check(game.state.formation == "护后" and _receipt_document().version == 15, "Packed roster formation writes current schema15 checkpoint")
 	game._close_modal(); before = game.state.to_dict(); stale.call()
 	_check(game.state.to_dict() == before, "Packed dismissed roster callback cannot change selection or resources")
 
@@ -1776,7 +1788,7 @@ func _test_party_qin_recruitment_pack() -> void:
 		for index: int in range(4):
 			await _talk(landmarks[index]); _press(choices[index])
 			_check(s.qin_stage == index+1 and s.qin_unlocked == (index==3), "Packed Qin stage advances only through its actual explicit choice: " + str(index+1))
-			_check(_receipt_document().version == 14 and s.load_game() == OK and s.qin_stage == index+1, "Packed Qin stage autosaves and reloads exactly")
+			_check(_receipt_document().version == 15 and s.load_game() == OK and s.qin_stage == index+1, "Packed Qin stage autosaves and reloads exactly")
 			if index < 3: _check(s.party_roster == ["hero"] and not s.party_resources.has("qin"), "Packed work and handoff never silently recruit Qin")
 		_check(s.party_roster == ["hero","qin"] and s.qin_recruited() and s.party_resources.size() == 3, "Packed final spoken invitation enrolls fourth real companion")
 		_check(s.hp == before.hp and s.qi == before.qi and s.party_resources.shen == before.party_resources.shen and s.party_resources.tang == before.party_resources.tang, "Packed Qin story preserves existing hero and benched injuries")
@@ -1793,7 +1805,7 @@ func _test_party_migration_pack() -> void:
 	var model = load("res://scripts/game_state.gd"); var probe = model.new()
 	var path: String = "user://schema12-party-audit.json"
 	var historical: Dictionary = s.to_dict()
-	for key: String in CONSIGNEE_FIELDS: historical.erase(key)
+	for key: String in CONSIGNEE_FIELDS + CAPSTONE_FIELDS: historical.erase(key)
 	for key: String in ["party_roster","party_resources","qin_stage","qin_unlocked","internal_unlocked"]: historical.erase(key)
 	for version: int in range(1,12):
 		for choice: String in ["沈青","唐栖",""]:
@@ -1815,15 +1827,15 @@ func _test_party_migration_pack() -> void:
 	_party_prepare(); s=game.state
 	s.party_resources.shen={"hp":0,"qi":0}; s.party_resources.tang={"hp":5,"qi":1}; s.party_resources.qin={"hp":9,"qi":2}
 	for roster: Array in [["hero"],["hero","qin"],["hero","tang","shen"],["hero","shen","tang","qin"]]:
-		_check(s.set_party_roster(roster) and s.save_game(path)==OK, "Packed actual schema14 serializes explicit%d actor roster" % roster.size())
+		_check(s.set_party_roster(roster) and s.save_game(path)==OK, "Packed actual schema15 serializes explicit%d actor roster" % roster.size())
 		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-		_check(probe.load_game(path)==OK and probe.to_dict()==s.to_dict(), "Packed schema14 roundtrip preserves downed, benched and active own resources")
-		_check(schema11_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(schema11_reader)==frozen_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Frozen exact schema11 reader rejects real schema14 before changing any live field or source bytes")
+		_check(probe.load_game(path)==OK and probe.to_dict()==s.to_dict(), "Packed schema15 roundtrip preserves downed, benched and active own resources")
+		_check(schema11_reader.load_game(path)==ERR_FILE_UNRECOGNIZED and _receipt_variables(schema11_reader)==frozen_before and FileAccess.get_file_as_bytes(path)==bytes and not FileAccess.file_exists(path+".tmp"), "Frozen exact schema11 reader rejects real schema15 before changing any live field or source bytes")
 	var current: Dictionary = s.to_dict(); var stable: Dictionary = probe.to_dict()
 	for key: String in current:
-		if CONSIGNEE_FIELDS.has(key): continue
+		if CONSIGNEE_FIELDS.has(key) or CAPSTONE_FIELDS.has(key): continue
 		var missing: Dictionary = current.duplicate(true); missing.erase(key)
-		_receipt_reject_document(probe,path,{"version":14,"player":missing},stable,"missing current field "+key)
+		_receipt_reject_document(probe,path,{"version":15,"player":missing},stable,"missing current field "+key)
 	for roster: Variant in [[],["shen","hero"],["hero","hero"],["hero","ghost"],["hero","shen","tang","qin","hero"],"hero",null]:
 		var invalid: Dictionary = current.duplicate(true); invalid.party_roster=roster
 		_receipt_reject_document(probe,path,{"version":13,"player":invalid},stable,"malformed exact party roster")
@@ -1839,7 +1851,7 @@ func _test_party_migration_pack() -> void:
 	for extra: String in ["party_session","party_battle_epoch","party_settlement"]:
 		var invalid: Dictionary = current.duplicate(true); invalid[extra]={}
 		_receipt_reject_document(probe,path,{"version":13,"player":invalid},stable,"transient battle field "+extra)
-	_receipt_reject_document(probe,path,{"version":15,"player":current},stable,"future schema15 with valid current roster")
+	_receipt_reject_document(probe,path,{"version":16,"player":current},stable,"future schema16 with valid current roster")
 
 func _sluice_prepare(count: int = 2, boss: bool = false) -> void:
 	game._new_game()
@@ -1863,7 +1875,7 @@ func _sluice_open(encounter: String):
 	var enemy: Dictionary = _party_unit(game.state.party_battle_snapshot(),encounter)
 	_check(enemy.hp == (85 if encounter == "sluice_scout" else 150) and enemy.attack == (11 if encounter == "sluice_scout" else 16) and enemy.heavy_attack == (22 if encounter == "sluice_scout" else 28), "Packed actual opponent retains exact HP/light/heavy stats: " + encounter)
 	_check(panel.commands.context.title == ("半页水令" if encounter == "sluice_scout" else "逆水而行") and panel.unit_plates.has(encounter) and not panel.unit_plates.has("puheng"), "Packed encounter HUD names its real opponent and story: " + encounter)
-	_check(_receipt_document().version == 14 and _receipt_document().player.side_choice == game.state.side_choice and _receipt_document().player.side_found == game.state.side_found, "Packed pre-entry checkpoint includes current route and clue order")
+	_check(_receipt_document().version == 15 and _receipt_document().player.side_choice == game.state.side_choice and _receipt_document().player.side_found == game.state.side_found, "Packed pre-entry checkpoint includes current route and clue order")
 	return panel
 
 func _sluice_events(tx: Dictionary, kind: String, team: String = "") -> Array:
@@ -1885,9 +1897,9 @@ func _sluice_terminal(panel, expected: String = "win") -> Dictionary:
 
 func _sluice_checkpoint(label: String) -> void:
 	var s = game.state; var before: Dictionary = s.to_dict()
-	_check(s.save_game() == OK, "Packed schema14 sluice checkpoint writes: " + label)
+	_check(s.save_game() == OK, "Packed schema15 sluice checkpoint writes: " + label)
 	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
-	_check(document.version == 14 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Packed checkpoint keeps full canonical state and excludes battle-only fields: " + label)
+	_check(document.version == 15 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_sluice_entry"), "Packed checkpoint keeps full canonical state and excludes battle-only fields: " + label)
 	game._load()
 	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_sluice_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves actual resources/clue order and clears transient encounter: " + label)
 
@@ -1973,7 +1985,7 @@ func _test_sluice_route_pack(route: String, count: int) -> void:
 	settled = s.to_dict()
 	_check(not s.finish_side_quest() and not s.finish_party_presentation(tx.epoch,tx.token).accepted and not s.start_party_battle("sluice_boss") and s.to_dict() == settled, "Packed legacy turn-in and repeated boss terminal cannot replay either reward")
 	game._close_modal(); _receipt_unblock_save(blocker); await _key(KEY_F5)
-	_check(not game.save_warning and _receipt_document().version == 14 and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed real F5 retry persists already-settled sluice resources once")
+	_check(not game.save_warning and _receipt_document().version == 15 and _receipt_document().player == JSON.parse_string(JSON.stringify(settled)), "Packed real F5 retry persists already-settled sluice resources once")
 	_sluice_checkpoint(route+"-complete-"+str(count))
 
 func _test_sluice_close_pack(encounter: String, outcome: String) -> void:
@@ -2041,18 +2053,18 @@ func _archive_open():
 	var enemy: Dictionary = _party_unit(s.party_battle_snapshot(),"archive_boss")
 	_check(enemy.hp == 205 and enemy.attack == 17 and enemy.heavy_attack == 31, "Packed live archive opponent retains exact HP/light/heavy stats")
 	_check(panel.commands.context.title == "封仓问剑" and panel.commands.context.location == "霜桥仓台 · 韩砚 · "+(s.formation if s.party_roster.size() > 1 else "独行") and panel.unit_plates.has("archive_boss") and not panel.unit_plates.has("puheng"), "Packed archive title, location, formation and target plates identify real encounter")
-	_check(_receipt_document().version == 14 and _receipt_document().player.chapter_two_stage == 2 and _receipt_document().player.seal_sequence == JSON.parse_string(JSON.stringify([2,0,1])), "Packed pre-entry archive checkpoint durably records solved seal")
+	_check(_receipt_document().version == 15 and _receipt_document().player.chapter_two_stage == 2 and _receipt_document().player.seal_sequence == JSON.parse_string(JSON.stringify([2,0,1])), "Packed pre-entry archive checkpoint durably records solved seal")
 	return panel
 
 func _archive_checkpoint(label: String) -> void:
 	var s = game.state; var before: Dictionary = s.to_dict()
-	_check(s.save_game() == OK, "Packed schema14 archive checkpoint writes: "+label)
+	_check(s.save_game() == OK, "Packed schema15 archive checkpoint writes: "+label)
 	var bytes: PackedByteArray = _receipt_bytes(); var document: Dictionary = _receipt_document()
-	_check(document.version == 14 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Packed archive checkpoint preserves complete canonical state without encounter-only fields: "+label)
+	_check(document.version == 15 and document.player == JSON.parse_string(JSON.stringify(before)) and not bytes.get_string_from_utf8().contains("vulnerability") and not bytes.get_string_from_utf8().contains("_party_archive_entry"), "Packed archive checkpoint preserves complete canonical state without encounter-only fields: "+label)
 	game._load()
 	_check(s.to_dict() == before and not s.battle_active and s.party_session == null and s._party_archive_entry.is_empty() and _receipt_bytes() == bytes, "Packed reload preserves exact archive resources/progress and clears transient encounter: "+label)
 	var old10: Dictionary = _receipt_variables(legacy_reader); var old11: Dictionary = _receipt_variables(schema11_reader)
-	_check(legacy_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and schema11_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader) == old10 and _receipt_variables(schema11_reader) == old11 and _receipt_bytes() == bytes, "Packed actual schema10/11 readers reject archive schema14 without any mutation: "+label)
+	_check(legacy_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and schema11_reader.load_game(s.SAVE_PATH) == ERR_FILE_UNRECOGNIZED and _receipt_variables(legacy_reader) == old10 and _receipt_variables(schema11_reader) == old11 and _receipt_bytes() == bytes, "Packed actual schema10/11 readers reject archive schema15 without any mutation: "+label)
 
 func _test_archive_gates_pack() -> void:
 	_archive_prepare()
@@ -2294,9 +2306,9 @@ func _test_unified_pack() -> void:
 	var first: int = checks
 	game.set_process(false); game.world.set_process(false)
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
-	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all11 normal encounters share one explicit automatic catalog")
+	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee", "capstone_authorizer"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all12 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.28", "Packed actual title retains paint-polish0.0.28 identity")
+	_check(title != null and title.text=="0.0.29", "Packed actual title retains capstone0.0.29 identity")
 	for kind: String in encounters.IDS.slice(0,10): await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -2412,24 +2424,24 @@ func _test_unified_learning() -> void:
 	game._close_modal(); await _talk("mentor"); _press("内功与轻身"); _press("内功 · 调息归元")
 	var coins: int = s.coins; _press("修习调息归元 · 免费")
 	_check(s.internal_unlocked and s.coins == coins and not s.lightness_unlocked, "Packed explicit free lesson grants only the selected internal skill")
-	game._load(); _check(s.internal_unlocked and _receipt_document().version == 14, "Packed actual lesson autosaves and reloads schema14")
+	game._load(); _check(s.internal_unlocked and _receipt_document().version == 15, "Packed actual lesson autosaves and reloads schema15")
 	await _talk("mentor"); _press("内功与轻身"); _press("轻功 · 踏苇行"); _press("修习踏苇行")
 	_check(s.lightness_unlocked and s.internal_unlocked, "Packed separately chosen free lightness lesson remains independent")
 
 func _test_unified_migration() -> void:
 	var model = load("res://scripts/game_state.gd"); var fresh = model.new(); var legacy: Dictionary = fresh.to_dict(); legacy.erase("internal_unlocked")
-	for key: String in CONSIGNEE_FIELDS: legacy.erase(key)
+	for key: String in CONSIGNEE_FIELDS + CAPSTONE_FIELDS: legacy.erase(key)
 	var path: String = "user://unified-schema13-audit.json"
 	for version: int in range(1,13):
 		_receipt_write_document(path,{"version":version,"player":legacy}); var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 		var probe = model.new()
 		_check(probe.load_game(path) == OK and not probe.internal_unlocked and FileAccess.get_file_as_bytes(path) == bytes, "Packed schema%d migration never grants internal lesson or rewrites old bytes" % version)
 	var before: Dictionary = game.state.to_dict()
-	_check(game.state.save_game(path) == OK, "Packed learned schema14 creates actual complete save")
+	_check(game.state.save_game(path) == OK, "Packed learned schema15 creates actual complete save")
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	for reader in [schema9_reader,legacy_reader,schema11_reader,schema12_reader]:
 		var stable: Dictionary = _receipt_variables(reader)
-		_check(reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(reader) == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed exact frozen prior reader rejects schema14 without memory or disk mutation")
+		_check(reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(reader) == stable and FileAccess.get_file_as_bytes(path) == bytes, "Packed exact frozen prior reader rejects schema15 without memory or disk mutation")
 	var probe = model.new()
 	_check(probe.load_game(path) == OK and probe.to_dict() == before, "Packed new reader retains earned internal/lightness and all complete party fields")
 	for malformed: Variant in [null,1,"true",{},[]]:
@@ -2644,7 +2656,7 @@ func _test_unified_journey() -> void:
 		_check(game.state.heting_stage==4 and game.state.heting_ending==("short_ferries" if school%2==0 else "open_scale"),"Natural full journey completes fourth chapter night allocation")
 		_check(game.state.coins==before_port_coins+60 and game.state.xp+30*game.state.level*(game.state.level-1)==before_port_xp+120 and game.state.resources==before_port_resources,"Harbor costs no injected currency/material and grants only finite rewards")
 		game._close_modal();game._save();before=game.state.to_dict();game.state.reset_game();game._load()
-		_check(game.state.to_dict()==before and game.world.map_id=="heting","Organic four-chapter result persists through current schema14")
+		_check(game.state.to_dict()==before and game.world.map_id=="heting","Organic four-chapter result persists through current schema15")
 		print("JOURNEY: school=%s level=%d hp=%d/%d coins=%d medicines=%d" % [game.state.sect,game.state.level,game.state.hp,game.state.max_hp,game.state.coins,game.state.medicine])
 
 func _journey_interact(id: String) -> void:
@@ -2802,7 +2814,7 @@ func _test_exploration_pack() -> void:
 	await _exploration_boundaries()
 	game._process(0) # Actual main loop synchronizes the accepted player position before save.
 	var durable: Dictionary = game.state.to_dict()
-	_check(game.state.save_game() == OK, "Packed exploration writes ordinary schema14 save")
+	_check(game.state.save_game() == OK, "Packed exploration writes ordinary schema15 save")
 	game._load(); game.set_process(false); game.world.set_process(false)
 	_check(game.state.to_dict() == durable and game.world.follower_ids() == ["tang","shen","qin"] and _exploration_safe(), "Packed reload reconstructs selected followers without adding persistent trail state or healing")
 	game._new_game(); game.set_process(false); game.world.set_process(false)
@@ -3077,7 +3089,7 @@ func _condition_readonly_inputs(row) -> void:
 	await _key(KEY_ESCAPE)
 	_check(game.active_modal and game.overlay.get_meta("inventory",false), "Packed inventory-origin Escape still returns to inventory")
 	game._close_modal(); game._process(0)
-	row.cards.qin.button.grab_focus(); game.world.nearby_id = "elder"; game.world.nearby_name = "陆伯"
+	game.world.teleport(game.world.interactables.elder.pos); game._process(0); row.cards.qin.button.grab_focus()
 	await _key(KEY_E)
 	_check(game.active_modal and not game.overlay.has_meta("party_roster") and _gather_text(game.overlay).contains("陆伯"), "Packed focused compact card leaves E available for the real nearby NPC")
 	game._close_modal(); game._process(0)
@@ -3253,10 +3265,12 @@ func _transfer_files(directory: String) -> Dictionary:
 		result[name+"/"] = _transfer_files(directory.path_join(name))
 	return result
 
-func _transfer_document(version: int = 14) -> Dictionary:
+func _transfer_document(version: int = 15) -> Dictionary:
 	var model = load("res://scripts/game_state.gd").new()
 	var data: Dictionary = model.to_dict()
 	data.player_name = "归舟客"
+	if version < 15:
+		for key: String in CAPSTONE_FIELDS: data.erase(key)
 	if version < 14:
 		for key: String in CONSIGNEE_FIELDS: data.erase(key)
 	if version < 13: data.erase("internal_unlocked")
@@ -3265,7 +3279,7 @@ func _transfer_document(version: int = 14) -> Dictionary:
 	if version < 11: data.erase("receipt_stage")
 	return {"version":version,"player":data}
 
-func _transfer_bytes(version: int = 14) -> PackedByteArray:
+func _transfer_bytes(version: int = 15) -> PackedByteArray:
 	# BOM, spacing and trailing newlines make any reserialization observable.
 	return ("\ufeff  "+JSON.stringify(_transfer_document(version),"  ")+"\n\n").to_utf8_buffer()
 
@@ -3312,7 +3326,7 @@ func _test_transfer_pack() -> void:
 	var first: int = checks
 	var core = load("res://scripts/local_save_transfer.gd")
 	var model = load("res://scripts/game_state.gd")
-	_check(core.MAX_IMPORT_BYTES == 1048576 and model.MAX_SAVE_BYTES == 1048576 and model.SAVE_VERSION == 14, "Packed transfer preserves schema14 and exact one-MiB envelope")
+	_check(core.MAX_IMPORT_BYTES == 1048576 and model.MAX_SAVE_BYTES == 1048576 and model.SAVE_VERSION == 15, "Packed transfer preserves schema15 and exact one-MiB envelope")
 	_check(game.save_slots.transfer.get_script() == load("res://scripts/save_transfer_ui.gd") and game.save_slots.transfer.adapter.get_script() == load("res://scripts/browser_save_transfer.gd"), "Packed real SaveSlots owns shipped transfer UI and production browser adapter")
 	_check(not game.save_slots.transfer.adapter.available(), "Native exact-pack audit does not impersonate the Web JavaScript bridge")
 	_transfer_core_versions(core,model)
@@ -3362,7 +3376,7 @@ func _transfer_core_rejections(core) -> void:
 	var helper = core.new(directory)
 	var valid: PackedByteArray = _transfer_bytes()
 	var invalid: Array = [PackedByteArray(),"{".to_utf8_buffer(),"[]".to_utf8_buffer(),"null".to_utf8_buffer(),PackedByteArray([0]),PackedByteArray([0xc0,0x80]),PackedByteArray([0xed,0xa0,0x80]),PackedByteArray([0xf4,0x90,0x80,0x80]),PackedByteArray([0xe2,0x82]),PackedByteArray([0xff])]
-	for version: Variant in [0,15,-1,14.5,"14",true,null]:
+	for version: Variant in [0,16,-1,15.5,"15",true,null]:
 		var document: Dictionary = _transfer_document(); document.version = version
 		invalid.append(JSON.stringify(document).to_utf8_buffer())
 	for key: String in ["hp","level","quest_stage","internal_unlocked","party_roster","party_resources"]:
@@ -3380,10 +3394,10 @@ func _transfer_core_rejections(core) -> void:
 	var exact: PackedByteArray = valid.duplicate()
 	var padding := PackedByteArray(); padding.resize(1048576-exact.size()); padding.fill(32); exact.append_array(padding)
 	_check(helper.preview_import(exact,1).get("ok",false), "Packed exact one-MiB valid save remains accepted")
-	var future: Dictionary = _transfer_document(); future.version = 15
+	var future: Dictionary = _transfer_document(); future.version = 16
 	var result: Dictionary = helper.preview_import(JSON.stringify(future).to_utf8_buffer(),1)
 	_check(not result.ok and result.error == ERR_FILE_UNRECOGNIZED, "Packed future schema returns incompatibility rather than rewriting")
-	for text: String in [JSON.stringify(_transfer_document()).trim_suffix("}")+",}",JSON.stringify(_transfer_document()).replace('"version":14','"version":1,"version":14')]:
+	for text: String in [JSON.stringify(_transfer_document()).trim_suffix("}")+",}",JSON.stringify(_transfer_document()).replace('"version":15','"version":1,"version":15')]:
 		var result_legacy: Dictionary = helper.preview_import(text.to_utf8_buffer(),1)
 		_check(result_legacy.get("ok",false), "Packed byte wrapper preserves existing trailing-comma and duplicate-key parser semantics")
 
@@ -3646,15 +3660,15 @@ func _test_consignee_migrations() -> void:
 			_check(probe._same_save_value(schema13_reader.to_dict(),genuine.player), "Pinned schema13 fixture is actual Web25 default producer serialization")
 			_check(schema13_reader.load_game(path) == OK and not schema13_reader.to_dict().has("consignee_stage"), "Genuine frozen schema13 reader accepts its own real13 control")
 		var new_path: String = "user://consignee-migrated-%d.json" % version
-		_check(inspected.state.save_game(new_path) == OK and JSON.parse_string(FileAccess.get_file_as_string(new_path)).version == 14 and FileAccess.get_file_as_bytes(path) == bytes, "Only explicit current save upgrades legacy bytes to14")
+		_check(inspected.state.save_game(new_path) == OK and JSON.parse_string(FileAccess.get_file_as_string(new_path)).version == 15 and FileAccess.get_file_as_bytes(path) == bytes, "Only explicit current save upgrades legacy bytes to15")
 		var bad: Dictionary = JSON.parse_string(bytes.get_string_from_utf8()); bad.player.consignee_stage = 0
 		_check(not probe.inspect_save_bytes(JSON.stringify(bad).to_utf8_buffer()).ok, "Partial new field bundle is rejected even on legacy schema")
 	var current: Dictionary = model.new().to_dict()
 	for key: String in CONSIGNEE_FIELDS:
 		var missing: Dictionary = current.duplicate(true); missing.erase(key)
-		_check(not probe.inspect_save_bytes(JSON.stringify({"version":14,"player":missing}).to_utf8_buffer()).ok, "Actual schema14 requires complete chapter bundle: "+key)
+		_check(not probe.inspect_save_bytes(JSON.stringify({"version":15,"player":missing}).to_utf8_buffer()).ok, "Actual schema15 requires complete chapter bundle: "+key)
 	var path: String = "user://consignee-real14-reader-rejection.json"
-	_check(model.new().save_game(path) == OK, "Actual packed current writer produces schema14 rejection subject")
+	_check(schema14_reader.save_game(path) == OK and FileAccess.get_sha256(path) == SCHEMA14_SAVE_SHA256, "Genuine frozen Web28 producer writes byte-exact true14 rejection subject")
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
 	schema13_reader.coins = 913; schema13_reader.skill_cooldown = 3; schema13_reader.battle_active = true
 	var old_before: Dictionary = _receipt_variables(schema13_reader)
@@ -3687,7 +3701,7 @@ func _consignee_prepare(ending: String = "short_ferries", receipt: int = 0, coun
 	s.heal_rest(); game._sync_world_state(); game.world.refresh_heting_points()
 	game.world.teleport(game.world.interactables.heting_dispatch.pos); s.position = game.world.player_pos
 	game._refresh()
-	_check(s.save_game() == OK and s._stage_save_data(s.to_dict(),14).ok, "Prepared prior harbor ending and optional receipt are canonical, with chapter unstarted")
+	_check(s.save_game() == OK and s._stage_save_data(s.to_dict(),15).ok, "Prepared prior harbor ending and optional receipt are canonical, with chapter unstarted")
 
 func _consignee_progress() -> Dictionary:
 	var result: Dictionary = {}
@@ -3713,7 +3727,7 @@ func _consignee_checkpoint(label: String) -> void:
 	var before: Dictionary = game.state.to_dict()
 	_check(game.state.save_game() == OK, "Actual chapter checkpoint writes current scene progress: "+label)
 	var bytes: PackedByteArray = _receipt_bytes()
-	_check(_receipt_document().version == 14 and game.state._same_save_value(_receipt_document().player,before) and not bytes.get_string_from_utf8().contains("consignee_provenance"), "Chapter checkpoint includes complete14 fields and excludes transient battle provenance")
+	_check(_receipt_document().version == 15 and game.state._same_save_value(_receipt_document().player,before) and not bytes.get_string_from_utf8().contains("consignee_provenance"), "Chapter checkpoint includes complete15 fields and excludes transient battle provenance")
 	game._load()
 	_check(game.state.to_dict() == before and game.world.consignee_stage == game.state.consignee_stage and game.world.consignee_cargo_location == game.state.consignee_cargo_location and _receipt_bytes() == bytes, "Actual reload reapplies saved chapter/cargo before player position repair: "+label)
 	var old: Dictionary = _receipt_variables(schema13_reader)
@@ -3855,7 +3869,7 @@ func _consignee_backup(label: String) -> void:
 	s.coins -= 1
 	var transfer = load("res://scripts/local_save_transfer.gd").new(directory)
 	var preview: Dictionary = transfer.preview_import(bytes,2)
-	_check(preview.ok and preview.version == 14 and transfer.commit_import(preview.token).ok and FileAccess.get_file_as_bytes(store.path_for(2)) == bytes, "Actual packed core imports chapter14 exact bytes into genuinely empty slot only")
+	_check(preview.ok and preview.version == 15 and transfer.commit_import(preview.token).ok and FileAccess.get_file_as_bytes(store.path_for(2)) == bytes, "Actual packed core imports chapter14 exact bytes into genuinely empty slot only")
 	_check(not transfer.preview_import(bytes,2).ok and transfer.export_slot(2).bytes == bytes, "Chapter14 occupied slot stays protected and export preserves raw bytes")
 
 func _consignee_seed_ready(count: int = 1, receipt: int = 0) -> void:
@@ -4046,8 +4060,8 @@ func _test_heting_polish_pack() -> void:
 	var art = load("res://scripts/party_battle_art.gd").new()
 	scenery.prepare()
 	_check(scenery.ENCOUNTER_STYLES == {"training":"courtyard","sect_trial":"courtyard","courtyard_practice":"courtyard","heting_consignee":"warehouse"}, "Polish keeps the bounded original four-entry style mapping")
-	_check(encounters.IDS.size() == 11, "Polish audits all eleven actual encounter identifiers")
-	for id: String in encounters.IDS:
+	_check(encounters.IDS.size() == 12 and encounters.IDS.slice(0,11).size() == 11, "Polish retains eleven old identifiers; capstone archive checked separately")
+	for id: String in encounters.IDS.slice(0,11):
 		var expected: String = "warehouse" if id == "heting_consignee" else ("courtyard" if id in ["training","sect_trial","courtyard_practice"] else "ferry")
 		_check(scenery.style_for(id) == expected and scenery.floor_texture_for(id) == (scenery.EARTH if expected in ["courtyard","warehouse"] else scenery.WOOD), "Polish retains prior encounter style/material: "+id)
 	for id: String in ["","unrecognized","warehouse","heting_consignee_future"]:
@@ -4103,7 +4117,7 @@ func _test_heting_polish_pack() -> void:
 	var probe := PolishBackdropProbe.new()
 	probe.scenery = scenery; probe.floor_mesh = floor_mesh; probe.size = Vector2(1280,685)
 	root.add_child(probe)
-	for id: String in encounters.IDS:
+	for id: String in encounters.IDS.slice(0,11):
 		probe.encounter = id
 		for repeat: int in range(2):
 			var before_draws: int = probe.draws
@@ -4115,7 +4129,7 @@ func _test_heting_polish_pack() -> void:
 	probe.queue_free(); await process_frame
 	_test_polish_route_labels(harbor)
 	_check(_receipt_variables(game.state) == state and _receipt_bytes() == save_bytes, "Packed paint inspection leaves all gameplay fields and save bytes unchanged")
-	_check(game.state.SAVE_VERSION == 14 and not game.web_save_transfer_enabled and not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Paint-only package retains schema14 and default-off browser transfer")
+	_check(game.state.SAVE_VERSION == 15 and not game.web_save_transfer_enabled and not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Paint-only package retains schema15 and default-off browser transfer")
 	print("Heting paint-only polish exact-runtime coverage: %d checks; actual warehouse gradient/apron/cache and eleven unchanged style mappings; exactly four route-label strings with both pontoon positions; actual outline/font-cache layout contracts; no native framebuffer or browser pixel acceptance" % (checks-first))
 
 func _test_polish_apron(scenery) -> void:
@@ -4214,3 +4228,384 @@ func _polish_glyph_bounds(font: FontFile, text: String, size: int, outline: int)
 					bounds = pixel if first else bounds.merge(pixel); first = false
 		cursor += float(shaped.advance)
 	return {"bounds":bounds,"valid":valid}
+
+# Schema15 is a separate partition. Inputs/positions/history below are prepared;
+# shipped rules, scene callbacks, disk writes and controller tokens are real.
+func _capstone_prerequisites() -> bool:
+	var previous: int = failures; var first: int = checks
+	for module: String in ["volume_one_capstone_rules", "volume_one_capstone_combat_data", "volume_one_capstone_story", "volume_one_capstone_navigation", "painted_battle_liang"]:
+		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Capstone module required before scene/save: "+module)
+	for asset: String in ["painted_liang_combat_v4", "painted_liang_portrait_v1"]:
+		_check(ResourceLoader.exists("res://assets/generated/characters/"+asset+".png"), "Separate original Liang resource required before scene/save: "+asset)
+	for file: String in ["combat-v4-review.json", "combat-v4-measurements.json", "portrait-v1-review.json"]:
+		_check(FileAccess.file_exists("res://assets/generated/characters/liang_provenance/"+file), "Actual pack retains accepted project-asset provenance: "+file)
+	if failures != previous: return false
+	var rules = load("res://scripts/volume_one_capstone_rules.gd")
+	var story = load("res://scripts/volume_one_capstone_story.gd")
+	_check(rules.TITLE == "第一卷终章·截令归灯" and rules.INTRODUCED_VERSION == 15 and rules.MAX_SUPPORTED_VERSION == 15, "Actual capstone title and schema15 introduction/support are required")
+	_check(rules.FIELDS == CAPSTONE_FIELDS and rules.REWARD_XP == 160 and rules.REWARD_COINS == 80 and rules.ORDER_IDS.size() == 4, "Actual capstone bounded durable bundle/rewards/order catalog")
+	_check(story.PAGES.has("A0") and story.PAGES.has("H3") and story.SITES.size() == 6, "Actual six-stop authored scene must include beginning and completed homecoming")
+	_check(not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Schema15 package transfer remains default-off")
+	_capstone_prerequisite_checks = checks-first
+	return failures == previous
+
+func _capstone_legacy_prerequisite(rehearsal: bool) -> bool:
+	var previous: int = failures; var first: int = checks
+	var path: String = OS.get_environment("HERO_AUDIT_SCHEMA14_READER")
+	_schema14_save = OS.get_environment("HERO_AUDIT_SCHEMA14_SAVE")
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--schema14-reader="): path = argument.trim_prefix("--schema14-reader=")
+		if argument.begins_with("--schema14-save="): _schema14_save = argument.trim_prefix("--schema14-save=")
+	if rehearsal:
+		if path.is_empty(): path = ProjectSettings.globalize_path("res://tests/fixtures/v028_game_state.gd.txt")
+		if _schema14_save.is_empty(): _schema14_save = ProjectSettings.globalize_path("res://tests/fixtures/capstone/schema_14_default.json")
+	_check(path.is_absolute_path() and FileAccess.file_exists(path) and FileAccess.get_sha256(path) == SCHEMA14_READER_SHA256, "Exact genuine Web28 schema14 reader is externally byte-pinned")
+	_check(_schema14_save.is_absolute_path() and FileAccess.file_exists(_schema14_save) and FileAccess.get_sha256(_schema14_save) == SCHEMA14_SAVE_SHA256, "Actual historical Web28 writer bytes, never modern version relabeling")
+	var provenance: String = _schema14_save.get_base_dir().path_join("schema_14_provenance.json")
+	_check(FileAccess.file_exists(provenance) and FileAccess.get_sha256(provenance) == SCHEMA14_PROVENANCE_SHA256, "Authentic14 producer provenance is pinned separately from1–13")
+	if failures != previous: return false
+	var script := GDScript.new(); script.source_code = FileAccess.get_file_as_string(path).replace("class_name HeroState\n", "")
+	var error: Error = script.reload()
+	_check(error == OK, "Authentic old14 reader compiles with current dependencies, only global registration removed")
+	if error != OK: return false
+	schema14_reader = script.new()
+	_check(schema14_reader.SAVE_VERSION == 14 and not schema14_reader.to_dict().has("capstone_stage"), "Frozen reader retains actual14 gate and pre-capstone field layout")
+	_capstone_prerequisite_checks += checks-first
+	return failures == previous
+
+func _test_capstone_pack() -> void:
+	var first: int = checks
+	game.set_process(false); game.world.set_process(false)
+	_check(game.capstone_story.get_script() == load("res://scripts/volume_one_capstone_story.gd"), "Main owns actual packaged capstone story")
+	_capstone_migrations()
+	await _capstone_art()
+	await _capstone_route("pause_batch", "hold_for_inspection", true)
+	await _capstone_route("cancel_proven", "return_to_owner", false)
+	await _capstone_failures()
+	await _capstone_combat_boundaries()
+	_check(not game.web_save_transfer_enabled and _unified_facts_ok, "Capstone keeps browser transfer default-off and observed unified token/basic invariants")
+	print("Schema15 capstone chapter exact-runtime coverage: %d checks; actual packed six-stop story/site/generation/save guards; genuine producers1,9–14 versus authored2–8; actual13 reader rejects true14 and actual14 reader rejects true15 with current dependencies, not full-old-runtime; modern required13/14/15 fields; fixed620 solo authorizer and real accepted terminal; finite four orders; both160XP80coins once; old identity/cargo/endings; original imported Liang/provenance/read-only draw/portrait; prepared state/input only, no earned-route, browser or pixel claim" % (checks-first+_capstone_prerequisite_checks))
+
+func _capstone_migrations() -> void:
+	var model = load("res://scripts/game_state.gd"); var probe = model.new()
+	probe.coins = 925; probe.battle_active = true; probe.skill_cooldown = 3
+	var unchanged: Dictionary = _receipt_variables(probe)
+	var genuine14: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(_schema14_save))
+	_check(genuine14.version == 14 and probe._same_save_value(genuine14.player,schema14_reader.to_dict()), "Pinned true14 fixture equals actual old producer default serialization")
+	_check(schema14_reader.load_game(_schema14_save) == OK, "Real14 source reader accepts genuine14 control without claiming full historical dependencies")
+	for version: int in range(1,15):
+		var path: String = _schema14_save if version == 14 else _legacy_save_fixtures.path_join("schema_%02d_default.json" % version)
+		var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+		var result: Dictionary = probe.inspect_save_bytes(bytes)
+		_check(result.ok and result.version == version and result.state != probe, "Capstone current inspector accepts pinned old bytes: "+str(version))
+		_check(_receipt_variables(probe) == unchanged and FileAccess.get_file_as_bytes(path) == bytes, "Capstone old inspection never changes live fields or original disk")
+		if not result.ok: continue
+		for key: String in CAPSTONE_FIELDS: _check(result.state.to_dict()[key] == model.new().to_dict()[key], "Old1–14 absent capstone fields remain neutral: %d/%s" % [version,key])
+		_check(result.state.hp == 100 and result.state.qi == 2 and result.state.medicine == 3 and result.state.coins == 24 and result.state.party_roster == ["hero"], "Capstone migration grants no heal/reward/companion")
+		var data: Dictionary = JSON.parse_string(bytes.get_string_from_utf8()).player
+		for mask: int in range(1,7):
+			var partial: Dictionary = data.duplicate(true)
+			for index: int in range(3):
+				if mask & (1 << index): partial[CAPSTONE_FIELDS[index]] = model.new().to_dict()[CAPSTONE_FIELDS[index]]
+			_check(not probe.inspect_save_bytes(JSON.stringify({"version":version,"player":partial}).to_utf8_buffer()).ok, "Partial legacy capstone bundle fails closed: %d/%d" % [version,mask])
+		var saved: String = "user://capstone-migrated-%d.json" % version
+		_check(result.state.save_game(saved) == OK and JSON.parse_string(FileAccess.get_file_as_string(saved)).version == 15 and FileAccess.get_file_as_bytes(path) == bytes, "Only explicit save writes actual15; old source never rewritten")
+	for version: int in [13,14,15]:
+		var canonical: Dictionary = schema13_reader.to_dict() if version == 13 else (genuine14.player if version == 14 else model.new().to_dict())
+		_check(probe.inspect_save_bytes(JSON.stringify({"version":version,"player":canonical}).to_utf8_buffer()).ok, "Complete genuine modern layout accepted: "+str(version))
+		for key: String in canonical:
+			var missing: Dictionary = canonical.duplicate(true); missing.erase(key)
+			_check(not probe.inspect_save_bytes(JSON.stringify({"version":version,"player":missing}).to_utf8_buffer()).ok, "Every modern required field fails closed: %d/%s" % [version,key])
+	var path: String = "user://capstone-true15-old14-reject.json"
+	_check(model.new().save_game(path) == OK and JSON.parse_string(FileAccess.get_file_as_string(path)).version == 15, "Actual packaged15 writer produces authentic new rejection bytes")
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	schema14_reader.coins = 931; schema14_reader.battle_active = true; schema14_reader.skill_cooldown = 4
+	var old: Dictionary = _receipt_variables(schema14_reader)
+	_check(schema14_reader.load_game(path) == ERR_FILE_UNRECOGNIZED and _receipt_variables(schema14_reader) == old and FileAccess.get_file_as_bytes(path) == bytes and not FileAccess.file_exists(path+".tmp"), "Byte-pinned true14 reader rejects actual15 nondestructively before persistent/transient mutation")
+	var directory: String = _transfer_directory("capstone-schema15")
+	var store = load("res://scripts/local_save_slots.gd").new(directory)
+	var helper = load("res://scripts/local_save_transfer.gd").new(directory)
+	var preview: Dictionary = helper.preview_import(bytes,1)
+	_check(preview.ok and preview.version == 15 and helper.commit_import(preview.token).ok and FileAccess.get_file_as_bytes(store.path_for(1)) == bytes, "Actual packed transfer accepts15 into empty manual slot preserving bytes")
+	_check(not helper.preview_import(bytes,1).ok and helper.export_slot(1).bytes == bytes, "Current15 occupied slot remains protected and raw export is exact")
+
+class CapstoneDrawProbe extends Control:
+	var art
+	var pose: Dictionary = {}
+	var draws: int = 0
+	var draw_ready: bool = false
+	func _draw() -> void:
+		draw_ready = art.draw(self, Vector2(380,480),pose,1.0,204.0)
+		draws += 1
+
+func _capstone_image_hash(texture: Texture2D) -> String:
+	var image: Image = texture.get_image(); image.convert(Image.FORMAT_RGBA8)
+	var hash := HashingContext.new(); hash.start(HashingContext.HASH_SHA256); hash.update(image.get_data())
+	return hash.finish().hex_encode()
+
+func _capstone_art() -> void:
+	var art = load("res://scripts/painted_battle_liang.gd"); var portraits = load("res://scripts/character_portraits.gd")
+	var state: Dictionary = _receipt_variables(game.state); var disk: PackedByteArray = _receipt_bytes()
+	var provenance: Dictionary = {"combat-v4-review.json":"a1041d94a31df1a21542f766d7698e54d1bf797f98212890e6e48e47b767660c", "combat-v4-measurements.json":"c449ffee9ce988bca9121e2ea0e36b08b9e356fae28a0bca1b2df482f2e51555", "portrait-v1-review.json":"21cba51f3aa572a13dcae5e5add7a3be48ecaf2f7c1bc9dcf594be228fe0f8e9"}
+	for file: String in provenance:
+		_check(FileAccess.get_sha256("res://assets/generated/characters/liang_provenance/"+file) == provenance[file], "Actual packaged original asset provenance bytes pinned: "+file)
+	var measurement: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/generated/characters/liang_provenance/combat-v4-measurements.json"))
+	_check(measurement.sha256 == "4812052ca14b016e43818713eaefe3a15ba3baa79fc421a8d40fc1e6774b5f33", "Packaged measurement binds approved original combat source hash")
+	_check(_capstone_image_hash(art.texture_for("idle").atlas) == "4258a20d42cf52ca009f5f75541d47e75d45273d641273be46ea23c2724af2f0", "Actual imported combat RGBA pixels pinned independently of source PNG")
+	var portrait = portraits.texture_for("liang_zhen")
+	_check(portrait is AtlasTexture and portrait.region == Rect2(0,0,1254,1254) and portrait.filter_clip and portrait.atlas != art.texture_for("idle").atlas, "Separate full original portrait is cached and never reuses battle crop")
+	_check(_capstone_image_hash(portrait.atlas) == "eff3709294bc781bf9d43b01efe61243e167cfc53fc9ccb9783db57ca239eda3", "Actual imported portrait RGBA pixels pinned independently of source PNG")
+	var probe := CapstoneDrawProbe.new(); probe.art = art; probe.size = Vector2(800,600); root.add_child(probe)
+	var hashes: Dictionary = {}
+	for key: String in art.POSES:
+		var texture = art.texture_for(key); var measured: Dictionary = measurement.poses[key]
+		var region: Array = measured.source_region; var anchor: Array = measured.foot_anchor
+		_check(texture != null and texture.atlas.get_size() == Vector2(1254,1254) and texture.region == Rect2(region[0],region[1],region[2],region[3]) and texture.filter_clip, "Actual Liang measured separate action crop: "+key)
+		var digest: String = _capstone_image_hash(texture)
+		_check(not hashes.has(digest), "Actual six Liang pose pixels are distinct: "+key); hashes[digest] = true
+		_check(art.FOOT_ANCHORS[key] == Vector2(anchor[0],anchor[1]) and art.drawing_rect(Vector2(380,480),204,key).encloses(art.opaque_rect(Vector2(380,480),204,key)), "Measured Liang original crop/feet enclose silhouette: "+key)
+		var map: Dictionary = {"idle":{},"windup":{"windup":1.0},"strike":{"strike":1.0},"guard":{"guard":1.0},"hurt":{"recoil":1.0},"kneel":{"defeat":1.0}}
+		probe.pose = map[key]; var before: int = probe.draws; probe.queue_redraw(); await process_frame; await process_frame
+		_check(probe.draws > before and probe.draw_ready and art.pose_for(probe.pose) == key, "Actual read-only CanvasItem draw executed approved Liang pose: "+key)
+	for pixels: float in [96,160,224]:
+		var node = portraits.attach(probe,"liang_zhen",Rect2(0,0,pixels,pixels))
+		_check(node != null and node.texture == portrait and node.mouse_filter == Control.MOUSE_FILTER_IGNORE and node.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED, "Actual portrait attachment ready at original intended size: "+str(pixels))
+	_check(portraits.id_for_title("梁缜·签令主事") == "liang_zhen" and portraits.id_for_title("韩铮").is_empty() and art.texture_for("walk") == null, "Original portrait maps named authorizer only; no invented walk cycle")
+	probe.queue_free(); await process_frame
+	_check(_receipt_variables(game.state) == state and _receipt_bytes() == disk, "Real Liang resource/Canvas/portrait checks are read-only in memory and on disk")
+
+func _capstone_prepare(plan: String = "hold_for_inspection", count: int = 1, stage: int = 0) -> void:
+	_consignee_prepare("short_ferries" if plan == "hold_for_inspection" else "open_scale",0,count)
+	var s = game.state
+	s.consignee_stage = 5; s.consignee_observations.assign(s.Consignee.OBSERVATIONS); s.consignee_draft = plan; s.consignee_ending = plan
+	s.consignee_cargo_location = "public_scale" if plan == "hold_for_inspection" else "grain_boat"
+	s.capstone_stage = stage; s.capstone_draft = ""; s.capstone_ending = ""
+	if plan == "return_to_owner": s.ending = "秉公"; s.chapter_two_ending = "open_records"
+	s.heal_rest(); game._sync_world_state(); game._refresh()
+	_check(s._stage_save_data(s.to_dict(),15).ok and s.save_game() == OK, "Prepared completed old history is canonical15, without claiming earned predecessor gameplay")
+
+func _capstone_history() -> Dictionary:
+	var data: Dictionary = game.state.to_dict(); var result: Dictionary = {}
+	for key: String in ["player_name","gender","active_companion","quest_stage","ending","side_stage","side_choice","side_clues","side_found","side_reward_claimed","chapter_two_stage","chapter_two_ending","archive_clues","seal_sequence","bridge_repaired","mist_stage","mist_approach","mist_ending","mist_gauges","heting_stage","heting_bridge","heting_delivered","heting_cargo","heting_draft","heting_ending","receipt_stage","consignee_stage","consignee_observations","consignee_contributions","consignee_draft","consignee_cargo_location","consignee_ending","party_roster","companion_unlocked","tangqi_unlocked","qin_unlocked"]:
+		if data.has(key): result[key] = data[key]
+	return result
+
+func _capstone_go(site: String) -> void:
+	if game.active_modal: game._close_modal()
+	var map: String = game.capstone_story.SITES[site]
+	game.state.map_id = map; game._sync_world_state(); game.world.change_map(map,Vector2(520,440))
+	_check(game.world.interactables.has(site), "Actual physical capstone site exists: "+site)
+	game.world.teleport(game.world.interactables[site].pos); game.state.position = game.world.player_pos; game._refresh(); game._process(0)
+	_check(game.state.save_game() == OK, "Prepared site position checkpoint in isolated profile: "+site)
+
+func _capstone_open(site: String) -> void:
+	_capstone_go(site)
+	var before: Dictionary = game.state.to_dict(); var disk: PackedByteArray = _receipt_bytes()
+	await _key(KEY_E)
+	_check(game.active_modal and game.state.to_dict() == before and _receipt_bytes() == disk and not game.modal_autosave_on_close, "Actual E opens capstone reading without mutation/save: "+site)
+
+func _capstone_callback(fragment: String) -> Callable:
+	var buttons: Array = []
+	_capstone_buttons(game.overlay,buttons)
+	for index: int in buttons.size():
+		if String(buttons[index].text).contains(fragment): return game.modal_actions[index]
+	_check(false,"Actual capstone callback missing: "+fragment)
+	return func(): pass
+
+func _capstone_buttons(node: Node, buttons: Array) -> void:
+	if node is Button and node.name.begins_with("DialogueChoice"): buttons.append(node)
+	for child: Node in node.get_children(): _capstone_buttons(child,buttons)
+
+func _capstone_press(fragment: String) -> void:
+	var buttons: Array = []; _capstone_buttons(game.overlay,buttons)
+	_check(buttons.size() <= 5 and not buttons.is_empty(), "Actual capstone page has one-to-five visible choices")
+	for button: Button in buttons:
+		if button.text.contains(fragment):
+			_check(button.visible and not button.disabled, "Actual capstone choice is available: "+fragment)
+			button.pressed.emit(); return
+	_check(false,"Actual capstone choice missing: "+fragment+" in "+str(buttons.map(func(button):return button.text)))
+
+func _capstone_checkpoint(label: String) -> void:
+	var s = game.state; var before: Dictionary = s.to_dict(); var disk: PackedByteArray = _receipt_bytes()
+	_check(_receipt_document().version == 15 and s._same_save_value(_receipt_document().player,before) and not disk.get_string_from_utf8().contains("capstone_provenance"), "Actual current15 checkpoint has full durable fields, no terminal provenance: "+label)
+	var probe = load("res://scripts/game_state.gd").new()
+	_check(probe.load_game() == OK and probe.to_dict() == before and _receipt_bytes() == disk, "Detached actual reload preserves exact current15 progress/resources: "+label)
+	var goal: Dictionary = s.Capstone.goal(s)
+	var expected_sites: Array = ["heting_dispatch","chapter_host","chapter_clerk","chapter_archive","capstone_order_desk","capstone_order_desk","elder"]
+	_check((goal.get("site_id","") == expected_sites[s.capstone_stage] and goal.get("map_id","") == game.capstone_story.SITES[expected_sites[s.capstone_stage]]) if s.capstone_stage < 7 else goal.is_empty(), "Actual stage goal matches independent six-stop sequence: "+label)
+	game._sync_world_state(); game._refresh()
+	_check(game.world.capstone_goal == goal and game.world.capstone_orders == s.Capstone.order_rows(s), "Actual world receives shared goal/finite order rows: "+label)
+	if s.capstone_stage < 7: _check(game.quest_label.text == s.Capstone.TITLE and game.hint_label.text.contains(goal.objective), "Actual capstone scene HUD title and shared goal: "+label)
+	else: _check(goal.is_empty() and game.quest_label.text != s.Capstone.TITLE, "Completed capstone releases ordinary goal ownership")
+	game._show_map(); var chart = game.overlay.find_child("RegionChart",true,false)
+	_check(chart != null and chart.current_target == game.world._quest_target_id() and not game.modal_autosave_on_close, "Actual map shares exact world navigation target without autosave")
+	game._close_modal(); game._show_journal()
+	_check(_gather_text(game.overlay).contains(s.Capstone.TITLE) and not game.modal_autosave_on_close, "Actual journal includes chapter record and remains read-only")
+	game._close_modal()
+	_check(s.to_dict() == before and _receipt_bytes() == disk, "Repeated real map/journal views preserve all fields and disk")
+
+func _capstone_accept(fragment: String, stage: int, fail_save: bool) -> void:
+	var disk: PackedByteArray = _receipt_bytes(); var stale: Callable = _capstone_callback(fragment)
+	var blocked: String = _receipt_block_save() if fail_save else ""
+	_capstone_press(fragment)
+	_check(game.state.capstone_stage == stage, "Actual guarded capstone acceptance reaches stage: "+str(stage))
+	var accepted: Dictionary = game.state.to_dict(); stale.call()
+	_check(game.state.to_dict() == accepted, "Stale accepted capstone callback cannot replay mutation")
+	if fail_save:
+		_check(game.save_warning and _receipt_bytes() == disk, "Failed actual save retains accepted capstone memory and original disk")
+		_capstone_press("重试保存")
+		_check(game.state.to_dict() == accepted and _receipt_bytes() == disk and game.save_warning, "Repeated failed retry serializes only; no replay")
+		_receipt_unblock_save(blocked); _capstone_press("重试保存")
+		_check(not game.save_warning and game.state.to_dict() == accepted, "Recovered real retry persists exact already accepted capstone state")
+	_capstone_checkpoint("stage"+str(stage))
+
+func _capstone_battle_open():
+	await _capstone_open("chapter_archive")
+	_check(_gather_text(game.overlay).contains("梁缜") and _gather_text(game.overlay).contains("未发"), "Actual named-authorizer scene distinguishes responsibility from unacquired book")
+	var portrait = game.overlay.find_child("Portrait_liang_zhen",true,false)
+	_check(portrait is TextureRect and portrait.texture == load("res://scripts/character_portraits.gd").texture_for("liang_zhen") and portrait.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Actual named Liang dialogue attaches separate approved portrait without intercepting choices")
+	_capstone_press("查看应战准备")
+	_check(game.capstone_story.battle_entry_ready() and _gather_text(game.overlay).contains("620"), "Actual explicit ready page discloses fixed620 endurance")
+	_capstone_press("保存后阻止交发")
+	var panel = _party_panel(); _unified_freeze(panel)
+	_check(panel != null and panel.encounter == "capstone_authorizer" and game.current_screen == "party_battle", "Actual site/generation-guarded start enters shared twelfth controller")
+	if panel != null:
+		var snapshot: Dictionary = game.state.party_battle_snapshot()
+		_check(snapshot.enemies.size() == 1 and snapshot.enemies[0].id == "liang_zhen" and snapshot.enemies[0].max_hp == 620 and snapshot.enemies[0].hp == 620, "Exactly one original authorizer, fixed620 independent of roster")
+		_check(panel.art.backdrop_style == "archive" and panel.art.actor_order().count("liang_zhen") == 1 and panel.unit_plates.has("liang_zhen"), "Actual battle uses archive scene and one original Liang silhouette/plate")
+	return panel
+
+func _capstone_fight(panel, outcome: String = "win") -> Dictionary:
+	var terminal: Dictionary = {}; var hp: int = 620; var facts: bool = true; var tokens: Dictionary = {}; var basics: Dictionary = {}
+	for step: int in range(600):
+		terminal = _unified_begin(panel,outcome == "win")
+		if terminal.is_empty(): break
+		facts = facts and not tokens.has(terminal.token); tokens[terminal.token] = true
+		var enemy: Dictionary = terminal.after.enemies[0]
+		facts = facts and terminal.after.enemies.size() == 1 and enemy.id == "liang_zhen" and enemy.max_hp == 620 and enemy.hp <= hp; hp = enemy.hp
+		if terminal.action_id == "attack":
+			var key: String = "%d/%s" % [terminal.before.round,terminal.source_id]
+			facts = facts and not basics.has(key) and _party_actor(terminal.before,terminal.source_id).hp > 0; basics[key] = true
+		facts = facts and not game.state.finish_party_presentation(terminal.epoch,terminal.token-1).accepted
+		if not terminal.after.active: break
+		panel.art._process(panel.art.get_presentation_duration()+.1)
+	_check(not terminal.is_empty() and not terminal.after.active and terminal.after.outcome == outcome, "Actual automatic capstone transactions reach real pending terminal: "+outcome)
+	_check(facts and not basics.is_empty(), "Actual capstone tokens/once-per-living-actor/no-heal/fixed620 invariant")
+	return terminal
+
+func _capstone_route(plan: String, old_plan: String, fail_save: bool) -> void:
+	_capstone_prepare(old_plan)
+	var s = game.state; var history: Dictionary = _capstone_history(); var xp: int = _receipt_xp(); var coins: int = s.coins
+	_check(s.party_roster == ["hero"] and not s.companion_unlocked and not s.tangqi_unlocked and not s.qin_unlocked, "Both actual capstone scene routes permit never-recruited solo")
+	await _capstone_open("heting_dispatch"); _capstone_accept("接下查册引介",1,fail_save)
+	await _capstone_open("chapter_host"); var before: Dictionary = s.to_dict()
+	_capstone_press("展开原信"); _capstone_press("听他说明作者"); _capstone_press("这封信要我做到哪里")
+	_check(s.to_dict() == before and _gather_text(game.overlay).contains("原信"), "Original letter/draft/authorship reading is unpaid and mutation-free")
+	_capstone_accept("收回原信",2,fail_save)
+	await _capstone_open("chapter_clerk")
+	_capstone_press("继续核两次鹤汀授权"); _capstone_press("核看经办与分存"); _capstone_press("自己核清")
+	before = s.to_dict(); _capstone_press("先赢过他")
+	_check(s.to_dict() == before, "Actual wrong responsibility answer cannot make combat proof of guilt")
+	_capstone_press("重新判断"); _capstone_accept("梁缜须对",3,fail_save)
+	var panel = await _capstone_battle_open()
+	if panel == null: return
+	var terminal: Dictionary = _capstone_fight(panel)
+	if terminal.is_empty(): return
+	_check(s.capstone_stage == 3 and s.coins == coins and _receipt_xp() == xp and s.save_game() == ERR_BUSY, "Pending actual win gives no book/reward/save before presentation")
+	_check(s._valid_capstone_terminal(s.party_session.snapshot()), "Only actual terminal session/entry/identity/token passes acceptance gate")
+	for mutation: String in ["epoch","token","enemy","cap","provenance","active","outcome"]:
+		var forged: Dictionary = s.party_session.snapshot().duplicate(true)
+		match mutation:
+			"epoch": forged.epoch += 1
+			"token": forged.pending_token += 1
+			"enemy": forged.enemies[0].id = "archive_boss"
+			"cap": forged.enemies[0].max_hp = 621
+			"provenance": forged.capstone_provenance = {}
+			"active": forged.active = true
+			"outcome": forged.outcome = "flee"
+		_check(not s._valid_capstone_terminal(forged), "Actual terminal validator rejects forged snapshot: "+mutation)
+	var disk: PackedByteArray = _receipt_bytes(); var blocked: String = _receipt_block_save() if fail_save else ""
+	_party_finish(panel)
+	_check(s.capstone_stage == 4 and s.capstone_draft.is_empty() and s.capstone_ending.is_empty() and s.coins == coins and _receipt_xp() == xp and s.party_settlement.outcome == "win", "Actual accepted victory only obtains book, no classification/disposition/reward")
+	before = s.to_dict(); panel._finished()
+	_check(s.to_dict() == before and not s.finish_party_presentation(terminal.epoch,terminal.token).accepted, "Duplicate terminal presentation cannot repeat capstone settlement")
+	if fail_save:
+		_check(game.save_warning and _receipt_bytes() == disk, "Failed accepted victory save leaves exact old disk and genuine stage4 memory")
+		_capstone_press("重试保存"); _check(s.to_dict() == before and _receipt_bytes() == disk, "Failed victory retry never resettles")
+		_receipt_unblock_save(blocked); _capstone_press("重试保存")
+	_capstone_checkpoint("obtained unclassified book")
+	for row: Dictionary in s.Capstone.order_rows(s): _check(row.evidence == "not_yet_classified" and row.disposition == "pending", "Newly obtained four-order book is unclassified and entirely pending")
+	await _capstone_open("capstone_order_desk"); _capstone_press("自行核定四号")
+	before = s.to_dict(); _capstone_press("同册四号都算")
+	_check(s.to_dict() == before, "Actual wrong four-order classification never progresses")
+	_capstone_press("重新分类"); _capstone_accept("001、002证伪",5,fail_save)
+	await _capstone_open("capstone_order_desk"); _capstone_press("商议处置草案"); _capstone_press("拟作整班暂缓"); _capstone_press("查看最后确认")
+	var stale: Callable = _capstone_callback("确认执行")
+	_capstone_press("返回核对"); _capstone_press("更改草案"); _capstone_press("拟作逐号撤销"); _capstone_press("更改草案"); _capstone_press("拟作整班暂缓"); _capstone_press("查看最后确认")
+	before = s.to_dict(); stale.call(); _check(s.to_dict() == before and s.capstone_stage == 5, "A-to-B-to-A draft cannot revive old modal confirmation")
+	_capstone_press("返回核对"); _capstone_press("撤下草案")
+	_check(s.capstone_draft.is_empty() and s.capstone_stage == 5, "Actual clearing retains classification and does not dispatch")
+	_capstone_press("重新商议草案"); _capstone_press("拟作整班暂缓" if plan == "pause_batch" else "拟作逐号撤销"); _capstone_press("查看最后确认")
+	before = s.to_dict(); _capstone_press("先不确认"); await process_frame
+	_check(s.to_dict() == before and s.capstone_ending.is_empty(), "Canceled actual confirmation never dispatches while waiting")
+	for row: Dictionary in s.Capstone.order_rows(s): _check(row.disposition == "pending", "Draft/cancel preserves each finite order as pending")
+	await _capstone_open("capstone_order_desk"); _capstone_press("查看当前草案"); _capstone_press("查看最后确认"); _capstone_accept("确认执行",6,fail_save)
+	_check(s.capstone_ending == plan and s.coins == coins and _receipt_xp() == xp, "Only desk locks selected plan; no final reward before elder")
+	var rows: Array = s.Capstone.order_rows(s)
+	_check(rows.size() == 4, "Exactly four finite pending-batch orders, no invented cargo")
+	for index: int in range(4):
+		_check(rows[index].id == "capstone_pending_%03d" % (index+1) and rows[index].batch_id == s.Capstone.BATCH and rows[index].evidence == ("proven_false" if index<2 else "unverified") and rows[index].disposition == ("cancelled" if index<2 else ("held" if plan == "pause_batch" else "continuing")), "Actual final same-batch order keeps exact classification/disposition: "+str(index))
+	await _capstone_open("elder"); _capstone_press("先看回条"); _capstone_press("回到灯下")
+	var party_resources: Dictionary = s.party_resources.duplicate(true)
+	_capstone_accept("交回回条",7,fail_save)
+	_check(_receipt_xp() == xp+160 and s.coins == coins+80 and s.party_resources == party_resources, "Both accepted elder endings pay160XP80coins once, no companion recovery")
+	await _capstone_open("elder"); _capstone_press("继续行走")
+	_check(_receipt_xp() == xp+160 and s.coins == coins+80 and _capstone_history() == history and s.Capstone.goal(s).is_empty(), "Repeat elder preserves all old identity/endings/cargo/roster and never pays again")
+	_consignee_backup("capstone-"+plan)
+
+func _capstone_failures() -> void:
+	for reason: String in ["distance","state_map","generation","closed","quit","state_identity"]:
+		_capstone_prepare(); await _capstone_open("heting_dispatch")
+		var s = game.state; var stale: Callable = _capstone_callback("接下查册引介"); var disk: PackedByteArray = _receipt_bytes()
+		match reason:
+			"distance": game.world.teleport(game.world.player_pos+Vector2(75,0))
+			"state_map": s.map_id = "mistwood"
+			"generation": game.modal_generation += 1
+			"closed": game._close_modal()
+			"quit": game.quit_pending = true
+			"state_identity":
+				var replacement = load("res://scripts/game_state.gd").new(); _check(replacement.load_game() == OK,"Replacement identity loads genuine checkpoint"); game.state = replacement
+		var before: Dictionary = game.state.to_dict(); stale.call()
+		_check(game.state.to_dict() == before and _receipt_bytes() == disk, "Actual stale capstone scene callback rechecks live boundary: "+reason)
+		game.quit_pending = false; game.state = s
+	_capstone_prepare("hold_for_inspection",1,3)
+	await _capstone_open("chapter_archive"); _capstone_press("查看应战准备")
+	var before: Dictionary = game.state.to_dict(); var disk: PackedByteArray = _receipt_bytes(); var blocked: String = _receipt_block_save()
+	_capstone_press("保存后阻止交发")
+	_check(not game.state.battle_active and game.state.to_dict() == before and _receipt_bytes() == disk and game.save_warning, "Actual failed capstone presave blocks combat and all resource changes")
+	_receipt_unblock_save(blocked); _capstone_press("重试保存")
+	_check(not game.state.battle_active and not game.save_warning and game.capstone_story.battle_entry_ready(), "Actual recovered presave retry only restores ready page, never auto-starts combat")
+
+func _capstone_combat_boundaries() -> void:
+	for count: int in [1,2,3,4]:
+		_capstone_prepare("hold_for_inspection",count,3)
+		var s = game.state; var history: Dictionary = _capstone_history(); var panel = await _capstone_battle_open()
+		if panel == null: return
+		var initial: Dictionary = s.party_battle_snapshot(); var disk: PackedByteArray = _receipt_bytes()
+		_check(initial.actors.size() == count and panel.commands.groups.size() == count, "Actual capstone roster has exactly occupied1–4 groups")
+		for actor: Dictionary in initial.actors: _check(panel.commands._slots(actor).size() == 3, "Every real capstone actor retains three fixed category slots")
+		var tx: Dictionary = _unified_begin(panel,false); _party_finish(panel)
+		_check(not tx.is_empty() and tx.action_id == "attack" and s.save_game() == ERR_BUSY and _receipt_bytes() == disk, "No-input actual capstone basic keeps active-save checkpoint isolated")
+		var current: Dictionary = s.party_battle_snapshot(); var xp: int = _receipt_xp(); var coins: int = s.coins
+		_unified_leave()
+		_check(s.capstone_stage == 3 and s.party_settlement.outcome == "flee" and _capstone_history() == history and s.coins == coins and _receipt_xp() == xp, "Real capstone flee keeps established responsibility/book absent/old history/no payment")
+		_check(s.hp == current.actors[0].hp and s.qi == current.actors[0].qi and s.medicine == current.medicine, "Real capstone flee preserves actually consumed resources")
+	_capstone_prepare("return_to_owner",1,3); game.state.hp = 1; game.state.qi = 0; game.state.medicine = 0
+	var history: Dictionary = _capstone_history(); var coins: int = game.state.coins; var xp: int = _receipt_xp()
+	var panel = await _capstone_battle_open()
+	if panel == null: return
+	var terminal: Dictionary = _capstone_fight(panel,"defeat")
+	if terminal.is_empty(): return
+	_party_finish(panel)
+	_check(game.state.party_settlement.outcome == "defeat" and game.state.capstone_stage == 3 and _capstone_history() == history and game.state.coins == coins-mini(8,coins) and _receipt_xp() == xp, "Real capstone defeat retains evidence/old history, bounded8coin fee once, no book/reward")
+	_check(game.state.map_id == "frostbridge" and game.state.hp == game.state.max_hp and game.state.medicine == 0, "Actual capstone defeat applies documented safe recovery without medicine refund")
