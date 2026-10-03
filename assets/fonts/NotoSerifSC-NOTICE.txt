@@ -1,0 +1,12 @@
+Noto Serif CJK SC Regular 2.003
+
+© 2017-2024 Adobe (http://www.adobe.com/).
+
+Font author credits (from the unchanged font name table):
+Ryoko NISHIZUKA 西塚涼子 (kana & ideographs); Frank Grießhammer (Latin, Greek & Cyrillic); Wenlong ZHANG 张文龙 (bopomofo); Sandoll Communications 산돌커뮤니케이션, Soohyun PARK 박수현, Yejin WE 위예진 & Donghoon HAN 한동훈 (hangul elements, letters & syllables)
+
+SIL Open Font License 1.1, supplied in NotoSerifSC-OFL.txt.
+Upstream: https://github.com/notofonts/noto-cjk
+Release: Serif2.003, commit 9b0f1436e455d902de067a2501422e5dc71ad16b
+
+2026-10-03 Hero staging packaging: the complete Simplified Chinese face (index 2) was extracted from the official release-matching NotoSerifCJK-Regular.ttc, preserving all 65,535 glyphs. The font was losslessly WOFF2-compressed without subsetting or changing outlines, names, cmap, layout or metrics. The WOFF2-required head.flags bit 11 and container checksums are packaging metadata changes only. This packaging is not an upstream release. No author endorsement is claimed.
