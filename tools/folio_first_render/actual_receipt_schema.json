@@ -1,0 +1,19 @@
+{
+  "provenance": {
+    "original_receipt_sha256": "afa8279d7db55a407bb4e4009ee1c1c96b61c3c7b6b172b79a8c76385ec16fb8",
+    "scope": "Exact accessed-field schema projection reported by Windows owner; actual error_lines is nested in import. Private paths and unaccessed fields omitted; this is not the complete receipt or a new execution."
+  },
+  "receipt": {
+    "passed": true,
+    "import": {
+      "exit_code": 0,
+      "error_lines": []
+    },
+    "original_file_changes": [],
+    "generated_file_count": 101,
+    "generated_uid_paths": [
+      "scripts/folio_theme.gd.uid"
+    ],
+    "original_engine_and_marker_unchanged": true
+  }
+}

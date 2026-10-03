@@ -168,7 +168,7 @@ def main():
         receipt_paths[name] = path; records[name] = json.loads(path.read_text(encoding='utf-8-sig'))
     receipt = records['import_receipt']; profile_receipt = records['profile_receipt']
     need(absolute(profile_receipt['source']) == source and profile_receipt['source_commit'] == PUBLIC_COMMIT and profile_receipt['source_tree'] == TREE, 'Profile receipt is not for the exact original runtime')
-    need(receipt['passed'] is True and receipt['import']['exit_code'] == 0 and receipt['import']['error_lines'] == [] and receipt['original_file_changes'] == [] and receipt['original_engine_and_marker_unchanged'] is True, 'Import receipt does not establish the unchanged, cleanly imported runtime')
+    need(receipt['passed'] is True and receipt['import']['exit_code'] == 0 and receipt['error_lines'] == [] and receipt['original_file_changes'] == [] and receipt['original_engine_and_marker_unchanged'] is True, 'Import receipt does not establish the unchanged, cleanly imported runtime')
     need(sha(HERE/'source-sha256.json') == MANIFEST_SHA, 'Frozen original manifest mismatch')
     env, values, user, profile_root, profile_observation = validate_profile(profile_receipt)
     launch, binary, engine_mode = validate_engine(profile_receipt,args.console_wrapper,args.console_wrapper_sha256)

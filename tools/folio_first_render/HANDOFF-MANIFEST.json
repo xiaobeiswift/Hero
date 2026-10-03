@@ -1,10 +1,10 @@
 {
-  "scope": "Capture-only tooling, no engine/Windows run during preparation",
+  "scope": "Capture-only tooling with one observed receipt-schema correction; static checks are not engine/native acceptance",
   "runtime_public_commit": "87c4c3f3f9a5c39c39118e0202177b46f35ebae1",
   "files": {
     "capture_imported_windows.py": {
-      "bytes": 17940,
-      "sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899"
+      "bytes": 17950,
+      "sha256": "c63cd822f3b13744dd0c25b439983b7f4aac052716be8a1389a0af316b6eb6e1"
     },
     "first_render.gd": {
       "bytes": 12530,
@@ -19,12 +19,29 @@
       "sha256": "6e48c21e24633f1d5b6f3db0c4b5ccbd6f3b4480ea99d9e008b542bdb46b189e"
     },
     "README.md": {
-      "bytes": 10485,
-      "sha256": "a2bb52eacdae96b43ac02e982be82a0988ee285f4f097285b7e5ea26d99da141"
+      "bytes": 11609,
+      "sha256": "56a6280d1dc5ffde18ca6f854cd0ec36e6255e87b80610df55a557103a9fd69e"
     },
     "static-checks-v2.log": {
       "bytes": 1505,
       "sha256": "682b695f78bdc28f381c6dee1743562b5e8738e69e7ee2360e88e12e5eb0f9e1"
+    },
+    "actual_receipt_schema.json": {
+      "bytes": 639,
+      "sha256": "ef93d9c5ecf48ffb9578f5e358939f4e5923ce0b5407f1537c2e22d0f87fe3e6"
+    },
+    "test_receipt_schema.py": {
+      "bytes": 2605,
+      "sha256": "52ab47eea2bf4db005fceaf07e08a631c02da71ec5e27841e96b3c7df0a7eb8d"
+    },
+    "published-helper.py.txt": {
+      "bytes": 17940,
+      "sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899"
+    },
+    "ADAPTATION.json": {
+      "bytes": 698,
+      "sha256": "2ed3c70189004e1109e648e7a9fa817479b60c05fe68d092797e0f0e3b3f2023"
     }
-  }
+  },
+  "schema_correction": "Actual import.error_lines replaces erroneous top-level error_lines; exact one-line adaptation in ADAPTATION.json"
 }

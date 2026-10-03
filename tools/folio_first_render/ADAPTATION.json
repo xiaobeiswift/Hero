@@ -1,0 +1,14 @@
+{
+  "kind": "Exact one-line receipt-schema adaptation, no runtime edit",
+  "published_helper_commit": "8e731fd3853d2fde44b81246cb0e1ae1b4f8acdd",
+  "runtime_public_commit": "87c4c3f3f9a5c39c39118e0202177b46f35ebae1",
+  "before_sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899",
+  "after_sha256": "c63cd822f3b13744dd0c25b439983b7f4aac052716be8a1389a0af316b6eb6e1",
+  "before_bytes": 17940,
+  "after_bytes": 17950,
+  "old_expression": "receipt['error_lines'] == []",
+  "new_expression": "receipt['import']['error_lines'] == []",
+  "replacement_count": 1,
+  "actual_receipt_sha256": "afa8279d7db55a407bb4e4009ee1c1c96b61c3c7b6b172b79a8c76385ec16fb8",
+  "engine_run": false
+}

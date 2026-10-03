@@ -40,7 +40,7 @@ The user directory may already exist empty after its isolation guard. Immediatel
 
 - `passed: true`
 - `import.exit_code: 0`
-- `error_lines: []`, `original_file_changes: []`
+- `import.error_lines: []`, `original_file_changes: []`
 - `generated_file_count`: count matching the supplied generated inventory
 - `original_engine_and_marker_unchanged: true`
 
@@ -75,6 +75,7 @@ Populate these variables from the already reviewed Windows task records. No valu
 
 ```powershell
 python "$Helper\test_capture_static.py"
+python "$Helper\test_receipt_schema.py"
 python "$Helper\capture_imported_windows.py" `
   --source "$Runtime" `
   --profile-receipt "$CaptureProfileReceipt" `
@@ -109,3 +110,9 @@ Do not treat default RichText color as the whole contrast inventory. The new bod
 ## Preparation validation
 
 This helper and GDScript are unexecuted on Windows and uncompiled by Godot during preparation. Portable Python/static tests validate receipt classifications, direct-engine byte binding, optional wrapper mapping, existing-empty versus player-data rejection, cache separation and retained guards. This is preparation evidence only.
+
+## Observed Windows receipt-schema correction
+
+The initial published helper stopped before starting Godot because it incorrectly looked for top-level `error_lines`. The actual import result stores this field at `import.error_lines`. The correction changes exactly that one subscript; source runtime, profile rules and all other guards remain unchanged. Original published helper bytes and the failure are preserved.
+
+`actual_receipt_schema.json` is a privacy-redacted projection of the fields this guard actually reads, tied to the observed original receipt SHA. It is not a reconstructed full receipt or a fabricated successful execution. `test_receipt_schema.py` evaluates the exact production-guard AST: it reproduces the original KeyError, accepts the real nested shape, and rejects nested errors even if a top-level empty list is supplied, absent nested data, nonzero exit, original changes and false status/marker claims. Seven new checks and the existing fourteen pass; this is not an engine or native-visual result. Exact adaptation identities are in ADAPTATION.json.
