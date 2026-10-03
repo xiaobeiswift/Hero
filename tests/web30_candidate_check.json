@@ -1,0 +1,218 @@
+{
+  "status": "cloud_and_independent_windows_passed_rollout_admitted_not_yet_verified",
+  "snapshot_at_utc": "2026-10-03T15:42:00Z",
+  "snapshot_time_qualification": "Minute-resolution time supplied by the supervising lead for rollout admission; not a deployment completion or receipt-verification time.",
+  "game_version": "0.0.30",
+  "web_revision": 1,
+  "source_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+  "public_runtime_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+  "source_tree": "686bcd211c7221a807aaaa52dc22e6cb3b1bcd96",
+  "existing_evidence_only_commit": "c46c533129e83337e948dcea23e66b3e3ca245b7",
+  "existing_public_evidence_only_commit": "e1d0f92b930ebf952d48b4d370571f84e5996231",
+  "writer_schema": 16,
+  "accepted_previous_save_versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "current_save_version": 16,
+  "since14_and_since15_required_fields_remain_strict": true,
+  "party_capacity": 4,
+  "unified_encounter_count": 12,
+  "production_web_transfer_enabled": false,
+  "cloud": {
+    "source_rehearsal_checks": 18752,
+    "actual_pck_checks": 18757,
+    "actual_pack_only_checks": 5,
+    "failures": 0,
+    "partitions": {
+      "PRESERVED": 1471,
+      "UNIFIED": 1247,
+      "EXPLORATION": 349,
+      "CONDITION": 191,
+      "TRANSFER": 363,
+      "CONSIGNEE": 1036,
+      "POLISH": 460,
+      "CAPSTONE": 1179,
+      "FITTING": 12369
+    },
+    "complete_old15_checks": 20,
+    "runtime_entries": 360,
+    "external_audit_inputs": 32,
+    "site_and_archive_members": 14,
+    "pck": {
+      "bytes": 59285968,
+      "sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6"
+    },
+    "archive": {
+      "bytes": 68627694,
+      "sha256": "56cce0e0fe52eb89a0d23d20c60a51ace50a0db8b9f266325c0357789e7f9f76"
+    },
+    "audit_input_sha256": {
+      "tools/smoke_export.gd": "71bd88bb29256bf1c7dde9812f7e5ac6caab450ac32807de2742ab937788b08f",
+      "tools/audit_web_export.py": "2c4acc75ad168ca73a1ffb77588c9f782e7fadd8fdf6dc6af42ef6064be37e40",
+      "tools/run_godot_check.py": "cff12672a20925f1d0a4500fe57cacf7c20437927c39bc95aa47444f575be586",
+      "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+      "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+      "tests/fixtures/v017_game_state.gd.txt": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+      "tests/fixtures/v022_game_state.gd.txt": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+      "tests/fixtures/v025_game_state.gd.txt": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+      "tests/fixtures/v028_game_state.gd.txt": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+      "tests/fixtures/v028_game_state.provenance.json": "85176eefce72748bc14b7caba5796622a42ac415883109205e379313c6e2d992",
+      "tests/fixtures/capstone/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "tests/fixtures/capstone/schema_14_provenance.json": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+      "tests/fixtures/v029_game_state.gd.txt": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+      "tests/fixtures/weapon_fitting/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "tests/fixtures/weapon_fitting/schema_15_default.json": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "tests/fixtures/weapon_fitting/provenance.json": "14912385256444e441350c79e2fd2435af7898ef604cafa0216ed40a3960b292",
+      "tests/fixtures/weapon_fitting/legacy_automatic.gd.txt": "e1184548085af19dc0142fd01c25fe667b2be7e661bee50c03fd821899fb1c42",
+      "tests/capstone_package_fixture_producer.gd": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+      "tests/fixtures/legacy_saves/provenance.json": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+      "tests/fixtures/legacy_saves/schema_01_default.json": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+      "tests/fixtures/legacy_saves/schema_02_default.json": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+      "tests/fixtures/legacy_saves/schema_03_default.json": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+      "tests/fixtures/legacy_saves/schema_04_default.json": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+      "tests/fixtures/legacy_saves/schema_05_default.json": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+      "tests/fixtures/legacy_saves/schema_06_default.json": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+      "tests/fixtures/legacy_saves/schema_07_default.json": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+      "tests/fixtures/legacy_saves/schema_08_default.json": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+      "tests/fixtures/legacy_saves/schema_09_default.json": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+      "tests/fixtures/legacy_saves/schema_10_default.json": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+      "tests/fixtures/legacy_saves/schema_11_default.json": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+      "tests/fixtures/legacy_saves/schema_12_default.json": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+      "tests/fixtures/legacy_saves/schema_13_default.json": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc"
+    },
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "795b3c707f85631818efff18c5af5b87b939a1c9a3489e0f6c7c13e775c5fe82",
+        "bytes": 9951
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "854aae6607961f965195c32319483d5acbe676bbb507962e7e7b31fb5c608867",
+        "bytes": 13447
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "e07b973883d61a660b7f8b725f013d41a01b4d6cdc0450759f11e28a0a757872",
+        "bytes": 11864
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6",
+        "bytes": 59285968
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "package_closure_record": "tests/weapon_fitting_phase2_package_closure.json"
+  },
+  "independent_windows": {
+    "receipt_origin": "Independent Windows executor result relayed by the supervising lead; this cloud documentation task did not inspect Windows artifacts directly.",
+    "source_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "exact_pck_checks": 18757,
+    "failures": 0,
+    "attempts": 1,
+    "partitions": {
+      "PRESERVED": 1471,
+      "UNIFIED": 1247,
+      "EXPLORATION": 349,
+      "CONDITION": 191,
+      "TRANSFER": 363,
+      "CONSIGNEE": 1036,
+      "POLISH": 460,
+      "CAPSTONE": 1179,
+      "FITTING": 12369
+    },
+    "runtime_entries": 360,
+    "external_audit_inputs": 32,
+    "site_and_archive_members": 14,
+    "pck": {
+      "bytes": 59285968,
+      "sha256": "2d0001652bfc5dc36e3251cbc3c5325382fe35b961c32ad61eee9994e63fa56d"
+    },
+    "archive": {
+      "bytes": 68626868,
+      "sha256": "ab141c9e9dae882e8de65e2e2e534e366e54f306780b0d0435019e8dbef04417"
+    },
+    "complete_old15_boundary": {
+      "checks": 20,
+      "failures": 0,
+      "scope": "Separate complete old15 process; accepts genuine15 control, refuses actual new-package16 subject while preserving the checked state and original save/manual-slot/backup bytes.",
+      "external_probe_adaptation": "Expected-hash-only adaptation for the independently built Windows artifacts. The pinned repository source and all original assertions remained unchanged; not a byte-identical rerun of the cloud probe."
+    }
+  },
+  "full_source_regression": {
+    "godot_commands": 185,
+    "python_checks": 85,
+    "python_skips": 0,
+    "mock_dom_checks": 53,
+    "unchanged_inputs_during_run": 1564,
+    "metadata_exception": false,
+    "later_docs_and_qa_records": 14,
+    "checksum_change_recorded_separately": true,
+    "frozen_runtime_checkpoint_files": 1571,
+    "scope": "The 1564 original full-regression inputs were unchanged during that run. Fourteen reviewed docs/QA records plus CHECKSUMS followed the run; the later 1571-file runtime checkpoint remained unchanged during the export/audit gates. These counts describe different stages, not an unqualified final whole-tree identity."
+  },
+  "rollout": {
+    "admitted_at_utc": "2026-10-03T15:42:00Z",
+    "time_precision": "minute",
+    "status": "admitted_not_yet_verified",
+    "last_verified_live_version": "0.0.29 Web1 / schema15"
+  },
+  "artifact_hash_qualification": "Cloud and Windows PCK/archive hashes differ and are recorded separately. Identical source tree does not assert cross-machine packaged-byte identity.",
+  "limits": [
+    "Historical candidate state is preserved even if a later deployment receipt is added.",
+    "This docs-only checkpoint did not rerun runtime, export, Windows or server checks.",
+    "Actual browser gameplay/graphics/audio/IndexedDB refresh persistence remains untested; native exact-PCK validation and HTTPS checks do not establish browser acceptance.",
+    "Every new save, including original fitting, writes16; old programs cannot read it. Keep old saves before upgrading. No new automatic-backup guarantee; existing manual-slot behavior unchanged.",
+    "No new GitHub package/release is published by this documentation checkpoint. Transfer remains default-off; first-volume completion is not commercial1.0 completion."
+  ]
+}

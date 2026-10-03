@@ -1,0 +1,96 @@
+{
+  "status": "independent_windows_and_https_rollout_verified_browser_runtime_unverified",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.30",
+  "web_revision": 1,
+  "save_schema": 16,
+  "accepted_previous_save_versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "current_save_version": 16,
+  "since14_and_since15_required_fields_remain_strict": true,
+  "party_capacity": 4,
+  "unified_encounter_count": 12,
+  "production_web_transfer_enabled": false,
+  "source_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+  "source_local_mapping": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+  "source_tree": "686bcd211c7221a807aaaa52dc22e6cb3b1bcd96",
+  "windows": {
+    "receipt_origin": "Independent Windows executor result relayed by the supervising lead; this cloud documentation task did not inspect Windows artifacts directly.",
+    "source_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "exact_pck_checks": 18757,
+    "failures": 0,
+    "attempts": 1,
+    "partitions": {
+      "PRESERVED": 1471,
+      "UNIFIED": 1247,
+      "EXPLORATION": 349,
+      "CONDITION": 191,
+      "TRANSFER": 363,
+      "CONSIGNEE": 1036,
+      "POLISH": 460,
+      "CAPSTONE": 1179,
+      "FITTING": 12369
+    },
+    "runtime_entries": 360,
+    "external_audit_inputs": 32,
+    "site_and_archive_members": 14,
+    "pck": {
+      "bytes": 59285968,
+      "sha256": "2d0001652bfc5dc36e3251cbc3c5325382fe35b961c32ad61eee9994e63fa56d"
+    },
+    "archive": {
+      "bytes": 68626868,
+      "sha256": "ab141c9e9dae882e8de65e2e2e534e366e54f306780b0d0435019e8dbef04417"
+    },
+    "complete_old15_boundary": {
+      "checks": 20,
+      "failures": 0,
+      "scope": "Separate complete old15 process; accepts genuine15 control, refuses actual new-package16 subject while preserving the checked state and original save/manual-slot/backup bytes.",
+      "external_probe_adaptation": "Expected-hash-only adaptation for the independently built Windows artifacts. The pinned repository source and all original assertions remained unchanged; not a byte-identical rerun of the cloud probe.",
+      "retained_evidence_files": 12
+    }
+  },
+  "deployment": {
+    "completed_at_utc": "2026-10-03T15:57:47Z",
+    "https_complete_asset_hashes": 14,
+    "checks_passed": 36,
+    "caddy_configuration": "unchanged",
+    "player_saves": "unchanged",
+    "unrelated_git_https_status": 200,
+    "retention": "Current 0.0.30-web1 only; the old0.0.29 served directory and server ZIP were retired only after durable recovery was verified and zero readers were confirmed. Player saves and configuration remained unchanged."
+  },
+  "receipt_verified_at_utc": "2026-10-03T15:58:54Z",
+  "evidence_scope": "Independent Windows build/audit and deployment execution receipt relayed to and verified by the release coordinator. Deployment completion and receipt verification times are distinct. This cloud documentation checkpoint did not directly inspect Windows artifacts or the live server and performed no server action.",
+  "cloud_candidate_record": "tests/web30_candidate_check.json",
+  "cloud_package_closure_record": "tests/weapon_fitting_phase2_package_closure.json",
+  "artifact_hash_qualification": "Cloud and Windows PCK/archive hashes differ and are recorded separately. Identical source tree does not assert cross-machine packaged-byte identity.",
+  "aggregate_binding_qualification": {
+    "godot_commands": 185,
+    "python_checks": 85,
+    "python_skips": 0,
+    "mock_dom_checks": 53,
+    "unchanged_inputs_during_run": 1564,
+    "metadata_exception": false,
+    "later_docs_and_qa_records": 14,
+    "checksum_change_recorded_separately": true,
+    "frozen_runtime_checkpoint_files": 1571,
+    "scope": "The 1564 original full-regression inputs were unchanged during that run. Fourteen reviewed docs/QA records plus CHECKSUMS followed the run; the later 1571-file runtime checkpoint remained unchanged during the export/audit gates. These counts describe different stages, not an unqualified final whole-tree identity."
+  },
+  "historical_records": "The earlier candidate and package-closure records preserve their original rollout-pending state. This new evidence-only record does not rewrite producer receipts or make the later docs tree a new tested runtime identity.",
+  "limits": "Actual browser gameplay/graphics/audio/IndexedDB refresh persistence remains untested. Native exact-PCK and HTTPS validation do not establish browser runtime acceptance. Transfer remains default-off. Every new save including original fitting writes16 and is unreadable by old programs; no new automatic-backup guarantee. First-volume completion is not commercial1.0. No new GitHub package/release was published by this documentation checkpoint; no further system implementation or approval is implied."
+}
