@@ -1,0 +1,391 @@
+{
+  "status": "passed_within_separately_bound_headless_scopes",
+  "implementation": {
+    "final_focused_checks": 98,
+    "count_json_pointer": "/borrowed_metric_label_correction/checks",
+    "final_log": {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/borrowed-label-final-functional/log.txt",
+      "bytes": 113,
+      "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+    },
+    "current_owned_binding": {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source.sha256",
+      "bytes": 837,
+      "sha256": "1b15e23795cb96aead661c0e2cf13f84e9e652121566b25f479500b2a5f26b9d"
+    },
+    "prior_stages": [
+      72,
+      85,
+      87
+    ],
+    "prior_stages_not_added": true,
+    "retained_after_admission_fix": {
+      "workshop": 26,
+      "dialogue": 109
+    },
+    "retained_before_admission_fix": {
+      "save_slots": 35,
+      "unified_combat": 503,
+      "pause": "passed without numeric count"
+    },
+    "retained_after_main_native_polish_before_final_badge_height": {
+      "dialogue": 109,
+      "unified_combat": 503
+    },
+    "retained_scope": "Individual retained runs have their own source scopes. Full aggregate, when present, is the final-byte reexecution.",
+    "report": {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/RESULT.md",
+      "bytes": 11606,
+      "sha256": "56402150ad40618810007e2acaf78575a89ad339be2c7ecbbc7b323670c979ac"
+    },
+    "raw_validation": {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/validation.json",
+      "bytes": 7672,
+      "sha256": "89396f1f2952b04fdaf7e71921dcb9f0be0ee5fbc96f0ec74e5232ac61f244a0"
+    }
+  },
+  "independent": {
+    "checks": 3214,
+    "failures": 0,
+    "case_count": 13,
+    "case_ids": [
+      "navigation",
+      "locks",
+      "malformed_entry",
+      "stale",
+      "locations",
+      "position_release",
+      "rosters_inputs",
+      "terminals",
+      "history",
+      "save_failure",
+      "application_close",
+      "writer_load",
+      "wording"
+    ],
+    "scope": "Independent prepared canonical/adversarial State fixtures through actual Main keyboard/mouse and automatic PartyUI; no earned journey, native pixels, browser, exported package or universal balance claim. Genuine State only; test-only Main observes saves/exits. Exact bytes plus inode/mtime observed; failed writes before filesystem access outside Main are not syscall-instrumented.",
+    "runtime_harness_inputs": 316,
+    "input_changes": [],
+    "accepted_comparison_audits": 6,
+    "preservation_snapshots": 100,
+    "input_and_preservation_trace_rows": 594,
+    "not_claimed": [
+      "earned story traversal",
+      "native pixel acceptance",
+      "OS-level manual keyboard/mouse play",
+      "browser graphics/audio/IndexedDB persistence",
+      "exact new PCK",
+      "Windows/macOS native acceptance",
+      "full aggregate regression",
+      "all12 encounter baseline rerun by this worker",
+      "universal balance advantage",
+      "syscall instrumentation of failed writes outside observed Main entries"
+    ],
+    "attempts": [
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA",
+        "classification": "Final clean complete run:3214 checks,13 cases,0 failures,0 engine errors/warnings;316 inputs unchanged before/after.",
+        "files": {
+          "result.json": {
+            "bytes": 1073397,
+            "sha256": "dc0fbfbf0a578faf1411d16f34131da241b842f2be369d5a21b19182dcb571ba"
+          },
+          "run.log": {
+            "bytes": 486,
+            "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+          },
+          "engine.log": {
+            "bytes": 486,
+            "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+          },
+          "inputs-before.json": {
+            "bytes": 54735,
+            "sha256": "d558333e7f5fa1cddee9607f08b589dca0f827377397d544af6046bb10c8f158"
+          },
+          "inputs-after.json": {
+            "bytes": 54666,
+            "sha256": "a69ed21722153e9d8482999b7ac83257ed440134ef2eec4dbeef1477789cfb76"
+          },
+          "driver.gd.txt": {
+            "bytes": 50362,
+            "sha256": "2966020060f24f83a5b29a65fcc67417e77b3dd60ce921a2bde205ee655c0559"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.nltHpP",
+        "classification": "3183 checks,1 stale wording expectation (expected 尚未保存 vs approved 有未保存的变化). Test changed to semantic unsaved/retry requirement, not product behavior.",
+        "files": {
+          "result.json": {
+            "bytes": 1064524,
+            "sha256": "3f78c4c6f5738efde9af7235237f81a261e2268a343f910bee2eb55620047241"
+          },
+          "run.log": {
+            "bytes": 1114,
+            "sha256": "6b7c366af44c71841d3249794cb6fe90b54df35287376212a925bdce86b05922"
+          },
+          "engine.log": {
+            "bytes": 1114,
+            "sha256": "6b7c366af44c71841d3249794cb6fe90b54df35287376212a925bdce86b05922"
+          },
+          "inputs-before.json": {
+            "bytes": 54735,
+            "sha256": "5be865ca6706f2808ab31c191b542ab6a708a4203ba3e5498abaf4d58ed582cd"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/full.qDilyM",
+        "classification": "3018 checks,7 failed setup assertions from one remote Heting fixture lacking its required entry prerequisite. Corrected fixture through begin_heting; no gameplay assertions weakened. NaN adversarial world-coordinate report was initially encoded as JSON null warning; later recorded explicitly as nonfinite.",
+        "files": {
+          "result.json": {
+            "bytes": 1078683,
+            "sha256": "57ad2eb26358309b48756d7d2af2d9544f4c4030da45c45a8f9c59c25d948127"
+          },
+          "run.log": {
+            "bytes": 3712,
+            "sha256": "6e293cb9e27744c639f4fed1a84d6f9d49802763f0fcfae2a5b8db1f577ff49d"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locations.TFmCZ4",
+        "classification": "Corrected canonical remote fixture and court boundaries:553 checks,0 failures,clean.",
+        "files": {
+          "result.json": {
+            "bytes": 149997,
+            "sha256": "e96af4a2487eae89ce22a0910778b693862555cdaca919e5142b6fbaf888ba31"
+          },
+          "run.log": {
+            "bytes": 152,
+            "sha256": "96087402916c1c99f13079221c3fc929bc72538119105585ad267c8eb5ea557b"
+          },
+          "engine.log": {
+            "bytes": 152,
+            "sha256": "96087402916c1c99f13079221c3fc929bc72538119105585ad267c8eb5ea557b"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locks.9ud78q",
+        "classification": "265/0 assertion result after owner fix, but rejected-panel metadata helper emitted engine errors. Not a clean pass; corrected helper.",
+        "files": {
+          "result.json": {
+            "bytes": 58275,
+            "sha256": "3a27861aed85d6f20af3fc6a2b8d5263a46fad4fc4dd8877a98bdd98394abed5"
+          },
+          "run.log": {
+            "bytes": 1774,
+            "sha256": "47b346dfb33a110c218084688540bf1eebbe1a45cae583e74735f85844e4a20b"
+          },
+          "engine.log": {
+            "bytes": 1774,
+            "sha256": "47b346dfb33a110c218084688540bf1eebbe1a45cae583e74735f85844e4a20b"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.1Xtm11",
+        "classification": "Launch-only error: wrapper invoked from wrong directory; no Godot process started.",
+        "files": {
+          "run.log": {
+            "bytes": 121,
+            "sha256": "ddca928c724190c4734c7ca36be22614d83740cabccdf4af653dac735f3ae21b"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.MNYRkV",
+        "classification": "Initial malformed-current-State probe: five actual admission failures; additional file checks contaminated by assertion diagnostics in default user:// engine log. Later runs put engine logs outside player data.",
+        "files": {
+          "result.json": {
+            "bytes": 59662,
+            "sha256": "aea371507b5bf0a8689c6b21011cacfc574cdecf6a50f52e7b71cf429152525f"
+          },
+          "run.log": {
+            "bytes": 10917,
+            "sha256": "7cf9cd09c3e7ee8b89542bd908533f465bbc7f01783c394618e7df789b6b2221"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.XKlPsP",
+        "classification": "133 checks,6 genuine admission failures including explicit plain candidate with unknown installed fitting causing Invalid access key unknown at UI build. Clean external-log isolation; prompted production owner fix.",
+        "files": {
+          "result.json": {
+            "bytes": 53639,
+            "sha256": "a39a8a1bbb8f7730960173196f8eb406df034a8c15383e61577fa7c3741175b5"
+          },
+          "run.log": {
+            "bytes": 3937,
+            "sha256": "35d955736838c963ed6c434b01536f318a7d4adc6747a57b953f3a5f228915c2"
+          },
+          "engine.log": {
+            "bytes": 3888,
+            "sha256": "30e892e0ffd49187a993b6dcbb70e893257915355ad1acb00df3dd785abdd0b1"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed_entry.qZpSkF",
+        "classification": "Admission assertions133/0 after owner fix, but test get_meta with null default generated missing-meta engine errors. Not a clean pass; helper corrected to has_meta first.",
+        "files": {
+          "result.json": {
+            "bytes": 52895,
+            "sha256": "51594402cdc49a73aa9958e5891820a04a08cf169042b2e36d9b457910273055"
+          },
+          "run.log": {
+            "bytes": 3044,
+            "sha256": "60e4029ae833a435fc0dacf3bf91e0b6770acc7fc4bba715ce773c2ba3af2eb6"
+          },
+          "engine.log": {
+            "bytes": 3044,
+            "sha256": "60e4029ae833a435fc0dacf3bf91e0b6770acc7fc4bba715ce773c2ba3af2eb6"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/navigation.o1jhyZ",
+        "classification": "Initial clean focused navigation,219 checks; before malformed admission fix.",
+        "files": {
+          "result.json": {
+            "bytes": 117140,
+            "sha256": "ef0854434309f6f76f2b91f672ec3afa3abf7d99081fae58114ca73a722d87a7"
+          },
+          "run.log": {
+            "bytes": 153,
+            "sha256": "5d47c8de8211f3e09ace55f4a3c976cc1acf7c02435b9530a597d919a97f0b4d"
+          }
+        }
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/position_release.cr28cu",
+        "classification": "291 checks,0 failures; added actual world-object replacement boundary alongside all previously tested release paths.",
+        "files": {
+          "result.json": {
+            "bytes": 83397,
+            "sha256": "fb3d19ee666848f47a90eb556caef051a8c3bfa0d4685d380cdce104a550d7a4"
+          },
+          "run.log": {
+            "bytes": 159,
+            "sha256": "c14453705715b1b7917168f63778f4d9397d0177652582ba499ab78cb3caaa0a"
+          },
+          "engine.log": {
+            "bytes": 159,
+            "sha256": "c14453705715b1b7917168f63778f4d9397d0177652582ba499ab78cb3caaa0a"
+          }
+        }
+      }
+    ]
+  },
+  "counts_not_additive": true,
+  "final_byte_reexecution": {
+    "status": "passed_exact_complete_source",
+    "raw_result": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-result.json",
+      "bytes": 19925,
+      "sha256": "69a36cf348dbd8bd7fa4040a936fc5ee1ac72aab79c30fb9af2279b1b5a37c3b"
+    },
+    "wrapper": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/run_full02.py",
+      "bytes": 4876,
+      "sha256": "9a3584c6e3c11f863325722c46adb99fe5e89028e2afce47bdb4b4456b097c51"
+    },
+    "before": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-before.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "after": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-after.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "log": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02.log",
+      "bytes": 3637616,
+      "sha256": "bee6f1ec8d99339c8688062b998468648eed8ca3f06c19341f6abbe66b7ab427"
+    },
+    "compared_files": 1564,
+    "measured_godot_commands": 185,
+    "measured_python_tests": 85,
+    "measured_dom_checks": 53,
+    "unittest_groups": [
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 10,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 6,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 53,
+        "footer": "OK",
+        "skipped": 0
+      }
+    ],
+    "python_skips": 0,
+    "focused_checks": 98,
+    "safety_checks": 3214,
+    "safety_cases": 13,
+    "earned_checks": 2510,
+    "earned_scene_cases": 4,
+    "suites": {
+      "functional": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/functional/engine.log",
+          "bytes": 113,
+          "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+        }
+      },
+      "safety": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/engine.log",
+          "bytes": 486,
+          "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/result.json",
+          "bytes": 1073687,
+          "sha256": "a5ccd66ffff962b71fd283fac69938466c7d566350b1b0c72aa62dc09c28f49a"
+        }
+      },
+      "earned": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/engine.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/result.json",
+          "bytes": 32203798,
+          "sha256": "0fb150ca25f55bcb6a3a62e843397135f35ce9d29af7100c62f77a411f8a2598"
+        }
+      }
+    },
+    "source_unchanged": true,
+    "current_equal_tested_at_preparation": true,
+    "current_readback_utc": "2026-10-03T15:09:50.612174+00:00",
+    "current_readback_scope": "Before applying the14 post-run documentation/QA records and regenerated CHECKSUMS; not a claim that the later complete repository equals the tested manifest."
+  },
+  "independent_authored_report_scope": "Original pre-polish independent report and316-input manifest remain unchanged historical evidence; current-byte acceptance is separately bound to the completed full aggregate.",
+  "defect": "Six genuine malformed-State admissions, including unknown installed fitting producing a layout error; fixed by owner pre-construction whole-State/installed-fitting preview validation. Final complete independent rerun retained.",
+  "final_report": {
+    "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/FINAL_REPORT.json",
+    "bytes": 9984,
+    "sha256": "ae9925a9a2320fbbb9cab1531fd453c21e4751f61933288bb7c94de17562a434"
+  }
+}

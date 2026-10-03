@@ -1,4 +1,5 @@
 extends "res://tests/heting_consignee_balance_test.gd"
+const ReportJsonWriter = preload("res://tests/report_json_writer.gd")
 const Finale = preload("res://scripts/volume_one_capstone_rules.gd")
 const FIXED_PARTITION = {"capstone_pending_001":"proven_false","capstone_pending_002":"proven_false","capstone_pending_003":"unverified","capstone_pending_004":"unverified"}
 const ROSTERS = [["hero"],["hero","shen"],["hero","tang"],["hero","qin"],["hero","shen","tang"],["hero","shen","qin"],["hero","tang","qin"],["hero","shen","tang","qin"]]
@@ -212,7 +213,7 @@ func _run() -> void:
 func _finish() -> void:
 	var file=FileAccess.open(output,FileAccess.WRITE)
 	if file!=null:
-		file.store_string(JSON.stringify({"checks":checks,"failures":failures,"failure_labels":failure_labels,"mode":mode,"cases":cases,"journey":journey,"states":states,"operations":operations,"scope":"Earned State/API and automatic-combat model, no physical walking/main-scene/new art/browser proof. Original opening scene-local effects replayed exactly through existing helpers. No direct grants. Explicit rest and ordinary levelups recorded."},"\t"));file.close()
+		ReportJsonWriter.write(file, {"checks":checks,"failures":failures,"failure_labels":failure_labels,"mode":mode,"cases":cases,"journey":journey,"states":states,"operations":operations,"scope":"Earned State/API and automatic-combat model, no physical walking/main-scene/new art/browser proof. Original opening scene-local effects replayed exactly through existing helpers. No direct grants. Explicit rest and ordinary levelups recorded."});file.close()
 	print("INDEPENDENT_EARNED %d checks %d failures %d complete cases"%[checks,failures,cases.size()])
 	quit(0 if failures==0 else 1)
 func _fight(s, encounter: String, policy: bool, label: String) -> Dictionary:

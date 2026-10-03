@@ -1,0 +1,1547 @@
+{
+  "status": "original_evidence_hashed_not_rewritten",
+  "reference_root": "project QA workspace",
+  "scope": "Original reports, accepted and failed attempts, fixtures, exact driver/bindings and baseline publication evidence. Large reports remain outside source.",
+  "artifacts": [
+    {
+      "path": "Hero-recovery-20261002-0918/publication-20e2039/final-verification.json",
+      "bytes": 15538,
+      "sha256": "dc16a323d43406b76acc83bd756a0c2a2feb91bd48193d26e05355b3d7de7f2d"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/fixtures/legacy_saves/provenance.json",
+      "bytes": 8367,
+      "sha256": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/fixtures/v029_game_state.gd.txt",
+      "bytes": 81624,
+      "sha256": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_earned_driver.gd",
+      "bytes": 7689,
+      "sha256": "5ae4f435728d8aa36a45eb8bc66c6ef7f7b8d2e3c4fdb97a85721174a33d46c9"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_earned_driver.gd.uid",
+      "bytes": 20,
+      "sha256": "d6aaf401ebe83da01f42584ac09b516cb1d72537e2559c92c06d7d9a726ed0f9"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_earned_scene_test.gd",
+      "bytes": 27968,
+      "sha256": "5ac19ca9f8e6016a208dc689a8d29a09d43ac326d4267cf41ca1567a365ba45b"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_earned_scene_test.gd.uid",
+      "bytes": 19,
+      "sha256": "c7bfaba3fa759289d6627b3fb55399fff08e00a2dcb49dd4d8e7de585364483e"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_fixture_producer.gd",
+      "bytes": 2211,
+      "sha256": "51955c4a99e922f8dd66ecd70a2b7ae7e94cf3ce388e04d4a832d6cc2e92b0a9"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_fixture_producer.gd.uid",
+      "bytes": 20,
+      "sha256": "61c9aef89507532b07b8af492a2dc9da46e95d84674503d3112970446ea105aa"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_history_test.gd",
+      "bytes": 8888,
+      "sha256": "3ccf1a4fc2bc3ab1cd8ff78c0b9aa81e0396759ab98cfd226099529ac1922bfe"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_history_test.gd.uid",
+      "bytes": 20,
+      "sha256": "7246592b95ec693654b670195272e6fdb09a3fe585eccaecae7110c64a065c49"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_old15_pack_probe.gd",
+      "bytes": 5043,
+      "sha256": "a982769d468686ef99585360271c25d863b14226273dd00344b4978c33a36c20"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_old15_pack_probe.gd.uid",
+      "bytes": 20,
+      "sha256": "1093ab5f65177bf9c5dce781503df9f8b5274afae889529dfc2214c0ce27d180"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_binding.json",
+      "bytes": 8777,
+      "sha256": "ac07dcbc23304b7e7829a1d9d3416fc212c4276e9f876469850e584e7405931b"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_checkpoint_closure.json",
+      "bytes": 3590,
+      "sha256": "ccce0cf27950e533b9a5724d410c1e1254c0394347368b447a22fedcd5a82d68"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_contract.md",
+      "bytes": 4526,
+      "sha256": "395ed50f1d101336f9c7633b5119e13fa945342c5bb2db485f1602e44aaf5f37"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_core.json",
+      "bytes": 2597,
+      "sha256": "d0f2f7171772c6cf9bc5f9ef6810560a4eaafc3d9f6d0d086d1fa0927a86c1e3"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_evidence_index.json",
+      "bytes": 36915,
+      "sha256": "d0fbad075770c67a4fb4d0f8dc1907fe65026bcd8b57b6918ac7c48104f5a5e0"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_full_regression.json",
+      "bytes": 20913,
+      "sha256": "d927e5cb9bfd861aedbc47e89bcc0906bebd1c5d5bcc8bf4a0dea0935179758e"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_independent.json",
+      "bytes": 8765,
+      "sha256": "ec44244123893757af7f523891ffbe551238360db507e2d853a13302a48e518d"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_migration.json",
+      "bytes": 5148,
+      "sha256": "203e7f20a892c4ccc82106c5ccc77ece2ff1a4e4fda24e1473eafde1dbe01453"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_numerical.json",
+      "bytes": 5037,
+      "sha256": "545a33b539d8dddedca4803b371639880af7ba679069147dd68ca6ed810bc2fc"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_reproduce.py",
+      "bytes": 5069,
+      "sha256": "5ede024be73b7cc65d325d3f398f2895a53d76e47e0bd649f8f0f3d5fee4cef1"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_phase1_trials.json",
+      "bytes": 4100,
+      "sha256": "135343413a3a6bde30e4843fd74baec7cd8b4b9128352e2a32eca4e799766ee3"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_read_consumers_test.gd",
+      "bytes": 3822,
+      "sha256": "9e37e966793fe91c21f469e1212ddc2c44a136d87c50d0a884b62ca89a187629"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_read_consumers_test.gd.uid",
+      "bytes": 20,
+      "sha256": "bf2cf505601dc1361e000a3bcb21ed2488935a66f9b050b4e04ac682b2c67d25"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_rules_test.gd",
+      "bytes": 4330,
+      "sha256": "a278fe5ae949f5f464ba46cb9c18d1d3d1f88333d049643f5a1133e474a8832e"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_rules_test.gd.uid",
+      "bytes": 20,
+      "sha256": "9659f6ed4cc2d9c3b23a14cd840a282d3f36df94aa4ff506ad4ea00d173ab8f5"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_schema_test.gd",
+      "bytes": 23465,
+      "sha256": "d2f86f054776f086dd4c83885c97c12dff4ce0782e5d66e34daf07a09521ad21"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_schema_test.gd.uid",
+      "bytes": 19,
+      "sha256": "7fb5c1beb6fb6dd6a42c4162a6db4e26564cb712618793b191c814a6917aa685"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_state_test.gd",
+      "bytes": 12106,
+      "sha256": "35aa01a1fa7453c35039e48cccb417f30cd211bbbeebe5060e2132c22b0a22ca"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_state_test.gd.uid",
+      "bytes": 20,
+      "sha256": "55238cb8fcaa6ff950a04e1eb2fb5e031fba6a72e35db7b7b737b1daca4317f3"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_trial_metrics_test.gd",
+      "bytes": 15492,
+      "sha256": "832836d20775026f793661eb37e7fd6c811cdda194213f2be154f0e1427249fd"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_trial_metrics_test.gd.uid",
+      "bytes": 19,
+      "sha256": "81a8a9c01a25cce229a347b3088fd8e4eaf14313db4fef5eab16e76657bf4f87"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_trial_model_test.gd",
+      "bytes": 14938,
+      "sha256": "2150121339a5cbb994253ead5231037bb85ce37e5e83b4448c811be43c926d15"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_trial_model_test.gd.uid",
+      "bytes": 20,
+      "sha256": "ad4aacedf24f2da4cd3c2610bb2a8133ac4c7123d469453d1402dc5d43e2711a"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_ui_independent_test.gd",
+      "bytes": 50368,
+      "sha256": "10f15f318afb858b7e0b8d7b50fdb0c89f850c87c1a95491e745bb0bc226e697"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_ui_independent_test.gd.uid",
+      "bytes": 20,
+      "sha256": "18e892f9a3c37d795ded8b71a524d4d8cecc2f7232d4c00851ec6f8e1cec8383"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_ui_test.gd",
+      "bytes": 14115,
+      "sha256": "0f784efeb5be9510e601df764f150eb915d7e95589a0ace8178ded358c5b3b68"
+    },
+    {
+      "path": "Hero-recovery-20261002-0918/source/tests/weapon_fitting_ui_test.gd.uid",
+      "bytes": 20,
+      "sha256": "d107715da4cb967328ca3f00adfbae0555a7be7133957b69b476eea6a7a44c03"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase1/aggregate/test-root-02/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-619-309211/result.json",
+      "bytes": 129902518,
+      "sha256": "43e3008ace1217c29bf14b479eb68a28405966a0c23391b3daba75c3a5a138f2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-01-after.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-01-before.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-01-result.json",
+      "bytes": 4717,
+      "sha256": "5aeec13aad74d761b1835f23ad817b0b5ac27d98e279c7feae6d7266d468c141"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-01.log",
+      "bytes": 2786790,
+      "sha256": "4b79001c8e4f12fbdd491d159bdfb77a65191aef3b31bc6dfbebf49d4d5261c3"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-after.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-before.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-result.json",
+      "bytes": 19925,
+      "sha256": "69a36cf348dbd8bd7fa4040a936fc5ee1ac72aab79c30fb9af2279b1b5a37c3b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02.log",
+      "bytes": 3637616,
+      "sha256": "bee6f1ec8d99339c8688062b998468648eed8ca3f06c19341f6abbe66b7ab427"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-6-318281/result.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/engine.log",
+      "bytes": 978411,
+      "sha256": "02bc6cb9a53c4bf187f498502d5d4d86a8639f8959f8a852c864c7abf4ebc5e0"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/memory-samples.json",
+      "bytes": 80327,
+      "sha256": "c4a142ee0b7bd59f3592a2ce8f027b4654bee55b61717c8183d1a9195285c9d7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/result.json",
+      "bytes": 1832,
+      "sha256": "399e8474bbb862dd598dcc6927c6c8a3358aa4ee29b34a22dbf2a1bc67df217f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/source-after.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/party-diagnostic-01/source-before.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/run_full01.py",
+      "bytes": 4288,
+      "sha256": "11ea65857dcffa07c897ce42b2ef5b1181c91db9354852b7f2df214f0bb88bcf"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/run_full02.py",
+      "bytes": 4876,
+      "sha256": "9a3584c6e3c11f863325722c46adb99fe5e89028e2afce47bdb4b4456b097c51"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-1260-304382/result.json",
+      "bytes": 129902518,
+      "sha256": "43e3008ace1217c29bf14b479eb68a28405966a0c23391b3daba75c3a5a138f2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/engine.log",
+      "bytes": 6715,
+      "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/result.json",
+      "bytes": 32203798,
+      "sha256": "0fb150ca25f55bcb6a3a62e843397135f35ce9d29af7100c62f77a411f8a2598"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/functional/engine.log",
+      "bytes": 113,
+      "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/engine.log",
+      "bytes": 486,
+      "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/result.json",
+      "bytes": 1073687,
+      "sha256": "a5ccd66ffff962b71fd283fac69938466c7d566350b1b0c72aa62dc09c28f49a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/FINAL_BINDING.json",
+      "bytes": 15458,
+      "sha256": "0d94005727ff21ba1eaaa6567de99bc0f491da145705702e1542940a4584e859"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/REVIEW.md",
+      "bytes": 4112,
+      "sha256": "921cbfc30946e1bcc9e4ae0f40d0a0b7edb3d23d6612159b7a49df8c184ec318"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/SUMMARY.json",
+      "bytes": 19986,
+      "sha256": "61f5dfd080a0b638f49c2e9227932a22f93b747744d41a9aee85b5a56f39c090"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/after-source.json",
+      "bytes": 11926,
+      "sha256": "72928166f59505d7d15d1df205ad68f9722daa9fd5433c1137cf001dbad42cae"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/before-source.json",
+      "bytes": 11662,
+      "sha256": "e244950e01d75ddb3523fff0f72eb6b9c97f29736bc7699af66e5fd4aaec0dea"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/actual-old15-unlocked.json",
+      "bytes": 1850,
+      "sha256": "12727299d09b4e26135059ef2ee985b8f023fd7d6fc94bd55db98214e7a038be"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_tingchao_solo-api-earned.json",
+      "bytes": 1879,
+      "sha256": "aeea5d62190044a85fbf51fc041160fca28ac9cadbe1a4e502481e49668b9414"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_wenshi_solo-api-earned.json",
+      "bytes": 1879,
+      "sha256": "ad03b3b144d56d3186819b3abd18adfb4e8ace19a86154794172738874e48619"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_zhaoye_solo-api-earned.json",
+      "bytes": 1879,
+      "sha256": "a8b59b830a03508d704886ca5d93bd97bc8f149dd53da31e98126aafee5320b5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/later_full_party-api-earned.json",
+      "bytes": 2388,
+      "sha256": "38e15a2ad5a36a6f268ebbc63bda471ab734819fe758a4f64f60ad773b1ec70b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/engine.log",
+      "bytes": 6715,
+      "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/exit-code.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/report.json",
+      "bytes": 32203475,
+      "sha256": "03b1fddd3cadbbec5bbcba7c8122a8e4f608eeccae0c757a8644940abdba78be"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/run.log",
+      "bytes": 6715,
+      "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/after-source.json",
+      "bytes": 11926,
+      "sha256": "97c10b8fb5328c0b091ec918474dbdf39c980f952121cc1470ca96146b8a826e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/before-source.json",
+      "bytes": 11662,
+      "sha256": "168fdd0844cac2775999503bd17f3b8fc26de502e8e638b0eb33365f5d79e8a1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/exit-code.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/report.json",
+      "bytes": 32203474,
+      "sha256": "3abd3e44492ea0324a40328c3e0c2d5e0581e16340cf2a2c29da17ba4b936efd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/run.log",
+      "bytes": 6715,
+      "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/after-source.json",
+      "bytes": 11926,
+      "sha256": "590a5fac4cce9a15fe6984377c5f479ada66a71462947b0efb02f27c6b241800"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/before-source.json",
+      "bytes": 11662,
+      "sha256": "20770332c3f335439a2b0867673457278e4fd2524c9c1bfad207c58222cb22c3"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/exit-code.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/report.json",
+      "bytes": 477106,
+      "sha256": "230f0279183a0be29befba250718b72c5fdecfa7b87f4838a0c69f45f3c220b6"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/run.log",
+      "bytes": 7608,
+      "sha256": "c66e5807cec4ef681597136287e1744c9f9f1a26dae1c8eac464bf35190e5370"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/after-source.json",
+      "bytes": 11926,
+      "sha256": "113a86b0ca3430567de8478aeac784c413829636e17f55704225b53b91993467"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/before-source.json",
+      "bytes": 11662,
+      "sha256": "e6bc7a0c0ec99beef7ce0a59718f3a421dcb00ed0309bc7f5bf70af222a20099"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/exit-code.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/report.json",
+      "bytes": 190344,
+      "sha256": "d42ff0a40e978e0eaa8ce75b15cc545edaf6dbe1d66a07b213fea0cf9085fcef"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/run.log",
+      "bytes": 4023,
+      "sha256": "888bb0327eaef717573be86583d761f2f92c5d78e05e562138c84e9c92b998e9"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/after-source.json",
+      "bytes": 11926,
+      "sha256": "3ebc44b0a2fe33e40038de6bc28e489686c4b98e2a8a89bbe8c11f0370b73c4c"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/before-source.json",
+      "bytes": 11662,
+      "sha256": "b2dfd1043eea8ab0f2b191d4c130faff59f85dcb0d4441f3737dec416090a2e1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/exit-code.txt",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/report.json",
+      "bytes": 189109,
+      "sha256": "d71f9174e43399da0849f1bc038e0906e6c1a6917ea47e37ae1ef6708414f089"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/run.log",
+      "bytes": 4023,
+      "sha256": "fa250b3deba080be619fd292e7f0e341c0617475fa3451b96014e04c444c3896"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/after-source.json",
+      "bytes": 11926,
+      "sha256": "97c10b8fb5328c0b091ec918474dbdf39c980f952121cc1470ca96146b8a826e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/before-source.json",
+      "bytes": 11662,
+      "sha256": "168fdd0844cac2775999503bd17f3b8fc26de502e8e638b0eb33365f5d79e8a1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/exit-code.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/report.json",
+      "bytes": 1645094,
+      "sha256": "5a73267dcff36c8eb7cbb21105a2f30a71e20de99b59f49c5fe15934c3450f0d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/run.log",
+      "bytes": 1317,
+      "sha256": "e69605e209905ced732030446eaffa0d1900384240720691d74f7f9357ebdf28"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/finalize-earned.py",
+      "bytes": 8774,
+      "sha256": "21543d3862f858ab2c3acbebab6fff4a9b2a7ca0f22e64a2129a8862e0982214"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/run-earned.sh",
+      "bytes": 1788,
+      "sha256": "1737eb7c7ac0871dcc8065713c1b84214b0e71961ade2e3d84bc4db981f8013a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/FINAL_NATIVE_REVIEW.json",
+      "bytes": 10629,
+      "sha256": "cfc2c7d7c2d4e9a9ca0cb0f4fdf546d6719ed0cc9beb4a247eec9674e67cdf6e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/FINAL_NATIVE_REVIEW.md",
+      "bytes": 3212,
+      "sha256": "67708aeb095af183c66a158fba144afe6af0aebaf04c18693692f5677fde3fff"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/candidate3-review.json",
+      "bytes": 9501,
+      "sha256": "3d747feb7d11b3e84d24b40446321dbe3a73ac66f5cee9fd7bfa9c0d36827e75"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/metric-label-test-update.json",
+      "bytes": 770,
+      "sha256": "38e19ee9659627cc5abda1c0b8d4886e5d54dcf9a55a799fd953ee02ee144a91"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/FINAL_REPORT.json",
+      "bytes": 9984,
+      "sha256": "ae9925a9a2320fbbb9cab1531fd453c21e4751f61933288bb7c94de17562a434"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/FINAL_REPORT.md",
+      "bytes": 6305,
+      "sha256": "d823cc5dc271f140997e9cd9d138a379faa04b7a2dfd17d373cc266e1546a044"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/driver.gd.txt",
+      "bytes": 50362,
+      "sha256": "2966020060f24f83a5b29a65fcc67417e77b3dd60ce921a2bde205ee655c0559"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/engine.log",
+      "bytes": 486,
+      "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/inputs-after.json",
+      "bytes": 54666,
+      "sha256": "a69ed21722153e9d8482999b7ac83257ed440134ef2eec4dbeef1477789cfb76"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/inputs-before.json",
+      "bytes": 54735,
+      "sha256": "d558333e7f5fa1cddee9607f08b589dca0f827377397d544af6046bb10c8f158"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/result.json",
+      "bytes": 1073397,
+      "sha256": "dc0fbfbf0a578faf1411d16f34131da241b842f2be369d5a21b19182dcb571ba"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.5xlGGA/run.log",
+      "bytes": 486,
+      "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.nltHpP/engine.log",
+      "bytes": 1114,
+      "sha256": "6b7c366af44c71841d3249794cb6fe90b54df35287376212a925bdce86b05922"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.nltHpP/inputs-before.json",
+      "bytes": 54735,
+      "sha256": "5be865ca6706f2808ab31c191b542ab6a708a4203ba3e5498abaf4d58ed582cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.nltHpP/result.json",
+      "bytes": 1064524,
+      "sha256": "3f78c4c6f5738efde9af7235237f81a261e2268a343f910bee2eb55620047241"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/final.nltHpP/run.log",
+      "bytes": 1114,
+      "sha256": "6b7c366af44c71841d3249794cb6fe90b54df35287376212a925bdce86b05922"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/full.qDilyM/result.json",
+      "bytes": 1078683,
+      "sha256": "57ad2eb26358309b48756d7d2af2d9544f4c4030da45c45a8f9c59c25d948127"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/full.qDilyM/run.log",
+      "bytes": 3712,
+      "sha256": "6e293cb9e27744c639f4fed1a84d6f9d49802763f0fcfae2a5b8db1f577ff49d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locations.TFmCZ4/engine.log",
+      "bytes": 152,
+      "sha256": "96087402916c1c99f13079221c3fc929bc72538119105585ad267c8eb5ea557b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locations.TFmCZ4/result.json",
+      "bytes": 149997,
+      "sha256": "e96af4a2487eae89ce22a0910778b693862555cdaca919e5142b6fbaf888ba31"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locations.TFmCZ4/run.log",
+      "bytes": 152,
+      "sha256": "96087402916c1c99f13079221c3fc929bc72538119105585ad267c8eb5ea557b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locks.9ud78q/engine.log",
+      "bytes": 1774,
+      "sha256": "47b346dfb33a110c218084688540bf1eebbe1a45cae583e74735f85844e4a20b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locks.9ud78q/result.json",
+      "bytes": 58275,
+      "sha256": "3a27861aed85d6f20af3fc6a2b8d5263a46fad4fc4dd8877a98bdd98394abed5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/locks.9ud78q/run.log",
+      "bytes": 1774,
+      "sha256": "47b346dfb33a110c218084688540bf1eebbe1a45cae583e74735f85844e4a20b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.1Xtm11/run.log",
+      "bytes": 121,
+      "sha256": "ddca928c724190c4734c7ca36be22614d83740cabccdf4af653dac735f3ae21b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.MNYRkV/result.json",
+      "bytes": 59662,
+      "sha256": "aea371507b5bf0a8689c6b21011cacfc574cdecf6a50f52e7b71cf429152525f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.MNYRkV/run.log",
+      "bytes": 10917,
+      "sha256": "7cf9cd09c3e7ee8b89542bd908533f465bbc7f01783c394618e7df789b6b2221"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.XKlPsP/engine.log",
+      "bytes": 3888,
+      "sha256": "30e892e0ffd49187a993b6dcbb70e893257915355ad1acb00df3dd785abdd0b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.XKlPsP/result.json",
+      "bytes": 53639,
+      "sha256": "a39a8a1bbb8f7730960173196f8eb406df034a8c15383e61577fa7c3741175b5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed.XKlPsP/run.log",
+      "bytes": 3937,
+      "sha256": "35d955736838c963ed6c434b01536f318a7d4adc6747a57b953f3a5f228915c2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed_entry.qZpSkF/engine.log",
+      "bytes": 3044,
+      "sha256": "60e4029ae833a435fc0dacf3bf91e0b6770acc7fc4bba715ce773c2ba3af2eb6"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed_entry.qZpSkF/result.json",
+      "bytes": 52895,
+      "sha256": "51594402cdc49a73aa9958e5891820a04a08cf169042b2e36d9b457910273055"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/malformed_entry.qZpSkF/run.log",
+      "bytes": 3044,
+      "sha256": "60e4029ae833a435fc0dacf3bf91e0b6770acc7fc4bba715ce773c2ba3af2eb6"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/navigation.o1jhyZ/result.json",
+      "bytes": 117140,
+      "sha256": "ef0854434309f6f76f2b91f672ec3afa3abf7d99081fae58114ca73a722d87a7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/navigation.o1jhyZ/run.log",
+      "bytes": 153,
+      "sha256": "5d47c8de8211f3e09ace55f4a3c976cc1acf7c02435b9530a597d919a97f0b4d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/position_release.cr28cu/engine.log",
+      "bytes": 159,
+      "sha256": "c14453705715b1b7917168f63778f4d9397d0177652582ba499ab78cb3caaa0a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/position_release.cr28cu/result.json",
+      "bytes": 83397,
+      "sha256": "fb3d19ee666848f47a90eb556caef051a8c3bfa0d4685d380cdce104a550d7a4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-ui-runs/position_release.cr28cu/run.log",
+      "bytes": 159,
+      "sha256": "c14453705715b1b7917168f63778f4d9397d0177652582ba499ab78cb3caaa0a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/prepare.json",
+      "bytes": 1365,
+      "sha256": "e7eef60633b91b0cde4baf89a6575795f49563072b9a193da3669cbe4453ab18"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/source-sha256.json",
+      "bytes": 53906,
+      "sha256": "660bbb060b62eab29aa5fa324cc4791fc66e7693c01fc19467ea65b6b5d23492"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-progress.json",
+      "bytes": 15088791,
+      "sha256": "4c8547d73774646779b047e334288531a07c9519d22b96bb66fabb308c62bd22"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-result.json",
+      "bytes": 9170,
+      "sha256": "976f98937fc856620e116201c146e584fac9b256334fc84e785e9207d26b6906"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-trace.json",
+      "bytes": 15089024,
+      "sha256": "30fa8f2c7e57321fd012936260d44395efb86c054d480cf3ccc31c1571a83a4a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/engine.log",
+      "bytes": 151168,
+      "sha256": "844d41cdb4f76ee671124bd767c419ab3f16d38e6368e78a84f780615aeeb983"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/prepare.json",
+      "bytes": 1365,
+      "sha256": "d40a740269dca77397ac83ce532ab6547a776be76266eee71d550239721d9d48"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/source-sha256.json",
+      "bytes": 53906,
+      "sha256": "7c69e731e30768ef5f43a12e1436ed9a0a41551bc38871d620f827f869766cec"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-progress.json",
+      "bytes": 15089074,
+      "sha256": "29315df48e796269c91e3c890f7e4ee9a262c517cff56e366b30e698bc90549c"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-result.json",
+      "bytes": 24477,
+      "sha256": "fcaac7edb17751a73df68412d565828adf2f147f818d9b877486345d5ce7c701"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-trace.json",
+      "bytes": 15089307,
+      "sha256": "21fff00c58dd9011a6b977b50eeb48ebf7cc12515ee4326f7ac8ec7117f34cb7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/engine.log",
+      "bytes": 2074,
+      "sha256": "56f771d5ff629dfa410b951a2085b1a4720546ce1e23f858fddc20163c577d1a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/godot-internal.log",
+      "bytes": 2072,
+      "sha256": "551eb9688e20ed378559fd0333901fd1f92ef0779a29ce55fa7c42f09a964f60"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/review.json",
+      "bytes": 3321,
+      "sha256": "1429d4db823ad0f24be5f9e5e36406b88e291b20d8275d240763663ee4ec7e2e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/01-title-writer16-warning-1180.png",
+      "bytes": 1186119,
+      "sha256": "560469d4dd1840f12fc861ba6e2314a34e7ccd8da0f886316fa78a567b1530a8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/02-installed-preview-tradeoff-1280.png",
+      "bytes": 360434,
+      "sha256": "0ce00b57258da88456891236c9d0e54ef7f5ba14c7979ad3d9099fb3cfe7395b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/03-explicit-confirmation-1280.png",
+      "bytes": 329218,
+      "sha256": "46ceedae16d6d01d0d02ba9b453c94db8aec1074e9bf8d003cf7b6239604d134"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/04-courtyard-pressure-setup-1280-zoom125.png",
+      "bytes": 309011,
+      "sha256": "b4e85a1b275cdd33b21b71f94c00844aa858798c23cfb0b68f1fdb7688967ff2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/05-actual-borrowed-battle-1280.png",
+      "bytes": 1662002,
+      "sha256": "e66bf57e317e9a9e00176b4e59db3525429d3aacd0977987dd1907918759eb8a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/06-actual-two-result-comparison-1280.png",
+      "bytes": 283106,
+      "sha256": "3a3cbe859149c6c5b13badc594316251b45e4c7cde9e6bebb01a7c5fe7c9fd11"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/07-two-result-focused-1180-zoom160.png",
+      "bytes": 326047,
+      "sha256": "744e630a19d03fe6349856c4965260d78283ca3e57dbd097e65784c41df72d0b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/08-real-failed-save-warning-1280.png",
+      "bytes": 325697,
+      "sha256": "3ff258bafa321c43ce389fa90767c0b06a8337053388d0926b38496643e3b6d2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/prepare.json",
+      "bytes": 1365,
+      "sha256": "39156183d94d2b1a2ac6b9ea0bfb4c287b0c46884ebd73326b710058cad2ccee"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/source-sha256.json",
+      "bytes": 53906,
+      "sha256": "08cd30c9190ebe31fc42b16a2497c8b67b32097e50986532270618e5093b567f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/stills/capture-result.json",
+      "bytes": 24474,
+      "sha256": "48e21a84a4764a4b559c5c7877ea906f9ad2c81aceca2562e4237e3312db5759"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/stills/capture-trace.json",
+      "bytes": 15098859,
+      "sha256": "ee75f1f7417346ee85538fc139491a08c548196d8df2a55bc4336f75ae35fde8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/stills/engine.log",
+      "bytes": 422,
+      "sha256": "cef475a00b7af58387b0cf2ec17c8872df2e0284a0c1293555c1e0bea13ca768"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/stills/original-post-sha256.json",
+      "bytes": 53906,
+      "sha256": "08cd30c9190ebe31fc42b16a2497c8b67b32097e50986532270618e5093b567f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate3/stills/runtime-post-sha256.json",
+      "bytes": 53906,
+      "sha256": "08cd30c9190ebe31fc42b16a2497c8b67b32097e50986532270618e5093b567f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/prepare.json",
+      "bytes": 1365,
+      "sha256": "a88513afa372ae68fc35a296c0eaf61ccff9ee44e4c1e41ebc42e853beea7998"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/source-sha256.json",
+      "bytes": 53906,
+      "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-progress.json",
+      "bytes": 15098962,
+      "sha256": "1964fa1fdea89854544b25b6b9ff1c166327b017a2ac521142b4905a1a6d7ee9"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-result.json",
+      "bytes": 24473,
+      "sha256": "e32df7d490a43313d70883e21262d50994324dee5835e9d41f682dc8a3a8939f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-trace.json",
+      "bytes": 15099195,
+      "sha256": "e140def036324eea3cb98739702b34176c3ab05768062d0943e41abf353caf85"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/engine.log",
+      "bytes": 422,
+      "sha256": "cef475a00b7af58387b0cf2ec17c8872df2e0284a0c1293555c1e0bea13ca768"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/godot-internal.log",
+      "bytes": 420,
+      "sha256": "7d9a6e14be410b82482428076357d5d2b90759cdbfad23f8d4db537488d0bd74"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/memory-samples.txt",
+      "bytes": 23700,
+      "sha256": "0b5af221eed3ee8296a9de526ca27c5fd47f7a339adaeb134e1ef507dd120976"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/original-post-sha256.json",
+      "bytes": 53906,
+      "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/pid.txt",
+      "bytes": 7,
+      "sha256": "3e970092bf91c64e01eeaeb386239b54db995c97a59d9d094aa059620b7153fc"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/runtime-post-sha256.json",
+      "bytes": 53906,
+      "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/01-title-writer16-warning-1180.png",
+      "bytes": 1178802,
+      "sha256": "4ec1882a406474781816a56abd877f49b9b59441956e64257d6689a14abcc7e8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/02-installed-preview-tradeoff-1280.png",
+      "bytes": 360360,
+      "sha256": "9a7ca6268e481c29e5c0198910c17dca94b0fa609ec499a4bd2d150c8f51f142"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/03-explicit-confirmation-1280.png",
+      "bytes": 329522,
+      "sha256": "fe78eefb9c54079ed5125109765bf5560e93e7aed99c8e1693ce5a73df077919"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/04-courtyard-pressure-setup-1280-zoom125.png",
+      "bytes": 299356,
+      "sha256": "7b18333b0eaa0fbd0616725888b5c90c958c3e31c4126008fda8ca866acc3662"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/05-actual-borrowed-battle-1280.png",
+      "bytes": 1650613,
+      "sha256": "9182d65ec863f9d9d1d75d90cd86280b671ed5d5dbe56e8364ec47323a433016"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/06-actual-two-result-comparison-1280.png",
+      "bytes": 288486,
+      "sha256": "744db6301dcc832ec24b6217656f18cbd53637eedcf80cb676286dd6cdaf9033"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/07-two-result-focused-1180-zoom160.png",
+      "bytes": 336848,
+      "sha256": "d4e5d4774dabe42e71df07fbf50400955ee2f2f33812fd9ee1c462268f12cfd2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/08-real-failed-save-warning-1280.png",
+      "bytes": 325715,
+      "sha256": "e54e57415561c41744647008eecc6c74af5133b252199035311bb3d2789fd052"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/earned-party-prerequisite.json",
+      "bytes": 2388,
+      "sha256": "38e15a2ad5a36a6f268ebbc63bda471ab734819fe758a4f64f60ad773b1ec70b"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/earned-prerequisite.json",
+      "bytes": 1879,
+      "sha256": "aeea5d62190044a85fbf51fc041160fca28ac9cadbe1a4e502481e49668b9414"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/native/selected-source-images.json",
+      "bytes": 1169,
+      "sha256": "497499a113b79f3482a1fecb0de3f556b22d3fb3ae8c0b51b573c862b6426a05"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/DIAGNOSTICS.md",
+      "bytes": 2363,
+      "sha256": "439766472adad16cbdc576eb3b96425c3cfea8c60c1b0e54267dfe8133a058b4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/FINAL_BINDING.json",
+      "bytes": 9615,
+      "sha256": "f69740a62f78fbeb4cc258889f171a4b1d17a8e9d6296617a6ee36ec49e0a85d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/MAINTENANCE_RATIONALE.md",
+      "bytes": 5097,
+      "sha256": "250d08bda7c9f0b63c030c1b13792b26d285478652ab361a8a772f596b2ecbeb"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/MEASURED_COUNTER_BINDING.json",
+      "bytes": 1149,
+      "sha256": "ceed811e2b5bf4b8330082cc3417f823f70abd8d7c72309c32a1633b7211ea77"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/RESULT.md",
+      "bytes": 6694,
+      "sha256": "be5b92efa11e3e90250b87af9c90a222685280271129ff8f2ca28bc933cbf4f2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/STATIC_PRESERVATION.json",
+      "bytes": 268,
+      "sha256": "6ceeac78d091aa60e27e36ab681b0d34038f9ed915e92235e3897e582af92834"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/COMMAND.json",
+      "bytes": 521,
+      "sha256": "05b9443a598c2e7a2c8135d7d7b1cd101e14a1525c56ef5fa4a36b0d46e5cd49"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/engine.log",
+      "bytes": 1207,
+      "sha256": "37ccc6e5db0a70fdde7c8f9d3301627cff95108915a47871d7586e1b1d025e68"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/entry-probe.gd",
+      "bytes": 416061,
+      "sha256": "462ce4fd2e0e6ee0986e580eb86f5dc7c385b196afad476902fabba83f7b36a9"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/COMMAND.json",
+      "bytes": 638,
+      "sha256": "56ef2e2a85952df801e71f70a9f1699be7c18338cb55c4b81bc13281d076c86e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/RESULT.json",
+      "bytes": 1028,
+      "sha256": "397a909848e8c62f0c078b6d231956bf129ddc778acc715501e440f779e169af"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "a7e571407f24af6a19217e42a475b1302e8e952dd486db8812920b60ee108753"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "a7e571407f24af6a19217e42a475b1302e8e952dd486db8812920b60ee108753"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/engine.log",
+      "bytes": 720,
+      "sha256": "6ebe8ae0ca7917968777fb1036f3d31b15dd6a53058bc9f80eaa326d8b093e2e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/COMMAND.json",
+      "bytes": 638,
+      "sha256": "cad44556e106a09b5589b158dc2ae040a922f4791d656124871aafdcad95541a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/RESULT.json",
+      "bytes": 1852,
+      "sha256": "efdb57c040ea1c87fe82dd456f1157a03699bb2c4645884f2f48d343d80f49e4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "944f0a46401d7899001d9f2e168abe2f9ec345a1d9e94658f639e01ba4ff0d64"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "944f0a46401d7899001d9f2e168abe2f9ec345a1d9e94658f639e01ba4ff0d64"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/engine.log",
+      "bytes": 22737,
+      "sha256": "90f1cfbf16e4cc2118b05208f401ef40ea4555c18299243e25c7dc19748de34a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/COMMAND.json",
+      "bytes": 638,
+      "sha256": "4a545466f73a67a33879758c589526033faf4eb6d255a19c5f672f3dab69203f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/RESULT.json",
+      "bytes": 1851,
+      "sha256": "e488de76b0712850f2edcbb604630209f1863a6b8739f22ad749796517b1617d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "eb8769cef0e3cc003fb0493eba3efd0c1e1d6c667009dd2cedf75d922e9499b7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "eb8769cef0e3cc003fb0493eba3efd0c1e1d6c667009dd2cedf75d922e9499b7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/engine.log",
+      "bytes": 980,
+      "sha256": "ed6dc223bb43ba4d05e47dd452eccdf9079b94f8a46ab9ce076cc3e2527dd165"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "59884a948e443e901b36b612ad9b466c3eb5772eea1bba209f0ea0908faf4c81"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "59884a948e443e901b36b612ad9b466c3eb5772eea1bba209f0ea0908faf4c81"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-REHEARSAL.json",
+      "bytes": 1425,
+      "sha256": "48d5e97a26212fc2d244ecf07d0a8679780615d41f09fbc83e4d4d8855181bb0"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-REHEARSAL.log",
+      "bytes": 3930,
+      "sha256": "eb4083ce03c3c69dde06c2d26bf5db495212d0440a63412cf07df747ab83a066"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.json",
+      "bytes": 1428,
+      "sha256": "17d55a8feb9154e75e5e67a19a626b21e50b8167538ab70f20a1afa0eb962696"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.log",
+      "bytes": 3930,
+      "sha256": "eb4083ce03c3c69dde06c2d26bf5db495212d0440a63412cf07df747ab83a066"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-focused-final-label.log",
+      "bytes": 106,
+      "sha256": "274f6bac38cd9c543013527ca3004ec792d15edc09b5a81dc5a505bd86dbbc90"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-retained-unmeasured-01.log",
+      "bytes": 5383,
+      "sha256": "18900be1bb6f538f699ea89bec2b8f51e26c5029c573d9383260facb3ab1f2f4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-web-final-01.log",
+      "bytes": 8243,
+      "sha256": "87b843059c4cbc3158d0b0882a8211e485b05f0acbc85b0289e0b0f20fe3636d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/AGGREGATE-SKIP-CAVEAT.json",
+      "bytes": 449,
+      "sha256": "534faf57047bdc7461150485eca2a4d7e8250acd12f1bf00eb3c0c1b090236bc"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/AGGREGATE-STATIC.json",
+      "bytes": 674,
+      "sha256": "c203c599aed3b28631ba7fd7114c6bfc5868d3272191e1c55c8363c76ae9aafd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/AUDIT-INPUTS.json",
+      "bytes": 3778,
+      "sha256": "cf383c5af4fdf64afbd002c224c8ecb272ef9842d2607ae61c3a350ac0adf92d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/FAULT-INJECTION.json",
+      "bytes": 4309,
+      "sha256": "0c053e912e59b3ab86295ae7e19943dc43831c646d5dbf85236e1852ac99183c"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/REVIEW-SHA256SUMS.txt",
+      "bytes": 1749,
+      "sha256": "2d6d0d3466dcb833c7235c12bd246c9bd26cf02d03c564fcf0f4a58205ae30d0"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/REVIEW-SOURCE-AFTER.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/REVIEW-SOURCE-BEFORE.json",
+      "bytes": 174735,
+      "sha256": "6ea7d4140d8a06882a50395aa451c11b53b164b745a9c65739226f0ea37945a4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/REVIEW.md",
+      "bytes": 8343,
+      "sha256": "1eff44d761b8182e708a9c7364cd6827d97180298bc08a8df86b3728b05ebe75"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/STATIC-INDEPENDENT.json",
+      "bytes": 24869,
+      "sha256": "7572b435cc16fa1cdffbd23eb85fe00fda325b2b114888e024f6b01a87d35f65"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/check_review.py",
+      "bytes": 5384,
+      "sha256": "a07249f911459da1c385b5cc1acffd51bfed908a8ee549e677ff24b7ffa98ad7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/python-new-suite.log",
+      "bytes": 1570,
+      "sha256": "6062705ff23e374e1d413b0eadaa5537c096b31cd8d7e59ec9f1e2468308f798"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/python-old-suite.log",
+      "bytes": 3523,
+      "sha256": "85e049786483ba7bc65e683cd9675156fd2229feef44c121561c1feac0c694b4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/APPLIED-PATCH-VERIFIED.json",
+      "bytes": 1956,
+      "sha256": "fed54ca86774d3cf9d0f2863c6718ffa99083d468d53e5dda579fa82bf760401"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/FULL02-ZERO-SKIP-REVIEW.json",
+      "bytes": 1984,
+      "sha256": "ca2555f6114ea98ff43eb4bf50f470d9694bfb39ac1ab1546bca647eb25836e6"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/INDEPENDENT-REPORT-EQUIVALENCE.json",
+      "bytes": 1832,
+      "sha256": "0e7693471f43610938c9b77d52357c41d42bb86b82722116e6284726da04757f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/PATCH-CHECK.json",
+      "bytes": 772,
+      "sha256": "41c7c327cf24acfe2852a9f93188672c6210f7842fe942551b7e23d0ba136742"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/REVIEW.md",
+      "bytes": 6202,
+      "sha256": "eb8a0502547bcef1d77d8a1b703a556f6c179452acf3e56c05c6151220aaf410"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/SHA256SUMS.txt",
+      "bytes": 1142,
+      "sha256": "f136f60c6b1e58c1f474c7fdcb0c88056a3022e73fd690c9037ec293f099d9b9"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/compare.log",
+      "bytes": 1832,
+      "sha256": "0e7693471f43610938c9b77d52357c41d42bb86b82722116e6284726da04757f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/report-streaming/independent_compare.py",
+      "bytes": 4131,
+      "sha256": "b99137971b4ef0bb3693807e03fed87a28ff21efd50327fd2485b16764faeaa1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/smoke-export-vs-20e20390.diff",
+      "bytes": 99312,
+      "sha256": "c0ff1e954381f05bc50be156224257f4f8bd51aa116ec061e0b02a15e10e96e4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/RETENTION_AND_REVIEW.md",
+      "bytes": 8205,
+      "sha256": "aa05658ff5c362e22c9d2b6bb025aa33a1ea45620c580e398667f7b1367f8801"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/full02-parsed-equivalence/ADAPTER_BINDING.json",
+      "bytes": 1279,
+      "sha256": "e694dca0e172c571446501c71e780838a74e2fec67c60490a53bf3022e3357a7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/full02-parsed-equivalence/INDEPENDENT-REPORT-EQUIVALENCE.json",
+      "bytes": 1821,
+      "sha256": "20e57d2e2cf98138018154cf671ede9c384e6e6daa08d1b391daadd27ae1c809"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/full02-parsed-equivalence/adapter.diff",
+      "bytes": 626,
+      "sha256": "aa817aefcfc58364487c9793fbafa91e0999d279e8516e53571d80d901fbb409"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/full02-parsed-equivalence/independent_compare_full02.py",
+      "bytes": 4235,
+      "sha256": "297b16cf41bfc6a537f2d32e6b8573b4294bf9007474291ddfd5df268bdaa13e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/full02-parsed-equivalence/run.log",
+      "bytes": 1821,
+      "sha256": "20e57d2e2cf98138018154cf671ede9c384e6e6daa08d1b391daadd27ae1c809"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/prepare_records.py",
+      "bytes": 60769,
+      "sha256": "b2da23baa2d84ee4ca4c6985d76cee7ad24b5af19124548db0d6970fc5b90e6e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/release-records/test_prepare_records.py",
+      "bytes": 5910,
+      "sha256": "cfff71fef4fa61f96f97d829f977344082bb6a3b0883cc623fa95a91e1d37714"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/FINAL_BINDING.json",
+      "bytes": 848,
+      "sha256": "bab84f74c0867a274eab88bfc1291d7f54031489a4729d53caac21d39a96076f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/README.md",
+      "bytes": 6105,
+      "sha256": "515a3ee1ea00b4e4ace953574a8fc0a87fb846b35e19cd6a99a4586f61ce41b5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/RESULT.md",
+      "bytes": 1346,
+      "sha256": "b199651151961253caa0ee4618f57a7612d85c9819d925d7339fffbc0942ec23"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/assertion-preservation.json",
+      "bytes": 579,
+      "sha256": "3ead102ca9b1066fe1d5e32da3d7c716f54f2106e9a83ab95f2b4100c9671826"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/codec-01/engine.log",
+      "bytes": 15244,
+      "sha256": "630d8f4a5f4b0c940110937ce8ccf383fc0b5ad0df8e70c185777fed98595e63"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/codec-02/engine.log",
+      "bytes": 125,
+      "sha256": "bf579eb280911f56f5a79b8d44d87cda834e85f140405091cb20b5e113d83833"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/dependency-evidence.json",
+      "bytes": 10982,
+      "sha256": "1792896498a90bab29d136b866048dedf95ed64e3f6347cf10755bfb0da735b4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-full-comparison.json",
+      "bytes": 3382,
+      "sha256": "542d5bd42559429f28a563fbbdbb2aac88c3e49fa315f55119ef02a6268d6c8a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-5-316934/result.json",
+      "bytes": 129902518,
+      "sha256": "43e3008ace1217c29bf14b479eb68a28405966a0c23391b3daba75c3a5a138f2"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/engine.log",
+      "bytes": 978472,
+      "sha256": "e7a1ff5bba6700864d3ba44531a10f24d7d0241ffb5ab18c2edf2d18e5bee28e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/memory-samples.json",
+      "bytes": 81117,
+      "sha256": "5aa9fee707c58e518369d14a3fe25d746aa898e2616e150c2844214d6bd3367d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/project-after.json",
+      "bytes": 3732,
+      "sha256": "26d0f331af9e2cd7f9f8ca884fcd5f256224f4e669f08708720f59cac74c9f98"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/project-before.json",
+      "bytes": 3732,
+      "sha256": "26d0f331af9e2cd7f9f8ca884fcd5f256224f4e669f08708720f59cac74c9f98"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/result.json",
+      "bytes": 1751,
+      "sha256": "5f7f28f1b9e4b5a487eeb97c8de224596c6b0b821ff54837d20d3f2ddb8e9288"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/source-after.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/party-staged-01/source-before.json",
+      "bytes": 174735,
+      "sha256": "30845483ff49f5deb8d8f337de429284c21e549a498df1fece0057c9e1b456cd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/staging-status.json",
+      "bytes": 838,
+      "sha256": "929a0e7a3661129368ad82ad4423114840465c1d488dba229662318a967e4a80"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/report-memory-review/stream-report.patch",
+      "bytes": 6253,
+      "sha256": "dd0a164f200250e86481f84f1c861d9454e913587d2359ca6bb090b8da19e4f4"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/RESULT.md",
+      "bytes": 11606,
+      "sha256": "56402150ad40618810007e2acaf78575a89ad339be2c7ecbbc7b323670c979ac"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/admission-fix-dialogue_sheet_test/log.txt",
+      "bytes": 143,
+      "sha256": "409d301e1d6ced1c60d9a36c638e40a0c4b2492131b509979636d7402eb7e746"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/admission-fix-weapon_fitting_ui_test/log.txt",
+      "bytes": 113,
+      "sha256": "d8ada3eaafba016e967ca7cb87c9d936cf76d9486605da621983044a03cae1b7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/admission-fix-workshop_ui_test/log.txt",
+      "bytes": 101,
+      "sha256": "732d60b4265aa6bc75d6c9aeefe2a83036ec4e4697d6926bacd568640222e3af"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/borrowed-label-final-functional/log.txt",
+      "bytes": 113,
+      "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/functional-attempt1/log.txt",
+      "bytes": 414,
+      "sha256": "38cc74bebccfa77fb879e5afde84de95afea4d6cb44a82390d77aaec1a4b72de"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/functional-attempt2/log.txt",
+      "bytes": 113,
+      "sha256": "9892485466dcd14171a76c7381c048ac52a9014917ca40a821c85296f4bdc149"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/functional-attempt3/log.txt",
+      "bytes": 113,
+      "sha256": "52fc0f225e5b6a570b6bc2a51f729f09a783b1f576b70d757b74df1cc28e8b20"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/functional-final/log.txt",
+      "bytes": 113,
+      "sha256": "04871909b44ef3ad386ebcc536d74a80947f7fe0dc017e69dfdc44a3a71f8123"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/import-attempt1/log.txt",
+      "bytes": 1668,
+      "sha256": "52824f735c7fc5a22d38da0ecfcae51b668ca92a176bd15c75de695af405d6fd"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/import-final/log.txt",
+      "bytes": 1611,
+      "sha256": "2db10a6f6aa16b6495922559b4ddc1b08cec0fdc2b63911bcdb74f85e655c3d7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/native-polish-dialogue_sheet_test/log.txt",
+      "bytes": 143,
+      "sha256": "409d301e1d6ced1c60d9a36c638e40a0c4b2492131b509979636d7402eb7e746"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/native-polish-final-functional/log.txt",
+      "bytes": 113,
+      "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/native-polish-measure/log.txt",
+      "bytes": 819,
+      "sha256": "1bc04e286850ce28f0596225a782b93f6445165c478faece701b19656519ad37"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/native-polish-unified_combat_ui_test/log.txt",
+      "bytes": 138,
+      "sha256": "e46a255a7c325d772070929233a5b5aaf532f7d39a6d53c8893c162c2cc9b7d5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/native-polish-weapon_fitting_ui_test/log.txt",
+      "bytes": 711,
+      "sha256": "01e6deb043e2ab7994d25ed165c11afbf561dab7f9345fb66f223f71f78e4b7a"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source-after-admission-fix.sha256",
+      "bytes": 837,
+      "sha256": "41e879e31e013244b2b97153fe380ed0d09d081920547fce9589d2f6bdc8e0b1"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source-after-borrowed-labels.sha256",
+      "bytes": 837,
+      "sha256": "1b15e23795cb96aead661c0e2cf13f84e9e652121566b25f479500b2a5f26b9d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source-after-native-polish.sha256",
+      "bytes": 837,
+      "sha256": "aaec254607656f4a9dfb35537f488096e8a9d6978060098f6e76e49490d78016"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source-after-wording-fix.sha256",
+      "bytes": 837,
+      "sha256": "282c21d437b723569ce17dc4ba4bec3d4ee2f6e85fb7e38d192d7029a3978c11"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source-initial.sha256",
+      "bytes": 837,
+      "sha256": "94a3741f53f9723e47fe16b0a8f17377985a6625ece04596506ab7bede3888c7"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/owned-source.sha256",
+      "bytes": 837,
+      "sha256": "1b15e23795cb96aead661c0e2cf13f84e9e652121566b25f479500b2a5f26b9d"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/retained-dialogue_sheet_test/log.txt",
+      "bytes": 143,
+      "sha256": "409d301e1d6ced1c60d9a36c638e40a0c4b2492131b509979636d7402eb7e746"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/retained-pause_menu_test/log.txt",
+      "bytes": 163,
+      "sha256": "db9e8a3ae57d4ce86a95aa0dbd7137eb43ead068c6039a5a158524d4f5fffe5f"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/retained-save_slots_ui_test/log.txt",
+      "bytes": 109,
+      "sha256": "6fee01ad6f506d3e13c55a201a4c3d6d72f20fdc247225cc7dc8048c456fc69e"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/retained-unified_combat_ui_test/log.txt",
+      "bytes": 138,
+      "sha256": "e46a255a7c325d772070929233a5b5aaf532f7d39a6d53c8893c162c2cc9b7d5"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/retained-workshop_ui_test/log.txt",
+      "bytes": 101,
+      "sha256": "732d60b4265aa6bc75d6c9aeefe2a83036ec4e4697d6926bacd568640222e3af"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/validation.json",
+      "bytes": 7672,
+      "sha256": "89396f1f2952b04fdaf7e71921dcb9f0be0ee5fbc96f0ec74e5232ac61f244a0"
+    },
+    {
+      "path": "Hero-staging/equipment-fitting-phase2/ui-implementation/wording-fix-functional/log.txt",
+      "bytes": 113,
+      "sha256": "c5cfb5c70ac9bf041565e277f0cdd4f507860c73520a666ff6164164c3f6365a"
+    }
+  ]
+}

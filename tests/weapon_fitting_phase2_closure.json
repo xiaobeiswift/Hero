@@ -1,0 +1,1002 @@
+{
+  "status": "full_source_and_native_passed_new_package_pending",
+  "prepared_utc": "2026-10-03T15:09:55.924560+00:00",
+  "source_version": "0.0.30",
+  "writer_schema": 16,
+  "accepted_schemas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "historical_fixture_provenance": "Genuine producer1 and9–15; authored layout contracts2–8. since14 and since15 checks remain independent.",
+  "historical_old15_scope": "Phase1 complete old15 PCK accepted15 positive and rejected16 without mutations. Phase2 earned15 migration is pinned source with current dependencies. New-PCK-produced16 subject remains pending.",
+  "phase1": {
+    "local_commit": "20e20390aaf21ecaf397b8fb063ecea7235b172c",
+    "published_commit": "dcca9d9bc0c7e95d9273c91d8cdb92ab943b9c8e",
+    "tree": "25ac76bb1a51c27b7b1ae6a82b026644b1299bc8",
+    "publication_receipt": {
+      "path": "Hero-recovery-20261002-0918/publication-20e2039/final-verification.json",
+      "bytes": 15538,
+      "sha256": "dc16a323d43406b76acc83bd756a0c2a2feb91bd48193d26e05355b3d7de7f2d"
+    }
+  },
+  "live": {
+    "version": "0.0.29 Web1",
+    "schema": 15,
+    "commit": "4ebd9fdd0e914dde518ad01a25f815fb1de67d51",
+    "changed": false
+  },
+  "gates": {
+    "ui_focused": "passed98",
+    "independent_ui": "passed3214_final_byte_reexecution",
+    "earned_scene": "passed2510_final_byte_reexecution",
+    "native_pixels": "passed_candidate4_bounded_scope",
+    "full_source": "passed_exact_complete_source",
+    "source_package_rehearsal": "passed18752_complete_source_only",
+    "new_pck": "pending_frozen_runtime_export",
+    "old15_new_pck_subject": "pending",
+    "independent_windows": "pending",
+    "publication": "pending",
+    "deployment": "pending",
+    "browser_graphics_audio_persistence": "unverified"
+  },
+  "full_source": {
+    "status": "passed_exact_complete_source",
+    "raw_result": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-result.json",
+      "bytes": 19925,
+      "sha256": "69a36cf348dbd8bd7fa4040a936fc5ee1ac72aab79c30fb9af2279b1b5a37c3b"
+    },
+    "wrapper": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/run_full02.py",
+      "bytes": 4876,
+      "sha256": "9a3584c6e3c11f863325722c46adb99fe5e89028e2afce47bdb4b4456b097c51"
+    },
+    "before": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-before.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "after": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-after.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "log": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02.log",
+      "bytes": 3637616,
+      "sha256": "bee6f1ec8d99339c8688062b998468648eed8ca3f06c19341f6abbe66b7ab427"
+    },
+    "compared_files": 1564,
+    "measured_godot_commands": 185,
+    "measured_python_tests": 85,
+    "measured_dom_checks": 53,
+    "unittest_groups": [
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 10,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 6,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 53,
+        "footer": "OK",
+        "skipped": 0
+      }
+    ],
+    "python_skips": 0,
+    "focused_checks": 98,
+    "safety_checks": 3214,
+    "safety_cases": 13,
+    "earned_checks": 2510,
+    "earned_scene_cases": 4,
+    "suites": {
+      "functional": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/functional/engine.log",
+          "bytes": 113,
+          "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+        }
+      },
+      "safety": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/engine.log",
+          "bytes": 486,
+          "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/result.json",
+          "bytes": 1073687,
+          "sha256": "a5ccd66ffff962b71fd283fac69938466c7d566350b1b0c72aa62dc09c28f49a"
+        }
+      },
+      "earned": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/engine.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/result.json",
+          "bytes": 32203798,
+          "sha256": "0fb150ca25f55bcb6a3a62e843397135f35ce9d29af7100c62f77a411f8a2598"
+        }
+      }
+    },
+    "source_unchanged": true,
+    "current_equal_tested_at_preparation": true,
+    "current_readback_utc": "2026-10-03T15:09:50.612174+00:00",
+    "current_readback_scope": "Before applying the14 post-run documentation/QA records and regenerated CHECKSUMS; not a claim that the later complete repository equals the tested manifest."
+  },
+  "package": {
+    "new_measured_count": 0,
+    "zero_means": "actual new PCK unmeasured; source rehearsal has its separate measured pass",
+    "source_count": 18752,
+    "expected_future_pck_count": 18757,
+    "pending_pck_only_checks": 5,
+    "pck_count": null,
+    "frozen_source_commit": null,
+    "frozen_source_tree": null,
+    "pck_sha256": null,
+    "zip_sha256": null,
+    "closure_policy": "Later separate evidence-only commit after actual runtime freeze/export; no raw-result rewriting"
+  },
+  "transfer_default_off": true,
+  "automatic_backup_promise": false,
+  "rejected_native_attempts": [
+    {
+      "attempt": "native/candidate1/validate",
+      "accepted": false,
+      "checks": 941,
+      "assertion_failures": 0,
+      "native_stills": 0,
+      "evidence": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-result.json",
+          "bytes": 9170,
+          "sha256": "976f98937fc856620e116201c146e584fac9b256334fc84e785e9207d26b6906"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/source-sha256.json",
+          "bytes": 53906,
+          "sha256": "660bbb060b62eab29aa5fa324cc4791fc66e7693c01fc19467ea65b6b5d23492"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/prepare.json",
+          "bytes": 1365,
+          "sha256": "e7eef60633b91b0cde4baf89a6575795f49563072b9a193da3669cbe4453ab18"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-progress.json",
+          "bytes": 15088791,
+          "sha256": "4c8547d73774646779b047e334288531a07c9519d22b96bb66fabb308c62bd22"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/capture-trace.json",
+          "bytes": 15089024,
+          "sha256": "30fa8f2c7e57321fd012936260d44395efb86c054d480cf3ccc31c1571a83a4a"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate1/validate/engine.log",
+          "bytes": 151168,
+          "sha256": "844d41cdb4f76ee671124bd767c419ab3f16d38e6368e78a84f780615aeeb983"
+        }
+      ],
+      "classification": "Rejected headless preparation: zero numeric failures do not override engine errors; no native stills."
+    },
+    {
+      "attempt": "native/candidate2/stills",
+      "accepted": false,
+      "checks": 949,
+      "assertion_failures": 0,
+      "native_stills": 8,
+      "evidence": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-result.json",
+          "bytes": 24477,
+          "sha256": "fcaac7edb17751a73df68412d565828adf2f147f818d9b877486345d5ce7c701"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/source-sha256.json",
+          "bytes": 53906,
+          "sha256": "7c69e731e30768ef5f43a12e1436ed9a0a41551bc38871d620f827f869766cec"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/prepare.json",
+          "bytes": 1365,
+          "sha256": "d40a740269dca77397ac83ce532ab6547a776be76266eee71d550239721d9d48"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-progress.json",
+          "bytes": 15089074,
+          "sha256": "29315df48e796269c91e3c890f7e4ee9a262c517cff56e366b30e698bc90549c"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/capture-trace.json",
+          "bytes": 15089307,
+          "sha256": "21fff00c58dd9011a6b977b50eeb48ebf7cc12515ee4326f7ac8ec7117f34cb7"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/engine.log",
+          "bytes": 2074,
+          "sha256": "56f771d5ff629dfa410b951a2085b1a4720546ce1e23f858fddc20163c577d1a"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/godot-internal.log",
+          "bytes": 2072,
+          "sha256": "551eb9688e20ed378559fd0333901fd1f92ef0779a29ce55fa7c42f09a964f60"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/01-title-writer16-warning-1180.png",
+          "bytes": 1186119,
+          "sha256": "560469d4dd1840f12fc861ba6e2314a34e7ccd8da0f886316fa78a567b1530a8"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/02-installed-preview-tradeoff-1280.png",
+          "bytes": 360434,
+          "sha256": "0ce00b57258da88456891236c9d0e54ef7f5ba14c7979ad3d9099fb3cfe7395b"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/03-explicit-confirmation-1280.png",
+          "bytes": 329218,
+          "sha256": "46ceedae16d6d01d0d02ba9b453c94db8aec1074e9bf8d003cf7b6239604d134"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/04-courtyard-pressure-setup-1280-zoom125.png",
+          "bytes": 309011,
+          "sha256": "b4e85a1b275cdd33b21b71f94c00844aa858798c23cfb0b68f1fdb7688967ff2"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/05-actual-borrowed-battle-1280.png",
+          "bytes": 1662002,
+          "sha256": "e66bf57e317e9a9e00176b4e59db3525429d3aacd0977987dd1907918759eb8a"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/06-actual-two-result-comparison-1280.png",
+          "bytes": 283106,
+          "sha256": "3a3cbe859149c6c5b13badc594316251b45e4c7cde9e6bebb01a7c5fe7c9fd11"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/07-two-result-focused-1180-zoom160.png",
+          "bytes": 326047,
+          "sha256": "744e630a19d03fe6349856c4965260d78283ca3e57dbd097e65784c41df72d0b"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/screenshots/08-real-failed-save-warning-1280.png",
+          "bytes": 325697,
+          "sha256": "3ff258bafa321c43ce389fa90767c0b06a8337053388d0926b38496643e3b6d2"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/native/candidate2/stills/review.json",
+          "bytes": 3321,
+          "sha256": "1429d4db823ad0f24be5f9e5e36406b88e291b20d8275d240763663ee4ec7e2e"
+        }
+      ],
+      "classification": "Rejected: capture-helper get_meta engine errors. Candidate2 also has genuine badge overlap and initial title/pressure warning clipping; final clean recapture and pixel review required."
+    }
+  ],
+  "native_capture": {
+    "status": "accepted_bounded_native_visual_input_scope",
+    "assertions_total": 971,
+    "source_identity_checks": 892,
+    "behavior_and_capture_assertions": 79,
+    "failures": 0,
+    "stills": 8,
+    "exact_runtime_inputs": 446,
+    "source_and_copy_match": true,
+    "scope": "Exact runtime/assets/imports/driver; real Main with genuine State, actual scripted input and native GL framebuffer; fixed-step automatic scheduler, no manual-play/browser/FPS/persistence proof",
+    "reviewer_scope": "Independent actual pixels, exact-byte visual continuity, artifact/source hash validation and accepted-transaction/scroll recomputation. Reviewer did not start engine, alter runtime or recapture.",
+    "source_identity": "20e20390aaf21ecaf397b8fb063ecea7235b172c + exact WIP snapshot (not final commit)",
+    "screenshots": [
+      {
+        "file": "01-title-writer16-warning-1180.png",
+        "sha256": "4ec1882a406474781816a56abd877f49b9b59441956e64257d6689a14abcc7e8",
+        "bytes": 1178802,
+        "actual_pixels": [
+          1179,
+          737
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "view_image inspected exact byte-identical candidate3 pixels; final identity independently checked"
+      },
+      {
+        "file": "02-installed-preview-tradeoff-1280.png",
+        "sha256": "9a7ca6268e481c29e5c0198910c17dca94b0fa609ec499a4bd2d150c8f51f142",
+        "bytes": 360360,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "view_image inspected exact byte-identical candidate3 pixels; final identity independently checked"
+      },
+      {
+        "file": "03-explicit-confirmation-1280.png",
+        "sha256": "fe78eefb9c54079ed5125109765bf5560e93e7aed99c8e1693ce5a73df077919",
+        "bytes": 329522,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "view_image inspected exact byte-identical candidate3 pixels; final identity independently checked"
+      },
+      {
+        "file": "04-courtyard-pressure-setup-1280-zoom125.png",
+        "sha256": "7b18333b0eaa0fbd0616725888b5c90c958c3e31c4126008fda8ca866acc3662",
+        "bytes": 299356,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "view_image inspected exact byte-identical candidate3 pixels; final identity independently checked"
+      },
+      {
+        "file": "05-actual-borrowed-battle-1280.png",
+        "sha256": "9182d65ec863f9d9d1d75d90cd86280b671ed5d5dbe56e8364ec47323a433016",
+        "bytes": 1650613,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "view_image inspected exact byte-identical candidate3 pixels; final identity independently checked"
+      },
+      {
+        "file": "06-actual-two-result-comparison-1280.png",
+        "sha256": "744db6301dcc832ec24b6217656f18cbd53637eedcf80cb676286dd6cdaf9033",
+        "bytes": 288486,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": false,
+        "inspection": "Fresh view_image candidate4"
+      },
+      {
+        "file": "07-two-result-focused-1180-zoom160.png",
+        "sha256": "d4e5d4774dabe42e71df07fbf50400955ee2f2f33812fd9ee1c462268f12cfd2",
+        "bytes": 336848,
+        "actual_pixels": [
+          1179,
+          737
+        ],
+        "byte_identical_to_inspected_candidate3": false,
+        "inspection": "Fresh view_image candidate4"
+      },
+      {
+        "file": "08-real-failed-save-warning-1280.png",
+        "sha256": "e54e57415561c41744647008eecc6c74af5133b252199035311bb3d2789fd052",
+        "bytes": 325715,
+        "actual_pixels": [
+          1280,
+          800
+        ],
+        "byte_identical_to_inspected_candidate3": true,
+        "inspection": "Fresh view_image candidate4"
+      }
+    ],
+    "independent_metrics": {
+      "edge": {
+        "accepted": 88,
+        "actual_borrowed_hp_loss": {
+          "hero": 160,
+          "shen": 122,
+          "tang": 139,
+          "qin": 160
+        },
+        "medicine_used": 0,
+        "enemy_attacks": 16,
+        "completed_rounds": 16,
+        "outcome": "defeat",
+        "terminal_round": 17,
+        "unique_tokens": 88,
+        "total_borrowed_hp_loss": 581
+      },
+      "guard": {
+        "accepted": 90,
+        "actual_borrowed_hp_loss": {
+          "hero": 160,
+          "shen": 122,
+          "tang": 139,
+          "qin": 160
+        },
+        "medicine_used": 0,
+        "enemy_attacks": 17,
+        "completed_rounds": 16,
+        "outcome": "defeat",
+        "terminal_round": 17,
+        "unique_tokens": 90,
+        "total_borrowed_hp_loss": 581
+      }
+    },
+    "scroll_evidence": [
+      {
+        "content_height": 200,
+        "final_scroll": 0.0,
+        "focus_mode": 3,
+        "frame": 5,
+        "initial_scroll": 0.0,
+        "kind": "actual_text_scroll_probe",
+        "label": "title_notice",
+        "max_scroll": 0.0,
+        "rect": [
+          315.0,
+          305.0,
+          650.0,
+          207.0
+        ]
+      },
+      {
+        "content_height": 407,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 39,
+        "initial_scroll": 0.0,
+        "keyboard_end_scroll": 41.0,
+        "keyboard_page_down_scroll": 41.0,
+        "keyboard_tab_reaches_text_or_bar": true,
+        "kind": "actual_text_scroll_probe",
+        "label": "explicit_confirmation",
+        "max_scroll": 41.0,
+        "reached_scroll": 41.0,
+        "rect": [
+          105.0,
+          194.0,
+          1065.0,
+          366.0
+        ]
+      },
+      {
+        "content_height": 197,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 193,
+        "initial_scroll": 0.0,
+        "kind": "actual_text_scroll_probe",
+        "label": "pressure_warning",
+        "max_scroll": 0.0,
+        "rect": [
+          103.0,
+          290.0,
+          1070.0,
+          240.0
+        ]
+      },
+      {
+        "content_height": 406,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 6144,
+        "initial_scroll": 0.0,
+        "keyboard_end_scroll": 68.0,
+        "keyboard_page_down_scroll": 68.0,
+        "keyboard_tab_reaches_text_or_bar": true,
+        "kind": "actual_text_scroll_probe",
+        "label": "result1_profile",
+        "max_scroll": 68.0,
+        "reached_scroll": 68.0,
+        "rect": [
+          105.0,
+          192.0,
+          520.0,
+          338.0
+        ]
+      },
+      {
+        "content_height": 406,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 6211,
+        "initial_scroll": 0.0,
+        "keyboard_end_scroll": 68.0,
+        "keyboard_page_down_scroll": 68.0,
+        "keyboard_tab_reaches_text_or_bar": true,
+        "kind": "actual_text_scroll_probe",
+        "label": "result2_profile",
+        "max_scroll": 68.0,
+        "reached_scroll": 68.0,
+        "rect": [
+          650.0,
+          192.0,
+          520.0,
+          338.0
+        ]
+      },
+      {
+        "content_height": 406,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 6290,
+        "initial_scroll": 0.0,
+        "keyboard_end_scroll": 68.0,
+        "keyboard_page_down_scroll": 68.0,
+        "keyboard_tab_reaches_text_or_bar": true,
+        "kind": "actual_text_scroll_probe",
+        "label": "compact_result1_profile",
+        "max_scroll": 68.0,
+        "reached_scroll": 68.0,
+        "rect": [
+          105.0,
+          192.0,
+          520.0,
+          338.0
+        ]
+      },
+      {
+        "content_height": 406,
+        "final_scroll": 0.0,
+        "focus_mode": 2,
+        "frame": 6357,
+        "initial_scroll": 0.0,
+        "keyboard_end_scroll": 68.0,
+        "keyboard_page_down_scroll": 68.0,
+        "keyboard_tab_reaches_text_or_bar": true,
+        "kind": "actual_text_scroll_probe",
+        "label": "compact_result2_profile",
+        "max_scroll": 68.0,
+        "reached_scroll": 68.0,
+        "rect": [
+          650.0,
+          192.0,
+          520.0,
+          338.0
+        ]
+      }
+    ],
+    "known_environment_warning": "One unsupported-V-Sync warning from software GL environment; no SCRIPT ERROR or ERROR. Not a zero-warning claim.",
+    "resolved_issue": {
+      "id": "VIRTUAL_LABEL_01",
+      "status": "closed",
+      "evidence": [
+        "06-actual-two-result-comparison-1280.png",
+        "07-two-result-focused-1180-zoom160.png"
+      ],
+      "finding": "Explicit borrowed cumulative HP loss and all four borrowed remaining HP/Qi rows fit both sizes with unchanged numbers."
+    },
+    "not_claimed": [
+      "manual play",
+      "browser graphics/audio/IndexedDB persistence",
+      "Windows/macOS native acceptance",
+      "exported PCK",
+      "FPS/performance benchmark",
+      "universal fitting advantage",
+      "from-title earned walking",
+      "final-commit execution"
+    ],
+    "raw_result": {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-result.json",
+      "bytes": 24473,
+      "sha256": "e32df7d490a43313d70883e21262d50994324dee5835e9d41f682dc8a3a8939f"
+    },
+    "source_binding": {
+      "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/source-sha256.json",
+      "bytes": 53906,
+      "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+    },
+    "artifacts": [
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-progress.json",
+        "bytes": 15098962,
+        "sha256": "1964fa1fdea89854544b25b6b9ff1c166327b017a2ac521142b4905a1a6d7ee9"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/capture-trace.json",
+        "bytes": 15099195,
+        "sha256": "e140def036324eea3cb98739702b34176c3ab05768062d0943e41abf353caf85"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/engine.log",
+        "bytes": 422,
+        "sha256": "cef475a00b7af58387b0cf2ec17c8872df2e0284a0c1293555c1e0bea13ca768"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/godot-internal.log",
+        "bytes": 420,
+        "sha256": "7d9a6e14be410b82482428076357d5d2b90759cdbfad23f8d4db537488d0bd74"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/memory-samples.txt",
+        "bytes": 23700,
+        "sha256": "0b5af221eed3ee8296a9de526ca27c5fd47f7a339adaeb134e1ef507dd120976"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/original-post-sha256.json",
+        "bytes": 53906,
+        "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/pid.txt",
+        "bytes": 7,
+        "sha256": "3e970092bf91c64e01eeaeb386239b54db995c97a59d9d094aa059620b7153fc"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/runtime-post-sha256.json",
+        "bytes": 53906,
+        "sha256": "723c37ed60cce6cb6801c622079900c461d4725fbaa6fda13b307503902bc71b"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/01-title-writer16-warning-1180.png",
+        "bytes": 1178802,
+        "sha256": "4ec1882a406474781816a56abd877f49b9b59441956e64257d6689a14abcc7e8"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/02-installed-preview-tradeoff-1280.png",
+        "bytes": 360360,
+        "sha256": "9a7ca6268e481c29e5c0198910c17dca94b0fa609ec499a4bd2d150c8f51f142"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/03-explicit-confirmation-1280.png",
+        "bytes": 329522,
+        "sha256": "fe78eefb9c54079ed5125109765bf5560e93e7aed99c8e1693ce5a73df077919"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/04-courtyard-pressure-setup-1280-zoom125.png",
+        "bytes": 299356,
+        "sha256": "7b18333b0eaa0fbd0616725888b5c90c958c3e31c4126008fda8ca866acc3662"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/05-actual-borrowed-battle-1280.png",
+        "bytes": 1650613,
+        "sha256": "9182d65ec863f9d9d1d75d90cd86280b671ed5d5dbe56e8364ec47323a433016"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/06-actual-two-result-comparison-1280.png",
+        "bytes": 288486,
+        "sha256": "744db6301dcc832ec24b6217656f18cbd53637eedcf80cb676286dd6cdaf9033"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/07-two-result-focused-1180-zoom160.png",
+        "bytes": 336848,
+        "sha256": "d4e5d4774dabe42e71df07fbf50400955ee2f2f33812fd9ee1c462268f12cfd2"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/08-real-failed-save-warning-1280.png",
+        "bytes": 325715,
+        "sha256": "e54e57415561c41744647008eecc6c74af5133b252199035311bb3d2789fd052"
+      }
+    ],
+    "independent_pixel_review": {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/FINAL_NATIVE_REVIEW.json",
+      "bytes": 10629,
+      "sha256": "cfc2c7d7c2d4e9a9ca0cb0f4fdf546d6719ed0cc9beb4a247eec9674e67cdf6e"
+    },
+    "final_commit_binding": null,
+    "prior_candidate3_review": {
+      "path": "Hero-staging/equipment-fitting-phase2/independent-native-review/candidate3-review.json",
+      "bytes": 9501,
+      "sha256": "3d747feb7d11b3e84d24b40446321dbe3a73ac66f5cee9fd7bfa9c0d36827e75"
+    },
+    "selected_repository_images": [
+      {
+        "source": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/02-installed-preview-tradeoff-1280.png",
+        "retained_source_path": "screenshots/weapon-fitting-overview-030.png",
+        "bytes": 360360,
+        "sha256": "9a7ca6268e481c29e5c0198910c17dca94b0fa609ec499a4bd2d150c8f51f142",
+        "image_editing": "none; exact original framebuffer PNG bytes"
+      },
+      {
+        "source": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/05-actual-borrowed-battle-1280.png",
+        "retained_source_path": "screenshots/weapon-fitting-borrowed-battle-030.png",
+        "bytes": 1650613,
+        "sha256": "9182d65ec863f9d9d1d75d90cd86280b671ed5d5dbe56e8364ec47323a433016",
+        "image_editing": "none; exact original framebuffer PNG bytes"
+      },
+      {
+        "source": "Hero-staging/equipment-fitting-phase2/native/candidate4/stills/screenshots/07-two-result-focused-1180-zoom160.png",
+        "retained_source_path": "screenshots/weapon-fitting-comparison-030-compact.png",
+        "bytes": 336848,
+        "sha256": "d4e5d4774dabe42e71df07fbf50400955ee2f2f33812fd9ee1c462268f12cfd2",
+        "image_editing": "none; exact original framebuffer PNG bytes"
+      }
+    ],
+    "selected_repository_images_binding": {
+      "path": "Hero-staging/equipment-fitting-phase2/native/selected-source-images.json",
+      "bytes": 1169,
+      "sha256": "497499a113b79f3482a1fecb0de3f556b22d3fb3ae8c0b51b573c862b6426a05"
+    },
+    "image_retention": "Lead retained three exact original framebuffer PNGs; this preparer verified their bytes and copied no image. Final commit equality binding remains separate."
+  },
+  "complete_package_source_rehearsal": {
+    "status": "passed_complete_source_rehearsal_only",
+    "checks": 18752,
+    "failures": 0,
+    "owner_binding": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/FINAL_BINDING.json",
+      "bytes": 9615,
+      "sha256": "f69740a62f78fbeb4cc258889f171a4b1d17a8e9d6296617a6ee36ec49e0a85d"
+    },
+    "owned_source_files": 4,
+    "consumed_audit_inputs": 32,
+    "independent_gate_review": {
+      "path": "Hero-staging/equipment-fitting-phase2/release-gate-review/REVIEW.md",
+      "bytes": 8343,
+      "sha256": "1eff44d761b8182e708a9c7364cd6827d97180298bc08a8df86b3728b05ebe75"
+    },
+    "independent_review_scope": "Read-only retained assertions and real audit input mutation guards; whole-source review saw announced preflight CHECKSUMS change and is not an unchanged aggregate claim. Final acceptance additionally rejects unittest skips.",
+    "exact_source_audit_inputs": 392,
+    "source_inputs_unchanged": true,
+    "partitions": {
+      "PRESERVED": 1471,
+      "UNIFIED": 1247,
+      "EXPLORATION": 349,
+      "CONDITION": 191,
+      "TRANSFER": 363,
+      "CONSIGNEE": 1036,
+      "POLISH": 460,
+      "CAPSTONE": 1179,
+      "FITTING": 12369
+    },
+    "current_web_python_tests": 53,
+    "expected_future_exact_pck_checks": 18757,
+    "pending_exact_pck_only_checks": 5,
+    "actual_pck_checks": null,
+    "actual_pck_sha256": null,
+    "scope": "Full source rehearsal only; exactly five true PCK assertions pending. No export, exactPCK, browser, full-old-runtime or pixel claim.",
+    "strict_result": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.json",
+      "bytes": 1428,
+      "sha256": "17d55a8feb9154e75e5e67a19a626b21e50b8167538ab70f20a1afa0eb962696"
+    },
+    "before": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-BEFORE.json",
+      "bytes": 44715,
+      "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+    },
+    "after": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-AFTER.json",
+      "bytes": 44715,
+      "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+    },
+    "log": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.log",
+      "bytes": 3930,
+      "sha256": "eb4083ce03c3c69dde06c2d26bf5db495212d0440a63412cf07df747ab83a066"
+    },
+    "subject": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    "measured_counter_binding": {
+      "path": "Hero-staging/equipment-fitting-phase2/package-audit/MEASURED_COUNTER_BINDING.json",
+      "bytes": 1149,
+      "sha256": "ceed811e2b5bf4b8330082cc3417f823f70abd8d7c72309c32a1633b7211ea77"
+    },
+    "retained_attempt_artifacts": [
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/COMMAND.json",
+        "bytes": 638,
+        "sha256": "56ef2e2a85952df801e71f70a9f1699be7c18338cb55c4b81bc13281d076c86e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/RESULT.json",
+        "bytes": 1028,
+        "sha256": "397a909848e8c62f0c078b6d231956bf129ddc778acc715501e440f779e169af"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/SOURCE-AFTER.json",
+        "bytes": 44715,
+        "sha256": "a7e571407f24af6a19217e42a475b1302e8e952dd486db8812920b60ee108753"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/SOURCE-BEFORE.json",
+        "bytes": 44715,
+        "sha256": "a7e571407f24af6a19217e42a475b1302e8e952dd486db8812920b60ee108753"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-01/engine.log",
+        "bytes": 720,
+        "sha256": "6ebe8ae0ca7917968777fb1036f3d31b15dd6a53058bc9f80eaa326d8b093e2e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/COMMAND.json",
+        "bytes": 638,
+        "sha256": "cad44556e106a09b5589b158dc2ae040a922f4791d656124871aafdcad95541a"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/CURRENT16-SUBJECT.json",
+        "bytes": 1872,
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/RESULT.json",
+        "bytes": 1852,
+        "sha256": "efdb57c040ea1c87fe82dd456f1157a03699bb2c4645884f2f48d343d80f49e4"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/SOURCE-AFTER.json",
+        "bytes": 44715,
+        "sha256": "944f0a46401d7899001d9f2e168abe2f9ec345a1d9e94658f639e01ba4ff0d64"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/SOURCE-BEFORE.json",
+        "bytes": 44715,
+        "sha256": "944f0a46401d7899001d9f2e168abe2f9ec345a1d9e94658f639e01ba4ff0d64"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-02/engine.log",
+        "bytes": 22737,
+        "sha256": "90f1cfbf16e4cc2118b05208f401ef40ea4555c18299243e25c7dc19748de34a"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/COMMAND.json",
+        "bytes": 521,
+        "sha256": "05b9443a598c2e7a2c8135d7d7b1cd101e14a1525c56ef5fa4a36b0d46e5cd49"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/engine.log",
+        "bytes": 1207,
+        "sha256": "37ccc6e5db0a70fdde7c8f9d3301627cff95108915a47871d7586e1b1d025e68"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/entry-probe-01/entry-probe.gd",
+        "bytes": 416061,
+        "sha256": "462ce4fd2e0e6ee0986e580eb86f5dc7c385b196afad476902fabba83f7b36a9"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/COMMAND.json",
+        "bytes": 638,
+        "sha256": "4a545466f73a67a33879758c589526033faf4eb6d255a19c5f672f3dab69203f"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/CURRENT16-SUBJECT.json",
+        "bytes": 1872,
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/RESULT.json",
+        "bytes": 1851,
+        "sha256": "e488de76b0712850f2edcbb604630209f1863a6b8739f22ad749796517b1617d"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/SOURCE-AFTER.json",
+        "bytes": 44715,
+        "sha256": "eb8769cef0e3cc003fb0493eba3efd0c1e1d6c667009dd2cedf75d922e9499b7"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/SOURCE-BEFORE.json",
+        "bytes": 44715,
+        "sha256": "eb8769cef0e3cc003fb0493eba3efd0c1e1d6c667009dd2cedf75d922e9499b7"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/fitting-03/engine.log",
+        "bytes": 980,
+        "sha256": "ed6dc223bb43ba4d05e47dd452eccdf9079b94f8a46ab9ce076cc3e2527dd165"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/CURRENT16-SUBJECT.json",
+        "bytes": 1872,
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-AFTER.json",
+        "bytes": 44715,
+        "sha256": "59884a948e443e901b36b612ad9b466c3eb5772eea1bba209f0ea0908faf4c81"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-BEFORE.json",
+        "bytes": 44715,
+        "sha256": "59884a948e443e901b36b612ad9b466c3eb5772eea1bba209f0ea0908faf4c81"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-REHEARSAL.json",
+        "bytes": 1425,
+        "sha256": "48d5e97a26212fc2d244ecf07d0a8679780615d41f09fbc83e4d4d8855181bb0"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-measure-01/SOURCE-REHEARSAL.log",
+        "bytes": 3930,
+        "sha256": "eb4083ce03c3c69dde06c2d26bf5db495212d0440a63412cf07df747ab83a066"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/CURRENT16-SUBJECT.json",
+        "bytes": 1872,
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-AFTER.json",
+        "bytes": 44715,
+        "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-BEFORE.json",
+        "bytes": 44715,
+        "sha256": "c3122d3d796a0f6e30dd6d4e66883f7781376af0beb61441fd6a71bc235550b8"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.json",
+        "bytes": 1428,
+        "sha256": "17d55a8feb9154e75e5e67a19a626b21e50b8167538ab70f20a1afa0eb962696"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/full-strict-01/SOURCE-REHEARSAL.log",
+        "bytes": 3930,
+        "sha256": "eb4083ce03c3c69dde06c2d26bf5db495212d0440a63412cf07df747ab83a066"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/DIAGNOSTICS.md",
+        "bytes": 2363,
+        "sha256": "439766472adad16cbdc576eb3b96425c3cfea8c60c1b0e54267dfe8133a058b4"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/MAINTENANCE_RATIONALE.md",
+        "bytes": 5097,
+        "sha256": "250d08bda7c9f0b63c030c1b13792b26d285478652ab361a8a772f596b2ecbeb"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/STATIC_PRESERVATION.json",
+        "bytes": 268,
+        "sha256": "6ceeac78d091aa60e27e36ab681b0d34038f9ed915e92235e3897e582af92834"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-retained-unmeasured-01.log",
+        "bytes": 5383,
+        "sha256": "18900be1bb6f538f699ea89bec2b8f51e26c5029c573d9383260facb3ab1f2f4"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-web-final-01.log",
+        "bytes": 8243,
+        "sha256": "87b843059c4cbc3158d0b0882a8211e485b05f0acbc85b0289e0b0f20fe3636d"
+      },
+      {
+        "path": "Hero-staging/equipment-fitting-phase2/package-audit/python-focused-final-label.log",
+        "bytes": 106,
+        "sha256": "274f6bac38cd9c543013527ca3004ec792d15edc09b5a81dc5a505bd86dbbc90"
+      }
+    ],
+    "prior_attempts": "fitting01 parse error; fitting02 49 input-buffer fixture-position failures; corrected fitting03 partial pass. Complete measurement engine passed but zero-counter wrapper rejected; counters pinned from observations and fresh strict run passed.",
+    "historical_scope": "Pinned historical13/14/15 source readers with current dependencies; complete old15 process against actual future PCK-produced16 remains separate."
+  },
+  "no_source_write_by_preparer": true,
+  "recommendation": "Review only. Do not apply while any aggregate is running; revalidate exact originals/current owner hashes before applying.",
+  "post_run_record_policy": {
+    "permitted_proposal_scope": "Seven existing documentation sections and seven new compact QA records only; images were separately retained by lead before the full-source freeze.",
+    "tested_manifest": "The actual accepted before/after map stays immutable. Newly applied documents/QA are explicitly post-run records, never retroactively included in the tested inventory.",
+    "final_identity": "Lead records final runtime/source commit and complete post-run documentation diff separately after review; CHECKSUMS and commits are outside this preparer ownership.",
+    "source_proposal_paths": [
+      "README.md",
+      "ROADMAP.md",
+      "PROGRESS.md",
+      "DEVELOPMENT.md",
+      "COMBAT.md",
+      "WEB_EXPORT.md",
+      "tests/TEST_RESULTS.md",
+      "tests/weapon_fitting_phase2_contract.md",
+      "tests/weapon_fitting_phase2_ui.json",
+      "tests/weapon_fitting_phase2_earned.json",
+      "tests/weapon_fitting_phase2_closure.json",
+      "tests/weapon_fitting_phase2_binding.json",
+      "tests/weapon_fitting_phase2_evidence_index.json",
+      "tests/weapon_fitting_phase2_report_recovery.json"
+    ]
+  }
+}

@@ -1,0 +1,666 @@
+{
+  "status": "PASS",
+  "checks": 2510,
+  "failures": 0,
+  "scene_cases": 4,
+  "borrowed_trials": 15,
+  "plain_control_fights": 8,
+  "current16_roundtrips": 8,
+  "authentic15_migrations": 1,
+  "api_fights_including_controls_and_legacy": 17,
+  "scope": "Current production State/API-earned prerequisites; exact sourced opening scene-local effects. Declared canonical transfer into Main; held walking/E/numeric/mouse input and natural current PartyUI presentation. Later case has declared model travel between Qingwei and Heting physical segments. Headless fixed-step timing is not user playtime, native pixels, browser or manual performance proof. No stat/gear/recruit flags granted; no user saves touched.",
+  "strict_user_data_inventory": true,
+  "outcomes": [
+    {
+      "case": "early_tingchao_solo",
+      "profile": "ordinary",
+      "candidate": "plain",
+      "outcome": "win",
+      "hp_lost": 34,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "92b25dc48007192d6dcbc2a7fbc90bfeaa1649fb8e8f958e3021d4e8e5cef830"
+    },
+    {
+      "case": "early_tingchao_solo",
+      "profile": "ordinary",
+      "candidate": "edge",
+      "outcome": "win",
+      "hp_lost": 40,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "92b25dc48007192d6dcbc2a7fbc90bfeaa1649fb8e8f958e3021d4e8e5cef830"
+    },
+    {
+      "case": "early_tingchao_solo",
+      "profile": "ordinary",
+      "candidate": "guard",
+      "outcome": "win",
+      "hp_lost": 28,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "92b25dc48007192d6dcbc2a7fbc90bfeaa1649fb8e8f958e3021d4e8e5cef830"
+    },
+    {
+      "case": "early_zhaoye_solo",
+      "profile": "ordinary",
+      "candidate": "plain",
+      "outcome": "win",
+      "hp_lost": 34,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "dc7626ad269bf53588198c5b22e7f63ba67aa4ac0ca1dd58ac127626faf2cc8c"
+    },
+    {
+      "case": "early_zhaoye_solo",
+      "profile": "ordinary",
+      "candidate": "edge",
+      "outcome": "win",
+      "hp_lost": 40,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "dc7626ad269bf53588198c5b22e7f63ba67aa4ac0ca1dd58ac127626faf2cc8c"
+    },
+    {
+      "case": "early_zhaoye_solo",
+      "profile": "ordinary",
+      "candidate": "guard",
+      "outcome": "win",
+      "hp_lost": 28,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "dc7626ad269bf53588198c5b22e7f63ba67aa4ac0ca1dd58ac127626faf2cc8c"
+    },
+    {
+      "case": "early_wenshi_solo",
+      "profile": "ordinary",
+      "candidate": "plain",
+      "outcome": "win",
+      "hp_lost": 25,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "7e89240b5c3194a6cee5346aebe7f134189133504eb6195da00d3307cc3ebe16"
+    },
+    {
+      "case": "early_wenshi_solo",
+      "profile": "ordinary",
+      "candidate": "edge",
+      "outcome": "win",
+      "hp_lost": 31,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "7e89240b5c3194a6cee5346aebe7f134189133504eb6195da00d3307cc3ebe16"
+    },
+    {
+      "case": "early_wenshi_solo",
+      "profile": "ordinary",
+      "candidate": "guard",
+      "outcome": "win",
+      "hp_lost": 19,
+      "medicine_used": 0,
+      "enemy_attacks": 3,
+      "completed_rounds": 3,
+      "terminal_round": 4,
+      "comparison_key": "7e89240b5c3194a6cee5346aebe7f134189133504eb6195da00d3307cc3ebe16"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "ordinary",
+      "candidate": "plain",
+      "outcome": "win",
+      "hp_lost": 0,
+      "medicine_used": 0,
+      "enemy_attacks": 0,
+      "completed_rounds": 0,
+      "terminal_round": 1,
+      "comparison_key": "62c6acfed55381bf8d08810b4d419b8ffbf96cad817107202916e0ef06e3f99a"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "ordinary",
+      "candidate": "edge",
+      "outcome": "win",
+      "hp_lost": 0,
+      "medicine_used": 0,
+      "enemy_attacks": 0,
+      "completed_rounds": 0,
+      "terminal_round": 1,
+      "comparison_key": "62c6acfed55381bf8d08810b4d419b8ffbf96cad817107202916e0ef06e3f99a"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "ordinary",
+      "candidate": "guard",
+      "outcome": "win",
+      "hp_lost": 0,
+      "medicine_used": 0,
+      "enemy_attacks": 0,
+      "completed_rounds": 0,
+      "terminal_round": 1,
+      "comparison_key": "62c6acfed55381bf8d08810b4d419b8ffbf96cad817107202916e0ef06e3f99a"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "pressure",
+      "candidate": "plain",
+      "outcome": "win",
+      "hp_lost": 214,
+      "medicine_used": 0,
+      "enemy_attacks": 8,
+      "completed_rounds": 8,
+      "terminal_round": 9,
+      "comparison_key": "4dcfd7f26b009ef1fdfdfaa822ea658ea182a89d55e6bc77c742912bff7c628d"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "pressure",
+      "candidate": "edge",
+      "outcome": "win",
+      "hp_lost": 218,
+      "medicine_used": 0,
+      "enemy_attacks": 8,
+      "completed_rounds": 8,
+      "terminal_round": 9,
+      "comparison_key": "4dcfd7f26b009ef1fdfdfaa822ea658ea182a89d55e6bc77c742912bff7c628d"
+    },
+    {
+      "case": "later_full_party",
+      "profile": "pressure",
+      "candidate": "guard",
+      "outcome": "win",
+      "hp_lost": 239,
+      "medicine_used": 0,
+      "enemy_attacks": 9,
+      "completed_rounds": 9,
+      "terminal_round": 10,
+      "comparison_key": "4dcfd7f26b009ef1fdfdfaa822ea658ea182a89d55e6bc77c742912bff7c628d"
+    }
+  ],
+  "binding": {
+    "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/FINAL_BINDING.json",
+    "bytes": 15458,
+    "sha256": "0d94005727ff21ba1eaaa6567de99bc0f491da145705702e1542940a4584e859"
+  },
+  "summary": {
+    "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/SUMMARY.json",
+    "bytes": 19986,
+    "sha256": "61f5dfd080a0b638f49c2e9227932a22f93b747744d41a9aee85b5a56f39c090"
+  },
+  "authored_report_scope": "Pre-polish independent worker evidence; current-byte reexecution is separately bound.",
+  "final_byte_reexecution": {
+    "status": "passed_exact_complete_source",
+    "raw_result": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-result.json",
+      "bytes": 19925,
+      "sha256": "69a36cf348dbd8bd7fa4040a936fc5ee1ac72aab79c30fb9af2279b1b5a37c3b"
+    },
+    "wrapper": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/run_full02.py",
+      "bytes": 4876,
+      "sha256": "9a3584c6e3c11f863325722c46adb99fe5e89028e2afce47bdb4b4456b097c51"
+    },
+    "before": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-before.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "after": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02-after.json",
+      "bytes": 175157,
+      "sha256": "32c644034eea41c8aceaa08fef43ecc984e7bd1fa7acf6800792edd6d51dcef8"
+    },
+    "log": {
+      "path": "Hero-staging/equipment-fitting-phase2/aggregate/full-02.log",
+      "bytes": 3637616,
+      "sha256": "bee6f1ec8d99339c8688062b998468648eed8ca3f06c19341f6abbe66b7ab427"
+    },
+    "compared_files": 1564,
+    "measured_godot_commands": 185,
+    "measured_python_tests": 85,
+    "measured_dom_checks": 53,
+    "unittest_groups": [
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 8,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 10,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 6,
+        "footer": "OK",
+        "skipped": 0
+      },
+      {
+        "tests": 53,
+        "footer": "OK",
+        "skipped": 0
+      }
+    ],
+    "python_skips": 0,
+    "focused_checks": 98,
+    "safety_checks": 3214,
+    "safety_cases": 13,
+    "earned_checks": 2510,
+    "earned_scene_cases": 4,
+    "suites": {
+      "functional": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/functional/engine.log",
+          "bytes": 113,
+          "sha256": "53c73b4a0b0605d08dc717e3b7a6504d38189cc2eb1a000f8a80a0106c980160"
+        }
+      },
+      "safety": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/engine.log",
+          "bytes": 486,
+          "sha256": "9cbf918d1cad86055d8197c6a0207d8babbc1f7058d9fb592b9c0af8f0bd830e"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/safety/result.json",
+          "bytes": 1073687,
+          "sha256": "a5ccd66ffff962b71fd283fac69938466c7d566350b1b0c72aa62dc09c28f49a"
+        }
+      },
+      "earned": {
+        "log": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/engine.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        },
+        "result": {
+          "path": "Hero-staging/equipment-fitting-phase2/aggregate/test-root-02/fitting-ui/earned/result.json",
+          "bytes": 32203798,
+          "sha256": "0fb150ca25f55bcb6a3a62e843397135f35ce9d29af7100c62f77a411f8a2598"
+        }
+      }
+    },
+    "source_unchanged": true,
+    "current_equal_tested_at_preparation": true,
+    "current_readback_utc": "2026-10-03T15:09:50.612174+00:00",
+    "current_readback_scope": "Before applying the14 post-run documentation/QA records and regenerated CHECKSUMS; not a claim that the later complete repository equals the tested manifest."
+  },
+  "review": {
+    "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/REVIEW.md",
+    "bytes": 4112,
+    "sha256": "921cbfc30946e1bcc9e4ae0f40d0a0b7edb3d23d6612159b7a49df8c184ec318"
+  },
+  "counts_not_additive": true,
+  "borrowed_medicine_used_in_all_15_samples": 0,
+  "finite_outcomes": [
+    {
+      "case": "early_tingchao_solo",
+      "fitting_used": "edge",
+      "encounter": "sect_trial",
+      "outcome": "win",
+      "actual_hp_lost": 54,
+      "final_base_attack": 26,
+      "final_base_defense": 7,
+      "final_sect_rank": 2
+    },
+    {
+      "case": "early_zhaoye_solo",
+      "fitting_used": "guard",
+      "encounter": "sect_trial",
+      "outcome": "win",
+      "actual_hp_lost": 106,
+      "final_base_attack": 22,
+      "final_base_defense": 7,
+      "final_sect_rank": 2
+    },
+    {
+      "case": "early_wenshi_solo",
+      "fitting_used": "edge",
+      "encounter": "sect_trial",
+      "outcome": "win",
+      "actual_hp_lost": 63,
+      "final_base_attack": 22,
+      "final_base_defense": 10,
+      "final_sect_rank": 2
+    },
+    {
+      "case": "later_full_party",
+      "fitting_used": "guard",
+      "encounter": "heting_consignee",
+      "outcome": "win",
+      "actual_hp_lost": 39,
+      "final_base_attack": 35,
+      "final_base_defense": 9,
+      "final_sect_rank": 1
+    }
+  ],
+  "earned_boundaries": [
+    {
+      "case": "early_tingchao_solo",
+      "scope": "Genuine API-earned boundary before declared physical-scene position transfer",
+      "artifact": {
+        "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_tingchao_solo-api-earned.json",
+        "bytes": 1879,
+        "sha256": "aeea5d62190044a85fbf51fc041160fca28ac9cadbe1a4e502481e49668b9414"
+      },
+      "level": 3,
+      "sect": "听潮阁",
+      "roster": [
+        "hero"
+      ]
+    },
+    {
+      "case": "early_zhaoye_solo",
+      "scope": "Genuine API-earned boundary before declared physical-scene position transfer",
+      "artifact": {
+        "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_zhaoye_solo-api-earned.json",
+        "bytes": 1879,
+        "sha256": "a8b59b830a03508d704886ca5d93bd97bc8f149dd53da31e98126aafee5320b5"
+      },
+      "level": 3,
+      "sect": "照野堂",
+      "roster": [
+        "hero"
+      ]
+    },
+    {
+      "case": "early_wenshi_solo",
+      "scope": "Genuine API-earned boundary before declared physical-scene position transfer",
+      "artifact": {
+        "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/early_wenshi_solo-api-earned.json",
+        "bytes": 1879,
+        "sha256": "ad03b3b144d56d3186819b3abd18adfb4e8ace19a86154794172738874e48619"
+      },
+      "level": 3,
+      "sect": "问石门",
+      "roster": [
+        "hero"
+      ]
+    },
+    {
+      "case": "later_full_party",
+      "scope": "Genuine API-earned boundary before declared physical-scene position transfer",
+      "artifact": {
+        "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/data/godot/app_userdata/Hero · 渡灯录/weapon-fitting-earned-9-1307005/later_full_party-api-earned.json",
+        "bytes": 2388,
+        "sha256": "38e15a2ad5a36a6f268ebbc63bda471ab734819fe758a4f64f60ad773b1ec70b"
+      },
+      "level": 6,
+      "sect": "听潮阁",
+      "roster": [
+        "hero",
+        "shen",
+        "tang",
+        "qin"
+      ]
+    }
+  ],
+  "prior_attempts": [
+    {
+      "attempt": "all.LNaYsA",
+      "checks": 2510,
+      "failures": 0,
+      "selected_case": "",
+      "accepted": true,
+      "failure_labels": [],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/after-source.json",
+          "bytes": 11926,
+          "sha256": "72928166f59505d7d15d1df205ad68f9722daa9fd5433c1137cf001dbad42cae"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/before-source.json",
+          "bytes": 11662,
+          "sha256": "e244950e01d75ddb3523fff0f72eb6b9c97f29736bc7699af66e5fd4aaec0dea"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/engine.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/exit-code.txt",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/report.json",
+          "bytes": 32203475,
+          "sha256": "03b1fddd3cadbbec5bbcba7c8122a8e4f608eeccae0c757a8644940abdba78be"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.LNaYsA/run.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        }
+      ]
+    },
+    {
+      "attempt": "all.iVqelp",
+      "checks": 2510,
+      "failures": 0,
+      "selected_case": "",
+      "accepted": false,
+      "failure_labels": [],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/after-source.json",
+          "bytes": 11926,
+          "sha256": "97c10b8fb5328c0b091ec918474dbdf39c980f952121cc1470ca96146b8a826e"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/before-source.json",
+          "bytes": 11662,
+          "sha256": "168fdd0844cac2775999503bd17f3b8fc26de502e8e638b0eb33365f5d79e8a1"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/exit-code.txt",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/report.json",
+          "bytes": 32203474,
+          "sha256": "3abd3e44492ea0324a40328c3e0c2d5e0581e16340cf2a2c29da17ba4b936efd"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/all.iVqelp/run.log",
+          "bytes": 6715,
+          "sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1"
+        }
+      ]
+    },
+    {
+      "attempt": "early_tingchao_solo.HS0aC2",
+      "checks": 297,
+      "failures": 6,
+      "selected_case": "early_tingchao_solo",
+      "accepted": false,
+      "failure_labels": [
+        "early_tingchao_solo:Borrowed terminal/result changes no real state, saved bytes or either position",
+        "early_tingchao_solo:Normal result close preserves all real progress, proficiency, resources and disk bytes",
+        "early_tingchao_solo:All requested earned scene cases completed",
+        "early_tingchao_solo:Exact bounded borrowed trial count completed",
+        "early_tingchao_solo:Exact four pairs/eight plain control fights completed",
+        "early_tingchao_solo:Two current16 roundtrips per earned boundary"
+      ],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/after-source.json",
+          "bytes": 11926,
+          "sha256": "590a5fac4cce9a15fe6984377c5f479ada66a71462947b0efb02f27c6b241800"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/before-source.json",
+          "bytes": 11662,
+          "sha256": "20770332c3f335439a2b0867673457278e4fd2524c9c1bfad207c58222cb22c3"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/exit-code.txt",
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/report.json",
+          "bytes": 477106,
+          "sha256": "230f0279183a0be29befba250718b72c5fdecfa7b87f4838a0c69f45f3c220b6"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.HS0aC2/run.log",
+          "bytes": 7608,
+          "sha256": "c66e5807cec4ef681597136287e1744c9f9f1a26dae1c8eac464bf35190e5370"
+        }
+      ]
+    },
+    {
+      "attempt": "early_tingchao_solo.ICZwQD",
+      "checks": 275,
+      "failures": 6,
+      "selected_case": "early_tingchao_solo",
+      "accepted": false,
+      "failure_labels": [
+        "early_tingchao_solo:Natural held movement creates genuine unsaved position mismatch",
+        "early_tingchao_solo:Real UI starts current automatic borrowed battle",
+        "early_tingchao_solo:All requested earned scene cases completed",
+        "early_tingchao_solo:Exact bounded borrowed trial count completed",
+        "early_tingchao_solo:Exact four pairs/eight plain control fights completed",
+        "early_tingchao_solo:Two current16 roundtrips per earned boundary"
+      ],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/after-source.json",
+          "bytes": 11926,
+          "sha256": "113a86b0ca3430567de8478aeac784c413829636e17f55704225b53b91993467"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/before-source.json",
+          "bytes": 11662,
+          "sha256": "e6bc7a0c0ec99beef7ce0a59718f3a421dcb00ed0309bc7f5bf70af222a20099"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/exit-code.txt",
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/report.json",
+          "bytes": 190344,
+          "sha256": "d42ff0a40e978e0eaa8ce75b15cc545edaf6dbe1d66a07b213fea0cf9085fcef"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ICZwQD/run.log",
+          "bytes": 4023,
+          "sha256": "888bb0327eaef717573be86583d761f2f92c5d78e05e562138c84e9c92b998e9"
+        }
+      ]
+    },
+    {
+      "attempt": "early_tingchao_solo.XF9yMV",
+      "checks": 275,
+      "failures": 6,
+      "selected_case": "early_tingchao_solo",
+      "accepted": false,
+      "failure_labels": [
+        "early_tingchao_solo:Natural held movement creates genuine unsaved position mismatch",
+        "early_tingchao_solo:Real UI starts current automatic borrowed battle",
+        "early_tingchao_solo:All requested earned scene cases completed",
+        "early_tingchao_solo:Exact bounded borrowed trial count completed",
+        "early_tingchao_solo:Exact four pairs/eight plain control fights completed",
+        "early_tingchao_solo:Two current16 roundtrips per earned boundary"
+      ],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/after-source.json",
+          "bytes": 11926,
+          "sha256": "3ebc44b0a2fe33e40038de6bc28e489686c4b98e2a8a89bbe8c11f0370b73c4c"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/before-source.json",
+          "bytes": 11662,
+          "sha256": "b2dfd1043eea8ab0f2b191d4c130faff59f85dcb0d4441f3737dec416090a2e1"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/exit-code.txt",
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/report.json",
+          "bytes": 189109,
+          "sha256": "d71f9174e43399da0849f1bc038e0906e6c1a6917ea47e37ae1ef6708414f089"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.XF9yMV/run.log",
+          "bytes": 4023,
+          "sha256": "fa250b3deba080be619fd292e7f0e341c0617475fa3451b96014e04c444c3896"
+        }
+      ]
+    },
+    {
+      "attempt": "early_tingchao_solo.ox9eT3",
+      "checks": 481,
+      "failures": 0,
+      "selected_case": "early_tingchao_solo",
+      "accepted": false,
+      "failure_labels": [],
+      "files": [
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/after-source.json",
+          "bytes": 11926,
+          "sha256": "97c10b8fb5328c0b091ec918474dbdf39c980f952121cc1470ca96146b8a826e"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/before-source.json",
+          "bytes": 11662,
+          "sha256": "168fdd0844cac2775999503bd17f3b8fc26de502e8e638b0eb33365f5d79e8a1"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/exit-code.txt",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/report.json",
+          "bytes": 1645094,
+          "sha256": "5a73267dcff36c8eb7cbb21105a2f30a71e20de99b59f49c5fe15934c3450f0d"
+        },
+        {
+          "path": "Hero-staging/equipment-fitting-phase2/earned-evidence/early_tingchao_solo.ox9eT3/run.log",
+          "bytes": 1317,
+          "sha256": "e69605e209905ced732030446eaffa0d1900384240720691d74f7f9357ebdf28"
+        }
+      ]
+    }
+  ],
+  "failure_classification": "Initial two input-buffer setup failures, then harness observer/log inventory failure; no runtime defect established by these. Smoke481 and full2510 with narrow engine-log exclusion are superseded; final all.LNaYsA uses complete user-data inventory without exclusions.",
+  "no_claims": [
+    "fresh-title full physical opening traversal",
+    "manual play",
+    "measured player duration",
+    "native pixels",
+    "browser persistence",
+    "universal advantage",
+    "medicine spending in these fifteen trials"
+  ]
+}
