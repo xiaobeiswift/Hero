@@ -32,6 +32,20 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
+# Phase-one 未损先收: quest/state/schema14/current combat models. Scene and
+# exact new Web pack acceptance are separate, still pending chapter integration.
+run_checked --headless --path . --script tests/heting_consignee_rules_test.gd
+run_checked --headless --path . --script tests/heting_consignee_schema_test.gd
+run_checked --headless --path . --script tests/heting_consignee_state_test.gd
+run_checked --headless --path . --script tests/heting_consignee_combat_test.gd
+run_checked --headless --path . --script tests/heting_consignee_balance_test.gd
+run_checked --headless --path . --script tests/heting_consignee_minimal_solo_test.gd
+run_checked --headless --path . --script tests/heting_consignee_adversarial_test.gd
+# Optional read-only old cloud-exported Web25 artifact boundary. This archive
+# is not required to clone/run the source suite and is not the live Windows PCK.
+if [[ -n "${HERO_WEB25_PCK:-}" ]]; then
+  run_checked --headless --path . --script tests/heting_consignee_web25_reader_test.gd -- "$HERO_WEB25_PCK"
+fi
 # Save transfer is shipped default-off; opt-in tests use isolated synthetic bytes.
 run_checked --headless --path . --script tests/local_save_transfer_test.gd
 run_checked --headless --path . --script tests/save_transfer_ui_test.gd
