@@ -40,6 +40,8 @@ const CONSIGNEE_LOT_SCALE := 1.6
 const CONSIGNEE_BOAT_EMPTIES := [Vector2(615,674),Vector2(647,674)]
 const INK := Color("334b46")
 const PAPER := Color("e2d3ad")
+const ROUTE_INK := Color("142b26")
+const ROUTE_OUTLINE_SIZE := 2
 const WOOD := Color("ae9971")
 const WOOD_DARK := Color("6b6250")
 const WATER := Color("709591")
@@ -280,7 +282,7 @@ static func _ground(w, bridge_side: String) -> void:
 		w.draw_line(Vector2(305, y), Vector2(1528, y), Color(0.49, 0.48, 0.35, 0.24), 1.5, true)
 	for x in [321, 338, 1521, 1538]:
 		w.draw_line(Vector2(x, 367), Vector2(x, 787 if x < 400 else 658), Color(0.49, 0.48, 0.35, 0.21), 1.5, true)
-	w._label(Vector2(1033, 316), "北岸横街  ·  板车可绕行", 14, Color("77765a"), 297, HORIZONTAL_ALIGNMENT_CENTER)
+	_route_label(w, Vector2(1033, 316), "北岸横街  ·  板车可绕行", 14, 297, HORIZONTAL_ALIGNMENT_CENTER)
 	# Unloading platform is a built timber deck, never a grassy natural island.
 	w.draw_rect(CARGO_ISLAND, Color("a49370"))
 	var painted_deck=MaterialTiles.draw(w,DeckArt.wood_texture(),CARGO_ISLAND,WOOD_TILE,.90)
@@ -336,8 +338,8 @@ static func _foot_pier(w) -> void:
 			w._ellipse(Vector2(x, y + 1), Vector2(6, 3), Color("6c705b"))
 			w.draw_line(Vector2(x, y), Vector2(x, y - 20), Color("5e6451"), 7, true)
 			w.draw_circle(Vector2(x, y - 21), 4, Color("c7b890"))
-	w._label(Vector2(710, 410), "窄步栈  ·  行人通行", 13, Color("65715c"), 195, HORIZONTAL_ALIGNMENT_CENTER)
-	w._label(Vector2(709, 426), "板车走侧浮栈", 11, Color("8d6d46"), 195, HORIZONTAL_ALIGNMENT_CENTER)
+	_route_label(w, Vector2(710, 410), "窄步栈  ·  行人通行", 13, 195, HORIZONTAL_ALIGNMENT_CENTER)
+	_route_label(w, Vector2(709, 426), "板车走侧浮栈", 13, 195, HORIZONTAL_ALIGNMENT_CENTER)
 
 static func _pontoon(w, r: Rect2) -> void:
 	# Linked buoyant hulls, transverse sleepers and a low deck: one mobile set.
@@ -354,7 +356,14 @@ static func _pontoon(w, r: Rect2) -> void:
 	for x in range(int(r.position.x) + 15, int(r.end.x), 52):
 		for y in [r.position.y + 6, r.end.y - 6]:
 			w.draw_circle(Vector2(x, y), 2, WOOD_DARK)
-	w._label(r.position + Vector2(16, 47), "连 舟 浮 栈", 13, Color("665d45"), r.size.x - 32, HORIZONTAL_ALIGNMENT_CENTER)
+	_route_label(w, r.position + Vector2(16, 47), "连 舟 浮 栈", 13, r.size.x - 32, HORIZONTAL_ALIGNMENT_CENTER)
+
+static func _route_label(w, p: Vector2, text: String, size: int, width: float, alignment: HorizontalAlignment) -> void:
+	# These four navigation captions alone receive a true, restrained outline.
+	# Reuse the world's Noto/font cache; no sign panel hides planks or bollards.
+	var font: Font = w.ui_font if w.ui_font != null else ThemeDB.fallback_font
+	w.draw_string_outline(font, p, text, alignment, width, size, ROUTE_OUTLINE_SIZE, PAPER)
+	w.draw_string(font, p, text, alignment, width, size, ROUTE_INK)
 
 static func _rope_routes(w, bridge_side: String) -> void:
 	# Slack secondary cable is a thin dark line, never a misleading walkway.

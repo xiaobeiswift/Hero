@@ -49,6 +49,46 @@ static var _horizon_points = PackedVector2Array([Vector2(0,278), Vector2(1280,27
 static var _horizon_colors = PackedColorArray([Color(.22,.34,.25,.42), Color(.22,.34,.25,.42), Color(.22,.34,.25,0), Color(.22,.34,.25,0)])
 static var _top_points = PackedVector2Array([Vector2(0,0), Vector2(1280,0), Vector2(1280,156), Vector2(0,156)])
 static var _top_colors = PackedColorArray([Color(.07,.14,.11,.78), Color(.07,.14,.11,.78), Color(.07,.14,.11,0), Color(.07,.14,.11,0)])
+# Warehouse-only paint caches. The earth keeps its original 512-unit mirrored
+# sampling; the extra row changes only opacity, never the shared combat floor.
+const WAREHOUSE_APRON_FADE = 64.0
+const WAREHOUSE_APRON_OPACITY = .28
+static var _warehouse_sky_points = PackedVector2Array([Vector2(0,0), Vector2(1280,0), Vector2(1280,685), Vector2(0,685)])
+static var _warehouse_sky_colors = PackedColorArray([Color("637f75"), Color("637f75"), Color("858f77"), Color("858f77")])
+# One subdued irregular shore borrows Heting's distant-shore silhouette. Its
+# bottom fades away before the apron; no hard full-width horizon is introduced.
+static var _warehouse_shore_points = PackedVector2Array([Vector2(0,207), Vector2(120,219), Vector2(276,203), Vector2(448,222), Vector2(604,208), Vector2(746,222), Vector2(944,203), Vector2(1123,219), Vector2(1280,208), Vector2(1280,266), Vector2(0,266)])
+static var _warehouse_shore_colors = PackedColorArray()
+static var _warehouse_apron_mesh: ArrayMesh
+
+static func _prepare_warehouse() -> void:
+	for i: int in _warehouse_shore_points.size():
+		_warehouse_shore_colors.append(Color(.29,.40,.37,.12 if i < 9 else 0.0))
+	var vertices = PackedVector3Array()
+	var uvs = PackedVector2Array()
+	var colors = PackedColorArray()
+	var rows = PackedFloat32Array([APRON.position.y, APRON.position.y + WAREHOUSE_APRON_FADE, 512.0, APRON.end.y])
+	for row: int in range(rows.size() - 1):
+		for column: int in range(3):
+			var left: float = column * 512.0
+			var right: float = minf(left + 512.0, APRON.end.x)
+			var tile_y: int = int(floor(rows[row] / 512.0))
+			var corners = PackedVector2Array([Vector2(left,rows[row]), Vector2(right,rows[row]), Vector2(right,rows[row+1]), Vector2(left,rows[row+1])])
+			for index: int in [0,1,2,0,2,3]:
+				var point: Vector2 = corners[index]
+				var uv: Vector2 = (point - Vector2(left,tile_y * 512.0)) / 512.0
+				if column % 2 != 0: uv.x = 1.0 - uv.x
+				if tile_y % 2 != 0: uv.y = 1.0 - uv.y
+				vertices.append(Vector3(point.x,point.y,0))
+				uvs.append(uv)
+				colors.append(Color(1,1,1,WAREHOUSE_APRON_OPACITY * clampf((point.y - APRON.position.y) / WAREHOUSE_APRON_FADE,0.0,1.0)))
+	var arrays: Array = []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_COLOR] = colors
+	_warehouse_apron_mesh = ArrayMesh.new()
+	_warehouse_apron_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
 
 static func style_for(encounter_id: String) -> String:
 	return String(ENCOUNTER_STYLES.get(encounter_id, "ferry"))
@@ -65,6 +105,7 @@ static func prepare() -> void:
 	_warehouse_rect = VillageEnvironment.building_rect(WAREHOUSE)
 	_warehouse_plaque = VillageEnvironment.plaque_rect(WAREHOUSE)
 	_apron_mesh = Tiles.geometry(APRON, 512.0).mesh
+	_prepare_warehouse()
 	_far_willows.append(_willow_rect(Vector2(386,292), 1.92))
 	_far_willows.append(_willow_rect(Vector2(602,298), 1.68))
 	_near_willows.append(_willow_rect(Vector2(96,307), 3.12))
@@ -129,10 +170,9 @@ static func _draw_ferry(canvas: CanvasItem, floor_mesh: ArrayMesh, clock: float)
 static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh) -> void:
 	# Reuse the actual harbor warehouse's original hall art, earth and deck.
 	# All combat floor geometry/feet remain the shared controller's coordinates.
-	canvas.draw_rect(FIELD, Color("718b80"))
-	canvas.draw_rect(Rect2(0,180,1280,160), Color("90a89b"))
-	canvas.draw_rect(Rect2(0,278,1280,407), Color("858f77"))
-	if _apron_mesh: canvas.draw_mesh(_apron_mesh, EARTH, Transform2D.IDENTITY, Color(1,1,1,.28))
+	canvas.draw_polygon(_warehouse_sky_points, _warehouse_sky_colors)
+	canvas.draw_polygon(_warehouse_shore_points, _warehouse_shore_colors)
+	if _warehouse_apron_mesh: canvas.draw_mesh(_warehouse_apron_mesh, EARTH)
 	if floor_mesh:
 		canvas.draw_mesh(floor_mesh,null,Transform2D.IDENTITY,Color(.85,.83,.69))
 		canvas.draw_mesh(floor_mesh,EARTH,Transform2D.IDENTITY,Color(1,1,1,.54))
@@ -144,4 +184,3 @@ static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh) -> void:
 		canvas.draw_rect(Rect2(x,249,54,40),Color("635e47"))
 		canvas.draw_rect(Rect2(x+7,253,39,27),Color("d8cfb1"))
 		for line: int in range(3): canvas.draw_line(Vector2(x+13,260+line*6),Vector2(x+39,260+line*6),Color("647568"),1.0)
-	canvas.draw_line(Vector2(0,302),Vector2(1280,302),Color(.30,.38,.31,.38),5.0)
