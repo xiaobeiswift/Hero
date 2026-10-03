@@ -1,0 +1,235 @@
+{
+  "game_version": "0.0.29",
+  "web_revision": 1,
+  "source_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+  "public_runtime_commit": "4ebd9fdd0e914dde518ad01a25f815fb1de67d51",
+  "source_tree": "9546da7e9254b1169f2a7596c77c2d2972f8f4c7",
+  "save_schema": 15,
+  "accepted_save_versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "party_capacity": 4,
+  "production_default_web_transfer_enabled": false,
+  "build": {
+    "label": "Hero-Web-0.0.29-web1",
+    "source_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+    "source_entries": 354,
+    "source_bytes": 81995455,
+    "build_script_sha256": "bd708be5604634c4e7cdb04efaeb3a933c5b5163ece5a50e501582c313067c5a",
+    "start_free": 15684825088,
+    "minimum_free": 15515480064,
+    "reserve_bytes": 536870912,
+    "status": "archive verified; browser testing pending",
+    "browser_validation": "pending",
+    "deployment": "not performed",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "web_build": {
+      "game_version": "0.0.29",
+      "web_revision": 1,
+      "caption": "0.0.29 · Web 1"
+    },
+    "build_identity_tool_sha256": "eb80c29fce4e7eb0c92aab56fb3d603a2a05f37d41119a98f21ebd0a454735fc",
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "795b3c707f85631818efff18c5af5b87b939a1c9a3489e0f6c7c13e775c5fe82",
+        "bytes": 9951
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "3b12ab0e413b1eaea8a2d1adba67fbb0c84022380acb13facd1025e529c8eec6",
+        "bytes": 8631
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "35178ad015cda43003efb35da39dc4db7dfafd37009f2605b1f0d86309ebc37b",
+        "bytes": 11864
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1",
+        "bytes": 59251392
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "archive": {
+      "file": "Hero-Web-0.0.29-web1.zip",
+      "bytes": 68592283,
+      "sha256": "9cfcf5833418ee12ffdfd9bc7cd0a5f0f2e9942e2ed5b4e16e40fccdcdb8bacc"
+    }
+  },
+  "exact_pck_audit": {
+    "source_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1",
+    "audit_sha256": "dbda8de0b4a091580e0d5e8c923d2eeacbb816a1cdcd6266468c5c18109ee021",
+    "audit_input_sha256": {
+      "tools/smoke_export.gd": "dbda8de0b4a091580e0d5e8c923d2eeacbb816a1cdcd6266468c5c18109ee021",
+      "tools/audit_web_export.py": "061e042015e26fbd19c22bc106432f11ed12e26e6feaa251b267e9f5660321a1",
+      "tools/run_godot_check.py": "cff12672a20925f1d0a4500fe57cacf7c20437927c39bc95aa47444f575be586",
+      "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+      "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+      "tests/fixtures/v017_game_state.gd.txt": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+      "tests/fixtures/v022_game_state.gd.txt": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+      "tests/fixtures/v025_game_state.gd.txt": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+      "tests/fixtures/v028_game_state.gd.txt": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+      "tests/fixtures/v028_game_state.provenance.json": "85176eefce72748bc14b7caba5796622a42ac415883109205e379313c6e2d992",
+      "tests/fixtures/capstone/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "tests/fixtures/capstone/schema_14_provenance.json": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+      "tests/capstone_package_fixture_producer.gd": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+      "tests/fixtures/legacy_saves/provenance.json": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+      "tests/fixtures/legacy_saves/schema_01_default.json": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+      "tests/fixtures/legacy_saves/schema_02_default.json": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+      "tests/fixtures/legacy_saves/schema_03_default.json": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+      "tests/fixtures/legacy_saves/schema_04_default.json": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+      "tests/fixtures/legacy_saves/schema_05_default.json": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+      "tests/fixtures/legacy_saves/schema_06_default.json": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+      "tests/fixtures/legacy_saves/schema_07_default.json": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+      "tests/fixtures/legacy_saves/schema_08_default.json": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+      "tests/fixtures/legacy_saves/schema_09_default.json": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+      "tests/fixtures/legacy_saves/schema_10_default.json": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+      "tests/fixtures/legacy_saves/schema_11_default.json": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+      "tests/fixtures/legacy_saves/schema_12_default.json": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+      "tests/fixtures/legacy_saves/schema_13_default.json": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc"
+    },
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "6c7425f6684c3bd9949c660939269601eed5837082401622d62e0c3c1614745f",
+    "schema13_reader_sha256": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "legacy_fixtures_manifest_sha256": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+    "schema14_reader_sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+    "schema14_save_sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "schema14_provenance_sha256": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+    "save_schema": 15,
+    "party_capacity": 4,
+    "log_sha256": "4b66e6b2c1441bd146b2d850d1e77f63498db8b0e1e48a0ebc4e484253e39d95",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 6374,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "condition_checks": 191,
+    "transfer_checks": 349,
+    "consignee_checks": 1036,
+    "polish_checks": 460,
+    "capstone_checks": 1179,
+    "historical_reader_scope": "Authentic byte-pinned13/14 sources with current dependencies;13 rejects genuine14,14 rejects actual15; not independent full-old28 process gate",
+    "polish_scope": "actual paint resource/draw-call/font-cache contracts; no native framebuffer or browser pixel acceptance",
+    "transfer_transport": "native injected fake; real packed core/UI; not browser download/persistence",
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "native_binding": "tests/capstone_native_frozen_source.json",
+  "source_aggregate": "tests/capstone_phase2_full_regression.json",
+  "aggregate_binding_qualification": "172 Godot/77 Python/53 mockDOM checks passed;1101 original inputs unchanged. Raw strict source-delta failure preserved for2 QA additions and1 deterministic engine-created UID; exact scoped exception independently verified and explicitly accepted. No unqualified whole-tree invariant claim.",
+  "limits": [
+    "Cloud native editor loaded exact exported PCK; browser graphics/audio/IndexedDB refresh and physical desktop-close remain untested",
+    "Independent Windows6374/0 reported passed; current-only rollout admitted but not yet verified. Last verified live version remains0.0.28.",
+    "Native18 frames use prepared prior history/legal starts and scripted actual new chapter actions; not manual play or realtime performance",
+    "Long clip canceled after externally killed incomplete288-frame preview; no complete clip claimed",
+    "First-volume story completion is not overall commercial1.0 completion; default-off transfer stays disabled"
+  ],
+  "independent_windows_receipt": {
+    "received_utc": "2026-10-03T09:55:21Z",
+    "evidence_origin": "Independent Windows executor result relayed by supervising lead; not direct cloud filesystem inspection of Windows artifacts. Detailed rollout receipt remains pending.",
+    "source_commit": "4ebd9fdd0e914dde518ad01a25f815fb1de67d51",
+    "checks": 6374,
+    "failures": 0,
+    "attempts": 1,
+    "short_isolated_paths": true,
+    "markers": [
+      1471,
+      1247,
+      349,
+      191,
+      349,
+      1036,
+      460,
+      1179
+    ],
+    "runtime_entries": 354,
+    "external_audit_inputs": 27,
+    "site_members": 14,
+    "save_schema": 15,
+    "accepted_save_versions": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "pck": {
+      "bytes": 59251392,
+      "sha256": "2b0ede26a960ce1d0c290a0dd052812d18dfaae09115ad9ab623a7dcfc0ace28"
+    },
+    "archive": {
+      "bytes": 68592214,
+      "sha256": "88f413763e97935ba542839284e1ffad2699570832b738661d13670bd33c6cb1"
+    },
+    "rollout_status": "Admitted, not yet verified; live28 remains the last verified deployment"
+  }
+}

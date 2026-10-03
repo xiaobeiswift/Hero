@@ -1,90 +1,10 @@
 {
-  "scope": "All 440 native runtime/asset/import/driver paths match current source. The full manifest includes generated import-cache files as captured, not all of which are Git-tracked.",
-  "entries": {
-    ".godot/imported/NotoSansSC.otf-3e84daac75282ad29409aea0e6fc92e1.fontdata": "072f2b8fc4c04cd77a618bfd6effc2735ecb73def5f9bb3afaa55c0ae865191c",
-    ".godot/imported/NotoSansSC.otf-3e84daac75282ad29409aea0e6fc92e1.md5": "3f5ac22ad58dd01c220f2c322174444f1f09356da381301720e6ff8386ac0cb0",
-    ".godot/imported/chime.wav-572339dea54d808a6653250142ff5541.md5": "6e7802f4b4ab5260a7702853c9d56354a8b63628eea0dae3911563a166122e45",
-    ".godot/imported/chime.wav-572339dea54d808a6653250142ff5541.sample": "b89c7f9db35904b2cee1b1bdb10c262b6fc78b936578a55826fd7f45cb0f24f1",
-    ".godot/imported/companion_commands_painted_atlas.png-56eb71f72714e2d84f4ce8c870d57215.ctex": "a9adefb001bbb9f9e012d49c49a351d063b52578de10e35ee3667f5f7c6cede9",
-    ".godot/imported/companion_commands_painted_atlas.png-56eb71f72714e2d84f4ce8c870d57215.md5": "02766cc930db0cf44736aaa6c70e6919005636e5c99936eaedccb556997b3e9d",
-    ".godot/imported/hero-character-portraits-atlas.png-5c87917f7656c2a19ada02118b26c730.ctex": "d2d225e09d6f54b14cf29948008a6f3c9588e04e492d185b1b594014d50386b1",
-    ".godot/imported/hero-character-portraits-atlas.png-5c87917f7656c2a19ada02118b26c730.md5": "4a4c2e2108d64666752c3bacf69027217c2a0accf7333b1e7a7af9c9bc4bab8f",
-    ".godot/imported/heting_machinery_atlas.png-6ea431c44a75f7ce5463805513b9210a.ctex": "62273e6463d7f4e7e1a6081c98b1245f51cf90f8d061b6233dee60d4e5eac436",
-    ".godot/imported/heting_machinery_atlas.png-6ea431c44a75f7ce5463805513b9210a.md5": "758f3dfb85a79a4c0177dd377c33379fc30ed7ed9068ba478adabd3ce8cbb4dd",
-    ".godot/imported/heting_worksites_atlas.png-b2d3917b0e6b800f03a3861dbbd35d26.ctex": "c6b96d864ba4ddebe2db34508358a16ead03f41fb66bbe187b5e1b86995c4cdd",
-    ".godot/imported/heting_worksites_atlas.png-b2d3917b0e6b800f03a3861dbbd35d26.md5": "5efb80c31f06141b4b355f4ac1a31ce883e4513a67c5cf1087a41bf8f6542bb6",
-    ".godot/imported/icon.svg-56083ea2a1f1a4f1e49773bdc6d7826c.ctex": "3d85b67d25cdca22f90c23d276ee6aeac1b28e599cdf5243fce7c082364cf321",
-    ".godot/imported/icon.svg-56083ea2a1f1a4f1e49773bdc6d7826c.md5": "e3b7e1cba12e405d0ca0fda6dff9bc3390569712747d628c720f6639a668d59f",
-    ".godot/imported/internal_lightness_painted_atlas.png-bc883c0f134dbd284d9aba4711d5c966.ctex": "7dde79d0c4145ea7feb07cf54884c7fb349f7ea9e4d054f9a4fd30aa4380c147",
-    ".godot/imported/internal_lightness_painted_atlas.png-bc883c0f134dbd284d9aba4711d5c966.md5": "03274993e111b7497e7bd7990e204ad683933476fff8de90569113b4c6ae304a",
-    ".godot/imported/martial_commands_painted_atlas.png-4bb41a63f3746e39643620a4515a44b5.ctex": "8f9bbaeebf27b3850f65c00641adb5796341de471b83c68ae9ebe61b5d8391d2",
-    ".godot/imported/martial_commands_painted_atlas.png-4bb41a63f3746e39643620a4515a44b5.md5": "e68cd52799eec2a4522b57aee0752f04908b1030cbc1daad547ac94308f734ae",
-    ".godot/imported/painted_duhui_combat.png-9d651b1fe5dcd05b6e8c4d69eff7d874.ctex": "9db69387cbf9103acf0d957a201028c74614f7b6435b50c9fc88a4ad7d0182f9",
-    ".godot/imported/painted_duhui_combat.png-9d651b1fe5dcd05b6e8c4d69eff7d874.md5": "2db4d6767d59d2dee3fc00b5e53726fbff3fe24deef842d733dc8cf6f96c8c97",
-    ".godot/imported/painted_hero_combat.png-cfa422516c41daba3f34bf47dc353c66.ctex": "eba2a243e4765b7ce2a18a762a2f5717e1650bc069aebdb2469714e3679e5e70",
-    ".godot/imported/painted_hero_combat.png-cfa422516c41daba3f34bf47dc353c66.md5": "40b6a04bcd9c313a39f66eaa402dc61f09d16faf1473f6da10e9f08a7191f198",
-    ".godot/imported/painted_liang_combat_v4.png-51f7da4d8f53708ea04ef77a434e1ed5.ctex": "8e9ab9aaa2afce185b44201280ff693a504048e9981d3c342aa4978ce8c74ccc",
-    ".godot/imported/painted_liang_combat_v4.png-51f7da4d8f53708ea04ef77a434e1ed5.md5": "7496738373c66fb292d45fb5d15f5dc97178ca172ea8ab31d162569a45daefe7",
-    ".godot/imported/painted_liang_portrait_v1.png-9eee70cfaef1f75534b7a83bcd70f21b.ctex": "05395384172008ad27f30a3c3428d72bf49778c64084c0abf9ca6d93b4cf46c3",
-    ".godot/imported/painted_liang_portrait_v1.png-9eee70cfaef1f75534b7a83bcd70f21b.md5": "b85a4525ea9f5c537aaa4344e04a490717788b39ac7e7d058520e99c4e155ffa",
-    ".godot/imported/painted_puheng_combat.png-e49ccc744edf46d3c18e83a8da72adc6.ctex": "671f8410403e07793465b34a0803457cd7d46b82e884eda61a14a7eb0a39aa98",
-    ".godot/imported/painted_puheng_combat.png-e49ccc744edf46d3c18e83a8da72adc6.md5": "e2deac9a837f49e651cd9d82a8faba2820aaa7b6bf52d0ef90ff4d06c9346c7a",
-    ".godot/imported/painted_qin_combat.png-3651a67656aad93adc082e86fe2099e0.ctex": "8c1f30ee911afe028d42e18c2026c3bb074ea4b88de6a3429ef1212661b900b4",
-    ".godot/imported/painted_qin_combat.png-3651a67656aad93adc082e86fe2099e0.md5": "d3b7ac5c10ce7602d8965a1418522f5b28b91eda200d5eb28ff6f0421b1e0462",
-    ".godot/imported/painted_qin_idle.png-a1c0858fbc982fd9966183139346e692.ctex": "0faa433bd288e4036e724a04ba86b0c748b3fa104c6142be287aa9119dd6464a",
-    ".godot/imported/painted_qin_idle.png-a1c0858fbc982fd9966183139346e692.md5": "44621c8e8248ccca40b04737be0e447252826dd18df0dfe6f5c1aeab8dc1917c",
-    ".godot/imported/painted_qin_walk_back.png-d152b3c208028ae88954001185560de1.ctex": "88716fc6e148725e879e205da2f11f6342b7a54bc22bd15e968b648c10cd85f0",
-    ".godot/imported/painted_qin_walk_back.png-d152b3c208028ae88954001185560de1.md5": "54bf179136e8443c54c5b783d61788b9a936d65c0043ca08f2d5f3ffd45cd60b",
-    ".godot/imported/painted_qin_walk_front.png-74047ec7159461b9872da4c5870cedd3.ctex": "91b1e08f6d7329b888d99d4dd36ce9037e799c75c85ea1b788ddc494626b4c23",
-    ".godot/imported/painted_qin_walk_front.png-74047ec7159461b9872da4c5870cedd3.md5": "baac81fc8f2d7316341a31479c8d081592886b9fd80ff91b065d89ba286d5986",
-    ".godot/imported/painted_qin_walk_left.png-002fd308f75d25058e365173e562f3f0.ctex": "12f65d6565da7cc645cf1acc21301d1d2bc1d0826c8bbf604d9e1312a362d083",
-    ".godot/imported/painted_qin_walk_left.png-002fd308f75d25058e365173e562f3f0.md5": "7fedc880c8dc9ed459ab57a7f593b69c978ce7650ad1a97acd8f2eae9bbcf462",
-    ".godot/imported/painted_qin_walk_right.png-7851c406dabf90dc54878fa9aaa633df.ctex": "2280057102edcf21737cc07348da9ac688bd4ccc1a756cfef050262719ba5c74",
-    ".godot/imported/painted_qin_walk_right.png-7851c406dabf90dc54878fa9aaa633df.md5": "1feaf58091448f0001145b46ea44fb8b76af0ab41abe3ef5df9cc836dee52cfd",
-    ".godot/imported/painted_shen_combat.png-888878e82f1c443b8f3aa4edf9aab3bb.ctex": "ec608acc6f0613ebec83e01e62e4bafeb38ba6c2ca5457b7e66f3912aeb0c18f",
-    ".godot/imported/painted_shen_combat.png-888878e82f1c443b8f3aa4edf9aab3bb.md5": "43916a4054932901ce0f3170d754b457d789abb4c8b64f30d70ab5033b1351e7",
-    ".godot/imported/painted_shen_directions.png-be1933de170e3b1f188e72ad3a21a1d5.ctex": "0bbb12efe4870da030e7d341405cef6e20ed49f4d913439010a2430a9abfbaaa",
-    ".godot/imported/painted_shen_directions.png-be1933de170e3b1f188e72ad3a21a1d5.md5": "d2033f771e994c22fb2caa9359102b6c06e4b75ce0f2d954e520d3187ab4ac77",
-    ".godot/imported/painted_shen_walk.png-9cde7334669a3e0fa9815b855056b2dc.ctex": "c1de59dbad2c73fcda9bd249cc4f0ee44a8ea12dea476b61a0cc24727c3b5afb",
-    ".godot/imported/painted_shen_walk.png-9cde7334669a3e0fa9815b855056b2dc.md5": "51d1b1a86e2e1220547806f38ad3eed87de76bca1dd037a80ca586a2bc802ee4",
-    ".godot/imported/painted_tang_combat.png-79f542cba4595f3c6f738e3517792dc3.ctex": "2f186c6a26133a8f39ade5ff541412dbe526b86238a082d25a0b90d5ce1a919c",
-    ".godot/imported/painted_tang_combat.png-79f542cba4595f3c6f738e3517792dc3.md5": "7b5c9d15758025d649cfb8ddbc4cb183522082e23d81d7d333df4c3ca2633ceb",
-    ".godot/imported/painted_tang_walk.png-ed4179be13c7e79d51bdc08aadfadfb2.ctex": "35d0f27bb3bed88027f829ee35621a8df95d838e5d24d8002253ca0210c3c33c",
-    ".godot/imported/painted_tang_walk.png-ed4179be13c7e79d51bdc08aadfadfb2.md5": "3257e00e5aff6cd057181d59314013b101bdedcd08f799168b3fe938a27fb758",
-    ".godot/imported/painted_traveler_walk.png-aca5ba0b365cbd76d9a4b3c811fece27.ctex": "5f3f492ad774f4095b66461a023254b7de0eda4bce93866d98b0305c08325b50",
-    ".godot/imported/painted_traveler_walk.png-aca5ba0b365cbd76d9a4b3c811fece27.md5": "0dd9fd1ffe9176ae44a3d511ae7bc7c977a20de166bb0b0c11c7165352768b5b",
-    ".godot/imported/painted_village_civilians.png-02a707e20aa540015b19a244cce56427.ctex": "63d522ac1fececf631e0cef614a13225c105b2277ee6744f31983f66ed5e497a",
-    ".godot/imported/painted_village_civilians.png-02a707e20aa540015b19a244cce56427.md5": "33901862b213f8f4ed85fa383f8ccaa24df2a8b9bba42340f4d4c3ec7dbf0aef",
-    ".godot/imported/painted_village_idle.png-83d9b994c94050693db97578cd61c0d3.ctex": "25d26c9c0953a325a1589dd71c4753c7532b4cd18d8d28f171edc91ebf70c5ae",
-    ".godot/imported/painted_village_idle.png-83d9b994c94050693db97578cd61c0d3.md5": "5df4edebf850f21073321c44f4e03363bb382ba47e5ef24709107dca8d3b7c0c",
-    ".godot/imported/qin_commands_painted_atlas.png-c2c5f288e51fbd64ce70ff572742ed10.ctex": "d5b9d25fb59651322dce0bdb3c5c2570a4c126cea58a47a0affeef7c13b77e95",
-    ".godot/imported/qin_commands_painted_atlas.png-c2c5f288e51fbd64ce70ff572742ed10.md5": "2e468ffc99c161fe3efa92cadfec99e91afafa9d6f7bdb33977fdadedf237a5b",
-    ".godot/imported/qingwei_bamboo_clump.png-704f5785729d4dc0b7b37754a68d7939.ctex": "c21db8c2f3207c23e0748f1df7536dee0efedb79302a6d949e23c9ffb7de5687",
-    ".godot/imported/qingwei_bamboo_clump.png-704f5785729d4dc0b7b37754a68d7939.md5": "d35c7f835ea3062b00c53f4e88e6af39fc5ddac52ae4c06183fde797d46676a4",
-    ".godot/imported/qingwei_camp_shelter.png-dd4f0e609b594a33c23f94751a29949c.ctex": "705fb87ebe43f630a33ac7061ab44af1f348b24e9d0a658ca5c6e10b71496c5b",
-    ".godot/imported/qingwei_camp_shelter.png-dd4f0e609b594a33c23f94751a29949c.md5": "f264e647428ae1a1bbff08a31c70a5170fe79446c7d5b12b621066ba706caee2",
-    ".godot/imported/qingwei_deck_wood.png-764247f97a9325bf7434d2638e120f15.ctex": "a71ab750dee12d06f500b00cbdff5d42f961c0f068670e6c75626154041f32c5",
-    ".godot/imported/qingwei_deck_wood.png-764247f97a9325bf7434d2638e120f15.md5": "8c2596dd2890039feba49a1ad3d27f8e33190b98e0e35fb7d472adecf366650d",
-    ".godot/imported/qingwei_duel_backdrop.png-58e18ce587c52e76c2fd5eee966a7c0b.ctex": "16a84d4d95d95226704f308fe2b178db8b61f1d858b70f06d83e32119ce50d87",
-    ".godot/imported/qingwei_duel_backdrop.png-58e18ce587c52e76c2fd5eee966a7c0b.md5": "ce1e369043a841f9ca694538b6b0a4fbefb2daff33896f88c4131bc2c48924a6",
-    ".godot/imported/qingwei_environment_atlas.png-313e589a8e8901bbd1ac7d1630d82ef0.ctex": "db47b557d261d5e3c871067765787ce52090fe26d7cf2855804c865b155b3c19",
-    ".godot/imported/qingwei_environment_atlas.png-313e589a8e8901bbd1ac7d1630d82ef0.md5": "109d16aa8c9ae92a2e0623c2e23ee69e8e0258d8d013cc1d2d20847b93180d61",
-    ".godot/imported/qingwei_ferry_title.png-0ec24a3aa1315d88b05b8506d0c65867.ctex": "c5c9f10d60148460c652e3d2cba0b0b319a072d6d2063f7137738497322262fa",
-    ".godot/imported/qingwei_ferry_title.png-0ec24a3aa1315d88b05b8506d0c65867.md5": "9c30513686a0c35e81440c148510e66c97f5740dfea5797a80d2f844b8137dc5",
-    ".godot/imported/qingwei_lantern_post.png-5b4331e625143559a15abbca965c3760.ctex": "bcc3c553a4d8f7d96f09cc4b14f79133734f08df26ffc2458b7a890ff5baeee7",
-    ".godot/imported/qingwei_lantern_post.png-5b4331e625143559a15abbca965c3760.md5": "5871391244907b3091c74e4c4d8d86e4e3c2971fc552d0b47cab585924c04bd3",
-    ".godot/imported/qingwei_moored_skiff.png-fdfc47db82ecc2095bea3bb9a301d843.ctex": "52fa5d5f54e2a75626517954b9a20dfa1b3240921c8384efd42fc2c168cce297",
-    ".godot/imported/qingwei_moored_skiff.png-fdfc47db82ecc2095bea3bb9a301d843.md5": "57150f664daad363fcea6615502cc8ad2047ab6e2ec17a40fb3262df87c45dbb",
-    ".godot/imported/qingwei_moss_earth.png-3acf8f0def8ec9f47ba0f3b2f4e92ca4.ctex": "e634ae1e2c0f9eff9939bb61811adf1f7d2684e8962efb78ff535468129970c9",
-    ".godot/imported/qingwei_moss_earth.png-3acf8f0def8ec9f47ba0f3b2f4e92ca4.md5": "4e42519a000354b543d70b297a2befdeb02350a641b37e5aa9abfb0b02de8c56",
-    ".godot/imported/qingwei_noticeboard.png-c4188a0a68bdd95e8074a2daf072cb19.ctex": "463ab9139bc222d6437fd761e4f8d53e3ed71e36f8529280d84eccdde77c4b7b",
-    ".godot/imported/qingwei_noticeboard.png-c4188a0a68bdd95e8074a2daf072cb19.md5": "d3a843e54c2f4d8e4b9ec9ae402b5924c9bc36184038e688aa9f70c5e05aac41",
-    ".godot/imported/qingwei_tea_table.png-f9ae33d53e8bba5d142cdd227607fe89.ctex": "61428878dad4a74dd45f8db2fffa3070b7c4b2323907eae5f9b820e32f8fb8fe",
-    ".godot/imported/qingwei_tea_table.png-f9ae33d53e8bba5d142cdd227607fe89.md5": "6dc18183c10d3a894643bf1676c64adf9a6f81871e201bf8ebade2c00c9b6a95",
-    ".godot/imported/qingwei_water_surface.png-2ba10a1012086ff37c63c6ddfa41ce24.ctex": "3d70d29ea4f0baa377464a978a81ddc77ac8d427747ece865701dfb1f363d83e",
-    ".godot/imported/qingwei_water_surface.png-2ba10a1012086ff37c63c6ddfa41ce24.md5": "ef6b13dd0e063ad63de74fae31ecb04c83fd8d9e21a5b3702608060355463c74",
-    ".godot/imported/river_theme.wav-2723d9a23ab23b1cb52949e8fb9545f9.md5": "5bd7bd3fb29f1fa7317db8096da4fbef4b55577233a102214e31180a832a4c8b",
-    ".godot/imported/river_theme.wav-2723d9a23ab23b1cb52949e8fb9545f9.sample": "44f28246c47070e7f5275ef2f0b0fba978a00585b30b3c788f3f4ac79bc4e877",
+  "source_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+  "public_runtime_commit": "4ebd9fdd0e914dde518ad01a25f815fb1de67d51",
+  "source_tree": "9546da7e9254b1169f2a7596c77c2d2972f8f4c7",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "scope": "Exact356 Git-object source/QA binding to final native18-frame run.84 imported cache hashes remain capture-time evidence, not tracked Git objects. Prepared old history/legal positions and scripted actual UI/current combat; no manual/browser/audio/performance or completed clip claim.",
+  "source_and_qa_entries": {
     "assets/chime.wav": "784ab944d34e31f0fe52f74ba8cc7d09957b2d0f6957a08b73949bd615ae3ca2",
     "assets/chime.wav.import": "5863bb7a04280b2085247c737d7e8f2a7f6a6eb41e4dfecbb402d80aa875dcc3",
     "assets/fonts/LICENSE.txt": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
@@ -442,11 +362,95 @@
     "tests/unified_combat_ui_test.gd": "60b848bd88fb48acc5605fd81676283809abac140d4368c2811bd43f4d044753",
     "tests/unified_combat_ui_test.gd.uid": "a0ca353a6191b585599c3d3b80410dc8811f8145d16392c6cb1219c253d993bc"
   },
-  "original_manifest": {
-    "path": "Hero-staging/capstone-phase2/native/final-stills-source.json",
-    "sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
-    "bytes": 53294
+  "source_and_qa_count": 356,
+  "import_cache_count": 84,
+  "capture_time_import_cache_sha256": {
+    ".godot/imported/NotoSansSC.otf-3e84daac75282ad29409aea0e6fc92e1.fontdata": "072f2b8fc4c04cd77a618bfd6effc2735ecb73def5f9bb3afaa55c0ae865191c",
+    ".godot/imported/NotoSansSC.otf-3e84daac75282ad29409aea0e6fc92e1.md5": "3f5ac22ad58dd01c220f2c322174444f1f09356da381301720e6ff8386ac0cb0",
+    ".godot/imported/chime.wav-572339dea54d808a6653250142ff5541.md5": "6e7802f4b4ab5260a7702853c9d56354a8b63628eea0dae3911563a166122e45",
+    ".godot/imported/chime.wav-572339dea54d808a6653250142ff5541.sample": "b89c7f9db35904b2cee1b1bdb10c262b6fc78b936578a55826fd7f45cb0f24f1",
+    ".godot/imported/companion_commands_painted_atlas.png-56eb71f72714e2d84f4ce8c870d57215.ctex": "a9adefb001bbb9f9e012d49c49a351d063b52578de10e35ee3667f5f7c6cede9",
+    ".godot/imported/companion_commands_painted_atlas.png-56eb71f72714e2d84f4ce8c870d57215.md5": "02766cc930db0cf44736aaa6c70e6919005636e5c99936eaedccb556997b3e9d",
+    ".godot/imported/hero-character-portraits-atlas.png-5c87917f7656c2a19ada02118b26c730.ctex": "d2d225e09d6f54b14cf29948008a6f3c9588e04e492d185b1b594014d50386b1",
+    ".godot/imported/hero-character-portraits-atlas.png-5c87917f7656c2a19ada02118b26c730.md5": "4a4c2e2108d64666752c3bacf69027217c2a0accf7333b1e7a7af9c9bc4bab8f",
+    ".godot/imported/heting_machinery_atlas.png-6ea431c44a75f7ce5463805513b9210a.ctex": "62273e6463d7f4e7e1a6081c98b1245f51cf90f8d061b6233dee60d4e5eac436",
+    ".godot/imported/heting_machinery_atlas.png-6ea431c44a75f7ce5463805513b9210a.md5": "758f3dfb85a79a4c0177dd377c33379fc30ed7ed9068ba478adabd3ce8cbb4dd",
+    ".godot/imported/heting_worksites_atlas.png-b2d3917b0e6b800f03a3861dbbd35d26.ctex": "c6b96d864ba4ddebe2db34508358a16ead03f41fb66bbe187b5e1b86995c4cdd",
+    ".godot/imported/heting_worksites_atlas.png-b2d3917b0e6b800f03a3861dbbd35d26.md5": "5efb80c31f06141b4b355f4ac1a31ce883e4513a67c5cf1087a41bf8f6542bb6",
+    ".godot/imported/icon.svg-56083ea2a1f1a4f1e49773bdc6d7826c.ctex": "3d85b67d25cdca22f90c23d276ee6aeac1b28e599cdf5243fce7c082364cf321",
+    ".godot/imported/icon.svg-56083ea2a1f1a4f1e49773bdc6d7826c.md5": "e3b7e1cba12e405d0ca0fda6dff9bc3390569712747d628c720f6639a668d59f",
+    ".godot/imported/internal_lightness_painted_atlas.png-bc883c0f134dbd284d9aba4711d5c966.ctex": "7dde79d0c4145ea7feb07cf54884c7fb349f7ea9e4d054f9a4fd30aa4380c147",
+    ".godot/imported/internal_lightness_painted_atlas.png-bc883c0f134dbd284d9aba4711d5c966.md5": "03274993e111b7497e7bd7990e204ad683933476fff8de90569113b4c6ae304a",
+    ".godot/imported/martial_commands_painted_atlas.png-4bb41a63f3746e39643620a4515a44b5.ctex": "8f9bbaeebf27b3850f65c00641adb5796341de471b83c68ae9ebe61b5d8391d2",
+    ".godot/imported/martial_commands_painted_atlas.png-4bb41a63f3746e39643620a4515a44b5.md5": "e68cd52799eec2a4522b57aee0752f04908b1030cbc1daad547ac94308f734ae",
+    ".godot/imported/painted_duhui_combat.png-9d651b1fe5dcd05b6e8c4d69eff7d874.ctex": "9db69387cbf9103acf0d957a201028c74614f7b6435b50c9fc88a4ad7d0182f9",
+    ".godot/imported/painted_duhui_combat.png-9d651b1fe5dcd05b6e8c4d69eff7d874.md5": "2db4d6767d59d2dee3fc00b5e53726fbff3fe24deef842d733dc8cf6f96c8c97",
+    ".godot/imported/painted_hero_combat.png-cfa422516c41daba3f34bf47dc353c66.ctex": "eba2a243e4765b7ce2a18a762a2f5717e1650bc069aebdb2469714e3679e5e70",
+    ".godot/imported/painted_hero_combat.png-cfa422516c41daba3f34bf47dc353c66.md5": "40b6a04bcd9c313a39f66eaa402dc61f09d16faf1473f6da10e9f08a7191f198",
+    ".godot/imported/painted_liang_combat_v4.png-51f7da4d8f53708ea04ef77a434e1ed5.ctex": "8e9ab9aaa2afce185b44201280ff693a504048e9981d3c342aa4978ce8c74ccc",
+    ".godot/imported/painted_liang_combat_v4.png-51f7da4d8f53708ea04ef77a434e1ed5.md5": "7496738373c66fb292d45fb5d15f5dc97178ca172ea8ab31d162569a45daefe7",
+    ".godot/imported/painted_liang_portrait_v1.png-9eee70cfaef1f75534b7a83bcd70f21b.ctex": "05395384172008ad27f30a3c3428d72bf49778c64084c0abf9ca6d93b4cf46c3",
+    ".godot/imported/painted_liang_portrait_v1.png-9eee70cfaef1f75534b7a83bcd70f21b.md5": "b85a4525ea9f5c537aaa4344e04a490717788b39ac7e7d058520e99c4e155ffa",
+    ".godot/imported/painted_puheng_combat.png-e49ccc744edf46d3c18e83a8da72adc6.ctex": "671f8410403e07793465b34a0803457cd7d46b82e884eda61a14a7eb0a39aa98",
+    ".godot/imported/painted_puheng_combat.png-e49ccc744edf46d3c18e83a8da72adc6.md5": "e2deac9a837f49e651cd9d82a8faba2820aaa7b6bf52d0ef90ff4d06c9346c7a",
+    ".godot/imported/painted_qin_combat.png-3651a67656aad93adc082e86fe2099e0.ctex": "8c1f30ee911afe028d42e18c2026c3bb074ea4b88de6a3429ef1212661b900b4",
+    ".godot/imported/painted_qin_combat.png-3651a67656aad93adc082e86fe2099e0.md5": "d3b7ac5c10ce7602d8965a1418522f5b28b91eda200d5eb28ff6f0421b1e0462",
+    ".godot/imported/painted_qin_idle.png-a1c0858fbc982fd9966183139346e692.ctex": "0faa433bd288e4036e724a04ba86b0c748b3fa104c6142be287aa9119dd6464a",
+    ".godot/imported/painted_qin_idle.png-a1c0858fbc982fd9966183139346e692.md5": "44621c8e8248ccca40b04737be0e447252826dd18df0dfe6f5c1aeab8dc1917c",
+    ".godot/imported/painted_qin_walk_back.png-d152b3c208028ae88954001185560de1.ctex": "88716fc6e148725e879e205da2f11f6342b7a54bc22bd15e968b648c10cd85f0",
+    ".godot/imported/painted_qin_walk_back.png-d152b3c208028ae88954001185560de1.md5": "54bf179136e8443c54c5b783d61788b9a936d65c0043ca08f2d5f3ffd45cd60b",
+    ".godot/imported/painted_qin_walk_front.png-74047ec7159461b9872da4c5870cedd3.ctex": "91b1e08f6d7329b888d99d4dd36ce9037e799c75c85ea1b788ddc494626b4c23",
+    ".godot/imported/painted_qin_walk_front.png-74047ec7159461b9872da4c5870cedd3.md5": "baac81fc8f2d7316341a31479c8d081592886b9fd80ff91b065d89ba286d5986",
+    ".godot/imported/painted_qin_walk_left.png-002fd308f75d25058e365173e562f3f0.ctex": "12f65d6565da7cc645cf1acc21301d1d2bc1d0826c8bbf604d9e1312a362d083",
+    ".godot/imported/painted_qin_walk_left.png-002fd308f75d25058e365173e562f3f0.md5": "7fedc880c8dc9ed459ab57a7f593b69c978ce7650ad1a97acd8f2eae9bbcf462",
+    ".godot/imported/painted_qin_walk_right.png-7851c406dabf90dc54878fa9aaa633df.ctex": "2280057102edcf21737cc07348da9ac688bd4ccc1a756cfef050262719ba5c74",
+    ".godot/imported/painted_qin_walk_right.png-7851c406dabf90dc54878fa9aaa633df.md5": "1feaf58091448f0001145b46ea44fb8b76af0ab41abe3ef5df9cc836dee52cfd",
+    ".godot/imported/painted_shen_combat.png-888878e82f1c443b8f3aa4edf9aab3bb.ctex": "ec608acc6f0613ebec83e01e62e4bafeb38ba6c2ca5457b7e66f3912aeb0c18f",
+    ".godot/imported/painted_shen_combat.png-888878e82f1c443b8f3aa4edf9aab3bb.md5": "43916a4054932901ce0f3170d754b457d789abb4c8b64f30d70ab5033b1351e7",
+    ".godot/imported/painted_shen_directions.png-be1933de170e3b1f188e72ad3a21a1d5.ctex": "0bbb12efe4870da030e7d341405cef6e20ed49f4d913439010a2430a9abfbaaa",
+    ".godot/imported/painted_shen_directions.png-be1933de170e3b1f188e72ad3a21a1d5.md5": "d2033f771e994c22fb2caa9359102b6c06e4b75ce0f2d954e520d3187ab4ac77",
+    ".godot/imported/painted_shen_walk.png-9cde7334669a3e0fa9815b855056b2dc.ctex": "c1de59dbad2c73fcda9bd249cc4f0ee44a8ea12dea476b61a0cc24727c3b5afb",
+    ".godot/imported/painted_shen_walk.png-9cde7334669a3e0fa9815b855056b2dc.md5": "51d1b1a86e2e1220547806f38ad3eed87de76bca1dd037a80ca586a2bc802ee4",
+    ".godot/imported/painted_tang_combat.png-79f542cba4595f3c6f738e3517792dc3.ctex": "2f186c6a26133a8f39ade5ff541412dbe526b86238a082d25a0b90d5ce1a919c",
+    ".godot/imported/painted_tang_combat.png-79f542cba4595f3c6f738e3517792dc3.md5": "7b5c9d15758025d649cfb8ddbc4cb183522082e23d81d7d333df4c3ca2633ceb",
+    ".godot/imported/painted_tang_walk.png-ed4179be13c7e79d51bdc08aadfadfb2.ctex": "35d0f27bb3bed88027f829ee35621a8df95d838e5d24d8002253ca0210c3c33c",
+    ".godot/imported/painted_tang_walk.png-ed4179be13c7e79d51bdc08aadfadfb2.md5": "3257e00e5aff6cd057181d59314013b101bdedcd08f799168b3fe938a27fb758",
+    ".godot/imported/painted_traveler_walk.png-aca5ba0b365cbd76d9a4b3c811fece27.ctex": "5f3f492ad774f4095b66461a023254b7de0eda4bce93866d98b0305c08325b50",
+    ".godot/imported/painted_traveler_walk.png-aca5ba0b365cbd76d9a4b3c811fece27.md5": "0dd9fd1ffe9176ae44a3d511ae7bc7c977a20de166bb0b0c11c7165352768b5b",
+    ".godot/imported/painted_village_civilians.png-02a707e20aa540015b19a244cce56427.ctex": "63d522ac1fececf631e0cef614a13225c105b2277ee6744f31983f66ed5e497a",
+    ".godot/imported/painted_village_civilians.png-02a707e20aa540015b19a244cce56427.md5": "33901862b213f8f4ed85fa383f8ccaa24df2a8b9bba42340f4d4c3ec7dbf0aef",
+    ".godot/imported/painted_village_idle.png-83d9b994c94050693db97578cd61c0d3.ctex": "25d26c9c0953a325a1589dd71c4753c7532b4cd18d8d28f171edc91ebf70c5ae",
+    ".godot/imported/painted_village_idle.png-83d9b994c94050693db97578cd61c0d3.md5": "5df4edebf850f21073321c44f4e03363bb382ba47e5ef24709107dca8d3b7c0c",
+    ".godot/imported/qin_commands_painted_atlas.png-c2c5f288e51fbd64ce70ff572742ed10.ctex": "d5b9d25fb59651322dce0bdb3c5c2570a4c126cea58a47a0affeef7c13b77e95",
+    ".godot/imported/qin_commands_painted_atlas.png-c2c5f288e51fbd64ce70ff572742ed10.md5": "2e468ffc99c161fe3efa92cadfec99e91afafa9d6f7bdb33977fdadedf237a5b",
+    ".godot/imported/qingwei_bamboo_clump.png-704f5785729d4dc0b7b37754a68d7939.ctex": "c21db8c2f3207c23e0748f1df7536dee0efedb79302a6d949e23c9ffb7de5687",
+    ".godot/imported/qingwei_bamboo_clump.png-704f5785729d4dc0b7b37754a68d7939.md5": "d35c7f835ea3062b00c53f4e88e6af39fc5ddac52ae4c06183fde797d46676a4",
+    ".godot/imported/qingwei_camp_shelter.png-dd4f0e609b594a33c23f94751a29949c.ctex": "705fb87ebe43f630a33ac7061ab44af1f348b24e9d0a658ca5c6e10b71496c5b",
+    ".godot/imported/qingwei_camp_shelter.png-dd4f0e609b594a33c23f94751a29949c.md5": "f264e647428ae1a1bbff08a31c70a5170fe79446c7d5b12b621066ba706caee2",
+    ".godot/imported/qingwei_deck_wood.png-764247f97a9325bf7434d2638e120f15.ctex": "a71ab750dee12d06f500b00cbdff5d42f961c0f068670e6c75626154041f32c5",
+    ".godot/imported/qingwei_deck_wood.png-764247f97a9325bf7434d2638e120f15.md5": "8c2596dd2890039feba49a1ad3d27f8e33190b98e0e35fb7d472adecf366650d",
+    ".godot/imported/qingwei_duel_backdrop.png-58e18ce587c52e76c2fd5eee966a7c0b.ctex": "16a84d4d95d95226704f308fe2b178db8b61f1d858b70f06d83e32119ce50d87",
+    ".godot/imported/qingwei_duel_backdrop.png-58e18ce587c52e76c2fd5eee966a7c0b.md5": "ce1e369043a841f9ca694538b6b0a4fbefb2daff33896f88c4131bc2c48924a6",
+    ".godot/imported/qingwei_environment_atlas.png-313e589a8e8901bbd1ac7d1630d82ef0.ctex": "db47b557d261d5e3c871067765787ce52090fe26d7cf2855804c865b155b3c19",
+    ".godot/imported/qingwei_environment_atlas.png-313e589a8e8901bbd1ac7d1630d82ef0.md5": "109d16aa8c9ae92a2e0623c2e23ee69e8e0258d8d013cc1d2d20847b93180d61",
+    ".godot/imported/qingwei_ferry_title.png-0ec24a3aa1315d88b05b8506d0c65867.ctex": "c5c9f10d60148460c652e3d2cba0b0b319a072d6d2063f7137738497322262fa",
+    ".godot/imported/qingwei_ferry_title.png-0ec24a3aa1315d88b05b8506d0c65867.md5": "9c30513686a0c35e81440c148510e66c97f5740dfea5797a80d2f844b8137dc5",
+    ".godot/imported/qingwei_lantern_post.png-5b4331e625143559a15abbca965c3760.ctex": "bcc3c553a4d8f7d96f09cc4b14f79133734f08df26ffc2458b7a890ff5baeee7",
+    ".godot/imported/qingwei_lantern_post.png-5b4331e625143559a15abbca965c3760.md5": "5871391244907b3091c74e4c4d8d86e4e3c2971fc552d0b47cab585924c04bd3",
+    ".godot/imported/qingwei_moored_skiff.png-fdfc47db82ecc2095bea3bb9a301d843.ctex": "52fa5d5f54e2a75626517954b9a20dfa1b3240921c8384efd42fc2c168cce297",
+    ".godot/imported/qingwei_moored_skiff.png-fdfc47db82ecc2095bea3bb9a301d843.md5": "57150f664daad363fcea6615502cc8ad2047ab6e2ec17a40fb3262df87c45dbb",
+    ".godot/imported/qingwei_moss_earth.png-3acf8f0def8ec9f47ba0f3b2f4e92ca4.ctex": "e634ae1e2c0f9eff9939bb61811adf1f7d2684e8962efb78ff535468129970c9",
+    ".godot/imported/qingwei_moss_earth.png-3acf8f0def8ec9f47ba0f3b2f4e92ca4.md5": "4e42519a000354b543d70b297a2befdeb02350a641b37e5aa9abfb0b02de8c56",
+    ".godot/imported/qingwei_noticeboard.png-c4188a0a68bdd95e8074a2daf072cb19.ctex": "463ab9139bc222d6437fd761e4f8d53e3ed71e36f8529280d84eccdde77c4b7b",
+    ".godot/imported/qingwei_noticeboard.png-c4188a0a68bdd95e8074a2daf072cb19.md5": "d3a843e54c2f4d8e4b9ec9ae402b5924c9bc36184038e688aa9f70c5e05aac41",
+    ".godot/imported/qingwei_tea_table.png-f9ae33d53e8bba5d142cdd227607fe89.ctex": "61428878dad4a74dd45f8db2fffa3070b7c4b2323907eae5f9b820e32f8fb8fe",
+    ".godot/imported/qingwei_tea_table.png-f9ae33d53e8bba5d142cdd227607fe89.md5": "6dc18183c10d3a894643bf1676c64adf9a6f81871e201bf8ebade2c00c9b6a95",
+    ".godot/imported/qingwei_water_surface.png-2ba10a1012086ff37c63c6ddfa41ce24.ctex": "3d70d29ea4f0baa377464a978a81ddc77ac8d427747ece865701dfb1f363d83e",
+    ".godot/imported/qingwei_water_surface.png-2ba10a1012086ff37c63c6ddfa41ce24.md5": "ef6b13dd0e063ad63de74fae31ecb04c83fd8d9e21a5b3702608060355463c74",
+    ".godot/imported/river_theme.wav-2723d9a23ab23b1cb52949e8fb9545f9.md5": "5bd7bd3fb29f1fa7317db8096da4fbef4b55577233a102214e31180a832a4c8b",
+    ".godot/imported/river_theme.wav-2723d9a23ab23b1cb52949e8fb9545f9.sample": "44f28246c47070e7f5275ef2f0b0fba978a00585b30b3c788f3f4ac79bc4e877"
   },
+  "all18_native_manifest_sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
   "selected_raw_screenshots": [
     {
       "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/05-battle-idle-full.png",
@@ -482,172 +486,6 @@
       "delivery_scope": "Repository QA only; ending spoiler, not user preview"
     }
   ],
-  "all_18_frame_hashes": [
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/01-wen-original-letter.png",
-      "sha256": "1be55ee5ef3849524dcfa5fecccb80312a51c73d328522562f73afc536e13497",
-      "bytes": 188527,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/02-wen-return-letter.png",
-      "sha256": "4c0bd89cca90a610e2e9f04281809bfba01de27adce1f5c9bae3543f1b95e0b3",
-      "bytes": 193132,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/03-clerk-issued-register.png",
-      "sha256": "193a255cb8516327e2f5a0aaa9a83e3c3a4e43fe931cc165b33779540b079a2a",
-      "bytes": 215313,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/04-archive-liang-72px.png",
-      "sha256": "c4f9f2064970e81467ff42e49ac776a39c90bda08a8dd3ca6a7755dacde6ba1b",
-      "bytes": 213559,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/05-battle-idle-full.png",
-      "sha256": "90e29e5e8507866cc8df89927db88cb8bf92e0b2ab0806f9de63981bb2d613eb",
-      "bytes": 1326002,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/06-battle-idle-compact.png",
-      "sha256": "8641cdc2d4c435bf43710d710b2f17689c65a521c836cf0d46a5bd8f39bf5d7b",
-      "bytes": 1170147,
-      "size": [
-        1179,
-        736
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/07-battle-heavy-full.png",
-      "sha256": "772ab8ac4dcd32bf02ab43a6c069a56600b09577552e5bae3ab31d6b5e5fc690",
-      "bytes": 1322830,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/08-battle-heavy-compact.png",
-      "sha256": "0ee956b4429d36b177127b4d3e4acd0c24bfb603d100821129751951fb217d58",
-      "bytes": 1168058,
-      "size": [
-        1179,
-        736
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/09-battle-contact-full.png",
-      "sha256": "d742b6f6fe1d1a039acc9b39fa916e874da9fe823411e98ab1a5beec1ada474c",
-      "bytes": 1321512,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/10-battle-contact-compact.png",
-      "sha256": "a4e078f4c58c70ff90a00703e351520bea1999e5c3ea9067b2d4c891db5c7f6a",
-      "bytes": 1167530,
-      "size": [
-        1179,
-        736
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/11-battle-recovery-full.png",
-      "sha256": "cc6bec4491a71167fb765d0b6fdb31a908a96f5c14f29b7458a2cb391cd12aca",
-      "bytes": 1323106,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/12-battle-recovery-compact.png",
-      "sha256": "21e9c05f1555ff3afb59f12e3cb74fb9549b4c1d75232e5a8572a96f389c6df0",
-      "bytes": 1168591,
-      "size": [
-        1179,
-        736
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/13-battle-down-full.png",
-      "sha256": "3f64cb8dc986ec08f9cd306d916ac4f6858744df4a346552f33ef1d6484f3ab4",
-      "bytes": 1297630,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/14-battle-down-compact.png",
-      "sha256": "d4df530fa6217b4b8f368623076411e67caa29c47230e0234b729ba1a6330c3f",
-      "bytes": 1148608,
-      "size": [
-        1179,
-        736
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/15-desk-four-pending.png",
-      "sha256": "f272cc21d005c5a723d725394259bb5750669daf25338ead1d0db2d31ebeba51",
-      "bytes": 297956,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/16-desk-pause-batch.png",
-      "sha256": "42ced35ff159f119d565668275e094123e06bd50e937554ed9a45d54676ca71a",
-      "bytes": 311085,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/17-desk-cancel-proven.png",
-      "sha256": "b2446a1cf29ae5a12d39e1e8096618a3c5aa19263c715b833decf9479d14e3c6",
-      "bytes": 311772,
-      "size": [
-        1280,
-        800
-      ]
-    },
-    {
-      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/18-qingwei-homecoming.png",
-      "sha256": "4e3a238c53755d7bca11e11acb75dab00c368c916a63ffdd1025041756a1e524",
-      "bytes": 820580,
-      "size": [
-        1280,
-        800
-      ]
-    }
-  ],
-  "user_preview": "05-battle-idle-full only; no ending spoiler sent",
-  "frozen_source_binding": "tests/capstone_native_frozen_source.json",
-  "frozen_source_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
-  "public_runtime_commit": "4ebd9fdd0e914dde518ad01a25f815fb1de67d51"
+  "sole_user_preview": "screenshots/366-capstone-liang-battle.png",
+  "ending_image": "QA-only; not user preview"
 }
