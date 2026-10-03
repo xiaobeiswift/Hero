@@ -1,0 +1,141 @@
+{
+  "status": "passed_frozen_Web30_characterization_only",
+  "base": {
+    "local_docs_commit": "8224936514477279b96816f5d3b68ec1638ca44a",
+    "public_docs_commit": "a86a6ebd5ed19e7c4da293a1e21debd850c51e49",
+    "docs_tree": "e930b411eab2595a053e8739ba82775da61a3913",
+    "runtime_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+    "public_runtime_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "save_schema": 16
+  },
+  "schema": 16,
+  "summary": {
+    "path": "Hero-staging/journal-guidance-phase1/baseline/BASELINE.md",
+    "bytes": 10218,
+    "sha256": "8eb8f08f87e689622c8b33750bfbb9d6ae9205fa8f4600a92199b6c77ceb1f58"
+  },
+  "evidence_manifest": {
+    "path": "Hero-staging/journal-guidance-phase1/baseline/evidence-manifest.json",
+    "bytes": 10490,
+    "sha256": "46ffca4d9a4153f09a6eaee3ac577c54b5cb6c641cebdffddb3065a54e9153b1"
+  },
+  "verified_manifest_entries": 60,
+  "runtime_binding": {
+    "path": "Hero-staging/journal-guidance-phase1/baseline/runtime-binding.json",
+    "bytes": 1980,
+    "sha256": "5dc6d597ece2c2a40044fbc12e72106089cc782bd8a1463bd5965e985bc096ed"
+  },
+  "executed_pack": {
+    "identity": "exact retained cloud Web30 index.pck; not the separately built deployed Windows pack",
+    "bytes": 59285968,
+    "sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6"
+  },
+  "retained_export_source_manifest": {
+    "sha256": "d9c1c571babfc4acf82a5a0b4ef0d36bbc9f0c975b00764fa6c129973206998e",
+    "bytes": 38417
+  },
+  "retained_export_source_entry_count": 360,
+  "runtime_binding_method": "Exact unchanged PCK plus retained export-source manifest. Compiled Script.source_code unavailable; no runtime text equality claim.",
+  "engine": {
+    "version": "4.6.3.stable.official.7d41c59c4",
+    "sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "platform": "Linux headless"
+  },
+  "measurements": {
+    "api_automatic_combat_fixture_preparation": {
+      "checks": 352,
+      "failures": 0
+    },
+    "actual_packed_Main_World_M_observation": {
+      "checks": 222,
+      "failures": 0
+    },
+    "negative_controls": 2,
+    "actual_gap_ending_combinations": 4,
+    "observation_save_calls_each": 0
+  },
+  "negative_control": "Tang pending + Mist1 + Qin0: HUD/world/M all choose Mist rain gauge; the initial alleged gap was incorrect.",
+  "actual_gap": "Tang pending + earned Mist4 + Qin1: actual packed HUD chooses Qin rope/rain gauge; actual world and M choose Tang return_frostbridge.",
+  "preparation_boundary": "API-earned preparation uses production APIs and seven automatic-combat wins, declares opening scene-local callback effects, rests/levelups/map transfers/branch cloning, and prepared Mistwood position. Six production-save/load roundtrips precede observation. Actual packed Qin acceptance uses declared guide placement and synthetic E/1, writes one normal production autosave per accepted case. Observation uses three synthetic M/Escape cycles plus120 idle frames and writes zero saves.",
+  "portable_bundle": {
+    "path": "tests/journal_guidance_baseline_inputs.json",
+    "bytes": 22709,
+    "sha256": "aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed"
+  },
+  "portable_bundle_contents": "Six exact schema16 input UTF-8 payloads, source hashes, actual PCK HUD/world/M observations and provenance; no new hand-authored replacement save.",
+  "fixtures": [
+    {
+      "label": "negative_open_records",
+      "kind": "negative_control",
+      "input_sha256": "835b3c9c2f2296c4154c039534d84540d9d8b930132511b8097240c99c71c1d3",
+      "input_bytes": 1999,
+      "observed_world_target": "mist_rain_gauge",
+      "observation_save_calls": 0
+    },
+    {
+      "label": "preaccept_open_records_release_water",
+      "kind": "actual_gap",
+      "input_sha256": "51de7f6b71865d33a0a6a0b788a1ff7df24b21f6d9ba3a6e070219c0e4ef4a9d",
+      "input_bytes": 2056,
+      "observed_world_target": "return_frostbridge",
+      "observation_save_calls": 0
+    },
+    {
+      "label": "preaccept_open_records_warn_ferries",
+      "kind": "actual_gap",
+      "input_sha256": "57022006e94f5d5c355c898625831bf9c0de7d6f3ae9b00c242831de720ea57c",
+      "input_bytes": 2055,
+      "observed_world_target": "return_frostbridge",
+      "observation_save_calls": 0
+    },
+    {
+      "label": "negative_protect_witness",
+      "kind": "negative_control",
+      "input_sha256": "70d52ead2f2ae4df5eaa43dc3016ea6b46c8f07766ba10864d4b6ba983067245",
+      "input_bytes": 2002,
+      "observed_world_target": "mist_rain_gauge",
+      "observation_save_calls": 0
+    },
+    {
+      "label": "preaccept_protect_witness_release_water",
+      "kind": "actual_gap",
+      "input_sha256": "e9aa261cbb3319ecaaf2eed2df9c06daeb75d83ac68feb69c509a72e88120558",
+      "input_bytes": 2057,
+      "observed_world_target": "return_frostbridge",
+      "observation_save_calls": 0
+    },
+    {
+      "label": "preaccept_protect_witness_warn_ferries",
+      "kind": "actual_gap",
+      "input_sha256": "1e00b9e89a365ebb2d2690579386b301e2a294eeb42b487afd5fceb538d1b5ad",
+      "input_bytes": 2056,
+      "observed_world_target": "return_frostbridge",
+      "observation_save_calls": 0
+    }
+  ],
+  "evidence": {
+    "preparation": {
+      "path": "Hero-staging/journal-guidance-phase1/baseline/fixtures/preparation-report.json",
+      "bytes": 52556,
+      "sha256": "ac4450e58a6036ca1b74b2856e18c7d24f0ac882b60f3a13045a0a0299eacdcf"
+    },
+    "packed_observation": {
+      "path": "Hero-staging/journal-guidance-phase1/baseline/observation/run-cuRGwS/report.json",
+      "bytes": 106216,
+      "sha256": "a0e09c1d863e79d56b7f48eec86da65d7a50d4bdafe1e9b2df2d759fe2cacf15"
+    },
+    "compiled_text_diagnostic": {
+      "path": "Hero-staging/journal-guidance-phase1/baseline/source-after-initial-text-probe.json",
+      "bytes": 42208,
+      "sha256": "7278dae3b52a170b69db3883174c0415427537b1ee72c21dc33b249b80ae7c6a"
+    }
+  },
+  "limits": [
+    "No new integrated J UI or consumer wiring",
+    "No claim that current source UI or live Web30 fixes the Qin/Tang mismatch",
+    "No new native input/pixels/contrast, PCK, Windows, browser or deployment acceptance",
+    "Not a fully walked or manually played new-game journey",
+    "No save-schema change, migration, serialized tracking field or preference",
+    "Existing file transfer remains disabled; browser graphics, sound and IndexedDB refresh persistence remain unaccepted"
+  ]
+}

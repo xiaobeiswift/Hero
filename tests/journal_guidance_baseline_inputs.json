@@ -1,0 +1,182 @@
+{
+  "format_version": 1,
+  "scope": "Six exact API-earned preparation/PCK-accepted schema16 fixture payloads and actual frozen PCK observations. Prepared positions and synthetic E/1 input; no native/browser/fully-walked-playthrough claim. Compact derivation from independently verified baseline artifacts.",
+  "provenance": {
+    "runtime_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+    "public_reference": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "schema": 16,
+    "pack_sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6",
+    "pack_bytes": 59285968,
+    "source_main_sha256": "ac50460179e97d6c808ead6f1fcf1403b3d2ac902cc43257acb94b6b0c7fdd06",
+    "source_world_sha256": "b9820a0a17485b71aa29958cf144208eb36104e2f43f0d7c9b096dad68eb2dbf",
+    "retained_export_source_manifest_sha256": "d9c1c571babfc4acf82a5a0b4ef0d36bbc9f0c975b00764fa6c129973206998e",
+    "actual_pck_report_sha256": "a0e09c1d863e79d56b7f48eec86da65d7a50d4bdafe1e9b2df2d759fe2cacf15",
+    "api_preparation_report_sha256": "ac4450e58a6036ca1b74b2856e18c7d24f0ac882b60f3a13045a0a0299eacdcf",
+    "baseline_summary_sha256": "8eb8f08f87e689622c8b33750bfbb9d6ae9205fa8f4600a92199b6c77ceb1f58",
+    "baseline_evidence_manifest_sha256": "46ffca4d9a4153f09a6eaee3ac577c54b5cb6c641cebdffddb3065a54e9153b1",
+    "engine": {
+      "build": "official",
+      "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+      "hex": 263683,
+      "major": 4,
+      "minor": 6,
+      "patch": 3,
+      "status": "stable",
+      "string": "4.6.3-stable (official)",
+      "timestamp": 0
+    },
+    "compiled_script_text": "Unavailable; exact PCK and retained export source manifest bind the runtime. No compiled source-text equality is claimed."
+  },
+  "fixtures": [
+    {
+      "label": "negative_open_records",
+      "kind": "negative_control",
+      "filename": "negative_open_records.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 6\n\t\t},\n\t\t\"attack\": 29,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"open_records\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 329,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 7,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 89,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 4,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 136,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"\",\n\t\t\"mist_ending\": \"\",\n\t\t\"mist_gauges\": [],\n\t\t\"mist_stage\": 1,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 410.0,\n\t\t\t\"y\": 565.0\n\t\t},\n\t\t\"qi\": 3,\n\t\t\"qin_stage\": 0,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 0,\n\t\t\t\"herb\": 0,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 4,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 220\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "835b3c9c2f2296c4154c039534d84540d9d8b930132511b8097240c99c71c1d3",
+      "input_bytes": 1999,
+      "observed_hud": {
+        "hint": "查三处雨痕；中东巡哨有较量、修亭、公示原账三种通行方案。",
+        "title": "三尺问雨"
+      },
+      "observed_world_target": "mist_rain_gauge",
+      "observed_map_targets": [
+        "mist_rain_gauge",
+        "mist_rain_gauge",
+        "mist_rain_gauge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [],
+      "provenance": "API-earned preparation; frozen packed Main observation"
+    },
+    {
+      "label": "preaccept_open_records_release_water",
+      "kind": "actual_gap",
+      "filename": "accepted_open_records_release_water.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 9\n\t\t},\n\t\t\"attack\": 32,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"open_records\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 437,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 8,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 83,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 5,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 148,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"records\",\n\t\t\"mist_ending\": \"release_water\",\n\t\t\"mist_gauges\": [\n\t\t\t\"rain\",\n\t\t\t\"stone\",\n\t\t\t\"basin\"\n\t\t],\n\t\t\"mist_stage\": 4,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 350.0,\n\t\t\t\"y\": 395.0\n\t\t},\n\t\t\"qi\": 5,\n\t\t\"qin_stage\": 1,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 0,\n\t\t\t\"herb\": 3,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 5,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 220\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "51de7f6b71865d33a0a6a0b788a1ff7df24b21f6d9ba3a6e070219c0e4ef4a9d",
+      "input_bytes": 2056,
+      "observed_hud": {
+        "hint": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+        "title": "尺绳有托"
+      },
+      "observed_world_target": "return_frostbridge",
+      "observed_map_targets": [
+        "return_frostbridge",
+        "return_frostbridge",
+        "return_frostbridge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [
+        "E",
+        "1"
+      ],
+      "provenance": "API-earned preparation then actual packed E/1 Qin acceptance autosave"
+    },
+    {
+      "label": "preaccept_open_records_warn_ferries",
+      "kind": "actual_gap",
+      "filename": "accepted_open_records_warn_ferries.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 9\n\t\t},\n\t\t\"attack\": 32,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"open_records\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 437,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 8,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 83,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 5,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 148,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"records\",\n\t\t\"mist_ending\": \"warn_ferries\",\n\t\t\"mist_gauges\": [\n\t\t\t\"rain\",\n\t\t\t\"stone\",\n\t\t\t\"basin\"\n\t\t],\n\t\t\"mist_stage\": 4,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 350.0,\n\t\t\t\"y\": 395.0\n\t\t},\n\t\t\"qi\": 5,\n\t\t\"qin_stage\": 1,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 2,\n\t\t\t\"herb\": 0,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 5,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 220\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "57022006e94f5d5c355c898625831bf9c0de7d6f3ae9b00c242831de720ea57c",
+      "input_bytes": 2055,
+      "observed_hud": {
+        "hint": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+        "title": "尺绳有托"
+      },
+      "observed_world_target": "return_frostbridge",
+      "observed_map_targets": [
+        "return_frostbridge",
+        "return_frostbridge",
+        "return_frostbridge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [
+        "E",
+        "1"
+      ],
+      "provenance": "API-earned preparation then actual packed E/1 Qin acceptance autosave"
+    },
+    {
+      "label": "negative_protect_witness",
+      "kind": "negative_control",
+      "filename": "negative_protect_witness.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 6\n\t\t},\n\t\t\"attack\": 29,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"protect_witness\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 329,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 7,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 89,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 4,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 136,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"\",\n\t\t\"mist_ending\": \"\",\n\t\t\"mist_gauges\": [],\n\t\t\"mist_stage\": 1,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 410.0,\n\t\t\t\"y\": 565.0\n\t\t},\n\t\t\"qi\": 3,\n\t\t\"qin_stage\": 0,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 0,\n\t\t\t\"herb\": 0,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 4,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 220\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "70d52ead2f2ae4df5eaa43dc3016ea6b46c8f07766ba10864d4b6ba983067245",
+      "input_bytes": 2002,
+      "observed_hud": {
+        "hint": "查三处雨痕；中东巡哨有较量、修亭、公示原账三种通行方案。",
+        "title": "三尺问雨"
+      },
+      "observed_world_target": "mist_rain_gauge",
+      "observed_map_targets": [
+        "mist_rain_gauge",
+        "mist_rain_gauge",
+        "mist_rain_gauge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [],
+      "provenance": "API-earned preparation; frozen packed Main observation"
+    },
+    {
+      "label": "preaccept_protect_witness_release_water",
+      "kind": "actual_gap",
+      "filename": "accepted_protect_witness_release_water.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 10\n\t\t},\n\t\t\"attack\": 32,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"protect_witness\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 455,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 8,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 83,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 5,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 148,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"duel\",\n\t\t\"mist_ending\": \"release_water\",\n\t\t\"mist_gauges\": [\n\t\t\t\"rain\",\n\t\t\t\"stone\",\n\t\t\t\"basin\"\n\t\t],\n\t\t\"mist_stage\": 4,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 350.0,\n\t\t\t\"y\": 395.0\n\t\t},\n\t\t\"qi\": 5,\n\t\t\"qin_stage\": 1,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 0,\n\t\t\t\"herb\": 3,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 6,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 240\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "e9aa261cbb3319ecaaf2eed2df9c06daeb75d83ac68feb69c509a72e88120558",
+      "input_bytes": 2057,
+      "observed_hud": {
+        "hint": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+        "title": "尺绳有托"
+      },
+      "observed_world_target": "return_frostbridge",
+      "observed_map_targets": [
+        "return_frostbridge",
+        "return_frostbridge",
+        "return_frostbridge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [
+        "E",
+        "1"
+      ],
+      "provenance": "API-earned preparation then actual packed E/1 Qin acceptance autosave"
+    },
+    {
+      "label": "preaccept_protect_witness_warn_ferries",
+      "kind": "actual_gap",
+      "filename": "accepted_protect_witness_warn_ferries.json",
+      "input_utf8": "{\n\t\"player\": {\n\t\t\"active_companion\": \"\",\n\t\t\"archive_clues\": [\n\t\t\t\"clerk\",\n\t\t\t\"inscription\"\n\t\t],\n\t\t\"armor\": \"粗布行衣\",\n\t\t\"art_uses\": {\n\t\t\t\"照夜一线\": 10\n\t\t},\n\t\t\"attack\": 32,\n\t\t\"bridge_repaired\": true,\n\t\t\"capstone_draft\": \"\",\n\t\t\"capstone_ending\": \"\",\n\t\t\"capstone_stage\": 0,\n\t\t\"chapter_two_ending\": \"protect_witness\",\n\t\t\"chapter_two_stage\": 4,\n\t\t\"claimed_deeds\": [],\n\t\t\"coins\": 455,\n\t\t\"companion_unlocked\": false,\n\t\t\"consignee_cargo_location\": \"\",\n\t\t\"consignee_contributions\": [],\n\t\t\"consignee_draft\": \"\",\n\t\t\"consignee_ending\": \"\",\n\t\t\"consignee_observations\": [],\n\t\t\"consignee_stage\": 0,\n\t\t\"defense\": 8,\n\t\t\"ending\": \"秉公\",\n\t\t\"equipment\": \"旧铁剑\",\n\t\t\"equipped_art\": \"照夜一线\",\n\t\t\"formation\": \"并肩\",\n\t\t\"gathered_nodes\": [\n\t\t\t\"frost_timber\"\n\t\t],\n\t\t\"herbs\": 0,\n\t\t\"heting_bridge\": \"\",\n\t\t\"heting_cargo\": \"\",\n\t\t\"heting_delivered\": [],\n\t\t\"heting_draft\": \"\",\n\t\t\"heting_ending\": \"\",\n\t\t\"heting_stage\": 0,\n\t\t\"hp\": 83,\n\t\t\"internal_unlocked\": false,\n\t\t\"learned_arts\": [],\n\t\t\"level\": 5,\n\t\t\"lightness_relics\": [],\n\t\t\"lightness_unlocked\": false,\n\t\t\"map_id\": \"mistwood\",\n\t\t\"max_hp\": 148,\n\t\t\"max_qi\": 6,\n\t\t\"medicine\": 7,\n\t\t\"mist_approach\": \"duel\",\n\t\t\"mist_ending\": \"warn_ferries\",\n\t\t\"mist_gauges\": [\n\t\t\t\"rain\",\n\t\t\t\"stone\",\n\t\t\t\"basin\"\n\t\t],\n\t\t\"mist_stage\": 4,\n\t\t\"party_resources\": {\n\n\t\t},\n\t\t\"party_roster\": [\n\t\t\t\"hero\"\n\t\t],\n\t\t\"player_name\": \"无名客\",\n\t\t\"position\": {\n\t\t\t\"x\": 350.0,\n\t\t\t\"y\": 395.0\n\t\t},\n\t\t\"qi\": 5,\n\t\t\"qin_stage\": 1,\n\t\t\"qin_unlocked\": false,\n\t\t\"quest_stage\": 6,\n\t\t\"receipt_stage\": 0,\n\t\t\"resources\": {\n\t\t\t\"cloth\": 2,\n\t\t\t\"herb\": 0,\n\t\t\t\"iron\": 0,\n\t\t\t\"timber\": 1\n\t\t},\n\t\t\"seal_sequence\": [\n\t\t\t2,\n\t\t\t0,\n\t\t\t1\n\t\t],\n\t\t\"sect\": \"听潮阁\",\n\t\t\"sect_merit\": 0,\n\t\t\"sect_rank\": 1,\n\t\t\"sect_trial_won\": false,\n\t\t\"shen_care_choice\": \"\",\n\t\t\"shen_care_stage\": 0,\n\t\t\"side_choice\": \"rescue\",\n\t\t\"side_clues\": 2,\n\t\t\"side_found\": [\n\t\t\t\"boatman\",\n\t\t\t\"ledger\"\n\t\t],\n\t\t\"side_reward_claimed\": true,\n\t\t\"side_stage\": 3,\n\t\t\"tangqi_choice\": \"\",\n\t\t\"tangqi_stage\": 1,\n\t\t\"tangqi_unlocked\": false,\n\t\t\"victories\": 6,\n\t\t\"weapon_fitting\": \"plain\",\n\t\t\"xp\": 240\n\t},\n\t\"version\": 16\n}",
+      "input_sha256": "1e00b9e89a365ebb2d2690579386b301e2a294eeb42b487afd5fceb538d1b5ad",
+      "input_bytes": 2056,
+      "observed_hud": {
+        "hint": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+        "title": "尺绳有托"
+      },
+      "observed_world_target": "return_frostbridge",
+      "observed_map_targets": [
+        "return_frostbridge",
+        "return_frostbridge",
+        "return_frostbridge"
+      ],
+      "observation_save_calls": 0,
+      "observation_canonical_unchanged": true,
+      "observation_files_unchanged": true,
+      "acceptance_inputs": [
+        "E",
+        "1"
+      ],
+      "provenance": "API-earned preparation then actual packed E/1 Qin acceptance autosave"
+    }
+  ]
+}

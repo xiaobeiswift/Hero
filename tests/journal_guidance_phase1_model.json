@@ -1,0 +1,133 @@
+{
+  "status": "passed_source_model_checkpoint_only",
+  "base": {
+    "local_docs_commit": "8224936514477279b96816f5d3b68ec1638ca44a",
+    "public_docs_commit": "a86a6ebd5ed19e7c4da293a1e21debd850c51e49",
+    "docs_tree": "e930b411eab2595a053e8739ba82775da61a3913",
+    "runtime_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+    "public_runtime_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "save_schema": 16
+  },
+  "design": {
+    "DESIGN.md": {
+      "path": "Hero-staging/journal-guidance-design/DESIGN.md",
+      "bytes": 28006,
+      "sha256": "8706e300553ed5a96ea3689bddb8675a00553a616851bdd005889b62dc563e98"
+    },
+    "ACCEPTANCE.md": {
+      "path": "Hero-staging/journal-guidance-design/ACCEPTANCE.md",
+      "bytes": 16340,
+      "sha256": "a0a5a810fc4235f1983c37609e85d2227559957acf005f2d29b0d5c5525e2775"
+    },
+    "independent-review/source-and-acceptance-review.md": {
+      "path": "Hero-staging/journal-guidance-design/independent-review/source-and-acceptance-review.md",
+      "bytes": 26442,
+      "sha256": "d7947a2c115b2d5ca73bceb12cfdcfe6587dd840e926795ab56cccb1bf9fb685"
+    }
+  },
+  "owned_files": {
+    "scripts/journal_objective_rules.gd": {
+      "sha256": "3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c",
+      "bytes": 23808
+    },
+    "scripts/journal_guidance_rules.gd": {
+      "sha256": "3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9",
+      "bytes": 7645
+    },
+    "scripts/journal_guidance_session.gd": {
+      "sha256": "eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba",
+      "bytes": 2931
+    },
+    "tests/journal_guidance_model_test.gd": {
+      "sha256": "590c54881ec721d76400b4e5a8a2437cd448fdff77ce8dc1643ede095b3e4632",
+      "bytes": 17348
+    },
+    "scripts/journal_objective_rules.gd.uid": {
+      "sha256": "d5ed46cd31f1dfec28bb4a7b381c3df5733abf764e8e01e23aee1cac0773cfc3",
+      "bytes": 18
+    },
+    "scripts/journal_guidance_rules.gd.uid": {
+      "sha256": "b8fc9422ee367a7c73bb13166b15d18553b0401723faf8c2b99ab7ea3edc4e42",
+      "bytes": 18
+    },
+    "scripts/journal_guidance_session.gd.uid": {
+      "sha256": "2c4b2a8af1c69ec48ba3727643277667e817550da3a66f5f5dab432bf20580bc",
+      "bytes": 18
+    },
+    "tests/journal_guidance_model_test.gd.uid": {
+      "sha256": "42e0f9add6e31091d06c7134a0e04ffe1236ba6ec478a6bc3b1dfd036a4a6892",
+      "bytes": 18
+    }
+  },
+  "focused": {
+    "attempt": "attempt-zA6VxD",
+    "checks": 407,
+    "failures": 0,
+    "exit_code": 0,
+    "report": {
+      "path": "Hero-staging/journal-guidance-phase1/model/attempt-zA6VxD/report.json",
+      "bytes": 135,
+      "sha256": "7f093ed3b427c571f5556e57cb5a21313f5e53e91022efb08164b9c483256561"
+    },
+    "log": {
+      "path": "Hero-staging/journal-guidance-phase1/model/attempt-zA6VxD/run.log",
+      "bytes": 125,
+      "sha256": "9cc8cff812b660f663ea67b58f36838a13751132cd681132fbe2aa8901d1c29a"
+    }
+  },
+  "evidence_manifest": {
+    "path": "Hero-staging/journal-guidance-phase1/model/evidence-manifest.json",
+    "bytes": 1053,
+    "sha256": "763b9bfb4d48f92706e4b5d315bd5468765b82a2be5e588765cf1dce64175f16"
+  },
+  "input_binding": {
+    "path": "Hero-staging/journal-guidance-phase1/model/input-binding.json",
+    "bytes": 17291,
+    "sha256": "01878530bf56e4c59935ed96d9b00aa0a5a900f218bfee102242c778c5248488"
+  },
+  "output_binding": {
+    "path": "Hero-staging/journal-guidance-phase1/model/owned-output-binding.json",
+    "bytes": 1929,
+    "sha256": "4fb415868cf869cd7644f78f1c6d33a9838e7693a3a2bf54090db673446a2fe9"
+  },
+  "api": {
+    "path": "Hero-staging/journal-guidance-phase1/model/API.md",
+    "bytes": 7433,
+    "sha256": "d55c68b79e3799bf66dc1ad6d1b63cba7ac53e9bd6472ac3389c4fea07adf1de"
+  },
+  "implemented": [
+    "Finite14 earned arc catalog with available/active/completed status and independent arc-local history",
+    "Exact frozen HUD last-applicable-branch automatic policy, explicit manual override and preserved completed-story exploration fallback",
+    "Read-only five-map destination and next-interaction projection, actual earned gates, valid markers, islet crossing/return and collision-checked loaded-cart routes",
+    "Transient session tracking with deep-detached results, live eligibility, identity/epoch/map tokens and one-time completion fallback"
+  ],
+  "narrow_presentation_filters": [
+    "Unearned numeric reward details hidden until completion only in new arc-local presentation",
+    "Generic first-contact labels apply to actual destination contacts, never islet return or exit intermediates",
+    "Earned completed Qin skill and Shen benefit retained; original story and rules unchanged"
+  ],
+  "unchanged_by_model_owner": "All pre-existing Main, World, GameState, story/rules, UI, assets, runner, schema and package bytes; later lead-owned runner/version changes must be separately bound by full regression.",
+  "acceptance_boundary": "The new model resolves Qin/Tang consistently. Existing source consumers remain unchanged and do not use this model.",
+  "scope_limits": [
+    "No new integrated J UI or consumer wiring",
+    "No claim that current source UI or live Web30 fixes the Qin/Tang mismatch",
+    "No new native input/pixels/contrast, PCK, Windows, browser or deployment acceptance",
+    "Not a fully walked or manually played new-game journey",
+    "No save-schema change, migration, serialized tracking field or preference",
+    "Existing file transfer remains disabled; browser graphics, sound and IndexedDB refresh persistence remain unaccepted"
+  ],
+  "independent_review": {
+    "checks": 4617,
+    "failures": 0,
+    "observations": 117,
+    "accepted_for": "Full regression of model-only source checkpoint",
+    "record": "journal_guidance_phase1_independent.json"
+  },
+  "lifecycle_integration_contract": {
+    "reset": "Only when a new or loaded journey is actually applied, including successful same-State load. Future host integration must explicitly reset.",
+    "preserve": "Storage-only export or import into an empty manual slot does not apply a journey and must preserve active selection; failed/cancelled load or import also preserves selection.",
+    "transfer": "Default-off; never auto-loads. Any shorthand import reset means a later explicit load/application, not import-to-slot itself.",
+    "acceptance_boundary": "Pure session tests verify explicit reset semantics, not yet integrated UI/load/import hooks."
+  },
+  "full_source_binding_record": "journal_guidance_phase1_full_regression.json"
+}

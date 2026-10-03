@@ -1,0 +1,171 @@
+{
+  "status": "passed_source_only",
+  "source_candidate_version": "0.0.31",
+  "save_schema": 16,
+  "expected_counts_not_results": {
+    "godot_commands": 187,
+    "python_tests": 85,
+    "python_plain_OK_groups": [
+      8,
+      8,
+      10,
+      6,
+      53
+    ],
+    "mocked_DOM_checks": 53
+  },
+  "actual_counts": {
+    "godot_commands": 187,
+    "engine_check_logs": 187,
+    "python_tests": 85,
+    "python_groups": [
+      {
+        "tests": 8,
+        "footer": "OK"
+      },
+      {
+        "tests": 8,
+        "footer": "OK"
+      },
+      {
+        "tests": 10,
+        "footer": "OK"
+      },
+      {
+        "tests": 6,
+        "footer": "OK"
+      },
+      {
+        "tests": 53,
+        "footer": "OK"
+      }
+    ],
+    "python_zero_skips": true,
+    "mocked_DOM_checks": 53,
+    "mocked_DOM_failures": []
+  },
+  "exit_code": 0,
+  "source_entries": 1586,
+  "source_before": {
+    "path": "Hero-staging/journal-guidance-phase1/aggregate/full-01-before.json",
+    "bytes": 177646,
+    "sha256": "22a145ae1f3114e19ff2a280b089b132de432fcf44386748b57709b7be640b5d"
+  },
+  "source_after": {
+    "path": "Hero-staging/journal-guidance-phase1/aggregate/full-01-after.json",
+    "bytes": 177646,
+    "sha256": "22a145ae1f3114e19ff2a280b089b132de432fcf44386748b57709b7be640b5d"
+  },
+  "strict_before_after_equal": true,
+  "exceptions": [],
+  "required_contract": [
+    "Run final source with fresh isolated HOME/XDG and retained logs outside player userdata",
+    "Bind complete git-tracked plus nonignored-untracked input set before and after; require identical path/SHA256 maps, including new test UIDs and compact bundle. SHA256 identifies complete byte contents.",
+    "Check exactly five plain Python OK groups8/8/10/6/53, no skips, actualGodot count and mockedDOM result",
+    "Reject script/runtime errors and nonzero exit; retain each failed attempt without adding its counts to successful rerun",
+    "Do not inherit historical capstone metadata exceptions",
+    "After run, list every docs/QA/CHECKSUMS addition or change separately and verify all tested runtime/test/audit inputs still equal the accepted run",
+    "New source checkpoint is model-only; no new native/PCK/browser/Windows or live rollout conclusion"
+  ],
+  "post_run_documentation_QA_and_checksums": {
+    "status": "pending_lead_application_and_closure",
+    "reason": "These staged records are outside source. Lead must record every applied docs/QA/CHECKSUMS change and reverify all accepted runtime/test/audit inputs; applied records were not present during the run."
+  },
+  "scope_limits": [
+    "No new integrated J UI or consumer wiring",
+    "No claim that current source UI or live Web30 fixes the Qin/Tang mismatch",
+    "No new native input/pixels/contrast, PCK, Windows, browser or deployment acceptance",
+    "Not a fully walked or manually played new-game journey",
+    "No save-schema change, migration, serialized tracking field or preference",
+    "Existing file transfer remains disabled; browser graphics, sound and IndexedDB refresh persistence remain unaccepted"
+  ],
+  "wrapper_pre_execution": {
+    "path": "Hero-staging/journal-guidance-phase1/aggregate/run_full01.py",
+    "bytes": 5136,
+    "sha256": "bb86276983c596b413a2ccce9a14965c8198e318bf93e5d2f8f696d5bd78f1f8"
+  },
+  "wrapper_schema": {
+    "result": "aggregate/full-01-result.json",
+    "source_count_key": "source_files_compared",
+    "source_after_count_key": "source_files_after",
+    "source_change_list_key": "source_changed",
+    "source_equal_key": "source_unchanged",
+    "python_group_key": "unittest_groups",
+    "python_zero_skip_key": "unittest_zero_skips",
+    "godot_log_count_key": "engine_check_log_count",
+    "acceptance_key": "passed",
+    "manifest_shape": "Complete tracked and nonignored-untracked path->SHA256 maps; exact equality with no metadata exception"
+  },
+  "preflight_only": {
+    "lead_reported_source_files": 1585,
+    "lead_reported_checksum_entries": 1582,
+    "source_files_are_not_final_run_counts": true,
+    "python_full_log": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/preflight/python-full.log",
+      "bytes": 2274,
+      "sha256": "efa50285c501e7ec0aba2191349fb14da7720896fc9f0e5e1bd4a163adab8821"
+    },
+    "prior_diagnostic_log": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/preflight/python-quick.log",
+      "bytes": 108,
+      "sha256": "e70fec2825d9bf206d27463a792768195039599cb39bcca66339f47283f84cce"
+    },
+    "prior_diagnostic": "Mistyped Python discovery pattern:0 tests,exit5. Retained and excluded from all acceptance counts.",
+    "later_reviewed_source_files": 1586,
+    "later_reviewed_checksum_entries": 1583,
+    "later_difference": "Lead added exact retained frozen oracle as tests/journal_guidance_frozen_oracle.json and rebuilt checksums before full run."
+  },
+  "runner_release_review": {
+    "path": "Hero-staging/journal-guidance-phase1/independent-review/RUNNER-REVIEW.json",
+    "bytes": 2775,
+    "sha256": "3729b989eb16ee22c4d62a73002abdf6044512e791fa59eebb930c94cd82e430"
+  },
+  "verified_utc": "2026-10-03T17:21:05.937778+00:00",
+  "source_changed": [],
+  "engine_error_lines": [],
+  "raw_error_lines": [],
+  "evidence": {
+    "result": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/full-01-result.json",
+      "bytes": 20208,
+      "sha256": "f17a75ddba17192e44f1525fb990feba7f101e991152f0bdc9243cb332f63197"
+    },
+    "log": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/full-01.log",
+      "bytes": 3637896,
+      "sha256": "2a08b83a4a5d64b2d815279a09522189c7e0770920388a28b3a2245cb82a0920"
+    },
+    "wrapper": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/run_full01.py",
+      "bytes": 5136,
+      "sha256": "bb86276983c596b413a2ccce9a14965c8198e318bf93e5d2f8f696d5bd78f1f8"
+    },
+    "console": {
+      "path": "Hero-staging/journal-guidance-phase1/aggregate/full-01-console.log",
+      "bytes": 20208,
+      "sha256": "f17a75ddba17192e44f1525fb990feba7f101e991152f0bdc9243cb332f63197"
+    }
+  },
+  "runner_sha256": "d6f71e9df96bca898f2c4a2a363214232542db79439ad47f5b6d1168f8c35429",
+  "old_cloud_pcks": {
+    "25": {
+      "path": "builds/Hero-Web-0.0.25-web1/site/index.pck",
+      "bytes": 55724532,
+      "sha256": "1c5d2f6b8f59b1314b179cea2e238c76682b44dbabba15401b03e80d5a738acb"
+    },
+    "28": {
+      "path": "builds/Hero-Web-0.0.28-web1/site/index.pck",
+      "bytes": 57195048,
+      "sha256": "c8e652c0c716ef1c78ae80b1a70a08db97b9395e0ab8be1407e954ed52d46bad"
+    },
+    "29": {
+      "path": "builds/Hero-Web-0.0.29-web1/site/index.pck",
+      "bytes": 59251392,
+      "sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1"
+    }
+  },
+  "old_cloud_pcks_unchanged": true,
+  "current_source_matches_accepted_input_at_verification": true,
+  "current_source_verification_utc": "2026-10-03T17:21:05.937778+00:00",
+  "scope": "Journal guidance phase1 complete source suite: new read-only catalog/route/session models, retained exact packed-baseline fixtures, frozen-source automatic characterization and all previous suites/old-PCK boundaries. New journal consumers/UI, native, exact new PCK, Windows and browser acceptance remain pending and are not implied by this model checkpoint."
+}

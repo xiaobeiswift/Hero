@@ -1,0 +1,191 @@
+{
+  "status": "passed_independent_model_only_rebound_by_full_source_run",
+  "base": {
+    "local_docs_commit": "8224936514477279b96816f5d3b68ec1638ca44a",
+    "public_docs_commit": "a86a6ebd5ed19e7c4da293a1e21debd850c51e49",
+    "docs_tree": "e930b411eab2595a053e8739ba82775da61a3913",
+    "runtime_commit": "f6e8ec59f60658c06fba0e89298d7c586004f1ac",
+    "public_runtime_commit": "c280d4978b45b1faa01be953ea1573922089bc62",
+    "save_schema": 16
+  },
+  "attempts": [
+    {
+      "attempt": "attempt-PIX3gp",
+      "checks": 4191,
+      "failures": 5,
+      "frozen_source_observations": 92,
+      "report": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-PIX3gp/report.json",
+        "bytes": 377490,
+        "sha256": "7ca1bc7af82a5c3d41a9ec1bcfc1dc14350cf4154efb1896309fde9121d23426"
+      },
+      "driver": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-PIX3gp/driver.gd",
+        "bytes": 34969,
+        "sha256": "05d09cc6bba7d63a818dc91c422cb36a692ee23b50a5c201f4b7b035bab68582"
+      },
+      "exit_code": 1,
+      "classification": "Reviewer prepared-fixture defects only: missing carried herb for opening2; four Shen recruitment flags lacked canonical party resources. All behavior assertions passed. Corrected setup through actual recruitment API and required herb; no assertions removed.",
+      "accepted_final": false
+    },
+    {
+      "attempt": "attempt-z5HWUk",
+      "checks": 4238,
+      "failures": 0,
+      "frozen_source_observations": 92,
+      "report": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-z5HWUk/report.json",
+        "bytes": 377406,
+        "sha256": "e489728112447a88f17075eaed80aceb0852ebce165dc01b0ea5a3dd629849ae"
+      },
+      "driver": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-z5HWUk/driver.gd",
+        "bytes": 36025,
+        "sha256": "449e1b85feb55a629b004fc0cf38a090153126c99c5283bc618327a97411a844"
+      },
+      "exit_code": 0,
+      "classification": "Corrected fixtures; added canonical wounded/benched/fitting preservation and successful same-object load.",
+      "accepted_final": false
+    },
+    {
+      "attempt": "attempt-8K4BRU",
+      "checks": 4617,
+      "failures": 0,
+      "frozen_source_observations": 117,
+      "report": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-8K4BRU/report.json",
+        "bytes": 673320,
+        "sha256": "0bdccab6c3d6dcb1e79a43f234232aefebb9070e345a1ee8bcb2a38b93a58321"
+      },
+      "driver": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-8K4BRU/driver.gd",
+        "bytes": 38406,
+        "sha256": "32525b3c7c10fe16c6f1764c79db970514eb884cf172139c2f81529e7abb4b73"
+      },
+      "exit_code": 0,
+      "classification": "Repo-default portable six-fixture bundle, exact automatic instructions, full context/state corpus,25 additional post-capstone combinations.",
+      "accepted_final": false
+    },
+    {
+      "attempt": "attempt-IpVABv",
+      "checks": 4617,
+      "failures": 0,
+      "frozen_source_observations": 117,
+      "report": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/report.json",
+        "bytes": 673706,
+        "sha256": "dc8eb92230aa0cff4c77ca155500cc50f699b005d6e7a3e83168d3326fa97431"
+      },
+      "driver": {
+        "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/driver.gd",
+        "bytes": 38650,
+        "sha256": "37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8"
+      },
+      "exit_code": 0,
+      "classification": "Final identical behavioral matrix with explicit adapter scope and project/bundle hashes in report; all source-before/after hashes match.",
+      "accepted_final": true
+    }
+  ],
+  "final_accepted_attempt": "attempt-IpVABv",
+  "scope": "Source-phase read-only model/session verification using actual frozen Main._refresh and World._quest_target_id, valid prepared fixtures, NoSave State subclass counting/suppressing saves, and NoPrefs preferences subclass; production save inspection/load are unchanged. Not genuine integrated new J UI proof.",
+  "oracle_boundary": "Frozen Main/World hashes are enforced and observations retained; after phase2 integration the changed consumer cannot be its own historical oracle.",
+  "portable_bundle": {
+    "path": "tests/journal_guidance_baseline_inputs.json",
+    "bytes": 22709,
+    "sha256": "aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed"
+  },
+  "diagnostic_counts_not_summed": true,
+  "source_gate_pending": false,
+  "scope_limits": [
+    "No new integrated J UI or consumer wiring",
+    "No claim that current source UI or live Web30 fixes the Qin/Tang mismatch",
+    "No new native input/pixels/contrast, PCK, Windows, browser or deployment acceptance",
+    "Not a fully walked or manually played new-game journey",
+    "No save-schema change, migration, serialized tracking field or preference",
+    "Existing file transfer remains disabled; browser graphics, sound and IndexedDB refresh persistence remain unaccepted"
+  ],
+  "checks": 4617,
+  "failures": 0,
+  "frozen_source_observations": 117,
+  "reviewed_target_differences": 14,
+  "reviewed_difference_scope": "All14 are approved Qin-over-Tang coherence repairs:9 stage combinations,1 post-capstone all-pending case and4 actual PCK positive fixtures. No other reranking observed in this117-row matrix.",
+  "final_report": {
+    "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/report.json",
+    "bytes": 673706,
+    "sha256": "dc8eb92230aa0cff4c77ca155500cc50f699b005d6e7a3e83168d3326fa97431"
+  },
+  "review": {
+    "path": "Hero-staging/journal-guidance-phase1/independent-review/REVIEW.md",
+    "bytes": 10073,
+    "sha256": "549513db984f79aba36b821df759b29922174e04030be89491184e54750a29c2"
+  },
+  "final_review_receipt": {
+    "path": "Hero-staging/journal-guidance-phase1/independent-review/FINAL-REVIEW.json",
+    "bytes": 3047,
+    "sha256": "eb69ef06ef19eeca7ae6a829cb3416c40197354547e4adaf3881a2f6e3eb26ec"
+  },
+  "frozen_oracle": {
+    "path": "Hero-staging/journal-guidance-phase1/independent-review/frozen-main-oracle.json",
+    "bytes": 591678,
+    "sha256": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443"
+  },
+  "source_bindings_at_independent_run": {
+    "project.godot": "5b77810417e3beab9f35b1299b8425d9b8203bbc9088408703793c126939920d",
+    "scripts/game_state.gd": "7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a",
+    "scripts/journal_guidance_rules.gd": "3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9",
+    "scripts/journal_guidance_session.gd": "eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba",
+    "scripts/journal_objective_rules.gd": "3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c",
+    "scripts/main.gd": "ac50460179e97d6c808ead6f1fcf1403b3d2ac902cc43257acb94b6b0c7fdd06",
+    "scripts/world.gd": "b9820a0a17485b71aa29958cf144208eb36104e2f43f0d7c9b096dad68eb2dbf",
+    "tests/journal_guidance_baseline_inputs.json": "aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed",
+    "tests/journal_guidance_independent_test.gd": "37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8"
+  },
+  "source_binding_transition": {
+    "project_at_independent_run_version": "0.0.30",
+    "project_current_candidate_version": "0.0.31",
+    "current_project": {
+      "path": "project.godot",
+      "bytes": 854,
+      "sha256": "934759fcd21ab44ebabd0e937388ffd4ac669f2c8c1cb3ce8e5192215c9b3118"
+    },
+    "scope": "Lead advanced project/export version after independent run; only project.godot differs among that report's9 source bindings. Full source rerun must bind0.0.31; do not relabel the earlier report."
+  },
+  "final_evidence": {
+    "driver.gd": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/driver.gd",
+      "bytes": 38650,
+      "sha256": "37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8"
+    },
+    "run.log": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/run.log",
+      "bytes": 157,
+      "sha256": "14d0777802d17a3e8a103605bcc94f4a0473330f1834ae65db65d3b70e9f3b75"
+    },
+    "engine.log": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/engine.log",
+      "bytes": 157,
+      "sha256": "14d0777802d17a3e8a103605bcc94f4a0473330f1834ae65db65d3b70e9f3b75"
+    },
+    "exit-code.txt": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/exit-code.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "source-before.sha256": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/source-before.sha256",
+      "bytes": 1458,
+      "sha256": "066879575fbe934bd3a00dc975b282c389a9e94e77274028a2f4abcb795a4284"
+    },
+    "source-after-check.log": {
+      "path": "Hero-staging/journal-guidance-phase1/independent-review/attempt-IpVABv/source-after-check.log",
+      "bytes": 900,
+      "sha256": "422d50df8bbb59e2d2156bb7e1f89b54cc8e9ff3ee828b3a29f3d0c29e60128e"
+    }
+  },
+  "portable_frozen_oracle": {
+    "path": "tests/journal_guidance_frozen_oracle.json",
+    "bytes": 591678,
+    "sha256": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443"
+  },
+  "full_source_binding_record": "journal_guidance_phase1_full_regression.json"
+}
