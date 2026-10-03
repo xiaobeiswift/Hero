@@ -1,0 +1,153 @@
+{
+  "scope": "Synthetic non-user defaults. Genuine producer serialization only for1,9–13; authored old-layout contracts for2–8. Does not establish historical gameplay/runtime or browser persistence acceptance.",
+  "schema1_archive": {
+    "path": "Hero-checkpoint-003.zip",
+    "sha256": "3f76ebb6f7fdc52040969b52685ad35fbf770c37389c8228de21cd1bca6f7a13",
+    "member": "Hero/scripts/game_state.gd",
+    "source_sha256": "fcb74e49118514cbdd3e4c04f94d5e9573c800e18c2026e31e6775a228224699"
+  },
+  "fixtures": [
+    {
+      "version": 1,
+      "path": "tests/fixtures/legacy_saves/schema_01_default.json",
+      "sha256": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v003_game_state.gd.txt",
+      "source_sha256": "fcb74e49118514cbdd3e4c04f94d5e9573c800e18c2026e31e6775a228224699",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    },
+    {
+      "version": 2,
+      "path": "tests/fixtures/legacy_saves/schema_02_default.json",
+      "sha256": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "chapter_two_stage",
+        "archive_clues",
+        "seal_sequence",
+        "chapter_two_ending",
+        "bridge_repaired",
+        "armor",
+        "resources",
+        "gathered_nodes"
+      ]
+    },
+    {
+      "version": 3,
+      "path": "tests/fixtures/legacy_saves/schema_03_default.json",
+      "sha256": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "sect_rank",
+        "sect_merit",
+        "sect_trial_won"
+      ]
+    },
+    {
+      "version": 4,
+      "path": "tests/fixtures/legacy_saves/schema_04_default.json",
+      "sha256": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "tangqi_unlocked",
+        "tangqi_stage",
+        "tangqi_choice",
+        "active_companion"
+      ]
+    },
+    {
+      "version": 5,
+      "path": "tests/fixtures/legacy_saves/schema_05_default.json",
+      "sha256": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "learned_arts",
+        "claimed_deeds"
+      ]
+    },
+    {
+      "version": 6,
+      "path": "tests/fixtures/legacy_saves/schema_06_default.json",
+      "sha256": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "mist_stage",
+        "mist_gauges",
+        "mist_approach",
+        "mist_ending"
+      ]
+    },
+    {
+      "version": 7,
+      "path": "tests/fixtures/legacy_saves/schema_07_default.json",
+      "sha256": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "shen_care_stage",
+        "shen_care_choice"
+      ]
+    },
+    {
+      "version": 8,
+      "path": "tests/fixtures/legacy_saves/schema_08_default.json",
+      "sha256": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+      "kind": "authored-historical-layout-contract",
+      "basis": "Schema1 archived default plus cumulative documented historical feature fields; original schema2–8 producers unavailable in local shallow history/archives. These are compatibility contracts, not historical exports.",
+      "added_fields": [
+        "lightness_unlocked",
+        "lightness_relics"
+      ]
+    },
+    {
+      "version": 9,
+      "path": "tests/fixtures/legacy_saves/schema_09_default.json",
+      "sha256": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v017_game_state.gd.txt",
+      "source_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    },
+    {
+      "version": 10,
+      "path": "tests/fixtures/legacy_saves/schema_10_default.json",
+      "sha256": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v019_game_state.gd.txt",
+      "source_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    },
+    {
+      "version": 11,
+      "path": "tests/fixtures/legacy_saves/schema_11_default.json",
+      "sha256": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v020_game_state.gd.txt",
+      "source_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    },
+    {
+      "version": 12,
+      "path": "tests/fixtures/legacy_saves/schema_12_default.json",
+      "sha256": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v022_game_state.gd.txt",
+      "source_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    },
+    {
+      "version": 13,
+      "path": "tests/fixtures/legacy_saves/schema_13_default.json",
+      "sha256": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc",
+      "kind": "original-producer-default",
+      "source": "tests/fixtures/v025_game_state.gd.txt",
+      "source_sha256": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+      "generation": "Original archived GDScript removes only class_name HeroState newline in memory, then JSON.stringify({version: producer.SAVE_VERSION, player: producer.new().to_dict()}). No current HeroState data or version relabeling."
+    }
+  ]
+}
