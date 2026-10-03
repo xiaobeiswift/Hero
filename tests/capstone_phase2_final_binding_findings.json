@@ -1,0 +1,180 @@
+{
+  "reviewed_at_utc": "2026-10-03T09:15:53.923064+00:00",
+  "status": "bounded_acceptance_recommended_to_lead_not_strict_gate_pass",
+  "lead_acceptance_granted_by_this_review": false,
+  "source_changed_by_this_review": false,
+  "engine_executed_by_this_review": false,
+  "aggregate_before": {
+    "path": "Hero-staging/capstone-phase3/aggregate/full-01-before.json",
+    "sha256": "d5e30d1b58dc5454902bbe8b30e5c83cf0d46a24f349f91879b7ec7abf49d516",
+    "bytes": 122013
+  },
+  "raw_result": {
+    "path": "Hero-staging/capstone-phase3/aggregate/full-01-result.json",
+    "sha256": "51135de1bdc0059726b4953a31e17f152be28f28e84ce8cdf21754190f3caf0a",
+    "bytes": 819
+  },
+  "raw_log": {
+    "path": "Hero-staging/capstone-phase3/aggregate/full-01.log",
+    "sha256": "58bb4c98fd059996efa667af9189ffdc056f61da4b9764c97f56655a2f287238",
+    "bytes": 3615597
+  },
+  "raw_wrapper": {
+    "path": "Hero-staging/capstone-phase3/aggregate/run_full01.py",
+    "sha256": "eb194445487544cc5bd39a78225185909719a6cc2c298be7f3c04258b6d3ff99",
+    "bytes": 2305
+  },
+  "raw_subprocess_exit": 0,
+  "raw_strict_wrapper_outcome": "nonzero (1) by source_changed predicate; preserved, not overridden",
+  "original_paths_matched": 1101,
+  "current_inventory_count": 1104,
+  "modified_or_missing_original_paths": [],
+  "precise_additions": [
+    {
+      "path": "tests/capstone_package_audit_preparation.json",
+      "sha256": "82a6f128891edb4d7ad75a3ee44a8866cfaf43f3380c2d1d026cd0962b996c4b",
+      "bytes": 5286,
+      "mode": "0o644",
+      "mtime_utc": "2026-10-03T08:49:22.102846+00:00",
+      "ctime_utc": "2026-10-03T08:49:22.102846+00:00"
+    },
+    {
+      "path": "tests/capstone_package_audit_report.md",
+      "sha256": "e397bc4a615ac162e89b667983b476b9b7f9965655ff3efeda52a2fa24f959e2",
+      "bytes": 6222,
+      "mode": "0o644",
+      "mtime_utc": "2026-10-03T08:49:22.109476+00:00",
+      "ctime_utc": "2026-10-03T08:49:22.109476+00:00"
+    },
+    {
+      "path": "tests/capstone_package_fixture_producer.gd.uid",
+      "sha256": "96cfb722920f3d1935a6c3a7bbe354f545a442196e14f7932e930ddc82b06311",
+      "bytes": 18,
+      "mode": "0o644",
+      "mtime_utc": "2026-10-03T08:48:43.888405+00:00",
+      "ctime_utc": "2026-10-03T08:48:43.888405+00:00"
+    }
+  ],
+  "preexisting_mtimes_at_or_after_snapshot": [],
+  "preexisting_extension_counts": {
+    ".cfg": 1,
+    ".cjs": 1,
+    ".diff": 1,
+    ".gd": 381,
+    ".godot": 1,
+    ".html": 1,
+    ".import": 42,
+    ".json": 162,
+    ".md": 39,
+    ".otf": 1,
+    ".png": 38,
+    ".py": 17,
+    ".sh": 2,
+    ".sha256": 8,
+    ".svg": 1,
+    ".tscn": 1,
+    ".txt": 22,
+    ".uid": 380,
+    ".wav": 2
+  },
+  "literal_code_scan": {
+    "files_scanned": 405,
+    "terms": [
+      "capstone_package_audit_",
+      "qctvsylf10j",
+      "capstone_package_fixture_producer.gd.uid"
+    ],
+    "matches": []
+  },
+  "uid_provenance": {
+    "project_name": "Hero · 渡灯录",
+    "resource_path": "res://tests/capstone_package_fixture_producer.gd",
+    "producer_sha256": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+    "producer_md5": "7d308becd0cebbf08cea6bcde0220c8e",
+    "project_name_hash64": 8244915197213009487,
+    "resource_path_hash64": 4389898403036789107,
+    "md5_hash64": 8087585082469399652,
+    "pcg_seed": 13590357120504638676,
+    "pcg_first_low32": 2050565659,
+    "pcg_second_high32": 2155210491,
+    "expected_first_candidate": 33186540036892187,
+    "expected_sidecar_text": "uid://qctvsylf10j\n",
+    "actual_sidecar_text": "uid://qctvsylf10j\n",
+    "sidecar_sha256": "96cfb722920f3d1935a6c3a7bbe354f545a442196e14f7932e930ddc82b06311",
+    "deterministic_candidate_matches": true,
+    "cache": {
+      "path": "Hero-recovery-20261002-0918/source/.godot/uid_cache.bin",
+      "sha256": "332f79e70c372f93c94d4ccc13d24fcb549fda268277b7a84f3a36995ee26759",
+      "bytes": 21620
+    },
+    "cache_entries": 423,
+    "matching_cache_entries": [
+      [
+        33186540036892187,
+        "res://tests/capstone_package_fixture_producer.gd"
+      ]
+    ],
+    "same_uid_sidecars": [
+      "tests/capstone_package_fixture_producer.gd.uid"
+    ],
+    "writer_attribution": "Strong engine-import inference, not a captured OS process-write trace"
+  },
+  "cross_bindings": [
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills-source.json",
+      "sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
+      "bytes": 53294,
+      "entries": 440,
+      "matched": 440,
+      "mismatches": [],
+      "imported_cache_entries": 84
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-BEFORE.json",
+      "sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+      "bytes": 43458,
+      "entries": 381,
+      "matched": 381,
+      "mismatches": [],
+      "imported_cache_entries": 0
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-AFTER.json",
+      "sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+      "bytes": 43458,
+      "entries": 381,
+      "matched": 381,
+      "mismatches": [],
+      "imported_cache_entries": 0
+    }
+  ],
+  "counts": {
+    "godot_commands": 172,
+    "python_tests": 77,
+    "node_mock_dom_checks": 53,
+    "engine_errors": 0,
+    "earned_scene_checks": 48348,
+    "earned_routes": 12,
+    "real_scene_interruption_checks": 1916,
+    "interruption_boundaries": 2
+  },
+  "retention_gate": {
+    "path": "Hero-staging/capstone-phase3/checkpoint-preparation/default-gate-rejection.json",
+    "sha256": "db4f42dfbdb6884dbec01138a5374eba741160110b6b5304449dea1deb4af0f3",
+    "bytes": 406
+  },
+  "recommendation": "Lead may explicitly accept unchanged pre-existing executable/runtime/fixture/config bytes with separately disclosed two QA documents and deterministic import-generated UID metadata. Preserve raw strict failure. Existing two-document retention acceptance must remain blocked unless separately authorized and transparently amended; this review does not amend it.",
+  "strict_rerun_if_required": "Freeze all 1104 current inventoried paths, including the exact UID and reports, then run the unchanged full suite and strict delta predicate into fresh full-02 evidence with old Web25/Web28 gates enabled. Require subprocess exit0, zero errors and zero source_changed. Never remove the UID or rewrite full-01 to create a pass.",
+  "limits": [
+    "Endpoint content hashes and original mtimes are evidence of stability, not continuous filesystem tracing.",
+    "The UID is consumed by Godot metadata machinery; do not call it wholly unconsumed.",
+    "The entire source tree, all .godot state, external engine/environment and old build files were not inventoried by full-01.",
+    "Native and package manifest matches establish those recorded inputs only.",
+    "No final frozen PCK, Windows, browser, publication or export approval is established."
+  ],
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase3/independent-final-binding/FINDINGS.json",
+    "sha256": "10bad1a203db0421112a794abefff95af55c5e9b673bdf9adba40843e1660253",
+    "bytes": 6926
+  }
+}

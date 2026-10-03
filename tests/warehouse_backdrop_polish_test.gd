@@ -35,7 +35,7 @@ func _luminance(c: Color) -> float:
 func _fixed_context() -> void:
 	check(Scenery.ENCOUNTER_STYLES == {"training":"courtyard","sect_trial":"courtyard","courtyard_practice":"courtyard","heting_consignee":"warehouse"},"Only the original bounded style mapping is accepted")
 	var legacy: int = 0
-	for id: String in PhaseOneBoundary.READY_IDS:
+	for id: String in PhaseOneBoundary.PHASE1_IDS:
 		var expected: String = "warehouse" if id == "heting_consignee" else ("courtyard" if id in ["training","sect_trial","courtyard_practice"] else "ferry")
 		check(Scenery.style_for(id) == expected,"Existing encounter keeps its exact style: " + id)
 		check(Scenery.floor_texture_for(id) == (Scenery.EARTH if expected in ["courtyard","warehouse"] else Scenery.WOOD),"Original floor material remains selected: " + id)

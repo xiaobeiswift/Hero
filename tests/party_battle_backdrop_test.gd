@@ -8,7 +8,7 @@ func run()->void:
  ground=PackedVector2Array([art.ground_point(0,0),art.ground_point(1,0),art.ground_point(1,1),art.ground_point(0,1)])
  check(Scenery.style_for("unrecognized")=="ferry","Unknown visual key cannot select a special gameplay context")
  for encounter:String in PhaseOneBoundary.READY_IDS:
-  var style="warehouse" if encounter=="heting_consignee" else ("courtyard" if encounter in ["training","sect_trial","courtyard_practice"] else "ferry")
+  var style="archive" if encounter=="capstone_authorizer" else ("warehouse" if encounter=="heting_consignee" else ("courtyard" if encounter in ["training","sect_trial","courtyard_practice"] else "ferry"))
   for count:int in [1,2,3,4]:
    for form:String in ["并肩","护后"]:
     var rules=model(encounter,count,form)
@@ -29,5 +29,5 @@ func run()->void:
     check(not rules.complete_presentation(transaction.token),"Background draw does not admit repeated acknowledgment")
     art.reset_presentation()
  art.queue_free();await process_frame
- print("%s: %d contextual background/shared scheduler checks: all11 rendered encounters,1–4 actors,both formations"%["PASS" if failures==0 else "FAIL",checks])
+ print("%s: %d contextual background/shared scheduler checks: all12 rendered encounters,1–4 actors,both formations"%["PASS" if failures==0 else "FAIL",checks])
  quit(0 if failures==0 else 1)

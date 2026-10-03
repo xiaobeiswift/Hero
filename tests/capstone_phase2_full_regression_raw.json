@@ -1,0 +1,20 @@
+{
+  "exit_code": 0,
+  "seconds": 1041.493,
+  "source_files_compared": 1101,
+  "source_changed": [
+    "tests/capstone_package_audit_preparation.json",
+    "tests/capstone_package_audit_report.md",
+    "tests/capstone_package_fixture_producer.gd.uid"
+  ],
+  "godot_commands": 172,
+  "python_tests": 77,
+  "engine_errors": 0,
+  "log_sha256": "58bb4c98fd059996efa667af9189ffdc056f61da4b9764c97f56655a2f287238",
+  "runner_sha256": "b535329126530a8c5749aa6c27802685fd169691014b79e5813007292e616574",
+  "old_cloud_web25_pck_enabled": true,
+  "old_cloud_web28_pck_enabled": true,
+  "game_version": "0.0.29",
+  "save_schema": 15,
+  "scope": "Complete capstone source suite including actual twelve-route scene and separate real battle interruption scripts; exact new PCK and independent Windows/browser gates remain separate"
+}

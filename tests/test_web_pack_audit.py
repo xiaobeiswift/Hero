@@ -27,9 +27,10 @@ class PackAuditTests(unittest.TestCase):
                 + audit.TRANSFER_COVERAGE + f' {audit.EXPECTED_TRANSFER_CHECKS} checks; actual runtime\n'
                 + audit.CONSIGNEE_COVERAGE + f' {audit.EXPECTED_CONSIGNEE_CHECKS} checks; actual runtime\n'
                 + audit.POLISH_COVERAGE + f' {audit.EXPECTED_POLISH_CHECKS} checks; actual runtime\n'
+                + audit.CAPSTONE_COVERAGE + f' {audit.EXPECTED_CAPSTONE_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
-    def test_complete_schema14_pack_log_required(self):
+    def test_complete_schema15_pack_log_required(self):
         complete = self.complete_log()
         self.assertEqual(audit.completed_pack_checks(complete, 0), audit.EXPECTED_CHECKS)
         invalid = [
@@ -61,7 +62,8 @@ class PackAuditTests(unittest.TestCase):
                               (audit.CONDITION_COVERAGE,audit.EXPECTED_CONDITION_CHECKS),
                               (audit.TRANSFER_COVERAGE,audit.EXPECTED_TRANSFER_CHECKS),
                               (audit.CONSIGNEE_COVERAGE,audit.EXPECTED_CONSIGNEE_CHECKS),
-                              (audit.POLISH_COVERAGE,audit.EXPECTED_POLISH_CHECKS)):
+                              (audit.POLISH_COVERAGE,audit.EXPECTED_POLISH_CHECKS),
+                              (audit.CAPSTONE_COVERAGE,audit.EXPECTED_CAPSTONE_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
@@ -94,21 +96,22 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.EXPECTED_TRANSFER_CHECKS,349)
         self.assertEqual(audit.EXPECTED_CONSIGNEE_CHECKS,1036)
         self.assertEqual(audit.EXPECTED_POLISH_CHECKS,460)
-        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,5190)
-        self.assertEqual(audit.EXPECTED_CHECKS,5195)
-        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS+audit.EXPECTED_POLISH_CHECKS)
+        self.assertEqual(audit.EXPECTED_CAPSTONE_CHECKS,1179)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,6369)
+        self.assertEqual(audit.EXPECTED_CHECKS,6374)
+        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS+audit.EXPECTED_POLISH_CHECKS+audit.EXPECTED_CAPSTONE_CHECKS)
         self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.28"',driver)
-        self.assertIn('title.text=="0.0.28"',driver)
+        self.assertIn('== "0.0.29"',driver)
+        self.assertIn('title.text=="0.0.29"',driver)
         self.assertNotIn('"0.0.21"',driver)
-        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS','EXPECTED_POLISH_CHECKS'):
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS','EXPECTED_POLISH_CHECKS','EXPECTED_CAPSTONE_CHECKS'):
             with patch.object(audit,name,0):
                 self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
@@ -122,13 +125,14 @@ class PackAuditTests(unittest.TestCase):
                       ' '+audit.CONDITION_COVERAGE+' malformed duplicate',
                       ' '+audit.TRANSFER_COVERAGE+' malformed duplicate',
                       ' '+audit.CONSIGNEE_COVERAGE+' malformed duplicate',
-                      ' '+audit.POLISH_COVERAGE+' malformed duplicate'):
+                      ' '+audit.POLISH_COVERAGE+' malformed duplicate',
+                      ' '+audit.CAPSTONE_COVERAGE+' malformed duplicate'):
             with self.subTest(extra=extra):
                 self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
 
     def test_exploration_scope_cannot_impersonate_full_pack(self):
         complete=self.complete_log()
-        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only','polish-only'):
+        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only','polish-only','capstone-only'):
             self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
@@ -156,6 +160,7 @@ class PackAuditTests(unittest.TestCase):
                             ('EXPECTED_TRANSFER_CHECKS',audit.EXPECTED_TRANSFER_CHECKS+1),
                             ('EXPECTED_CONSIGNEE_CHECKS',audit.EXPECTED_CONSIGNEE_CHECKS+1),
                             ('EXPECTED_POLISH_CHECKS',audit.EXPECTED_POLISH_CHECKS+1),
+                            ('EXPECTED_CAPSTONE_CHECKS',audit.EXPECTED_CAPSTONE_CHECKS+1),
                             ('EXPECTED_PRESERVED_CHECKS',audit.EXPECTED_PRESERVED_CHECKS+1),
                             ('EXPECTED_UNIFIED_CHECKS',audit.EXPECTED_UNIFIED_CHECKS+1)):
             with self.subTest(field=field),patch.object(audit,field,value):
@@ -197,13 +202,13 @@ class PackAuditTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
         self.assertIn(audit.POLISH_COVERAGE,driver)
-        self.assertIn('await _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _finish_run(rehearsal)',driver)
         for actual in ('scenery.prepare()', 'scenery.draw(self,floor_mesh,encounter,.375)',
                        'mesh.surface_get_arrays(0)', 'art._make_floor()',
                        'harbor._route_label(probe,item.p,item.text,item.size,item.width,HORIZONTAL_ALIGNMENT_CENTER)',
                        'font.get_texture_image(0,cache_size,texture_index)',
                        'font.render_glyph(0,cache_size,glyph)', 'unique_labels.size() == 4 and labels.size() == 5',
-                       'game.state.SAVE_VERSION == 14 and not game.web_save_transfer_enabled',
+                       'game.state.SAVE_VERSION == 15 and not game.web_save_transfer_enabled',
                        'no native framebuffer or browser pixel acceptance'):
             self.assertIn(actual,driver)
         for fixture in ('warehouse_backdrop_polish_test','heting_route_label_test'):
@@ -309,12 +314,89 @@ class PackAuditTests(unittest.TestCase):
     def test_audit_inputs_bind_tools_readers_and_fixtures(self):
         root=Path(__file__).resolve().parents[1]
         inputs=audit.audit_inputs()
-        self.assertEqual(len(inputs),22)
+        self.assertEqual(len(inputs),27)
         self.assertEqual(inputs['tools/smoke_export.gd'],audit.sha(root/'tools/smoke_export.gd'))
         self.assertEqual(inputs['tests/fixtures/v025_game_state.gd.txt'],audit.SCHEMA13)
         self.assertEqual(inputs['tests/fixtures/legacy_saves/provenance.json'],audit.LEGACY_FIXTURES)
         wrapper=(root/'tools/audit_web_export.py').read_text(encoding='utf-8')
-        self.assertLess(wrapper.index('inputs=audit_inputs()'),wrapper.index('result=subprocess.run'))
-        self.assertGreater(wrapper.index('audit_inputs()!=inputs'),wrapper.index('result=subprocess.run'))
+        pack_main=wrapper[wrapper.index('def main():'):]
+        self.assertLess(pack_main.index('inputs=audit_inputs()'),pack_main.index('result=subprocess.run'))
+        self.assertGreater(pack_main.index('audit_inputs()!=inputs'),pack_main.index('result=subprocess.run'))
+
+
+    def test_capstone_preinstantiation_gate_and_authentic_old_controls(self):
+        driver=(audit.ROOT/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        for gate in ('not _capstone_prerequisites()', 'not _capstone_legacy_prerequisite(rehearsal)'):
+            self.assertLess(driver.index(gate),driver.index('game = scene.instantiate()'))
+        for value in ('--schema14-reader=', '--schema14-save=', audit.SCHEMA14,audit.SCHEMA14_SAVE,
+                      'schema14_reader.SAVE_VERSION == 14', 'schema14_reader.save_game(path)',
+                      'schema14_reader.load_game(path) == ERR_FILE_UNRECOGNIZED',
+                      'schema13_reader.load_game(path) == ERR_FILE_UNRECOGNIZED',
+                      'for version: int in [13,14,15]', 'for key: String in canonical',
+                      'for version: int in range(1,15)', audit.CAPSTONE_COVERAGE,
+                      'game.capstone_story.get_script()', 's._valid_capstone_terminal(forged)',
+                      'snapshot.enemies[0].max_hp == 620', 's.coins == coins+80', '_receipt_xp() == xp+160',
+                      'game.world.capstone_goal == goal', 'portraits.attach(probe,', 'art.draw(self,',
+                      'source PNG', 'current dependencies, not full-old-runtime'):
+            self.assertIn(value,driver)
+        self.assertNotIn('res://tests/capstone_',driver)
+        self.assertNotIn('"version":14,"player":model.new().to_dict()',driver)
+        self.assertEqual(audit.sha(audit.ROOT/'tests/fixtures/v028_game_state.gd.txt'),audit.SCHEMA14)
+        pins=audit.verify_capstone_inputs()
+        self.assertEqual(pins['tests/fixtures/capstone/schema_14_default.json'],audit.SCHEMA14_SAVE)
+
+    def test_capstone_absent_partial_duplicate_or_wrong_counts_fail_closed(self):
+        complete=self.complete_log()
+        marker=audit.CAPSTONE_COVERAGE
+        line=marker+f' {audit.EXPECTED_CAPSTONE_CHECKS} checks; actual runtime\n'
+        for replacement in ('', marker+' 0 checks; absent\n', marker+' 1 checks; partial\n',
+                            marker+f' {audit.EXPECTED_CAPSTONE_CHECKS+1} checks; wrong\n',
+                            'Schema14 capstone chapter exact-runtime coverage: 1 checks; wrong\n',
+                            marker+f' {audit.EXPECTED_CAPSTONE_CHECKS} checks\n'):
+            self.assertIsNone(audit.completed_pack_checks(complete.replace(line,replacement),0))
+        self.assertIsNone(audit.completed_pack_checks(complete+line,0))
+        self.assertIsNone(audit.completed_pack_checks(complete+marker+' malformed duplicate\n',0))
+        self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: capstone-only'),0))
+        for count in (5195,5190):
+            self.assertIsNone(audit.completed_pack_checks(complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack',str(count)+' exported-pack'),0))
+
+    def test_source_rehearsal_requires_exact_five_pending_and_all_eight_partitions(self):
+        complete=self.complete_log()
+        rehearsal=audit.SOURCE_PENDING+'\n'+complete.replace(
+            f'PASS: {audit.EXPECTED_CHECKS} exported-pack',f'PASS: {audit.EXPECTED_SOURCE_CHECKS} source-rehearsal')
+        self.assertEqual(audit.completed_source_checks(rehearsal,0),audit.EXPECTED_SOURCE_CHECKS)
+        self.assertIsNone(audit.completed_pack_checks(rehearsal,0))
+        for bad in (rehearsal.replace('exactly5','exactly4'),rehearsal.replace(audit.SOURCE_PENDING,''),
+                    rehearsal+audit.SOURCE_PENDING+'\n',rehearsal.replace('PENDING','PASS'),
+                    rehearsal.replace('scope: complete','scope: capstone-only'),
+                    rehearsal+'ERROR: failed\n',rehearsal+'PASS: extra\n'):
+            self.assertIsNone(audit.completed_source_checks(bad,0))
+        self.assertIsNone(audit.completed_source_checks(rehearsal,1))
+
+    def test_provenance_is_real_pack_input_and_all_source_pins_are_immutable(self):
+        import shutil
+        files=('combat-v4-review.json','combat-v4-measurements.json','portrait-v1-review.json')
+        filters=[line for line in (audit.ROOT/'export_presets.cfg').read_text().splitlines() if line.startswith('include_filter=')]
+        self.assertEqual(len(filters),4)
+        for line in filters:
+            for name in files:self.assertIn('assets/generated/characters/liang_provenance/'+name,line)
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            for name in audit.verify_capstone_inputs():
+                target=root/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(audit.ROOT/name,target)
+            self.assertEqual(audit.verify_capstone_inputs(root),audit.verify_capstone_inputs())
+            for name in audit.verify_capstone_inputs():
+                target=root/name;old=target.read_bytes();target.write_bytes(old+b'changed')
+                with self.assertRaises(RuntimeError):audit.verify_capstone_inputs(root)
+                target.write_bytes(old)
+        inputs=audit.audit_inputs()
+        self.assertEqual(inputs['tests/fixtures/v028_game_state.gd.txt'],audit.SCHEMA14)
+        self.assertEqual(inputs['tests/fixtures/capstone/schema_14_default.json'],audit.SCHEMA14_SAVE)
+        wrapper=(audit.ROOT/'tools/audit_web_export.py').read_text()
+        self.assertIn('directory.mkdir(parents=True,exist_ok=False)',wrapper)
+        self.assertIn("'pending_pack_only_checks':5",wrapper)
+        self.assertIn('before=source_snapshot()',wrapper)
+        self.assertIn('after=source_snapshot()',wrapper)
+        self.assertIn("'provisional':bool(changed)",wrapper)
 
 if __name__=='__main__':unittest.main()

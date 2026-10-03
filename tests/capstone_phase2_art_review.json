@@ -1,0 +1,127 @@
+{
+  "status": "art_and_renderer_integration_complete",
+  "baseline_commit": "31ba4221",
+  "source": "<project-root>",
+  "owned_source_sha256": {
+    "assets/generated/characters/liang_provenance/README.md": "83b644f687a1a31b868061fdde5bf773c9a60f2a7d8194fad3c0fa060d2d6c32",
+    "assets/generated/characters/liang_provenance/combat-v1-prompt.txt": "9627eded793943d3a3a939a9e2596e4ac97f90e347bd6be6803bb847abfc1125",
+    "assets/generated/characters/liang_provenance/combat-v2-prompt.txt": "b440a494961b98c2e3ef3fd13822d4b8eb1bbe7c8fbdcb478821fc34f58f6a2a",
+    "assets/generated/characters/liang_provenance/combat-v3-prompt.txt": "0b528dcf37f10165124cc91755a61e7bc885d8324f9da736250d6f155abb02bf",
+    "assets/generated/characters/liang_provenance/combat-v4-measurements.json": "c449ffee9ce988bca9121e2ea0e36b08b9e356fae28a0bca1b2df482f2e51555",
+    "assets/generated/characters/liang_provenance/combat-v4-prompt.txt": "ff62435174ba1a69ae95a09cc7d0ba390a9204db079422be7ab7bfcb5d588131",
+    "assets/generated/characters/liang_provenance/combat-v4-review.json": "a1041d94a31df1a21542f766d7698e54d1bf797f98212890e6e48e47b767660c",
+    "assets/generated/characters/liang_provenance/portrait-v1-prompt.txt": "18f8feec2347c8feb9f0de8730fd82a16e6fc2c0faf217921db9458c7911a532",
+    "assets/generated/characters/liang_provenance/portrait-v1-review.json": "21cba51f3aa572a13dcae5e5add7a3be48ecaf2f7c1bc9dcf594be228fe0f8e9",
+    "assets/generated/characters/painted_liang_combat_v4.png": "4812052ca14b016e43818713eaefe3a15ba3baa79fc421a8d40fc1e6774b5f33",
+    "assets/generated/characters/painted_liang_combat_v4.png.import": "b502c9cae2febe3e0e946bd97a9cc77c85989c33456bcf1319ad6431972d951a",
+    "assets/generated/characters/painted_liang_portrait_v1.png": "ce56fcca4b2bfaa5af6511df62b65e1463fc21437d5d452d8cb75ede00e081d3",
+    "assets/generated/characters/painted_liang_portrait_v1.png.import": "d99d74d5becb358f0a87b96689872525091036a7e2363d36a1cd74a3b2b895c6",
+    "scripts/character_portraits.gd": "70c6b1c54d6c450c9d291d73ec9dadc169415a35ea32acd7645c49e0e5f1bf84",
+    "scripts/painted_battle_liang.gd": "e5720d5ae0375678c41a10cef0e439311930e4d22a93ffd8af913d4f91d56aba",
+    "scripts/painted_battle_liang.gd.uid": "41060ba5e4e7be44b6ca73c3ff858246112efdb7e074a1a14739335a8ad093c4",
+    "scripts/party_battle_art.gd": "3a8ef7f74466e8ec0ce82ed1da79309efee22bf176546ccee8e820057decacb9",
+    "scripts/party_battle_backdrop.gd": "fd71d517392971b15385ef2176e634319fdfbea3d0a839f5808bbba11b7e6f16",
+    "tests/capstone_liang_art_test.gd": "4d3b73329310aab5180d7c71db80ad4506b12988b21bf3eacc4b09a5bcf1780a",
+    "tests/capstone_liang_art_test.gd.uid": "9959f3fa06b872f2713e627a974102a7478d5dc663c37598e73590014f2bd423",
+    "tests/capstone_liang_portrait_test.gd": "deb0791739a1e4e28337969ac8f89bb4af150fa3489a8dda4aaf73123ecc9240",
+    "tests/capstone_liang_portrait_test.gd.uid": "d71cea26c43604d21c4d210ebdfd6acafd132b20ce55bef705db97f8083cb6b0",
+    "tests/measure_liang_assets.py": "c49c7b2015c35fe8bf4152e0e1f3fda8e7a058031663ee2a413548d0bdfbb6e5",
+    "tests/painted_liang_test.gd": "251e71dadbc4013ee10fa91c27b33aeb3c8d28af0fba4dbc8c1add2f1a08adfb",
+    "tests/painted_liang_test.gd.uid": "c9a6ed67107eb8f73fc24b9ffcaa98a90c180dbff82ab6f992ad243d61e6862a"
+  },
+  "assets": {
+    "combat_sha256": "4812052ca14b016e43818713eaefe3a15ba3baa79fc421a8d40fc1e6774b5f33",
+    "portrait_sha256": "ce56fcca4b2bfaa5af6511df62b65e1463fc21437d5d452d8cb75ede00e081d3",
+    "source_pixels_modified": false,
+    "new_image_generation": false,
+    "original_images_inspected": true
+  },
+  "contract": {
+    "enemy_id": "liang_zhen",
+    "encounter_id": "capstone_authorizer",
+    "portrait_id": "liang_zhen",
+    "portrait_title_prefix": "梁缜",
+    "backdrop": "archive",
+    "archive_plaque": "霜桥印台",
+    "stationary_npc_idle_height": 72,
+    "uniform_battle_scale": "204/512",
+    "visible_idle_height": 181.2890625,
+    "no_walking_cycle": true,
+    "old_style_map_unchanged": true
+  },
+  "tests": {
+    "painted_liang_test": {
+      "status": "passed",
+      "log": "painted_liang_test.log",
+      "summary": "PASS: six unique keys, independent regions, pose priority, cache, unknown fallback, anchor mapping, uniform anatomical scale, 72px idle NPC, no walk alias"
+    },
+    "capstone_liang_art_final_test": {
+      "status": "passed",
+      "log": "capstone_liang_art_final_test.log",
+      "summary": "PASS: 147355 capstone original-atlas/current-event/pose/target/label/feet checks; prepared render fixtures only"
+    },
+    "capstone_liang_portrait_test": {
+      "status": "passed",
+      "log": "capstone_liang_portrait_test.log",
+      "summary": "PASS: exact separately authored Liang portrait, cached full region, title mapping, unrelated-key rejection, old four portrait parity and96/160/224px non-intercepting attachment"
+    },
+    "painted_duhui_test": {
+      "status": "passed",
+      "log": "painted_duhui_test.log",
+      "summary": "PASS: Du Hui six unique authored keys, 3x2 regions, >=28px visible gutters, measured chest/weapon/foot mapping, pose priority, cache, unknown fallback, no walk aliases, 150-190px native visible bounds"
+    },
+    "automatic_party_battle_art_test": {
+      "status": "passed",
+      "log": "automatic_party_battle_art_test.log",
+      "summary": "PASS: 37175 automatic renderer fact/entitlement/round/pose/geometry checks; 171 headless canvas frames"
+    },
+    "party_battle_art_test": {
+      "status": "passed",
+      "log": "party_battle_art_test.log",
+      "summary": "PASS: 11032 party battle art transaction/motion/geometry/cancellation checks; 273 headless draw frames"
+    },
+    "party_battle_backdrop_test": {
+      "status": "passed",
+      "log": "party_battle_backdrop_test.log",
+      "summary": "PASS: 1345 contextual background/shared scheduler checks: all12 rendered encounters,1–4 actors,both formations"
+    },
+    "warehouse_backdrop_polish_test": {
+      "status": "passed",
+      "log": "warehouse_backdrop_polish_test.log",
+      "summary": "PASS: 4423 warehouse style/geometry/cache/analytic-gradient checks; native pixel acceptance is separate"
+    },
+    "heting_consignee_art_test": {
+      "status": "passed",
+      "log": "heting_consignee_art_test.log",
+      "summary": "PASS: 28851 consignee original-atlas/current-event/pose/target/label/feet checks; prepared render fixtures only"
+    },
+    "painted_battle_integration_test": {
+      "status": "passed",
+      "log": "painted_battle_integration_test.log",
+      "summary": "PASS: painted hero follows actual combat poses without changing accepted results"
+    },
+    "legacy_geometry_parity": {
+      "status": "passed",
+      "log": "legacy_geometry_parity.log",
+      "summary": "PASS: 368826 headless legacy geometry/event parity checks across8056 matched states; all11 original encounters,1–4 actors,both formations,three rounds. No pixel comparison."
+    }
+  },
+  "final_editor_import": "passed",
+  "read_only_pixel_measurement": "passed",
+  "legacy_source_parity": "legacy_source_parity.json",
+  "scope_limits": [
+    "Prepared renderer fixtures and accepted model transactions are not earned game-scene evidence.",
+    "Legacy parity is source-path plus geometry/event parity; no native framebuffer comparison in this worker.",
+    "Real native scene, final dialogue input, audible audio, performance, source-wide/package gates and publication remain separate."
+  ],
+  "superseded_checks": {
+    "import.log": "First editor import occurred while lead main preload preceded story file creation; final-import.log supersedes it and is clean.",
+    "capstone_liang_art_test.initial-roster-fixture.log": "Adding solo/two-member terminal-win render coverage exhausted the inherited500HP fixture. Explicit10000HP prepared fixture was added only in this art test; no game stats changed. Final all-roster test passes."
+  },
+  "publication_actions": false,
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/art/integration-report.json",
+    "sha256": "b634a2e36e7515d44778936e836c20a3390337ea7b9a0c3bdcdba317213e2181",
+    "bytes": 7949
+  }
+}

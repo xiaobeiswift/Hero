@@ -65,6 +65,12 @@ func _prepared(id:String,count:int=1):
 				check(s.observe_consignee(observation),"Actual solo observation "+observation)
 			check(s.resolve_consignee_contradiction("order_before_inspection").ok,"Actual contradiction resolution")
 			check(s.choose_consignee_plan("hold_for_inspection"),"Actual reversible draft before battle")
+		"capstone_authorizer":
+			s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
+			s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries"
+			# Explicit complete-prior-story rendering fixture, not an earned journey.
+			s.consignee_stage=5;s.consignee_observations.assign(s.Consignee.OBSERVATIONS);s.consignee_draft="hold_for_inspection";s.consignee_ending="hold_for_inspection";s.consignee_cargo_location="public_scale"
+			s.capstone_stage=3
 	s.map_id=Encounters.LOCATIONS[id][0];s.position=Vector2(420,450)
 	check(s._stage_save_data(s.to_dict(),State.SAVE_VERSION).ok,"Prepared %s state is canonical"%id)
 	return s
@@ -121,6 +127,10 @@ func _run()->void:
 			var next = _button(app.overlay,"复签应战准备")
 			check(next != null,"Harbor retains explicit optional receipt entry")
 			if next != null: await _click(next)
+		if kind == "capstone_authorizer":
+			var preparation = _button(app.overlay,"查看应战准备")
+			check(preparation != null,"Capstone retains explicit preparation after confrontation")
+			if preparation != null: await _click(preparation)
 		await _key(KEY_1)
 		var panel=app.overlay.get_meta("party_battle") if app.overlay.has_meta("party_battle") else null
 		check(panel!=null and app.current_screen=="party_battle","Actual dialogue enters same controller: "+kind)
@@ -279,8 +289,8 @@ func _legacy_route_guard()->void:
 	_setup("training",1)
 	var boundary_state: Dictionary = s.to_dict()
 	var boundary_writes: int = s.writes
-	check(not CombatUI.ENCOUNTER_TITLES.has(PhaseOneBoundary.MODEL_ONLY_ID),"New capstone model has no falsely advertised scene/art registration")
-	check(CombatUI.open(app,PhaseOneBoundary.MODEL_ONLY_ID)==null and s.to_dict()==boundary_state and s.writes==boundary_writes,"Model-only scene request rejects before autosave, resources or controller entry")
+	check(CombatUI.ENCOUNTER_TITLES.has(PhaseOneBoundary.CAPSTONE_ID),"Capstone original scene registration is complete")
+	check(CombatUI.open(app,PhaseOneBoundary.CAPSTONE_ID)==null and s.to_dict()==boundary_state and s.writes==boundary_writes,"Wrong-stage/site capstone request rejects before autosave, resources or controller entry")
 	check(not app._start_unified_battle("unknown") and app.current_screen=="explore" and not s.battle_active,"Unknown scene route never opens fallback battle")
 
 func _viewport_input_matrix()->void:

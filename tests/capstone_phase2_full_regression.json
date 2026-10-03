@@ -1,0 +1,158 @@
+{
+  "candidate": "0.0.29",
+  "save_schema": 15,
+  "acceptance": {
+    "before_manifest": {
+      "path": "Hero-staging/capstone-phase3/aggregate/full-01-before.json",
+      "sha256": "d5e30d1b58dc5454902bbe8b30e5c83cf0d46a24f349f91879b7ec7abf49d516",
+      "bytes": 122013
+    },
+    "compared_preexisting_files": 1101,
+    "known_evidence_additions": {
+      "status": "New QA evidence-only documents were added by finishing package worker just after the aggregate before-snapshot; no runtime, executable test, fixture, tool or configuration mutation reported. Preserve strict raw before/after result and do not claim the entire tree was unchanged.",
+      "files": [
+        {
+          "path": "tests/capstone_package_audit_preparation.json",
+          "bytes": 5286,
+          "sha256": "82a6f128891edb4d7ad75a3ee44a8866cfaf43f3380c2d1d026cd0962b996c4b"
+        },
+        {
+          "path": "tests/capstone_package_audit_report.md",
+          "bytes": 6222,
+          "sha256": "e397bc4a615ac162e89b667983b476b9b7f9965655ff3efeda52a2fa24f959e2"
+        }
+      ],
+      "scope": "These are newly written human-readable audit reports, not runtime/test drivers or historical fixture inputs. Final acceptance must separately verify unchanged executed inputs and disclose these additions; otherwise repeat the full gate."
+    },
+    "qa_literal_reference_scan": {
+      "matches": []
+    },
+    "note": "No inference of whole-tree stability. All1101 original aggregate inputs must remain byte-identical. The two exact QA report additions and only the separately reviewed, deterministic import-created fixture UID have distinct explicit lead-acceptance flags; other additions or changed prior inputs are rejected.",
+    "status": "passed_scoped_execution_input_stability",
+    "blocker": null,
+    "accepted": true,
+    "raw_result": {
+      "exit_code": 0,
+      "seconds": 1041.493,
+      "source_files_compared": 1101,
+      "source_changed": [
+        "tests/capstone_package_audit_preparation.json",
+        "tests/capstone_package_audit_report.md",
+        "tests/capstone_package_fixture_producer.gd.uid"
+      ],
+      "godot_commands": 172,
+      "python_tests": 77,
+      "engine_errors": 0,
+      "log_sha256": "58bb4c98fd059996efa667af9189ffdc056f61da4b9764c97f56655a2f287238",
+      "runner_sha256": "b535329126530a8c5749aa6c27802685fd169691014b79e5813007292e616574",
+      "old_cloud_web25_pck_enabled": true,
+      "old_cloud_web28_pck_enabled": true,
+      "game_version": "0.0.29",
+      "save_schema": 15,
+      "scope": "Complete capstone source suite including actual twelve-route scene and separate real battle interruption scripts; exact new PCK and independent Windows/browser gates remain separate"
+    },
+    "raw_result_ref": {
+      "path": "Hero-staging/capstone-phase3/aggregate/full-01-result.json",
+      "sha256": "51135de1bdc0059726b4953a31e17f152be28f28e84ce8cdf21754190f3caf0a",
+      "bytes": 819
+    },
+    "strict_wrapper_status": "nonzero_due_to_source_delta",
+    "final_counts": {
+      "godot_commands": 172,
+      "python_tests": 77,
+      "node_mock_dom_checks": 53,
+      "earned_scene_checks": 48348,
+      "earned_routes": 12,
+      "interruption_checks": 1916,
+      "interruption_boundaries": 2,
+      "full_old28_pck_rejection_checks": 9,
+      "full_old25_pck_rejection_checks": 11
+    },
+    "lead_explicit_evidence_only_acceptance": true,
+    "observed_additions": [
+      "tests/capstone_package_audit_preparation.json",
+      "tests/capstone_package_audit_report.md",
+      "tests/capstone_package_fixture_producer.gd.uid"
+    ],
+    "lead_explicit_generated_fixture_uid_acceptance": true,
+    "independent_final_binding_proof": {
+      "status": "exact_independent_proof_verified",
+      "review_artifacts": [
+        {
+          "path": "capstone-phase3/independent-final-binding/FINDINGS.json",
+          "sha256": "10bad1a203db0421112a794abefff95af55c5e9b673bdf9adba40843e1660253",
+          "retained_name": "capstone_phase2_final_binding_findings.json"
+        },
+        {
+          "path": "capstone-phase3/independent-final-binding/CURRENT-INVENTORY.json",
+          "sha256": "f89918e4c0d869085941e4dd9f87e46e9d6228b415dcefb4a95236913c8bad48",
+          "retained_name": "capstone_phase2_final_binding_inventory.json"
+        },
+        {
+          "path": "capstone-phase3/independent-final-binding/REVIEW.md",
+          "sha256": "efa5299f7839ef1a288615ce29811c9d3afcbc5be0be9ed56647a356686c4cf2",
+          "retained_name": "capstone_phase2_final_binding_review.md"
+        },
+        {
+          "path": "capstone-phase3/independent-final-binding/verify_binding.py",
+          "sha256": "65f2d3077c8eb9c6bb87071fdb0d073028cffbd74ead416a1f70f1c7ef7e28bb",
+          "retained_name": "capstone_phase2_final_binding_verifier.py.txt"
+        }
+      ],
+      "original_aggregate_inputs": 1101,
+      "package_inputs": 381,
+      "native_inputs": 440,
+      "exact_generated_uid": {
+        "path": "tests/capstone_package_fixture_producer.gd.uid",
+        "sha256": "96cfb722920f3d1935a6c3a7bbe354f545a442196e14f7932e930ddc82b06311",
+        "bytes": 18
+      },
+      "writer_attribution": "Strong engine-import inference, not a captured OS process-write trace",
+      "uid_consumption": "Godot resource identity machinery consumes this metadata; no inventoried executable/config literal reference or identity collision was found.",
+      "source_additions": [
+        {
+          "path": "tests/capstone_package_audit_preparation.json",
+          "sha256": "82a6f128891edb4d7ad75a3ee44a8866cfaf43f3380c2d1d026cd0962b996c4b",
+          "bytes": 5286,
+          "mode": "0o644",
+          "mtime_utc": "2026-10-03T08:49:22.102846+00:00",
+          "ctime_utc": "2026-10-03T08:49:22.102846+00:00"
+        },
+        {
+          "path": "tests/capstone_package_audit_report.md",
+          "sha256": "e397bc4a615ac162e89b667983b476b9b7f9965655ff3efeda52a2fa24f959e2",
+          "bytes": 6222,
+          "mode": "0o644",
+          "mtime_utc": "2026-10-03T08:49:22.109476+00:00",
+          "ctime_utc": "2026-10-03T08:49:22.109476+00:00"
+        },
+        {
+          "path": "tests/capstone_package_fixture_producer.gd.uid",
+          "sha256": "96cfb722920f3d1935a6c3a7bbe354f545a442196e14f7932e930ddc82b06311",
+          "bytes": 18,
+          "mode": "0o644",
+          "mtime_utc": "2026-10-03T08:48:43.888405+00:00",
+          "ctime_utc": "2026-10-03T08:48:43.888405+00:00"
+        }
+      ],
+      "limits": [
+        "Endpoint content hashes and original mtimes are evidence of stability, not continuous filesystem tracing.",
+        "The UID is consumed by Godot metadata machinery; do not call it wholly unconsumed.",
+        "The entire source tree, all .godot state, external engine/environment and old build files were not inventoried by full-01.",
+        "Native and package manifest matches establish those recorded inputs only.",
+        "No final frozen PCK, Windows, browser, publication or export approval is established."
+      ],
+      "lead_decision": "The lead explicitly accepted only these three exact additions while retaining the raw strict failure. The independent reviewer recommends but does not grant acceptance."
+    },
+    "source_wide_tree_unchanged": false,
+    "final_log": {
+      "path": "Hero-staging/capstone-phase3/aggregate/full-01.log",
+      "sha256": "58bb4c98fd059996efa667af9189ffdc056f61da4b9764c97f56655a2f287238",
+      "bytes": 3615597
+    }
+  },
+  "scope": "Source checkpoint only. Exact new PCK6374, independent Windows package, site rollout, browser graphics/audio/storage are separate and pending.",
+  "live_version_unchanged": "0.0.28 · Web1 / schema14",
+  "browser_file_transfer_enabled": false,
+  "later_retention_changes": "Only the separately inventoried QA documents and three exact PNG copies from this retention action follow aggregate/native/package execution; no executable/runtime/config/fixture change."
+}

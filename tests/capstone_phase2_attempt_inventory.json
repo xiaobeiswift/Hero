@@ -1,0 +1,1780 @@
+{
+  "scope": "Original evidence is retained in staging without cleanup or overwrite. Hash inventory includes earlier failed/incomplete and superseded attempts; listing never converts them to passes.",
+  "artifacts": [
+    {
+      "path": "Hero-staging/capstone-phase2/art/asset-measurements.json.log",
+      "sha256": "c8536c41cbefc4f8152df924050384ed9a89548a6cd3e2557ff8e903f9cbd183",
+      "bytes": 4448
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/automatic_party_battle_art_test.log",
+      "sha256": "6062111c1a2b85ea10e3c733f9541885b6e0da554a5a40eff7bb2e99038e8153",
+      "bytes": 176
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/capstone_liang_art_final_test.log",
+      "sha256": "5b095a9d2d49827e36555b34e5a7642b37fd28797e8a0337b1fa57cfe5c73744",
+      "bytes": 185
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/capstone_liang_art_test.initial-roster-fixture.log",
+      "sha256": "3a4993bd28568f2146498a47925c06d0c954ebd55fb6d90988462fb5dbe45fa6",
+      "bytes": 2581
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/capstone_liang_art_test.log",
+      "sha256": "644b1f8032942749611108e1b57bc27770fc5356e877a6a93c33e7bf683095fb",
+      "bytes": 185
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/capstone_liang_portrait_test.log",
+      "sha256": "e2e04dc37a17f319bbb655d726d1559b5d5f0ecd3720dded833a297f8f9dde9c",
+      "bytes": 250
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/final-import.log",
+      "sha256": "9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f",
+      "bytes": 1017
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/heting_consignee_art_test.log",
+      "sha256": "9b5b4ab8f8b44a691f0ece00c569e0c7f61d973f170d833c45d2fc8b8f992884",
+      "bytes": 185
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/import.log",
+      "sha256": "e872bbc12f3abdee8727a8365e02aef6470a25071e67303f9899cd841404ade2",
+      "bytes": 1697
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/integration-report.json",
+      "sha256": "b634a2e36e7515d44778936e836c20a3390337ea7b9a0c3bdcdba317213e2181",
+      "bytes": 7949
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/legacy_geometry_parity.log",
+      "sha256": "2ee285372c9bcfbe635fdb1d52c55654a639151f94c61f99a92cefcbdca6109e",
+      "bytes": 248
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/legacy_source_parity.json",
+      "sha256": "85527aea5428d4898f1ff3e0c9321d67c5d8c10b7068ae1cbd795e7ab8dc1e87",
+      "bytes": 1424
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/painted_battle_integration_test.log",
+      "sha256": "225ebebc84a71b678991f9999d9af22bdbf76fac69a2ec5094d83b7894d53f78",
+      "bytes": 154
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/painted_duhui_test.log",
+      "sha256": "d40caa742cee4ae353062d0def1246bcd892a052a980aa07c104deb304049a60",
+      "bytes": 274
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/painted_liang_test.log",
+      "sha256": "5e6180ecad2eac86ef129655ebbfe718c4d7a05bb2d55d2d773bc3e83ee9c330",
+      "bytes": 228
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/party_battle_art_test.log",
+      "sha256": "668ce37fa0ddb72ebde194d60f9191185bdec3033691e4d8997ec4520d779806",
+      "bytes": 176
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/party_battle_backdrop_test.log",
+      "sha256": "cf2e852bb36d37c354ff6619b403c6220ed67b1bc04413ff21bce38ac032befc",
+      "bytes": 186
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/art/warehouse_backdrop_polish_test.log",
+      "sha256": "5d2e8ef9a641d9e9eaac54814b8d104b2b980bb6fa2610fc9c81381e84177022",
+      "bytes": 177
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-continuity/continuity-probe.log",
+      "sha256": "c861f4a8135c15d0f266dcbc0c8b8471e24f224cdd16913798e9c82c4b3ce5cf",
+      "bytes": 240
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-continuity/reward-cap-after-fix.log",
+      "sha256": "d1e8430704ba2b3687410e0700240a01a077f3eb574a55bec87dd04537dbe638",
+      "bytes": 698
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-continuity/reward-cap-before-fix.log",
+      "sha256": "81bac44f7e9e165f1ac7035172dbd61b6e43f8f4906723489bbd719565bd2050",
+      "bytes": 647
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-continuity/reward-cap-probe.log",
+      "sha256": "81bac44f7e9e165f1ac7035172dbd61b6e43f8f4906723489bbd719565bd2050",
+      "bytes": 647
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-continuity/source-binding.json",
+      "sha256": "c3e7f6eabe35741281c7a0cf5e53e9a38f7bfa20a44616666e9b1fa7d6c05b03",
+      "bytes": 3581
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/all-routes.json",
+      "sha256": "0c6ef12904e3f58163b221303110d2bfffc0f629fcfe8a2bb3f4072096b4e9f7",
+      "bytes": 588298
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/all-routes.log",
+      "sha256": "eccce24e35412120b19aa8a18642122e32297b74757cbe0217a7756612c45be2",
+      "bytes": 113402
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/completion-inventory.json",
+      "sha256": "16151b98eaa6901f4e6c2d0d1f85dec16b4a6828b3f12f4118da4d49a0d3d6a9",
+      "bytes": 12388
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/interruptions.json",
+      "sha256": "2bcb870d034ba735c8c2da023dc6534544ab80ef96c79cdb714b0ae5ab67be06",
+      "bytes": 34922
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/interruptions.log",
+      "sha256": "8b449561980fb6ebe417041f576d727b5a1222352154e75ee31a93a65c7442f7",
+      "bytes": 3522
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/solo-first.json",
+      "sha256": "7d75ec7941d84231409f6c6d8f37b12fed00b647b62c8e8156c394a0ba578aab",
+      "bytes": 49717
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/independent-scene/solo-first.log",
+      "sha256": "5269232efed79fa06e56ed1abea4e82cb7c9b3fb0b5442977db6401a71da4b8a",
+      "bytes": 10126
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_independent_schema_test-finalcompat.log",
+      "sha256": "3d04493eaac2fbec751770bda9f74b44cedfbca3fadf7e468431d86a12cbbba6",
+      "bytes": 999
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_independent_state_test-finalcompat.log",
+      "sha256": "7eb46bad0aa0ce98feaf7f2f089db3dc7be8b22b96f45621910da975392e0bca",
+      "bytes": 121
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_model_presentation_boundary_test-01.log",
+      "sha256": "08b6bea52f6bb583dfd2092456caae40e844da4c3b91877f942ed83de7c36593",
+      "bytes": 173
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_rules_test-02.log",
+      "sha256": "a29d81174de0ed425ab527c08aa84035a924f9e7e03c697b11c5e172f41d8417",
+      "bytes": 177
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_schema_test-finalcompat.log",
+      "sha256": "e9f7efe0c6075b8960b934cf2583868c6f80949cc46889f70a737104fe5c791a",
+      "bytes": 276
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/capstone_state_test-finalcompat.log",
+      "sha256": "eecf9d266d70835d300c5ac840bf0e8bd7c26241ea191270f3e62f9275e321cb",
+      "bytes": 243
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/frostbridge_ui_test-02.log",
+      "sha256": "918b9119c3ad02b3fbbba7659fa6edfd198b6652113e5f1d7a6eebc03ff20b48",
+      "bytes": 105
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/heting_consignee_rules_test-02.log",
+      "sha256": "28c98b7a2dd747e688457cc164e1fbee44d6e543cda563c5f9817795b7d4b7e1",
+      "bytes": 124
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/heting_consignee_scene_test-compat01.log",
+      "sha256": "caa413ed59b99f0fb563e7bc298335d14f59b0b137e3ac4908a2021daaa5ebad",
+      "bytes": 1656
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/heting_consignee_story_test-02.log",
+      "sha256": "0008ac9bafd9e076fb39051123836caeb283af08a645d069fdc5584bebe23126",
+      "bytes": 175
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/import01.log",
+      "sha256": "877c5db42b3b2418d541b1c0d2b26b1e3afa3af60836d11cf20423d8050c061b",
+      "bytes": 2596
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/receipt-continuity01.log",
+      "sha256": "3371e08f1ac366d0e926216451d807e7ab475dd5085396ebcddb2e9934c335ff",
+      "bytes": 679
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/receipt-continuity02.log",
+      "sha256": "c3355bf397b5577d09f0fc3150b85a1ea3388e9c4231f140920755e5fe7a3b79",
+      "bytes": 179
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/save_transfer_independent_test-finalcompat.log",
+      "sha256": "e258040558c16266bd2ede976a69cfcfd659af76b7fd8430a2e6c6af83f1ef63",
+      "bytes": 123
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/unified_combat_ui_test-01.log",
+      "sha256": "47007ecf5bcfbaf7d1df5417fd5862701460af5a6ba138b91c30c20cb29cb32d",
+      "bytes": 502
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/unified_combat_ui_test-02.log",
+      "sha256": "e46a255a7c325d772070929233a5b5aaf532f7d39a6d53c8893c162c2cc9b7d5",
+      "bytes": 138
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/lead-focus/unified_encounter_state_test-01.log",
+      "sha256": "99638f25aed96362de2c0afc456a0e13f281aa9838040a691aa977cd0e9e56b8",
+      "bytes": 139
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/deliverable-candidate.json",
+      "sha256": "a87b84dcbe5129c7958fc37ca14620d7761c013b97a76316d92252fa3cc87525",
+      "bytes": 1979
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/driver-validation/capture-progress.json",
+      "sha256": "05705ebd1e9aae6c4044396784efae09ce0021b368f2a9722f3cf9b6241a3654",
+      "bytes": 992046
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/driver-validation/capture-trace.json",
+      "sha256": "dc3522592471c96bfcb0d178d23d890bd0299bbd4a82ffc79ae0703c6eabee15",
+      "bytes": 2715159
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/driver-validation/engine.log",
+      "sha256": "77784b0bd1aaf71e466972872d29db32ada886fe058c96e872a9d604944e2d57",
+      "bytes": 129
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/driver-validation-source.json",
+      "sha256": "14625c20789a409f3ceda65e95694038abd623f6686293f893df9bc1df940007",
+      "bytes": 22982
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/capture-progress.json",
+      "sha256": "d5d6d49932e3fe262f5238c9ae4c23f8e8e87159987d7675b805d79e36c1497b",
+      "bytes": 995725
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/capture-trace.json",
+      "sha256": "9c3e3ed741ce127ca744303930952be21bc277975217dad23521f0887df3405e",
+      "bytes": 2749184
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/engine.log",
+      "sha256": "b1d04700764be625d9bcc434c5af728e6c5a41fc5b4e3cf7cfef2d6f50751689",
+      "bytes": 424
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/review.json",
+      "sha256": "ec6e0046a7e198a151e2b0ad9f4c419e329ee1aeeecbbe1d1231a30799693853",
+      "bytes": 6818
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills-source.json",
+      "sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
+      "bytes": 53294
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary/capture-progress.json",
+      "sha256": "8325549a30a97d2160fffe3959a6a25d30630af7ec0bb29c0461cccc2afe9950",
+      "bytes": 58914
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary/engine.log",
+      "sha256": "ad4e33ac89a37c154a7472d2922e108638abb46b322afcfb0051abcd6a4b2ffd",
+      "bytes": 4035
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native/capture-progress.json",
+      "sha256": "bf78f919a577d225c6ba1ec915590490469889009276ebaa106336059e011d4c",
+      "bytes": 142591
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native/engine.log",
+      "sha256": "4683463d28bc967ecdce77f0ab676f4bd3d09b702cbaba0505f391bb046ee181",
+      "bytes": 735
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native2/capture-progress.json",
+      "sha256": "f13bb40b97d03b6f710adfaf8ba1a686f43878a1eb52990a585d4c19c623fb85",
+      "bytes": 992666
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native2/capture-trace.json",
+      "sha256": "b7b95590dc099f041e65362c628e819510d7f0cdf72233a97a929a834d237b75",
+      "bytes": 2715790
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native2/engine.log",
+      "sha256": "dc88c696768e4d6dad6c9e3b85643ea1869d3a7f0e9a99825c87d9525aa24ed0",
+      "bytes": 424
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-native2-source.json",
+      "sha256": "14625c20789a409f3ceda65e95694038abd623f6686293f893df9bc1df940007",
+      "bytes": 22982
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary-source.json",
+      "sha256": "1c1deb21ea8cdb9deeb48cb6cc2a5379e357f88a0d2de5e32dc0c9711ac8e971",
+      "bytes": 22982
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary2/capture-progress.json",
+      "sha256": "e9b6a276a03d87f9d01706bf21165fca89702cf6d8b30c7c2077e15594327523",
+      "bytes": 925201
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/preliminary2/engine.log",
+      "sha256": "7153a5c5e94719718daf53f956da93f2845074eebe656c115d137665f8153823",
+      "bytes": 355
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/uid-generation/engine.log",
+      "sha256": "9eed0f826097e83c7f607caad04a71c955d94c9c57406708288a6b1e61883f5e",
+      "bytes": 92
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/PACKAGE-AUDIT-REPORT.json",
+      "sha256": "82a6f128891edb4d7ad75a3ee44a8866cfaf43f3380c2d1d026cd0962b996c4b",
+      "bytes": 5286
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/bootstrap/fixture-generation.log",
+      "sha256": "a07a2d3d3282be317ff45e26fbe9f258366684506b0612b44c7599ecc333526e",
+      "bytes": 356
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/python-all-01.log",
+      "sha256": "c36956f4f519c6f2895d9997cb683d0b43406469e0618b2f3c63084bf3b3b35f",
+      "bytes": 12981
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/python-initial-pending-counts.log",
+      "sha256": "d9361a79838b443c6fcf712ff4a3678d6ec45c5c6d81fa54bd14e23c257a11f2",
+      "bytes": 6263
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/python-measured-01.log",
+      "sha256": "4977d471f0b38118b5c374250907c2ce50e02d093356eb4d8e6da4d84c04aa4a",
+      "bytes": 3525
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/python-portability-01.log",
+      "sha256": "b651208a6cc0c61dd168c2f6f331c0305fa84e728f919d66a45ac80b2d4c60c9",
+      "bytes": 1232
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01/SOURCE-AFTER.json",
+      "sha256": "c8b42af9cdf2dd70bfc164fc54917df04accd7461776fee4466b62d2bbf998a2",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01/SOURCE-BEFORE.json",
+      "sha256": "c8b42af9cdf2dd70bfc164fc54917df04accd7461776fee4466b62d2bbf998a2",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01/SOURCE-REHEARSAL.json",
+      "sha256": "33afb9d82660a374319a40f971a527bebbcb9a67f5247b8d4c4001bda25c651b",
+      "bytes": 1180
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01/SOURCE-REHEARSAL.log",
+      "sha256": "85c444fc5a1fcbc09d77f6e843c4e0d3d97259c71ca18decde7d6353e82bfe3b",
+      "bytes": 3962
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01/web-smoke-data/godot/app_userdata/Hero · 渡灯录/logs/godot.log",
+      "sha256": "9042ae8db00cd6172ade7eaa42d31be8a0a91256f201f1a7b60eae29ee284f6f",
+      "bytes": 3794
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-01-console.log",
+      "sha256": "eb060acbf85413f27e3bfa286892dbf5487b4476752afbdf71a14fdfb7d7a9ad",
+      "bytes": 5060
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/SOURCE-AFTER.json",
+      "sha256": "612ebafa63d3729de871881469cb1f687f5a76efbecaed5b40cb8ad77e3f6257",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/SOURCE-BEFORE.json",
+      "sha256": "612ebafa63d3729de871881469cb1f687f5a76efbecaed5b40cb8ad77e3f6257",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/SOURCE-REHEARSAL.json",
+      "sha256": "ce3d40d276a2d62c8a07aed58e67856f10b8ca36f9e04fe4a035361e89630430",
+      "bytes": 1180
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/SOURCE-REHEARSAL.log",
+      "sha256": "056444292c8210e164d0a3562fc44067725c74f34392740a1893aaabd843cb0c",
+      "bytes": 4970
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-10.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-11.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-12.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-13.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-14.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-2.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-3.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-4.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-5.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-6.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-7.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-8.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-9.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-true15-old14-reject.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-10.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-11.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-12.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-13.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-2.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-3.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-4.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-5.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-6.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-7.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-8.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-9.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-real14-reader-rejection.json",
+      "sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "bytes": 1771
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_save.json",
+      "sha256": "99cadbe537e27aa85162ac95c62534f393203d447f34dfb2f4f735c93abc8fdb",
+      "bytes": 2171
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_1.json",
+      "sha256": "acf705396a4f9c7fe55a9ff0175b0486a021b6bea2781317e9294b70dcdc250d",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_2.json",
+      "sha256": "741cbeeee0bcc235101f39e16e5f3f77444f4127b2268c63cce34b61c8e69ec2",
+      "bytes": 1964
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_3.json",
+      "sha256": "bb692705b7bbdf23534bcae94dd86af56a0292515f8225eddc72b822e9e367d9",
+      "bytes": 1964
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/logs/godot.log",
+      "sha256": "056444292c8210e164d0a3562fc44067725c74f34392740a1893aaabd843cb0c",
+      "bytes": 4970
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/receipt-schema-audit.json",
+      "sha256": "290517859af4a131ea5300e0d1ce8f6b1e5681a01b9a34ce733194706b8f8636",
+      "bytes": 1647
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/schema12-party-audit.json",
+      "sha256": "8da33ecaf678338614b87863579e93ab08d7d8c2850ae27f045d8f86e97ff50c",
+      "bytes": 1688
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-001-schema1/hero_slot_1.json",
+      "sha256": "536ad28e7996581fe0defe1b7a331eba0e3ceff39d8942ae4aa60cc3d20eda94",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-002-schema2/hero_slot_1.json",
+      "sha256": "99bddccedb6ba9a2a75905cc85a42544fe80dba58e39fd37b3543de9c41d8f65",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-003-schema3/hero_slot_1.json",
+      "sha256": "1bc10fdc4c0fbf62dda793e94e7ca41caf3539c5b88e5ef7931ccbcdae5bed67",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-004-schema4/hero_slot_1.json",
+      "sha256": "738aad50798f6f04124ab743ec952fb3258a58e3d3778b0b9e09b96c29528965",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-005-schema5/hero_slot_1.json",
+      "sha256": "872ca6f9cf2e9be2199628bff79af675892b3f58312fcf1ede44f2153fb73652",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-006-schema6/hero_slot_1.json",
+      "sha256": "3b2c06a065fac00896900a6e5ae32d5356ab410e57cc0bc820aea7170d41e22e",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-007-schema7/hero_slot_1.json",
+      "sha256": "958b64b455c8bacb263b3b77920b5cd6a49fdadf5ec643a543339b55c3b84534",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-008-schema8/hero_slot_1.json",
+      "sha256": "7b0ba9e42c8b516dfcd4df747582a39015230fbbe5681d1f13bdfc8eb199e940",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-009-schema9/hero_slot_1.json",
+      "sha256": "fe237f95f4ba96ac814dc1dc2717338204eb6de91c15f139039c9f41384de41a",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-010-schema10/hero_slot_1.json",
+      "sha256": "1987caf39da70b1ddbf3de7f4270a4b06573874c00f29d225d98e4284a14bca5",
+      "bytes": 1593
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-011-schema11/hero_slot_1.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-012-schema12/hero_slot_1.json",
+      "sha256": "0e9de4a832908cb2215e24cc1e0a5c3d5cd81b71a0356e69bf54baecfba907c8",
+      "bytes": 1739
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-013-schema13/hero_slot_1.json",
+      "sha256": "c776ed9f83ffda308bed31ffc8ee777d49aef9b6be6fd79dba9dfb60befba918",
+      "bytes": 1771
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-014-schema14/hero_slot_1.json",
+      "sha256": "d056a01d78c9055b5fe5819431e99a6f6a0a62ba3c44e8bb0d77c6bb03ea0d7a",
+      "bytes": 1957
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_save.json",
+      "sha256": "536ad28e7996581fe0defe1b7a331eba0e3ceff39d8942ae4aa60cc3d20eda94",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_1.json",
+      "sha256": "99bddccedb6ba9a2a75905cc85a42544fe80dba58e39fd37b3543de9c41d8f65",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_2.json",
+      "sha256": "1bc10fdc4c0fbf62dda793e94e7ca41caf3539c5b88e5ef7931ccbcdae5bed67",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_3.json",
+      "sha256": "738aad50798f6f04124ab743ec952fb3258a58e3d3778b0b9e09b96c29528965",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-025-manual-target/hero_slot_1.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-026-manual-target/hero_slot_2.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-027-manual-target/hero_slot_3.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-028-occupied/hero_slot_1.json",
+      "sha256": "3268f999a7ce2e0ce98dc42a105faa8c3e4e792184a3b2504d6a9b9b0729fe9a",
+      "bytes": 26
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-036-bad-source/hero_slot_1.json",
+      "sha256": "e83397f1890e640142e099df3c745902d2802212d5c6fa0e50a610422ed1c3c4",
+      "bytes": 14
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-037-tokens/hero_slot_1.json",
+      "sha256": "0180744623b588437ef4f127b8c61abb8ff710853d3914f59a98d717d3bcb3f0",
+      "bytes": 14
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-038-io-create/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-038-io-create/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-039-io-open/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-039-io-open/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-040-io-write/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-040-io-write/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-041-io-flush/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-041-io-flush/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-042-io-readback/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-042-io-readback/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-043-io-occupied/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-043-io-occupied/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-044-io-rename/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-044-io-rename/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_slot_1.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-046-real-ui/hero_slot_2.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-047-consignee-backup-unstarted/hero_slot_1.json",
+      "sha256": "f85c058a5ad1beb823b029c953f8e18a15becb8cd68521e58f6777db282d0625",
+      "bytes": 2070
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-047-consignee-backup-unstarted/hero_slot_2.json",
+      "sha256": "0c1632685ecd9bf013b8e1afc9c1f61dc9b6bd1c6d0ebaa6d533496b08012e33",
+      "bytes": 2070
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-048-consignee-backup-accepted/hero_slot_1.json",
+      "sha256": "d6c47411f1fa22a5ba78dc5a280831b7ed279d9585aab2d9fb96794d7575aeda",
+      "bytes": 2079
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-048-consignee-backup-accepted/hero_slot_2.json",
+      "sha256": "17de99675152ae36ca422d0c18b6a18c042613d5138f1501ffc2a7ae2ad1d9e1",
+      "bytes": 2079
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-049-consignee-backup-reversible draft/hero_slot_1.json",
+      "sha256": "f927a6160dec09ac77a62dcfbaa14a9bb98527047b5967eaba94fef1f9b95479",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-049-consignee-backup-reversible draft/hero_slot_2.json",
+      "sha256": "4f9d4ff201a30f784891a19903ae55e119516f3e4e46368ba54da56ce3de4771",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-050-consignee-backup-secured warehouse/hero_slot_1.json",
+      "sha256": "a5dbfe98121565a4c1cc6d9a6cb061049e1b15f21506df4a1b7d87d9a8bb559a",
+      "bytes": 2162
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-050-consignee-backup-secured warehouse/hero_slot_2.json",
+      "sha256": "157411bd22a1a91235ccdd111bc646f4871f67ee28bed17de8a6af1dfc543ce8",
+      "bytes": 2162
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-051-consignee-backup-loaded same lot/hero_slot_1.json",
+      "sha256": "553f6a63cd51803fe947d37071e6ba088e058394514d452a1032a2d7a3d68768",
+      "bytes": 2157
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-051-consignee-backup-loaded same lot/hero_slot_2.json",
+      "sha256": "b6b19a8c1230dc5eef18ede66647de8c6db9c67c5bee58774ce84d2c768c3236",
+      "bytes": 2157
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-052-consignee-backup-final hold_for_inspection/hero_slot_1.json",
+      "sha256": "fd105f417b6552f39c38e242fb1afba73bbc7a92d4259273e7592611d04a92f8",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-052-consignee-backup-final hold_for_inspection/hero_slot_2.json",
+      "sha256": "d45951941c92902d26da0cee4a7d26fab821099e6ab4f647bc8d6ddbf53ac1ad",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-053-consignee-backup-unstarted/hero_slot_1.json",
+      "sha256": "b401f034a9a217214bfd7998b139b3b6f9c8d62558505f8d1cc1fb58b4f27b3c",
+      "bytes": 2064
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-053-consignee-backup-unstarted/hero_slot_2.json",
+      "sha256": "eb8a997eaa05cbeeb73be508c6e67d9735dacc567eca9b2531f0f2e804d52df6",
+      "bytes": 2064
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-054-consignee-backup-accepted/hero_slot_1.json",
+      "sha256": "07e0455594bec3d8b9e5952e0ec79120297e5d1bc80fcd9e13ab957c69037fce",
+      "bytes": 2073
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-054-consignee-backup-accepted/hero_slot_2.json",
+      "sha256": "78de17a520593a242f3fe792026f82534143f2b6dcb970a73e9ba82ffc315a9d",
+      "bytes": 2073
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-055-consignee-backup-reversible draft/hero_slot_1.json",
+      "sha256": "c140e409b56e0b2da0c36de9b0c1a7b41a8f637011531f05803fd7dfb62a2a94",
+      "bytes": 2153
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-055-consignee-backup-reversible draft/hero_slot_2.json",
+      "sha256": "0396ae7b06074c14df27ca4e5822c309269a8e451e36c0133a51dae452ce7d9d",
+      "bytes": 2153
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-056-consignee-backup-secured warehouse/hero_slot_1.json",
+      "sha256": "04bcc6c51896a313cc03582e2ee5aae3a0571a926918fdd0910eaab01eb38eea",
+      "bytes": 2152
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-056-consignee-backup-secured warehouse/hero_slot_2.json",
+      "sha256": "ea1357614d30ca1bc869685ea37266dba30ad77e799f9eb04cc79d1ed017bb33",
+      "bytes": 2152
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-057-consignee-backup-loaded same lot/hero_slot_1.json",
+      "sha256": "5bb21c319195b6069aaad9fbd64bfa6886f4719111acb3892dcb35d6d921e159",
+      "bytes": 2147
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-057-consignee-backup-loaded same lot/hero_slot_2.json",
+      "sha256": "073bdbf909dcc10ed3cd4d327eb3049493f496ebc0a0694f6d3eef84ed681036",
+      "bytes": 2147
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-058-consignee-backup-final return_to_owner/hero_slot_1.json",
+      "sha256": "5e6360dcc155ba16f4b50af5596dc538ef6325103a51dec66d4b4b6cc2b07fa7",
+      "bytes": 2170
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-058-consignee-backup-final return_to_owner/hero_slot_2.json",
+      "sha256": "08402f024c5fbbcdff812fd66aa9ec22de7a31a03a041856879cc5d1a1fa293b",
+      "bytes": 2170
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-059-consignee-backup-optional tang_teach/hero_slot_1.json",
+      "sha256": "afb5ec16d9feec61df0e4dc952236d32ba16c19bc8419dbe4f37dcd16dc4c3f9",
+      "bytes": 2263
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-059-consignee-backup-optional tang_teach/hero_slot_2.json",
+      "sha256": "13e8d97514a1bea48706e04168670d231861cea767cc3d701569f30d63d22985",
+      "bytes": 2263
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-060-consignee-backup-optional tang_preserve/hero_slot_1.json",
+      "sha256": "7b6772f16c5f49fcd353c550f73c8a07f44150bcdcad0b4c8ff4eeaeaed49c88",
+      "bytes": 2269
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-060-consignee-backup-optional tang_preserve/hero_slot_2.json",
+      "sha256": "2b9e2e33bf6b2fa9f33c279bd629d09f70d0a45de523f47cb2de56aae165a5b2",
+      "bytes": 2269
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-061-consignee-backup-optional qin_timing/hero_slot_1.json",
+      "sha256": "1df989ece12f8e7b6acb7da1008568e720a70ab615ade0df1d8f120ec4375753",
+      "bytes": 2266
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-061-consignee-backup-optional qin_timing/hero_slot_2.json",
+      "sha256": "3dfced0204d8157adf0424c3b10beb6a139683075e4368feabb236345bdacfb9",
+      "bytes": 2266
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-062-consignee-backup-optional shen_shore/hero_slot_1.json",
+      "sha256": "7c35e9ae8afdb5281b1eb01143da0ab4fe65baa81d3ea25a99b9d65c967aa642",
+      "bytes": 2279
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-062-consignee-backup-optional shen_shore/hero_slot_2.json",
+      "sha256": "4c1ac8b3d59fcabc90fd28202f58c776a092b491a97b04785ea9b983f2a05d94",
+      "bytes": 2279
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-063-consignee-backup-optional shen_mobile/hero_slot_1.json",
+      "sha256": "b0811b45aa05cea71e7cd662ca847c86147da8dd8c37c098ffacb6e78689da26",
+      "bytes": 2281
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-063-consignee-backup-optional shen_mobile/hero_slot_2.json",
+      "sha256": "600fdb9f339fb81a8231628e1e87be4735058bf2530e3e289bae61a1d1f6fb8d",
+      "bytes": 2281
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-064-consignee-backup-retreat 1 actors/hero_slot_1.json",
+      "sha256": "3c2e32f5a0b9e371ebb6d1492cd930c2827913bbe85d71846a31d183935204d8",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-064-consignee-backup-retreat 1 actors/hero_slot_2.json",
+      "sha256": "a33f7fe0da25c919b201ffd20a187368c9201374335287ea70085d455e39f1d2",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-065-consignee-backup-retreat 2 actors/hero_slot_1.json",
+      "sha256": "a4a4c32d663ffb852eeba394ddf586be3fc902bb4417a5a1b0ade85220aa065e",
+      "bytes": 2223
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-065-consignee-backup-retreat 2 actors/hero_slot_2.json",
+      "sha256": "5d924bec52c21b8d69b2a0895e08d113531c2a5496d7015f5644fc69a45fec07",
+      "bytes": 2223
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-066-consignee-backup-retreat 3 actors/hero_slot_1.json",
+      "sha256": "ba3c20a85f2d9bc4bfdd42ba4e488b7b633958f37535c970865df4fbe90b5425",
+      "bytes": 2285
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-066-consignee-backup-retreat 3 actors/hero_slot_2.json",
+      "sha256": "4c4048be900732404d15f8bdcd8244365790f1aa3bcb206f2893f064724d5f95",
+      "bytes": 2285
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-067-consignee-backup-retreat 4 actors/hero_slot_1.json",
+      "sha256": "94e1d9b85a47902b3301135613b121c02b99cf5d6118f325411bae2007d6b43b",
+      "bytes": 2339
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-067-consignee-backup-retreat 4 actors/hero_slot_2.json",
+      "sha256": "36334f4812332db19b8d56aab41adda6b12b873d5137a718ca53e0f69f04f3e0",
+      "bytes": 2339
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-068-consignee-backup-defeat/hero_slot_1.json",
+      "sha256": "bd1dda850b196cb0a3e3c29568e796f656802fcd461fe08d8333e54c7980e7b7",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-068-consignee-backup-defeat/hero_slot_2.json",
+      "sha256": "62fb75cfa5412e3b276e139cea06d3a975782a47dc6ca9789771cc2312cd17be",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-069-consignee-backup-retried final reward/hero_slot_1.json",
+      "sha256": "fd105f417b6552f39c38e242fb1afba73bbc7a92d4259273e7592611d04a92f8",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-069-consignee-backup-retried final reward/hero_slot_2.json",
+      "sha256": "d45951941c92902d26da0cee4a7d26fab821099e6ab4f647bc8d6ddbf53ac1ad",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-070-capstone-schema15/hero_slot_1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-071-consignee-backup-capstone-pause_batch/hero_slot_1.json",
+      "sha256": "858038fbc57a5590f9393fcfdf49a278982e29a94dadc3122a2bfcbb8ad4a534",
+      "bytes": 2210
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-071-consignee-backup-capstone-pause_batch/hero_slot_2.json",
+      "sha256": "3bfef9e3170439d44fb71685ee3ce1acf1468d0529acc6f6116e097544a2a953",
+      "bytes": 2210
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-072-consignee-backup-capstone-cancel_proven/hero_slot_1.json",
+      "sha256": "9ddbb1e3baeafe4b730ec6d10216beaa472f8e1ed4a50d4ce60ff89b55c1ea49",
+      "bytes": 2195
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-072-consignee-backup-capstone-cancel_proven/hero_slot_2.json",
+      "sha256": "faa3f2708160bbdcc098d51d8eea8c45c6e4461d10b6ce236c4d4a2a5fa4df50",
+      "bytes": 2195
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/unified-schema13-audit.json",
+      "sha256": "94195065ee26798ff3374146f274c40659d9318f190b7bf27fd361107cbc62cc",
+      "bytes": 1482
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02/web-smoke-data/godot/app_userdata/Hero · 渡灯录/v18-migration-audit.json",
+      "sha256": "7407cbe784001637d173f8c5def59369149afc770262a0eea4459282201b66f9",
+      "bytes": 1483
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-02-console.log",
+      "sha256": "e096980a83142bdb20f72ba3ac4dcb04c3cd6355ed6226e0f36211e1301535ea",
+      "bytes": 6068
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-AFTER.json",
+      "sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-BEFORE.json",
+      "sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+      "bytes": 43458
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-REHEARSAL.json",
+      "sha256": "f502700763d208a1dc40cf30057d2359d95d76657046774495ef39a5779efc1e",
+      "bytes": 1182
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/SOURCE-REHEARSAL.log",
+      "sha256": "963d94f30f07149af0803710f01e1ab7acfb73db0476704583cb2bd7ace1cf0a",
+      "bytes": 3259
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-10.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-11.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-12.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-13.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-14.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-2.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-3.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-4.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-5.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-6.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-7.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-8.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-migrated-9.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/capstone-true15-old14-reject.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-10.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-11.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-12.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-13.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-2.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-3.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-4.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-5.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-6.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-7.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-8.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-migrated-9.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/consignee-real14-reader-rejection.json",
+      "sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+      "bytes": 1771
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_save.json",
+      "sha256": "99cadbe537e27aa85162ac95c62534f393203d447f34dfb2f4f735c93abc8fdb",
+      "bytes": 2171
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_1.json",
+      "sha256": "acf705396a4f9c7fe55a9ff0175b0486a021b6bea2781317e9294b70dcdc250d",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_2.json",
+      "sha256": "741cbeeee0bcc235101f39e16e5f3f77444f4127b2268c63cce34b61c8e69ec2",
+      "bytes": 1964
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/hero_slot_3.json",
+      "sha256": "bb692705b7bbdf23534bcae94dd86af56a0292515f8225eddc72b822e9e367d9",
+      "bytes": 1964
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/logs/godot.log",
+      "sha256": "963d94f30f07149af0803710f01e1ab7acfb73db0476704583cb2bd7ace1cf0a",
+      "bytes": 3259
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/receipt-schema-audit.json",
+      "sha256": "290517859af4a131ea5300e0d1ce8f6b1e5681a01b9a34ce733194706b8f8636",
+      "bytes": 1647
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/schema12-party-audit.json",
+      "sha256": "8da33ecaf678338614b87863579e93ab08d7d8c2850ae27f045d8f86e97ff50c",
+      "bytes": 1688
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-001-schema1/hero_slot_1.json",
+      "sha256": "536ad28e7996581fe0defe1b7a331eba0e3ceff39d8942ae4aa60cc3d20eda94",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-002-schema2/hero_slot_1.json",
+      "sha256": "99bddccedb6ba9a2a75905cc85a42544fe80dba58e39fd37b3543de9c41d8f65",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-003-schema3/hero_slot_1.json",
+      "sha256": "1bc10fdc4c0fbf62dda793e94e7ca41caf3539c5b88e5ef7931ccbcdae5bed67",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-004-schema4/hero_slot_1.json",
+      "sha256": "738aad50798f6f04124ab743ec952fb3258a58e3d3778b0b9e09b96c29528965",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-005-schema5/hero_slot_1.json",
+      "sha256": "872ca6f9cf2e9be2199628bff79af675892b3f58312fcf1ede44f2153fb73652",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-006-schema6/hero_slot_1.json",
+      "sha256": "3b2c06a065fac00896900a6e5ae32d5356ab410e57cc0bc820aea7170d41e22e",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-007-schema7/hero_slot_1.json",
+      "sha256": "958b64b455c8bacb263b3b77920b5cd6a49fdadf5ec643a543339b55c3b84534",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-008-schema8/hero_slot_1.json",
+      "sha256": "7b0ba9e42c8b516dfcd4df747582a39015230fbbe5681d1f13bdfc8eb199e940",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-009-schema9/hero_slot_1.json",
+      "sha256": "fe237f95f4ba96ac814dc1dc2717338204eb6de91c15f139039c9f41384de41a",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-010-schema10/hero_slot_1.json",
+      "sha256": "1987caf39da70b1ddbf3de7f4270a4b06573874c00f29d225d98e4284a14bca5",
+      "bytes": 1593
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-011-schema11/hero_slot_1.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-012-schema12/hero_slot_1.json",
+      "sha256": "0e9de4a832908cb2215e24cc1e0a5c3d5cd81b71a0356e69bf54baecfba907c8",
+      "bytes": 1739
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-013-schema13/hero_slot_1.json",
+      "sha256": "c776ed9f83ffda308bed31ffc8ee777d49aef9b6be6fd79dba9dfb60befba918",
+      "bytes": 1771
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-014-schema14/hero_slot_1.json",
+      "sha256": "d056a01d78c9055b5fe5819431e99a6f6a0a62ba3c44e8bb0d77c6bb03ea0d7a",
+      "bytes": 1957
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_save.json",
+      "sha256": "536ad28e7996581fe0defe1b7a331eba0e3ceff39d8942ae4aa60cc3d20eda94",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_1.json",
+      "sha256": "99bddccedb6ba9a2a75905cc85a42544fe80dba58e39fd37b3543de9c41d8f65",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_2.json",
+      "sha256": "1bc10fdc4c0fbf62dda793e94e7ca41caf3539c5b88e5ef7931ccbcdae5bed67",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-015-exports/hero_slot_3.json",
+      "sha256": "738aad50798f6f04124ab743ec952fb3258a58e3d3778b0b9e09b96c29528965",
+      "bytes": 1592
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-025-manual-target/hero_slot_1.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-026-manual-target/hero_slot_2.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-027-manual-target/hero_slot_3.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-028-occupied/hero_slot_1.json",
+      "sha256": "3268f999a7ce2e0ce98dc42a105faa8c3e4e792184a3b2504d6a9b9b0729fe9a",
+      "bytes": 26
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-036-bad-source/hero_slot_1.json",
+      "sha256": "e83397f1890e640142e099df3c745902d2802212d5c6fa0e50a610422ed1c3c4",
+      "bytes": 14
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-037-tokens/hero_slot_1.json",
+      "sha256": "0180744623b588437ef4f127b8c61abb8ff710853d3914f59a98d717d3bcb3f0",
+      "bytes": 14
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-038-io-create/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-038-io-create/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-039-io-open/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-039-io-open/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-040-io-write/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-040-io-write/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-041-io-flush/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-041-io-flush/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-042-io-readback/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-042-io-readback/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-043-io-occupied/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-043-io-occupied/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-044-io-rename/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-044-io-rename/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_save.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_slot_1.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-045-io-/hero_slot_2.json",
+      "sha256": "d1a124e7ae69cd22067211fc752144b24d8b77b1cdc75fab5c64e767cdc01148",
+      "bytes": 1617
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-046-real-ui/hero_slot_2.json",
+      "sha256": "5f57decfd9859cb54058b917bae0587f8654db1ccee050be3e97a8f5e8547592",
+      "bytes": 2035
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-047-consignee-backup-unstarted/hero_slot_1.json",
+      "sha256": "f85c058a5ad1beb823b029c953f8e18a15becb8cd68521e58f6777db282d0625",
+      "bytes": 2070
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-047-consignee-backup-unstarted/hero_slot_2.json",
+      "sha256": "0c1632685ecd9bf013b8e1afc9c1f61dc9b6bd1c6d0ebaa6d533496b08012e33",
+      "bytes": 2070
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-048-consignee-backup-accepted/hero_slot_1.json",
+      "sha256": "d6c47411f1fa22a5ba78dc5a280831b7ed279d9585aab2d9fb96794d7575aeda",
+      "bytes": 2079
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-048-consignee-backup-accepted/hero_slot_2.json",
+      "sha256": "17de99675152ae36ca422d0c18b6a18c042613d5138f1501ffc2a7ae2ad1d9e1",
+      "bytes": 2079
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-049-consignee-backup-reversible draft/hero_slot_1.json",
+      "sha256": "f927a6160dec09ac77a62dcfbaa14a9bb98527047b5967eaba94fef1f9b95479",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-049-consignee-backup-reversible draft/hero_slot_2.json",
+      "sha256": "4f9d4ff201a30f784891a19903ae55e119516f3e4e46368ba54da56ce3de4771",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-050-consignee-backup-secured warehouse/hero_slot_1.json",
+      "sha256": "a5dbfe98121565a4c1cc6d9a6cb061049e1b15f21506df4a1b7d87d9a8bb559a",
+      "bytes": 2162
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-050-consignee-backup-secured warehouse/hero_slot_2.json",
+      "sha256": "157411bd22a1a91235ccdd111bc646f4871f67ee28bed17de8a6af1dfc543ce8",
+      "bytes": 2162
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-051-consignee-backup-loaded same lot/hero_slot_1.json",
+      "sha256": "553f6a63cd51803fe947d37071e6ba088e058394514d452a1032a2d7a3d68768",
+      "bytes": 2157
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-051-consignee-backup-loaded same lot/hero_slot_2.json",
+      "sha256": "b6b19a8c1230dc5eef18ede66647de8c6db9c67c5bee58774ce84d2c768c3236",
+      "bytes": 2157
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-052-consignee-backup-final hold_for_inspection/hero_slot_1.json",
+      "sha256": "fd105f417b6552f39c38e242fb1afba73bbc7a92d4259273e7592611d04a92f8",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-052-consignee-backup-final hold_for_inspection/hero_slot_2.json",
+      "sha256": "d45951941c92902d26da0cee4a7d26fab821099e6ab4f647bc8d6ddbf53ac1ad",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-053-consignee-backup-unstarted/hero_slot_1.json",
+      "sha256": "b401f034a9a217214bfd7998b139b3b6f9c8d62558505f8d1cc1fb58b4f27b3c",
+      "bytes": 2064
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-053-consignee-backup-unstarted/hero_slot_2.json",
+      "sha256": "eb8a997eaa05cbeeb73be508c6e67d9735dacc567eca9b2531f0f2e804d52df6",
+      "bytes": 2064
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-054-consignee-backup-accepted/hero_slot_1.json",
+      "sha256": "07e0455594bec3d8b9e5952e0ec79120297e5d1bc80fcd9e13ab957c69037fce",
+      "bytes": 2073
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-054-consignee-backup-accepted/hero_slot_2.json",
+      "sha256": "78de17a520593a242f3fe792026f82534143f2b6dcb970a73e9ba82ffc315a9d",
+      "bytes": 2073
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-055-consignee-backup-reversible draft/hero_slot_1.json",
+      "sha256": "c140e409b56e0b2da0c36de9b0c1a7b41a8f637011531f05803fd7dfb62a2a94",
+      "bytes": 2153
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-055-consignee-backup-reversible draft/hero_slot_2.json",
+      "sha256": "0396ae7b06074c14df27ca4e5822c309269a8e451e36c0133a51dae452ce7d9d",
+      "bytes": 2153
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-056-consignee-backup-secured warehouse/hero_slot_1.json",
+      "sha256": "04bcc6c51896a313cc03582e2ee5aae3a0571a926918fdd0910eaab01eb38eea",
+      "bytes": 2152
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-056-consignee-backup-secured warehouse/hero_slot_2.json",
+      "sha256": "ea1357614d30ca1bc869685ea37266dba30ad77e799f9eb04cc79d1ed017bb33",
+      "bytes": 2152
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-057-consignee-backup-loaded same lot/hero_slot_1.json",
+      "sha256": "5bb21c319195b6069aaad9fbd64bfa6886f4719111acb3892dcb35d6d921e159",
+      "bytes": 2147
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-057-consignee-backup-loaded same lot/hero_slot_2.json",
+      "sha256": "073bdbf909dcc10ed3cd4d327eb3049493f496ebc0a0694f6d3eef84ed681036",
+      "bytes": 2147
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-058-consignee-backup-final return_to_owner/hero_slot_1.json",
+      "sha256": "5e6360dcc155ba16f4b50af5596dc538ef6325103a51dec66d4b4b6cc2b07fa7",
+      "bytes": 2170
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-058-consignee-backup-final return_to_owner/hero_slot_2.json",
+      "sha256": "08402f024c5fbbcdff812fd66aa9ec22de7a31a03a041856879cc5d1a1fa293b",
+      "bytes": 2170
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-059-consignee-backup-optional tang_teach/hero_slot_1.json",
+      "sha256": "afb5ec16d9feec61df0e4dc952236d32ba16c19bc8419dbe4f37dcd16dc4c3f9",
+      "bytes": 2263
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-059-consignee-backup-optional tang_teach/hero_slot_2.json",
+      "sha256": "13e8d97514a1bea48706e04168670d231861cea767cc3d701569f30d63d22985",
+      "bytes": 2263
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-060-consignee-backup-optional tang_preserve/hero_slot_1.json",
+      "sha256": "7b6772f16c5f49fcd353c550f73c8a07f44150bcdcad0b4c8ff4eeaeaed49c88",
+      "bytes": 2269
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-060-consignee-backup-optional tang_preserve/hero_slot_2.json",
+      "sha256": "2b9e2e33bf6b2fa9f33c279bd629d09f70d0a45de523f47cb2de56aae165a5b2",
+      "bytes": 2269
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-061-consignee-backup-optional qin_timing/hero_slot_1.json",
+      "sha256": "1df989ece12f8e7b6acb7da1008568e720a70ab615ade0df1d8f120ec4375753",
+      "bytes": 2266
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-061-consignee-backup-optional qin_timing/hero_slot_2.json",
+      "sha256": "3dfced0204d8157adf0424c3b10beb6a139683075e4368feabb236345bdacfb9",
+      "bytes": 2266
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-062-consignee-backup-optional shen_shore/hero_slot_1.json",
+      "sha256": "7c35e9ae8afdb5281b1eb01143da0ab4fe65baa81d3ea25a99b9d65c967aa642",
+      "bytes": 2279
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-062-consignee-backup-optional shen_shore/hero_slot_2.json",
+      "sha256": "4c1ac8b3d59fcabc90fd28202f58c776a092b491a97b04785ea9b983f2a05d94",
+      "bytes": 2279
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-063-consignee-backup-optional shen_mobile/hero_slot_1.json",
+      "sha256": "b0811b45aa05cea71e7cd662ca847c86147da8dd8c37c098ffacb6e78689da26",
+      "bytes": 2281
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-063-consignee-backup-optional shen_mobile/hero_slot_2.json",
+      "sha256": "600fdb9f339fb81a8231628e1e87be4735058bf2530e3e289bae61a1d1f6fb8d",
+      "bytes": 2281
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-064-consignee-backup-retreat 1 actors/hero_slot_1.json",
+      "sha256": "3c2e32f5a0b9e371ebb6d1492cd930c2827913bbe85d71846a31d183935204d8",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-064-consignee-backup-retreat 1 actors/hero_slot_2.json",
+      "sha256": "a33f7fe0da25c919b201ffd20a187368c9201374335287ea70085d455e39f1d2",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-065-consignee-backup-retreat 2 actors/hero_slot_1.json",
+      "sha256": "a4a4c32d663ffb852eeba394ddf586be3fc902bb4417a5a1b0ade85220aa065e",
+      "bytes": 2223
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-065-consignee-backup-retreat 2 actors/hero_slot_2.json",
+      "sha256": "5d924bec52c21b8d69b2a0895e08d113531c2a5496d7015f5644fc69a45fec07",
+      "bytes": 2223
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-066-consignee-backup-retreat 3 actors/hero_slot_1.json",
+      "sha256": "ba3c20a85f2d9bc4bfdd42ba4e488b7b633958f37535c970865df4fbe90b5425",
+      "bytes": 2285
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-066-consignee-backup-retreat 3 actors/hero_slot_2.json",
+      "sha256": "4c4048be900732404d15f8bdcd8244365790f1aa3bcb206f2893f064724d5f95",
+      "bytes": 2285
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-067-consignee-backup-retreat 4 actors/hero_slot_1.json",
+      "sha256": "94e1d9b85a47902b3301135613b121c02b99cf5d6118f325411bae2007d6b43b",
+      "bytes": 2339
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-067-consignee-backup-retreat 4 actors/hero_slot_2.json",
+      "sha256": "36334f4812332db19b8d56aab41adda6b12b873d5137a718ca53e0f69f04f3e0",
+      "bytes": 2339
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-068-consignee-backup-defeat/hero_slot_1.json",
+      "sha256": "bd1dda850b196cb0a3e3c29568e796f656802fcd461fe08d8333e54c7980e7b7",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-068-consignee-backup-defeat/hero_slot_2.json",
+      "sha256": "62fb75cfa5412e3b276e139cea06d3a975782a47dc6ca9789771cc2312cd17be",
+      "bytes": 2163
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-069-consignee-backup-retried final reward/hero_slot_1.json",
+      "sha256": "fd105f417b6552f39c38e242fb1afba73bbc7a92d4259273e7592611d04a92f8",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-069-consignee-backup-retried final reward/hero_slot_2.json",
+      "sha256": "d45951941c92902d26da0cee4a7d26fab821099e6ab4f647bc8d6ddbf53ac1ad",
+      "bytes": 2187
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-070-capstone-schema15/hero_slot_1.json",
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+      "bytes": 1843
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-071-consignee-backup-capstone-pause_batch/hero_slot_1.json",
+      "sha256": "858038fbc57a5590f9393fcfdf49a278982e29a94dadc3122a2bfcbb8ad4a534",
+      "bytes": 2210
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-071-consignee-backup-capstone-pause_batch/hero_slot_2.json",
+      "sha256": "3bfef9e3170439d44fb71685ee3ce1acf1468d0529acc6f6116e097544a2a953",
+      "bytes": 2210
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-072-consignee-backup-capstone-cancel_proven/hero_slot_1.json",
+      "sha256": "9ddbb1e3baeafe4b730ec6d10216beaa472f8e1ed4a50d4ce60ff89b55c1ea49",
+      "bytes": 2195
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/transfer-pack-072-consignee-backup-capstone-cancel_proven/hero_slot_2.json",
+      "sha256": "faa3f2708160bbdcc098d51d8eea8c45c6e4461d10b6ce236c4d4a2a5fa4df50",
+      "bytes": 2195
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/unified-schema13-audit.json",
+      "sha256": "94195065ee26798ff3374146f274c40659d9318f190b7bf27fd361107cbc62cc",
+      "bytes": 1482
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03/web-smoke-data/godot/app_userdata/Hero · 渡灯录/v18-migration-audit.json",
+      "sha256": "ab90b74aa1afb05e3d589ba8ab3dfccc371c776b543d15a57c5b7c861abde984",
+      "bytes": 1483
+    },
+    {
+      "path": "Hero-staging/capstone-phase3/package-audit/rehearsal-03-console.log",
+      "sha256": "b4dad53f74ec8212d9bb7591f06ff50cc1bc39cc88d7dde3ad64d47c316a8a43",
+      "bytes": 4359
+    }
+  ],
+  "known_failed_or_superseded": [
+    "Native preliminary: accessor typo; preliminary2: freed-panel guard; both development attempts interrupted and preserved.",
+    "Native preliminary-native: externally killed at 288 of planned450 movie frames, plus concurrent WIP binding mismatch. No completed clip; remaining clip requirement canceled by lead.",
+    "Native driver-validation508 headless and preliminary-native2 native530/219-bound-files are superseded by final972/440-binding; never substituted for it.",
+    "Package rehearsal01 compiler errors and rehearsal02 four harness failures are retained; corrected stable rehearsal03 passed6369, no PCK claim.",
+    "Continuity reward-cap-before-fix records the real XP-cap receipt defect; corrected receipt is retained and verified.",
+    "Art initial roster fixture and integration import failures are retained; no game HP/resource inflation; prepared art fixture is explicit.",
+    "Legacy consignee journal assertion was narrowed from 昨夜 to the exact chosen 此前 allocation wording; the player-selected allocation itself was preserved and the positive regression rerun, not removed.",
+    "Independent scene early first-route and WIP full matrix lacked pre-launch binding; final aggregate is the committed-source acceptance path."
+  ]
+}

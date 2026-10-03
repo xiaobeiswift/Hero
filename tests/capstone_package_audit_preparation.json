@@ -1,0 +1,128 @@
+{
+  "prepared_at_utc": "2026-10-03T08:49:22.101852+00:00",
+  "status": "source_rehearsal_passed_exact_final_PCK_pending",
+  "release": "0.0.29",
+  "schema": 15,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source_rehearsal_checks": 6369,
+  "capstone_checks": 1179,
+  "expected_exact_pck_checks": 6374,
+  "true_pack_only_checks_pending": 5,
+  "old_partitions_unchanged": {
+    "preserved": 1471,
+    "unified": 1247,
+    "exploration": 349,
+    "condition": 191,
+    "transfer": 349,
+    "consignee": 1036,
+    "polish": 460
+  },
+  "stable_rehearsal": {
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source/tools/run_godot_check.py",
+      "/usr/local/bin/godot",
+      "--headless",
+      "--audio-driver",
+      "Dummy",
+      "--path",
+      "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+      "--script",
+      "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source/tools/smoke_export.gd",
+      "--",
+      "--source-rehearsal"
+    ],
+    "exit_code": 0,
+    "checks": 6369,
+    "expected_source_checks": 6369,
+    "pending_pack_only_checks": 5,
+    "source_before_sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+    "source_after_sha256": "35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88",
+    "changed_inputs": [],
+    "source_unchanged": true,
+    "provisional": false,
+    "log_sha256": "963d94f30f07149af0803710f01e1ab7acfb73db0476704583cb2bd7ace1cf0a",
+    "passed": true,
+    "scope": "Full source rehearsal only; exactly five true PCK assertions pending. No export, exactPCK, browser, old28 full-runtime or pixel claim."
+  },
+  "source_binding_entries": 381,
+  "artifact_sha256": {
+    "tools/smoke_export.gd": "dbda8de0b4a091580e0d5e8c923d2eeacbb816a1cdcd6266468c5c18109ee021",
+    "tools/audit_web_export.py": "061e042015e26fbd19c22bc106432f11ed12e26e6feaa251b267e9f5660321a1",
+    "tests/test_web_pack_audit.py": "973f78669da50fc0279e82a83c9e1ecabdfda12b2d14347f546bfd53802b4332",
+    "tests/capstone_package_fixture_producer.gd": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+    "tests/fixtures/capstone/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "tests/fixtures/capstone/schema_14_provenance.json": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+    "export_presets.cfg": "c5a0c7d45f0668374724a5ec427b644d4d115b8c9a737c4a515ecce2ab9a75a9"
+  },
+  "python_tests": {
+    "all": 77,
+    "audit": 22,
+    "portability": 8,
+    "status": "passed"
+  },
+  "reader14_sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+  "genuine14_save_sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+  "genuine14_provenance_sha256": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+  "compatibility_scope": {
+    "genuine_producer_versions": [
+      1,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "authored_old_layout_contract_versions": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "reader13_rejection": "byte-pinned authentic13 reader rejects actual14 writer output without mutation",
+    "reader14_rejection": "byte-pinned authentic14 reader rejects actual packed/current15 writer output without mutation",
+    "dependencies": "current source/pack dependencies; not full historical runtime",
+    "separate_full_old28_gate": "independent gate; not executed or claimed by this audit task"
+  },
+  "failed_attempts_preserved": [
+    {
+      "path": "rehearsal-01",
+      "kind": "audit-only compiler errors; no game instantiated"
+    },
+    {
+      "path": "rehearsal-02",
+      "kind": "6369 executed,4 audit harness assertions failed; preserved then corrected"
+    },
+    {
+      "path": "python-initial-pending-counts.log",
+      "kind": "4 failures while expected count pins intentionally0 and main wrapper boundary test not adapted"
+    }
+  ],
+  "provenance_filter_changes": {
+    "presets": [
+      "Linux x86_64",
+      "Windows x86_64",
+      "macOS Universal",
+      "Web Single Thread"
+    ],
+    "added_only": [
+      "assets/generated/characters/liang_provenance/combat-v4-review.json",
+      "assets/generated/characters/liang_provenance/combat-v4-measurements.json",
+      "assets/generated/characters/liang_provenance/portrait-v1-review.json"
+    ],
+    "review": "Project asset provenance only: generated image references, source hashes, dimensions, poses, alpha measurements and art-review notes; no credentials, network endpoints or infrastructure secrets"
+  },
+  "scope_limits": [
+    "Prepared prior history/site positions; capstone calls actual shipped scene choices,controller tokens and disk paths; not earned-route proof",
+    "Canvas/resource/portrait readiness and RGBA identity, not pixel/browser acceptance",
+    "No export/build/publish/deploy performed",
+    "Exactly final frozen PCK must pass6374 after combined runtime freeze/full gate",
+    "All earlier failures and isolated save profiles preserved"
+  ],
+  "evidence_directory": "Hero-staging/capstone-phase3/package-audit"
+}

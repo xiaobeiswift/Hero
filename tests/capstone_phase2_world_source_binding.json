@@ -1,0 +1,23 @@
+{
+  "scripts/world.gd": "b9820a0a17485b71aa29958cf144208eb36104e2f43f0d7c9b096dad68eb2dbf",
+  "scripts/frostbridge_region.gd": "445db45c99b2e2d25dee1a517ad744d413d7b45c7932e41d94d1727869c152d8",
+  "scripts/volume_one_capstone_navigation.gd": "621bb22c96f20ccbf4c4967659ec9702a642ce48b4ed1f4bb240a99eb0696bcb",
+  "scripts/volume_one_capstone_navigation.gd.uid": "1602e0cdfa5ff3c704ca8b5071cf860194cc0a88b93e116effa647283a5ba410",
+  "tests/capstone_world_fixture.gd": "dd7cfb21346def795030d70b9289aa901fa8696a5d4d61db90f3139ec51f264f",
+  "tests/capstone_navigation_test.gd": "786a6782cf9c750161b6da2fbf5752bb31b006e6bca8e6060c535cb5f47374ac",
+  "tests/capstone_world_test.gd": "2c7956d3778f5096d7c58d8294c1d3e050cd6c55319e0ff00d25a21cf18a9186",
+  "tests/capstone_world_render_consumers_test.gd": "4c239b4095f3247401a9f03dc2ebe943e4e8a70bd7314d45e3dd75b73fda6467",
+  "scripts/world.gd.uid": "ae2d557d51a452fdf5f781975a1f223d92587a9668bcbda45d838883cb3c2dd8",
+  "scripts/frostbridge_region.gd.uid": "14ea7c26129bd87ff6637fc446e627eaa71d26525d44ab7a84241d3a90022947",
+  "tests/capstone_world_fixture.gd.uid": "1e43f81c31e34ae71cc649ff861331f30097215afc5672d2eedb55adeec7fb42",
+  "tests/capstone_navigation_test.gd.uid": "4c7aa742d7b72901db95059ae0e7be7688406ef2f3ec2769ea58950b776cca2a",
+  "tests/capstone_world_test.gd.uid": "157b599f11f826bce559d9c96e91d035da950f672e7eebcf0fdba095a4a5b244",
+  "tests/capstone_world_render_consumers_test.gd.uid": "6d586c78ab219991454af6ec80e63a32a13d96f82605c315be9bf6b51b5f3e27",
+  "tests/capstone_navigation_main_test.gd": "b6ac28a2d738c639bc43feb512c79fe80015afcb1f8d7e42aa05c3bfeb1430db",
+  "tests/capstone_navigation_main_test.gd.uid": "c5ce8b1373c11850d704f05e81949603815e76c3367f45e4180f7df2491c968e",
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/world/source-binding.json",
+    "sha256": "52cc664ea04d9d515ab7408f4d2b002053c353120eadf9a206ccd773baa8313d",
+    "bytes": 1741
+  }
+}

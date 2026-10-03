@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+"""Read-only source/evidence verification; writes findings only beside this file.
+
+No imports from project code, no engine invocation, and no source modifications.
+UID computation follows Godot 4.6.3-stable primary sources linked in REVIEW.md.
+"""
+from pathlib import Path
+from datetime import datetime, timezone
+import collections
+import hashlib
+import json
+import re
+import stat
+import struct
+
+HERE = Path(__file__).resolve().parent
+WORKSPACE = HERE.parents[2]
+SOURCE = WORKSPACE / 'Hero-recovery-20261002-0918/source'
+STAGING = WORKSPACE / 'Hero-staging'
+AGG = STAGING / 'capstone-phase3/aggregate'
+PACKAGE = STAGING / 'capstone-phase3/package-audit'
+NATIVE = STAGING / 'capstone-phase2/native'
+ADDITIONS = {
+    'tests/capstone_package_audit_preparation.json': '82a6f128891edb4d7ad75a3ee44a8866cfaf43f3380c2d1d026cd0962b996c4b',
+    'tests/capstone_package_audit_report.md': 'e397bc4a615ac162e89b667983b476b9b7f9965655ff3efeda52a2fa24f959e2',
+    'tests/capstone_package_fixture_producer.gd.uid': '96cfb722920f3d1935a6c3a7bbe354f545a442196e14f7932e930ddc82b06311',
+}
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def read(path):
+    return json.loads(path.read_text())
+
+def utc(ts):
+    return datetime.fromtimestamp(ts, timezone.utc).isoformat()
+
+def ref(path):
+    return {'path': str(path.relative_to(WORKSPACE)), 'sha256': sha(path), 'bytes': path.stat().st_size}
+
+def inventory():
+    paths = [SOURCE / n for n in ('project.godot', 'export_presets.cfg', 'run-tests.sh')]
+    for name in ('assets', 'scripts', 'scenes', 'tests', 'tools', 'web', 'licenses'):
+        paths.extend(p for p in (SOURCE/name).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
+    return {p.relative_to(SOURCE).as_posix(): sha(p) for p in sorted(paths)}
+
+def binding(path):
+    manifest = read(path)
+    bad = [n for n, expected in manifest.items() if not (SOURCE/n).is_file() or sha(SOURCE/n) != expected]
+    assert not bad, (str(path), bad)
+    assert not any((SOURCE/n).is_symlink() for n in manifest)
+    return dict(ref(path), entries=len(manifest), matched=len(manifest), mismatches=bad,
+                imported_cache_entries=sum(n.startswith('.godot/') for n in manifest))
+
+def deterministic_uid():
+    # ResourceUID::create_id_for_path seeds RandomPCG with the product of
+    # String::hash64(project_name), hash64(lowercase resource path), and
+    # hash64(source MD5 hex), using unsigned-64-bit arithmetic.
+    mask = (1 << 64) - 1
+    project = re.search(r'^config/name="(.*)"$', (SOURCE/'project.godot').read_text(), re.M).group(1)
+    resource_path = 'res://tests/capstone_package_fixture_producer.gd'
+    producer = SOURCE/resource_path.removeprefix('res://')
+    md5 = hashlib.md5(producer.read_bytes()).hexdigest()
+    def djb2(text):
+        result = 5381
+        for c in text:
+            result = (result * 33 + ord(c)) & mask
+        return result
+    seed = djb2(project) * djb2(resource_path.lower()) * djb2(md5) & mask
+    state = 0
+    increment = (1442695040888963407 << 1) | 1
+    def random32():
+        nonlocal state
+        old = state
+        state = (old * 6364136223846793005 + increment) & mask
+        x = (((old >> 18) ^ old) >> 27) & 0xffffffff
+        rotation = old >> 59
+        return ((x >> rotation) | (x << ((-rotation) & 31))) & 0xffffffff
+    random32()
+    state = (state + seed) & mask
+    random32()
+    low, high = random32(), random32()
+    number = (low | high << 32) & 0x7fffffffffffffff
+    digits, value, alphabet = '', number, 'abcdefghijklmnopqrstuvwxy012345678'
+    while value:
+        digits = alphabet[value % 34] + digits
+        value //= 34
+    expected = 'uid://' + (digits or 'a') + '\n'
+    sidecar = producer.with_suffix('.gd.uid')
+    assert expected.encode() == sidecar.read_bytes()
+
+    cache = SOURCE/'.godot/uid_cache.bin'
+    raw = cache.read_bytes()
+    count, = struct.unpack_from('<I', raw)
+    offset, entries = 4, []
+    for _ in range(count):
+        uid, length = struct.unpack_from('<QI', raw, offset)
+        offset += 12
+        path = raw[offset:offset+length].decode()
+        offset += length
+        entries.append((uid, path))
+    assert offset == len(raw)
+    matches = [e for e in entries if e[0] == number or e[1] == resource_path]
+    assert matches == [(number, resource_path)]
+    duplicates = [n for n in inventory() if n.endswith('.uid') and (SOURCE/n).read_bytes() == sidecar.read_bytes()]
+    assert duplicates == ['tests/capstone_package_fixture_producer.gd.uid']
+    return {'project_name': project, 'resource_path': resource_path, 'producer_sha256': sha(producer),
+            'producer_md5': md5, 'project_name_hash64': djb2(project),
+            'resource_path_hash64': djb2(resource_path.lower()), 'md5_hash64': djb2(md5),
+            'pcg_seed': seed, 'pcg_first_low32': low, 'pcg_second_high32': high,
+            'expected_first_candidate': number, 'expected_sidecar_text': expected,
+            'actual_sidecar_text': sidecar.read_text(), 'sidecar_sha256': sha(sidecar),
+            'deterministic_candidate_matches': True, 'cache': ref(cache),
+            'cache_entries': count, 'matching_cache_entries': matches,
+            'same_uid_sidecars': duplicates,
+            'writer_attribution': 'Strong engine-import inference, not a captured OS process-write trace'}
+
+def main():
+    before = read(AGG/'full-01-before.json')
+    current = inventory()
+    changed = [n for n in sorted(set(before) | set(current)) if before.get(n) != current.get(n)]
+    assert changed == sorted(ADDITIONS)
+    assert all(n not in before and current[n] == digest for n, digest in ADDITIONS.items())
+    assert all(current.get(n) == digest for n, digest in before.items())
+    assert len(before) == 1101 and len(current) == 1104
+    rows = []
+    for name in changed:
+        path = SOURCE/name
+        info = path.stat()
+        assert stat.S_ISREG(info.st_mode) and not path.is_symlink() and info.st_mode & 0o111 == 0
+        rows.append({'path': name, 'sha256': sha(path), 'bytes': info.st_size, 'mode': oct(stat.S_IMODE(info.st_mode)),
+                     'mtime_utc': utc(info.st_mtime), 'ctime_utc': utc(info.st_ctime)})
+    assert (SOURCE/'tests/capstone_package_audit_preparation.json').read_bytes() == (PACKAGE/'PACKAGE-AUDIT-REPORT.json').read_bytes()
+    assert (SOURCE/'tests/capstone_package_audit_report.md').read_bytes() == (PACKAGE/'PACKAGE-AUDIT-REPORT.md').read_bytes()
+    raw = read(AGG/'full-01-result.json')
+    log = (AGG/'full-01.log').read_text()
+    assert raw['source_changed'] == changed
+    assert raw['exit_code'] == 0 and raw['engine_errors'] == 0
+    assert raw['log_sha256'] == sha(AGG/'full-01.log')
+    assert raw['runner_sha256'] == current['run-tests.sh']
+    assert raw['godot_commands'] == log.count('Godot Engine v4.6.3.stable.official.7d41c59c4') == 172
+    assert raw['python_tests'] == sum(map(int, re.findall(r'Ran (\d+) tests? in ', log))) == 77
+    assert not re.search(r'^(?:SCRIPT ERROR|ERROR):', log, re.M)
+    start = re.search(r'\{\s*"kind":\s*"exact-source Node VM / mocked DOM', log)
+    node, _ = json.JSONDecoder().raw_decode(log[start.start():])
+    assert node['checks'] == 53 and node['failures'] == []
+    assert 'PASS independent capstone earned scene: 48348 checks, 0 failures, 12 routes' in log
+    assert 'PASS independent capstone real-scene interruptions: 1916 checks, 0 failures, 2 boundaries' in log
+    code_suffixes = {'.gd', '.py', '.sh', '.cjs', '.js', '.html', '.cfg', '.godot', '.tscn'}
+    references = []
+    patterns = ['capstone_package_audit_', 'qctvsylf10j', 'capstone_package_fixture_producer.gd.uid']
+    scanned = 0
+    for name in current:
+        path = SOURCE/name
+        if path.suffix not in code_suffixes:
+            continue
+        scanned += 1
+        text = path.read_text(errors='replace')
+        for term in patterns:
+            if term in text:
+                references.append({'path': name, 'term': term})
+    assert not references
+    bound = [binding(NATIVE/'final-stills-source.json'),
+             binding(PACKAGE/'rehearsal-03/SOURCE-BEFORE.json'),
+             binding(PACKAGE/'rehearsal-03/SOURCE-AFTER.json')]
+    assert [b['entries'] for b in bound] == [440, 381, 381]
+    assert bound[0]['imported_cache_entries'] == 84
+    assert bound[1]['sha256'] == bound[2]['sha256'] == '35c33b4999ed10e94926f8766f5b3143ae3319d91ab7dcbfeadb19d063b97b88'
+    touched = [n for n in before if (SOURCE/n).stat().st_mtime >= (AGG/'full-01-before.json').stat().st_mtime]
+    assert not touched
+    result = {'reviewed_at_utc': datetime.now(timezone.utc).isoformat(),
+              'status': 'bounded_acceptance_recommended_to_lead_not_strict_gate_pass',
+              'lead_acceptance_granted_by_this_review': False, 'source_changed_by_this_review': False,
+              'engine_executed_by_this_review': False,
+              'aggregate_before': ref(AGG/'full-01-before.json'),
+              'raw_result': ref(AGG/'full-01-result.json'), 'raw_log': ref(AGG/'full-01.log'),
+              'raw_wrapper': ref(AGG/'run_full01.py'), 'raw_subprocess_exit': 0,
+              'raw_strict_wrapper_outcome': 'nonzero (1) by source_changed predicate; preserved, not overridden',
+              'original_paths_matched': len(before), 'current_inventory_count': len(current),
+              'modified_or_missing_original_paths': [], 'precise_additions': rows,
+              'preexisting_mtimes_at_or_after_snapshot': touched,
+              'preexisting_extension_counts': dict(sorted(collections.Counter(Path(n).suffix for n in before).items())),
+              'literal_code_scan': {'files_scanned': scanned, 'terms': patterns, 'matches': references},
+              'uid_provenance': deterministic_uid(), 'cross_bindings': bound,
+              'counts': {'godot_commands': 172, 'python_tests': 77, 'node_mock_dom_checks': 53,
+                         'engine_errors': 0, 'earned_scene_checks': 48348, 'earned_routes': 12,
+                         'real_scene_interruption_checks': 1916, 'interruption_boundaries': 2},
+              'retention_gate': ref(STAGING/'capstone-phase3/checkpoint-preparation/default-gate-rejection.json'),
+              'recommendation': 'Lead may explicitly accept unchanged pre-existing executable/runtime/fixture/config bytes with separately disclosed two QA documents and deterministic import-generated UID metadata. Preserve raw strict failure. Existing two-document retention acceptance must remain blocked unless separately authorized and transparently amended; this review does not amend it.',
+              'strict_rerun_if_required': 'Freeze all 1104 current inventoried paths, including the exact UID and reports, then run the unchanged full suite and strict delta predicate into fresh full-02 evidence with old Web25/Web28 gates enabled. Require subprocess exit0, zero errors and zero source_changed. Never remove the UID or rewrite full-01 to create a pass.',
+              'limits': ['Endpoint content hashes and original mtimes are evidence of stability, not continuous filesystem tracing.',
+                         'The UID is consumed by Godot metadata machinery; do not call it wholly unconsumed.',
+                         'The entire source tree, all .godot state, external engine/environment and old build files were not inventoried by full-01.',
+                         'Native and package manifest matches establish those recorded inputs only.',
+                         'No final frozen PCK, Windows, browser, publication or export approval is established.']}
+    assert inventory() == current, 'Source changed during this review'
+    for name, value in [('CURRENT-INVENTORY.json', current), ('FINDINGS.json', result)]:
+        with (HERE/name).open('x') as output:
+            json.dump(value, output, ensure_ascii=False, indent=2)
+            output.write('\n')
+    print(json.dumps({'result': ref(HERE/'FINDINGS.json'), 'original_matched': len(before),
+                      'additions': len(changed), 'native_matched': 440, 'package_matched': 381,
+                      'uid_deterministically_verified': True}, indent=2))
+
+if __name__ == '__main__':
+    main()

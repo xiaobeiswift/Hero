@@ -1,0 +1,896 @@
+{
+  "reviewed_at_utc": "2026-10-03T08:51:54.792972+00:00",
+  "reviewer": "independent-native-pixel-review",
+  "status": "PASS_SCOPED_NATIVE_STILLS",
+  "required_correctness_fixes": [],
+  "scope": "Independent inspection of all 18 existing unedited native Godot root-framebuffer PNGs plus static trace/source integrity checks; no new engine run. Prepared canonical prior history and lawful per-site placements, actual new-chapter scripted E/mouse callbacks and accepted combat transactions, fixed steps and isolated branch checkpoint. This is not earned travel, manual play, browser, audio, realtime/performance or clip evidence.",
+  "limitations": [
+    "Final trace has zero captured movie frames. Killed earlier clip remains failed/incomplete and deferred, not accepted.",
+    "Frame 04 has partial pine occlusion on a trailing companion. Four distinct party members remain identifiable; no request to restyle or change placement. Do not describe all world actors as fully unobscured.",
+    "The 530-check native pass is preliminary historical evidence with an earlier driver; only the final 972-check/440-file binding is current.",
+    "972 is the recorded total; it includes source-hash assertions, not 972 distinct visual or semantic scenarios. This audit did not rerun those assertions.",
+    "The existing archive aftermath no-duplicate-book behavior is source-inspected, not directly pictured in the selected final 18 stills."
+  ],
+  "bindings": {
+    "manifest_sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
+    "recorded_manifest_sha256": "f3166be177c1152f49dfaf9d1833d4fe44e615e2d0a4c615ab3d228d76c13ca0",
+    "manifest_matches_review": true,
+    "manifest_matches_trace": true,
+    "count": 440,
+    "all_current_files_match": true,
+    "missing_or_changed": [],
+    "driver_sha256": "261959ff303a173f9c8c39382a198443384542848aa23c17e3dcc3f91a9bc8ef",
+    "recorded_driver_sha256": "261959ff303a173f9c8c39382a198443384542848aa23c17e3dcc3f91a9bc8ef",
+    "driver_uid": "uid://3p2sqsr4qhkg"
+  },
+  "recorded_runs": {
+    "final": {
+      "checks": 972,
+      "failures": 0,
+      "display_server": "X11",
+      "engine_exit": "0",
+      "movie": {
+        "captured": false,
+        "duration_seconds": 0.0,
+        "fps": 30,
+        "frame_count": 0,
+        "silent": true,
+        "timing": "fixed-step .033333s; native frames, not realtime"
+      },
+      "accepted_transactions": 31,
+      "transaction_count": 31,
+      "unique_tokens": 31,
+      "presented_events": 101
+    },
+    "preliminary_native2": {
+      "checks": 530,
+      "failures": 0,
+      "display_server": "X11",
+      "bound_files": 219,
+      "changed_since_preliminary": [
+        "tests/record_capstone_phase2.gd"
+      ]
+    }
+  },
+  "images": [
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/01-wen-original-letter.png",
+      "sha256": "1be55ee5ef3849524dcfa5fecccb80312a51c73d328522562f73afc536e13497",
+      "recorded_sha256": "1be55ee5ef3849524dcfa5fecccb80312a51c73d328522562f73afc536e13497",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 188527,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/02-wen-return-letter.png",
+      "sha256": "4c0bd89cca90a610e2e9f04281809bfba01de27adce1f5c9bae3543f1b95e0b3",
+      "recorded_sha256": "4c0bd89cca90a610e2e9f04281809bfba01de27adce1f5c9bae3543f1b95e0b3",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 193132,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/03-clerk-issued-register.png",
+      "sha256": "193a255cb8516327e2f5a0aaa9a83e3c3a4e43fe931cc165b33779540b079a2a",
+      "recorded_sha256": "193a255cb8516327e2f5a0aaa9a83e3c3a4e43fe931cc165b33779540b079a2a",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 215313,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/04-archive-liang-72px.png",
+      "sha256": "c4f9f2064970e81467ff42e49ac776a39c90bda08a8dd3ca6a7755dacde6ba1b",
+      "recorded_sha256": "c4f9f2064970e81467ff42e49ac776a39c90bda08a8dd3ca6a7755dacde6ba1b",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 213559,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/05-battle-idle-full.png",
+      "sha256": "90e29e5e8507866cc8df89927db88cb8bf92e0b2ab0806f9de63981bb2d613eb",
+      "recorded_sha256": "90e29e5e8507866cc8df89927db88cb8bf92e0b2ab0806f9de63981bb2d613eb",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 1326002,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/06-battle-idle-compact.png",
+      "sha256": "8641cdc2d4c435bf43710d710b2f17689c65a521c836cf0d46a5bd8f39bf5d7b",
+      "recorded_sha256": "8641cdc2d4c435bf43710d710b2f17689c65a521c836cf0d46a5bd8f39bf5d7b",
+      "hash_match": true,
+      "size": [
+        1179,
+        736
+      ],
+      "recorded_size": [
+        1179,
+        736
+      ],
+      "size_match": true,
+      "bytes": 1170147,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/07-battle-heavy-full.png",
+      "sha256": "772ab8ac4dcd32bf02ab43a6c069a56600b09577552e5bae3ab31d6b5e5fc690",
+      "recorded_sha256": "772ab8ac4dcd32bf02ab43a6c069a56600b09577552e5bae3ab31d6b5e5fc690",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 1322830,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/08-battle-heavy-compact.png",
+      "sha256": "0ee956b4429d36b177127b4d3e4acd0c24bfb603d100821129751951fb217d58",
+      "recorded_sha256": "0ee956b4429d36b177127b4d3e4acd0c24bfb603d100821129751951fb217d58",
+      "hash_match": true,
+      "size": [
+        1179,
+        736
+      ],
+      "recorded_size": [
+        1179,
+        736
+      ],
+      "size_match": true,
+      "bytes": 1168058,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/09-battle-contact-full.png",
+      "sha256": "d742b6f6fe1d1a039acc9b39fa916e874da9fe823411e98ab1a5beec1ada474c",
+      "recorded_sha256": "d742b6f6fe1d1a039acc9b39fa916e874da9fe823411e98ab1a5beec1ada474c",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 1321512,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/10-battle-contact-compact.png",
+      "sha256": "a4e078f4c58c70ff90a00703e351520bea1999e5c3ea9067b2d4c891db5c7f6a",
+      "recorded_sha256": "a4e078f4c58c70ff90a00703e351520bea1999e5c3ea9067b2d4c891db5c7f6a",
+      "hash_match": true,
+      "size": [
+        1179,
+        736
+      ],
+      "recorded_size": [
+        1179,
+        736
+      ],
+      "size_match": true,
+      "bytes": 1167530,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/11-battle-recovery-full.png",
+      "sha256": "cc6bec4491a71167fb765d0b6fdb31a908a96f5c14f29b7458a2cb391cd12aca",
+      "recorded_sha256": "cc6bec4491a71167fb765d0b6fdb31a908a96f5c14f29b7458a2cb391cd12aca",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 1323106,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/12-battle-recovery-compact.png",
+      "sha256": "21e9c05f1555ff3afb59f12e3cb74fb9549b4c1d75232e5a8572a96f389c6df0",
+      "recorded_sha256": "21e9c05f1555ff3afb59f12e3cb74fb9549b4c1d75232e5a8572a96f389c6df0",
+      "hash_match": true,
+      "size": [
+        1179,
+        736
+      ],
+      "recorded_size": [
+        1179,
+        736
+      ],
+      "size_match": true,
+      "bytes": 1168591,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/13-battle-down-full.png",
+      "sha256": "3f64cb8dc986ec08f9cd306d916ac4f6858744df4a346552f33ef1d6484f3ab4",
+      "recorded_sha256": "3f64cb8dc986ec08f9cd306d916ac4f6858744df4a346552f33ef1d6484f3ab4",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 1297630,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/14-battle-down-compact.png",
+      "sha256": "d4df530fa6217b4b8f368623076411e67caa29c47230e0234b729ba1a6330c3f",
+      "recorded_sha256": "d4df530fa6217b4b8f368623076411e67caa29c47230e0234b729ba1a6330c3f",
+      "hash_match": true,
+      "size": [
+        1179,
+        736
+      ],
+      "recorded_size": [
+        1179,
+        736
+      ],
+      "size_match": true,
+      "bytes": 1148608,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/15-desk-four-pending.png",
+      "sha256": "f272cc21d005c5a723d725394259bb5750669daf25338ead1d0db2d31ebeba51",
+      "recorded_sha256": "f272cc21d005c5a723d725394259bb5750669daf25338ead1d0db2d31ebeba51",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 297956,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/16-desk-pause-batch.png",
+      "sha256": "42ced35ff159f119d565668275e094123e06bd50e937554ed9a45d54676ca71a",
+      "recorded_sha256": "42ced35ff159f119d565668275e094123e06bd50e937554ed9a45d54676ca71a",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 311085,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/17-desk-cancel-proven.png",
+      "sha256": "b2446a1cf29ae5a12d39e1e8096618a3c5aa19263c715b833decf9479d14e3c6",
+      "recorded_sha256": "b2446a1cf29ae5a12d39e1e8096618a3c5aa19263c715b833decf9479d14e3c6",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 311772,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    },
+    {
+      "path": "Hero-staging/capstone-phase2/native/final-stills/screenshots/18-qingwei-homecoming.png",
+      "sha256": "4e3a238c53755d7bca11e11acb75dab00c368c916a63ffdd1025041756a1e524",
+      "recorded_sha256": "4e3a238c53755d7bca11e11acb75dab00c368c916a63ffdd1025041756a1e524",
+      "hash_match": true,
+      "size": [
+        1280,
+        800
+      ],
+      "recorded_size": [
+        1280,
+        800
+      ],
+      "size_match": true,
+      "bytes": 820580,
+      "bytes_match": true,
+      "independently_viewed_original": true
+    }
+  ],
+  "paired_battle_frames": [
+    {
+      "phase": "idle",
+      "frames": [
+        "05-battle-idle-full",
+        "06-battle-idle-compact"
+      ],
+      "snapshot_equal": true,
+      "pending_transaction_equal": true,
+      "simulation_frame_equal": true,
+      "battle_frame": 172,
+      "presentation_phase": "idle",
+      "action_time": 0.98,
+      "round": 2,
+      "actors": [
+        [
+          "hero",
+          143,
+          160
+        ],
+        [
+          "shen",
+          122,
+          122
+        ],
+        [
+          "tang",
+          139,
+          139
+        ],
+        [
+          "qin",
+          160,
+          160
+        ]
+      ],
+      "enemies": [
+        [
+          "liang_zhen",
+          567,
+          620
+        ]
+      ],
+      "transaction": {
+        "source_id": null,
+        "target_id": null,
+        "accepted": null,
+        "token": null
+      }
+    },
+    {
+      "phase": "heavy",
+      "frames": [
+        "07-battle-heavy-full",
+        "08-battle-heavy-compact"
+      ],
+      "snapshot_equal": true,
+      "pending_transaction_equal": true,
+      "simulation_frame_equal": true,
+      "battle_frame": 314,
+      "presentation_phase": "windup",
+      "action_time": 0.2,
+      "round": 2,
+      "actors": [
+        [
+          "hero",
+          143,
+          160
+        ],
+        [
+          "shen",
+          122,
+          122
+        ],
+        [
+          "tang",
+          139,
+          139
+        ],
+        [
+          "qin",
+          160,
+          160
+        ]
+      ],
+      "enemies": [
+        [
+          "liang_zhen",
+          463,
+          620
+        ]
+      ],
+      "transaction": {
+        "source_id": "liang_zhen",
+        "target_id": "shen",
+        "accepted": true,
+        "token": 10
+      }
+    },
+    {
+      "phase": "contact",
+      "frames": [
+        "09-battle-contact-full",
+        "10-battle-contact-compact"
+      ],
+      "snapshot_equal": true,
+      "pending_transaction_equal": true,
+      "simulation_frame_equal": true,
+      "battle_frame": 319,
+      "presentation_phase": "contact",
+      "action_time": 0.366666666666667,
+      "round": 2,
+      "actors": [
+        [
+          "hero",
+          143,
+          160
+        ],
+        [
+          "shen",
+          84,
+          122
+        ],
+        [
+          "tang",
+          139,
+          139
+        ],
+        [
+          "qin",
+          160,
+          160
+        ]
+      ],
+      "enemies": [
+        [
+          "liang_zhen",
+          463,
+          620
+        ]
+      ],
+      "transaction": {
+        "source_id": "liang_zhen",
+        "target_id": "shen",
+        "accepted": true,
+        "token": 10
+      }
+    },
+    {
+      "phase": "recovery",
+      "frames": [
+        "11-battle-recovery-full",
+        "12-battle-recovery-compact"
+      ],
+      "snapshot_equal": true,
+      "pending_transaction_equal": true,
+      "simulation_frame_equal": true,
+      "battle_frame": 494,
+      "presentation_phase": "return",
+      "action_time": 0.666666666666667,
+      "round": 3,
+      "actors": [
+        [
+          "hero",
+          143,
+          160
+        ],
+        [
+          "shen",
+          84,
+          122
+        ],
+        [
+          "tang",
+          138,
+          139
+        ],
+        [
+          "qin",
+          160,
+          160
+        ]
+      ],
+      "enemies": [
+        [
+          "liang_zhen",
+          319,
+          620
+        ]
+      ],
+      "transaction": {
+        "source_id": "liang_zhen",
+        "target_id": "tang",
+        "accepted": true,
+        "token": 15
+      }
+    },
+    {
+      "phase": "down",
+      "frames": [
+        "13-battle-down-full",
+        "14-battle-down-compact"
+      ],
+      "snapshot_equal": true,
+      "pending_transaction_equal": true,
+      "simulation_frame_equal": true,
+      "battle_frame": 1023,
+      "presentation_phase": "return",
+      "action_time": 0.566666666666667,
+      "round": 7,
+      "actors": [
+        [
+          "hero",
+          106,
+          160
+        ],
+        [
+          "shen",
+          83,
+          122
+        ],
+        [
+          "tang",
+          138,
+          139
+        ],
+        [
+          "qin",
+          145,
+          160
+        ]
+      ],
+      "enemies": [
+        [
+          "liang_zhen",
+          0,
+          620
+        ]
+      ],
+      "transaction": {
+        "source_id": "hero",
+        "target_id": "liang_zhen",
+        "accepted": true,
+        "token": 31
+      }
+    }
+  ],
+  "branch_facts": [
+    {
+      "frame": "15-desk-four-pending",
+      "stage": 4,
+      "draft": "",
+      "ending": "",
+      "rows": [
+        {
+          "basis": "尚待逐号核对；同在一本簿中不代表同真同假。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "pending",
+          "evidence": "not_yet_classified",
+          "id": "capstone_pending_001",
+          "number": "新待发令·001"
+        },
+        {
+          "basis": "尚待逐号核对；同在一本簿中不代表同真同假。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "pending",
+          "evidence": "not_yet_classified",
+          "id": "capstone_pending_002",
+          "number": "新待发令·002"
+        },
+        {
+          "basis": "尚待逐号核对；同在一本簿中不代表同真同假。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "pending",
+          "evidence": "not_yet_classified",
+          "id": "capstone_pending_003",
+          "number": "新待发令·003"
+        },
+        {
+          "basis": "尚待逐号核对；同在一本簿中不代表同真同假。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "pending",
+          "evidence": "not_yet_classified",
+          "id": "capstone_pending_004",
+          "number": "新待发令·004"
+        }
+      ],
+      "xp": 50,
+      "coins": 24,
+      "hero_hp": 106
+    },
+    {
+      "frame": "16-desk-pause-batch",
+      "stage": 6,
+      "draft": "pause_batch",
+      "ending": "pause_batch",
+      "rows": [
+        {
+          "basis": "引用同一雨次、同一尺位的失实读数，已被此前实查反证推翻；不是由旧粮干燥推断新货无损。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_001",
+          "number": "新待发令·001"
+        },
+        {
+          "basis": "引用已被对照记录推翻的验放先后，拟据此交发新的按损收货授权；不是过去已经执行的旧令。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_002",
+          "number": "新待发令·002"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "held",
+          "evidence": "unverified",
+          "id": "capstone_pending_003",
+          "number": "新待发令·003"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "held",
+          "evidence": "unverified",
+          "id": "capstone_pending_004",
+          "number": "新待发令·004"
+        }
+      ],
+      "xp": 50,
+      "coins": 24,
+      "hero_hp": 106
+    },
+    {
+      "frame": "17-desk-cancel-proven",
+      "stage": 6,
+      "draft": "cancel_proven",
+      "ending": "cancel_proven",
+      "rows": [
+        {
+          "basis": "引用同一雨次、同一尺位的失实读数，已被此前实查反证推翻；不是由旧粮干燥推断新货无损。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_001",
+          "number": "新待发令·001"
+        },
+        {
+          "basis": "引用已被对照记录推翻的验放先后，拟据此交发新的按损收货授权；不是过去已经执行的旧令。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_002",
+          "number": "新待发令·002"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "continuing",
+          "evidence": "unverified",
+          "id": "capstone_pending_003",
+          "number": "新待发令·003"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "continuing",
+          "evidence": "unverified",
+          "id": "capstone_pending_004",
+          "number": "新待发令·004"
+        }
+      ],
+      "xp": 50,
+      "coins": 24,
+      "hero_hp": 106
+    },
+    {
+      "frame": "18-qingwei-homecoming",
+      "stage": 7,
+      "draft": "pause_batch",
+      "ending": "pause_batch",
+      "rows": [
+        {
+          "basis": "引用同一雨次、同一尺位的失实读数，已被此前实查反证推翻；不是由旧粮干燥推断新货无损。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_001",
+          "number": "新待发令·001"
+        },
+        {
+          "basis": "引用已被对照记录推翻的验放先后，拟据此交发新的按损收货授权；不是过去已经执行的旧令。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "cancelled",
+          "evidence": "proven_false",
+          "id": "capstone_pending_002",
+          "number": "新待发令·002"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "held",
+          "evidence": "unverified",
+          "id": "capstone_pending_003",
+          "number": "新待发令·003"
+        },
+        {
+          "basis": "独立编号事项，本次查据不足；循例仍须核验与签收，不等于无误或自动放行。",
+          "batch_id": "capstone_pending_batch_01",
+          "disposition": "held",
+          "evidence": "unverified",
+          "id": "capstone_pending_004",
+          "number": "新待发令·004"
+        }
+      ],
+      "xp": 210,
+      "coins": 104,
+      "hero_hp": 106
+    }
+  ],
+  "pixel_findings": [
+    {
+      "frames": [
+        "01",
+        "02"
+      ],
+      "finding": "PASS: Wen original letter and explicit return panel are readable, fully contained and visually distinct. Original text limits the water-mark comparison and does not prescribe the player future; return text allows withholding trust. Three/four options fit and the final option is visible."
+    },
+    {
+      "frames": [
+        "03"
+      ],
+      "finding": "PASS: issued register separates old two-load boat ticket 乙06 and new two-hamper 乙09 authorization, with arrival/check/release chronology and retained-at-origin physical cargo statement. All paragraph ends and three options are visible."
+    },
+    {
+      "frames": [
+        "04"
+      ],
+      "finding": "PASS with observation: one original Liang at archive with coherent 72px authored height, readable name and E target. Hero plus Shen/Tang/Qin form the trailing party. Partial pine overlap on Tang is present, no duplicated archive NPC. Ji ledger is a separate attached visual at its correct source interaction."
+    },
+    {
+      "frames": [
+        "05",
+        "06"
+      ],
+      "finding": "PASS: four distinct allies and one Liang, separate footing/shadows, complete actors and HUD. Stable idle shows all names/HP bars, ally numeric HP and Liang 567/620 with heavy intent toward Shen. Compact labels are smaller but visible and not clipped."
+    },
+    {
+      "frames": [
+        "07",
+        "08"
+      ],
+      "finding": "PASS: same Liang identity in raised-sword heavy windup, selected Shen ring. Actor header names Liang. Deliberate moving-actor nameplate fade agrees with source policy and does not remove permanent ally HUD HP."
+    },
+    {
+      "frames": [
+        "09",
+        "10"
+      ],
+      "finding": "PASS: Liang lunge reaches Shen, Shen hit reaction and -38 correspond to 122→84 HP; there remain four distinct allies and one boss. No duplicate body or clipped weapon."
+    },
+    {
+      "frames": [
+        "11",
+        "12"
+      ],
+      "finding": "PASS: distinct return/recovery point after round-three attack, Liang posture/footing consistent; Tang -1 and 138/139 are visible. These are round-three recovery, not the continuation of the pictured round-two heavy contact."
+    },
+    {
+      "frames": [
+        "13",
+        "14"
+      ],
+      "finding": "PASS: Liang kneels with 0/620 and 已倒下; hero action recovery and final -18 agree with lethal token 31. Other three allies and full compact panels remain visible."
+    },
+    {
+      "frames": [
+        "15"
+      ],
+      "finding": "PASS: precisely four sheets 001–004, each 待; caption says pending classification; one desk and four-person party, no fifth sheet."
+    },
+    {
+      "frames": [
+        "16"
+      ],
+      "finding": "PASS: sheets are 撤撤缓缓; high-contrast caption explicitly distinguishes 001/002 cancelled and 003/004 held for review."
+    },
+    {
+      "frames": [
+        "17"
+      ],
+      "finding": "PASS: sheets are 撤撤续续; caption explicitly distinguishes cancellation from continuing normal verification/issuance, not automatic certification as true."
+    },
+    {
+      "frames": [
+        "18"
+      ],
+      "finding": "PASS: first-volume completion, once-only 160XP/80coins and continue-walking option all fit. Text explicitly retains unfinished side signatures, companions, bridge work and study. No 1.0/full-product completion claim."
+    }
+  ],
+  "current_source_inspected": [
+    "scripts/world.gd:242-265,1322-1352",
+    "scripts/frostbridge_region.gd:65-88,135-161",
+    "scripts/painted_battle_liang.gd:10",
+    "scripts/party_battle_art.gd:541-565",
+    "scripts/volume_one_capstone_story.gd:129-210,299-583",
+    "scripts/volume_one_capstone_rules.gd:15-23,131-140,180-193",
+    "tests/record_capstone_phase2.gd:1-240"
+  ],
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/independent-native/native-pixel-review.json",
+    "sha256": "c7071b4024ac909ce66300c483e03ad558149a8ea08db255e2d2bd87623eb526",
+    "bytes": 27562
+  }
+}

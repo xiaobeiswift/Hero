@@ -1,0 +1,49 @@
+{
+  "status": "focused controller unit validation passed; actual-main-scene/earned/native review separate",
+  "utc": "2026-10-03T08:31:42.160495+00:00",
+  "checks": 963,
+  "command": "XDG_DATA_HOME=<isolated-test-directory> XDG_CACHE_HOME=<isolated-test-directory> godot --headless --path . --script tests/capstone_story_test.gd",
+  "owned_files": [
+    {
+      "path": "scripts/volume_one_capstone_story.gd",
+      "bytes": 64444,
+      "sha256": "e87e576a1f617361c220ec01a5f89f1c20d5c10df3248408172fa31c5a5329ce"
+    },
+    {
+      "path": "scripts/volume_one_capstone_story.gd.uid",
+      "bytes": 19,
+      "sha256": "95a212d2a6995a783aa1fd52c49040a5fa85ec9a0912071f7f26b87077388814"
+    },
+    {
+      "path": "tests/capstone_story_test.gd",
+      "bytes": 27022,
+      "sha256": "350cea72ae775f1c657130fa51597e51a12408e697e49303df2377b437a5fdf0"
+    },
+    {
+      "path": "tests/capstone_story_test.gd.uid",
+      "bytes": 20,
+      "sha256": "b0e47c14a93d4c4a22a334bf218126dcad28646de1fb5ba8937327f07225b7a6"
+    }
+  ],
+  "coverage": [
+    "full canonical State + strict <75 actual-site guards; invalid screen/map/quit/battle/token/HP/resources/history/nonfinite/site/identity/generation",
+    "original letter kept by Wen, retained draft/admission, explicit return only; explicit free rest independent",
+    "all concrete issued fields mandatory before judgement; wrong answers free; live eligible helpers with solo fallback",
+    "actual automatic-controller win/flee/defeat tokens; no synthetic victory shortcut; PartyUI-owned entry checkpoint represented by focused host adapter",
+    "real same-target .tmp failure preserving old disk and accepted memory; retry serialization only at begin/reveal/evidence/classification/plan/disposition/homecoming, entry/win/defeat/rest",
+    "stage5 empty draft persistence/reload, no refight, reversible plan and A→B→A stale confirmation rejection",
+    "desk-only safe-first confirmation; finite4order outcomes; equal once160XP/80coin elder reward; capped coin/level99 honest receipt",
+    "all legal authored pages bounded<=5choices and no unresolved runtime substitutions; old optional NPC routing unaffected",
+    "Full original read-only Heting manifest via pure old-story body; stale return/open callbacks rejected and no saves/progress; manifest access retained before accepting capstone(stage0), during(stage1), after(stage7)"
+  ],
+  "limits": [
+    "FolioFixture and WorldFixture are synthetic capture hosts. Their callback calls are controller unit tests, not real keyboard/mouse input or walking.",
+    "Prior completed story states and high/low combat stats are synthetic canonical mechanics fixtures, not earned gameplay or balance evidence.",
+    "No native visuals, exact exported package, performance, publication or deployment claimed."
+  ],
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/story/controller-report.json",
+    "sha256": "6bfed7e0e419bede528412e9bad5d02ba887afc4ebc2d107ce55f6ffcc0e5ba2",
+    "bytes": 2824
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "review_utc": "2026-10-03T08:33:52.988823+00:00",
+  "baseline": "31ba4221d359a94523ef6a91f4f8a30fd72e87e8",
+  "original_story_baseline": "606ea4780d090919329e562842dba831530736be",
+  "source_modified_by_reviewer": false,
+  "files": [
+    {
+      "path": "scripts/volume_one_capstone_story.gd",
+      "bytes": 64444,
+      "sha256": "e87e576a1f617361c220ec01a5f89f1c20d5c10df3248408172fa31c5a5329ce",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/volume_one_capstone_rules.gd",
+      "bytes": 19553,
+      "sha256": "e94be62c7c9afc1bc536be0dd22f4e8915fd2de8de776a1da76006a01a5f98a6",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 71250,
+      "sha256": "472b0a5d34ab46b0d322bd0a29b4c0d11fb81158a8a7f59b7241104d8aad64c9",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/frostbridge_story.gd",
+      "bytes": 11449,
+      "sha256": "9402440d4de997f91572f8932f24a55fff1b16b0e88bcb9d74c1e4b7b267d0e2",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/heting_consignee_rules.gd",
+      "bytes": 17354,
+      "sha256": "91616072c080f2de7b042fa6acd10015fd4deca1734010fc622c150dff066c3f",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/heting_consignee_story.gd",
+      "bytes": 20497,
+      "sha256": "8e9a1c01b026ae9a57b8c4796989cfa654a4a5a6c75a03a9bac4a42fb534c550",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/heting_story.gd",
+      "bytes": 23602,
+      "sha256": "a1a8d749fee912ecd8d156c01b8ab2295d5dadb66242b9406a64f457ad346771",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/heting_receipt_rules.gd",
+      "bytes": 4281,
+      "sha256": "e284876754b111886eaf2f2d4fbef8795ee112a6436243006906466a7aa270df",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/heting_receipt_story.gd",
+      "bytes": 8838,
+      "sha256": "ff7362ed4324ef43750ae60ef079f3b2420ba610a040477f28565eeb273048ec",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/game_state.gd",
+      "bytes": 81624,
+      "sha256": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/party_roster_rules.gd",
+      "bytes": 13259,
+      "sha256": "6f475b73ca9452440f6356388ab7f369f90ed68ffb7b8464c7c7bc0e808e4c1d",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/companion_story.gd",
+      "bytes": 5286,
+      "sha256": "e07133e2f271bd7bf8a363fb90ca24df687556375f0d684d96b2e66445c1dc4a",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/qin_companion_story.gd",
+      "bytes": 4486,
+      "sha256": "beb2913b4fd9a14cd2e947769770515c537beb145cfd3d19c984fc61f6352611",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/shen_care_story.gd",
+      "bytes": 12902,
+      "sha256": "b89797629a9b18b210dfa80f0766f48e7f89f7af3dc2be0f34f0838147aad604",
+      "probe_snapshot_matches": true
+    },
+    {
+      "path": "scripts/mistwood_story.gd",
+      "bytes": 10310,
+      "sha256": "2567f0026d46e8827675d997430e14889cce3c2d5561826f9d711d8b200071bb",
+      "probe_snapshot_matches": true
+    }
+  ],
+  "runtime_probe": {
+    "scope": "isolated copied-source prepared text/callback projection, not physical/earned/battle acceptance",
+    "checks": 1975,
+    "rendered_pages": 1408,
+    "branch_combinations": 128,
+    "failures": 0,
+    "original_manifest_stage_checks": [
+      0,
+      1,
+      7
+    ]
+  },
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/independent-continuity/source-binding.json",
+    "sha256": "c3e7f6eabe35741281c7a0cf5e53e9a38f7bfa20a44616666e9b1fa7d6c05b03",
+    "bytes": 3581
+  }
+}

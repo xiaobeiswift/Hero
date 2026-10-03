@@ -1,0 +1,99 @@
+{
+  "baseline": "31ba4221",
+  "scope": "Exact source-body comparison. Prepared world tests separately compare 11139 collision grid samples per map at stages0..7; no terrain/topology edited. No claim of native pixel parity.",
+  "checks": [
+    {
+      "path": "scripts/world.gd",
+      "function": "_can_walk",
+      "unchanged": true,
+      "baseline_sha256": "2f6895d74dfb3e4a0d2da9b8e03aae6c95dd2bacc25c368364009e14fded370f",
+      "current_sha256": "2f6895d74dfb3e4a0d2da9b8e03aae6c95dd2bacc25c368364009e14fded370f"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_can_walk_sluice",
+      "unchanged": true,
+      "baseline_sha256": "47dbb04274ac98c96bf6b69aedb0b3dc0e937e5d70dafe3605dc02581c06f6b1",
+      "current_sha256": "47dbb04274ac98c96bf6b69aedb0b3dc0e937e5d70dafe3605dc02581c06f6b1"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_sluice_channel_x",
+      "unchanged": true,
+      "baseline_sha256": "325ca58685024a07268ab2270d57ce6c8b207840583ae0ee6ae56572611132cb",
+      "current_sha256": "325ca58685024a07268ab2270d57ce6c8b207840583ae0ee6ae56572611132cb"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_can_step",
+      "unchanged": true,
+      "baseline_sha256": "649506166edd8f7503767c11f73e34cc82ad45134d87c734c76a30c3290ff103",
+      "current_sha256": "649506166edd8f7503767c11f73e34cc82ad45134d87c734c76a30c3290ff103"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_follower_can_walk",
+      "unchanged": true,
+      "baseline_sha256": "5d8e237bcc00bd6429dcd9aa1b7326bd1890f0b04cf40d08a5719f2b95d69602",
+      "current_sha256": "5d8e237bcc00bd6429dcd9aa1b7326bd1890f0b04cf40d08a5719f2b95d69602"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_follower_can_step",
+      "unchanged": true,
+      "baseline_sha256": "d841928e335e830176c342fff4651aeccdd4c6e8db88468ce6c81c6f557f1a94",
+      "current_sha256": "d841928e335e830176c342fff4651aeccdd4c6e8db88468ce6c81c6f557f1a94"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_follower_topology_key",
+      "unchanged": true,
+      "baseline_sha256": "54a76bda8d609ae5da64581c03629669397eb76593f7944bc86acf6948109541",
+      "current_sha256": "54a76bda8d609ae5da64581c03629669397eb76593f7944bc86acf6948109541"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "_building_opacity",
+      "unchanged": true,
+      "baseline_sha256": "54a687169555e481f0a4529b97881edcd2b351e2648e5b2acc365f8ae5eed62c",
+      "current_sha256": "54a687169555e481f0a4529b97881edcd2b351e2648e5b2acc365f8ae5eed62c"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "exploration_actor_positions",
+      "unchanged": true,
+      "baseline_sha256": "4c4ce871e1cb9c9579662f9c4ece6093495267e5237433563b7e5c6a54781677",
+      "current_sha256": "4c4ce871e1cb9c9579662f9c4ece6093495267e5237433563b7e5c6a54781677"
+    },
+    {
+      "path": "scripts/world.gd",
+      "function": "append_follower_layers",
+      "unchanged": true,
+      "baseline_sha256": "4c63ee96817c54ace1cfc301bd0bfcce3b84712170532369907b638b7e6182f2",
+      "current_sha256": "4c63ee96817c54ace1cfc301bd0bfcce3b84712170532369907b638b7e6182f2"
+    },
+    {
+      "path": "scripts/frostbridge_region.gd",
+      "function": "walkable",
+      "unchanged": true,
+      "baseline_sha256": "14bb46d508f206fd4f659741178dfda6867ba8b0e2c4ea4475f509c51d8b6f69",
+      "current_sha256": "14bb46d508f206fd4f659741178dfda6867ba8b0e2c4ea4475f509c51d8b6f69"
+    },
+    {
+      "path": "scripts/frostbridge_region.gd",
+      "constant": "BUILDINGS",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/frostbridge_region.gd",
+      "constant": "TREES",
+      "unchanged": true
+    }
+  ],
+  "pass": true,
+  "original_evidence": {
+    "path": "Hero-staging/capstone-phase2/world/collision-source-audit.json",
+    "sha256": "e1718782323ac9e64dad817df0a7245f0a50a8fa5b499e5217d8dc0da608ecbc",
+    "bytes": 3740
+  }
+}

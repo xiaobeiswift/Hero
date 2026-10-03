@@ -20,7 +20,17 @@ func _run()->void:
   var count=4 if kind in ["training","courtyard_practice","heting_receipt","heting_consignee"] else (3 if kind.begins_with("mist_") else 2)
   _setup(kind,count)
   if kind!="story":s.learn_internal_skill();s.learn_lightness()
-  check(app._start_unified_battle(kind),"Actual shared entry "+kind)
+  await _key(KEY_E)
+  if kind=="heting_receipt":
+   var receipt_entry=_button(app.overlay,"复签应战准备")
+   check(receipt_entry!=null,"Receipt actual preparation")
+   if receipt_entry!=null:await _click(receipt_entry)
+  if kind=="capstone_authorizer":
+   var capstone_entry=_button(app.overlay,"查看应战准备")
+   check(capstone_entry!=null,"Capstone actual preparation")
+   if capstone_entry!=null:await _click(capstone_entry)
+  await _key(KEY_1)
+  check(app.current_screen=="party_battle" and app.overlay.has_meta("party_battle"),"Actual input shared entry "+kind)
   var panel=app.overlay.get_meta("party_battle")
   panel.set_process(false);panel.art.set_process(false);panel.set_pause_request(true)
   check(panel.commands.groups.size()==count,"Only actual occupied groups")

@@ -48,6 +48,12 @@ func _prepared(id:String,count:int=1):
     check(s.observe_consignee(observation),"Actual solo observation "+observation)
    check(s.resolve_consignee_contradiction("order_before_inspection").ok,"Actual contradiction resolution")
    check(s.choose_consignee_plan("hold_for_inspection"),"Actual reversible draft before battle")
+  "capstone_authorizer":
+   s.mist_stage=4;s.mist_approach="duel";s.mist_gauges.assign(["rain","stone","basin"]);s.mist_ending="release_water"
+   s.heting_stage=4;s.heting_bridge="east";s.heting_delivered.assign(["meal","sealed","reserve"]);s.heting_draft="short_ferries";s.heting_ending="short_ferries"
+   # Explicit complete-prior-story rendering fixture, not an earned journey.
+   s.consignee_stage=5;s.consignee_observations.assign(s.Consignee.OBSERVATIONS);s.consignee_draft="hold_for_inspection";s.consignee_ending="hold_for_inspection";s.consignee_cargo_location="public_scale"
+   s.capstone_stage=3
  s.map_id=Encounters.LOCATIONS[id][0];s.position=Vector2(420,450)
  check(s._stage_save_data(s.to_dict(),State.SAVE_VERSION).ok,"Prepared %s state is canonical"%id)
  return s

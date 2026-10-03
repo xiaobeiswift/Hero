@@ -159,7 +159,8 @@ func _new_route(harbor: String, plan: String, receipt: int) -> void:
 	await _new_site(site)
 	_check(_modal_text().contains("平川粮栈") and _modal_text().contains("上游") and _find_button(game.overlay,"确认交下本批") == null,"Receiver aftermath records bounded local finding and blocks repeat payout")
 	await _key(KEY_ESCAPE); var journal_writes: int = probe.writes; await _key(KEY_J)
-	_check(_modal_text().contains("未损先收") and _modal_text().contains("一秤两岸") and _modal_text().contains("昨夜"),"Journal retains both chapters and unchanged night allocation")
+	var earlier_allocation: String = "此前短渡分粮照旧。" if game.state.heting_ending == "short_ferries" else "此前开秤分粮照旧。"
+	_check(_modal_text().contains("未损先收") and _modal_text().contains("一秤两岸") and _modal_text().contains(earlier_allocation),"Journal retains both chapters and exact chosen earlier-night allocation")
 	await _key(KEY_ESCAPE)
 	_check(probe.writes == journal_writes,"Read-only journal open/Esc does not write a save")
 	await _receipt_access(receipt)
