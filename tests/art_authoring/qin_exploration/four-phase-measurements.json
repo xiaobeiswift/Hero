@@ -1,0 +1,468 @@
+{
+  "frame_count_per_direction": 4,
+  "source_pixel_scale": 672,
+  "logical_canvas": [
+    672,
+    672
+  ],
+  "foot_anchor": [
+    336,
+    633
+  ],
+  "alpha_measurement_threshold": 32,
+  "directions": {
+    "front": {
+      "file": "assets/generated/characters/painted_qin_walk_front.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "fae899d2b07d0835fa82fdba3b4e57be32af01a14d5c7a3cfed43fc5ce868a10",
+      "alpha_zero_fraction": 0.6581026838518654,
+      "frame_order": [
+        0,
+        3,
+        2,
+        1
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "region": [
+            192,
+            8,
+            392,
+            602
+          ],
+          "foot": [
+            365,
+            602
+          ],
+          "crop_foot": [
+            173,
+            594
+          ],
+          "margin_offset": [
+            163,
+            39
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 363,
+          "rgba_sha256": "8b7f4a1e1a9039f5bdfdba4714c58280fb235d298ea9e4ea3e44350b143a1f5b"
+        },
+        {
+          "source_frame": 1,
+          "region": [
+            752,
+            5,
+            381,
+            610
+          ],
+          "foot": [
+            939,
+            607
+          ],
+          "crop_foot": [
+            187,
+            602
+          ],
+          "margin_offset": [
+            149,
+            31
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 345,
+          "rgba_sha256": "3b646851673bc25cf290edbeb3646046a29bfc505efead8e1f8ce1f8a60cf8d4"
+        },
+        {
+          "source_frame": 2,
+          "region": [
+            195,
+            634,
+            374,
+            596
+          ],
+          "foot": [
+            370,
+            1222
+          ],
+          "crop_foot": [
+            175,
+            588
+          ],
+          "margin_offset": [
+            161,
+            45
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 330,
+          "rgba_sha256": "417dc7e8d3c1c1b6be42e2915d1a9c5e3ba5b2840f723955570daadbef09a29e"
+        },
+        {
+          "source_frame": 3,
+          "region": [
+            781,
+            633,
+            377,
+            601
+          ],
+          "foot": [
+            947,
+            1226
+          ],
+          "crop_foot": [
+            166,
+            593
+          ],
+          "margin_offset": [
+            170,
+            40
+          ],
+          "max_edge_alpha": 0,
+          "lower_silhouette_width": 338,
+          "rgba_sha256": "6e7c572fe48faffb72575f4b5d9ae12fae4dd4ba1189c9697471d4cc569554fb"
+        }
+      ]
+    },
+    "right": {
+      "file": "assets/generated/characters/painted_qin_walk_right.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "c169430ad445e64e91cbf91ce270ecd3261d93218c08ead04c7de6bcce7bfa34",
+      "alpha_zero_fraction": 0.6464385735979793,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "region": [
+            115,
+            12,
+            537,
+            606
+          ],
+          "foot": [
+            385,
+            610
+          ],
+          "crop_foot": [
+            270,
+            598
+          ],
+          "margin_offset": [
+            66,
+            35
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 514,
+          "rgba_sha256": "3b1459a730a37bf1ab34249b610db9df44919f054357e163fe28ad0f77b3ef9f"
+        },
+        {
+          "source_frame": 1,
+          "region": [
+            725,
+            14,
+            378,
+            606
+          ],
+          "foot": [
+            980,
+            612
+          ],
+          "crop_foot": [
+            255,
+            598
+          ],
+          "margin_offset": [
+            81,
+            35
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 317,
+          "rgba_sha256": "017e04b0ba4a4e4ef703561d6109e4bced62686b61a22b083f41107dc015f65b"
+        },
+        {
+          "source_frame": 2,
+          "region": [
+            120,
+            630,
+            564,
+            597
+          ],
+          "foot": [
+            398,
+            1219
+          ],
+          "crop_foot": [
+            278,
+            589
+          ],
+          "margin_offset": [
+            58,
+            44
+          ],
+          "max_edge_alpha": 0,
+          "lower_silhouette_width": 545,
+          "rgba_sha256": "26e4898e06bf74c6f29eac634413483c30e3c08f5b86e9c9c89c36b73655d372"
+        },
+        {
+          "source_frame": 3,
+          "region": [
+            788,
+            630,
+            358,
+            600
+          ],
+          "foot": [
+            988,
+            1222
+          ],
+          "crop_foot": [
+            200,
+            592
+          ],
+          "margin_offset": [
+            136,
+            41
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 226,
+          "rgba_sha256": "8c1eb1f80edcc171b5c133de2f3ea5193700bd5daee05d8dc4b2e64b22977c16"
+        }
+      ]
+    },
+    "back": {
+      "file": "assets/generated/characters/painted_qin_walk_back.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "b91246dcd0a0a25e0243266d0c295d28410b62b4bc5dd577ed8c3f7744aafe75",
+      "alpha_zero_fraction": 0.6718558030570119,
+      "frame_order": [
+        0,
+        3,
+        2,
+        1
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "region": [
+            156,
+            12,
+            369,
+            606
+          ],
+          "foot": [
+            365,
+            610
+          ],
+          "crop_foot": [
+            209,
+            598
+          ],
+          "margin_offset": [
+            127,
+            35
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 321,
+          "rgba_sha256": "83b67c2268ccddaa47b87d648f1b9854c21b4d80b89344af36358fb5d19c5f7f"
+        },
+        {
+          "source_frame": 1,
+          "region": [
+            718,
+            10,
+            359,
+            608
+          ],
+          "foot": [
+            921,
+            610
+          ],
+          "crop_foot": [
+            203,
+            600
+          ],
+          "margin_offset": [
+            133,
+            33
+          ],
+          "max_edge_alpha": 0,
+          "lower_silhouette_width": 327,
+          "rgba_sha256": "5b74002f4176276b490c6238179833cba5a6d49fa86427c796649a2c75fbea97"
+        },
+        {
+          "source_frame": 2,
+          "region": [
+            178,
+            623,
+            347,
+            607
+          ],
+          "foot": [
+            364,
+            1222
+          ],
+          "crop_foot": [
+            186,
+            599
+          ],
+          "margin_offset": [
+            150,
+            34
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 310,
+          "rgba_sha256": "e3bdb303902e6dd593b5848725f7a96538bd47b807bf02e967044976170b6ea2"
+        },
+        {
+          "source_frame": 3,
+          "region": [
+            719,
+            624,
+            356,
+            606
+          ],
+          "foot": [
+            915,
+            1222
+          ],
+          "crop_foot": [
+            196,
+            598
+          ],
+          "margin_offset": [
+            140,
+            35
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 294,
+          "rgba_sha256": "97e48adb7c897267d932656fc156a5040600e699b78a576d6702b8f2a825570f"
+        }
+      ]
+    },
+    "left": {
+      "file": "assets/generated/characters/painted_qin_walk_left.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "71c682709adc546bd3a87aefc0b04f958073d0909af4151dc56ac269b41b9479",
+      "alpha_zero_fraction": 0.6756338250294432,
+      "frame_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "region": [
+            107,
+            11,
+            501,
+            603
+          ],
+          "foot": [
+            355,
+            606
+          ],
+          "crop_foot": [
+            248,
+            595
+          ],
+          "margin_offset": [
+            88,
+            38
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 471,
+          "rgba_sha256": "54beab906be3e27fc939b5409c53efbc6c165b0c4712f3f5b01589f91291ae14"
+        },
+        {
+          "source_frame": 1,
+          "region": [
+            837,
+            11,
+            308,
+            603
+          ],
+          "foot": [
+            970,
+            606
+          ],
+          "crop_foot": [
+            133,
+            595
+          ],
+          "margin_offset": [
+            203,
+            38
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 259,
+          "rgba_sha256": "c85d0f2862c14e27f256fa06e96d362dd9903eee4d8ba1245778658e47d471f5"
+        },
+        {
+          "source_frame": 2,
+          "region": [
+            107,
+            619,
+            501,
+            595
+          ],
+          "foot": [
+            352,
+            1206
+          ],
+          "crop_foot": [
+            245,
+            587
+          ],
+          "margin_offset": [
+            91,
+            46
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 466,
+          "rgba_sha256": "087ad1b1731ebe1c8d428961666ff0a6ce6c1e58ef2ba78aa41640fcd2f9aac1"
+        },
+        {
+          "source_frame": 3,
+          "region": [
+            800,
+            621,
+            398,
+            606
+          ],
+          "foot": [
+            968,
+            1219
+          ],
+          "crop_foot": [
+            168,
+            598
+          ],
+          "margin_offset": [
+            168,
+            35
+          ],
+          "max_edge_alpha": 1,
+          "lower_silhouette_width": 254,
+          "rgba_sha256": "8e549d46cceb5484e26f20af97d453eca631adedbcfceb080a71adc559a11b0b"
+        }
+      ]
+    }
+  },
+  "status": "accepted after anatomical and final native72px/216px walk-stop-restart review"
+}

@@ -1,0 +1,96 @@
+{
+  "file": "assets/generated/characters/painted_qin_idle.png",
+  "size": [
+    1254,
+    1254
+  ],
+  "sha256": "749e88b29f79d0ba485b74fb2748af8a7f53dc9c5b922b52448d982d7a76bc3d",
+  "logical_canvas": [
+    672,
+    672
+  ],
+  "foot_anchor": [
+    336,
+    633
+  ],
+  "uniform_idle_scale": 1.125,
+  "alpha_threshold": 32,
+  "directions": {
+    "front": {
+      "source_frame": 0,
+      "region": [
+        233,
+        49,
+        289,
+        553
+      ],
+      "foot": [
+        378,
+        594
+      ],
+      "margin_offset": [
+        191,
+        88
+      ],
+      "max_edge_alpha": 0,
+      "opaque_height": 537
+    },
+    "left": {
+      "source_frame": 1,
+      "region": [
+        799,
+        53,
+        259,
+        551
+      ],
+      "foot": [
+        928,
+        596
+      ],
+      "margin_offset": [
+        207,
+        90
+      ],
+      "max_edge_alpha": 1,
+      "opaque_height": 535
+    },
+    "back": {
+      "source_frame": 2,
+      "region": [
+        234,
+        646,
+        288,
+        546
+      ],
+      "foot": [
+        380,
+        1184
+      ],
+      "margin_offset": [
+        190,
+        95
+      ],
+      "max_edge_alpha": 1,
+      "opaque_height": 530
+    },
+    "right": {
+      "source_frame": 3,
+      "region": [
+        798,
+        649,
+        254,
+        542
+      ],
+      "foot": [
+        933,
+        1183
+      ],
+      "margin_offset": [
+        201,
+        99
+      ],
+      "max_edge_alpha": 0,
+      "opaque_height": 526
+    }
+  }
+}

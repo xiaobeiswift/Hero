@@ -1,0 +1,40 @@
+{
+  "schema": "qin-exploration-runtime-v1",
+  "walk_key_count": 16,
+  "idle_pose_count": 4,
+  "scale": "72px nominal; fixed672 logical canvas, idle1.125 optical normalization",
+  "status": "accepted: anatomical review and final native72px/216px walk-stop-restart review",
+  "files": [
+    {
+      "path": "scripts/painted_qin_sprite.gd",
+      "sha256": "f93461c04263dcaae86a54eba11f0d7244d4ad688514f61ce1de32c4011efda2",
+      "bytes": 5260
+    },
+    {
+      "path": "assets/generated/characters/painted_qin_idle.png",
+      "sha256": "749e88b29f79d0ba485b74fb2748af8a7f53dc9c5b922b52448d982d7a76bc3d",
+      "bytes": 1071313
+    },
+    {
+      "path": "assets/generated/characters/painted_qin_walk_back.png",
+      "sha256": "b91246dcd0a0a25e0243266d0c295d28410b62b4bc5dd577ed8c3f7744aafe75",
+      "bytes": 1360475
+    },
+    {
+      "path": "assets/generated/characters/painted_qin_walk_front.png",
+      "sha256": "fae899d2b07d0835fa82fdba3b4e57be32af01a14d5c7a3cfed43fc5ce868a10",
+      "bytes": 1389026
+    },
+    {
+      "path": "assets/generated/characters/painted_qin_walk_left.png",
+      "sha256": "71c682709adc546bd3a87aefc0b04f958073d0909af4151dc56ac269b41b9479",
+      "bytes": 1363886
+    },
+    {
+      "path": "assets/generated/characters/painted_qin_walk_right.png",
+      "sha256": "c169430ad445e64e91cbf91ce270ecd3261d93218c08ead04c7de6bcce7bfa34",
+      "bytes": 1410123
+    }
+  ],
+  "native_review_utc": "2026-10-03T00:37:54Z"
+}

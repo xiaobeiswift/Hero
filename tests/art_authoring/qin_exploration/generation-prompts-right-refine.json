@@ -1,0 +1,14 @@
+[
+  {
+    "key": "qinRightStraightSupportPrompt",
+    "prompt": "Edit ONLY the BOTTOM RIGHT WOMAN in this original transparent 2x2 Qin walk sheet. Keep the other three figures unchanged. The bottom right needs a very different LEG POSE; currently her bent knee bulges forward screen-right like the top-right, which is WRONG. Repaint BOTH trouser legs below her waist as follows: Her visible foreground/right thigh drops STRAIGHT DOWN VERTICALLY from waist to knee, then STRAIGHT DOWN to the flat planted foreground boot. The foreground leg has NO forward bulging knee. Keep its dark gray baggy trouser material and brown crisscross-wrapped boot. Her other far leg must bend BACKWARDS at the knee toward SCREEN LEFT, with that far boot lifted behind her at screen-left, heel pointing up toward buttock; the far foot must sit behind the STAFF, to the staff's LEFT. This back-kick of the FAR foot contrasts with the top-right's high forward knee. Show a narrow straight grounded leg in front and clearly visible small backward-raised boot behind. Feet do not cross or duplicate. Preserve the woman's upper torso, face, robe color, staff in same right hand, pack, whole height, painterly detailed identity and all transparent margins. Do not change the staff or generate a third leg. Do not merely change fabric texture; change the actual anatomy and silhouette. No text, background or shadows.",
+    "source": "generated_images/exec-3ec0d5db-bd0c-4b37-86bd-7a1bc3a7a578.png",
+    "status": "rejected: correct straight support but excessive back-kick"
+  },
+  {
+    "key": "qinRightLowerPassingPrompt",
+    "prompt": "Make ONE small anatomy correction to the BOTTOM-RIGHT walking figure only. Its lifted REAR boot at SCREEN LEFT is too high, like running. Lower that lifted boot by about150pixels, so its toe is only50pixels ABOVE the planted boot's sole. Repaint the far shin accordingly: the back knee bends only35 degrees and hangs lower near the supporting knee. This must be an ordinary slow walking passing pose: straight foreground leg planted vertically under pelvis; far foot lifted LOW just behind the planted ankle at screen-left, NOT a heel up near the hip. Preserve its straight foreground trouser leg, full staff, face, outfit, upper body, boots' material, all other three figures, image dimensions, and true transparency. Change only that raised rear leg/boot in bottom-right. No third leg, no new accessories, no background, text or shadow.",
+    "source": "generated_images/exec-6c357ad6-d345-4bdb-b0a7-ecf7c2dc3be7.png",
+    "status": "intermediate selected low passing anatomy; subsequent edit clarifies opposite contact"
+  }
+]

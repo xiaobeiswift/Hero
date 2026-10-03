@@ -1,0 +1,32 @@
+[
+  {
+    "retained_source": "generated_images/exec-42e3ede9-8089-497f-9dc1-d7cd8e041be3.png",
+    "file": "assets/generated/characters/painted_qin_walk_left.png",
+    "sha256": "71c682709adc546bd3a87aefc0b04f958073d0909af4151dc56ac269b41b9479"
+  },
+  {
+    "retained_source": "generated_images/exec-b6868dfd-af52-4417-9e55-d3fa830a222d.png",
+    "file": "assets/generated/characters/painted_qin_walk_right.png",
+    "sha256": "c169430ad445e64e91cbf91ce270ecd3261d93218c08ead04c7de6bcce7bfa34"
+  },
+  {
+    "retained_source": "generated_images/exec-a09b8ab9-39fd-49c9-b4cf-b0dc5740923d.png",
+    "file": "evidence/pre-review/painted_qin_walk_right.png",
+    "sha256": "4216ccd83c496e67c40b95f124e526eeb577afa03822bf4fc1dcfcf96cc58e79"
+  },
+  {
+    "retained_source": "generated_images/exec-9c03a53b-0d1f-47e3-9f29-0b848cda6441.png",
+    "file": "evidence/pre-review/painted_qin_walk_left.png",
+    "sha256": "c712095da0cac8029a3f182cb4ffd7ba33c77fcbb84e215208f93fa47b2c4fa3"
+  },
+  {
+    "retained_source": "generated_images/exec-700e8659-20f0-4904-bc29-13671857c889.png",
+    "file": "assets/generated/characters/painted_qin_walk_front.png",
+    "sha256": "fae899d2b07d0835fa82fdba3b4e57be32af01a14d5c7a3cfed43fc5ce868a10"
+  },
+  {
+    "retained_source": "generated_images/exec-e661271f-b7d7-4541-be83-72ab3d737e07.png",
+    "file": "assets/generated/characters/painted_qin_walk_back.png",
+    "sha256": "b91246dcd0a0a25e0243266d0c295d28410b62b4bc5dd577ed8c3f7744aafe75"
+  }
+]
