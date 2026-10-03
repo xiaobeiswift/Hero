@@ -1,0 +1,121 @@
+{
+  "status": "passed post-route-note source-scene checks; full/native/package records are separate",
+  "version": "0.0.31",
+  "schema": 16,
+  "model_base": "785718d266bd1383610460f3b568fa3f4d86cd0f",
+  "post_model_correction": "One local-success route_note reset, independently reproduced red427/2 then green427/0; no target/priority/gate change. Original phase1 model/report hashes remain historical.",
+  "source_scene_checks": [
+    {
+      "label": "focused",
+      "exit": 0,
+      "checks": 119,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "label": "independent",
+      "exit": 0,
+      "checks": 2813,
+      "failures": [],
+      "errors": []
+    }
+  ],
+  "source_scene_inputs_compared": 9,
+  "source_scene_input_hashes": {
+    "scripts/main.gd": "8f1492127a5200617fe9056c507f0c525c108426be73b6d9097bb7f5104bbf86",
+    "scripts/world.gd": "9c68c6b68ced58d95edcdc18c25c51d7e2be73af0991b3fa61f78cdf56ec7971",
+    "scripts/game_hud.gd": "7eeac916d76b480124f21cdc939286e345d79284f4a64c4b72c80960cc4cfc27",
+    "scripts/map_chart.gd": "5cf823112c5f661bffdf069b96bc67fc6e27e53d5749e516dfd0807d703b4353",
+    "scripts/journal_ui.gd": "a66ff407c3983ef758336e2a9bb4f234ebf0e1a12742e3dc6295d0d6f62404e6",
+    "scripts/journal_guidance_view.gd": "1a923d62a38663053b73ad0bb5d22f59d99bc5a5e32e3a0ed0479252af899a20",
+    "scripts/journal_guidance_rules.gd": "ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb",
+    "tests/journal_guidance_ui_test.gd": "d6dc8baa5976d12dd298607db7e4b26830aed58ffba0534ff54037850019a313",
+    "tests/journal_guidance_scene_independent_test.gd": "98c533601fcbdd3063fe9dee9d862df6a2d0a475f042a3cd2fdd9f1379b099a5"
+  },
+  "source_scene_input_hashes_unchanged": true,
+  "results": {
+    "focused": {
+      "checks": 119,
+      "failures": [],
+      "cases": null,
+      "report_sha256": "308b3f06c59e99d42b3591f5ca0e0239b9c83ec5ac21b4f9887ca4cd280389e7",
+      "console_sha256": "da4f527d1f75ebde81e304196e00b373c6b5921dcc3ffd650db22bd1b57ad406",
+      "engine_sha256": "da4f527d1f75ebde81e304196e00b373c6b5921dcc3ffd650db22bd1b57ad406",
+      "scope": "Prepared source-scene integration using genuine production HeroState and real userdata files. Main observer delegates production saves. Main/World processing remain enabled. The first divergent-position open is a labeled synchronous handler boundary; later J entry and controls use flushed input events. Native Control dispatch is headless, not rendered/native contrast/earned/browser/Windows/package proof."
+    },
+    "independent": {
+      "checks": 2813,
+      "failures": [],
+      "cases": [
+        {
+          "case": "unwrapped_main",
+          "checks": 46,
+          "failures": 0
+        },
+        {
+          "case": "input_files",
+          "checks": 433,
+          "failures": 0
+        },
+        {
+          "case": "stale_owners",
+          "checks": 666,
+          "failures": 0
+        },
+        {
+          "case": "position_holds",
+          "checks": 1110,
+          "failures": 0
+        },
+        {
+          "case": "load_storage",
+          "checks": 1217,
+          "failures": 0
+        },
+        {
+          "case": "save_exit",
+          "checks": 1275,
+          "failures": 0
+        },
+        {
+          "case": "physical_cache",
+          "checks": 2669,
+          "failures": 0
+        },
+        {
+          "case": "session_progress",
+          "checks": 2813,
+          "failures": 0
+        }
+      ],
+      "report_sha256": "71616b3c10d6a29883915e88db93acc55004691f584911db3c1ce22045568959",
+      "console_sha256": "8713544aaed96da7b3b9fb77edacce2055adc1b68df43eced3b4571cfc56c62e",
+      "engine_sha256": "8713544aaed96da7b3b9fb77edacce2055adc1b68df43eced3b4571cfc56c62e",
+      "scope": "Prepared canonical genuine production State; mostly actual Main scene with explicitly scoped MainProbe _save/_autosave/_toast forwarding to super. Separate unwrapped actual Main case. No NoSave/NoPrefs spies. Engine-level synthetic native-control input, not native pixel/earned/browser/package acceptance. Main save-entry counters do not count PauseMenu or store direct State.save_game; full file bytes and identities cover observed read-only windows."
+    }
+  },
+  "preserved_other_model_inputs": {
+    "scripts/game_state.gd": "7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a",
+    "scripts/journal_objective_rules.gd": "3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c",
+    "scripts/journal_guidance_session.gd": "eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba"
+  },
+  "scope": {
+    "state": "Genuine production State throughout scene safety; separate unwrapped Main smoke",
+    "instrumentation": "MainProbe _save/_autosave/_toast observers delegate to production. Main entry counts do not claim coverage of direct State.save_game; full file bytes/identities additionally protect read-only windows",
+    "inputs": "Engine-level scripted key/mouse Control dispatch with both Main and World processing enabled; prepared fixtures, not a manual complete journey",
+    "covered": [
+      "Browsing/Track/Auto/history/read-only holds",
+      "Native-Control focus/keyboard/mouse ownership and stale callbacks",
+      "Shared current snapshot and loaded route reanchor",
+      "Only applied new/load resets; same-State and manual slots",
+      "Storage-only export/import retains selection, feature still default off",
+      "Actual save failure/retry, full files/canonical/transient preservation",
+      "Actual borrowed-battle return and roster/fitting transitions"
+    ],
+    "limits": [
+      "No browser graphics/audio/IndexedDB durability claim",
+      "Native pixels/earned walk and exact new PCK are separately measured",
+      "Pre-fix119/2813 evidence retained and not relabelled as post-fix"
+    ]
+  }
+}

@@ -170,9 +170,24 @@ func _route(prior: String, plan: String) -> void:
 	var old_bridge: String = probe.heting_bridge
 	_press("改接东岸" if old_bridge == "west" else "改接西岸")
 	_check(probe.heting_bridge != old_bridge and probe.heting_ending == plan and probe.mist_ending == prior, "Completed chapter still permits free navigation without changing either ending")
+	var journal_before:Dictionary=probe.to_dict().duplicate(true);var journal_writes:int=probe.writes
 	await _key(KEY_J)
-	_check(_modal_text().contains("一秤两岸") and _modal_text().contains("已定：") and _modal_text().contains("复称"), "Journal preserves local evidence and final night arrangement")
+	var journal=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal),"Completed harbor has a real earned journal owner")
+	journal.action_buttons.history.pressed.emit();await process_frame
+	_check(journal.page=="history" and journal.body.is_visible_in_tree() and journal.body.scroll_active,"Actual History control exposes readable completed harbor evidence")
+	var harbor_row:Dictionary={}
+	for row:Dictionary in journal._catalog:
+		if row.id=="heting_delivery":harbor_row=row
+	_check(probe.heting_stage==4 and not harbor_row.is_empty() and harbor_row.display_title=="埠灯未尽" and harbor_row.status=="completed" and not harbor_row.trackable,"Actual earned harbor row has exact completed title and no Track")
+	# Preserve 已定： and 复称; only the old static aggregate heading changes to its frozen stage title.
+	_check(journal.body.text.contains("埠灯未尽 · 已完成\n") and journal.body.text.contains("已定：") and journal.body.text.contains("复称"), "Journal preserves local evidence and final night arrangement")
+	_check(journal.body.text.contains("已定：短渡分粮" if plan=="short_ferries" else "已定：守秤留粮"),"Journal retains the exact independently chosen harbor allocation label")
 	await _key(KEY_ESCAPE)
+	_check(game.active_modal and journal.page=="journal","History Escape returns to the same J owner")
+	await _key(KEY_ESCAPE)
+	_check(not game.active_modal and not game.overlay.has_meta("journal_ui"),"Second Escape completely closes harbor history browsing")
+	_check(probe.to_dict()==journal_before and probe.writes==journal_writes,"Full harbor J/history/Escape/Escape flow preserves canonical state and save writes")
 
 func _parking_and_guards() -> void:
 	_prepare("warn_ferries")

@@ -13,14 +13,14 @@ import audit_web_export as audit
 
 class FittingPackAuditTests(unittest.TestCase):
     # Deliberately tiny synthetic grammar fixture, unrelated to measured gameplay.
-    COUNTERS=('PRESERVED','UNIFIED','EXPLORATION','CONDITION','TRANSFER','CONSIGNEE','POLISH','CAPSTONE','FITTING')
+    COUNTERS=('PRESERVED','UNIFIED','EXPLORATION','CONDITION','TRANSFER','CONSIGNEE','POLISH','CAPSTONE','FITTING','JOURNAL')
 
     @contextlib.contextmanager
     def synthetic_counts(self):
         with contextlib.ExitStack() as stack:
             for index,name in enumerate(self.COUNTERS,1):
                 stack.enter_context(patch.object(audit,'EXPECTED_'+name+'_CHECKS',index))
-            total=92+sum(range(1,10))
+            total=92+sum(range(1,11))
             stack.enter_context(patch.object(audit,'EXPECTED_CHECKS',total))
             stack.enter_context(patch.object(audit,'EXPECTED_SOURCE_CHECKS',total-5))
             yield
@@ -32,7 +32,7 @@ class FittingPackAuditTests(unittest.TestCase):
         rows.append(f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures')
         return '\n'.join(rows)+'\n'
 
-    def test_nine_partitions_all_required_without_relabelling(self):
+    def test_ten_partitions_all_required_without_relabelling(self):
         with self.synthetic_counts():
             text=self.complete()
             self.assertEqual(audit.completed_pack_checks(text,0),audit.EXPECTED_CHECKS)
@@ -52,7 +52,7 @@ class FittingPackAuditTests(unittest.TestCase):
     def test_full_gate_rejects_partial_prior_source_and_error_logs(self):
         with self.synthetic_counts():
             complete=self.complete()
-            for scope in ('fitting-only','capstone-only','transfer-only','preserved-only','consignee-only','unified-only','polish-only','condition-only','exploration-only'):
+            for scope in ('fitting-only','capstone-only','transfer-only','preserved-only','consignee-only','unified-only','polish-only','condition-only','exploration-only','journal-only'):
                 self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
             for count in (6374,6369,5195,5190,1516):
                 self.assertIsNone(audit.completed_pack_checks(complete.replace(f'PASS: {audit.EXPECTED_CHECKS}',f'PASS: {count}'),0))
@@ -61,7 +61,7 @@ class FittingPackAuditTests(unittest.TestCase):
             self.assertIsNone(audit.completed_pack_checks(complete,1))
             self.assertIsNone(audit.completed_pack_checks(audit.SOURCE_PENDING+'\n'+complete,0))
 
-    def test_source_has_precisely_five_pending_and_same_nine_runtime_partitions(self):
+    def test_source_has_precisely_five_pending_and_same_ten_runtime_partitions(self):
         with self.synthetic_counts():
             complete=self.complete()
             source=audit.SOURCE_PENDING+'\n'+complete.replace(f'PASS: {audit.EXPECTED_CHECKS} exported-pack',f'PASS: {audit.EXPECTED_SOURCE_CHECKS} source-rehearsal')
@@ -140,7 +140,7 @@ class FittingPackAuditTests(unittest.TestCase):
         self.assertNotIn('game.set_process(false)',fitting)
         self.assertNotIn('extends "res://scripts/game_state.gd"',fitting)
         self.assertNotIn('res://tests/weapon_fitting_ui_test',fitting)
-        self.assertIn('await _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _test_journal_pack()\n\tawait _finish_run(rehearsal)',driver)
 
     def test_external_inputs_remain_bound_before_and_after(self):
         inputs=audit.audit_inputs()

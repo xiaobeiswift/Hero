@@ -1,8 +1,13 @@
 extends "res://tests/audit_second_region_test.gd"
+class MistAuditState extends AuditState:
+ var writes:int=0
+ func save_game(path:String=SAVE_PATH)->Error:
+  writes+=1
+  return super.save_game(path)
 func _run()->void:
  game=load("res://scenes/main.tscn").instantiate();root.add_child(game)
  await process_frame
- game.state=AuditState.new()
+ game.state=MistAuditState.new()
  for route in ["duel","repair","records"]:await _route(route)
  game._stop_audio();await create_timer(0.25).timeout;game.queue_free();await process_frame
  if failures==0:print("PASS: %d mistwood scene checks" % checks)
@@ -110,9 +115,22 @@ func _route(route:String)->void:
  _check(game.state.mist_ending==ending,"Both water choices persist distinctly")
  before=game.state.to_dict();await _talk("mist_guide")
  _check(_find_button(game.overlay,"先通缓水渠")==null and game.state.to_dict()==before,"Repeated finale cannot grant rewards")
- game._close_modal();await _key(KEY_J)
- _check(_modal_text().contains("听雨辨令") and _modal_text().contains("先鸣渡船钟" if ending=="warn_ferries" else "先通缓水渠"),"Journal preserves chapter and ending")
+ game._close_modal();var journal_before:Dictionary=game.state.to_dict().duplicate(true);var journal_save_bytes:PackedByteArray=FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH);var journal_writes:int=game.state.writes;await _key(KEY_J)
+ var journal=game.overlay.get_meta("journal_ui",null)
+ _check(is_instance_valid(journal),"Completed Mist has a real earned journal owner")
+ journal.action_buttons.history.pressed.emit();await process_frame
+ _check(journal.page=="history" and journal.body.is_visible_in_tree() and journal.body.scroll_active,"Actual History control exposes visible scrollable Mist ending")
+ var mist_row:Dictionary={}
+ for row:Dictionary in journal._catalog:
+  if row.id=="mistwood":mist_row=row
+ _check(game.state.mist_stage==4 and not mist_row.is_empty() and mist_row.display_title=="竹坡余声" and mist_row.status=="completed" and not mist_row.trackable,"Actual Mist row has its frozen stage4 title and cannot retrack completed work")
+ # Old aggregate 听雨辨令 maps to frozen stage4 竹坡余声; the chosen ending literal is unchanged.
+ _check(journal.body.text.contains("竹坡余声 · 已完成\n") and journal.body.text.contains("先鸣渡船钟" if ending=="warn_ferries" else "先通缓水渠"),"Journal preserves chapter and ending")
  await _key(KEY_ESCAPE)
+ _check(game.active_modal and journal.page=="journal","History Escape returns to Mist J owner")
+ await _key(KEY_ESCAPE)
+ _check(not game.active_modal and not game.overlay.has_meta("journal_ui"),"Second Escape closes Mist history browsing completely")
+ _check(game.state.to_dict()==journal_before and FileAccess.get_file_as_bytes(AuditState.AUDIT_PATH)==journal_save_bytes and game.state.writes==journal_writes,"Complete Mist history flow preserves exact canonical state, isolated save bytes and write count")
  game.state.position=Vector2(277,242);game.state.save_game();game._load()
  _check(game.world._can_walk(game.world.player_pos),"Loading pond coordinate repairs unsafe position")
  await _talk("return_frostbridge")

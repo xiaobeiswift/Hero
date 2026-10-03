@@ -23,6 +23,7 @@ func run() -> void:
 	world = World.new(); world.terrain_cache_enabled = false; root.add_child(world); world.set_process(false)
 	_catalog()
 	_routes()
+	_route_notes()
 	_cart_routes()
 	_lifetime()
 	var args: PackedStringArray = OS.get_cmdline_user_args()
@@ -164,6 +165,30 @@ func _routes() -> void:
 	s = _mist(); s.qin_stage = 1; s.map_id = "frostbridge"; s.bridge_repaired = false
 	check(Guidance.resolve(s, "qin_rope", _context(s)).next_target_id == "exit_mistwood", "south bridge is optional, not Mist travel gate")
 
+func _route_notes() -> void:
+	# Successful local routes must not inherit _empty()'s unavailable prose.
+	# Failure, crossing, bridge and loaded-cart notes retain their own meaning.
+	var s = State.new()
+	var view: Dictionary = Guidance.resolve(s, "", _context(s))
+	check(view.route_status == "local" and view.next_target_id == "elder" and view.route_note.is_empty(), "opening local route has no unavailable default note")
+	s = _mist(); s.qin_stage = 1
+	var before: Dictionary = s.to_dict().duplicate(true)
+	var context: Dictionary = _context(s)
+	view = Guidance.resolve(s, "qin_rope", context)
+	check(view.route_status == "local" and view.next_target_id == "mist_rain_gauge" and view.route_note.is_empty(), "earned Qin local route has no contradictory no-target note")
+	context.markers.erase("mist_rain_gauge")
+	view = Guidance.resolve(s, "qin_rope", context)
+	check(view.route_status == "unavailable" and view.next_target_id.is_empty() and view.route_note == "当前场景未找到相应去处；追踪保留。", "missing local target still has exact unavailable reason")
+	check(s.to_dict() == before, "note projection preserves complete canonical state")
+	s.map_id = "frostbridge"; s.bridge_repaired = false
+	view = Guidance.resolve(s, "south_bridge", _context(s))
+	check(view.route_status == "local" and view.route_note == "北桥通行，南桥待修；方位标记不表示南桥已通。", "local unrepaired bridge warning remains truthful")
+	view = Guidance.resolve(s, "qin_rope", _context(s))
+	check(view.route_status == "via_exit" and view.route_note == "先沿当前古道前往雾竹坡。", "remote exit route retains specific next-region note")
+	s.map_id = "qingwei"
+	view = Guidance.resolve(s, "qin_rope", _context(s, Lightness.LANDING))
+	check(view.route_status == "via_crossing" and view.route_note == "先由小洲返回岸边；回程不需已学轻功。", "islet recovery crossing retains explanatory note")
+
 func _cart_routes() -> void:
 	for plan: String in ["short_ferries", "open_scale"]:
 		for bridge: String in ["west", "east"]:
@@ -173,6 +198,7 @@ func _cart_routes() -> void:
 				for id: String in ["heting_delivery", "qin_rope"]:
 					var before: Dictionary = s.to_dict().duplicate(true)
 					var view: Dictionary = Guidance.resolve(s, id, context)
+					if id == "heting_delivery": check(view.route_note == "押车按现有浮栈与北岸通路行进；窄步栈只通行人。", "loaded local target retains its collision-route note")
 					check(not view.cart_route.is_empty(), "old cart route resolved " + cargo + "/" + bridge + "/" + id)
 					for i: int in range(1, view.cart_route.size()): check(Region.can_step(view.cart_route[i-1], view.cart_route[i], bridge, true), "cart segment obeys loaded collision")
 					if id == "qin_rope": check(view.route_status == "departure_confirmation" and view.next_target_id == "return_mistwood", "loaded departure discloses explicit parking")

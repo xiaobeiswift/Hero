@@ -83,7 +83,13 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	_check(game.state.tangqi_stage==3 and not game.state.tangqi_unlocked,"Recruitment can be deferred and reloaded after receiving quest reward")
 	await _check_pending_target("bridge_worker")
 	game._show_journal()
-	_check(_modal_text().contains("尺上旧痕") and _modal_text().contains("邀请唐栖"),"Journal records pending final invitation")
+	var journal_history=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal_history),"Earned history is reachable through dedicated J")
+	journal_history.action_buttons.history.pressed.emit();await process_frame
+	_check(journal_history.page=="history" and journal_history.body.is_visible_in_tree() and journal_history.body.scroll_active,"Real detailed-history control opens a visible scrollable earned record")
+	var pending_tang:Dictionary=preload("res://scripts/journal_objective_rules.gd").row(game.state,"tang_notes")
+	_check(_modal_text().contains("尺上旧痕") and _modal_text().contains("与唐栖商议同行") and game.state.tangqi_stage==3 and not game.state.tangqi_unlocked and pending_tang.status=="active" and pending_tang.trackable,"Journal records truthful earned pending final invitation without claiming recruitment")
+	_check(not pending_tang.earned_history.contains("✓ 邀请唐栖同行") and not _modal_text().contains("✓ 邀请唐栖同行"),"Unaccepted Tang invitation has no completed recruitment spoiler")
 	game._close_modal();game._interact("bridge_worker");_press("邀请同行")
 	game._process(0)
 	_check(game.state.tangqi_unlocked and game.state.current_companion()=="唐栖" and game.world.follower_ids()==(["shen","tang"] if shen else ["tang"]),"Recruitment immediately enables Tang and retains every selected follower")
@@ -143,6 +149,10 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	if game.state.battle_active: UnifiedDriver.leave(game)
 
 	game._show_journal()
+	journal_history=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal_history),"Earned history is reachable through dedicated J")
+	journal_history.action_buttons.history.pressed.emit();await process_frame
+	_check(journal_history.page=="history" and journal_history.body.is_visible_in_tree() and journal_history.body.scroll_active,"Real detailed-history control opens a visible scrollable earned record")
 	_check(_modal_text().contains("工册已传给学徒" if choice=="teach" else "原稿与水令一同留存"),"Completed journal preserves chosen ending text")
 	game._close_modal()
 func _check_pending_target(target:String) -> void:

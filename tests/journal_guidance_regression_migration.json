@@ -1,0 +1,697 @@
+{
+  "baseline_commit": "785718d266bd1383610460f3b568fa3f4d86cd0f",
+  "scope": "Exact source assertion mapping, not executed test count or runtime acceptance. The entire maintained original catalog/session/route coverage remains; frozen corpus replay adds117 independent rows with exactly14 reviewed Qin target changes and103 target equalities.",
+  "historical_driver": "tests/historical/journal_guidance_phase1_independent_test.gd.txt",
+  "source_assertion_lines": 1131,
+  "maintained_assertion_lines": 31,
+  "unmapped_assertions": 0,
+  "pending": [
+    "Revalidation through final source aggregate after separately approved runtime fact-revision patch",
+    "Separate safety/earned/native/packed acceptance"
+  ],
+  "mentor_shen_negative_control": {
+    "path": "tests/historical/journal_guidance_mentor_shen_negative_control.json",
+    "sha256": "ef95f0277ce7a48f1bebb88623fb2bca8bebc160dbdacc98a0bf19a2630f77ea",
+    "report_sha256": "684dfe6ff4cd4bff9e2c560444dfcbac74954bb424861916362db0265d665026",
+    "input_sha256": "a70a22d3dd69f8f31013c927db01c51409ae04675a065b9288484f16eddfea1d",
+    "checks": 15,
+    "failures": 0,
+    "target": "mentor",
+    "extra_policy_exceptions": 0
+  },
+  "reviewed_model_correction": {
+    "path": "tests/journal_guidance_rules_note_correction.json",
+    "sha256": "5b78eeca6098778a60e41ee92951ddc00e0bdf2fcdb94f5b21a495bb7db60f5c",
+    "historical_phase1_sha256": "3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9",
+    "current_rules_sha256": "ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb",
+    "scope": "Clear default unavailable explanation on successful local projection. Existing Frostbridge bridge note, crossing/exit/loaded notes and unavailable explanations remain. No arc priority, target selection, route geometry, story/save/resource/party mutation change.",
+    "schema": 16,
+    "independent_execution": "Lead-owned rerun required; no new count inferred from previous attempts"
+  },
+  "remaining_history_consumer_audit": {
+    "path": "tests/journal_guidance_remaining_history_migration.json",
+    "sha256": "ebab248d225e64c80d7bdf006adbfd6aca3eb92f7544ea68a0633d2f300e324a",
+    "files_scanned": 19,
+    "current_runner_direct": 16,
+    "assertion_lines": 1262,
+    "maintained_assertion_lines": 3,
+    "unmapped_assertions": 0,
+    "scope": "Additional current-freeze inventory, overlaps rather than adds to baseline source-line total; exact3 semantic title/history migrations preserve all outcomes."
+  },
+  "modified_assertions": [
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L42",
+      "old_line": 42,
+      "old_source": "\tcheck(FileAccess.get_sha256(\"res://scripts/main.gd\")==MAIN_SHA,\"actual Main oracle remains frozen\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 464,
+          "source": "\tcheck(FileAccess.get_sha256(HISTORICAL_PATH)==HISTORICAL_SHA,\"original phase1 driver exact bytes remain historical evidence\")"
+        },
+        {
+          "line": 465,
+          "source": "\tcheck(FileAccess.get_sha256(Retained.ORACLE_PATH)==Retained.ORACLE_SHA,\"all117 actual old observations remain frozen\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L43",
+      "old_line": 43,
+      "old_source": "\tcheck(FileAccess.get_sha256(\"res://scripts/world.gd\")==WORLD_SHA,\"actual world oracle remains frozen\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 468,
+          "source": "\tfor file:String in MODEL_BINDINGS:check(FileAccess.get_sha256(\"res://scripts/\"+file)==MODEL_BINDINGS[file],\"production model/state matches explicitly reviewed current binding: \"+file)"
+        },
+        {
+          "line": 466,
+          "source": "\tcheck(FileAccess.get_sha256(\"res://tests/journal_guidance_baseline_inputs.json\")==BASELINE_BUNDLE_SHA,\"all six actual PCK fixture bytes remain frozen\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L52",
+      "old_line": 52,
+      "old_source": "\tcheck(FileAccess.get_sha256(\"res://scripts/main.gd\")==MAIN_SHA,\"frozen Main oracle unchanged after test\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 464,
+          "source": "\tcheck(FileAccess.get_sha256(HISTORICAL_PATH)==HISTORICAL_SHA,\"original phase1 driver exact bytes remain historical evidence\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L53",
+      "old_line": 53,
+      "old_source": "\tcheck(FileAccess.get_sha256(\"res://scripts/world.gd\")==WORLD_SHA,\"frozen world oracle unchanged after test\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 465,
+          "source": "\tcheck(FileAccess.get_sha256(Retained.ORACLE_PATH)==Retained.ORACLE_SHA,\"all117 actual old observations remain frozen\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L209",
+      "old_line": 209,
+      "old_source": "\t\tcheck(a.get(\"display_title\",\"\")==old.title,\"automatic title matches actual frozen Main HUD\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 219,
+          "source": "\t\tcheck(a.get(\"display_title\",\"\")==old.title,\"automatic title matches retained actual frozen Main HUD\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L210",
+      "old_line": 210,
+      "old_source": "\t\tcheck(a.get(\"next_action\",\"\")==String(State.Capstone.goal(s).objective) if expected_arc==\"capstone\" else a.get(\"next_action\",\"\")==old.hint,\"automatic instruction exactly matches frozen HUD or unchanged capstone goal before route suffix\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 220,
+          "source": "\t\tcheck(a.get(\"next_action\",\"\")==String(State.Capstone.goal(s).objective) if expected_arc==\"capstone\" else a.get(\"next_action\",\"\")==old.hint,\"automatic instruction exactly matches retained HUD or unchanged capstone goal before route suffix\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L238",
+      "old_line": 238,
+      "old_source": "\t\t\tcheck(app.world._quest_target_id()==\"return_frostbridge\",\"actual frozen mismatch remains independently visible\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 248,
+          "source": "\t\t\tcheck(frozen(label).target==\"return_frostbridge\" and app.world._quest_target_id()==[\"\",\"mist_rain_gauge\",\"mist_camp\",\"mist_guide\"][qin],\"retained actual mismatch and approved current Qin target are both explicit\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L270",
+      "old_line": 270,
+      "old_source": "\t\t\tif not automatic.trackable:check(Guidance.resolve(s,\"\",context(s)).next_target_id==app.world._quest_target_id(),\"completed ordinary default preserves actual frozen optional landmark without reranking\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 280,
+          "source": "\t\t\tif not automatic.trackable:check(Guidance.resolve(s,\"\",context(s)).next_target_id==frozen(label).target,\"completed ordinary default preserves actual frozen optional landmark without reranking\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L290",
+      "old_line": 290,
+      "old_source": "\t\tcheck(app.quest_label.text==observed.observed_hud.title and app.hint_label.text==observed.observed_hud.hint,\"source actual Main matches captured PCK HUD\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 300,
+          "source": "\t\tcheck(app.quest_label.text==observed.observed_hud.title and app.journal_guidance_snapshot.next_action==observed.observed_hud.hint,\"integrated Main preserves captured PCK full HUD instruction\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "old_id": "journal_guidance_independent_test.gd:L291",
+      "old_line": 291,
+      "old_source": "\t\tcheck(app.world._quest_target_id()==observed.observed_world_target,\"source actual world matches captured PCK target\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 301,
+          "source": "\t\tcheck(frozen(label).target==observed.observed_world_target and app.world._quest_target_id()==\"mist_rain_gauge\",\"captured PCK target retained, current target is approved Qin or unchanged negative Mist\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "old_id": "capstone_navigation_test.gd:L53",
+      "old_line": 53,
+      "old_source": "\t\t\tcheck(w._quest_target_id()==target,\"capstone remains first priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 60,
+          "source": "\t\t\tcheck(guidance.arc_id==\"capstone\" and guidance.next_target_id==target,\"real model capstone remains first over canonical Tang/Shen/receipt work\")"
+        },
+        {
+          "line": 61,
+          "source": "\t\t\tcheck(w._quest_target_id()==target,\"consumer ignores arbitrary legacy fields and keeps supplied capstone tuple\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "old_id": "capstone_navigation_test.gd:L61",
+      "old_line": 61,
+      "old_source": "\tcheck(w._quest_target_id()==\"mentor\",\"stage7 restores mentor priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 75,
+          "source": "\tcheck(selected.arc_id==\"mentor_reward\" and w._quest_target_id()==\"mentor\",\"stage7 restores real earned mentor priority\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "old_id": "capstone_navigation_test.gd:L62",
+      "old_line": 62,
+      "old_source": "\tw.shen_target_id=\"healer\";check(w._quest_target_id()==\"healer\",\"stage7 restores Shen priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 82,
+          "source": "\tcheck(selected.arc_id==\"mentor_reward\" and selected.next_target_id==\"mentor\" and w._quest_target_id()==\"mentor\",\"combined mentor+Shen3 preserves independently observed full-Main mentor priority\")"
+        },
+        {
+          "line": 88,
+          "source": "\t\tcheck(old.target==spec[2] and selected.arc_id==spec[1] and w._quest_target_id()==spec[2],\"stage7 real optional priority matches retained actual observation: \"+spec[0])"
+        }
+      ],
+      "reason": "Combined mentor+Shen valid State preserves actual packed full-Main mentor across HUD/World/M; explicit manual Shen projects healer. Old direct World-field injection remains historical synthetic coverage, not another exception."
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "old_id": "capstone_navigation_test.gd:L63",
+      "old_line": 63,
+      "old_source": "\tw.shen_target_id=\"\";w.mentor_pending=false;w.personal_target_id=\"shrine\";check(w._quest_target_id()==\"shrine\",\"stage7 restores optional priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 88,
+          "source": "\t\tcheck(old.target==spec[2] and selected.arc_id==spec[1] and w._quest_target_id()==spec[2],\"stage7 real optional priority matches retained actual observation: \"+spec[0])"
+        },
+        {
+          "line": 91,
+          "source": "\tcheck(w._quest_target_id().is_empty(),\"renderer rejects unprojected legacy shrine injection without fallback\")"
+        }
+      ],
+      "reason": "Arbitrary shrine was synthetic: optional-story fallback transferred to real retained Tang policy; old arbitrary field injection preserved historically and strict renderer refusal independently asserted."
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "old_id": "capstone_navigation_test.gd:L64",
+      "old_line": 64,
+      "old_source": "\tw.change_map(\"heting\",Vector2(500,450));w.heting_target_id=\"heting_scale\";check(w._quest_target_id()==\"heting_scale\",\"stage7 restores receipt/harbor priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 88,
+          "source": "\t\tcheck(old.target==spec[2] and selected.arc_id==spec[1] and w._quest_target_id()==spec[2],\"stage7 real optional priority matches retained actual observation: \"+spec[0])"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L100",
+      "old_line": 100,
+      "old_source": "\t_check(world._quest_target_id() == \"heting_scale\", \"Parent supplied valid Heting target owns priority\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 103,
+          "source": "\t_check(projected.arc_id==\"heting_receipt\" and world._quest_target_id()==\"heting_scale\",\"Real active harbor receipt owns automatic priority over Shen and Tang\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L102",
+      "old_line": 102,
+      "old_source": "\t_check(world._quest_target_id() == \"return_mistwood\", \"Invalid Heting target preserves existing personal route\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 106,
+          "source": "\t_check(projected.arc_id==\"heting_receipt\" and projected.route_status==\"unavailable\" and world._quest_target_id().is_empty(),\"Missing chosen harbor point suppresses target without hidden priority fallback\")"
+        },
+        {
+          "line": 108,
+          "source": "\t_check(projected.arc_id==\"shen_care\" and world._quest_target_id()==\"return_mistwood\",\"Actual earned Shen remote route remains selectable\")"
+        }
+      ],
+      "reason": "World cannot choose hidden fallback after missing selected point. Explicit unavailable rejection plus actual earned Shen route preserve validation and usable-route coverage; old fallback policy remains historical."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L105",
+      "old_line": 105,
+      "old_source": "\t_check(world._quest_target_id() == \"return_mistwood\", \"Tang Qi return target remains usable in fifth map\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 110,
+          "source": "\t_check(projected.arc_id==\"tang_notes\" and world._quest_target_id()==\"return_mistwood\",\"Actual Tang notebook route remains usable in fifth map\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L108",
+      "old_line": 108,
+      "old_source": "\t_check(world._quest_target_id() == \"heting_dispatch\", \"Fifth map fallback is a real local point\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 113,
+          "source": "\t_check(projected.arc_id==\"heting_delivery\" and world._quest_target_id()==\"heting_dispatch\",\"Real earned harbor debrief points to its local dispatcher\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L114",
+      "old_line": 114,
+      "old_source": "\t_check(world._quest_target_id() == \"exit_heting\", \"New chapter can target Mist downstream exit\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 119,
+          "source": "\t_check(projected.arc_id==\"heting_delivery\" and world._quest_target_id()==\"exit_heting\", \"Earned harbor selection projects actual Mist downstream exit\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "old_id": "heting_world_test.gd:L357",
+      "old_line": 357,
+      "old_source": "\t\t_check(world.interactables.has(world._quest_target_id()) or world._quest_target_id().is_empty(), \"Stale fifth target never breaks old region \"+id)",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 364,
+          "source": "\t\t_check(world._quest_target_id().is_empty(), \"Stale projected fifth target is suppressed immediately in old region \"+id)"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_consignee_world_test.gd",
+      "old_id": "heting_consignee_world_test.gd:L39",
+      "old_line": 39,
+      "old_source": "\tcheck(world._quest_target_id()==\"heting_cargo\",\"Canonical receiver targets original central-boat marker\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 42,
+          "source": "\tcheck(projected.destination_receiver==\"heting_grain_boat\" and world._quest_target_id()==\"heting_cargo\",\"Canonical real receiver projects original central-boat marker\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_consignee_world_test.gd",
+      "old_id": "heting_consignee_world_test.gd:L41",
+      "old_line": 41,
+      "old_source": "\tcheck(world._quest_target_id()==\"consignee_warehouse\",\"New source is a valid independent compass target\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 45,
+          "source": "\tcheck(projected.arc_id==\"heting_consignee\" and world._quest_target_id()==\"consignee_warehouse\",\"Real unobserved source is an independent compass target\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_consignee_world_test.gd",
+      "old_id": "heting_consignee_world_test.gd:L114",
+      "old_line": 114,
+      "old_source": "\t\tcheck(chart.cart_route==Routes.route(chart.player_position,chart.markers[receiver].pos,side),\"Chart exact route comes from actual loaded geometry\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 122,
+          "source": "\t\tcheck(chart.cart_route==Routes.route(chart.player_position,chart.markers[receiver].pos,side),\"Chart exact supplied route matches independent loaded geometry\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_consignee_world_test.gd",
+      "old_id": "heting_consignee_world_test.gd:L118",
+      "old_line": 118,
+      "old_source": "\tcheck(not chart.cart_route.is_empty() and chart.cart_route[-1]==Region.points().heting_cargo.pos,\"Chart resolves boat identity without duplicate marker\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 129,
+          "source": "\tcheck(projected.destination_receiver==\"heting_grain_boat\" and chart.current_target==\"heting_cargo\" and not chart.cart_route.is_empty() and chart.cart_route[-1]==Region.points().heting_cargo.pos,\"Model normalizes real boat once; chart consumes physical marker and route\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/map_layout_test.gd",
+      "old_id": "map_layout_test.gd:L23",
+      "old_line": 23,
+      "old_source": "\t\t\tassert(page.size.y==570 and chart!=null and chart.map_id==region)",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 23,
+          "source": "\t\t\tassert(page.size.y==720 and chart!=null and chart.map_id==region)"
+        },
+        {
+          "line": 25,
+          "source": "\t\t\tassert(caption!=null and caption.visible and not caption.text.is_empty())"
+        },
+        {
+          "line": 26,
+          "source": "\t\t\tassert(chart.size==Vector2(780,330) and chart.position.y==255)"
+        },
+        {
+          "line": 27,
+          "source": "\t\t\tassert(caption.get_rect().end.y<chart.position.y and caption.position.y>page.find_child(\"DialogueTitle\",true,false).get_rect().end.y)"
+        },
+        {
+          "line": 28,
+          "source": "\t\t\tassert(Rect2(Vector2.ZERO,page.size).encloses(caption.get_rect()) and Rect2(Vector2.ZERO,page.size).encloses(close.get_rect()))"
+        },
+        {
+          "line": 29,
+          "source": "\t\t\tassert(not caption.get_rect().intersects(chart.get_rect()) and not caption.get_rect().intersects(close.get_rect()))"
+        },
+        {
+          "line": 30,
+          "source": "\t\t\tassert(Rect2(Vector2.ZERO,app.overlay.size).encloses(page.get_rect()))"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/audit_second_region_test.gd",
+      "old_id": "audit_second_region_test.gd:L57",
+      "old_line": 57,
+      "old_source": "\t_check(not game.active_modal, \"Enter closes a one-option modal\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 61,
+          "source": "\t_check(game.active_modal and journal.browse_arc_id==browsed and game.journal_session.tracked_arc_id==tracked,\"Enter on initial J row only browses, never tracks or closes\")"
+        },
+        {
+          "line": 63,
+          "source": "\t_check(not game.active_modal, \"Enter on focused real J Close closes exactly once\")"
+        },
+        {
+          "line": 66,
+          "source": "\t_check(not game.active_modal,\"Enter retains generic one-option modal close behavior\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/audit_companion_increment_test.gd",
+      "old_id": "audit_companion_increment_test.gd:L86",
+      "old_line": 86,
+      "old_source": "\t_check(_modal_text().contains(\"尺上旧痕\") and _modal_text().contains(\"邀请唐栖\"),\"Journal records pending final invitation\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 91,
+          "source": "\t_check(_modal_text().contains(\"尺上旧痕\") and _modal_text().contains(\"与唐栖商议同行\") and game.state.tangqi_stage==3 and not game.state.tangqi_unlocked and pending_tang.status==\"active\" and pending_tang.trackable,\"Journal records truthful earned pending final invitation without claiming recruitment\")"
+        },
+        {
+          "line": 92,
+          "source": "\t_check(not pending_tang.earned_history.contains(\"✓ 邀请唐栖同行\") and not _modal_text().contains(\"✓ 邀请唐栖同行\"),\"Unaccepted Tang invitation has no completed recruitment spoiler\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/heting_consignee_scene_test.gd",
+      "old_id": "heting_consignee_scene_test.gd:L163",
+      "old_line": 163,
+      "old_source": "\t_check(_modal_text().contains(\"未损先收\") and _modal_text().contains(\"一秤两岸\") and _modal_text().contains(earlier_allocation),\"Journal retains both chapters and exact chosen earlier-night allocation\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 173,
+          "source": "\t_check(journal.body.text.contains(\"未损先收\") and journal.body.text.contains(\"埠灯未尽 · 已完成\\n\") and journal.body.text.contains(earlier_allocation),\"Journal retains both chapters and exact chosen earlier-night allocation\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/audit_heting_scene_test.gd",
+      "old_id": "audit_heting_scene_test.gd:L174",
+      "old_line": 174,
+      "old_source": "\t_check(_modal_text().contains(\"一秤两岸\") and _modal_text().contains(\"已定：\") and _modal_text().contains(\"复称\"), \"Journal preserves local evidence and final night arrangement\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 184,
+          "source": "\t_check(journal.body.text.contains(\"埠灯未尽 · 已完成\\n\") and journal.body.text.contains(\"已定：\") and journal.body.text.contains(\"复称\"), \"Journal preserves local evidence and final night arrangement\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    },
+    {
+      "path": "tests/mistwood_ui_test.gd",
+      "old_id": "mistwood_ui_test.gd:L114",
+      "old_line": 114,
+      "old_source": " _check(_modal_text().contains(\"听雨辨令\") and _modal_text().contains(\"先鸣渡船钟\" if ending==\"warn_ferries\" else \"先通缓水渠\"),\"Journal preserves chapter and ending\")",
+      "status": "maintained",
+      "current_assertions": [
+        {
+          "line": 128,
+          "source": " _check(journal.body.text.contains(\"竹坡余声 · 已完成\\n\") and journal.body.text.contains(\"先鸣渡船钟\" if ending==\"warn_ferries\" else \"先通缓水渠\"),\"Journal preserves chapter and ending\")"
+        }
+      ],
+      "reason": "Consumer ownership/visible UI seam migrated with exact old invariant and replacement rationale in pre-edit MIGRATION-PLAN.md; old source is retained in git and pre-edit byte snapshot."
+    }
+  ],
+  "historical_transfer": {
+    "old_suite": "tests/audit_receipt_ui_test.gd",
+    "old_invariant_lines": [
+      367,
+      373,
+      374,
+      375,
+      376,
+      377
+    ],
+    "current_suite": "tests/unified_combat_ui_test.gd",
+    "current_function": "_stale_journal_guards",
+    "scope": "Actual captured Track/Auto/History/Close callable replays and all original protected menu targets, ready/presenting current party controller, complete canonical/battle/pending/writes/owner/generation equality; retired source hash preserved."
+  },
+  "suite_bindings": [
+    {
+      "path": "tests/journal_guidance_independent_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8",
+      "after_sha256": "57e112bf4f47082874178d316982d909176f6802b79e867e1657182ea63d377d"
+    },
+    {
+      "path": "tests/capstone_navigation_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "786a6782cf9c750161b6da2fbf5752bb31b006e6bca8e6060c535cb5f47374ac",
+      "after_sha256": "51b0212962e7872c7ca5671efb5d3a1718259002fbc8e325ff1541c80386d869"
+    },
+    {
+      "path": "tests/heting_world_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "58e050e7ebe0245ace2c72c2d633e15859383d13281f2f1f8ce28092aca0f90c",
+      "after_sha256": "22cfaffc4331ba28bdd556b81d2fdbf29a30d3ed083e0f7cdb4791f8ae4968de"
+    },
+    {
+      "path": "tests/heting_consignee_world_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "3213b772a27fc48182b6bf517065f7d70783a160a7ad578e5995d7586db2a724",
+      "after_sha256": "ed66eb0c356e9dfcc284339c4347be2800956dec755a17fab5452e635dc85ca6"
+    },
+    {
+      "path": "tests/map_layout_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "6383642de4060f877444b307498659b5288de1ff3ac24f218e4da7c67116aa1e",
+      "after_sha256": "f5a0ac77ecc26708bd34114002f238cdcb99d40fe38728b0ee484dcc2f4f9e3a"
+    },
+    {
+      "path": "tests/audit_second_region_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "4018a5ca40370cd0c5f2121e5beb341926222de07800d9b604b8c041cc28b684",
+      "after_sha256": "9f486f267a476ba478c63f2c7f86f3068292c42b2c1296f97675c1965b652795"
+    },
+    {
+      "path": "tests/audit_receipt_ui_test.gd",
+      "execution_role": "historical_retired_hash_pinned",
+      "before_sha256": "b6c126095a343d1f59e83e2fbc0c126a0bb2abd5487a941769caa9d628fb12cf",
+      "after_sha256": "b6c126095a343d1f59e83e2fbc0c126a0bb2abd5487a941769caa9d628fb12cf"
+    },
+    {
+      "path": "tests/audit_companion_increment_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "f11a720e6b6f5f484415e92887ce5ac0e08e7616b3cd2c8a3f6e54da925a42fc",
+      "after_sha256": "bd1d7c53fa8ef9e78c4892bf2836c77ba5af6fa5d878cc7be72200a139321159"
+    },
+    {
+      "path": "tests/shen_care_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "988d8293a196b12291bdf691e4b50a5392ac46e81d7078074c608efed449b285",
+      "after_sha256": "0eca318fb71fd327f7a7d76adb12661e820b344ab46030e6c5e763103be4ce6c"
+    },
+    {
+      "path": "tests/lightness_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "45175cbce2558a9a573a9dfb2fa8c0fa61bf0cd79743cf53645392744525375f",
+      "after_sha256": "5402d175c66de851f8ed55ff7319fff7ddf9770edfc7ff790869c7dba63b6779"
+    },
+    {
+      "path": "tests/visual_dialogue_sheet.gd",
+      "execution_role": "prepared_visual_harness",
+      "before_sha256": "b6cb236ee7b91a67a5ac83948fdc9c66eb0f7efd2f777e69aa61914408fd19db",
+      "after_sha256": "6702e487ff045e154a6be107c6e3702400066ccf9bf67d9a7ce0e2f7477ffeee"
+    },
+    {
+      "path": "tests/unified_combat_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "60b848bd88fb48acc5605fd81676283809abac140d4368c2811bd43f4d044753",
+      "after_sha256": "4e9ae739b7ac9626aa486b71760989120aa5ad88901c31dc6e9540ee963158be"
+    },
+    {
+      "path": "tests/capstone_navigation_main_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "b6ac28a2d738c639bc43feb512c79fe80015afcb1f8d7e42aa05c3bfeb1430db",
+      "after_sha256": "b6ac28a2d738c639bc43feb512c79fe80015afcb1f8d7e42aa05c3bfeb1430db"
+    },
+    {
+      "path": "tests/heting_cart_map_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "ca2c750a3f10271d9c02f1c1d7febb8f09be2c53d194c74805d68ffab479cab3",
+      "after_sha256": "ca2c750a3f10271d9c02f1c1d7febb8f09be2c53d194c74805d68ffab479cab3"
+    },
+    {
+      "path": "tests/audit_heting_current_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "5e5210b21d68aeffa031ed61a71cff82f0a6e71a9bbd68f3fb19e3f3f96ec780",
+      "after_sha256": "5e5210b21d68aeffa031ed61a71cff82f0a6e71a9bbd68f3fb19e3f3f96ec780"
+    },
+    {
+      "path": "tests/frostbridge_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "61d5e2259e669b00309f0c4b0ab70dfeb6343c66b86afec264065d663691631c",
+      "after_sha256": "61d5e2259e669b00309f0c4b0ab70dfeb6343c66b86afec264065d663691631c"
+    },
+    {
+      "path": "tests/companion_condition_independent_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "4c4218212b0546159cd64f3ccd74868476113784b58cc269386b63b5f30afe39",
+      "after_sha256": "4c4218212b0546159cd64f3ccd74868476113784b58cc269386b63b5f30afe39"
+    },
+    {
+      "path": "tests/navigation_visibility_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "052e8fd627ae30f17bfd8b0a5423dc5c13d38454bf127bfe1bc9f5fc2b004e45",
+      "after_sha256": "052e8fd627ae30f17bfd8b0a5423dc5c13d38454bf127bfe1bc9f5fc2b004e45"
+    },
+    {
+      "path": "tests/qin_companion_scene_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "f4417837ea2e40a305374eb5535aa032c1cab9f01ea0fbeaf2bc81ed412b4155",
+      "after_sha256": "f4417837ea2e40a305374eb5535aa032c1cab9f01ea0fbeaf2bc81ed412b4155"
+    },
+    {
+      "path": "tests/heting_consignee_scene_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "959b5cbd05962e373e017c2d178c106b834f57a8d6842d03f9edf7f6868d64c9",
+      "after_sha256": "7eb979cebe75122143f4cc39072676e9d9d565699ea123afdd2065eb220965cb"
+    },
+    {
+      "path": "tests/audit_shen_care_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "c6cb7744c7b7502e95f2888e674a9075d5bb44858876ba90da20fee81f84ec60",
+      "after_sha256": "c6cb7744c7b7502e95f2888e674a9075d5bb44858876ba90da20fee81f84ec60"
+    },
+    {
+      "path": "tests/audit_heting_scene_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "1ea4b9d847cc4f53f9f28eb017d5cd8488501521a9517919e2d4a31948c7f14e",
+      "after_sha256": "f489eb2ba9fbc6c61b4ba658ea7ae7dca48b4c4a5e00bb2e7ebed81b5359dd2f"
+    },
+    {
+      "path": "tests/sect_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "ab9c51308603f8479cd65c03f67ed3965423082fd74287bece0bc981c95cf3e3",
+      "after_sha256": "ab9c51308603f8479cd65c03f67ed3965423082fd74287bece0bc981c95cf3e3"
+    },
+    {
+      "path": "tests/mistwood_ui_test.gd",
+      "execution_role": "current_regression",
+      "before_sha256": "680257be7b9f9d3108da6abb3e6a611776fa211886f983a295441169db9f9c33",
+      "after_sha256": "fc895237061437183625e9e33a90ebeb616a5412ec8ecc88b681c4900d396a0d"
+    }
+  ]
+}

@@ -155,6 +155,7 @@ func _run()->void:
 		panel.leave();_finish(panel)
 		check(not s.battle_active and app.current_screen=="explore","Every route returns through shared settlement")
 		await process_frame
+	await _stale_journal_guards()
 	await _queue_and_pause()
 	await _save_close()
 	await _real_close_decisions()
@@ -322,3 +323,36 @@ func _viewport_input_matrix()->void:
 				check(s.to_dict()==before,"Queue/selection/layout never spends persistent resources")
 			panel.leave();_finish(panel);await process_frame
 	root.size=Vector2i(1280,800);await process_frame
+
+func _stale_journal_guards()->void:
+	# Current-controller transfer of the historical receipt suite's stale-J
+	# safety invariant. Call the actual captured UI signal bindings while the
+	# old owner is still alive but invalidated, both ready and presenting.
+	_setup("heting_receipt",4)
+	var entry:Dictionary=s.to_dict();var initial_writes:int=s.writes
+	app._show_journal();var journal=app.overlay.get_meta("journal_ui",null)
+	check(is_instance_valid(journal) and app.modal_actions.is_empty(),"Actual J owns dedicated controls before current receipt combat")
+	var callbacks:Array[Callable]=[]
+	for action:String in ["track","auto","history","close"]:
+		var connections=journal.action_buttons[action].pressed.get_connections()
+		check(connections.size()>0,"Real J control carries guarded signal: "+action)
+		callbacks.append(connections[0].callable)
+	app._close_modal()
+	check(s.to_dict()==entry and s.writes==initial_writes,"Capturing and closing J changes no state or save before battle")
+	check(app._start_unified_battle("heting_receipt"),"Stale-J guard uses current real party receipt controller")
+	var panel=app.overlay.get_meta("party_battle");panel.set_process(false);panel.art.set_process(false)
+	for presenting:bool in [false,true]:
+		if presenting:panel._process(.5)
+		check(not panel.pending.is_empty() if presenting else panel.pending.is_empty(),"Current controller is genuinely ready/presenting for stale-J replay")
+		var canonical:Dictionary=s.to_dict();var battle:Dictionary=s.party_battle_snapshot()
+		var writes:int=s.writes;var generation:int=app.modal_generation
+		var pending:Dictionary=panel.pending.duplicate(true)
+		for callback:Callable in callbacks:
+			check(callback.is_valid() and is_instance_valid(journal),"Captured stale J callable remains real and callable before deferred destruction")
+			callback.call()
+			check(app.overlay.get_meta("party_battle",null)==panel and app.modal_generation==generation and s.to_dict()==canonical and s.party_battle_snapshot()==battle and panel.pending==pending and s.writes==writes,"Actual stale J signal cannot replace ready/presenting party owner, act, mutate or save")
+		for method:String in ["_show_inventory","_show_martials","_show_journal","_show_map","_show_workshop","_show_pause","_show_save_slots","_show_load_slots"]:
+			app.call(method)
+			check(app.overlay.get_meta("party_battle",null)==panel and app.modal_generation==generation and s.to_dict()==canonical and s.party_battle_snapshot()==battle and panel.pending==pending and s.writes==writes,"Direct menu cannot replace current ready/presenting party owner: "+method)
+	_finish(panel);panel.leave();_finish(panel);await process_frame
+	for callback:Callable in callbacks:check(not callback.is_valid(),"Destroyed historical J owner invalidates its captured callable after real frame")

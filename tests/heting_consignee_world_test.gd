@@ -1,6 +1,8 @@
 extends SceneTree
 ## Actual world/keyboard/follower/chart integration on the current source.
 ## Headless draw-call coverage is not rendered-pixel acceptance.
+const JournalFixture=preload("res://tests/journal_guidance_test_fixture.gd")
+const Guidance=preload("res://scripts/journal_guidance_rules.gd")
 const World=preload("res://scripts/world.gd")
 const Region=preload("res://scripts/heting_region.gd")
 const Chart=preload("res://scripts/map_chart.gd")
@@ -35,10 +37,12 @@ func run()->void:
 	check(world.interactables.size()==8,"Stationary refresh exposes only the new warehouse")
 	for id in ["heting_dispatch","heting_lighter","heting_cargo","heting_scale","heting_relief"]:
 		check(world.interaction_verb(id)=="交谈","Pre-offer old-site verbs stay compatible: "+id)
-	world.heting_target_id="heting_grain_boat"
-	check(world._quest_target_id()=="heting_cargo","Canonical receiver targets original central-boat marker")
-	world.heting_target_id="consignee_warehouse"
-	check(world._quest_target_id()=="consignee_warehouse","New source is a valid independent compass target")
+	var policy=JournalFixture.consignee(4,"west","return_to_owner")
+	var projected=JournalFixture.project(world,policy,"heting_consignee")
+	check(projected.destination_receiver=="heting_grain_boat" and world._quest_target_id()=="heting_cargo","Canonical real receiver projects original central-boat marker")
+	policy=JournalFixture.consignee(1)
+	projected=JournalFixture.project(world,policy,"heting_consignee")
+	check(projected.arc_id=="heting_consignee" and world._quest_target_id()=="consignee_warehouse","Real unobserved source is an independent compass target")
 	for side in ["west","east"]:
 		for stage in range(6):
 			for plan in (["hold_for_inspection","return_to_owner"] if stage==5 else ["hold_for_inspection"]):
@@ -104,18 +108,27 @@ func _walk(route:Array,label:String)->void:
 		check(world.player_pos.distance_to(target)<.05,label+" keyboard reaches exact endpoint")
 func _chart(stage:int,side:String,plan:String)->void:
 	var chart=Chart.new();chart.map_id="heting";chart.heting_bridge=side
-	chart.heting_cargo=world.heting_cargo;chart.consignee_cargo_location=world.consignee_cargo_location
+	var policy=JournalFixture.consignee(stage,side,plan)
+	chart.heting_cargo=policy.heting_cargo;chart.consignee_cargo_location=policy.consignee_cargo_location
 	chart.player_position=Region.CONSIGNEE_WAREHOUSE;chart.markers=world.interactables.duplicate(true)
-	chart.current_target="heting_scale" if plan=="hold_for_inspection" else "heting_grain_boat"
-	chart.refresh_cart_route()
+	var context={"map_id":"heting","player_position":chart.player_position,"markers":chart.markers.duplicate(true)}
+	var before:Dictionary=policy.to_dict()
+	var projected=Guidance.resolve(policy,"heting_consignee",context)
+	chart.set_journal_guidance(projected)
 	check(chart.heting_cart_loaded()==(stage==4),"Chart loaded state agrees with world")
 	if stage==4:
 		var receiver="heting_scale" if plan=="hold_for_inspection" else "heting_cargo"
-		check(chart.cart_route==Routes.route(chart.player_position,chart.markers[receiver].pos,side),"Chart exact route comes from actual loaded geometry")
+		check(projected.next_target_id==receiver and chart.current_target==receiver,"Actual consignee plan projects independently expected physical receiver")
+		check(chart.cart_route==Routes.route(chart.player_position,chart.markers[receiver].pos,side),"Chart exact supplied route matches independent loaded geometry")
 	else:check(chart.cart_route.is_empty(),"Walking and completed chart have no obsolete cargo route")
-	# Explicit canonical boat test while carrying, independent of plan fixture.
-	chart.consignee_cargo_location="cart";chart.current_target="heting_grain_boat";chart.refresh_cart_route()
-	check(not chart.cart_route.is_empty() and chart.cart_route[-1]==Region.points().heting_cargo.pos,"Chart resolves boat identity without duplicate marker")
+	check(policy.to_dict()==before,"Chart projection cannot mutate actual canonical prepared state")
+	# Independent actual carrying/boat fixture, not current_target injection.
+	policy=JournalFixture.consignee(4,side,"return_to_owner")
+	chart.consignee_cargo_location=policy.consignee_cargo_location
+	projected=Guidance.resolve(policy,"heting_consignee",context);chart.set_journal_guidance(projected)
+	check(projected.destination_receiver=="heting_grain_boat" and chart.current_target=="heting_cargo" and not chart.cart_route.is_empty() and chart.cart_route[-1]==Region.points().heting_cargo.pos,"Model normalizes real boat once; chart consumes physical marker and route")
+	projected.cart_route[0]=Vector2(-99,-99)
+	check(chart.cart_route[0]==Region.CONSIGNEE_WAREHOUSE,"Chart owns a detached supplied route")
 	chart.free()
 func _context_verbs()->void:
 	var verbs=["问北仓封粮","核验封粮","前往对质","提取粮车","查看提货位","查看交接记录"]

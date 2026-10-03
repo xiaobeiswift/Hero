@@ -1,0 +1,462 @@
+{
+  "status": "source_preparation_static_only_engine_and_visual_acceptance_pending",
+  "scope": "Isolated native journal presentation redesign. No gameplay/schema/projection or save-rule changes. Compiler, import, native input/pixels, aggregate and package validation are unrun.",
+  "files": [
+    {
+      "path": "scripts/journal_ui.gd",
+      "sha256": "dd60d8c7b462cce36b9f365a6d989f5251abb36f539c885f7774ee26b8e8f666",
+      "lines": 691
+    },
+    {
+      "path": "scripts/folio_theme.gd",
+      "sha256": "10f487e377cbf1c10c36687f2ca1da52af5eee75d0f3ef47663611899d1d0c54",
+      "lines": 240
+    }
+  ],
+  "source_basis": "05e790da8062c3aabd4ebc73315edd706639819c",
+  "source_method_check": {
+    "comparison": "Whole top-level function text against frozen HEAD;31 exactly identical. Text comparison is not engine validation.",
+    "identical_methods": [
+      "open",
+      "valid",
+      "invalidate_callbacks",
+      "_capture_token",
+      "_callback_valid",
+      "refresh_guidance",
+      "guidance_copy",
+      "_row",
+      "_choose_browse",
+      "browse",
+      "_browse_bound",
+      "track_selected",
+      "_track_bound",
+      "restore_auto",
+      "_auto_bound",
+      "show_history",
+      "_history_bound",
+      "back",
+      "_back_bound",
+      "close",
+      "_close_bound",
+      "_toggle_completed",
+      "_route_text",
+      "_body_input",
+      "_input",
+      "_scroll_region",
+      "_link_focus",
+      "_cycle_focus",
+      "_focused_key",
+      "_nearest_footer",
+      "_focus_key"
+    ],
+    "changed_methods": [
+      "_remember_scroll",
+      "_rebuild",
+      "_build_journal",
+      "_build_row",
+      "_build_history",
+      "_build_footer",
+      "_detail_text",
+      "_guidance_text",
+      "_button",
+      "_text",
+      "_rich",
+      "_style_scrollbar",
+      "_navigate",
+      "_restore_scroll"
+    ],
+    "removed_methods": [
+      "_style (delegated to Folio.style)"
+    ],
+    "new_methods": [
+      "_build_guidance",
+      "_bbcode_escape",
+      "_heading",
+      "_page_row_index"
+    ]
+  },
+  "intended_behavior_changes": {
+    "_navigate": "Only PageUp/PageDown row-pitch calculation now delegates to _page_row_index, which reads real visible row Y positions. Arrow/Home/End dispatch and browse-only callback remain unchanged.",
+    "_remember_scroll/_restore_scroll": "Preserves real guidance_body scrollbar value across all view rebuilds, alongside existing list/journal/history scroll memory.",
+    "_detail_text": "Default actual scroll contains next_action plus full legal _route_text. Complete earned_history is in existing real history page, reached by native earned/history Buttons. No hidden text mirrors.",
+    "_guidance_text": "Header current-guidance label is now separate native text; scroll first line shows full arc_title / full mode. Full next_action and unchanged _route_text follow.",
+    "_build_history": "Exact _history_text aggregation/prose retained, moved to real646x351 paper scroll.",
+    "close": "action_buttons.close and header_close alias one real JournalAction_close Button in header; only one focus-order insertion.",
+    "visual": "Native fonts, state marks, rows, focus, buttons and all text; backing and native material washes are input-ignored decoration. Only Track uses primary styling. Immediate transitions; no added settings.",
+    "focus": "Row/completed-disclosure/primary/header use bone focus ring inset4px. Row ribbon draws behind parent Button so it cannot cover focus; nonselected row hover/pressed darken cloth, selected row hover/pressed remain transparent with a left-side cue. Auto/cloth keep bone outer ring; paper quiet/body keep ink outer ring.",
+    "stronger_paper_inks": "Secondary #3D3428 and cinnabar text #5D251E selected after failing source-pixel candidate samples. Cinnabar action/ribbon fill remains #9C4234. New inks pass all61050 clean-paper pixels; additional .93-black sRGB stress arithmetic minima5.373/5.285 only, not native glyph evidence."
+  },
+  "geometry": {
+    "logical_canvas": [
+      1280,
+      800
+    ],
+    "frame_absolute": [
+      40,
+      46,
+      1200,
+      714
+    ],
+    "list_absolute": [
+      172,
+      133,
+      268,
+      410
+    ],
+    "list_focus_padding": 6,
+    "guidance_absolute": [
+      179,
+      607,
+      250,
+      79
+    ],
+    "auto_absolute": [
+      181,
+      696,
+      248,
+      48
+    ],
+    "close_absolute": [
+      1078,
+      68,
+      137,
+      48
+    ],
+    "track_absolute": [
+      844,
+      650,
+      218,
+      52
+    ],
+    "history_absolute": [
+      1087,
+      650,
+      115,
+      52
+    ],
+    "earned_absolute": [
+      494,
+      636,
+      239,
+      48
+    ],
+    "normal_body": "x494,width391; dynamic Y after measured title; bottom599, before all footer actions.",
+    "long_title": "At most two measured52px serif lines use a flexible title label; longer full identity moves into actual652x446 scroll,42px title, no truncation.",
+    "history_body_absolute": [
+      494,
+      269,
+      646,
+      351
+    ],
+    "help_absolute": [
+      176,
+      768,
+      1060,
+      24
+    ],
+    "compact": "Existing canvas_items 1280x800 stretch contract retained;1179x737, world zoom1/1.25/1.6 and quality matrix not yet run. World zoom is not font scaling.",
+    "primary_header_focus_inset": 4,
+    "row_focus_inset": 4,
+    "title_measurement": "get_multiline_string_size uses BREAK_MANDATORY|BREAK_WORD_BOUND|BREAK_ADAPTIVE, matching actual Label AUTOWRAP_WORD_SMART, including long unbroken strings.",
+    "completed_disclosure_focus_inset": 4
+  },
+  "flat_token_contrast": {
+    "required_text_ratio": 5.0,
+    "method": "sRGB WCAG relative luminance formula; flat named foreground/background pairs only. No text raster, antialias, alpha-blend or native texture acceptance implied.",
+    "pairs": [
+      {
+        "pair": "bone/cinnabar",
+        "fg": "f1e9d8",
+        "bg": "9c4234",
+        "ratio": 5.3624
+      },
+      {
+        "pair": "bone/primaryhover",
+        "fg": "f1e9d8",
+        "bg": "8f382d",
+        "ratio": 6.2736
+      },
+      {
+        "pair": "bone/primarypressed",
+        "fg": "f1e9d8",
+        "bg": "81372d",
+        "ratio": 6.9058
+      },
+      {
+        "pair": "bone/header",
+        "fg": "f1e9d8",
+        "bg": "1b2c30",
+        "ratio": 11.9949
+      },
+      {
+        "pair": "bone/headerhover",
+        "fg": "f1e9d8",
+        "bg": "2a4147",
+        "ratio": 8.9369
+      },
+      {
+        "pair": "secondary/paper",
+        "fg": "3d3428",
+        "bg": "ded7c5",
+        "ratio": 8.5059
+      },
+      {
+        "pair": "redheading/paper",
+        "fg": "5d251e",
+        "bg": "ded7c5",
+        "ratio": 8.367
+      },
+      {
+        "pair": "ink/paper",
+        "fg": "101f22",
+        "bg": "ded7c5",
+        "ratio": 11.7896
+      },
+      {
+        "pair": "disabled/backing",
+        "fg": "b7b3a8",
+        "bg": "283337",
+        "ratio": 6.1936
+      },
+      {
+        "pair": "brass/cloth",
+        "fg": "b5a078",
+        "bg": "1c3036",
+        "ratio": 5.4177
+      },
+      {
+        "pair": "bone/cloth",
+        "fg": "f1e9d8",
+        "bg": "1c3036",
+        "ratio": 11.3983
+      },
+      {
+        "pair": "selecteddark/selection",
+        "fg": "101f22",
+        "bg": "b5a078",
+        "ratio": 6.6587
+      }
+    ],
+    "focus": "Primary/header bone inset ring shares guaranteed dark native fills: minimum flat ratio5.362 on primary normal, above focus>=3. Native raster placement still pending."
+  },
+  "source_paper_crop_contrast": {
+    "method": "Direct unmodified backing paper-sample crop pixels only, compared to proposed foreground colors. This does not model native blend, placement, glyph antialias or rendering.",
+    "samples": [
+      {
+        "ink": "secondary",
+        "fg": "3d3428",
+        "source_rect": [
+          605,
+          100,
+          370,
+          165
+        ],
+        "minimum": 6.2131,
+        "below_5": 0,
+        "pixels": 61050,
+        "additional_rgb_arithmetic_stress_only": {
+          "description": "Source crop multiplied by.93 over black in sRGB arithmetic. Not actual Godot alpha/render pipeline or glyph evidence.",
+          "minimum": 5.3731,
+          "below_5": 0
+        }
+      },
+      {
+        "ink": "redheading",
+        "fg": "5d251e",
+        "source_rect": [
+          605,
+          100,
+          370,
+          165
+        ],
+        "minimum": 6.1117,
+        "below_5": 0,
+        "pixels": 61050,
+        "additional_rgb_arithmetic_stress_only": {
+          "description": "Source crop multiplied by.93 over black in sRGB arithmetic. Not actual Godot alpha/render pipeline or glyph evidence.",
+          "minimum": 5.2854,
+          "below_5": 0
+        }
+      },
+      {
+        "ink": "body",
+        "fg": "101f22",
+        "source_rect": [
+          605,
+          100,
+          370,
+          165
+        ],
+        "minimum": 8.6117,
+        "below_5": 0,
+        "pixels": 61050,
+        "additional_rgb_arithmetic_stress_only": {
+          "description": "Source crop multiplied by.93 over black in sRGB arithmetic. Not actual Godot alpha/render pipeline or glyph evidence.",
+          "minimum": 7.4474,
+          "below_5": 0
+        }
+      }
+    ]
+  },
+  "test_remapping": [
+    {
+      "file": "tests/journal_guidance_ui_test.gd",
+      "original_line": 223,
+      "original_predicate": "folio().action_buttons.track.disabled and folio().body.text.contains(\"苇心残碑已拓录\")",
+      "mapping": "Immediate disabled Track captured before actual earned-button click; same completed-lore predicate checked on actual history page; Escape returns before retained state/disk/stale-token predicates. Exact record: tests/folio_journal_test_interaction_migration.json."
+    },
+    {
+      "file": "tests/journal_guidance_scene_independent_test.gd",
+      "original_line": 271,
+      "mapping": "JournalAction_close node name retained on one actual header button, so original focus predicate still applies; descriptive message may say header instead of footer."
+    },
+    {
+      "file": "tests/journal_guidance_native_probe.gd",
+      "original_lines": "99-113",
+      "mapping": "Frame/action containment, actual caption fits and focus checks retained. Strengthen body nonoverlap against every fixed action (Track/History/Auto/Close). Any geometry-specific baselines require new actual native observations, never rename old evidence."
+    }
+  ],
+  "checks": {
+    "git_diff_check": "passed",
+    "31_owner_input_route_methods_exact": "passed again after reviewer corrections",
+    "preload_references_exist": "passed",
+    "font_hash_bytes": "16708712 /4411e803d26015b09bd2141d102892a426842aaef1622a99d641e45e378b2b2c verified",
+    "new_uid": "not generated; no Godot run",
+    "python_font_metric_attempt": "The initial UI-only font metric attempt lacked Brotli in its default interpreter and produced no result; the separate complete font extraction/round-trip audit uses the installed system interpreter and is recorded in tests/folio_font_extraction_audit.json."
+  },
+  "not_run": [
+    "Godot parser/import",
+    "headless behavior/model suites",
+    "native fonts and textures",
+    "native pixel review/contrast",
+    "keyboard/mouse interactions",
+    "compact/window/world-zoom/quality matrix",
+    "export/package checks",
+    "full regression"
+  ],
+  "remaining_limits": [
+    "No pure-Python GDScript parser is installed; text/static checks do not prove Godot parsing.",
+    "Native font availability and layout measurements remain unverified by the engine.",
+    "Actual paper-wash blending and focus/caption containment require native inspection.",
+    "Existing cloud resource limit prevents engine tests; no managed process killing or resource-setting changes."
+  ],
+  "failed_candidate_material_samples": {
+    "method": "Direct source paper crop (605,100,370,165) only; superseded inks fail ≥5 on dark paper fibers. These failures were retained after stronger ink replacement. Not native glyph samples.",
+    "samples": [
+      {
+        "ink": "secondary",
+        "fg": "544b3b",
+        "minimum": 4.3687,
+        "below_5": 18,
+        "pixels": 61050
+      },
+      {
+        "ink": "redheading",
+        "fg": "81372d",
+        "minimum": 4.2451,
+        "below_5": 25,
+        "pixels": 61050
+      }
+    ]
+  },
+  "earlier_flat_candidate_contrast": [
+    {
+      "pair": "bone/cinnabar",
+      "fg": "f1e9d8",
+      "bg": "9c4234",
+      "ratio": 5.3624
+    },
+    {
+      "pair": "bone/primaryhover",
+      "fg": "f1e9d8",
+      "bg": "8f382d",
+      "ratio": 6.2736
+    },
+    {
+      "pair": "bone/primarypressed",
+      "fg": "f1e9d8",
+      "bg": "81372d",
+      "ratio": 6.9058
+    },
+    {
+      "pair": "bone/header",
+      "fg": "f1e9d8",
+      "bg": "1b2c30",
+      "ratio": 11.9949
+    },
+    {
+      "pair": "bone/headerhover",
+      "fg": "f1e9d8",
+      "bg": "2a4147",
+      "ratio": 8.9369
+    },
+    {
+      "pair": "secondary/paper",
+      "fg": "544b3b",
+      "bg": "ded7c5",
+      "ratio": 5.9808
+    },
+    {
+      "pair": "redheading/paper",
+      "fg": "81372d",
+      "bg": "ded7c5",
+      "ratio": 5.8116
+    },
+    {
+      "pair": "ink/paper",
+      "fg": "101f22",
+      "bg": "ded7c5",
+      "ratio": 11.7896
+    },
+    {
+      "pair": "disabled/backing",
+      "fg": "b7b3a8",
+      "bg": "283337",
+      "ratio": 6.1936
+    },
+    {
+      "pair": "brass/cloth",
+      "fg": "b5a078",
+      "bg": "1c3036",
+      "ratio": 5.4177
+    },
+    {
+      "pair": "bone/cloth",
+      "fg": "f1e9d8",
+      "bg": "1c3036",
+      "ratio": 11.3983
+    },
+    {
+      "pair": "selecteddark/selection",
+      "fg": "101f22",
+      "bg": "b5a078",
+      "ratio": 6.6587
+    }
+  ],
+  "review_corrections": [
+    "Primary/header light focus ring changed to4px inset over guaranteed native dark fill after reviewer found bone/paper1.188 failure.",
+    "Row focus changed to4px inset; padding alone did not protect a middle row scrolled to viewport edge. Ribbon show_behind_parent keeps focus visible.",
+    "Title/row multiline measurement flags now match actual smart-wrap Labels.",
+    "Paper inks strengthened after raw source material contrast failures; failed candidates retained.",
+    "Row hover/pressed fills darken rather than lighten; otherwise fixed-color child labels could drop below text contrast gate.",
+    "Completed-list disclosure now uses a dedicated cloth_disclosure role with4px inset focus, covering the same scrolled-edge case as task rows."
+  ],
+  "additional_row_state_token_checks": [
+    {
+      "state": "hover",
+      "foreground": "brass #B5A078",
+      "background": "symbolic cloth #1C3036 with native RGBA(.02,.04,.05,0.18) overlay",
+      "contrast": 5.9081,
+      "scope": "flat arithmetic only, not actual rendered cloth pixel"
+    },
+    {
+      "state": "pressed",
+      "foreground": "brass #B5A078",
+      "background": "symbolic cloth #1C3036 with native RGBA(.02,.04,.05,0.32) overlay",
+      "contrast": 6.2889,
+      "scope": "flat arithmetic only, not actual rendered cloth pixel"
+    }
+  ],
+  "original_static_report_sha256": "56a973851ed2b6b094867ed487386dce5365d753ebefec38ae9b4cec572fa927",
+  "new_contrast_inventory_requirement": "Actual visible BBCode spans at24px cinnabar/19px secondary/default ink and selection must be individually enumerated in new native capture audit; old default-color-only455-treatment evidence cannot certify this candidate."
+}

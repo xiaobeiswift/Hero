@@ -1,0 +1,37 @@
+{
+  "status": "static_test_interaction_migration_only_not_executed",
+  "baseline_commit": "05e790da8062c3aabd4ebc73315edd706639819c",
+  "test": "tests/journal_guidance_ui_test.gd",
+  "before_sha256": "d6dc8baa5976d12dd298607db7e4b26830aed58ffba0534ff54037850019a313",
+  "after_sha256": "2caead6924a35457104d62464cafb36af472dda8e5b7aa6c1c604372533c7c45",
+  "changes": [
+    {
+      "original_check": "check(folio().action_buttons.track.disabled and folio().body.text.contains(\"苇心残碑已拓录\"),\"Fact-only publication refreshes completed browsed history and disables Track immediately\")",
+      "replacement": "var completed_track_disabled: bool=folio().action_buttons.track.disabled\n\tawait click(folio().action_buttons.earned)\n\tcheck(completed_track_disabled and folio().page==\"history\" and folio().body.text.contains(\"苇心残碑已拓录\"),\"Fact-only publication disables Track immediately; real earned-history disclosure shows the exact completed lore\")\n\tawait tap(KEY_ESCAPE)",
+      "retained_predicates": [
+        "Track disabled immediately after canonical completion refresh",
+        "Exact completed lore 苇心残碑已拓录 in real readable UI",
+        "Following stale Track leaves actual completed state, storage bytes and save call count unchanged"
+      ],
+      "added_interactions": [
+        "Click actual earned-history disclosure",
+        "Assert actual history page",
+        "Escape back to journal before stale callback/state checks"
+      ],
+      "removed_assertions": 0,
+      "assertion_count_delta": 0
+    }
+  ],
+  "guard_parity": "26 owner/input methods and6 model/Main files separately statically compared",
+  "engine_run": false,
+  "native_visual_acceptance": false,
+  "assertion_accounting": {
+    "original_combined_predicate_preserved": true,
+    "direct_check_statement_count_delta": 0,
+    "added_helper_assertion": "click() checks is_instance_valid(control) before pointer action",
+    "predicted_runtime_total_before": 119,
+    "predicted_runtime_total_after": 120,
+    "measured_runtime_total_after": null,
+    "status": "Prediction only; actual engine run pending"
+  }
+}

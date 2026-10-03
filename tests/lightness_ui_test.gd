@@ -67,6 +67,10 @@ func _playable_route()->void:
 	game._load();await _talk_light("reed_relic")
 	_check(_find_button(game.overlay,"拓录残碑")==null and _modal_text().contains("已经收入江湖志"),"Reload/revisit cannot claim again")
 	game._close_modal();game._show_journal()
+	var journal_history=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal_history),"Earned history is reachable through dedicated J")
+	journal_history.action_buttons.history.pressed.emit();await process_frame
+	_check(journal_history.page=="history" and journal_history.body.is_visible_in_tree() and journal_history.body.scroll_active,"Real detailed-history control opens a visible scrollable earned record")
 	_check(_modal_text().contains("苇心残碑已拓录"),"Discovered lore is retained in journal")
 	game._close_modal();await _talk_light("reed_return");_press("借石回岸")
 	_check(game.world.player_pos==L.SHORE and game.state.position==L.SHORE,"Return updates both world and saved state")

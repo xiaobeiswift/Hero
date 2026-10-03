@@ -20,7 +20,14 @@ func run()->void:
 		for window in [Vector2i(1280,800),Vector2i(1180,737)]:
 			root.size=window;await process_frame;await key(KEY_M);await process_frame
 			var page=app.overlay.find_child("DialogueSheet",true,false);var chart=page.find_child("RegionChart",true,false);var close=page.find_child("DialogueChoice1",true,false)
-			assert(page.size.y==570 and chart!=null and chart.map_id==region)
+			assert(page.size.y==720 and chart!=null and chart.map_id==region)
+			var caption=page.find_child("MapGuidanceCaption",true,false)
+			assert(caption!=null and caption.visible and not caption.text.is_empty())
+			assert(chart.size==Vector2(780,330) and chart.position.y==255)
+			assert(caption.get_rect().end.y<chart.position.y and caption.position.y>page.find_child("DialogueTitle",true,false).get_rect().end.y)
+			assert(Rect2(Vector2.ZERO,page.size).encloses(caption.get_rect()) and Rect2(Vector2.ZERO,page.size).encloses(close.get_rect()))
+			assert(not caption.get_rect().intersects(chart.get_rect()) and not caption.get_rect().intersects(close.get_rect()))
+			assert(Rect2(Vector2.ZERO,app.overlay.size).encloses(page.get_rect()))
 			assert(chart.position.x==(page.size.x-chart.size.x)*.5)
 			assert(Rect2(Vector2.ZERO,page.size).encloses(chart.get_rect()))
 			assert(chart.position.y>=page.find_child("DialogueTitle",true,false).get_rect().end.y+20)

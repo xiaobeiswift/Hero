@@ -1,7 +1,7 @@
 extends SceneTree
-## Independent phase-one contract test. Prepared canonical fixtures are not earned
-## journeys. Frozen actual Main is the automatic display oracle, never a copied
-## selector. Accepted PCK autosaves retain their separately documented provenance.
+## Maintained phase-two contract test. Original phase-one bytes are retained in
+## tests/historical with provenance. Prepared fixtures are not earned journeys.
+## Expected policy comes from 117 pinned actual old observations, not current Main.
 const State=preload("res://scripts/game_state.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Prefs=preload("res://scripts/view_preferences.gd")
@@ -14,8 +14,15 @@ const Lightness=preload("res://scripts/lightness_rules.gd")
 const MAPS=["qingwei","sluice","frostbridge","mistwood","heting"]
 const ARC_IDS=["opening","sluice","frostbridge","south_bridge","tang_notes","shen_care","mistwood","qin_rope","lightness_islet","heting_delivery","heting_receipt","heting_consignee","capstone","mentor_reward"]
 const BASELINE_BUNDLE_SHA="aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed"
-const MAIN_SHA="ac50460179e97d6c808ead6f1fcf1403b3d2ac902cc43257acb94b6b0c7fdd06"
-const WORLD_SHA="b9820a0a17485b71aa29958cf144208eb36104e2f43f0d7c9b096dad68eb2dbf"
+const Retained=preload("res://tests/journal_guidance_test_fixture.gd")
+const HISTORICAL_PATH="res://tests/historical/journal_guidance_phase1_independent_test.gd.txt"
+const HISTORICAL_SHA="37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8"
+const HISTORICAL_GUIDANCE_RULES_SHA="3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9"
+# Only successful-local route_note presentation differs from phase1 rules.
+const MODEL_BINDINGS={"game_state.gd":"7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a","journal_objective_rules.gd":"3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c","journal_guidance_rules.gd":"ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb","journal_guidance_session.gd":"eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba"}
+var frozen_rows:Dictionary={}
+var reviewed_differences:Dictionary={}
+var corpus_checks:int=0
 class NoSave extends State:
 	var save_calls:int=0
 	func save_game(_path:String=SAVE_PATH)->Error:save_calls+=1;return OK
@@ -39,8 +46,10 @@ func run()->void:
 	if OS.get_environment("XDG_DATA_HOME").is_empty():quit(2);return
 	var args=OS.get_cmdline_user_args()
 	if args.size()>0:output=args[0]
-	check(FileAccess.get_sha256("res://scripts/main.gd")==MAIN_SHA,"actual Main oracle remains frozen")
-	check(FileAccess.get_sha256("res://scripts/world.gd")==WORLD_SHA,"actual world oracle remains frozen")
+	check_history_bindings()
+	var corpus=Retained.corpus()
+	for retained:Dictionary in corpus.rows:frozen_rows[retained.label]=retained
+	for difference:Dictionary in corpus.reviewed_target_differences:reviewed_differences[difference.label]=difference
 	check(State.SAVE_VERSION==16,"schema remains16")
 	app=Scene.instantiate();app.state=NoSave.new();app.view_preferences=NoPrefs.new();root.add_child(app);await process_frame
 	app._new_game();app._stop_audio();app.audio_on=false;app.set_process(false);app.world.set_process(false)
@@ -49,17 +58,18 @@ func run()->void:
 	earned_pck_fixtures()
 	route_boundaries()
 	session_lifetime()
-	check(FileAccess.get_sha256("res://scripts/main.gd")==MAIN_SHA,"frozen Main oracle unchanged after test")
-	check(FileAccess.get_sha256("res://scripts/world.gd")==WORLD_SHA,"frozen world oracle unchanged after test")
+	await replay_complete_frozen_corpus()
+	combined_mentor_shen_negative_control()
+	check_history_bindings()
 	if not output.is_empty():
 		var file=FileAccess.open(output,FileAccess.WRITE)
-		file.store_string(JSON.stringify({"checks":checks,"failures":failures,"failure_labels":failure_labels,"observations":observations,"engine":Engine.get_version_info(),"scope":"Independent Linux-headless source-phase model/session tests. Actual frozen Main/World controllers with explicitly prepared NoSave State subclass (save-call counting/suppression; unchanged production save inspection/load) and NoPrefs preferences subclass. Valid prepared stage matrices plus separately bound API-earned/PCK-accepted inputs. This is not genuine-State integrated new J, native, browser, Windows or full earned-walk proof.","source_bindings":bindings()},"\t"));file.close()
+		file.store_string(JSON.stringify({"schema":State.SAVE_VERSION,"historical_guidance_rules_sha256":HISTORICAL_GUIDANCE_RULES_SHA,"checks":checks,"failures":failures,"failure_labels":failure_labels,"observations":observations,"retained_corpus_rows_checked":corpus_checks,"engine":Engine.get_version_info(),"scope":"Maintained Linux-headless model/session and consumer regression. All 117 pinned actual old observations are independently replayed; only 14 pinned Qin/Tang target changes are approved. Prepared NoSave/NoPrefs state matrices retain complete phase1 invariants. Six PCK inputs retain original provenance. This maintenance is not the separate new J safety, genuine earned-walk, native, browser, Windows or packed acceptance gate.","source_bindings":bindings()},"\t"));file.close()
 	app._stop_audio();app.queue_free();await process_frame
 	print("%s journal_guidance_independent: %d checks, %d failures, %d oracle observations"%["PASS" if failures==0 else "FAIL",checks,failures,observations.size()])
 	quit(0 if failures==0 else 1)
 func bindings()->Dictionary:
 	var result:Dictionary={}
-	for path:String in ["scripts/main.gd","scripts/world.gd","scripts/game_state.gd","scripts/journal_objective_rules.gd","scripts/journal_guidance_rules.gd","scripts/journal_guidance_session.gd","tests/journal_guidance_independent_test.gd","tests/journal_guidance_baseline_inputs.json","project.godot"]:result[path]=FileAccess.get_sha256("res://"+path)
+	for path:String in ["scripts/main.gd","scripts/world.gd","scripts/game_state.gd","scripts/journal_objective_rules.gd","scripts/journal_guidance_rules.gd","scripts/journal_guidance_session.gd","tests/journal_guidance_independent_test.gd","tests/journal_guidance_baseline_inputs.json","tests/journal_guidance_frozen_oracle.json","tests/historical/journal_guidance_phase1_independent_test.gd.txt","tests/journal_guidance_test_fixture.gd","project.godot"]:result[path]=FileAccess.get_sha256("res://"+path)
 	return result
 func base(completed:int=0):
 	var s=NoSave.new()
@@ -201,13 +211,13 @@ func catalog_boundaries()->void:
 		s.weapon_fitting=fitting;s.hp=7;s.qi=0;valid(s);exercise(s,"",context(s))
 func golden(s,expected_arc:String,expected_target:String="",check_text:bool=true)->void:
 	valid(s)
-	var ctx=context(s);var before=snapshot(s);var old={"title":app.quest_label.text,"hint":app.hint_label.text,"target":app.world._quest_target_id()}
+	var ctx=context(s);var before=snapshot(s);var old:Dictionary=frozen(label)
 	var a=Objectives.automatic(s);var r=exercise(s,"",ctx)
 	check(snapshot(s)==before,"golden comparison preserves state")
 	check(String(a.get("source_arc_id",a.get("id","")))==expected_arc,"automatic preserves frozen winning arc "+expected_arc)
 	if check_text:
-		check(a.get("display_title","")==old.title,"automatic title matches actual frozen Main HUD")
-		check(a.get("next_action","")==String(State.Capstone.goal(s).objective) if expected_arc=="capstone" else a.get("next_action","")==old.hint,"automatic instruction exactly matches frozen HUD or unchanged capstone goal before route suffix")
+		check(a.get("display_title","")==old.title,"automatic title matches retained actual frozen Main HUD")
+		check(a.get("next_action","")==String(State.Capstone.goal(s).objective) if expected_arc=="capstone" else a.get("next_action","")==old.hint,"automatic instruction exactly matches retained HUD or unchanged capstone goal before route suffix")
 	if not expected_target.is_empty():check(r.next_target_id==expected_target,"shared legal target is "+expected_target)
 	observations.append({"label":label,"fixture_kind":"prepared canonical; not earned","map":s.map_id,"state":s.to_dict(),"context":serial_context(ctx),"frozen_main":old,"automatic":a,"resolved":r})
 func automatic_characterization()->void:
@@ -235,7 +245,7 @@ func automatic_characterization()->void:
 		for qin:int in [1,2,3]:
 			label="bounded_qin_tang_fix_"+str(tang)+"_"+str(qin);var s=base(4);s.map_id="mistwood";s.bridge_repaired=true;s.tangqi_stage=tang;s.tangqi_choice="teach" if tang==3 else "";s.qin_stage=qin
 			golden(s,"qin_rope",["","mist_rain_gauge","mist_camp","mist_guide"][qin])
-			check(app.world._quest_target_id()=="return_frostbridge","actual frozen mismatch remains independently visible")
+			check(frozen(label).target=="return_frostbridge" and app.world._quest_target_id()==["","mist_rain_gauge","mist_camp","mist_guide"][qin],"retained actual mismatch and approved current Qin target are both explicit")
 	for shen:int in range(1,5):
 		label="shen_"+str(shen);var s=base(3);check(s.recruit_companion(),"prepared Shen recruitment uses actual canonical party API");s.shen_care_stage=shen;s.shen_care_choice="shore" if shen==4 else "";s.map_id="qingwei";golden(s,"shen_care")
 	for receipt:int in [1,2]:
@@ -247,7 +257,7 @@ func automatic_characterization()->void:
 			label="capstone_"+str(stage)+"_"+map;var s=late(stage);s.map_id=map
 			if stage<7:golden(s,"capstone")
 			else:
-				valid(s);var ctx=context(s);var old_target=app.world._quest_target_id();var old_title=app.quest_label.text;var old_hint=app.hint_label.text;var a=Objectives.automatic(s);var r=exercise(s,"",ctx)
+				valid(s);var ctx=context(s);var old_target=frozen(label).target;var old_title=frozen(label).title;var old_hint=frozen(label).hint;var a=Objectives.automatic(s);var r=exercise(s,"",ctx)
 				check(a.kind=="exploration" and r.kind=="exploration" and r.arc_id=="","completed defaults remain exploration without invented active row")
 				check(a.display_title==old_title and a.next_action==old_hint,"all-five-map stage7 preserves actual frozen onward text")
 				check(r.next_target_id==old_target,"all-five-map stage7 preserves actual optional landmark")
@@ -267,7 +277,7 @@ func automatic_characterization()->void:
 			elif variant=="all_pending":expected="qin_rope" if map=="mistwood" else ("heting_receipt" if map=="heting" else "tang_notes")
 			golden(s,expected)
 			var automatic=Objectives.automatic(s)
-			if not automatic.trackable:check(Guidance.resolve(s,"",context(s)).next_target_id==app.world._quest_target_id(),"completed ordinary default preserves actual frozen optional landmark without reranking")
+			if not automatic.trackable:check(Guidance.resolve(s,"",context(s)).next_target_id==frozen(label).target,"completed ordinary default preserves actual frozen optional landmark without reranking")
 func earned_pck_fixtures()->void:
 	var bundle_path=OS.get_environment("JOURNAL_BASELINE_BUNDLE")
 	if bundle_path.is_empty():bundle_path="res://tests/journal_guidance_baseline_inputs.json"
@@ -287,14 +297,24 @@ func earned_pck_fixtures()->void:
 		if not inspected.ok:continue
 		s._copy_persistent_from(inspected.state);valid(s)
 		var ctx=context(s,s.position);var result=exercise(s,"",ctx)
-		check(app.quest_label.text==observed.observed_hud.title and app.hint_label.text==observed.observed_hud.hint,"source actual Main matches captured PCK HUD")
-		check(app.world._quest_target_id()==observed.observed_world_target,"source actual world matches captured PCK target")
+		check(app.quest_label.text==observed.observed_hud.title and app.journal_guidance_snapshot.next_action==observed.observed_hud.hint,"integrated Main preserves captured PCK full HUD instruction")
+		check(frozen(label).target==observed.observed_world_target and app.world._quest_target_id()=="mist_rain_gauge","captured PCK target retained, current target is approved Qin or unchanged negative Mist")
 		check(result.arc_id==("qin_rope" if accepted else "mistwood"),"new shared auto keeps PCK HUD winning arc")
 		check(result.next_target_id=="mist_rain_gauge","new shared target fixes only captured Qin mismatch or preserves negative control")
 		var manual=exercise(s,"tang_notes",ctx)
 		check(manual.arc_id=="tang_notes" and manual.destination_map=="sluice" and manual.destination_site=="sluice_cache" and manual.next_target_id=="return_frostbridge","explicit Tang has correct independent final goal and immediate exit")
 		observations.append({"label":label,"fixture_kind":"API-earned preparation; Qin positive accepted by actual frozen PCK E/1; declared placement","fixture_name":observed.filename,"fixture_sha256":observed.input_sha256,"state":s.to_dict(),"context":serial_context(ctx),"frozen_pck":observed.observed_hud,"old_target":observed.observed_world_target,"resolved":result,"manual_tang":manual})
 func route_boundaries()->void:
+	label="local_note_is_not_unavailable"
+	var note_state=base();valid(note_state)
+	var note_context=context(note_state)
+	var local_note=exercise(note_state,"opening",note_context)
+	check(local_note.next_target_id=="elder" and local_note.route_status=="local" and local_note.route_note=="","valid local elder guidance never inherits the default unavailable explanation")
+	var missing_context=note_context.duplicate(true);missing_context.markers.erase("elder")
+	var unavailable_note=exercise(note_state,"opening",missing_context)
+	check(unavailable_note.next_target_id=="" and unavailable_note.route_status=="unavailable" and unavailable_note.route_note=="当前场景未找到相应去处；追踪保留。","genuine missing local marker retains exact truthful unavailable explanation")
+	local_note=exercise(note_state,"opening",note_context)
+	check(local_note.next_target_id=="elder" and local_note.route_note=="","restored real local marker clears unavailable note without changing arc or target")
 	label="all_legal_map_pairs"
 	var s=base(5);s.bridge_repaired=true;s.tangqi_stage=1;s.qin_stage=1;s.companion_unlocked=true;s.shen_care_stage=3;s.lightness_unlocked=true
 	for arc:String in ["tang_notes","qin_rope","shen_care","lightness_islet","heting_receipt","heting_consignee"]:
@@ -439,3 +459,82 @@ func session_lifetime()->void:
 	check(not session.restore_auto(replacement,session.token(replacement)),"repeated already-auto restore remains no change")
 	check(snapshot(replacement)==before,"auto restore does not mutate state")
 	for key:String in replacement.to_dict():check(not key.contains("tracked") and not key.contains("journal_guidance"),"no transient guidance field serialized: "+key)
+
+func check_history_bindings()->void:
+	check(FileAccess.get_sha256(HISTORICAL_PATH)==HISTORICAL_SHA,"original phase1 driver exact bytes remain historical evidence")
+	check(FileAccess.get_sha256(Retained.ORACLE_PATH)==Retained.ORACLE_SHA,"all117 actual old observations remain frozen")
+	check(FileAccess.get_sha256("res://tests/journal_guidance_baseline_inputs.json")==BASELINE_BUNDLE_SHA,"all six actual PCK fixture bytes remain frozen")
+	check(Retained.corpus().source_input_bindings["scripts/journal_guidance_rules.gd"]==HISTORICAL_GUIDANCE_RULES_SHA,"phase1 actual source binding remains historical; local-note correction never rewrites it")
+	for file:String in MODEL_BINDINGS:check(FileAccess.get_sha256("res://scripts/"+file)==MODEL_BINDINGS[file],"production model/state matches explicitly reviewed current binding: "+file)
+func frozen(case_label:String)->Dictionary:
+	check(frozen_rows.has(case_label),"old-source label retained: "+case_label)
+	return frozen_rows.get(case_label,{}).get("frozen_observation",{})
+func semantic(result:Dictionary)->Dictionary:
+	var tuple:Dictionary={}
+	for field:String in ["mode","kind","arc_id","step_key","destination_map","destination_site","next_target_id","next_target_map","next_target_position","route_status","arc_title","next_action"]:tuple[field]=result.get(field)
+	return tuple
+func replay_complete_frozen_corpus()->void:
+	var seen:Dictionary={};var changed:int=0;var unchanged:int=0
+	for case_label:String in frozen_rows:
+		label="corpus/"+case_label
+		var retained:Dictionary=frozen_rows[case_label];var old:Dictionary=retained.frozen_observation
+		var accepted=Retained.read_state(retained.state);var s=NoSave.new();s._copy_persistent_from(accepted)
+		check(JSON.parse_string(JSON.stringify(s.to_dict()))==retained.state,"full actual old input materializes exactly through production reader")
+		var frozen_ctx=Retained.retained_context(retained.context)
+		var expected_target:String=old.target
+		if reviewed_differences.has(case_label):
+			var difference:Dictionary=reviewed_differences[case_label]
+			check(old.target==difference.old_target and difference.old_target=="return_frostbridge" and difference.winning_arc=="qin_rope","reviewed exception retains actual old Tang target and Qin winner")
+			expected_target=difference.new_target;changed+=1
+		else:unchanged+=1
+		var expected_instruction:String=old.hint
+		if case_label.begins_with("capstone_") and s.capstone_stage<7:expected_instruction=expected_instruction.split(" 先沿")[0]
+		var before=snapshot(s)
+		var model=Guidance.resolve(s,"",frozen_ctx)
+		check(model.arc_title==old.title and model.next_action==expected_instruction,"model title and full instruction agree with actual old output")
+		check(model.next_target_id==expected_target,"model target matches exact frozen policy or one of14 named Qin changes")
+		if model.route_status=="local" and not model.next_target_id.is_empty():check(model.route_note!="暂无可标出的下一处。","valid local corpus projection never claims there is no next target")
+		if reviewed_differences.has(case_label):check(model.arc_id=="qin_rope","approved fix never changes winning Qin arc")
+		check(snapshot(s)==before,"independent corpus projection preserves all observed state")
+		context(s,frozen_ctx.player_position)
+		check(app.quest_label.text==old.title and app.journal_guidance_snapshot.next_action==expected_instruction,"live HUD title/full instruction preserve independent expectation")
+		check(app.world._quest_target_id()==expected_target,"live World/diamond/compass target matches independent expectation")
+		check(semantic(app.journal_guidance_snapshot)==semantic(model),"host publishes complete independently checked semantic tuple")
+		check(semantic(app.world.journal_guidance_snapshot)==semantic(model) and semantic(app.hud.journal_guidance_snapshot)==semantic(model),"World and HUD consume identical checked tuple")
+		app._show_map();var chart=app.overlay.find_child("RegionChart",true,false)
+		check(chart!=null and chart.current_target==expected_target,"real M consumer matches independent target")
+		if chart!=null:check(semantic(chart.journal_guidance_snapshot)==semantic(model),"real M consumes checked tuple")
+		app._close_modal();app._show_journal()
+		var journal=app.overlay.get_meta("journal_ui",null)
+		check(is_instance_valid(journal) and app.modal_actions.is_empty(),"real J has dedicated owner and no generic action fallback")
+		if is_instance_valid(journal):check(semantic(journal.guidance_snapshot)==semantic(model),"real J current-guidance strip consumes checked tuple")
+		app._close_modal()
+		check(snapshot(s)==before,"consumer refresh and real M/J open/close retain complete state and zero saves")
+		check(not seen.has(case_label),"each old observation is replayed exactly once")
+		seen[case_label]=true;corpus_checks+=1
+		await process_frame
+	check(corpus_checks==117 and seen.size()==117,"all117 retained observations replayed; no skipped cases")
+	check(changed==14 and unchanged==103,"exact14 reviewed changes and103 preserved targets; allowlist never broadened")
+
+func combined_mentor_shen_negative_control()->void:
+	# Additional actual-PCK characterized negative control, outside unchanged117
+	# historical rows and exactly14 Qin fixes. Old full Main suppressed Shen's
+	# legacy target when local mentor was pending; arbitrary World injection did not.
+	label="combined_mentor_shen_negative_control"
+	var s=NoSave.new();s._copy_persistent_from(Retained.from_retained("capstone_7_qingwei"))
+	s.sect="听潮阁";s.sect_rank=1;s.sect_trial_won=true;s.level=3
+	check(s.recruit_companion(),"combined negative control uses canonical earned Shen invitation")
+	s.shen_care_stage=3;valid(s);context(s,Vector2(500,450));var before=snapshot(s)
+	check(app.journal_guidance_snapshot.arc_id=="mentor_reward" and app.quest_label.text=="待领门中荐记" and app.world._quest_target_id()=="mentor","actual full-Main automatic mentor+Shen stays coherently mentor as old PCK")
+	app._show_map();var chart=app.overlay.find_child("RegionChart",true,false)
+	check(chart!=null and chart.current_target=="mentor","real M retains actual old combined mentor target")
+	app._close_modal();app._show_journal();var journal=app.overlay.get_meta("journal_ui",null)
+	check(is_instance_valid(journal),"combined prepared case opens real earned J")
+	journal.browse("shen_care");journal.action_buttons.track.pressed.emit()
+	check(app.journal_session.tracked_arc_id=="shen_care" and app.quest_label.text=="药箱之外" and app.world._quest_target_id()=="healer" and journal.guidance_snapshot.next_target_id=="healer","explicit real Track changes combined case coherently to earned Shen healer")
+	app._close_modal();app._show_map();chart=app.overlay.find_child("RegionChart",true,false)
+	check(chart!=null and chart.current_target=="healer","real M follows explicit Shen despite pending mentor")
+	app._close_modal();app._show_journal();journal=app.overlay.get_meta("journal_ui",null)
+	journal.action_buttons.auto.pressed.emit()
+	check(app.journal_session.tracked_arc_id.is_empty() and app.world._quest_target_id()=="mentor" and journal.guidance_snapshot.arc_id=="mentor_reward","real Restore auto returns unchanged old combined mentor policy")
+	app._close_modal();check(snapshot(s)==before,"combined auto/manual/auto does not claim reward, complete care, recruit, spend or save")

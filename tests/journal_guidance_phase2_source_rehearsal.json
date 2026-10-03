@@ -1,0 +1,179 @@
+{
+  "status": "passed source rehearsal and parser tests; exactPCK pending",
+  "save_schema": 16,
+  "new_migration": false,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "source_checks": 21584,
+  "expected_exact_pack_checks": 21589,
+  "pending_pack_only_checks": 5,
+  "partitions": {
+    "PRESERVED": 1471,
+    "UNIFIED": 1247,
+    "EXPLORATION": 349,
+    "CONDITION": 191,
+    "TRANSFER": 363,
+    "CONSIGNEE": 1036,
+    "POLISH": 460,
+    "CAPSTONE": 1179,
+    "FITTING": 12369,
+    "JOURNAL": 2832
+  },
+  "runtime_export_input_count": 370,
+  "external_audit_input_count": 33,
+  "source_plus_audit_input_count": 403,
+  "source_snapshot_sha256": "24b3b7a8d777299d1cd4442cfc5513e5e2267c6a563a48518bae03fa9723b7f5",
+  "source_before_after_identical": true,
+  "current_matches_final_snapshot": true,
+  "same_runtime_and_driver_across_successful_measurement_and_repeat": true,
+  "measurement_to_repeat_changed_inputs": [
+    "tools/audit_web_export.py"
+  ],
+  "measurement_to_repeat_change_reason": "Only Python wrapper count constants changed from intentionally fail-closed journal0 to independently measured2832/21584/21589. Strict repeat then accepted same byte-identical runtime log.",
+  "identical_successful_log_sha256": "0b54259126339d5983ece2b1cb2dd9bb27849a78d7b1414f49081a0221e41eb7",
+  "python_tests": {
+    "command": "python -m unittest discover -s tests -p 'test_web*.py'",
+    "tests": 61,
+    "failures": 0,
+    "skips": 0,
+    "log": "python-web-final01.log"
+  },
+  "owned_files": {
+    "tools/smoke_export.gd": "ee6b50b7ff87d59cf13ea2703d5ba7f662bf43ee1c5e0f447520791700efa325",
+    "tools/audit_web_export.py": "669b3c69528eefe1ca5a08c4a4c61306714c02e0bf0ac87fcc4993c2d68618fb",
+    "tests/test_web_pack_audit.py": "bf2c012a4d3a29d5a086695f758ac866c4e0a79e0343fb0ca1aaded9200d9e82",
+    "tests/test_web_fitting_pack_audit.py": "3564503088e6a22b5d2a8f01b1a7a93b142b8772813024d27d0c363d2c748198",
+    "tests/test_web_journal_pack_audit.py": "2d08a61ecc77b588ddc1ebbaaf9c4be96f30400b54d56b4a910bfc463492f3d5"
+  },
+  "external_audit_inputs": {
+    "tools/smoke_export.gd": "ee6b50b7ff87d59cf13ea2703d5ba7f662bf43ee1c5e0f447520791700efa325",
+    "tools/audit_web_export.py": "669b3c69528eefe1ca5a08c4a4c61306714c02e0bf0ac87fcc4993c2d68618fb",
+    "tools/run_godot_check.py": "cff12672a20925f1d0a4500fe57cacf7c20437927c39bc95aa47444f575be586",
+    "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "tests/fixtures/v017_game_state.gd.txt": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "tests/fixtures/v022_game_state.gd.txt": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "tests/fixtures/v025_game_state.gd.txt": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "tests/fixtures/v028_game_state.gd.txt": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+    "tests/fixtures/v028_game_state.provenance.json": "85176eefce72748bc14b7caba5796622a42ac415883109205e379313c6e2d992",
+    "tests/fixtures/capstone/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "tests/fixtures/capstone/schema_14_provenance.json": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+    "tests/fixtures/v029_game_state.gd.txt": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+    "tests/fixtures/weapon_fitting/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "tests/fixtures/weapon_fitting/schema_15_default.json": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+    "tests/fixtures/weapon_fitting/provenance.json": "14912385256444e441350c79e2fd2435af7898ef604cafa0216ed40a3960b292",
+    "tests/fixtures/weapon_fitting/legacy_automatic.gd.txt": "e1184548085af19dc0142fd01c25fe667b2be7e661bee50c03fd821899fb1c42",
+    "tests/capstone_package_fixture_producer.gd": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+    "tests/journal_guidance_frozen_oracle.json": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443",
+    "tests/fixtures/legacy_saves/provenance.json": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+    "tests/fixtures/legacy_saves/schema_01_default.json": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+    "tests/fixtures/legacy_saves/schema_02_default.json": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+    "tests/fixtures/legacy_saves/schema_03_default.json": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+    "tests/fixtures/legacy_saves/schema_04_default.json": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+    "tests/fixtures/legacy_saves/schema_05_default.json": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+    "tests/fixtures/legacy_saves/schema_06_default.json": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+    "tests/fixtures/legacy_saves/schema_07_default.json": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+    "tests/fixtures/legacy_saves/schema_08_default.json": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+    "tests/fixtures/legacy_saves/schema_09_default.json": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+    "tests/fixtures/legacy_saves/schema_10_default.json": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+    "tests/fixtures/legacy_saves/schema_11_default.json": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+    "tests/fixtures/legacy_saves/schema_12_default.json": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+    "tests/fixtures/legacy_saves/schema_13_default.json": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc"
+  },
+  "legacy_coverage_ledger": [
+    {
+      "old": "Pending Tang aggregate invitation checklist",
+      "new": "Explicit earned tang_notes detail; exact 与唐栖商议同行 + stage3/unrecruited/trackable/Auto"
+    },
+    {
+      "old": "Tang ending in aggregate J",
+      "new": "Actual earned History; unchanged exact teach/preserve endings"
+    },
+    {
+      "old": "Mist aggregate 听雨辨令 heading",
+      "new": "Frozen completed row 竹坡余声 + exact 先鸣渡船钟 + stage4/warn_ferries/completed/untrackable"
+    },
+    {
+      "old": "Shen completion aggregate J",
+      "new": "Actual earned History; unchanged 药箱之外 and completion checkmark"
+    },
+    {
+      "old": "Lightness/lore aggregate J",
+      "new": "Actual earned History; unchanged learned relic and 留刻度，不留渡价"
+    },
+    {
+      "old": "Capstone aggregate J",
+      "new": "Actual earned History; unchanged title/read-only/disk assertion"
+    },
+    {
+      "old": "M page570 height",
+      "new": "Exact720 caption page, unchanged780x330 chart at y255, containment and caption/chart/close separation; same four checks and existing region/dismissal gates"
+    },
+    {
+      "old": "M replacing in-flight transfer",
+      "new": "Real J/M preserve owner/generation/operation/pending/preview/State/files; forced host generic Main._modal then invalidates original picker. Original predicate plus full-file invariants; ordinary shortcut replacement not claimed"
+    },
+    {
+      "old": "35 frozen capstone HUD hints combine core+old travel suffix",
+      "new": "Exact frozen full hint reconstruction:28 have 先沿+frozen marker.name+行路。 and7 have none. Exact current full HUD core+先往+same marker.name+。; core remains frozen expected value and unchanged Capstone.goal extra invariant. Other82 hints exact; only14 reviewed Qin target exceptions"
+    }
+  ],
+  "preserved_attempts": [
+    {
+      "directory": "journal-measure01",
+      "result": "failed focused harness;79 assertion failures plus missing-meta engine errors; all evidence retained",
+      "corrections": "Guard absent metadata; settle deferred native focus; exact frozen capstone core/suffix mapping"
+    },
+    {
+      "directory": "journal-measure02",
+      "result": "focused2797/0, total2932/0; before35 full rendered HUD assertions were added"
+    },
+    {
+      "directory": "full-measure01",
+      "result": "21584 checks /5 failures; four stale570 map assumptions and one now-protected M transfer replacement"
+    },
+    {
+      "directory": "full-measure02",
+      "result": "21584/0 raw runtime; wrapper intentionally passed=false with journal count0"
+    },
+    {
+      "directory": "full-strict-repeat01",
+      "result": "21584/0 strict wrapper passed=true; unchanged403 bindings"
+    }
+  ],
+  "limitations": [
+    "Exactly five package-only assertions remain pending until auditing a final exported PCK. No export, package acceptance, browser, Windows runtime or native pixels claimed here.",
+    "Canonical fixtures and native injected input are prepared runtime tests, not an organically earned journey.",
+    "Full retained Web30 PCK forward/back schema16 compatibility is a separately owned gate, not claimed by this audit.",
+    "Legacy export_desktop.py remains byte-identical and out of scope: pre-existing1516 count/missing historical inputs block its smoke path.",
+    "All files were changed only in the five owned audit/parser-test paths; no runtime/model/runner/docs/checksums/commit changes."
+  ],
+  "artifacts_sha256": {
+    "full-measure01/CURRENT16-SUBJECT.json": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "full-measure01/SOURCE-AFTER.json": "cec80b0c5e0b5d88751cfa7a5c02f44fc55bac5d8904de516056c992c2c2003c",
+    "full-measure01/SOURCE-BEFORE.json": "cec80b0c5e0b5d88751cfa7a5c02f44fc55bac5d8904de516056c992c2c2003c",
+    "full-measure01/SOURCE-REHEARSAL.json": "fa33c57603563055ded6557acc8dd3ee516ae2b86a2039811050470cad5040b7",
+    "full-measure01/SOURCE-REHEARSAL.log": "5cce3350de16d21648142d836c80c318b4c2f05af483d42fe1ac49b2ad34c9cb",
+    "full-measure02/CURRENT16-SUBJECT.json": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "full-measure02/SOURCE-AFTER.json": "3da4b4168c2b3392bc38e0294ec38e9b122b24b7467b9aeae3e425ebdbca74b8",
+    "full-measure02/SOURCE-BEFORE.json": "3da4b4168c2b3392bc38e0294ec38e9b122b24b7467b9aeae3e425ebdbca74b8",
+    "full-measure02/SOURCE-REHEARSAL.json": "8ba99039fe7e2a17410462f9f7384c17407de03aa5d1825a5e20808cb1667688",
+    "full-measure02/SOURCE-REHEARSAL.log": "0b54259126339d5983ece2b1cb2dd9bb27849a78d7b1414f49081a0221e41eb7",
+    "full-strict-repeat01/CURRENT16-SUBJECT.json": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "full-strict-repeat01/SOURCE-AFTER.json": "24b3b7a8d777299d1cd4442cfc5513e5e2267c6a563a48518bae03fa9723b7f5",
+    "full-strict-repeat01/SOURCE-BEFORE.json": "24b3b7a8d777299d1cd4442cfc5513e5e2267c6a563a48518bae03fa9723b7f5",
+    "full-strict-repeat01/SOURCE-REHEARSAL.json": "43fee623064d4e539e350528ea955a82c21bc64716db569fb79b88629230d152",
+    "full-strict-repeat01/SOURCE-REHEARSAL.log": "0b54259126339d5983ece2b1cb2dd9bb27849a78d7b1414f49081a0221e41eb7",
+    "journal-measure01/JOURNAL.log": "b8ddcbaae5e6202652cf18d0841880ee98cf38f68f00e4f4f9fc83fca11036cf",
+    "journal-measure01/RESULT.json": "af1253625d3e0b86d0623cdbfd79aa867faad7a5920f5cd9f58592a39f45e130",
+    "journal-measure01/SOURCE-AFTER.json": "09f8c386e7a94b6016ce3507b45ad5874d7d8c243cfb811d43b85a7da635ba9a",
+    "journal-measure01/SOURCE-BEFORE.json": "09f8c386e7a94b6016ce3507b45ad5874d7d8c243cfb811d43b85a7da635ba9a",
+    "journal-measure02/JOURNAL.log": "1b368b956f33e011e33cb124192f15995d024c58cc239699038ef5c7854d0728",
+    "journal-measure02/RESULT.json": "02dcd37b7ea9e70f0fcc92afe1fb631360f43b4374c69d0471d299f51b8791ea",
+    "journal-measure02/SOURCE-AFTER.json": "9a75921e8d982da4eb371ce5f42d2b361813f3ec9d7be22cfc53225fbfdfb4a3",
+    "journal-measure02/SOURCE-BEFORE.json": "9a75921e8d982da4eb371ce5f42d2b361813f3ec9d7be22cfc53225fbfdfb4a3",
+    "python-unit-premeasure01.log": "604af364ad96e16b210034f7257752b10872cf343eb541221e463191b3993d80",
+    "python-web-final01.log": "d7aea568b0b6808e43202f74b1f7dfdeec7115ce4f1407f455fb78425c47c21e"
+  },
+  "raw_report_sha256": "0fa61d57feab6da0acaa13b705fbd7c6b8c8c4cfd27e26c6320035502ad6526b",
+  "strict_result_sha256": "43fee623064d4e539e350528ea955a82c21bc64716db569fb79b88629230d152"
+}

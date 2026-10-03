@@ -1,0 +1,125 @@
+{
+  "status": "failed aggregate attempts retained; three legacy history adapters passed focused correction; complete rerun pending",
+  "attempts": [
+    {
+      "attempt": 1,
+      "passed": false,
+      "exit_code": 137,
+      "seconds": 471.08,
+      "godot_commands_completed": 20,
+      "expected_godot_commands": 192,
+      "python_tests": 0,
+      "source_files_compared": 1621,
+      "source_unchanged": true,
+      "before_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "after_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "engine_errors": 0,
+      "engine_error_lines": [],
+      "old_cloud_pcks_unchanged": true,
+      "log_sha256": "e255c5250a93fa37b9ae47ac2c41021c310a46a5c8d1cc4b352a1f0bbf60a266",
+      "result_sha256": "491dc0e110b2a7b7e2eb58793fcbdc5da016b782e37518d415b099e79c4dd4ac",
+      "child_process_maxrss_kib": null
+    },
+    {
+      "attempt": 2,
+      "passed": false,
+      "exit_code": 137,
+      "seconds": 5.803,
+      "godot_commands_completed": 1,
+      "expected_godot_commands": 192,
+      "python_tests": 0,
+      "source_files_compared": 1621,
+      "source_unchanged": true,
+      "before_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "after_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "engine_errors": 0,
+      "engine_error_lines": [],
+      "old_cloud_pcks_unchanged": true,
+      "log_sha256": "9572934ad4d57fbab2c09b2c82f3821584fba7ba71d7e1dec5055bc7fa531f3f",
+      "result_sha256": "16f226255f8b2fafa0289f191af995ed90ac3bbb3f05928fc7555b5471a45e1e",
+      "child_process_maxrss_kib": 711800
+    },
+    {
+      "attempt": 3,
+      "passed": false,
+      "exit_code": 1,
+      "seconds": 1115.491,
+      "godot_commands_completed": 60,
+      "expected_godot_commands": 192,
+      "python_tests": 0,
+      "source_files_compared": 1621,
+      "source_unchanged": true,
+      "before_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "after_manifest_sha256": "ad3495666f91cd7b7ba0755412deb6a702c4265803c3aca3acd5cb2b1ad5d45b",
+      "engine_errors": 4,
+      "engine_error_lines": [
+        {
+          "log": "check.bBaH1Z.log",
+          "line": "ERROR: Journal retains both chapters and exact chosen earlier-night allocation"
+        },
+        {
+          "log": "check.bBaH1Z.log",
+          "line": "ERROR: Journal retains both chapters and exact chosen earlier-night allocation"
+        },
+        {
+          "log": "check.bBaH1Z.log",
+          "line": "ERROR: Journal retains both chapters and exact chosen earlier-night allocation"
+        },
+        {
+          "log": "check.bBaH1Z.log",
+          "line": "ERROR: Journal retains both chapters and exact chosen earlier-night allocation"
+        }
+      ],
+      "old_cloud_pcks_unchanged": true,
+      "log_sha256": "7b0689f4897e00e3b24c470febd634656c58f79ed8258e5da497a50f70414646",
+      "result_sha256": "96ce17f4b4190f8e8f82e1ec41cad6e5eb6a3b464a8c4a2a51471db98365ca05",
+      "child_process_maxrss_kib": 851184
+    }
+  ],
+  "classification": [
+    "Full01 exited137 at retained fitting earned report boundary, no assertion errors; cause unconfirmed",
+    "Full02 exited137 during initial editor/import, no tests; not a fitting-only issue, cause unconfirmed",
+    "Full03 ran through supported cloud desktop terminal and stopped on four unadapted legacy aggregate-history assertions after60 commands; current J now requires explicit detailed-history view and completed earned titles"
+  ],
+  "unchanged_fitting_isolation": {
+    "exit_code": 0,
+    "signal": null,
+    "timed_out": false,
+    "seconds": 305.018,
+    "ru_maxrss_kib": 697172,
+    "source_unchanged": true,
+    "source_count": 1621,
+    "console_sha256": "8a8d36edaccb911c4bdbcad59e83814a98223d8ce7e885ba9587f0fac09349b1",
+    "errors": [],
+    "report_bytes": 32203535,
+    "scope": "Unchanged retained earned test with external process/RSS sampling; signal alone does not identify OOM or a kernel cause"
+  },
+  "unchanged_fitting_assertions": 2510,
+  "no_test_writer_change": true,
+  "comparison": {
+    "equal_scalar_leaves": 749578,
+    "whole_field_record_length_checks": 266,
+    "provenance_entries": 160,
+    "semantic_drift": false,
+    "mutation_selfchecks": 15,
+    "report_sha256": "a35656abc262779bae59f24cddee0c6b941f2aa7093abbe2d91d60d980916bf1"
+  },
+  "limits": [
+    "No OOM or kernel-cause claim follows from exit137 or RSS observations",
+    "The isolated fitting pass does not replace complete aggregate validation",
+    "Browser renderer error9 is a separate observed interruption; no causal link is claimed"
+  ],
+  "history_correction": {
+    "source_record": "tests/journal_guidance_remaining_history_migration.json",
+    "focused_checks": [
+      3020,
+      4157,
+      163
+    ],
+    "failures": 0,
+    "source_files_compared": 1622,
+    "source_unchanged": true,
+    "raw_batch_result_sha256": "a01e7e694d3214fd1674acf4c1e8657fbcb449dac49915f650fec6f1c0cba1b6",
+    "scope": "Three legacy all-history assumptions migrated to real explicit History controls and literal frozen completed section titles; exact outcomes and read-only guards retained. No runtime change."
+  }
+}

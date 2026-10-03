@@ -1,0 +1,185 @@
+{
+  "status": "Static source review complete at final pinned bytes; no unresolved concrete static blocker identified. Import/compiler, native rendering/input, regression, package and aesthetic acceptance remain unrun.",
+  "source_base": "05e790da8062c3aabd4ebc73315edd706639819c",
+  "scope": "Independent read-only review of isolated journal/theme, test interaction, font/art and export inclusion. No engine or canonical edits. git diff --check is whitespace validation only.",
+  "files": {
+    "scripts/journal_ui.gd": {
+      "bytes": 34774,
+      "sha256": "dd60d8c7b462cce36b9f365a6d989f5251abb36f539c885f7774ee26b8e8f666"
+    },
+    "scripts/folio_theme.gd": {
+      "bytes": 10280,
+      "sha256": "10f487e377cbf1c10c36687f2ca1da52af5eee75d0f3ef47663611899d1d0c54"
+    },
+    "export_presets.cfg": {
+      "bytes": 4928,
+      "sha256": "ec4947043cfaca80d3630fd86c3d59b8db3b6b2d7e3ef84a3bd22aeba9e9057a"
+    },
+    "ASSET_LICENSES.md": {
+      "bytes": 10797,
+      "sha256": "3c57e4373d84859a1ea5fc5ae0cf041a4e246cfe909efa389dc57d558fc2fd16"
+    },
+    "tests/journal_guidance_ui_test.gd": {
+      "bytes": 20694,
+      "sha256": "2caead6924a35457104d62464cafb36af472dda8e5b7aa6c1c604372533c7c45"
+    },
+    "tests/folio_journal_test_interaction_migration.json": {
+      "bytes": 2139,
+      "sha256": "c2197cbf8e4170ac6f1d60d4f134489bb6b6bc57b347fa46a5fa4a649f5e3828"
+    },
+    "tests/folio_font_extraction_audit.json": {
+      "bytes": 21178,
+      "sha256": "4e33edb82542fa013fc25965b3312130e0d3705778de1764952e83ae5a396571"
+    },
+    "tests/folio_font_license_audit.json": {
+      "bytes": 1491,
+      "sha256": "151fb85768030266ea2666c879069c3d6260c43d5c7797f076e9a0bd600967ed"
+    },
+    "assets/fonts/FOLIO_FONT_PROVENANCE.md": {
+      "bytes": 3298,
+      "sha256": "fe46eb36765911df241c9cf765c12d172ba719971c7e49f9c476fc6d1e2f85e9"
+    },
+    "assets/fonts/NotoSerifSC-Regular.woff2": {
+      "bytes": 16708712,
+      "sha256": "4411e803d26015b09bd2141d102892a426842aaef1622a99d641e45e378b2b2c"
+    },
+    "assets/fonts/NotoSerifSC-OFL.txt": {
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    "assets/fonts/NotoSerifSC-NOTICE.txt": {
+      "bytes": 1079,
+      "sha256": "4584f6fbb465fd14bba22a7a903dc28f13ab44a8f1d35efc0a55ff6b1045369c"
+    },
+    "assets/generated/ui/folio-generation-prompt.txt": {
+      "bytes": 5040,
+      "sha256": "fbd2ada7a410650d2f349cd71f1cf3e4f4d4735656104fe0538d560df1aec156"
+    },
+    "assets/generated/ui/hero_folio_backing_v1.png": {
+      "bytes": 2436741,
+      "sha256": "5ac9d026880969a7213b9f308f9e7bb2768143a8902002cf439d09e506908e03"
+    },
+    "assets/generated/ui/folio-backing-generation-prompt.txt": {
+      "bytes": 1858,
+      "sha256": "881c225313d6e8918bcb34a78f8a73d62caf757df258715076c45490356d59a8"
+    },
+    "assets/generated/ui/FOLIO_PROVENANCE.md": {
+      "bytes": 2026,
+      "sha256": "ead88e00aa90937e7b1523b50c6b0d08fbf52807b4935fb1df8a6461a71ed69f"
+    }
+  },
+  "core_identical_to_canonical": {
+    "scripts/game_state.gd": "7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a",
+    "scripts/main.gd": "8f1492127a5200617fe9056c507f0c525c108426be73b6d9097bb7f5104bbf86",
+    "scripts/world.gd": "9c68c6b68ced58d95edcdc18c25c51d7e2be73af0991b3fa61f78cdf56ec7971",
+    "scripts/game_hud.gd": "7eeac916d76b480124f21cdc939286e345d79284f4a64c4b72c80960cc4cfc27",
+    "scripts/map_chart.gd": "5cf823112c5f661bffdf069b96bc67fc6e27e53d5749e516dfd0807d703b4353",
+    "scripts/journal_objective_rules.gd": "3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c",
+    "scripts/journal_guidance_rules.gd": "ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb",
+    "scripts/journal_guidance_session.gd": "eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba",
+    "scripts/journal_guidance_view.gd": "1a923d62a38663053b73ad0bb5d22f59d99bc5a5e32e3a0ed0479252af899a20",
+    "scripts/dialogue_sheet.gd": "c113079865616fcb84f1080ead712980c106b86220585946049a506e11bdfed1",
+    "tests/journal_guidance_frozen_oracle.json": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443"
+  },
+  "canonical_clean": true,
+  "original_methods_exactly_identical": [
+    "open",
+    "valid",
+    "invalidate_callbacks",
+    "_capture_token",
+    "_callback_valid",
+    "refresh_guidance",
+    "guidance_copy",
+    "_row",
+    "_choose_browse",
+    "browse",
+    "_browse_bound",
+    "track_selected",
+    "_track_bound",
+    "restore_auto",
+    "_auto_bound",
+    "show_history",
+    "_history_bound",
+    "back",
+    "_back_bound",
+    "close",
+    "_close_bound",
+    "_toggle_completed",
+    "_route_text",
+    "_body_input",
+    "_input",
+    "_scroll_region",
+    "_link_focus",
+    "_cycle_focus",
+    "_focused_key",
+    "_nearest_footer",
+    "_focus_key"
+  ],
+  "preserved_contracts": [
+    "Owner/state/world/session/view/generation/page/browse guards and frozen callbacks unchanged",
+    "Exact Track predicate, Auto binding and unavailable-route behavior unchanged; no gameplay/save dependency in theme",
+    "Actual controls; close/header alias one live Button with one focus stop; no hidden compatibility text",
+    "Exact full earned-history aggregation and catalogue; earned button enters same guarded History",
+    "Complete action/route/safety text, unchanged formatter; actual scroll regions and local-only scroll memory",
+    "Full-screen input blocking and native-key/repeat handling unchanged; layout-aware paging only changes row jump selection"
+  ],
+  "findings_resolved": [
+    {
+      "issue": "Bone outer ring could sit on paper with flat1.188 contrast",
+      "fix": "Primary/header now inset4 over known dark native fills"
+    },
+    {
+      "issue": "ensure_control_visible ignores expanded style margins, clipping middle row/disclosure focus",
+      "fix": "Row and dedicated cloth_disclosure use inset4; selected ribbon draws behind parent focus"
+    },
+    {
+      "issue": "Default Font measurement flags differed from actual smart wrapping",
+      "fix": "Both measurements now use mandatory|word|adaptive flags"
+    },
+    {
+      "issue": "Additional click helper invalidates unchanged119 runtime-count claim",
+      "fix": "Record predicts120, measured null;68 direct check-bearing lines still unchanged"
+    },
+    {
+      "issue": "NOTICE pointed at generic license and provenance claimed absent trademark notice",
+      "fix": "Dedicated filename corrected; claim removed; relocation before/after hashes recorded; font/OFL bytes unchanged"
+    },
+    {
+      "issue": "Earlier material/hover contrast had insufficient margin",
+      "fix": "Final paper inks3d3428/5d251e and darkening cloth hover; source/flat arithmetic only, rendered acceptance pending"
+    }
+  ],
+  "test_interaction_review": {
+    "verdict": "Acceptable static remapping: capture immediately-disabled Track, click real earned button, require actual history page and exact lore; Escape before original staleTrack/fullstate/files/save-call invariants.",
+    "baseline_measured_checks": 119,
+    "predicted_after_checks": 120,
+    "measured_after_checks": null,
+    "direct_check_bearing_lines_before": 68,
+    "direct_check_bearing_lines_after": 68,
+    "runner_constants_changed_from_prediction": false
+  },
+  "font_asset_review": {
+    "report": "folio-assets/folio-assets-review.json",
+    "sha256": "4acaf33d05ed98549f0c20d4bac3c64a33146afbccb0f6dc437bd920eb9ab83b",
+    "summary": "SC Regular full16tables/65535glyphs/44777cmap preserved. Backing original matches. All4 export presets explicitly include dedicatedOFL/NOTICE. First asset-review documentation findings subsequently corrected as above.",
+    "limit": "Actual PCK/font import/render and user-accessible license presentation unverified; provenance Markdown/prompts remain source evidence."
+  },
+  "api_review": {
+    "verdict": "New WOFF2 format, Font multiline-size/flags, Label line_spacing and StyleBoxFlat expansion match official4.6 APIs. No installed GDScript parser; no engine/compiler execution.",
+    "sources": [
+      "https://docs.godotengine.org/en/4.6/classes/class_font.html",
+      "https://docs.godotengine.org/en/4.6/classes/class_fontfile.html",
+      "https://docs.godotengine.org/en/4.6/classes/class_styleboxflat.html",
+      "https://docs.godotengine.org/en/4.6/classes/class_label.html",
+      "https://docs.godotengine.org/en/4.6/classes/class_textserver.html",
+      "https://raw.githubusercontent.com/godotengine/godot/4.6-stable/scene/gui/scroll_container.cpp"
+    ]
+  },
+  "pending_acceptance": [
+    "Import/compile exact frozen assets/scripts; real focused/safety/retained/full tests with measured counts",
+    "Actual native composition and user aesthetic review; oldphase2 pixels cannot accept the new presentation",
+    "New contrast inventory must cover visible BBCode24px cinnabar heading,19px secondary spans, default ink, text selection, ribbon/hover/disabled and all focus roles. Old RichTextLabel default-ink-only record is insufficient unchanged",
+    "Long title fallback/long rows, first-middle-last and completed-toggle focus, guidance safety scroll, History return, disabledAuto, selected/effective/focused coexistence and pointer areas",
+    "Full regression and exact newPCK; preserve all prior failures/pending gates. Static review grants no engine or release permission"
+  ]
+}

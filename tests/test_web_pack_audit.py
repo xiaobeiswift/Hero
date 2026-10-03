@@ -29,6 +29,7 @@ class PackAuditTests(unittest.TestCase):
                 + audit.POLISH_COVERAGE + f' {audit.EXPECTED_POLISH_CHECKS} checks; actual runtime\n'
                 + audit.CAPSTONE_COVERAGE + f' {audit.EXPECTED_CAPSTONE_CHECKS} checks; actual runtime\n'
                 + audit.FITTING_COVERAGE + f' {audit.EXPECTED_FITTING_CHECKS} checks; actual runtime\n'
+                + audit.JOURNAL_COVERAGE + f' {audit.EXPECTED_JOURNAL_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
     def test_complete_schema16_pack_log_required(self):
@@ -65,7 +66,8 @@ class PackAuditTests(unittest.TestCase):
                               (audit.CONSIGNEE_COVERAGE,audit.EXPECTED_CONSIGNEE_CHECKS),
                               (audit.POLISH_COVERAGE,audit.EXPECTED_POLISH_CHECKS),
                               (audit.CAPSTONE_COVERAGE,audit.EXPECTED_CAPSTONE_CHECKS),
-                              (audit.FITTING_COVERAGE,audit.EXPECTED_FITTING_CHECKS)):
+                              (audit.FITTING_COVERAGE,audit.EXPECTED_FITTING_CHECKS),
+                              (audit.JOURNAL_COVERAGE,audit.EXPECTED_JOURNAL_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
@@ -100,21 +102,22 @@ class PackAuditTests(unittest.TestCase):
         self.assertEqual(audit.EXPECTED_POLISH_CHECKS,460)
         self.assertEqual(audit.EXPECTED_CAPSTONE_CHECKS,1179)
         self.assertEqual(audit.EXPECTED_FITTING_CHECKS,12369)
-        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,18752)
-        self.assertEqual(audit.EXPECTED_CHECKS,18757)
-        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS+audit.EXPECTED_POLISH_CHECKS+audit.EXPECTED_CAPSTONE_CHECKS+audit.EXPECTED_FITTING_CHECKS)
+        self.assertEqual(audit.EXPECTED_JOURNAL_CHECKS,2832)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,18752+audit.EXPECTED_JOURNAL_CHECKS)
+        self.assertEqual(audit.EXPECTED_CHECKS,18757+audit.EXPECTED_JOURNAL_CHECKS)
+        self.assertEqual(audit.EXPECTED_CHECKS,92+audit.EXPECTED_PRESERVED_CHECKS+audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_EXPLORATION_CHECKS+audit.EXPECTED_CONDITION_CHECKS+audit.EXPECTED_TRANSFER_CHECKS+audit.EXPECTED_CONSIGNEE_CHECKS+audit.EXPECTED_POLISH_CHECKS+audit.EXPECTED_CAPSTONE_CHECKS+audit.EXPECTED_FITTING_CHECKS+audit.EXPECTED_JOURNAL_CHECKS)
         self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.30"',driver)
-        self.assertIn('title.text=="0.0.30"',driver)
+        self.assertIn('== "0.0.31"',driver)
+        self.assertIn('title.text=="0.0.31"',driver)
         self.assertNotIn('"0.0.21"',driver)
-        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_unified_pack()\n\tawait _test_condition_pack()\n\tawait _test_transfer_pack()\n\tawait _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _test_journal_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS','EXPECTED_POLISH_CHECKS','EXPECTED_CAPSTONE_CHECKS','EXPECTED_FITTING_CHECKS'):
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS','EXPECTED_CONDITION_CHECKS','EXPECTED_TRANSFER_CHECKS','EXPECTED_CONSIGNEE_CHECKS','EXPECTED_POLISH_CHECKS','EXPECTED_CAPSTONE_CHECKS','EXPECTED_FITTING_CHECKS','EXPECTED_JOURNAL_CHECKS'):
             with patch.object(audit,name,0):
                 self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
 
@@ -130,13 +133,14 @@ class PackAuditTests(unittest.TestCase):
                       ' '+audit.CONSIGNEE_COVERAGE+' malformed duplicate',
                       ' '+audit.POLISH_COVERAGE+' malformed duplicate',
                       ' '+audit.CAPSTONE_COVERAGE+' malformed duplicate',
-                      ' '+audit.FITTING_COVERAGE+' malformed duplicate'):
+                      ' '+audit.FITTING_COVERAGE+' malformed duplicate',
+                      ' '+audit.JOURNAL_COVERAGE+' malformed duplicate'):
             with self.subTest(extra=extra):
                 self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
 
     def test_exploration_scope_cannot_impersonate_full_pack(self):
         complete=self.complete_log()
-        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only','polish-only','capstone-only','fitting-only'):
+        for scope in ('exploration-only','preserved-only','unified-only','condition-only','transfer-only','consignee-only','polish-only','capstone-only','fitting-only','journal-only'):
             self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
@@ -166,6 +170,7 @@ class PackAuditTests(unittest.TestCase):
                             ('EXPECTED_POLISH_CHECKS',audit.EXPECTED_POLISH_CHECKS+1),
                             ('EXPECTED_CAPSTONE_CHECKS',audit.EXPECTED_CAPSTONE_CHECKS+1),
                             ('EXPECTED_FITTING_CHECKS',audit.EXPECTED_FITTING_CHECKS+1),
+                            ('EXPECTED_JOURNAL_CHECKS',audit.EXPECTED_JOURNAL_CHECKS+1),
                             ('EXPECTED_PRESERVED_CHECKS',audit.EXPECTED_PRESERVED_CHECKS+1),
                             ('EXPECTED_UNIFIED_CHECKS',audit.EXPECTED_UNIFIED_CHECKS+1)):
             with self.subTest(field=field),patch.object(audit,field,value):
@@ -207,7 +212,7 @@ class PackAuditTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
         self.assertIn(audit.POLISH_COVERAGE,driver)
-        self.assertIn('await _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _finish_run(rehearsal)',driver)
+        self.assertIn('await _test_consignee_pack()\n\tawait _test_heting_polish_pack()\n\tawait _test_capstone_pack()\n\tawait _test_fitting_pack()\n\tawait _test_journal_pack()\n\tawait _finish_run(rehearsal)',driver)
         for actual in ('scenery.prepare()', 'scenery.draw(self,floor_mesh,encounter,.375)',
                        'mesh.surface_get_arrays(0)', 'art._make_floor()',
                        'harbor._route_label(probe,item.p,item.text,item.size,item.width,HORIZONTAL_ALIGNMENT_CENTER)',
@@ -319,7 +324,7 @@ class PackAuditTests(unittest.TestCase):
     def test_audit_inputs_bind_tools_readers_and_fixtures(self):
         root=Path(__file__).resolve().parents[1]
         inputs=audit.audit_inputs()
-        self.assertEqual(len(inputs),32)
+        self.assertEqual(len(inputs),33)
         self.assertEqual(inputs['tools/smoke_export.gd'],audit.sha(root/'tools/smoke_export.gd'))
         self.assertEqual(inputs['tests/fixtures/v025_game_state.gd.txt'],audit.SCHEMA13)
         self.assertEqual(inputs['tests/fixtures/legacy_saves/provenance.json'],audit.LEGACY_FIXTURES)

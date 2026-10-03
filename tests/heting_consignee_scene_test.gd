@@ -158,11 +158,25 @@ func _new_route(harbor: String, plan: String, receipt: int) -> void:
 	await _cancel_reload("new complete ending " + plan)
 	await _new_site(site)
 	_check(_modal_text().contains("平川粮栈") and _modal_text().contains("上游") and _find_button(game.overlay,"确认交下本批") == null,"Receiver aftermath records bounded local finding and blocks repeat payout")
-	await _key(KEY_ESCAPE); var journal_writes: int = probe.writes; await _key(KEY_J)
+	await _key(KEY_ESCAPE); var journal_writes: int = probe.writes; var journal_before: Dictionary = probe.to_dict().duplicate(true); await _key(KEY_J)
+	var journal=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal),"Completed chapters have a real earned journal owner")
+	journal.action_buttons.history.pressed.emit();await process_frame
+	_check(journal.page=="history" and journal.body.is_visible_in_tree() and journal.body.scroll_active,"Actual History control exposes both earned chapters in a visible scrollable page")
+	var history_rows:Dictionary={}
+	for row:Dictionary in journal._catalog:history_rows[row.id]=row
+	var harbor_row:Dictionary=history_rows.get("heting_delivery",{});var consignee_row:Dictionary=history_rows.get("heting_consignee",{})
+	_check(probe.heting_stage==4 and not harbor_row.is_empty() and harbor_row.display_title=="埠灯未尽" and harbor_row.status=="completed" and not harbor_row.trackable,"Actual earned harbor row uses frozen completed title and cannot retrack")
+	_check(probe.consignee_stage==5 and not consignee_row.is_empty() and consignee_row.display_title=="未损先收" and consignee_row.status=="completed" and not consignee_row.trackable,"Actual earned consignee row is completed and cannot retrack")
 	var earlier_allocation: String = "此前短渡分粮照旧。" if game.state.heting_ending == "short_ferries" else "此前开秤分粮照旧。"
-	_check(_modal_text().contains("未损先收") and _modal_text().contains("一秤两岸") and _modal_text().contains(earlier_allocation),"Journal retains both chapters and exact chosen earlier-night allocation")
+	# Old aggregate 一秤两岸 maps to its frozen stage4 earned title; exact outcomes stay unchanged.
+	_check(journal.body.text.contains("未损先收") and journal.body.text.contains("埠灯未尽 · 已完成\n") and journal.body.text.contains(earlier_allocation),"Journal retains both chapters and exact chosen earlier-night allocation")
 	await _key(KEY_ESCAPE)
+	_check(game.active_modal and journal.page=="journal","History Escape returns to J without closing the owner")
+	await _key(KEY_ESCAPE)
+	_check(not game.active_modal and not game.overlay.has_meta("journal_ui"),"Second Escape closes the real journal completely")
 	_check(probe.writes == journal_writes,"Read-only journal open/Esc does not write a save")
+	_check(probe.to_dict()==journal_before,"Complete J/history/Escape/Escape flow preserves exact canonical state")
 	await _receipt_access(receipt)
 
 func _scene_guards_and_failures() -> void:

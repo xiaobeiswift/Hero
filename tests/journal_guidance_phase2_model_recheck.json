@@ -1,0 +1,25 @@
+{
+  "status": "passed final model/oracle source rerun; no native/package/full claim",
+  "schema": 16,
+  "checks": 6554,
+  "failures": 0,
+  "retained_corpus_rows_checked": 117,
+  "approved_target_changes": 14,
+  "other_target_equalities": 103,
+  "inputs_unchanged": true,
+  "inputs": {
+    "tests/journal_guidance_independent_test.gd": "57e112bf4f47082874178d316982d909176f6802b79e867e1657182ea63d377d",
+    "scripts/journal_guidance_rules.gd": "ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb",
+    "scripts/main.gd": "8f1492127a5200617fe9056c507f0c525c108426be73b6d9097bb7f5104bbf86",
+    "scripts/world.gd": "9c68c6b68ced58d95edcdc18c25c51d7e2be73af0991b3fa61f78cdf56ec7971",
+    "scripts/journal_guidance_view.gd": "1a923d62a38663053b73ad0bb5d22f59d99bc5a5e32e3a0ed0479252af899a20"
+  },
+  "report_sha256": "50c375fd3feb1e2434bc995957460d852d95578c6caee4b6067cdeabfa310efd",
+  "console_sha256": "479ab5384b7e59d95d44d3e95f0812d46fdb4a39ff3dffef2482f3e2df2f9c8f",
+  "engine_sha256": "479ab5384b7e59d95d44d3e95f0812d46fdb4a39ff3dffef2482f3e2df2f9c8f",
+  "corpus_sha256": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443",
+  "bundle_sha256": "aa950207fd293f8b90630677b34753c177d4d50ff281f8aea804d6470f176bed",
+  "additional_priority_exception": false,
+  "negative_control": "Actual existing Web30 mentor/Shen15/0 preserved under tests/historical/journal_guidance_mentor_shen_negative_control.json; raw-field hypothesis disproved, not added as alignment",
+  "limits": "Prepared NoSave/NoPrefs model/consumer matrices plus immutable actual old observations; genuine-State scene and earned/native checks have separate records"
+}

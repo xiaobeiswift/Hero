@@ -1,0 +1,367 @@
+{
+  "reviewed_utc": "2026-10-03T20:48:16.999502+00:00",
+  "scope": "Independent read-only isolated folio asset/font payload review. No engine, import, rendering, export or source edits. Own report only.",
+  "source": "/workspace/scratch/61762639b34b/Hero-staging/folio-ui-redesign/source",
+  "result": "Payload identity, face fidelity, glyph/cmap preservation, upstream blob identity, OFL identity and static export inclusion verified. Two minor documentation inconsistencies; actual artifact packaging and all native acceptance remain pending.",
+  "file_identities": {
+    "assets/fonts/FOLIO_FONT_PROVENANCE.md": {
+      "bytes": 3086,
+      "sha256": "598e5e6cf370f167c570128175409d3c5409c0f8ec66ca1e56c8ff673a9e5b86"
+    },
+    "assets/fonts/NotoSerifSC-Regular.woff2": {
+      "bytes": 16708712,
+      "sha256": "4411e803d26015b09bd2141d102892a426842aaef1622a99d641e45e378b2b2c"
+    },
+    "assets/fonts/NotoSerifSC-OFL.txt": {
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    "assets/fonts/NotoSerifSC-NOTICE.txt": {
+      "bytes": 1071,
+      "sha256": "28593c2b9feab4871844e24aa3797bbe8fa5f4aa3b84fb14f82f30d6b2537028"
+    },
+    "assets/fonts/LICENSE.txt": {
+      "bytes": 14712,
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+    },
+    "assets/generated/ui/FOLIO_PROVENANCE.md": {
+      "bytes": 2026,
+      "sha256": "ead88e00aa90937e7b1523b50c6b0d08fbf52807b4935fb1df8a6461a71ed69f"
+    },
+    "assets/generated/ui/hero_folio_backing_v1.png": {
+      "bytes": 2436741,
+      "sha256": "5ac9d026880969a7213b9f308f9e7bb2768143a8902002cf439d09e506908e03"
+    },
+    "assets/generated/ui/folio-generation-prompt.txt": {
+      "bytes": 5040,
+      "sha256": "fbd2ada7a410650d2f349cd71f1cf3e4f4d4735656104fe0538d560df1aec156"
+    },
+    "assets/generated/ui/folio-backing-generation-prompt.txt": {
+      "bytes": 1858,
+      "sha256": "881c225313d6e8918bcb34a78f8a73d62caf757df258715076c45490356d59a8"
+    },
+    "screenshots/journal-guidance-native-overview.png": {
+      "bytes": 143377,
+      "sha256": "10ff7fabf8adb16751259d07a8cb514bd43374f0c9d59e3a5d06aaad768bc75d"
+    },
+    "tests/folio_font_extraction_audit.json": {
+      "bytes": 21178,
+      "sha256": "4e33edb82542fa013fc25965b3312130e0d3705778de1764952e83ae5a396571"
+    },
+    "tests/folio_font_license_audit.json": {
+      "bytes": 1039,
+      "sha256": "d5226b71500fa01881d7b3b8c7785e28da898adcdeba772b9e73ae236471a2e9"
+    },
+    "export_presets.cfg": {
+      "bytes": 4928,
+      "sha256": "ec4947043cfaca80d3630fd86c3d59b8db3b6b2d7e3ef84a3bd22aeba9e9057a"
+    }
+  },
+  "installed_ttc": {
+    "path": "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
+    "bytes": 26411360,
+    "sha256": "5d9c31a059600193c9d7968a998bde886ccdc77e934006ad243b41794c496a7d",
+    "git_blob_sha1": "e72653a3a41fc9a8930e0cb40af310c4472a753b",
+    "faces": 5,
+    "selected_face": 2
+  },
+  "official_upstream_rechecked": {
+    "api_url": "https://api.github.com/repos/notofonts/noto-cjk/contents/Serif/OTC/NotoSerifCJK-Regular.ttc?ref=9b0f1436e455d902de067a2501422e5dc71ad16b",
+    "returned_sha": "e72653a3a41fc9a8930e0cb40af310c4472a753b",
+    "returned_size": 26411360,
+    "license_url": "https://raw.githubusercontent.com/notofonts/noto-cjk/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/LICENSE",
+    "license_bytes": 4301,
+    "license_sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+    "method": "Public read-only HTTPS via urllib after web fetch metadata/cache failures. No binary font download."
+  },
+  "font_verification": {
+    "table_count": 16,
+    "glyph_count": 65535,
+    "best_cmap_codepoints": 44777,
+    "glyph_order_identity": true,
+    "best_cmap_identity": true,
+    "raw_cmap_identity": true,
+    "name_table_identity": true,
+    "names": {
+      "0": [
+        "© 2017-2024 Adobe (http://www.adobe.com/)."
+      ],
+      "1": [
+        "Noto Serif CJK SC"
+      ],
+      "2": [
+        "Regular"
+      ],
+      "3": [
+        "2.003;GOOG;NotoSerifCJKsc-Regular;ADOBE"
+      ],
+      "4": [
+        "Noto Serif CJK SC"
+      ],
+      "5": [
+        "Version 2.003;hotconv 1.1.1;makeotfexe 2.6.0"
+      ],
+      "6": [
+        "NotoSerifCJKsc-Regular"
+      ],
+      "7": [
+        "Noto is a trademark of Google Inc."
+      ],
+      "8": [
+        "Adobe"
+      ],
+      "9": [
+        "Ryoko NISHIZUKA 西塚涼子 (kana & ideographs); Frank Grießhammer (Latin, Greek & Cyrillic); Wenlong ZHANG 张文龙 (bopomofo); Sandoll Communications 산돌커뮤니케이션, Soohyun PARK 박수현, Yejin WE 위예진 & Donghoon HAN 한동훈 (hangul elements, letters & syllables)"
+      ],
+      "10": [
+        "Dr. Ken Lunde (project architect, glyph set definition & overall production); Masataka HATTORI 服部正貴 (production & ideograph elements); Zachary Quinn Scheuren (variable font & overall production)"
+      ],
+      "13": [
+        "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software."
+      ],
+      "14": [
+        "http://scripts.sil.org/OFL"
+      ]
+    },
+    "shared_cff_internal_fontname": [
+      "NotoSerifCJKjp-Regular"
+    ],
+    "transformed_tables": [],
+    "table_checks": [
+      {
+        "tag": "BASE",
+        "source_bytes": 240,
+        "woff2_decoded_bytes": 240,
+        "source_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+        "woff2_decoded_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "CFF ",
+        "source_bytes": 23555680,
+        "woff2_decoded_bytes": 23555680,
+        "source_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+        "woff2_decoded_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "GDEF",
+        "source_bytes": 28,
+        "woff2_decoded_bytes": 28,
+        "source_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+        "woff2_decoded_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "GPOS",
+        "source_bytes": 58506,
+        "woff2_decoded_bytes": 58506,
+        "source_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+        "woff2_decoded_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "GSUB",
+        "source_bytes": 167156,
+        "woff2_decoded_bytes": 167156,
+        "source_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+        "woff2_decoded_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "OS/2",
+        "source_bytes": 96,
+        "woff2_decoded_bytes": 96,
+        "source_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+        "woff2_decoded_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "VORG",
+        "source_bytes": 1000,
+        "woff2_decoded_bytes": 1000,
+        "source_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+        "woff2_decoded_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "cmap",
+        "source_bytes": 234523,
+        "woff2_decoded_bytes": 234523,
+        "source_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+        "woff2_decoded_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "head",
+        "source_bytes": 54,
+        "woff2_decoded_bytes": 54,
+        "source_sha256": "2f157e3573cf31cd5c757559da7a80985b0367deeeaf2a45a0cf33b6cc717354",
+        "woff2_decoded_sha256": "25abfc104d000adfd802a639dfa2eeeb0e0db9f462c56fe5c1264cf0903617d5",
+        "raw_equal": false,
+        "head_unchanged_except_checksum_and_flags": true,
+        "source_flags": 3,
+        "woff2_flags": 2051,
+        "different_byte_offsets": [
+          8,
+          9,
+          10,
+          11,
+          16
+        ],
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "hhea",
+        "source_bytes": 36,
+        "woff2_decoded_bytes": 36,
+        "source_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+        "woff2_decoded_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "hmtx",
+        "source_bytes": 261854,
+        "woff2_decoded_bytes": 261854,
+        "source_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+        "woff2_decoded_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "maxp",
+        "source_bytes": 6,
+        "woff2_decoded_bytes": 6,
+        "source_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+        "woff2_decoded_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "name",
+        "source_bytes": 2330,
+        "woff2_decoded_bytes": 2330,
+        "source_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+        "woff2_decoded_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "post",
+        "source_bytes": 32,
+        "woff2_decoded_bytes": 32,
+        "source_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+        "woff2_decoded_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "vhea",
+        "source_bytes": 36,
+        "woff2_decoded_bytes": 36,
+        "source_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+        "woff2_decoded_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      },
+      {
+        "tag": "vmtx",
+        "source_bytes": 261198,
+        "woff2_decoded_bytes": 261198,
+        "source_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+        "woff2_decoded_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+        "raw_equal": true,
+        "matches_recorded_decoded_table_hash": true
+      }
+    ],
+    "deterministic_decode": {
+      "method": "TTFont(recalcTimestamp=False), flavor=None, save(reorderTables=False)",
+      "bytes": 24543056,
+      "sha256": "975c18426c53e3325445197b3594f3e14ff2a1440f296fb5cb4768ad824eee11",
+      "matches_audit": true,
+      "checksum": "0xb1b0afba",
+      "note": "fontTools.woff2.decompress uses reorderTables=True and produces a different equivalent whole-file hash; audit matches with False. All decoded raw table hashes match."
+    },
+    "heading_sample_missing_characters": []
+  },
+  "backing": {
+    "format": "PNG",
+    "mode": "RGB",
+    "dimensions": [
+      1586,
+      992
+    ],
+    "metadata": {}
+  },
+  "export_presets": [
+    {
+      "name": "Linux x86_64",
+      "all_resources": true,
+      "font_ofl_explicitly_included": true,
+      "font_notice_explicitly_included": true,
+      "font_or_backing_excluded": false,
+      "folio_provenance_docs_explicitly_included": false
+    },
+    {
+      "name": "Windows x86_64",
+      "all_resources": true,
+      "font_ofl_explicitly_included": true,
+      "font_notice_explicitly_included": true,
+      "font_or_backing_excluded": false,
+      "folio_provenance_docs_explicitly_included": false
+    },
+    {
+      "name": "macOS Universal",
+      "all_resources": true,
+      "font_ofl_explicitly_included": true,
+      "font_notice_explicitly_included": true,
+      "font_or_backing_excluded": false,
+      "folio_provenance_docs_explicitly_included": false
+    },
+    {
+      "name": "Web Single Thread",
+      "all_resources": true,
+      "font_ofl_explicitly_included": true,
+      "font_notice_explicitly_included": true,
+      "font_or_backing_excluded": false,
+      "folio_provenance_docs_explicitly_included": false
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor documentation inconsistency",
+      "file": "assets/fonts/NotoSerifSC-NOTICE.txt",
+      "line": 8,
+      "detail": "Still says OFL is supplied in LICENSE.txt, but dedicated upstream license copied to this project is NotoSerifSC-OFL.txt. LICENSE.txt exists and contains Debian packaging copyright plus SIL-1.1 and GPL packaging terms, so the pointer is confusing rather than a missing-license finding."
+    },
+    {
+      "severity": "minor provenance overclaim",
+      "file": "assets/fonts/FOLIO_FONT_PROVENANCE.md",
+      "line": 11,
+      "detail": "Says NOTICE includes trademark notice. Embedded unchanged name ID 7 is Noto is a trademark of Google Inc.; that statement is absent from NotoSerifSC-NOTICE.txt. Copyright and author credits are present, and the trademark remains unchanged inside the font."
+    }
+  ],
+  "limits": [
+    "Actual Godot resource import/export not run; no built package asserted to include the files or make license notices user-accessible.",
+    "Both folio provenance Markdown files and generation prompts are not explicitly included as non-resources in export presets. Current dedicated OFL/NOTICE inclusion is correct; adding provenance is traceability hardening rather than a demonstrated license blocker.",
+    "No pixels viewed or accepted, no native layout/readability/accessibility or live input testing.",
+    "Backing and reference screenshot byte identities verified against provenance; conceptual intermediate identified only by hash in source and was not available inside this worktree for independent chain verification.",
+    "No legal opinion or exclusive copyright conclusion.",
+    "Default Python runtime lacked Brotli. Existing /usr/bin/python3 3.13.5, fontTools 4.57.0, Brotli 1.1.0 performed the read-only font checks; nothing installed."
+  ],
+  "primary_documentation": [
+    "https://docs.godotengine.org/en/4.6/classes/class_fontfile.html",
+    "https://docs.godotengine.org/en/4.6/tutorials/export/exporting_projects.html",
+    "https://www.w3.org/TR/WOFF2/#table_format",
+    "https://raw.githubusercontent.com/notofonts/noto-cjk/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/LICENSE"
+  ]
+}

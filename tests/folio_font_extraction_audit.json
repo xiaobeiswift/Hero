@@ -1,0 +1,499 @@
+{
+  "status": "staged_only_no_engine_import_or_native_render",
+  "created_utc": "2026-10-03",
+  "canonical_source_untouched": "05e790da8062c3aabd4ebc73315edd706639819c",
+  "upstream_release": "Serif2.003",
+  "upstream_commit": "9b0f1436e455d902de067a2501422e5dc71ad16b",
+  "license": "SIL Open Font License 1.1",
+  "reserved_font_names_declared": [],
+  "tool_versions": {
+    "python": "3.13.5",
+    "fontTools": "4.57.0",
+    "brotli": "1.1.0"
+  },
+  "face_extraction": {
+    "source_ttc_face_index": 2,
+    "policy": "Copy all 16 raw SFNT tables. Preserve full CFF outlines, glyph IDs, cmap, layout, metrics, names and license metadata. Only container offsets and head.checkSumAdjustment change.",
+    "subsetting": false
+  },
+  "sources": [
+    {
+      "local_path": "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc",
+      "bytes": 26411360,
+      "sha256": "5d9c31a059600193c9d7968a998bde886ccdc77e934006ad243b41794c496a7d",
+      "git_blob_sha1": "e72653a3a41fc9a8930e0cb40af310c4472a753b",
+      "upstream_exact_blob_match_verified": true,
+      "upstream_api_url": "https://api.github.com/repos/notofonts/noto-cjk/contents/Serif/OTC/NotoSerifCJK-Regular.ttc?ref=9b0f1436e455d902de067a2501422e5dc71ad16b",
+      "upstream_url": "https://github.com/notofonts/noto-cjk/blob/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/OTC/NotoSerifCJK-Regular.ttc",
+      "face_index": 2,
+      "face_count": 5,
+      "family": "Noto Serif CJK SC",
+      "style": "Regular",
+      "postscript_name": "NotoSerifCJKsc-Regular",
+      "version": "Version 2.003;hotconv 1.1.1;makeotfexe 2.6.0",
+      "copyright": "© 2017-2024 Adobe (http://www.adobe.com/)."
+    },
+    {
+      "local_path": "/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc",
+      "bytes": 27397052,
+      "sha256": "1505ee3b9c0890fae6302ee0e9c6fd74d690f4a55a6ace1d9944f3f6352d622d",
+      "git_blob_sha1": "1a313a7e4f8dbb97c5bbb8b0f949dc48d55ec233",
+      "upstream_exact_blob_match_verified": true,
+      "upstream_api_url": "https://api.github.com/repos/notofonts/noto-cjk/contents/Serif/OTC/NotoSerifCJK-Bold.ttc?ref=9b0f1436e455d902de067a2501422e5dc71ad16b",
+      "upstream_url": "https://github.com/notofonts/noto-cjk/blob/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/OTC/NotoSerifCJK-Bold.ttc",
+      "face_index": 2,
+      "face_count": 5,
+      "family": "Noto Serif CJK SC",
+      "style": "Bold",
+      "postscript_name": "NotoSerifCJKsc-Bold",
+      "version": "Version 2.003;hotconv 1.1.1;makeotfexe 2.6.0",
+      "copyright": "© 2017-2024 Adobe (http://www.adobe.com/)."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "reference/NotoSerifCJKsc-Regular.otf",
+      "bytes": 24543056,
+      "sha256": "51c59e4f5d86de5fe927213403f72686b69df86763127eedea0a5b0a5c38b003"
+    },
+    {
+      "path": "runtime/NotoSerifCJKsc-Regular.woff2",
+      "bytes": 16708712,
+      "sha256": "4411e803d26015b09bd2141d102892a426842aaef1622a99d641e45e378b2b2c"
+    },
+    {
+      "path": "optional/NotoSerifCJKsc-Bold.otf",
+      "bytes": 25521436,
+      "sha256": "554042872aa6ffdc83c875a5f347035c4ffd75a3b9c902c4134c9d02e73041f3"
+    }
+  ],
+  "validation": {
+    "Regular": {
+      "table_count": 16,
+      "glyph_count": 65535,
+      "best_cmap_codepoints": 44777,
+      "head_only_changed_checkSumAdjustment": true,
+      "glyph_order_identity": true,
+      "unicode_cmap_identity": true,
+      "all_sample_heading_characters_present": true,
+      "sample": "行纪渡灯录尺绳有托尺上旧痕轻身功课鹤汀来路选途当前指引已完成详细",
+      "table_checks": [
+        {
+          "tag": "BASE",
+          "bytes": 240,
+          "source_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+          "extracted_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "CFF ",
+          "bytes": 23555680,
+          "source_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+          "extracted_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GDEF",
+          "bytes": 28,
+          "source_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "extracted_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GPOS",
+          "bytes": 58506,
+          "source_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+          "extracted_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GSUB",
+          "bytes": 167156,
+          "source_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "extracted_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "OS/2",
+          "bytes": 96,
+          "source_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+          "extracted_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "VORG",
+          "bytes": 1000,
+          "source_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+          "extracted_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "cmap",
+          "bytes": 234523,
+          "source_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "extracted_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "head",
+          "bytes": 54,
+          "source_sha256": "2f157e3573cf31cd5c757559da7a80985b0367deeeaf2a45a0cf33b6cc717354",
+          "extracted_sha256": "d2bb6561f5ab185559da779526f77d1661f8245461194b8e0acc7e889b34d2f7",
+          "payload_equal": true,
+          "exception": "head.checkSumAdjustment only"
+        },
+        {
+          "tag": "hhea",
+          "bytes": 36,
+          "source_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+          "extracted_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "hmtx",
+          "bytes": 261854,
+          "source_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+          "extracted_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "maxp",
+          "bytes": 6,
+          "source_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "extracted_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "name",
+          "bytes": 2330,
+          "source_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+          "extracted_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "post",
+          "bytes": 32,
+          "source_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "extracted_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vhea",
+          "bytes": 36,
+          "source_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+          "extracted_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vmtx",
+          "bytes": 261198,
+          "source_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+          "extracted_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+          "payload_equal": true,
+          "exception": null
+        }
+      ]
+    },
+    "woff2_roundtrip": {
+      "passed": true,
+      "transformed_tables": [],
+      "font_table_count": 16,
+      "glyph_order_identity": true,
+      "unicode_cmap_identity": true,
+      "glyph_count": 65535,
+      "best_cmap_codepoints": 44777,
+      "font_data_change": "No glyph, cmap, layout, metrics, copyright or naming changes. Only regenerated head.checkSumAdjustment and W3C-required head.flags bit 11 (3 -> 2051).",
+      "head_flags_original": 3,
+      "head_flags_woff2": 2051,
+      "decoded_in_memory_bytes": 24543056,
+      "decoded_in_memory_sha256": "975c18426c53e3325445197b3594f3e14ff2a1440f296fb5cb4768ad824eee11",
+      "decoded_full_sfnt_checksum": "0xb1b0afba",
+      "table_checks": [
+        {
+          "tag": "BASE",
+          "bytes": 240,
+          "original_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+          "decoded_sha256": "f299567d9fac7b26a1a1d698826c11050833fb3aea489d15d2e380699a4d20ea",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "CFF ",
+          "bytes": 23555680,
+          "original_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+          "decoded_sha256": "bebde185dfc868c1198e034b0358f5d32c41fdf5659b4e615856497683d5ecd7",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GDEF",
+          "bytes": 28,
+          "original_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "decoded_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GPOS",
+          "bytes": 58506,
+          "original_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+          "decoded_sha256": "bdb6f75a3ef441a26e82eb0dab812ae69fea99839df408c8e4147bf64cb4d4af",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GSUB",
+          "bytes": 167156,
+          "original_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "decoded_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "OS/2",
+          "bytes": 96,
+          "original_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+          "decoded_sha256": "b38d71f90e3c8ed142fe948a3e7c43aea3ab7ec06034cbcdc74474ea351bdc4a",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "VORG",
+          "bytes": 1000,
+          "original_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+          "decoded_sha256": "ccc94d9d404f73f3eae8e5d247c06a9313e969c5ecd5a7553eac7423847fdc9d",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "cmap",
+          "bytes": 234523,
+          "original_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "decoded_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "head",
+          "bytes": 54,
+          "original_sha256": "d2bb6561f5ab185559da779526f77d1661f8245461194b8e0acc7e889b34d2f7",
+          "decoded_sha256": "25abfc104d000adfd802a639dfa2eeeb0e0db9f462c56fe5c1264cf0903617d5",
+          "payload_equal": true,
+          "exception": "head.checkSumAdjustment plus mandated head.flags bit 11"
+        },
+        {
+          "tag": "hhea",
+          "bytes": 36,
+          "original_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+          "decoded_sha256": "2dcc078938fe6bd9be9dd208d25cdb4ab0b8041c5c5308c9a30661f9f74f495b",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "hmtx",
+          "bytes": 261854,
+          "original_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+          "decoded_sha256": "a3fa9ab8ce188e65bba2f35a09db266329b2d367c53001b50db374662a4e77fd",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "maxp",
+          "bytes": 6,
+          "original_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "decoded_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "name",
+          "bytes": 2330,
+          "original_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+          "decoded_sha256": "6401b278a8c257cba2214d45297a3981d455b3cacd1dd88643a7d265b53c1843",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "post",
+          "bytes": 32,
+          "original_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "decoded_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vhea",
+          "bytes": 36,
+          "original_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+          "decoded_sha256": "ef1792a5d6db431393c9683dd94cd859577578657eb8e3de66b93906394b4749",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vmtx",
+          "bytes": 261198,
+          "original_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+          "decoded_sha256": "4966f36f074ffffdec99400ddcd2303a266db6200e68923eed7511282e45a5db",
+          "payload_equal": true,
+          "exception": null
+        }
+      ]
+    },
+    "Bold": {
+      "table_count": 16,
+      "glyph_count": 65535,
+      "best_cmap_codepoints": 44777,
+      "head_only_changed_checkSumAdjustment": true,
+      "glyph_order_identity": true,
+      "unicode_cmap_identity": true,
+      "all_sample_heading_characters_present": true,
+      "sample": "行纪渡灯录尺绳有托尺上旧痕轻身功课鹤汀来路选途当前指引已完成详细",
+      "table_checks": [
+        {
+          "tag": "BASE",
+          "bytes": 240,
+          "source_sha256": "b673b9940917c6db65ed8638133af0a6a8fcf16fb0efa9b6bffa4bb30a88ebd5",
+          "extracted_sha256": "b673b9940917c6db65ed8638133af0a6a8fcf16fb0efa9b6bffa4bb30a88ebd5",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "CFF ",
+          "bytes": 24532249,
+          "source_sha256": "2289334bee99be4b8f63f041a5b72b28f483f794f228c2e5a0ced36f48c11e3b",
+          "extracted_sha256": "2289334bee99be4b8f63f041a5b72b28f483f794f228c2e5a0ced36f48c11e3b",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GDEF",
+          "bytes": 28,
+          "source_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "extracted_sha256": "cc08d969b7987dface5fc1fcd4755279ffacbc1a27e24ae0077e6a41fc7d651f",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GPOS",
+          "bytes": 60310,
+          "source_sha256": "e110f45586e0e257258c5b9e9df2aaff5365e219bb1cb08e344c3714b67e4ed6",
+          "extracted_sha256": "e110f45586e0e257258c5b9e9df2aaff5365e219bb1cb08e344c3714b67e4ed6",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "GSUB",
+          "bytes": 167156,
+          "source_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "extracted_sha256": "aa51defeb546da7a88ccce5812175a96281c68a271f8c46dba9f9916bd2280d4",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "OS/2",
+          "bytes": 96,
+          "source_sha256": "eef3a47292a5094d6681ea45dce845b5f2f56c73c0236d6754ec000eac2af185",
+          "extracted_sha256": "eef3a47292a5094d6681ea45dce845b5f2f56c73c0236d6754ec000eac2af185",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "VORG",
+          "bytes": 980,
+          "source_sha256": "3e49ff575b13831e7b398d54a7b8bae9ff20751fe4677afec912390677716613",
+          "extracted_sha256": "3e49ff575b13831e7b398d54a7b8bae9ff20751fe4677afec912390677716613",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "cmap",
+          "bytes": 234523,
+          "source_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "extracted_sha256": "30a06d07e95858b4ea4b42a21a9cf21dcbd3d17a7b2d7fe11208762cb4117746",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "head",
+          "bytes": 54,
+          "source_sha256": "3bcb9210aefb33d923833a12ddadf4461590a6c32083fdf1b1cc72b6bbb2cc85",
+          "extracted_sha256": "e2609b1e53375622aade5855cb6dd8584e93d6f7dd65bda54234c022776606f8",
+          "payload_equal": true,
+          "exception": "head.checkSumAdjustment only"
+        },
+        {
+          "tag": "hhea",
+          "bytes": 36,
+          "source_sha256": "aaa9573ba4e5965857e1b9b18cbc64efa3ca873f565911dfba639a5bde099e81",
+          "extracted_sha256": "aaa9573ba4e5965857e1b9b18cbc64efa3ca873f565911dfba639a5bde099e81",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "hmtx",
+          "bytes": 261854,
+          "source_sha256": "6aaf1154a2c316ac1e9242cd60d2d7c9c52892aa7e89290974f6ed045d5885bc",
+          "extracted_sha256": "6aaf1154a2c316ac1e9242cd60d2d7c9c52892aa7e89290974f6ed045d5885bc",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "maxp",
+          "bytes": 6,
+          "source_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "extracted_sha256": "1c2dd1f6eeea4024f3d77499f4191f6fd724ad556187d54d241788ee83c979ad",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "name",
+          "bytes": 2356,
+          "source_sha256": "81fbaa42624ae42c5e48e192a05e6ee5151e736564d150e05a5da5a9b4a01d2c",
+          "extracted_sha256": "81fbaa42624ae42c5e48e192a05e6ee5151e736564d150e05a5da5a9b4a01d2c",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "post",
+          "bytes": 32,
+          "source_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "extracted_sha256": "77a232e4db6b60c21f7b76ccf821e3c80c519901f11d10efb8c8df04ca82a4e8",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vhea",
+          "bytes": 36,
+          "source_sha256": "181a9e945687ef384c9f05821b0b421e101de311dfae24ee4e20ce27b01c8867",
+          "extracted_sha256": "181a9e945687ef384c9f05821b0b421e101de311dfae24ee4e20ce27b01c8867",
+          "payload_equal": true,
+          "exception": null
+        },
+        {
+          "tag": "vmtx",
+          "bytes": 261198,
+          "source_sha256": "cb19b7f3a01019f6509b5f79d897bceef8f627c56c6ab766fd8f401fd80bfc99",
+          "extracted_sha256": "cb19b7f3a01019f6509b5f79d897bceef8f627c56c6ab766fd8f401fd80bfc99",
+          "payload_equal": true,
+          "exception": null
+        }
+      ]
+    },
+    "shared_cff_identity_note": "The upstream TTC shares a CFF table whose original internal FamilyName is Noto Serif CJK JP and fontNames is NotoSerifCJKjp-Regular/Bold across collection faces. The SC face is determined by its unchanged SC name/cmap/layout tables (index 2). Extraction preserves this upstream CFF table without renaming; do not mistake the shared internal CFF label for selection of the JP face. Fontconfig independently identified both staged Regular OTF and WOFF2 as Noto Serif CJK SC Regular.",
+    "fontconfig_woff2_read": "fc-scan successfully identified family Noto Serif CJK SC, style Regular, fontversion 131268; emitted cache-directory write warnings, so this is read/parsing confirmation only, not native Godot rendering."
+  }
+}

@@ -1,4 +1,5 @@
 extends SceneTree
+const JournalFixture=preload("res://tests/journal_guidance_test_fixture.gd")
 const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 ## Actual VillageWorld + MapChart integration. Isolated test save only.
 ## This is headless runtime/geometry coverage, not rendered-pixel or GUI QA.
@@ -95,23 +96,27 @@ func _fields_and_regions() -> void:
 	_check(world.interaction_verb("heting_lighter") == "询问货物", "Locked reserve source offers an explanation")
 	for id in ["heting_dispatch", "heting_relief", "heting_scale"]:
 		_check(world.interaction_verb(id) == "交谈", "Heting NPC uses conversation verb")
-	world.shen_target_id = "return_mistwood"
-	world.heting_target_id = "heting_scale"
-	_check(world._quest_target_id() == "heting_scale", "Parent supplied valid Heting target owns priority")
-	world.heting_target_id = "absent"
-	_check(world._quest_target_id() == "return_mistwood", "Invalid Heting target preserves existing personal route")
-	world.shen_target_id = ""
-	world.personal_target_id = "return_mistwood"
-	_check(world._quest_target_id() == "return_mistwood", "Tang Qi return target remains usable in fifth map")
-	world.personal_target_id = ""
-	world.heting_target_id = ""
-	_check(world._quest_target_id() == "heting_dispatch", "Fifth map fallback is a real local point")
+	var policy=JournalFixture.base(5);policy.map_id="heting";policy.receipt_stage=1
+	_check(policy.recruit_companion(),"Prepared harbor competitor uses canonical Shen recruitment")
+	policy.shen_care_stage=1;policy.bridge_repaired=true;policy.tangqi_stage=1
+	JournalFixture.sync_physical(world,policy,Heting.ENTRY);var projected=JournalFixture.project(world,policy)
+	_check(projected.arc_id=="heting_receipt" and world._quest_target_id()=="heting_scale","Real active harbor receipt owns automatic priority over Shen and Tang")
+	var scale:Dictionary=world.interactables.heting_scale.duplicate(true);world.interactables.erase("heting_scale")
+	projected=JournalFixture.project(world,policy)
+	_check(projected.arc_id=="heting_receipt" and projected.route_status=="unavailable" and world._quest_target_id().is_empty(),"Missing chosen harbor point suppresses target without hidden priority fallback")
+	world.interactables.heting_scale=scale;projected=JournalFixture.project(world,policy,"shen_care")
+	_check(projected.arc_id=="shen_care" and world._quest_target_id()=="return_mistwood","Actual earned Shen remote route remains selectable")
+	projected=JournalFixture.project(world,policy,"tang_notes")
+	_check(projected.arc_id=="tang_notes" and world._quest_target_id()=="return_mistwood","Actual Tang notebook route remains usable in fifth map")
+	policy=JournalFixture.base(4);policy.map_id="heting";policy.heting_stage=2;policy.heting_bridge="west";policy.heting_delivered.assign(["meal","sealed"])
+	JournalFixture.sync_physical(world,policy,Heting.ENTRY);projected=JournalFixture.project(world,policy)
+	_check(projected.arc_id=="heting_delivery" and world._quest_target_id()=="heting_dispatch","Real earned harbor debrief points to its local dispatcher")
 	world.change_map("mistwood", Vector2(1440,505))
 	_check(world.player_pos == Vector2(1440,505) and Mist.walkable(world.player_pos), "Existing Mist return location is preserved")
 	_check(world.interactables.exit_heting.pos == Vector2(1470,485), "New downstream exit is exact")
 	_check(world.interaction_verb("exit_heting") == "前往", "Mist exit context is travel")
-	world.heting_target_id = "exit_heting"
-	_check(world._quest_target_id() == "exit_heting", "New chapter can target Mist downstream exit")
+	policy=JournalFixture.base(4);policy.map_id="mistwood";projected=JournalFixture.project(world,policy,"heting_delivery")
+	_check(projected.arc_id=="heting_delivery" and world._quest_target_id()=="exit_heting", "Earned harbor selection projects actual Mist downstream exit")
 	var old_points := {"return_frostbridge":Vector2(150,550),"mist_guide":Vector2(350,360),"mist_rain_gauge":Vector2(550,245),"mist_stone_gauge":Vector2(1000,300),"mist_basin":Vector2(1250,765),"mist_camp":Vector2(290,790),"mist_scout":Vector2(1030,560),"mist_gate":Vector2(1320,500)}
 	_check(world.interactables.size() == 9, "Mist adds one point without removing an original")
 	for id in old_points:
@@ -349,12 +354,14 @@ func _companion_segments() -> void:
 	world.set_exploration_party([])
 
 func _other_region_regression() -> void:
-	world.heting_target_id="heting_scale"
+	# Renderer-staleness probe: obtain a real harbor projection before changing maps.
+	var prior=JournalFixture.base(5);prior.map_id="heting";prior.receipt_stage=1
+	JournalFixture.sync_physical(world,prior,Heting.ENTRY);JournalFixture.project(world,prior)
 	for id in ["qingwei","sluice","frostbridge","mistwood"]:
 		world.change_map(id,Vector2(460,430) if id=="qingwei" else Vector2(150,550))
 		_check(world.map_id==id and world._can_walk(world.player_pos), "Existing map entry remains valid: "+id)
 		_check(not world.interactables.has("heting_cargo"), "Fifth-region cargo markers never leak into "+id)
-		_check(world.interactables.has(world._quest_target_id()) or world._quest_target_id().is_empty(), "Stale fifth target never breaks old region "+id)
+		_check(world._quest_target_id().is_empty(), "Stale projected fifth target is suppressed immediately in old region "+id)
 	world.change_map("qingwei",Lightness.LANDING)
 	PartyFixture.select_world(world)
 	for id in world.follower_ids():
@@ -391,11 +398,14 @@ func _draw_states() -> void:
 					world.heting_draft=ending
 					world.heting_ending=ending
 					world.mist_ending=previous_ending
-					world.heting_target_id="heting_scale"
 					world.change_map("heting",Vector2(820,735))
 					_check(world.follower_ids()==["shen","tang","qin"],"All three followers participate in each headless draw")
 					chart.player_position=world.player_pos
-					chart.current_target=world._quest_target_id()
+					# Hand-built consumer snapshot ONLY for 48 renderer combinations;
+					# priority is independently covered by real policy fixtures above.
+					var render_only={"next_target_id":"heting_scale","next_target_map":"heting","next_target_position":world.interactables.heting_scale.pos,"next_target_name":"公秤","cart_route":PackedVector2Array()}
+					world.set_journal_guidance(render_only);chart.set_journal_guidance(render_only)
+					_check(chart.current_target=="heting_scale" and world._quest_target_id()=="heting_scale","Render-only supplied target survives consumer validation")
 					var previous_world_draw:int=world.draw_count
 					var previous_chart_draw:int=chart.draw_count
 					world.queue_redraw();chart.queue_redraw()

@@ -52,9 +52,18 @@ func _test_modal_keys() -> void:
 	game._show_inventory()
 	await _key(KEY_4)
 	_check(not game.active_modal, "Number four closes inventory through its fourth option")
-	game._show_journal()
+	game._show_journal();await process_frame
+	var journal=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal) and game.modal_actions.is_empty(),"Dedicated J owns controls without generic modal actions")
+	var tracked:String=game.journal_session.tracked_arc_id
+	var browsed:String=journal.browse_arc_id
 	await _key(KEY_ENTER)
-	_check(not game.active_modal, "Enter closes a one-option modal")
+	_check(game.active_modal and journal.browse_arc_id==browsed and game.journal_session.tracked_arc_id==tracked,"Enter on initial J row only browses, never tracks or closes")
+	journal.action_buttons.close.grab_focus();await _key(KEY_ENTER)
+	_check(not game.active_modal, "Enter on focused real J Close closes exactly once")
+	game._modal("普通对话键盘回归","通用单选项","保持原有确认方式。")
+	await _key(KEY_ENTER)
+	_check(not game.active_modal,"Enter retains generic one-option modal close behavior")
 
 
 func _prepare_completed_chapter() -> void:
@@ -253,6 +262,8 @@ func _key(key: Key) -> void:
 	await process_frame
 	event.pressed = false
 	Input.parse_input_event(event)
+	# Dedicated native Buttons activate on release; deliver it before assertions.
+	await process_frame
 
 
 func _forget_session_without_saving() -> void:

@@ -1,0 +1,22 @@
+{
+  "upstream_license": {
+    "path": "runtime/LICENSE.txt",
+    "source_url": "https://raw.githubusercontent.com/notofonts/noto-cjk/9b0f1436e455d902de067a2501422e5dc71ad16b/Serif/LICENSE",
+    "bytes": 4301,
+    "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+  },
+  "installed_accompanying_copyright": {
+    "path": "audit/installed-package-copyright.txt",
+    "source_path": "/usr/share/doc/fonts-noto-cjk/copyright",
+    "bytes": 14712,
+    "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b"
+  },
+  "license_reconciliation": "The installed Debian metadata applies SIL-1.1 to fonts and separately GPL-3+ to Debian packaging only. Its generic Google 2010-2012 notice is retained verbatim in the audit copy. The actual SC font embeds Adobe 2017-2024 copyright and SIL OFL 1.1; NOTICE.txt preserves that current font-specific copyright. Upstream Serif2.003 LICENSE has no separate copyright or Reserved Font Name declaration. Both are retained; font data remains OFL-1.1, not GPL.",
+  "project_notice_relocation": {
+    "path": "assets/fonts/NotoSerifSC-NOTICE.txt",
+    "original_preparation_sha256": "28593c2b9feab4871844e24aa3797bbe8fa5f4aa3b84fb14f82f30d6b2537028",
+    "project_sha256": "4584f6fbb465fd14bba22a7a903dc28f13ab44a8f1d35efc0a55ff6b1045369c",
+    "change": "Only license filename pointer LICENSE.txt -> NotoSerifSC-OFL.txt; no author/copyright change",
+    "full_license_path": "assets/fonts/NotoSerifSC-OFL.txt"
+  }
+}

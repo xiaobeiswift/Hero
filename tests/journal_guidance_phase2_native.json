@@ -1,0 +1,6218 @@
+{
+  "status": "Native source-scene gate passed on exact corrected candidate; separate packed/browser/Windows/release gates are not inferred",
+  "version": "0.0.31",
+  "schema": 16,
+  "base_commit": "785718d266bd1383610460f3b568fa3f4d86cd0f",
+  "source_identity": "Base785718d plus exact bound phase2 working tree and narrow local-route-note correction; not a final committed release identity",
+  "engine": {
+    "sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "path": "/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64",
+    "version": {
+      "build": "official",
+      "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+      "hex": 263683,
+      "major": 4,
+      "minor": 6,
+      "patch": 3,
+      "status": "stable",
+      "string": "4.6.3-stable (official)",
+      "timestamp": 0
+    },
+    "display": "X11:0",
+    "renderer": "OpenGL4.5 Compatibility, Mesa25.0.7-2+deb13u1 llvmpipe LLVM19.1.7"
+  },
+  "runs": {
+    "matrix": {
+      "engine_path": "/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "runtime_entries": 454,
+      "driver_sha256": "0c54e14acc22c617e995dfb9c6c85a1c646f86a52269227e203d631175104851",
+      "scope": "Native actual Linux Godot, prepared API-earned/canonical inputs, isolated real userdata, fixed-step synthetic inputs; earned route separately labeled; no browser/Windows/PCK/manual/realtime claim",
+      "exit_code": 0,
+      "elapsed_seconds": 38.348,
+      "runtime_unchanged": true,
+      "source_runtime_unchanged": true,
+      "checks": 400,
+      "failures": [],
+      "image_count": 27,
+      "passed": true
+    },
+    "route": {
+      "engine_path": "/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "runtime_entries": 454,
+      "driver_sha256": "0c54e14acc22c617e995dfb9c6c85a1c646f86a52269227e203d631175104851",
+      "scope": "Native actual Linux Godot, prepared API-earned/canonical inputs, isolated real userdata, fixed-step synthetic inputs; earned route separately labeled; no browser/Windows/PCK/manual/realtime claim",
+      "exit_code": 0,
+      "elapsed_seconds": 17.786,
+      "runtime_unchanged": true,
+      "source_runtime_unchanged": true,
+      "checks": 212,
+      "failures": [],
+      "image_count": 3,
+      "passed": true
+    }
+  },
+  "capture_driver": {
+    "path": "tests/journal_guidance_native_probe.gd",
+    "sha256": "0c54e14acc22c617e995dfb9c6c85a1c646f86a52269227e203d631175104851",
+    "executed_as": "res://tests/record_journal_native.gd",
+    "exact_byte_equality": true,
+    "native_only": true,
+    "not_added_to_default_headless_runner": true,
+    "all_export_presets_exclude_tests_tools_screenshots": true,
+    "uid_generation": "Deferred to lead-owned official editor import"
+  },
+  "method": {
+    "state": "Unwrapped real scenes/main.tscn and exact production game_state.gd; no mocked or overridden State/Main/save writer",
+    "processing": "Main and World normal processing stayed enabled",
+    "profiles": "Fresh HOME, XDG_DATA_HOME, XDG_CONFIG_HOME, XDG_CACHE_HOME for each of matrix and route; no personal userdata",
+    "input": "Synthetic InputEventKey/MouseButton/MouseMotion through Input.parse_input_event and flush; native focus/GUI/event ownership. OS CUA only launched the CLI in actual desktop terminal",
+    "time": "Engine fixed30fps. Recorded wall durations describe this test, not performance/manual/realtime play",
+    "images": "Direct root native viewport texture Image.save_png bytes, unmodified. Control rectangles are recorded with real root final transform. Actual compact texture1179×737 under requested1180×737"
+  },
+  "matrix_coverage": {
+    "checks": 400,
+    "failures": 0,
+    "images": 27,
+    "matrix_combinations": 12,
+    "window_requests": [
+      [
+        1280,
+        800
+      ],
+      [
+        1180,
+        737
+      ]
+    ],
+    "matrix_actual_textures": [
+      [
+        1280,
+        800
+      ],
+      [
+        1179,
+        737
+      ]
+    ],
+    "zooms": [
+      1,
+      1.25,
+      1.6
+    ],
+    "render_qualities": [
+      "full_resolution",
+      "scaled"
+    ],
+    "cases": [
+      "Auto Qin versus independently browsed Tang",
+      "Explicit keyboard Track Qin then only browse Tang across12 combinations",
+      "Explicit Space Track Tang, disabled Track, nearest enabled focus, Auto restoration",
+      "Native Tab/ShiftTab, history PageDown/End/Home, wheel, Enter/Space, inert numeric/global keys",
+      "Known earned history exact concatenation; prepared select-all visual treatment separately labelled",
+      "Long capstone compact detail; all14 known rows via canonical recruit preparation; completed rows disabled and list End scrolls fully into view",
+      "Two exact retained API-earned branch histories",
+      "Loaded-cart available Qin tracking exposes parking confirmation; compact M same target/route",
+      "Four deployed actors; fresh opening only one earned row",
+      "Actual failed production save from isolated temporary-path directory; J preserves warning and state/files; explicit retry succeeds after retaining blocker elsewhere"
+    ],
+    "readonly_invariants": "Full canonical State, actual World position and every real user-file SHA preserved over matrix J input/browsing/Track/Auto; prepared view preferences change only in memory; no automatic storyline/recruit/movement/save"
+  },
+  "earned_route": {
+    "checks": 212,
+    "failures": 0,
+    "images": 3,
+    "initial_fixture": "preaccept_open_records_release_water from unchanged baseline bundle; despite legacy label, exact bytes contain actual prior PCK Qin acceptance1",
+    "initial_boundary": "Earlier history API-earned with genuine combat/story preparation and declared model transfers; retained position350,395 is prepared. This is not a fully walked new-game journey",
+    "newly_earned": "Actual queued WASD normal World processing to rain gauge; actual E/1 advances Qin1→2, no recruitment; explicit J Track Tang; actual WASD to Frost exit and E applies map transfer; Auto then restores literal unchanged Frost policy Tang→return_sluice",
+    "waypoints": 9,
+    "actual_segments": 142,
+    "all_existing_collision_checks_pass": true,
+    "walked_world_units": 875.6668511083365,
+    "initial_position": [
+      350,
+      395
+    ],
+    "reached_rain_position": [
+      548.648071289062,
+      285.677642822266
+    ],
+    "reached_exit_position": [
+      194.646759033203,
+      547.178955078125
+    ],
+    "actual_transition_spawn": [
+      1420,
+      235
+    ],
+    "complete_canonical_changed_fields": [
+      "position",
+      "qin_stage",
+      "map_id"
+    ],
+    "guidance_tuples": [
+      {
+        "name": "route-01-walked-qin-target",
+        "world_position": [
+          548.648071289062,
+          285.677642822266
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "world_target": "mist_rain_gauge"
+      },
+      {
+        "name": "route-02-earned-qin-manual-tang",
+        "world_position": [
+          548.648071289062,
+          285.677642822266
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_frostbridge",
+          "next_target_map": "mistwood",
+          "next_target_name": "返回霜桥驿",
+          "next_target_position": "(150.0, 550.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往霜桥驿。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 4,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": "tang_notes"
+        },
+        "world_target": "return_frostbridge"
+      },
+      {
+        "name": "route-03-frost-auto-restored",
+        "world_position": [
+          1420.0,
+          235.0
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "frostbridge",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "frostbridge",
+            "marker_names": {
+              "bridge_worker": "唐栖",
+              "chapter_archive": "封仓印台",
+              "chapter_clerk": "纪小砚",
+              "chapter_host": "温行舟",
+              "chapter_inscription": "旧桥碑文",
+              "exit_mistwood": "雾竹坡古道",
+              "frost_herb": "耐寒药草",
+              "frost_ore": "露头铁矿",
+              "frost_timber": "散落木料",
+              "return_sluice": "返回废闸"
+            },
+            "markers": {
+              "bridge_worker": {
+                "kind": "elder",
+                "name": "唐栖",
+                "pos": "(650.0, 760.0)"
+              },
+              "chapter_archive": {
+                "kind": "bandit",
+                "name": "封仓印台",
+                "pos": "(1320.0, 745.0)"
+              },
+              "chapter_clerk": {
+                "kind": "healer",
+                "name": "纪小砚",
+                "pos": "(1150.0, 385.0)"
+              },
+              "chapter_host": {
+                "kind": "elder",
+                "name": "温行舟",
+                "pos": "(405.0, 365.0)"
+              },
+              "chapter_inscription": {
+                "kind": "board",
+                "name": "旧桥碑文",
+                "pos": "(685.0, 320.0)"
+              },
+              "exit_mistwood": {
+                "kind": "exit",
+                "name": "雾竹坡古道",
+                "pos": "(1450.0, 200.0)"
+              },
+              "frost_herb": {
+                "kind": "resource",
+                "name": "耐寒药草",
+                "pos": "(1400.0, 425.0)"
+              },
+              "frost_ore": {
+                "kind": "resource",
+                "name": "露头铁矿",
+                "pos": "(980.0, 255.0)"
+              },
+              "frost_timber": {
+                "kind": "resource",
+                "name": "散落木料",
+                "pos": "(335.0, 805.0)"
+              },
+              "return_sluice": {
+                "kind": "exit",
+                "name": "返回废闸",
+                "pos": "(140.0, 500.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_sluice",
+          "next_target_map": "frostbridge",
+          "next_target_name": "返回废闸",
+          "next_target_position": "(140.0, 500.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往废闸。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 5,
+          "source_map_id": "frostbridge",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": ""
+        },
+        "world_target": "return_sluice"
+      }
+    ],
+    "walks": [
+      {
+        "finish": [
+          376.163024902344,
+          464.329620361328
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Qin rain approach",
+        "map": "mistwood",
+        "requested": [
+          380.0,
+          470.0
+        ],
+        "segments": [
+          {
+            "from": [
+              350.0,
+              395.0
+            ],
+            "legal": true,
+            "to": [
+              354.360504150391,
+              399.360504150391
+            ]
+          },
+          {
+            "from": [
+              354.360504150391,
+              399.360504150391
+            ],
+            "legal": true,
+            "to": [
+              358.721008300781,
+              403.721008300781
+            ]
+          },
+          {
+            "from": [
+              358.721008300781,
+              403.721008300781
+            ],
+            "legal": true,
+            "to": [
+              363.081512451172,
+              408.081512451172
+            ]
+          },
+          {
+            "from": [
+              363.081512451172,
+              408.081512451172
+            ],
+            "legal": true,
+            "to": [
+              367.442016601562,
+              412.442016601562
+            ]
+          },
+          {
+            "from": [
+              367.442016601562,
+              412.442016601562
+            ],
+            "legal": true,
+            "to": [
+              371.802520751953,
+              416.802520751953
+            ]
+          },
+          {
+            "from": [
+              371.802520751953,
+              416.802520751953
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              421.163024902344
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              421.163024902344
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              427.329681396484
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              427.329681396484
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              433.496337890625
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              433.496337890625
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              439.662994384766
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              439.662994384766
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              445.829650878906
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              445.829650878906
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              451.996307373047
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              451.996307373047
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              458.162963867188
+            ]
+          },
+          {
+            "from": [
+              376.163024902344,
+              458.162963867188
+            ],
+            "legal": true,
+            "to": [
+              376.163024902344,
+              464.329620361328
+            ]
+          }
+        ],
+        "start": [
+          350.0,
+          395.0
+        ]
+      },
+      {
+        "finish": [
+          483.240783691406,
+          425.085083007812
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Qin rain approach",
+        "map": "mistwood",
+        "requested": [
+          488.0,
+          423.0
+        ],
+        "segments": [
+          {
+            "from": [
+              376.163024902344,
+              464.329620361328
+            ],
+            "legal": true,
+            "to": [
+              380.523529052734,
+              459.969116210938
+            ]
+          },
+          {
+            "from": [
+              380.523529052734,
+              459.969116210938
+            ],
+            "legal": true,
+            "to": [
+              384.884033203125,
+              455.608612060547
+            ]
+          },
+          {
+            "from": [
+              384.884033203125,
+              455.608612060547
+            ],
+            "legal": true,
+            "to": [
+              389.244537353516,
+              451.248107910156
+            ]
+          },
+          {
+            "from": [
+              389.244537353516,
+              451.248107910156
+            ],
+            "legal": true,
+            "to": [
+              393.605041503906,
+              446.887603759766
+            ]
+          },
+          {
+            "from": [
+              393.605041503906,
+              446.887603759766
+            ],
+            "legal": true,
+            "to": [
+              397.965545654297,
+              442.527099609375
+            ]
+          },
+          {
+            "from": [
+              397.965545654297,
+              442.527099609375
+            ],
+            "legal": true,
+            "to": [
+              402.326049804688,
+              438.166595458984
+            ]
+          },
+          {
+            "from": [
+              402.326049804688,
+              438.166595458984
+            ],
+            "legal": true,
+            "to": [
+              406.686553955078,
+              433.806091308594
+            ]
+          },
+          {
+            "from": [
+              406.686553955078,
+              433.806091308594
+            ],
+            "legal": true,
+            "to": [
+              411.047058105469,
+              429.445587158203
+            ]
+          },
+          {
+            "from": [
+              411.047058105469,
+              429.445587158203
+            ],
+            "legal": true,
+            "to": [
+              415.407562255859,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              415.407562255859,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              421.57421875,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              421.57421875,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              427.740875244141,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              427.740875244141,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              433.907531738281,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              433.907531738281,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              440.074188232422,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              440.074188232422,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              446.240844726562,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              446.240844726562,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              452.407501220703,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              452.407501220703,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              458.574157714844,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              458.574157714844,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              464.740814208984,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              464.740814208984,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              470.907470703125,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              470.907470703125,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              477.074127197266,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              477.074127197266,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              483.240783691406,
+              425.085083007812
+            ]
+          }
+        ],
+        "start": [
+          376.163024902344,
+          464.329620361328
+        ]
+      },
+      {
+        "finish": [
+          548.648071289062,
+          353.510864257812
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Qin rain approach",
+        "map": "mistwood",
+        "requested": [
+          550.0,
+          347.0
+        ],
+        "segments": [
+          {
+            "from": [
+              483.240783691406,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              487.601287841797,
+              420.724578857422
+            ]
+          },
+          {
+            "from": [
+              487.601287841797,
+              420.724578857422
+            ],
+            "legal": true,
+            "to": [
+              491.961791992188,
+              416.364074707031
+            ]
+          },
+          {
+            "from": [
+              491.961791992188,
+              416.364074707031
+            ],
+            "legal": true,
+            "to": [
+              496.322296142578,
+              412.003570556641
+            ]
+          },
+          {
+            "from": [
+              496.322296142578,
+              412.003570556641
+            ],
+            "legal": true,
+            "to": [
+              500.682800292969,
+              407.64306640625
+            ]
+          },
+          {
+            "from": [
+              500.682800292969,
+              407.64306640625
+            ],
+            "legal": true,
+            "to": [
+              505.043304443359,
+              403.282562255859
+            ]
+          },
+          {
+            "from": [
+              505.043304443359,
+              403.282562255859
+            ],
+            "legal": true,
+            "to": [
+              509.40380859375,
+              398.922058105469
+            ]
+          },
+          {
+            "from": [
+              509.40380859375,
+              398.922058105469
+            ],
+            "legal": true,
+            "to": [
+              513.764282226562,
+              394.561553955078
+            ]
+          },
+          {
+            "from": [
+              513.764282226562,
+              394.561553955078
+            ],
+            "legal": true,
+            "to": [
+              518.124755859375,
+              390.201049804688
+            ]
+          },
+          {
+            "from": [
+              518.124755859375,
+              390.201049804688
+            ],
+            "legal": true,
+            "to": [
+              522.485229492188,
+              385.840545654297
+            ]
+          },
+          {
+            "from": [
+              522.485229492188,
+              385.840545654297
+            ],
+            "legal": true,
+            "to": [
+              526.845703125,
+              381.480041503906
+            ]
+          },
+          {
+            "from": [
+              526.845703125,
+              381.480041503906
+            ],
+            "legal": true,
+            "to": [
+              531.206176757812,
+              377.119537353516
+            ]
+          },
+          {
+            "from": [
+              531.206176757812,
+              377.119537353516
+            ],
+            "legal": true,
+            "to": [
+              535.566650390625,
+              372.759033203125
+            ]
+          },
+          {
+            "from": [
+              535.566650390625,
+              372.759033203125
+            ],
+            "legal": true,
+            "to": [
+              539.927124023438,
+              368.398529052734
+            ]
+          },
+          {
+            "from": [
+              539.927124023438,
+              368.398529052734
+            ],
+            "legal": true,
+            "to": [
+              544.28759765625,
+              364.038024902344
+            ]
+          },
+          {
+            "from": [
+              544.28759765625,
+              364.038024902344
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              359.677520751953
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              359.677520751953
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              353.510864257812
+            ]
+          }
+        ],
+        "start": [
+          483.240783691406,
+          425.085083007812
+        ]
+      },
+      {
+        "finish": [
+          548.648071289062,
+          285.677642822266
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Qin rain approach",
+        "map": "mistwood",
+        "requested": [
+          550.0,
+          280.0
+        ],
+        "segments": [
+          {
+            "from": [
+              548.648071289062,
+              353.510864257812
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              347.344207763672
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              347.344207763672
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              341.177551269531
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              341.177551269531
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              335.010894775391
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              335.010894775391
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              328.84423828125
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              328.84423828125
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              322.677581787109
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              322.677581787109
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              316.510925292969
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              316.510925292969
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              310.344268798828
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              310.344268798828
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              304.177612304688
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              304.177612304688
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              298.010955810547
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              298.010955810547
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              291.844299316406
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              291.844299316406
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              285.677642822266
+            ]
+          }
+        ],
+        "start": [
+          548.648071289062,
+          353.510864257812
+        ]
+      },
+      {
+        "finish": [
+          548.648071289062,
+          341.177551269531
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Tang tracked exit approach",
+        "map": "mistwood",
+        "requested": [
+          550.0,
+          347.0
+        ],
+        "segments": [
+          {
+            "from": [
+              548.648071289062,
+              285.677642822266
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              291.844299316406
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              291.844299316406
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              298.010955810547
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              298.010955810547
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              304.177612304688
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              304.177612304688
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              310.344268798828
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              310.344268798828
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              316.510925292969
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              316.510925292969
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              322.677581787109
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              322.677581787109
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              328.84423828125
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              328.84423828125
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              335.010894775391
+            ]
+          },
+          {
+            "from": [
+              548.648071289062,
+              335.010894775391
+            ],
+            "legal": true,
+            "to": [
+              548.648071289062,
+              341.177551269531
+            ]
+          }
+        ],
+        "start": [
+          548.648071289062,
+          285.677642822266
+        ]
+      },
+      {
+        "finish": [
+          491.961761474609,
+          416.364074707031
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Tang tracked exit approach",
+        "map": "mistwood",
+        "requested": [
+          488.0,
+          423.0
+        ],
+        "segments": [
+          {
+            "from": [
+              548.648071289062,
+              341.177551269531
+            ],
+            "legal": true,
+            "to": [
+              544.28759765625,
+              345.538055419922
+            ]
+          },
+          {
+            "from": [
+              544.28759765625,
+              345.538055419922
+            ],
+            "legal": true,
+            "to": [
+              539.927124023438,
+              349.898559570312
+            ]
+          },
+          {
+            "from": [
+              539.927124023438,
+              349.898559570312
+            ],
+            "legal": true,
+            "to": [
+              535.566650390625,
+              354.259063720703
+            ]
+          },
+          {
+            "from": [
+              535.566650390625,
+              354.259063720703
+            ],
+            "legal": true,
+            "to": [
+              531.206176757812,
+              358.619567871094
+            ]
+          },
+          {
+            "from": [
+              531.206176757812,
+              358.619567871094
+            ],
+            "legal": true,
+            "to": [
+              526.845703125,
+              362.980072021484
+            ]
+          },
+          {
+            "from": [
+              526.845703125,
+              362.980072021484
+            ],
+            "legal": true,
+            "to": [
+              522.485229492188,
+              367.340576171875
+            ]
+          },
+          {
+            "from": [
+              522.485229492188,
+              367.340576171875
+            ],
+            "legal": true,
+            "to": [
+              518.124755859375,
+              371.701080322266
+            ]
+          },
+          {
+            "from": [
+              518.124755859375,
+              371.701080322266
+            ],
+            "legal": true,
+            "to": [
+              513.764282226562,
+              376.061584472656
+            ]
+          },
+          {
+            "from": [
+              513.764282226562,
+              376.061584472656
+            ],
+            "legal": true,
+            "to": [
+              509.403778076172,
+              380.422088623047
+            ]
+          },
+          {
+            "from": [
+              509.403778076172,
+              380.422088623047
+            ],
+            "legal": true,
+            "to": [
+              505.043273925781,
+              384.782592773438
+            ]
+          },
+          {
+            "from": [
+              505.043273925781,
+              384.782592773438
+            ],
+            "legal": true,
+            "to": [
+              500.682769775391,
+              389.143096923828
+            ]
+          },
+          {
+            "from": [
+              500.682769775391,
+              389.143096923828
+            ],
+            "legal": true,
+            "to": [
+              496.322265625,
+              393.503601074219
+            ]
+          },
+          {
+            "from": [
+              496.322265625,
+              393.503601074219
+            ],
+            "legal": true,
+            "to": [
+              491.961761474609,
+              397.864105224609
+            ]
+          },
+          {
+            "from": [
+              491.961761474609,
+              397.864105224609
+            ],
+            "legal": true,
+            "to": [
+              491.961761474609,
+              404.03076171875
+            ]
+          },
+          {
+            "from": [
+              491.961761474609,
+              404.03076171875
+            ],
+            "legal": true,
+            "to": [
+              491.961761474609,
+              410.197418212891
+            ]
+          },
+          {
+            "from": [
+              491.961761474609,
+              410.197418212891
+            ],
+            "legal": true,
+            "to": [
+              491.961761474609,
+              416.364074707031
+            ]
+          }
+        ],
+        "start": [
+          548.648071289062,
+          341.177551269531
+        ]
+      },
+      {
+        "finish": [
+          384.135803222656,
+          468.690124511719
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Tang tracked exit approach",
+        "map": "mistwood",
+        "requested": [
+          380.0,
+          470.0
+        ],
+        "segments": [
+          {
+            "from": [
+              491.961761474609,
+              416.364074707031
+            ],
+            "legal": true,
+            "to": [
+              487.601257324219,
+              420.724578857422
+            ]
+          },
+          {
+            "from": [
+              487.601257324219,
+              420.724578857422
+            ],
+            "legal": true,
+            "to": [
+              483.240753173828,
+              425.085083007812
+            ]
+          },
+          {
+            "from": [
+              483.240753173828,
+              425.085083007812
+            ],
+            "legal": true,
+            "to": [
+              478.880249023438,
+              429.445587158203
+            ]
+          },
+          {
+            "from": [
+              478.880249023438,
+              429.445587158203
+            ],
+            "legal": true,
+            "to": [
+              474.519744873047,
+              433.806091308594
+            ]
+          },
+          {
+            "from": [
+              474.519744873047,
+              433.806091308594
+            ],
+            "legal": true,
+            "to": [
+              470.159240722656,
+              438.166595458984
+            ]
+          },
+          {
+            "from": [
+              470.159240722656,
+              438.166595458984
+            ],
+            "legal": true,
+            "to": [
+              465.798736572266,
+              442.527099609375
+            ]
+          },
+          {
+            "from": [
+              465.798736572266,
+              442.527099609375
+            ],
+            "legal": true,
+            "to": [
+              461.438232421875,
+              446.887603759766
+            ]
+          },
+          {
+            "from": [
+              461.438232421875,
+              446.887603759766
+            ],
+            "legal": true,
+            "to": [
+              457.077728271484,
+              451.248107910156
+            ]
+          },
+          {
+            "from": [
+              457.077728271484,
+              451.248107910156
+            ],
+            "legal": true,
+            "to": [
+              452.717224121094,
+              455.608612060547
+            ]
+          },
+          {
+            "from": [
+              452.717224121094,
+              455.608612060547
+            ],
+            "legal": true,
+            "to": [
+              448.356719970703,
+              459.969116210938
+            ]
+          },
+          {
+            "from": [
+              448.356719970703,
+              459.969116210938
+            ],
+            "legal": true,
+            "to": [
+              443.996215820312,
+              464.329620361328
+            ]
+          },
+          {
+            "from": [
+              443.996215820312,
+              464.329620361328
+            ],
+            "legal": true,
+            "to": [
+              439.635711669922,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              439.635711669922,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              433.469055175781,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              433.469055175781,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              427.302398681641,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              427.302398681641,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              421.1357421875,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              421.1357421875,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              414.969085693359,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              414.969085693359,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              408.802429199219,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              408.802429199219,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              402.635772705078,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              402.635772705078,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              396.469116210938,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              396.469116210938,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              390.302459716797,
+              468.690124511719
+            ]
+          },
+          {
+            "from": [
+              390.302459716797,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              384.135803222656,
+              468.690124511719
+            ]
+          }
+        ],
+        "start": [
+          491.961761474609,
+          416.364074707031
+        ]
+      },
+      {
+        "finish": [
+          293.313415527344,
+          547.178955078125
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Tang tracked exit approach",
+        "map": "mistwood",
+        "requested": [
+          288.0,
+          550.0
+        ],
+        "segments": [
+          {
+            "from": [
+              384.135803222656,
+              468.690124511719
+            ],
+            "legal": true,
+            "to": [
+              379.775299072266,
+              473.050628662109
+            ]
+          },
+          {
+            "from": [
+              379.775299072266,
+              473.050628662109
+            ],
+            "legal": true,
+            "to": [
+              375.414794921875,
+              477.4111328125
+            ]
+          },
+          {
+            "from": [
+              375.414794921875,
+              477.4111328125
+            ],
+            "legal": true,
+            "to": [
+              371.054290771484,
+              481.771636962891
+            ]
+          },
+          {
+            "from": [
+              371.054290771484,
+              481.771636962891
+            ],
+            "legal": true,
+            "to": [
+              366.693786621094,
+              486.132141113281
+            ]
+          },
+          {
+            "from": [
+              366.693786621094,
+              486.132141113281
+            ],
+            "legal": true,
+            "to": [
+              362.333282470703,
+              490.492645263672
+            ]
+          },
+          {
+            "from": [
+              362.333282470703,
+              490.492645263672
+            ],
+            "legal": true,
+            "to": [
+              357.972778320312,
+              494.853149414062
+            ]
+          },
+          {
+            "from": [
+              357.972778320312,
+              494.853149414062
+            ],
+            "legal": true,
+            "to": [
+              353.612274169922,
+              499.213653564453
+            ]
+          },
+          {
+            "from": [
+              353.612274169922,
+              499.213653564453
+            ],
+            "legal": true,
+            "to": [
+              349.251770019531,
+              503.574157714844
+            ]
+          },
+          {
+            "from": [
+              349.251770019531,
+              503.574157714844
+            ],
+            "legal": true,
+            "to": [
+              344.891265869141,
+              507.934661865234
+            ]
+          },
+          {
+            "from": [
+              344.891265869141,
+              507.934661865234
+            ],
+            "legal": true,
+            "to": [
+              340.53076171875,
+              512.295166015625
+            ]
+          },
+          {
+            "from": [
+              340.53076171875,
+              512.295166015625
+            ],
+            "legal": true,
+            "to": [
+              336.170257568359,
+              516.655639648438
+            ]
+          },
+          {
+            "from": [
+              336.170257568359,
+              516.655639648438
+            ],
+            "legal": true,
+            "to": [
+              331.809753417969,
+              521.01611328125
+            ]
+          },
+          {
+            "from": [
+              331.809753417969,
+              521.01611328125
+            ],
+            "legal": true,
+            "to": [
+              327.449249267578,
+              525.376586914062
+            ]
+          },
+          {
+            "from": [
+              327.449249267578,
+              525.376586914062
+            ],
+            "legal": true,
+            "to": [
+              323.088745117188,
+              529.737060546875
+            ]
+          },
+          {
+            "from": [
+              323.088745117188,
+              529.737060546875
+            ],
+            "legal": true,
+            "to": [
+              318.728240966797,
+              534.097534179688
+            ]
+          },
+          {
+            "from": [
+              318.728240966797,
+              534.097534179688
+            ],
+            "legal": true,
+            "to": [
+              314.367736816406,
+              538.4580078125
+            ]
+          },
+          {
+            "from": [
+              314.367736816406,
+              538.4580078125
+            ],
+            "legal": true,
+            "to": [
+              310.007232666016,
+              542.818481445312
+            ]
+          },
+          {
+            "from": [
+              310.007232666016,
+              542.818481445312
+            ],
+            "legal": true,
+            "to": [
+              305.646728515625,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              305.646728515625,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              299.480072021484,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              299.480072021484,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              293.313415527344,
+              547.178955078125
+            ]
+          }
+        ],
+        "start": [
+          384.135803222656,
+          468.690124511719
+        ]
+      },
+      {
+        "finish": [
+          194.646759033203,
+          547.178955078125
+        ],
+        "input": "queued physical WASD, normal World._process at fixed30fps; no position assignment/teleport",
+        "label": "Tang tracked exit approach",
+        "map": "mistwood",
+        "requested": [
+          190.0,
+          550.0
+        ],
+        "segments": [
+          {
+            "from": [
+              293.313415527344,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              287.146759033203,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              287.146759033203,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              280.980102539062,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              280.980102539062,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              274.813446044922,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              274.813446044922,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              268.646789550781,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              268.646789550781,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              262.480133056641,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              262.480133056641,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              256.3134765625,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              256.3134765625,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              250.14680480957,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              250.14680480957,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              243.980133056641,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              243.980133056641,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              237.813461303711,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              237.813461303711,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              231.646789550781,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              231.646789550781,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              225.480117797852,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              225.480117797852,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              219.313446044922,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              219.313446044922,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              213.146774291992,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              213.146774291992,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              206.980102539062,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              206.980102539062,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              200.813430786133,
+              547.178955078125
+            ]
+          },
+          {
+            "from": [
+              200.813430786133,
+              547.178955078125
+            ],
+            "legal": true,
+            "to": [
+              194.646759033203,
+              547.178955078125
+            ]
+          }
+        ],
+        "start": [
+          293.313415527344,
+          547.178955078125
+        ]
+      }
+    ],
+    "state_delta": {
+      "after": {
+        "active_companion": "",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 9
+        },
+        "attack": 32,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 0,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 437,
+        "companion_unlocked": false,
+        "consignee_cargo_location": "",
+        "consignee_contributions": [],
+        "consignee_draft": "",
+        "consignee_ending": "",
+        "consignee_observations": [],
+        "consignee_stage": 0,
+        "defense": 8,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "",
+        "heting_cargo": "",
+        "heting_delivered": [],
+        "heting_draft": "",
+        "heting_ending": "",
+        "heting_stage": 0,
+        "hp": 83,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 5,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 148,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {},
+        "party_roster": [
+          "hero"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 1420.0,
+          "y": 235.0
+        },
+        "qi": 5,
+        "qin_stage": 2,
+        "qin_unlocked": false,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 0,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "听潮阁",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "",
+        "tangqi_stage": 1,
+        "tangqi_unlocked": false,
+        "victories": 5,
+        "weapon_fitting": "plain",
+        "xp": 220
+      },
+      "before": {
+        "active_companion": "",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 9
+        },
+        "attack": 32,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 0,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 437,
+        "companion_unlocked": false,
+        "consignee_cargo_location": "",
+        "consignee_contributions": [],
+        "consignee_draft": "",
+        "consignee_ending": "",
+        "consignee_observations": [],
+        "consignee_stage": 0,
+        "defense": 8,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "",
+        "heting_cargo": "",
+        "heting_delivered": [],
+        "heting_draft": "",
+        "heting_ending": "",
+        "heting_stage": 0,
+        "hp": 83,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 5,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "mistwood",
+        "max_hp": 148,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {},
+        "party_roster": [
+          "hero"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 350.0,
+          "y": 395.0
+        },
+        "qi": 5,
+        "qin_stage": 1,
+        "qin_unlocked": false,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 0,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "听潮阁",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "",
+        "tangqi_stage": 1,
+        "tangqi_unlocked": false,
+        "victories": 5,
+        "weapon_fitting": "plain",
+        "xp": 220
+      },
+      "changed_fields": [
+        "position",
+        "qin_stage",
+        "map_id"
+      ],
+      "initial_history": "exact retained API-earned/PCK-accepted fixture",
+      "kind": "earned_route_state_delta",
+      "userdata": {
+        "user:///hero_save.json": "4389e366292168b064f0dcf355f0ab43fcc380f21896792def8a64623620cdac",
+        "user:///logs/godot.log": "be7667ccebd5ba2d506176cc5e8b822261729e5cb1dfbc543c9ec761b3bf2c7b",
+        "user:///shader_cache/CanvasShaderGLES3/16f1396f2f5ac39d277138cd33a6d284e2d97309f2a547816c220d0ef0318826/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "0c881e87798d33f2c201fcb6d93b8b1d50e6e0bb057f2df520c08f225a364e3b",
+        "user:///shader_cache/CopyShaderGLES3/e360dbabe48fbad4409fd02e3794a652b8c7d7778b2d408785702371b1c962c6/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "1a16017179b9cbf5ce3424a0149b44da91fcb858fedd08bd92058335c7b5199b",
+        "user:///shader_cache/FeedShaderGLES3/9c5f15371d9ed62661ff3bb3ecc28f82cb15be9a4be89518b1f6fd8d372fbe4b/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "0848102a0eda156fd3759826c6697f4e05461d7b57d3907052ece14e41218ca3",
+        "user:///shader_cache/PostShaderGLES3/a31034a68aa96e1495d69b387fe1f9198e7da7c39aaca2ae4881120445f14d7a/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "f0bc83f1a174c046f7c97c92f3dc06aabf9794a9f624fb8c9159976d0770b774",
+        "user:///shader_cache/SceneShaderGLES3/6d63bbf4b53e4a6a75547f4788484cc8b6c054bccd3c1331ef7b8b504184effa/6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache": "d2c104808ad387e7a111b7106df06e30c6711d013a62a8fa027035368e73949c"
+      },
+      "walked_this_run": true
+    }
+  },
+  "contrast_summary": {
+    "matrix": {
+      "images": 25,
+      "journal_images": 23,
+      "map_caption_images": 2,
+      "journal_text_samples": 411,
+      "map_caption_samples": 2,
+      "map_caption_min_ratio": 6.817207702520332,
+      "expected_text_treatments": 413,
+      "measured_text_treatments": 413,
+      "focus_samples": 23,
+      "omitted_text_treatments": 0,
+      "min_text_ratio": 5.354713128381991,
+      "min_focus_ratio": 6.083473581287007,
+      "strongest_aa_core_samples": 68,
+      "maximum_core_rgb_distance": 34
+    },
+    "route": {
+      "images": 2,
+      "journal_images": 2,
+      "map_caption_images": 0,
+      "journal_text_samples": 42,
+      "map_caption_samples": 0,
+      "map_caption_min_ratio": null,
+      "expected_text_treatments": 42,
+      "measured_text_treatments": 42,
+      "focus_samples": 2,
+      "omitted_text_treatments": 0,
+      "min_text_ratio": 5.354713128381991,
+      "min_focus_ratio": 9.38483045571614,
+      "strongest_aa_core_samples": 0,
+      "maximum_core_rgb_distance": 0
+    }
+  },
+  "pixel_review": [
+    "Original font/paper/glyphs unchanged. No new raster art or resized/recomposed evidence",
+    "Fixed footer/close/action hit rectangles inside canvas; long details and earned history use explicit independent scrolling",
+    "Focused row fully visible after keyboard scroll. Noncolor browse outline/查看中 differs from ◆追踪中; completed read-only text explicit",
+    "Actual hover backing RGB245,236,209 appears on capstone row in05-capstone-long-compact.png; captured body/status cores measured against it",
+    "Sampled glyph-core/backing and focus-border contrast passes5.0/3.0. Antialiased edge fringes are visually reviewed but no assertion that every blended edge pixel has5.0 contrast",
+    "Initial native pixels caught contradictory successful-local no-target note; all final images use separately revalidated narrow correction"
+  ],
+  "limits": [
+    "No full new-game/manual journey, real-time/FPS or audio proof",
+    "Bounded earned route ends after real Frost transition and Auto restoration; it does not claim a complete Tang notebook/recruitment loop",
+    "Prepared full14/catalog, cart, branch, capstone and four-actor fixtures are not organically earned during this run",
+    "Native evidence does not establish browser graphical/audio/IndexedDB, Windows, exported PCK or release publication acceptance",
+    "Source only contains two selected screenshots; all30 unmodified raw frames remain in explicitly named staging evidence with complete hashes",
+    "Sampled rendered strongest cores are used for contrast; not every anti-alias edge pixel is claimed to meet the text threshold"
+  ],
+  "retained_attempts": {
+    "attempt-01": "Display unavailable in shell namespace, engine exited1 before driver; environment diagnostic only",
+    "attempt-02": "Native353 assertions/0 assertion failures,23frames, exit0 but RESULT.passed=false due probe metadata/absent-row errors; exposed local-route prose blocker; exact old driver and all logs/frames retained",
+    "attempt-03": "Final corrected frozen source and corrected test-only probe; matrix400/0,route212/0; no assertions/log errors; records are separate and not added as unique combined coverage"
+  },
+  "review_stills": {
+    "screenshots/journal-guidance-native-overview.png": {
+      "sha256": "10ff7fabf8adb16751259d07a8cb514bd43374f0c9d59e3a5d06aaad768bc75d",
+      "bytes": 143377,
+      "original": "Hero-staging/journal-guidance-phase2/native/attempt-03/matrix/screenshots/01-auto-qin-browse-tang.png"
+    },
+    "screenshots/journal-guidance-native-compact-map.png": {
+      "sha256": "ea21e64145d2a6a719e618a372a9ca53dec8aabc341eee9f4228cb94207ed6d5",
+      "bytes": 396497,
+      "original": "Hero-staging/journal-guidance-phase2/native/attempt-03/matrix/screenshots/10-loaded-cart-map-compact.png"
+    }
+  },
+  "runtime_binding_file": "tests/journal_guidance_phase2_native_source.json",
+  "contrast_details_file": "tests/journal_guidance_phase2_native_contrast.json",
+  "raw_artifacts": {
+    "matrix/RESULT.json": {
+      "bytes": 26330,
+      "sha256": "536fe58d00ef0d22ec414e8b7dc1f9cc1f3d35ab765b369bf12db64ca7be6cbe"
+    },
+    "matrix/NATIVE-TRACE.json": {
+      "bytes": 669157,
+      "sha256": "09fceff21f538cb1429eccfce28394ea64cd2bf6c5752d078fabc985e34e74b2"
+    },
+    "matrix/PIXEL-CONTRAST.json": {
+      "bytes": 772294,
+      "sha256": "e9dc8e5d06dd63e3c5b2aad9e6aade25377ccb800cd6b8c21909abba666866d2"
+    },
+    "matrix/PIXEL-CONTRAST-strict-core-v1.json": {
+      "bytes": 503506,
+      "sha256": "04eebc51406e838555d41a3700ce4ce9c41586877b84b6290875533263ea33a5"
+    },
+    "matrix/engine.log": {
+      "bytes": 417,
+      "sha256": "fb0893ec11278ad021bfcea968c85532ee7e06b06fb3b82d69d3981d50508edd"
+    },
+    "matrix/RUNNING.json": {
+      "bytes": 584,
+      "sha256": "7dbe8361ace94e77b2cfcb9159a50aea299f9cf0d9fac71f64be70aa51e38ead"
+    },
+    "matrix/screenshots/01-auto-qin-browse-tang.png": {
+      "bytes": 143377,
+      "sha256": "10ff7fabf8adb16751259d07a8cb514bd43374f0c9d59e3a5d06aaad768bc75d"
+    },
+    "matrix/screenshots/02-manual-tang-disabled-track.png": {
+      "bytes": 148861,
+      "sha256": "58d57819d205ce75ccd8edca0d7b555abe6f6430b5bfed28dd8bddef3afbab46"
+    },
+    "matrix/screenshots/03-history-scroll.png": {
+      "bytes": 113511,
+      "sha256": "bd71a00a30d2b9bf717927ea4f9a1966fe9a446e1b50eff16caa4e8fd71d1265"
+    },
+    "matrix/screenshots/03b-history-selected-text.png": {
+      "bytes": 137519,
+      "sha256": "e44242a35141ef97e5aa4ccd2d66105da69746ba8bfebeccba588336f7bf3d93"
+    },
+    "matrix/screenshots/04-map-coherent-auto-qin.png": {
+      "bytes": 200823,
+      "sha256": "adfddab6fb43e4bae110dfbb0e3109387ff60a0c9b3da63b5673c356f68d221b"
+    },
+    "matrix/screenshots/05-capstone-long-compact.png": {
+      "bytes": 307085,
+      "sha256": "5898364db7fcb262f42d3f79c977daa9eb47e44f1c6b3cea3ca5188236fcbf03"
+    },
+    "matrix/screenshots/06-fourteen-earned-rows-completed.png": {
+      "bytes": 179974,
+      "sha256": "490c0412457b97c17bd1f5e0dc1220139df9a1c55c4ceeb2f46f300acf2de9eb"
+    },
+    "matrix/screenshots/07-all-history-bottom.png": {
+      "bytes": 207185,
+      "sha256": "5522b53c0b9a2d7e6fd56d48dd44b45c51f4bc21ee501c14b5a0d11b78943f96"
+    },
+    "matrix/screenshots/08-four-deployed-actors.png": {
+      "bytes": 407646,
+      "sha256": "c24b8cd3fbcb1f139874b84d35feedcdf72d32fc92f97ac8ab20806fc11b6084"
+    },
+    "matrix/screenshots/09-loaded-cart-parking-note.png": {
+      "bytes": 262154,
+      "sha256": "efd53dd238aa8c78ef9e57a6865f8763973a78228021a609d04f275261dda7fd"
+    },
+    "matrix/screenshots/10-loaded-cart-map-compact.png": {
+      "bytes": 396497,
+      "sha256": "ea21e64145d2a6a719e618a372a9ca53dec8aabc341eee9f4228cb94207ed6d5"
+    },
+    "matrix/screenshots/11-fresh-no-spoilers.png": {
+      "bytes": 272984,
+      "sha256": "eb03fa087db0db58c350e5bded1c6780b13c913849f98ce403fdfb1396569413"
+    },
+    "matrix/screenshots/12-preserved-real-save-warning.png": {
+      "bytes": 1775591,
+      "sha256": "e677d7408d1eadb74dbda2fa51425a96ea37b9333f3e6527da11ace9e3b6699b"
+    },
+    "matrix/screenshots/history-preaccept_open_records_release_water.png": {
+      "bytes": 132179,
+      "sha256": "160b64418e591e102c42aafd6c90bd6263107707d7ad75467e50b4d0d6c90298"
+    },
+    "matrix/screenshots/history-preaccept_protect_witness_warn_ferries.png": {
+      "bytes": 132405,
+      "sha256": "40ea530d06f5d1bd712bb8c6d8d686fa2dfb120b92216a531cfdaac6e6e68173"
+    },
+    "matrix/screenshots/matrix-1180x737-z0-full.png": {
+      "bytes": 175524,
+      "sha256": "c1cd2c3ec0261faed8db68ad53d1a227421ece8e413dea77c3b51af05dccc04c"
+    },
+    "matrix/screenshots/matrix-1180x737-z0-scaled.png": {
+      "bytes": 175159,
+      "sha256": "79a3752d252ccded20a2badc241db654afac397a3ec1e2508d2687e1d8206f5d"
+    },
+    "matrix/screenshots/matrix-1180x737-z1-full.png": {
+      "bytes": 180796,
+      "sha256": "3fa39d33f1766fc853a3cbcc49fe871dd0988494e421db8b22653e130936e557"
+    },
+    "matrix/screenshots/matrix-1180x737-z1-scaled.png": {
+      "bytes": 181174,
+      "sha256": "1a6e50377b8787ae9c57829eab2edb9007bfc40780c1d3827c42804d4248e32f"
+    },
+    "matrix/screenshots/matrix-1180x737-z2-full.png": {
+      "bytes": 180353,
+      "sha256": "c45836a99181781d444027b60eaf614c1139c8e4547ce43c1a10edb7f3bd3640"
+    },
+    "matrix/screenshots/matrix-1180x737-z2-scaled.png": {
+      "bytes": 180410,
+      "sha256": "2b597c1feca3d50a15ae4946bac1173ac12f4ad86948f7ebdeca4e35f3003233"
+    },
+    "matrix/screenshots/matrix-1280x800-z0-full.png": {
+      "bytes": 145845,
+      "sha256": "60eb04e88ef1b93282f03ad5d865d47295246e15c17a20514d0219b71c5fe6d9"
+    },
+    "matrix/screenshots/matrix-1280x800-z0-scaled.png": {
+      "bytes": 145870,
+      "sha256": "79d78f3f136076c03ec5e3ea749378db5315429dbafc29be959d89ca592c0fcc"
+    },
+    "matrix/screenshots/matrix-1280x800-z1-full.png": {
+      "bytes": 150689,
+      "sha256": "9ff95d76490868c0263051b68f51ec6856479808a876dfa039a8fcfa21b0e936"
+    },
+    "matrix/screenshots/matrix-1280x800-z1-scaled.png": {
+      "bytes": 154369,
+      "sha256": "db60b715d7ec6c8670b9278a3c8387ad2afa508721d632d811556caaf7c8094e"
+    },
+    "matrix/screenshots/matrix-1280x800-z2-full.png": {
+      "bytes": 151034,
+      "sha256": "ad4400cb83d8e5085f70a6a93f2b825bc2e5d67fb99681a693482179603592aa"
+    },
+    "matrix/screenshots/matrix-1280x800-z2-scaled.png": {
+      "bytes": 153419,
+      "sha256": "c531badc4cd2928c87163bceb13b2e2f96f9f75e0420ebd1a415d975d2dfe8b6"
+    },
+    "route/RESULT.json": {
+      "bytes": 22373,
+      "sha256": "078cb9f4e966e15fd833ce3e9a34a0c28c0bf07648d49b776d394e9f75bf261a"
+    },
+    "route/NATIVE-TRACE.json": {
+      "bytes": 96664,
+      "sha256": "3f839f6ffd9756d398c5ff0a94f1b4ede006ae0b590a7c25c155b3aee0446af1"
+    },
+    "route/PIXEL-CONTRAST.json": {
+      "bytes": 73982,
+      "sha256": "33ca9fc0cd1a5b83a490ba1fb02af31a18ae902a69b8ab36ef563ad26203e23a"
+    },
+    "route/PIXEL-CONTRAST-strict-core-v1.json": {
+      "bytes": 59870,
+      "sha256": "b661e7106bd18b30ec80a1c8b508f15706b350bc84c39804772cc109313a899e"
+    },
+    "route/engine.log": {
+      "bytes": 415,
+      "sha256": "89b3969ee502903b2751ddfc625fc643f3ee45f180ede232efedc170e345f65a"
+    },
+    "route/RUNNING.json": {
+      "bytes": 582,
+      "sha256": "fc7bb662227dbe4149a185c5734b1fb45e100d59ebbaf4c186505293c5dd707a"
+    },
+    "route/screenshots/route-01-walked-qin-target.png": {
+      "bytes": 377855,
+      "sha256": "41fef80bad170877cd080bc43e981018cafdef929ea1975266f4d82e517588f0"
+    },
+    "route/screenshots/route-02-earned-qin-manual-tang.png": {
+      "bytes": 148865,
+      "sha256": "f505a10140f895d7fd419e5129e729f3a06ddd3b5dbe9d52b58301c805377381"
+    },
+    "route/screenshots/route-03-frost-auto-restored.png": {
+      "bytes": 137840,
+      "sha256": "8796762c70c05d7686dcdd406f89fccf16a75d2bb70b7cdf1df1f174bd83f82c"
+    }
+  },
+  "retained_staging_root": "/workspace/scratch/61762639b34b/Hero-staging/journal-guidance-phase2/native/attempt-03",
+  "captures": {
+    "matrix": [
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalList/JournalGroups/JournalRow_tang_notes",
+        "full_resolution": true,
+        "name": "01-auto-qin-browse-tang",
+        "note": "Prepared API-earned input; current automatic Qin differs explicitly from browsed Tang. Actual pointer input.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1280x800-z0-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1280x800-z0-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1280x800-z1-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.25
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1280x800-z1-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.25
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1280x800-z2-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1280x800-z2-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1180x737-z0-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1180x737-z0-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1180x737-z1-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.25
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1180x737-z1-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.25
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": true,
+        "name": "matrix-1180x737-z2-full",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_track",
+        "full_resolution": false,
+        "name": "matrix-1180x737-z2-scaled",
+        "note": "Prepared genuine-State native scene: Qin explicitly tracked, Tang only browsed; focus on explicit Track action. Fixed-step scripted inputs, no manual/realtime/browser claim.",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_auto",
+        "full_resolution": true,
+        "name": "02-manual-tang-disabled-track",
+        "note": "Explicit Track selected Tang; Track is now disabled, focus moved to enabled Auto; diamond and text identify tracking",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_frostbridge",
+          "next_target_map": "mistwood",
+          "next_target_name": "返回霜桥驿",
+          "next_target_position": "(150.0, 550.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往霜桥驿。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": "tang_notes"
+        },
+        "tracked": "tang_notes",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "return_frostbridge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalHistoryBody",
+        "full_resolution": true,
+        "name": "03-history-scroll",
+        "note": "All-earned history after keyboard PageDown and actual mouse wheel; no future/locked rows",
+        "page": "history",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_frostbridge",
+          "next_target_map": "mistwood",
+          "next_target_name": "返回霜桥驿",
+          "next_target_position": "(150.0, 550.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往霜桥驿。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": "tang_notes"
+        },
+        "tracked": "tang_notes",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "return_frostbridge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalHistoryBody",
+        "full_resolution": true,
+        "name": "03b-history-selected-text",
+        "note": "Prepared select-all visual treatment on genuine native RichTextLabel, distinct from actual keyboard and wheel scroll evidence",
+        "page": "history",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_frostbridge",
+          "next_target_map": "mistwood",
+          "next_target_name": "返回霜桥驿",
+          "next_target_position": "(150.0, 550.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往霜桥驿。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": "tang_notes"
+        },
+        "tracked": "tang_notes",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "return_frostbridge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "full_resolution": true,
+        "name": "04-map-coherent-auto-qin",
+        "note": "Read-only M current target equals automatic Qin. Existing map owns its ordinary close input.",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065075,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "capstone",
+        "focus_path": "/root/Hero/ModalLayer/@Control@329/JournalFrame/JournalList/JournalGroups/JournalRow_capstone",
+        "full_resolution": false,
+        "name": "05-capstone-long-compact",
+        "note": "Prepared long capstone instructions; actual compact window, zoom1.6, scaled quality, scrollable detail",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "capstone",
+          "arc_title": "第一卷终章·截令归灯",
+          "cart_route": "[]",
+          "context_map_id": "heting",
+          "destination_map": "sluice",
+          "destination_receiver": "capstone_order_desk",
+          "destination_site": "capstone_order_desk",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "heting",
+            "marker_names": {
+              "consignee_warehouse": "北仓提货位",
+              "heting_cargo": "中埠粮船",
+              "heting_dispatch": "孟绫·交割牌",
+              "heting_lighter": "南泊短驳",
+              "heting_relief": "顾婶·粥棚",
+              "heting_scale": "施衡·公秤棚",
+              "heting_winch": "双向绞缆机",
+              "return_mistwood": "返回雾竹坡"
+            },
+            "markers": {
+              "consignee_warehouse": {
+                "kind": "cargo",
+                "name": "北仓提货位",
+                "pos": "(700.0, 315.0)"
+              },
+              "heting_cargo": {
+                "kind": "cargo",
+                "name": "中埠粮船",
+                "pos": "(665.0, 620.0)"
+              },
+              "heting_dispatch": {
+                "kind": "npc",
+                "name": "孟绫·交割牌",
+                "pos": "(535.0, 350.0)"
+              },
+              "heting_lighter": {
+                "kind": "cargo",
+                "name": "南泊短驳",
+                "pos": "(970.0, 780.0)"
+              },
+              "heting_relief": {
+                "kind": "rest",
+                "name": "顾婶·粥棚",
+                "pos": "(230.0, 780.0)"
+              },
+              "heting_scale": {
+                "kind": "npc",
+                "name": "施衡·公秤棚",
+                "pos": "(1390.0, 600.0)"
+              },
+              "heting_winch": {
+                "kind": "mechanism",
+                "name": "双向绞缆机",
+                "pos": "(820.0, 735.0)"
+              },
+              "return_mistwood": {
+                "kind": "exit",
+                "name": "返回雾竹坡",
+                "pos": "(150.0, 335.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "为已分类四号拟稿，并在守闸桌明确确认处置。",
+          "next_target_id": "return_mistwood",
+          "next_target_map": "heting",
+          "next_target_name": "返回雾竹坡",
+          "next_target_position": "(150.0, 335.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往雾竹坡。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "capstone",
+          "source_facts_revision": 4,
+          "source_map_id": "heting",
+          "source_state_id": -9223371848446638024,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "capstone:5:capstone_order_desk",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          535.0,
+          400.0
+        ],
+        "world_target": "return_mistwood",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "mentor_reward",
+        "focus_path": "/root/Hero/ModalLayer/@Control@354/JournalFrame/JournalList/JournalGroups/JournalRow_mentor_reward",
+        "full_resolution": false,
+        "name": "06-fourteen-earned-rows-completed",
+        "note": "Prepared all14 earned catalog; End scrolls final completed row into view; Track disabled; no hidden denominator",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "",
+          "arc_title": "竹坡余声",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_camp",
+          "destination_site": "mist_camp",
+          "is_exit": false,
+          "kind": "exploration",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "引路亭",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "底稿指向鹤汀埠。沿听雨关东侧下埠道，继续查粮船交割。",
+          "next_target_id": "mist_camp",
+          "next_target_map": "mistwood",
+          "next_target_name": "避雨营地",
+          "next_target_position": "(290.0, 790.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "mistwood",
+          "source_facts_revision": 6,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371837910546207,
+          "source_world_id": 83080775173,
+          "status": "completed",
+          "step_key": "exploration:mistwood:mistwood:mist_camp",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          535.0,
+          400.0
+        ],
+        "world_target": "mist_camp",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "mentor_reward",
+        "focus_path": "/root/Hero/ModalLayer/@Control@354/JournalFrame/JournalHistoryBody",
+        "full_resolution": false,
+        "name": "07-all-history-bottom",
+        "note": "Prepared all14 earned histories; last lines reachable with keyboard End; completed permanent record",
+        "page": "history",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "",
+          "arc_title": "竹坡余声",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_camp",
+          "destination_site": "mist_camp",
+          "is_exit": false,
+          "kind": "exploration",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "引路亭",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "底稿指向鹤汀埠。沿听雨关东侧下埠道，继续查粮船交割。",
+          "next_target_id": "mist_camp",
+          "next_target_map": "mistwood",
+          "next_target_name": "避雨营地",
+          "next_target_position": "(290.0, 790.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "mistwood",
+          "source_facts_revision": 6,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371837910546207,
+          "source_world_id": 83080775173,
+          "status": "completed",
+          "step_key": "exploration:mistwood:mistwood:mist_camp",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          535.0,
+          400.0
+        ],
+        "world_target": "mist_camp",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "full_resolution": true,
+        "name": "08-four-deployed-actors",
+        "note": "Prepared canonical recruit APIs produce four deployed actors; free-exploration guidance does not falsely track a completed row",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "",
+          "arc_title": "竹坡余声",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_camp",
+          "destination_site": "mist_camp",
+          "is_exit": false,
+          "kind": "exploration",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "引路亭",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "底稿指向鹤汀埠。沿听雨关东侧下埠道，继续查粮船交割。",
+          "next_target_id": "mist_camp",
+          "next_target_map": "mistwood",
+          "next_target_name": "避雨营地",
+          "next_target_position": "(290.0, 790.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "mistwood",
+          "source_facts_revision": 6,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371837910546207,
+          "source_world_id": 83080775173,
+          "status": "completed",
+          "step_key": "exploration:mistwood:mistwood:mist_camp",
+          "valid_tracked_arc_id": ""
+        },
+        "world_position": [
+          535.0,
+          400.0
+        ],
+        "world_target": "mist_camp",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "qin_rope",
+        "focus_path": "/root/Hero/ModalLayer/@Control@548/JournalFrame/JournalHistoryBody",
+        "full_resolution": true,
+        "name": "history-preaccept_open_records_release_water",
+        "note": "Exact retained API-earned branch histories, no invented completion or reward content",
+        "page": "history",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 7,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371798970627674,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "qin_rope",
+        "focus_path": "/root/Hero/ModalLayer/@Control@608/JournalFrame/JournalHistoryBody",
+        "full_resolution": true,
+        "name": "history-preaccept_protect_witness_warn_ferries",
+        "note": "Exact retained API-earned branch histories, no invented completion or reward content",
+        "page": "history",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 8,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371785867621923,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          350.0,
+          395.0
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "qin_rope",
+        "focus_path": "/root/Hero/ModalLayer/@Control@668/JournalFrame/JournalAction_auto",
+        "full_resolution": true,
+        "name": "09-loaded-cart-parking-note",
+        "note": "Prepared loaded cart, explicit available Qin tracking: departure confirmation note is readable; J has not moved or parked cargo",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "秦禾的近况",
+          "cart_route": "[(460.0, 430.0), (150.0, 335.0)]",
+          "context_map_id": "heting",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_guide",
+          "destination_site": "mist_guide",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "heting",
+            "marker_names": {
+              "consignee_warehouse": "北仓提货位",
+              "heting_cargo": "中埠粮船",
+              "heting_dispatch": "孟绫·交割牌",
+              "heting_lighter": "南泊短驳",
+              "heting_relief": "顾婶·粥棚",
+              "heting_scale": "施衡·公秤棚",
+              "heting_winch": "双向绞缆机",
+              "return_mistwood": "返回雾竹坡"
+            },
+            "markers": {
+              "consignee_warehouse": {
+                "kind": "cargo",
+                "name": "北仓提货位",
+                "pos": "(700.0, 315.0)"
+              },
+              "heting_cargo": {
+                "kind": "cargo",
+                "name": "中埠粮船",
+                "pos": "(665.0, 620.0)"
+              },
+              "heting_dispatch": {
+                "kind": "npc",
+                "name": "孟绫·交割牌",
+                "pos": "(535.0, 350.0)"
+              },
+              "heting_lighter": {
+                "kind": "cargo",
+                "name": "南泊短驳",
+                "pos": "(970.0, 780.0)"
+              },
+              "heting_relief": {
+                "kind": "rest",
+                "name": "顾婶·粥棚",
+                "pos": "(230.0, 780.0)"
+              },
+              "heting_scale": {
+                "kind": "npc",
+                "name": "施衡·公秤棚",
+                "pos": "(1390.0, 600.0)"
+              },
+              "heting_winch": {
+                "kind": "mechanism",
+                "name": "双向绞缆机",
+                "pos": "(820.0, 735.0)"
+              },
+              "return_mistwood": {
+                "kind": "exit",
+                "name": "返回雾竹坡",
+                "pos": "(150.0, 335.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去秦禾处问问。",
+          "next_target_id": "return_mistwood",
+          "next_target_map": "heting",
+          "next_target_name": "返回雾竹坡",
+          "next_target_position": "(150.0, 335.0)",
+          "reset_reason": "",
+          "route_note": "押车按现有浮栈与北岸通路行进；窄步栈只通行人。离港须在出口明确确认把车停回北仓。",
+          "route_status": "departure_confirmation",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 9,
+          "source_map_id": "heting",
+          "source_state_id": -9223371772697507377,
+          "source_world_id": 83080775173,
+          "status": "available",
+          "step_key": "qin_rope:0:mist_guide",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "tracked": "qin_rope",
+        "world_position": [
+          460.0,
+          430.0
+        ],
+        "world_target": "return_mistwood",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "full_resolution": false,
+        "name": "10-loaded-cart-map-compact",
+        "note": "Loaded route and explicit parking caption, compact client; M shares physical target and path",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "秦禾的近况",
+          "cart_route": "[(460.0, 430.0), (150.0, 335.0)]",
+          "context_map_id": "heting",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_guide",
+          "destination_site": "mist_guide",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "heting",
+            "marker_names": {
+              "consignee_warehouse": "北仓提货位",
+              "heting_cargo": "中埠粮船",
+              "heting_dispatch": "孟绫·交割牌",
+              "heting_lighter": "南泊短驳",
+              "heting_relief": "顾婶·粥棚",
+              "heting_scale": "施衡·公秤棚",
+              "heting_winch": "双向绞缆机",
+              "return_mistwood": "返回雾竹坡"
+            },
+            "markers": {
+              "consignee_warehouse": {
+                "kind": "cargo",
+                "name": "北仓提货位",
+                "pos": "(700.0, 315.0)"
+              },
+              "heting_cargo": {
+                "kind": "cargo",
+                "name": "中埠粮船",
+                "pos": "(665.0, 620.0)"
+              },
+              "heting_dispatch": {
+                "kind": "npc",
+                "name": "孟绫·交割牌",
+                "pos": "(535.0, 350.0)"
+              },
+              "heting_lighter": {
+                "kind": "cargo",
+                "name": "南泊短驳",
+                "pos": "(970.0, 780.0)"
+              },
+              "heting_relief": {
+                "kind": "rest",
+                "name": "顾婶·粥棚",
+                "pos": "(230.0, 780.0)"
+              },
+              "heting_scale": {
+                "kind": "npc",
+                "name": "施衡·公秤棚",
+                "pos": "(1390.0, 600.0)"
+              },
+              "heting_winch": {
+                "kind": "mechanism",
+                "name": "双向绞缆机",
+                "pos": "(820.0, 735.0)"
+              },
+              "return_mistwood": {
+                "kind": "exit",
+                "name": "返回雾竹坡",
+                "pos": "(150.0, 335.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "去秦禾处问问。",
+          "next_target_id": "return_mistwood",
+          "next_target_map": "heting",
+          "next_target_name": "返回雾竹坡",
+          "next_target_position": "(150.0, 335.0)",
+          "reset_reason": "",
+          "route_note": "押车按现有浮栈与北岸通路行进；窄步栈只通行人。离港须在出口明确确认把车停回北仓。",
+          "route_status": "departure_confirmation",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 9,
+          "source_map_id": "heting",
+          "source_state_id": -9223371772697507377,
+          "source_world_id": 83080775173,
+          "status": "available",
+          "step_key": "qin_rope:0:mist_guide",
+          "valid_tracked_arc_id": "qin_rope"
+        },
+        "world_position": [
+          460.0,
+          430.0
+        ],
+        "world_target": "return_mistwood",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1179,
+          737
+        ],
+        "actual_window": [
+          1180,
+          737
+        ],
+        "browse": "opening",
+        "focus_path": "/root/Hero/ModalLayer/@Control@759/JournalFrame/JournalList/JournalGroups/JournalRow_opening",
+        "full_resolution": false,
+        "name": "11-fresh-no-spoilers",
+        "note": "Fresh opening: only known story, no hidden future quest names or denominator",
+        "page": "journal",
+        "requested_window": [
+          1180,
+          737
+        ],
+        "snapshot": {
+          "arc_id": "opening",
+          "arc_title": "渡灯失窃",
+          "cart_route": "[]",
+          "context_map_id": "qingwei",
+          "destination_map": "qingwei",
+          "destination_receiver": "elder",
+          "destination_site": "elder",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "qingwei",
+            "marker_names": {
+              "bandit": "蒲横",
+              "board": "村中告示",
+              "courtyard_practice": "南庭木人",
+              "elder": "陆伯",
+              "exit_sluice": "废闸古道",
+              "healer": "沈青",
+              "herb": "青穗草",
+              "mentor": "岑远",
+              "reed_cross": "苇心浮石",
+              "reed_relic": "苇心残碑",
+              "reed_return": "回岸浮石",
+              "shrine": "无名碑"
+            },
+            "markers": {
+              "bandit": {
+                "kind": "bandit",
+                "name": "蒲横",
+                "pos": "(1260.0, 740.0)"
+              },
+              "board": {
+                "kind": "board",
+                "name": "村中告示",
+                "pos": "(720.0, 480.0)"
+              },
+              "courtyard_practice": {
+                "kind": "practice",
+                "name": "南庭木人",
+                "pos": "(721.0, 733.0)"
+              },
+              "elder": {
+                "kind": "elder",
+                "name": "陆伯",
+                "pos": "(520.0, 440.0)"
+              },
+              "exit_sluice": {
+                "kind": "exit",
+                "name": "废闸古道",
+                "pos": "(1480.0, 560.0)"
+              },
+              "healer": {
+                "kind": "healer",
+                "name": "沈青",
+                "pos": "(330.0, 330.0)"
+              },
+              "herb": {
+                "kind": "herb",
+                "name": "青穗草",
+                "pos": "(1260.0, 350.0)"
+              },
+              "mentor": {
+                "kind": "elder",
+                "name": "岑远",
+                "pos": "(650.0, 720.0)"
+              },
+              "reed_cross": {
+                "kind": "lightness",
+                "name": "苇心浮石",
+                "pos": "(1420.0, 930.0)"
+              },
+              "reed_relic": {
+                "islet": true,
+                "kind": "relic",
+                "name": "苇心残碑",
+                "pos": "(1537.0, 947.0)"
+              },
+              "reed_return": {
+                "islet": true,
+                "kind": "lightness",
+                "name": "回岸浮石",
+                "pos": "(1487.0, 917.0)"
+              },
+              "shrine": {
+                "kind": "shrine",
+                "name": "无名碑",
+                "pos": "(900.0, 820.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "与渡口长者交谈，打听渡灯失窃之事。",
+          "next_target_id": "elder",
+          "next_target_map": "qingwei",
+          "next_target_name": "陆伯",
+          "next_target_position": "(520.0, 440.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "opening",
+          "source_facts_revision": 10,
+          "source_map_id": "qingwei",
+          "source_state_id": -9223371751625324076,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "opening:0:elder",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          460.0,
+          430.0
+        ],
+        "world_target": "elder",
+        "zoom": 1.6
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "full_resolution": true,
+        "name": "12-preserved-real-save-warning",
+        "note": "Actual production save failure caused by explicitly prepared temporary-path directory; warning remains after J browse/close. Fresh isolated userdata only.",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "opening",
+          "arc_title": "渡灯失窃",
+          "cart_route": "[]",
+          "context_map_id": "qingwei",
+          "destination_map": "qingwei",
+          "destination_receiver": "elder",
+          "destination_site": "elder",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "qingwei",
+            "marker_names": {
+              "bandit": "蒲横",
+              "board": "村中告示",
+              "courtyard_practice": "南庭木人",
+              "elder": "陆伯",
+              "exit_sluice": "废闸古道",
+              "healer": "沈青",
+              "herb": "青穗草",
+              "mentor": "岑远",
+              "reed_cross": "苇心浮石",
+              "reed_relic": "苇心残碑",
+              "reed_return": "回岸浮石",
+              "shrine": "无名碑"
+            },
+            "markers": {
+              "bandit": {
+                "kind": "bandit",
+                "name": "蒲横",
+                "pos": "(1260.0, 740.0)"
+              },
+              "board": {
+                "kind": "board",
+                "name": "村中告示",
+                "pos": "(720.0, 480.0)"
+              },
+              "courtyard_practice": {
+                "kind": "practice",
+                "name": "南庭木人",
+                "pos": "(721.0, 733.0)"
+              },
+              "elder": {
+                "kind": "elder",
+                "name": "陆伯",
+                "pos": "(520.0, 440.0)"
+              },
+              "exit_sluice": {
+                "kind": "exit",
+                "name": "废闸古道",
+                "pos": "(1480.0, 560.0)"
+              },
+              "healer": {
+                "kind": "healer",
+                "name": "沈青",
+                "pos": "(330.0, 330.0)"
+              },
+              "herb": {
+                "kind": "herb",
+                "name": "青穗草",
+                "pos": "(1260.0, 350.0)"
+              },
+              "mentor": {
+                "kind": "elder",
+                "name": "岑远",
+                "pos": "(650.0, 720.0)"
+              },
+              "reed_cross": {
+                "kind": "lightness",
+                "name": "苇心浮石",
+                "pos": "(1420.0, 930.0)"
+              },
+              "reed_relic": {
+                "islet": true,
+                "kind": "relic",
+                "name": "苇心残碑",
+                "pos": "(1537.0, 947.0)"
+              },
+              "reed_return": {
+                "islet": true,
+                "kind": "lightness",
+                "name": "回岸浮石",
+                "pos": "(1487.0, 917.0)"
+              },
+              "shrine": {
+                "kind": "shrine",
+                "name": "无名碑",
+                "pos": "(900.0, 820.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "与渡口长者交谈，打听渡灯失窃之事。",
+          "next_target_id": "elder",
+          "next_target_map": "qingwei",
+          "next_target_name": "陆伯",
+          "next_target_position": "(520.0, 440.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "opening",
+          "source_facts_revision": 10,
+          "source_map_id": "qingwei",
+          "source_state_id": -9223371751625324076,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "opening:0:elder",
+          "valid_tracked_arc_id": ""
+        },
+        "world_position": [
+          460.0,
+          430.0
+        ],
+        "world_target": "elder",
+        "zoom": 1.0
+      }
+    ],
+    "route": [
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "full_resolution": true,
+        "name": "route-01-walked-qin-target",
+        "note": "Actual collision-checked WASD walk from retained prepared guide position to automatic Qin target; no route teleport",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "qin_rope",
+          "arc_title": "尺绳有托",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "mistwood",
+          "destination_receiver": "mist_rain_gauge",
+          "destination_site": "mist_rain_gauge",
+          "is_exit": false,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "去北边雨痕竹尺，复核尺绳与警水刻线。",
+          "next_target_id": "mist_rain_gauge",
+          "next_target_map": "mistwood",
+          "next_target_name": "雨痕竹尺",
+          "next_target_position": "(550.0, 245.0)",
+          "reset_reason": "",
+          "route_note": "",
+          "route_status": "local",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "qin_rope",
+          "source_facts_revision": 3,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "qin_rope:1:mist_rain_gauge",
+          "valid_tracked_arc_id": ""
+        },
+        "world_position": [
+          548.648071289062,
+          285.677642822266
+        ],
+        "world_target": "mist_rain_gauge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@176/JournalFrame/JournalAction_auto",
+        "full_resolution": true,
+        "name": "route-02-earned-qin-manual-tang",
+        "note": "Qin rope action now genuinely earned through E/1; explicit Tang tracking changes all consumers to legal Frost exit",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "mistwood",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "mistwood",
+            "marker_names": {
+              "exit_heting": "鹤汀下埠道",
+              "mist_basin": "分水石盂",
+              "mist_camp": "避雨营地",
+              "mist_gate": "守令使",
+              "mist_guide": "秦禾",
+              "mist_rain_gauge": "雨痕竹尺",
+              "mist_scout": "巡坡斥候",
+              "mist_stone_gauge": "叠石刻度",
+              "return_frostbridge": "返回霜桥驿"
+            },
+            "markers": {
+              "exit_heting": {
+                "kind": "exit",
+                "name": "鹤汀下埠道",
+                "pos": "(1470.0, 485.0)"
+              },
+              "mist_basin": {
+                "kind": "clue",
+                "name": "分水石盂",
+                "pos": "(1250.0, 765.0)"
+              },
+              "mist_camp": {
+                "kind": "rest",
+                "name": "避雨营地",
+                "pos": "(290.0, 790.0)"
+              },
+              "mist_gate": {
+                "kind": "bandit",
+                "name": "守令使",
+                "pos": "(1320.0, 500.0)"
+              },
+              "mist_guide": {
+                "kind": "healer",
+                "name": "秦禾",
+                "pos": "(350.0, 360.0)"
+              },
+              "mist_rain_gauge": {
+                "kind": "clue",
+                "name": "雨痕竹尺",
+                "pos": "(550.0, 245.0)"
+              },
+              "mist_scout": {
+                "kind": "bandit",
+                "name": "巡坡斥候",
+                "pos": "(1030.0, 560.0)"
+              },
+              "mist_stone_gauge": {
+                "kind": "clue",
+                "name": "叠石刻度",
+                "pos": "(1000.0, 300.0)"
+              },
+              "return_frostbridge": {
+                "kind": "exit",
+                "name": "返回霜桥驿",
+                "pos": "(150.0, 550.0)"
+              }
+            }
+          },
+          "mode": "manual",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_frostbridge",
+          "next_target_map": "mistwood",
+          "next_target_name": "返回霜桥驿",
+          "next_target_position": "(150.0, 550.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往霜桥驿。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 4,
+          "source_map_id": "mistwood",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": "tang_notes"
+        },
+        "tracked": "tang_notes",
+        "world_position": [
+          548.648071289062,
+          285.677642822266
+        ],
+        "world_target": "return_frostbridge",
+        "zoom": 1.0
+      },
+      {
+        "actual_framebuffer": [
+          1280,
+          800
+        ],
+        "actual_window": [
+          1280,
+          800
+        ],
+        "browse": "tang_notes",
+        "focus_path": "/root/Hero/ModalLayer/@Control@249/JournalFrame/JournalAction_history",
+        "full_resolution": true,
+        "name": "route-03-frost-auto-restored",
+        "note": "Actual exit travel applied; restoring Auto follows retained Frost HUD authority (Tang→Sluice), while Qin remains earned and selectable",
+        "page": "journal",
+        "requested_window": [
+          1280,
+          800
+        ],
+        "snapshot": {
+          "arc_id": "tang_notes",
+          "arc_title": "尺上旧痕",
+          "cart_route": "[]",
+          "context_map_id": "frostbridge",
+          "destination_map": "sluice",
+          "destination_receiver": "sluice_cache",
+          "destination_site": "sluice_cache",
+          "is_exit": true,
+          "kind": "objective",
+          "marker_view": {
+            "map_id": "frostbridge",
+            "marker_names": {
+              "bridge_worker": "唐栖",
+              "chapter_archive": "封仓印台",
+              "chapter_clerk": "纪小砚",
+              "chapter_host": "温行舟",
+              "chapter_inscription": "旧桥碑文",
+              "exit_mistwood": "雾竹坡古道",
+              "frost_herb": "耐寒药草",
+              "frost_ore": "露头铁矿",
+              "frost_timber": "散落木料",
+              "return_sluice": "返回废闸"
+            },
+            "markers": {
+              "bridge_worker": {
+                "kind": "elder",
+                "name": "唐栖",
+                "pos": "(650.0, 760.0)"
+              },
+              "chapter_archive": {
+                "kind": "bandit",
+                "name": "封仓印台",
+                "pos": "(1320.0, 745.0)"
+              },
+              "chapter_clerk": {
+                "kind": "healer",
+                "name": "纪小砚",
+                "pos": "(1150.0, 385.0)"
+              },
+              "chapter_host": {
+                "kind": "elder",
+                "name": "温行舟",
+                "pos": "(405.0, 365.0)"
+              },
+              "chapter_inscription": {
+                "kind": "board",
+                "name": "旧桥碑文",
+                "pos": "(685.0, 320.0)"
+              },
+              "exit_mistwood": {
+                "kind": "exit",
+                "name": "雾竹坡古道",
+                "pos": "(1450.0, 200.0)"
+              },
+              "frost_herb": {
+                "kind": "resource",
+                "name": "耐寒药草",
+                "pos": "(1400.0, 425.0)"
+              },
+              "frost_ore": {
+                "kind": "resource",
+                "name": "露头铁矿",
+                "pos": "(980.0, 255.0)"
+              },
+              "frost_timber": {
+                "kind": "resource",
+                "name": "散落木料",
+                "pos": "(335.0, 805.0)"
+              },
+              "return_sluice": {
+                "kind": "exit",
+                "name": "返回废闸",
+                "pos": "(140.0, 500.0)"
+              }
+            }
+          },
+          "mode": "auto",
+          "next_action": "返回废闸西北旧仓木匣，寻找唐栖父亲的工册。",
+          "next_target_id": "return_sluice",
+          "next_target_map": "frostbridge",
+          "next_target_name": "返回废闸",
+          "next_target_position": "(140.0, 500.0)",
+          "reset_reason": "",
+          "route_note": "先沿当前古道前往废闸。",
+          "route_status": "via_exit",
+          "selection_changed": false,
+          "selection_notice": "",
+          "source_arc_id": "tang_notes",
+          "source_facts_revision": 5,
+          "source_map_id": "frostbridge",
+          "source_state_id": -9223371938557065074,
+          "source_world_id": 83080775173,
+          "status": "active",
+          "step_key": "tang_notes:1:sluice_cache",
+          "valid_tracked_arc_id": ""
+        },
+        "tracked": "",
+        "world_position": [
+          1420.0,
+          235.0
+        ],
+        "world_target": "return_sluice",
+        "zoom": 1.0
+      }
+    ]
+  }
+}

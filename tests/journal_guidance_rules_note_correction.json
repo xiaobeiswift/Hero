@@ -1,0 +1,58 @@
+{
+  "classification": "Reviewed presentation-only local route-note correction; original model evidence remains historical",
+  "schema": 16,
+  "file": "scripts/journal_guidance_rules.gd",
+  "historical_phase1_sha256": "3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9",
+  "current_sha256": "ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb",
+  "exact_verified_change": {
+    "after_line": "result.route_status = \"local\"",
+    "added_line": "result.route_note = \"\"",
+    "only_change_verified_against_retained_original_bytes": true
+  },
+  "semantic_scope": "Clear default unavailable explanation on successful local projection. Existing Frostbridge bridge note, crossing/exit/loaded notes and unavailable explanations remain. No arc priority, target selection, route geometry, story/save/resource/party mutation change.",
+  "unchanged": [
+    "scripts/journal_objective_rules.gd",
+    "scripts/journal_guidance_session.gd",
+    "scripts/game_state.gd",
+    "save schema16",
+    "tests/journal_guidance_frozen_oracle.json SHA38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443",
+    "exact117 retained rows:14 approved Qin target differences and103 equal targets"
+  ],
+  "lead_focused_red_green_evidence": {
+    "before": {
+      "path": "Hero-staging/journal-guidance-phase2/route-note-fix/before/result.json",
+      "sha256": "4d8e5fc6a1414f53317342da76c3ced4a464466534352a37476af5d8c0722b82",
+      "result": {
+        "checks": 427,
+        "failure_labels": [
+          "opening local route has no unavailable default note",
+          "earned Qin local route has no contradictory no-target note"
+        ],
+        "failures": 2,
+        "schema": 16,
+        "scope": "prepared model/session, no UI/native/publication"
+      }
+    },
+    "after": {
+      "path": "Hero-staging/journal-guidance-phase2/route-note-fix/after/result.json",
+      "sha256": "7e6afaf3206f30a997e6f09ba4db4f2d499de7ef0b8c7ccd1dfb22d1bf8a11f2",
+      "result": {
+        "checks": 427,
+        "failure_labels": [],
+        "failures": 0,
+        "schema": 16,
+        "scope": "prepared model/session, no UI/native/publication"
+      }
+    }
+  },
+  "maintained_independent_additions": [
+    "Valid opening/elder local projection requires empty route_note",
+    "Removing actual elder marker requires unavailable/no target and exact truthful explanation",
+    "Restored context must restore local target and empty note",
+    "All valid local retained-corpus projections reject default unavailable explanation",
+    "Both history binding checks preserve original rules hash against immutable corpus metadata",
+    "JSON result explicitly includes schema16 and historical rules hash"
+  ],
+  "maintained_driver_sha256": "57e112bf4f47082874178d316982d909176f6802b79e867e1657182ea63d377d",
+  "maintained_driver_execution": "Not run by maintenance worker after correction; lead owns engine and executes new driver. Prior6451 count remains pre-correction evidence and is not reused as a new pass."
+}

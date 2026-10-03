@@ -89,6 +89,10 @@ func _story_route(old_route:String,ending:String,choice:String)->void:
 	_press("告辞");await _talk_shen("sluice_cache")
 	_check(_modal_text().contains("轮值纸") if choice=="shore" else _modal_text().contains("短渡停泊"),"Shelter scene reflects finite volunteer allocation")
 	game._close_modal();game._show_journal()
+	var journal_history=game.overlay.get_meta("journal_ui",null)
+	_check(is_instance_valid(journal_history),"Earned history is reachable through dedicated J")
+	journal_history.action_buttons.history.pressed.emit();await process_frame
+	_check(journal_history.page=="history" and journal_history.body.is_visible_in_tree() and journal_history.body.scroll_active,"Real detailed-history control opens a visible scrollable earned record")
 	_check(_modal_text().contains("药箱之外") and _modal_text().contains("✓ 把照护约"),"Journal records complete personal history")
 	game._close_modal();game.companion_story.roster()
 	var folio=game.overlay.get_meta("party_roster",null)
