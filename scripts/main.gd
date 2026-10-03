@@ -28,6 +28,7 @@ const CompanionStory=preload("res://scripts/companion_story.gd")
 const SectProgress = preload("res://scripts/sect_progress_ui.gd")
 const ChapterStory = preload("res://scripts/frostbridge_story.gd")
 const Workshop = preload("res://scripts/workshop_ui.gd")
+const WeaponFitting = preload("res://scripts/weapon_fitting_ui.gd")
 const Chart = preload("res://scripts/map_chart.gd")
 const INK = Color("102e32")
 const DEEP = Color("0b2026")
@@ -114,6 +115,8 @@ var audio_on = true
 var last_near = ""
 var save_warning = false
 var quit_pending = false
+# Transient fitting-only position hold; never serialized or restored into State.
+var _fitting_position_hold: Dictionary = {}
 var screenshot_pending := false
 var screenshot_sequence := 0
 var last_screenshot_path := ""
@@ -294,7 +297,7 @@ func _process(delta: float) -> void:
 	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
-	state.position = world.player_pos
+	if _fitting_position_sync_allowed():state.position = world.player_pos
 	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" or state.capstone_stage>0 else ""
 	var near_key: String = world.nearby_id+"|"+world.nearby_name+"|"+near_action
 	if near_key != last_near:
@@ -308,6 +311,34 @@ func _process(delta: float) -> void:
 		hud.tick(delta)
 		_sync_hud_navigation()
 
+func _begin_fitting_position_hold() -> void:
+	if not _fitting_position_hold.is_empty():
+		var hold: Dictionary = _fitting_position_hold
+		if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:_fitting_position_hold.clear()
+	if _fitting_position_hold.is_empty():
+		_fitting_position_hold = {"state": state, "world": world, "state_map": state.map_id, "world_map": world.map_id, "stored": state.position, "anchor": world.player_pos}
+
+func _fitting_position_sync_allowed() -> bool:
+	if _fitting_position_hold.is_empty():return true
+	var hold: Dictionary = _fitting_position_hold
+	if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:
+		_fitting_position_hold.clear();return true
+	var fitting_context:bool = overlay.has_meta("weapon_fitting") or overlay.get_meta("fitting_workshop_readonly",false) or overlay.get_meta("fitting_exit_readonly",false)
+	if overlay.has_meta("party_battle"):
+		var controller=overlay.get_meta("party_battle")
+		fitting_context=fitting_context or (is_instance_valid(controller) and not controller.fitting_metadata.is_empty())
+	if fitting_context:
+		hold.anchor=world.player_pos
+		return false
+	# Dismissal itself is read-only; the next actual movement resumes old sync.
+	if world.player_pos != hold.anchor:
+		_fitting_position_hold.clear();return true
+	return false
+
+func _sync_position_for_explicit_save() -> void:
+	_fitting_position_hold.clear()
+	state.position=world.player_pos
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if quit_pending: return
 	if not event is InputEventKey or not event.pressed or event.echo: return
@@ -315,6 +346,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_capture_screenshot()
 		return
 	if current_screen in ["receipt_battle","party_battle"]:return # The real group controller owns its keys and exit.
+	if overlay.has_meta("weapon_fitting"):return # Fitting controller and native focus own all page input.
 	if overlay.has_meta("party_roster"):
 		if event.physical_keycode==KEY_F5:
 			_party_roster_changed(overlay.get_meta("party_roster"),modal_generation)
@@ -465,6 +497,9 @@ func _clear_overlay() -> void:
 	if overlay.has_meta("receipt_battle"):overlay.remove_meta("receipt_battle")
 	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
+	if overlay.has_meta("weapon_fitting"):overlay.remove_meta("weapon_fitting")
+	if overlay.has_meta("fitting_exit_readonly"):overlay.remove_meta("fitting_exit_readonly")
+	if overlay.has_meta("fitting_workshop_readonly"):overlay.remove_meta("fitting_workshop_readonly")
 	if overlay.has_meta("pause_menu"):overlay.remove_meta("pause_menu")
 	modal_actions.clear()
 	for child in overlay.get_children():
@@ -475,6 +510,7 @@ func _close_modal() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	if current_screen=="title":
 		_show_title();return
+	if not _fitting_position_hold.is_empty():_fitting_position_hold.anchor=world.player_pos
 	var save_on_close=modal_autosave_on_close
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -576,12 +612,13 @@ func _show_pause()->void:
 
 func _show_title() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
+	_fitting_position_hold.clear()
 	current_screen = "title"
 	var choices: Array = [["踏入江湖",_request_new_game]]
 	if state.has_save(): choices.append(["续写前缘",_load])
 	if save_slots.store.has_manual_saves():choices.append(["查阅手记",_show_load_slots])
 	if browser_mode and web_save_transfer_enabled:choices.append(["导入 / 导出手记",save_slots.transfer.show])
-	_modal("渡灯录", "H E R O  ·  原创武侠角色扮演", "[color=#d3b276]第一章 · 灯火不问归人[/color]\n\n你带着一封没有署名的旧信，来到水路尽头的青苇渡。\n今夜，渡口的引航灯没有亮。\n\n江湖未必始于名山大派，也可能始于一盏被人摘走的灯。", choices)
+	_modal("渡灯录", "H E R O  ·  原创武侠角色扮演", "[color=#d3b276]第一章 · 灯火不问归人[/color]\n\n你带着一封没有署名的旧信，来到水路尽头的青苇渡。\n今夜，渡口的引航灯没有亮。\n\n江湖未必始于名山大派，也可能始于一盏被人摘走的灯。\n\n"+WeaponFitting.TITLE_SAVE_NOTICE, choices)
 
 func _request_new_game() -> void:
 	if state.has_save():
@@ -591,6 +628,7 @@ func _request_new_game() -> void:
 
 func _new_game() -> void:
 	if current_screen=="party_battle":return
+	_fitting_position_hold.clear()
 	state.reset_game()
 	_exploration_party_signature.clear()
 	_sync_world_state()
@@ -687,8 +725,12 @@ func _start_party_battle(kind:String)->bool:
 	return _start_unified_battle(kind)
 
 func _practice_dialogue() -> void:
-	_modal("南庭演练", "全队试招 / 虚拟资源", "演练使用与你相同的出战队伍与自动交锋规则。每位存活队员每轮自动普攻一次；可安排主动武学、内功、轻功。\n\n演练气血与真气充盈，另备三份虚拟疗伤药，每份恢复40气血。胜负、退开与重试都不改变真实资源、熟练度或剧情，也不发奖励。", [["开始演练", _unified_entry.bind("courtyard_practice", modal_generation+1)], ["先行离开", _close_modal]], true)
+	_modal("南庭演练", "全队试招 / 虚拟资源", "演练使用与你相同的出战队伍与自动交锋规则。每位存活队员每轮自动普攻一次；可安排主动武学、内功、轻功。\n\n演练气血与真气充盈，另备三份虚拟疗伤药，每份恢复40气血。胜负、退开与重试都不改变真实资源、熟练度或剧情，也不发奖励。", [["开始演练", _unified_entry.bind("courtyard_practice", modal_generation+1)], ["先行离开", _close_modal], ["借用配件试招", _open_fitting.bind("courtyard", modal_generation+1)]], true)
 	modal_autosave_on_close = false
+
+func _open_fitting(origin:String="workshop",generation:int=-1)->void:
+	if generation>=0 and (not active_modal or modal_generation!=generation):return
+	WeaponFitting.open(self,"","preview","ordinary",origin)
 
 func _unified_entry(kind: String, generation: int) -> void:
 	if not active_modal or modal_generation != generation: return
@@ -826,7 +868,7 @@ func _save() -> void:
 	if current_screen in ["battle","receipt_battle","party_battle","title"]:
 		_toast("请在探索时存档。")
 		return
-	state.position = world.player_pos
+	_sync_position_for_explicit_save()
 	var error = state.save_game()
 	save_warning = error != OK
 	if browser_mode:
@@ -835,7 +877,7 @@ func _save() -> void:
 		_toast("已存档 · 下次可从这里继续江湖。" if error==OK else "⚠ 自动存档失败，请检查空间与写入条件后按 F5 重试。错误码："+str(error),true)
 
 func _autosave() -> void:
-	state.position = world.player_pos
+	_sync_position_for_explicit_save()
 	var error = state.save_game()
 	save_warning = error != OK
 	if save_warning: _toast("⚠ "+_save_retry_message(),true)
@@ -851,6 +893,7 @@ func _load() -> void:
 	_apply_loaded_state()
 
 func _apply_loaded_state(message:String="前缘已续 · 读档成功。")->void:
+	_fitting_position_hold.clear()
 	_exploration_party_signature.clear()
 	current_screen = "explore"
 	_sync_world_state()
@@ -1060,7 +1103,7 @@ func _notification(what:int) -> void:
 			return
 		# A desktop close must keep the same write-failure protection as the
 		# in-game exit. Do not mark quit_pending until a save or discard succeeds.
-		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode)
+		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode,not _fitting_position_hold.is_empty())
 		else:_quit_cleanly(false)
 
 func _start_receipt_battle()->bool:
@@ -1298,9 +1341,11 @@ func _sync_exploration_party() -> void:
 	if applied.get("ok",false):_exploration_party_signature=signature.duplicate(true)
 
 func _show_save_slots()->void:
+	save_slots.fitting_readonly_browse=overlay.get_meta("fitting_exit_readonly",false)
 	save_slots.transfer_browse=false
 	save_slots.save_page()
 func _show_load_slots()->void:
+	save_slots.fitting_readonly_browse=overlay.get_meta("fitting_exit_readonly",false)
 	save_slots.transfer_browse=false
 	save_slots.load_page()
 

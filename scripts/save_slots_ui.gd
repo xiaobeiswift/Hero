@@ -7,6 +7,8 @@ var store
 var transfer
 # Only passive browsing reached from file transfer suppresses modal-close saves.
 var transfer_browse:bool=false
+# Separate opt-in path from fitting exit; never changes transfer or backup rules.
+var fitting_readonly_browse:bool=false
 func _init(owner,directory:String="user://")->void:
  host=owner;store=Slots.new(directory)
  transfer=TransferUI.new(self,directory)
@@ -30,7 +32,7 @@ func save_page()->void:
  choices.append(["返回江湖",host._close_modal])
  if host.browser_mode and host.web_save_transfer_enabled:choices.append(["导入 / 导出手记",transfer.show])
  host._modal("旅途手记","存档 / 留住不同的江湖",body,choices,true)
- if transfer_browse:host.modal_autosave_on_close=false
+ _apply_readonly_browse()
 func load_page()->void:
  if host.current_screen in ["battle","receipt_battle"] or host.state.battle_active or host.state._party_gate() or host.quit_pending:return
  var body="选择手记可查看详情与备份；查看不会替换当前进度。\n\n"
@@ -41,7 +43,7 @@ func load_page()->void:
   choices.append([title(id),detail.bind(id)])
  choices.append(["返回",back])
  host._modal("续写手记","读档 / 选择一段前缘",body,choices,true)
- if transfer_browse:host.modal_autosave_on_close=false
+ _apply_readonly_browse()
 func back()->void:
  if host.current_screen=="title":host._show_title()
  else:host._close_modal()
@@ -50,11 +52,11 @@ func request_save(slot:int)->void:
  if not store.describe(slot).get("exists",false):
   perform_save(slot);return
  host._modal("重写"+title(slot),"存档 / 请确认覆盖","将覆盖这份手记的当前版本。\n\n现有可读手记会先留一份备份；损坏文件不会覆盖已有的好备份。其他两份手记不受影响。\n\n你也可以返回，换一个空白位置。",[["确认重写",confirm_save.bind(slot,host.modal_generation+1)],["返回手记",save_page]],true)
- if transfer_browse:host.modal_autosave_on_close=false
+ _apply_readonly_browse()
 func perform_save(slot:int)->void:
  if host.current_screen!="explore" or host.state.battle_active or host.state._party_gate() or host.quit_pending:return
  transfer_browse=false
- host.state.position=host.world.player_pos
+ host._sync_position_for_explicit_save()
  var result=store.save_slot(host.state,slot)
  save_page()
  host._toast(title(slot)+"已写下。" if result==OK else "手记未能保存，原文件保持不变。错误："+str(result))
@@ -70,16 +72,17 @@ func detail(slot:int)->void:
   if backup.get("status","")=="valid":choices.append(["读取备份",request_load.bind(slot,true)])
  choices.append(["返回列表",load_page])
  host._modal(title(slot),"旅途手记 / 当前与备份",body,choices,true)
- if transfer_browse:host.modal_autosave_on_close=false
+ _apply_readonly_browse()
 func request_load(slot:int,backup:bool)->void:
  if host.current_screen in ["battle","receipt_battle"] or host.state.battle_active or host.state._party_gate() or host.quit_pending:return
  host._modal("续写"+title(slot)+("的备份" if backup else ""),"读档 / 请确认","读取会替换当前内存中的旅程进度。若要保留这条分支，请先另存一份手记。\n\n读取成功后会更新自动存档，三份手动手记的文件不会因读档而改变。",[["确认读取",confirm_load.bind(slot,backup,host.modal_generation+1)],["返回详情",detail.bind(slot)]],true)
- if transfer_browse:host.modal_autosave_on_close=false
+ _apply_readonly_browse()
 func perform_load(slot:int,backup:bool)->void:
  if host.current_screen in ["battle","receipt_battle"] or host.state.battle_active or host.state._party_gate() or host.quit_pending:return
  var result=store.load_backup(host.state,slot) if backup else store.load_slot(host.state,slot)
  if result==OK:
   transfer_browse=false
+  fitting_readonly_browse=false
   host._apply_loaded_state(title(slot)+("的备份" if backup else "")+"已续写。")
  else:host._toast("这份手记暂时无法读取，当前旅程未改变。错误："+str(result))
 
@@ -87,3 +90,9 @@ func confirm_save(slot:int,generation:int)->void:
  if generation==host.modal_generation and host.active_modal:perform_save(slot)
 func confirm_load(slot:int,backup:bool,generation:int)->void:
  if generation==host.modal_generation and host.active_modal:perform_load(slot,backup)
+
+func _apply_readonly_browse()->void:
+ if transfer_browse or fitting_readonly_browse:host.modal_autosave_on_close=false
+ if fitting_readonly_browse:
+  host.overlay.set_meta("fitting_exit_readonly",true)
+  host._begin_fitting_position_hold()

@@ -24,6 +24,7 @@ var unit_plates: Dictionary = {}
 var manual_paused: bool = false
 var _boundary_wait: float = .35
 var _host_notice: String = ""
+var fitting_metadata: Dictionary = {}
 
 class UnitPlate extends Button:
 	const FONT = preload("res://assets/fonts/NotoSansSC.otf")
@@ -69,6 +70,16 @@ static func open(owner, kind: String) -> Control:
 		owner._autosave()
 		if owner.save_warning: return null
 	if not owner.state.start_party_battle(kind): return null
+	return _attach_started(owner, kind)
+
+static func open_fitting(owner, controller, candidate: String, profile: String) -> Control:
+	if not is_instance_valid(controller) or controller.get_script() == null or controller.get_script().resource_path != "res://scripts/weapon_fitting_ui.gd": return null
+	if not controller.trial_entry_ready(candidate, profile) or controller.host != owner: return null
+	if not owner.WeaponFitting.courtyard_ready(owner): return null
+	if not owner.state.start_fitting_practice(candidate, profile): return null
+	return _attach_started(owner, "courtyard_practice")
+
+static func _attach_started(owner, kind: String) -> Control:
 	owner.modal_generation += 1
 	owner._clear_overlay()
 	owner.active_modal = true
@@ -79,6 +90,7 @@ static func open(owner, kind: String) -> Control:
 	var panel = load("res://scripts/party_battle_ui.gd").new()
 	panel.host = owner; panel.generation = owner.modal_generation
 	panel.epoch = owner.state.party_battle_epoch; panel.session = owner.state.party_session; panel.encounter = kind
+	panel.fitting_metadata = panel.session.fitting_trial_metadata()
 	owner.overlay.set_meta("party_battle", panel)
 	owner.overlay.add_child(panel)
 	panel.build()
@@ -111,6 +123,17 @@ func build() -> void:
 	commands.pause_requested.connect(set_pause_request)
 	logs.append("每位存活队员每轮自动普攻一次。可安排武学、内功与轻功，排在该角色下次普攻前；不会替代普攻。")
 	art.set_snapshot(host.state.party_battle_snapshot())
+	if not fitting_metadata.is_empty():
+		# Reserve the otherwise unused top20px. Original header frames begin at
+		# y20 and all actor labels at y70+, including pose/formation changes.
+		var backing = host._panel(self,Rect2(20,0,1240,20),Color("132d2d"),Color("8d855e"))
+		backing.name = "FittingBattleBadgeBacking"; backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var badge = host._label(self,"本次借用：%s  ·  真实已装配：%s  |  虚拟满气血 / 满真气 · 3份40点药  |  真实资源不变" % [host.WeaponFitting.Fittings.LABELS[fitting_metadata.borrowed_fitting],host.WeaponFitting.Fittings.LABELS[fitting_metadata.installed_fitting]],Rect2(32,0,1216,20),12,host.GOLD)
+		badge.name = "FittingBattleBadge"; badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		badge.autowrap_mode = TextServer.AUTOWRAP_OFF; badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		# _label initially inherits16px font before applying12px; reset its
+		# size after theme minimum recomputation, rather than retain24px height.
+		badge.size = Vector2(1216,20)
 	refresh()
 
 func _process(delta: float) -> void:
@@ -166,7 +189,7 @@ func refresh() -> void:
 	if host.save_warning: prompt = host._save_retry_message()
 	elif host.browser_mode and not host.browser_storage_available: prompt = (prompt+"\n" if not prompt.is_empty() else "")+host._browser_storage_message()
 	commands.set_snapshot(snapshot, {
-		"title": ENCOUNTER_TITLES.get(encounter, "交锋"),
+		"title": ("普通木人试配" if fitting_metadata.profile_id == "ordinary" else "高压木人试配") if not fitting_metadata.is_empty() else ENCOUNTER_TITLES.get(encounter, "交锋"),
 		"input_block_reason": "正在收招退避并保存。" if close_pending else "",
 		"location": String(ENCOUNTER_LOCATIONS.get(encounter, ""))+" · "+(String(snapshot.get("formation", "")) if snapshot.actors.size()>1 else "独行"),
 		"acting_unit_id": art.acting_unit_id if art.is_presenting() else "",
@@ -380,6 +403,16 @@ func request_application_close() -> void:
 func _return_to_world(result: Dictionary) -> void:
 	if not valid() or not pending.is_empty() or host.state.battle_active: return
 	var owner = host; var close_after = close_pending; var kind = encounter
+	if not fitting_metadata.is_empty():
+		# Borrowed practice never synchronizes a stale real position or teleports
+		# on virtual defeat. Only explicit save-and-exit may save real location.
+		var choice: String = fitting_metadata.borrowed_fitting
+		var profile: String = fitting_metadata.profile_id
+		owner.current_screen = "explore"; owner.modal_autosave_on_close = false
+		owner._close_modal()
+		if close_after: Pause.save_and_leave(owner, owner.browser_mode, true)
+		else: owner.WeaponFitting.open(owner, choice, "results", profile, "courtyard")
+		return
 	if owner.world.map_id != owner.state.map_id: owner.world.change_map(owner.state.map_id, owner.state.position)
 	elif result.outcome == "defeat": owner.world.teleport(owner.state.position)
 	owner.state.position = owner.world.player_pos
