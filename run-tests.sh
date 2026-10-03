@@ -32,8 +32,8 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
-# Phase-one 未损先收: quest/state/schema14/current combat models. Scene and
-# exact new Web pack acceptance are separate, still pending chapter integration.
+# 未损先收: isolated quest/state/schema14 models plus real scene/transport/art.
+# Exact Web pack and native pixel acceptance remain separately recorded.
 run_checked --headless --path . --script tests/heting_consignee_rules_test.gd
 run_checked --headless --path . --script tests/heting_consignee_schema_test.gd
 run_checked --headless --path . --script tests/heting_consignee_state_test.gd
@@ -41,6 +41,15 @@ run_checked --headless --path . --script tests/heting_consignee_combat_test.gd
 run_checked --headless --path . --script tests/heting_consignee_balance_test.gd
 run_checked --headless --path . --script tests/heting_consignee_minimal_solo_test.gd
 run_checked --headless --path . --script tests/heting_consignee_adversarial_test.gd
+run_checked --headless --path . --script tests/painted_duhui_test.gd
+run_checked --headless --path . --script tests/heting_consignee_art_test.gd
+run_checked --headless --path . --script tests/heting_consignee_geometry_test.gd
+run_checked --headless --path . --script tests/heting_consignee_world_test.gd
+run_checked --headless --path . --script tests/heting_consignee_story_test.gd
+run_checked --headless --path . --script tests/heting_consignee_scene_test.gd
+run_checked --headless --fixed-fps 60 --path . --script tests/heting_consignee_earned_scene_test.gd
+run_checked --headless --fixed-fps 60 --path . --script tests/heting_consignee_earned_party_test.gd
+run_checked --headless --path . --script tests/heting_consignee_recovery_test.gd
 # Optional read-only old cloud-exported Web25 artifact boundary. This archive
 # is not required to clone/run the source suite and is not the live Windows PCK.
 if [[ -n "${HERO_WEB25_PCK:-}" ]]; then
