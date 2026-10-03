@@ -198,6 +198,7 @@ func _run() -> void:
 	await _test_condition_pack()
 	await _test_transfer_pack()
 	await _test_consignee_pack()
+	await _test_heting_polish_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -1388,9 +1389,9 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.27", "V27 consignee project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.28", "V28 paint-only polish project version is required")
 	var model = load("res://scripts/game_state.gd")
-	_check(model != null and model.SAVE_VERSION == 14, "V27 requires save schema14")
+	_check(model != null and model.SAVE_VERSION == 14, "V28 retains save schema14")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
 		_check(ResourceLoader.exists("res://scripts/" + module + ".gd"), "V18 module retained: " + module)
 	for asset in ["heting_machinery_atlas", "heting_worksites_atlas"]:
@@ -2295,7 +2296,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all11 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.27", "Packed actual title retains consignee0.0.27 identity")
+	_check(title != null and title.text=="0.0.28", "Packed actual title retains paint-polish0.0.28 identity")
 	for kind: String in encounters.IDS.slice(0,10): await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -4002,3 +4003,214 @@ func _test_consignee_failures() -> void:
 	_receipt_unblock_save(blocked); _press("重试保存")
 	_check(not game.save_warning and s.to_dict() == settled and _receipt_document().player.consignee_stage == 5, "Successful actual final retry saves exact already-paid ending")
 	await _consignee_checkpoint("retried final reward")
+
+# Paint-only Web28 gates load actual shipped modules. Resource/draw-call/font-cache
+# contracts are deliberately distinct from native framebuffer/browser acceptance.
+class PolishLabelProbe extends RefCounted:
+	var ui_font: Font
+	var calls: Array = []
+	func draw_string_outline(font: Font, p: Vector2, text: String, alignment: int, width: float, size: int, outline: int, color: Color) -> void:
+		calls.append({"kind":"outline","font":font,"p":p,"text":text,"alignment":alignment,"width":width,"size":size,"outline":outline,"color":color})
+	func draw_string(font: Font, p: Vector2, text: String, alignment: int, width: float, size: int, color: Color) -> void:
+		calls.append({"kind":"fill","font":font,"p":p,"text":text,"alignment":alignment,"width":width,"size":size,"color":color})
+
+class PolishBackdropProbe extends Control:
+	var scenery
+	var floor_mesh: ArrayMesh
+	var encounter: String = "heting_consignee"
+	var draws: int = 0
+	func _draw() -> void:
+		scenery.draw(self,floor_mesh,encounter,.375)
+		draws += 1
+
+func _polish_channel_step(a: Color, b: Color) -> float:
+	return maxf(absf(a.r-b.r),maxf(absf(a.g-b.g),absf(a.b-b.b)))
+
+func _polish_sky(scenery, y: float) -> Color:
+	return scenery._warehouse_sky_colors[0].lerp(scenery._warehouse_sky_colors[3],clampf(y/685.0,0.0,1.0))
+
+func _polish_opacity(scenery, y: float) -> float:
+	return scenery.WAREHOUSE_APRON_OPACITY * clampf((y-278.0)/scenery.WAREHOUSE_APRON_FADE,0.0,1.0)
+
+func _polish_contrast(a: Color, b: Color) -> float:
+	var x: float = a.srgb_to_linear().get_luminance(); var y: float = b.srgb_to_linear().get_luminance()
+	return (maxf(x,y)+.05)/(minf(x,y)+.05)
+
+func _test_heting_polish_pack() -> void:
+	var first: int = checks
+	var state: Dictionary = _receipt_variables(game.state)
+	var save_bytes: PackedByteArray = _receipt_bytes()
+	var scenery = load("res://scripts/party_battle_backdrop.gd")
+	var harbor = load("res://scripts/heting_region.gd")
+	var encounters = load("res://scripts/unified_encounter_rules.gd")
+	var art = load("res://scripts/party_battle_art.gd").new()
+	scenery.prepare()
+	_check(scenery.ENCOUNTER_STYLES == {"training":"courtyard","sect_trial":"courtyard","courtyard_practice":"courtyard","heting_consignee":"warehouse"}, "Polish keeps the bounded original four-entry style mapping")
+	_check(encounters.IDS.size() == 11, "Polish audits all eleven actual encounter identifiers")
+	for id: String in encounters.IDS:
+		var expected: String = "warehouse" if id == "heting_consignee" else ("courtyard" if id in ["training","sect_trial","courtyard_practice"] else "ferry")
+		_check(scenery.style_for(id) == expected and scenery.floor_texture_for(id) == (scenery.EARTH if expected in ["courtyard","warehouse"] else scenery.WOOD), "Polish retains prior encounter style/material: "+id)
+	for id: String in ["","unrecognized","warehouse","heting_consignee_future"]:
+		_check(scenery.style_for(id) == "ferry" and scenery.floor_texture_for(id) == scenery.WOOD, "Polish preserves unknown encounter fallback")
+	_check(scenery.WAREHOUSE == {"type":"hall","pos":Vector2(676,173),"size":Vector2(435,110)}, "Packed warehouse anchor and source dimensions remain exact")
+	var scale_factor: float = 485.0/568.0
+	var hall_rect := Rect2(Vector2(893.5,283)-Vector2(281,340)*scale_factor,Vector2(568,397)*scale_factor)
+	_check(scenery._warehouse_rect.is_equal_approx(hall_rect) and scenery._hall_texture.get_size() == Vector2(568,397), "Packed warehouse reuses unchanged hall image bounds/aspect")
+	_check(scenery._warehouse_plaque.is_equal_approx(Rect2(hall_rect.position+Vector2(208,162)*scale_factor,Vector2(134,31)*scale_factor)), "Packed warehouse plaque remains aligned to original hall")
+	_check(scenery.APRON == Rect2(0,278,1280,407) and scenery._apron_mesh == scenery.Tiles.geometry(scenery.APRON,512.0).mesh, "Packed original apron bounds and courtyard cache are unchanged")
+	_check(scenery._warehouse_sky_points == PackedVector2Array([Vector2(0,0),Vector2(1280,0),Vector2(1280,685),Vector2(0,685)]), "Packed warehouse uses one continuous field without former rectangular bands")
+	_check(scenery._warehouse_sky_colors == PackedColorArray([Color("637f75"),Color("637f75"),Color("858f77"),Color("858f77")]), "Packed muted opaque gradient endpoints match left and right")
+	_check(scenery.WAREHOUSE_APRON_FADE == 64.0 and scenery.WAREHOUSE_APRON_OPACITY == .28, "Packed apron fades over64px without increasing its original opacity")
+	# Bounded analytic samples across prior band coordinates and both target scales.
+	# These are declared paint values, never claimed as final framebuffer samples.
+	for width: float in [1280.0,1179.0]:
+		var step: float = 1280.0/width
+		for y: float in [0.0,155.0,179.0,207.0,221.0,265.0,277.0,278.0,301.0,319.0,337.0,341.0,342.0,511.0,683.0]:
+			_check(_polish_channel_step(_polish_sky(scenery,y),_polish_sky(scenery,y+step)) <= 4.0/255.0, "Packed analytic field remains continuous at bounded logical row samples")
+			for texel: Color in [Color.BLACK,Color.WHITE]:
+				_check(_polish_channel_step(_polish_sky(scenery,y).lerp(texel,_polish_opacity(scenery,y)),_polish_sky(scenery,y+step).lerp(texel,_polish_opacity(scenery,y+step))) <= 4.0/255.0, "Packed opacity ramp has no analytic row discontinuity")
+	_check(scenery._warehouse_shore_points.size() == 11 and scenery._warehouse_shore_colors.size() == 11, "Packed distant shore is one bounded cached silhouette")
+	for i: int in scenery._warehouse_shore_points.size():
+		var point: Vector2 = scenery._warehouse_shore_points[i]
+		var color: Color = scenery._warehouse_shore_colors[i]
+		var sky: Color = _polish_sky(scenery,point.y)
+		var composed: Color = sky.lerp(Color(color.r,color.g,color.b),color.a)
+		_check(point.y < 278 and color.a <= .12001 and absf(composed.get_luminance()-sky.get_luminance()) <= 12.0/255.0, "Packed distant shore remains faint and behind the apron")
+	_check(scenery._warehouse_shore_colors[9].a == 0 and scenery._warehouse_shore_colors[10].a == 0, "Packed distant shore has no lower hard horizon")
+	_test_polish_apron(scenery)
+	var floor_mesh: ArrayMesh = art._make_floor()
+	art.free()
+	var floor_arrays: Array = floor_mesh.surface_get_arrays(0)
+	var vertices: PackedVector3Array = floor_arrays[Mesh.ARRAY_VERTEX]
+	var uvs: PackedVector2Array = floor_arrays[Mesh.ARRAY_TEX_UV]
+	_check(vertices.size() == 36 and uvs.size() == 36, "Packed shared combat floor keeps exactly six patches")
+	var index: int = 0
+	for row: int in range(2):
+		for column: int in range(3):
+			for corner: Vector2 in [Vector2(0,0),Vector2(1,0),Vector2(1,1),Vector2(0,0),Vector2(1,1),Vector2(0,1)]:
+				var depth: float = (row+corner.y)/2.0
+				var expected := Vector3(lerpf(110-150*depth,1170+150*depth,(column+corner.x)/3.0),lerpf(320,682,depth),0)
+				_check(vertices[index].is_equal_approx(expected) and uvs[index] == Vector2(1-corner.x if column%2 else corner.x,1-corner.y if row%2 else corner.y), "Packed combat floor retains every original vertex and mirror direction")
+				index += 1
+	var apron: ArrayMesh = scenery._warehouse_apron_mesh
+	var apron_arrays: Array = apron.surface_get_arrays(0)
+	var sky_points: PackedVector2Array = scenery._warehouse_sky_points.duplicate()
+	var sky_colors: PackedColorArray = scenery._warehouse_sky_colors.duplicate()
+	var shore_points: PackedVector2Array = scenery._warehouse_shore_points.duplicate()
+	var shore_colors: PackedColorArray = scenery._warehouse_shore_colors.duplicate()
+	var original_apron: ArrayMesh = scenery._apron_mesh
+	var original_hall: Texture2D = scenery._hall_texture
+	var probe := PolishBackdropProbe.new()
+	probe.scenery = scenery; probe.floor_mesh = floor_mesh; probe.size = Vector2(1280,685)
+	root.add_child(probe)
+	for id: String in encounters.IDS:
+		probe.encounter = id
+		for repeat: int in range(2):
+			var before_draws: int = probe.draws
+			scenery.prepare(); probe.queue_redraw()
+			await process_frame; await process_frame
+			_check(probe.draws > before_draws, "Actual packed backdrop draw executes for "+id)
+			_check(scenery._warehouse_apron_mesh == apron and apron.surface_get_arrays(0) == apron_arrays and floor_mesh.surface_get_arrays(0) == floor_arrays, "Packed prepare/draw reuses immutable warehouse and combat meshes")
+			_check(scenery._warehouse_sky_points == sky_points and scenery._warehouse_sky_colors == sky_colors and scenery._warehouse_shore_points == shore_points and scenery._warehouse_shore_colors == shore_colors and scenery._apron_mesh == original_apron and scenery._hall_texture == original_hall, "Packed paint caches and original courtyard resources remain immutable")
+	probe.queue_free(); await process_frame
+	_test_polish_route_labels(harbor)
+	_check(_receipt_variables(game.state) == state and _receipt_bytes() == save_bytes, "Packed paint inspection leaves all gameplay fields and save bytes unchanged")
+	_check(game.state.SAVE_VERSION == 14 and not game.web_save_transfer_enabled and not ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",false), "Paint-only package retains schema14 and default-off browser transfer")
+	print("Heting paint-only polish exact-runtime coverage: %d checks; actual warehouse gradient/apron/cache and eleven unchanged style mappings; exactly four route-label strings with both pontoon positions; actual outline/font-cache layout contracts; no native framebuffer or browser pixel acceptance" % (checks-first))
+
+func _test_polish_apron(scenery) -> void:
+	var mesh: ArrayMesh = scenery._warehouse_apron_mesh
+	_check(mesh != null and mesh != scenery._apron_mesh and mesh.get_surface_count() == 1, "Packed warehouse opacity ramp owns one separate cached mesh")
+	var arrays: Array = mesh.surface_get_arrays(0)
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	var uvs: PackedVector2Array = arrays[Mesh.ARRAY_TEX_UV]
+	var colors: PackedColorArray = arrays[Mesh.ARRAY_COLOR]
+	_check(vertices.size() == 54 and uvs.size() == 54 and colors.size() == 54, "Packed warehouse mesh contains only the original tiles plus one fade split")
+	var area: float = 0.0; var seams: Dictionary = {}
+	for i: int in range(0,vertices.size(),6):
+		var a := Vector2(vertices[i].x,vertices[i].y)
+		var b := Vector2(vertices[i+1].x,vertices[i+1].y)
+		var c := Vector2(vertices[i+2].x,vertices[i+2].y)
+		area += (b.x-a.x)*(c.y-b.y)
+		_check(is_equal_approx(absf(uvs[i+1].x-uvs[i].x)*512.0,b.x-a.x) and is_equal_approx(absf(uvs[i+2].y-uvs[i+1].y)*512.0,c.y-b.y), "Packed apron keeps original 512-unit texel density")
+	for i: int in vertices.size():
+		var point := Vector2(vertices[i].x,vertices[i].y)
+		var expected: Vector2 = point/512.0
+		for axis: int in range(2):
+			var cell: int = int(floor(expected[axis])); expected[axis] -= cell
+			if cell%2 != 0: expected[axis] = 1.0-expected[axis]
+		_check(uvs[i].is_equal_approx(expected) and scenery.APRON.grow(.001).has_point(point), "Packed apron preserves mirrored earth samples inside original bounds")
+		_check(colors[i].r == 1 and colors[i].g == 1 and colors[i].b == 1 and absf(colors[i].a-_polish_opacity(scenery,point.y)) <= 1.0/255.0, "Packed apron changes only opacity at every vertex")
+		_check(not seams.has(point) or (seams[point].uv == uvs[i] and seams[point].color == colors[i]), "Packed shared tile/fade seams are identical")
+		seams[point] = {"uv":uvs[i],"color":colors[i]}
+	_check(is_equal_approx(area,1280.0*407.0), "Packed apron patches cover original area exactly")
+
+func _test_polish_route_labels(harbor) -> void:
+	var font: FontFile = load("res://assets/fonts/NotoSansSC.otf")
+	var labels: Array = [
+		{"p":Vector2(1033,316),"text":"北岸横街  ·  板车可绕行","size":14,"width":297.0},
+		{"p":Vector2(710,410),"text":"窄步栈  ·  行人通行","size":13,"width":195.0},
+		{"p":Vector2(709,426),"text":"板车走侧浮栈","size":13,"width":195.0},
+		{"p":Vector2(361,737),"text":"连 舟 浮 栈","size":13,"width":228.0},
+		{"p":Vector2(1031,737),"text":"连 舟 浮 栈","size":13,"width":248.0},
+	]
+	var unique_labels: Dictionary = {}
+	var probe := PolishLabelProbe.new(); probe.ui_font = font
+	_check(harbor.ROUTE_INK == Color("142b26") and harbor.PAPER == Color("e2d3ad") and harbor.ROUTE_OUTLINE_SIZE == 2, "Packed route-only ink/support/outline palette remains pinned")
+	_check(_polish_contrast(harbor.ROUTE_INK,harbor.PAPER) >= 8.0, "Packed declared ink/support contrast exceeds8:1; no framebuffer claim")
+	for base: Color in [Color("b9b090"),Color("c3b794"),Color("d0c29f")]:
+		_check(_polish_contrast(harbor.ROUTE_INK,base) >= 5.4, "Packed declared north-bank palette contrast remains readable")
+	_check(_polish_contrast(harbor.ROUTE_INK,harbor.WOOD_DARK) < 4.5, "Packed dark timber alone is not incorrectly accepted as sufficient contrast")
+	for item: Dictionary in labels:
+		unique_labels[item.text] = true
+		probe.calls.clear()
+		harbor._route_label(probe,item.p,item.text,item.size,item.width,HORIZONTAL_ALIGNMENT_CENTER)
+		_check(probe.calls.size() == 2, "Actual packed route helper emits exactly outline and fill")
+		if probe.calls.size() != 2: continue
+		_check(probe.calls[0].kind == "outline" and probe.calls[0].outline == 2 and probe.calls[0].color == harbor.PAPER and probe.calls[1].kind == "fill" and probe.calls[1].color == harbor.ROUTE_INK, "Actual packed route support precedes unchanged-weight CJK fill")
+		for call: Dictionary in probe.calls:
+			_check(call.font == font and call.p == item.p and call.text == item.text and call.size == item.size and call.width == item.width and call.alignment == HORIZONTAL_ALIGNMENT_CENTER, "Actual packed route preserves shared font/text/anchor/size/width/alignment")
+	_check(unique_labels.size() == 4 and labels.size() == 5, "Exactly four approved route strings cover the two alternative pontoon positions")
+	probe.ui_font = null; probe.calls.clear()
+	harbor._route_label(probe,Vector2.ZERO,"通行",13,100,HORIZONTAL_ALIGNMENT_CENTER)
+	_check(probe.calls.size() == 2 and probe.calls[0].font == ThemeDB.fallback_font and probe.calls[1].font == ThemeDB.fallback_font, "Packed null-font compatibility still uses the actual fallback font")
+	for oversampling: float in [0.0,2.0]:
+		var cached_font: FontFile = font.duplicate(); cached_font.oversampling = oversampling
+		var support: Array[Rect2] = []; var ink: Array[Rect2] = []
+		for item: Dictionary in labels:
+			var width: float = cached_font.get_string_size(item.text,HORIZONTAL_ALIGNMENT_LEFT,-1,item.size).x
+			var offset: Vector2 = item.p+Vector2((item.width-width)*.5,0)
+			var filled: Dictionary = _polish_glyph_bounds(cached_font,item.text,item.size,0)
+			var outlined: Dictionary = _polish_glyph_bounds(cached_font,item.text,item.size,harbor.ROUTE_OUTLINE_SIZE)
+			_check(width+4 < item.width and filled.valid and outlined.valid, "Packed actual Noto glyphs and real outline fit original route width")
+			var fill_rect: Rect2 = filled.bounds; var support_rect: Rect2 = outlined.bounds
+			_check(fill_rect.has_area() and support_rect.has_area() and support_rect.position.x >= -2 and support_rect.end.x <= width+2, "Packed Noto raster-cache bounds stay inside declared horizontal margins")
+			fill_rect.position += offset; support_rect.position += offset
+			ink.append(fill_rect); support.append(support_rect)
+		_check(support[2].position.y-support[1].end.y >= .5 and ink[2].position.y-ink[1].end.y >= 2.0, "Packed fixed16px pier baseline spacing leaves distinct ink/support lines")
+		_check(support[2].end.y < harbor.FOOT_PIER.position.y, "Packed qualifier support stays above physical pier deck")
+		_check(harbor.WEST_PONTOON.encloses(support[3]) and harbor.EAST_PONTOON.encloses(support[4]), "Packed pontoon captions fit both unchanged deck rectangles")
+
+func _polish_glyph_bounds(font: FontFile, text: String, size: int, outline: int) -> Dictionary:
+	# Read actual font-cache alpha, not an estimated CJK box or framebuffer pixels.
+	var cache_size := Vector2i(size,outline); var bounds := Rect2()
+	var first: bool = true; var valid: bool = true; var cursor: float = 0.0
+	for character: String in text: valid = valid and font.has_char(character.unicode_at(0))
+	var line := TextLine.new(); line.add_string(text,font,size)
+	for shaped: Dictionary in TextServerManager.get_primary_interface().shaped_text_get_glyphs(line.get_rid()):
+		if int(shaped.flags)&TextServer.GRAPHEME_IS_VIRTUAL: continue
+		valid = valid and shaped.font_rid == font.get_rids()[0] and shaped.repeat == 1
+		var glyph: int = shaped.index; font.render_glyph(0,cache_size,glyph)
+		var texture_index: int = font.get_glyph_texture_idx(0,cache_size,glyph)
+		if texture_index >= 0:
+			var bitmap: Image = font.get_texture_image(0,cache_size,texture_index)
+			var uv: Rect2 = font.get_glyph_uv_rect(0,cache_size,glyph)
+			var extent: Vector2 = font.get_glyph_size(0,cache_size,glyph)
+			var origin: Vector2 = Vector2(cursor,0)+shaped.offset+font.get_glyph_offset(0,cache_size,glyph)
+			for y: int in range(int(uv.size.y)):
+				for x: int in range(int(uv.size.x)):
+					if bitmap.get_pixel(int(uv.position.x)+x,int(uv.position.y)+y).a < .05: continue
+					var pixel := Rect2(origin+Vector2(x,y)*extent/uv.size,extent/uv.size)
+					bounds = pixel if first else bounds.merge(pixel); first = false
+		cursor += float(shaped.advance)
+	return {"bounds":bounds,"valid":valid}
