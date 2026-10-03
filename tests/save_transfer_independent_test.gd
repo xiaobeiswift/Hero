@@ -212,6 +212,7 @@ func test_encoding_and_parser_envelope() -> void:
 	var service := Transfer.new(path)
 	var bom: PackedByteArray = PackedByteArray([239, 187, 191]); bom.append_array(good)
 	var valid_cases: Array[PackedByteArray] = [good, bom]
+	# Explicit version15 below also exercises valid present fitting under a historical header.
 	var player: String = JSON.stringify(Model.new().to_dict())
 	valid_cases.append(("{\"version\":99,\"version\":15,\"player\":" + player + "}").to_utf8_buffer())
 	valid_cases.append(("{\"version\":15,\"player\":" + player + ",}").to_utf8_buffer())
@@ -232,6 +233,7 @@ func test_encoding_and_parser_envelope() -> void:
 		var data: Dictionary = Model.new().to_dict()
 		if version == 13:
 			data = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player
+		if version < 16: data.erase("weapon_fitting")
 		if version < 15:
 			for field: String in Model.Capstone.FIELDS: data.erase(field)
 		if version < 14:
@@ -246,7 +248,7 @@ func test_frozen_legacy_exports() -> void:
 	var path: String = subdir("genuine-legacy")
 	var slots := Slots.new(path)
 	var service := Transfer.new(path)
-	for fixture_name: String in ["v017", "v019", "v020", "v025", "v028"]:
+	for fixture_name: String in ["v017", "v019", "v020", "v025", "v028", "v029"]:
 		var frozen_path: String = "res://tests/fixtures/" + fixture_name + "_game_state.gd.txt"
 		var old_script := GDScript.new()
 		old_script.source_code = FileAccess.get_file_as_string(frozen_path).replace("class_name HeroState\n", "")

@@ -1,0 +1,225 @@
+{
+  "current_owned_source": {
+    "scripts/advanced_martial_rules.gd": {
+      "bytes": 4553,
+      "sha256": "73307f23f2759b083536d06cb37af935fee27aac5e41a02dd85c008ef357a548"
+    },
+    "scripts/advanced_martial_ui.gd": {
+      "bytes": 4093,
+      "sha256": "289a924d1c72a2da90b153e417fe66c0e3c40eb206fccded374def4c10472707"
+    },
+    "scripts/automatic_party_combat.gd": {
+      "bytes": 37723,
+      "sha256": "4a0869cd675db68393c5dbff08ce19be5dd1a4cca032963e339fb703decb7fe7"
+    },
+    "scripts/courtyard_exercise_rules.gd": {
+      "bytes": 16251,
+      "sha256": "34a3986253b17f073e62bbaece5343dd081b89c2616b81c3bccbd578dd8affaf"
+    },
+    "scripts/game_state.gd": {
+      "bytes": 86786,
+      "sha256": "7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a"
+    },
+    "scripts/heting_consignee_rules.gd": {
+      "bytes": 17354,
+      "sha256": "b24736883eca532ee1c8e67e6b8e2bfff12de728d678fa6637a607b20a33e6fb"
+    },
+    "scripts/heting_receipt_combat.gd": {
+      "bytes": 17209,
+      "sha256": "d3b2b9f6163cd1a26c621d3a41392cedce4cd49d744e03936cdfda7779a6ddce"
+    },
+    "scripts/inventory_panel.gd": {
+      "bytes": 9610,
+      "sha256": "830f7a241b281bb3ca21d19c09a23fe5d937aa66eef8ce3a83064d1bc5f64cf8"
+    },
+    "scripts/main.gd": {
+      "bytes": 71274,
+      "sha256": "c48285945a2d2bdabbf8feab7b89f8fec30974467c7e3a6f21a3659e425497a9"
+    },
+    "scripts/martial_panel.gd": {
+      "bytes": 6590,
+      "sha256": "59688d6c7febb52a5a7a3467fa52cd1ef894d32820842d5b0946346ad2ee4c65"
+    },
+    "scripts/party_actor_catalog.gd": {
+      "bytes": 9191,
+      "sha256": "f513a9816c74d8686b989b7cc2c39dec0fffb2b6bf20e16eac4de60256589997"
+    },
+    "scripts/party_roster_rules.gd": {
+      "bytes": 13259,
+      "sha256": "866643f7be2c9f7b61f32f6c4757c7950c1e0b9717b4328bcec119b08423334f"
+    },
+    "scripts/volume_one_capstone_rules.gd": {
+      "bytes": 19553,
+      "sha256": "733156e5e974127ede5aee61e6547c6badb50d859b27c251e7557164acf2b87a"
+    },
+    "scripts/weapon_fitting_rules.gd": {
+      "bytes": 3913,
+      "sha256": "806b7f6681d8fe4c7a9f9a50f7c14cffed9ddec67601635cc5438b637174824b"
+    },
+    "scripts/weapon_fitting_rules.gd.uid": {
+      "bytes": 19,
+      "sha256": "0dc1e89ae593433faf4c928d43d7f4dd97aa84171a22f09d677cae6955e41ce1"
+    },
+    "scripts/weapon_fitting_trial_rules.gd": {
+      "bytes": 5375,
+      "sha256": "eb0de173b3a6816831ddafdcc20fe57c6f0ca4ac04aab559ac3f85b52eee91c9"
+    },
+    "scripts/weapon_fitting_trial_rules.gd.uid": {
+      "bytes": 19,
+      "sha256": "967e29b202d4ed38df4e96a68f78bee0779f539c0fa422d912b74d60474b0d96"
+    },
+    "tests/audit_party_model_test.gd": {
+      "bytes": 14520,
+      "sha256": "b04653b47421c7bdc210ad2fae92aa765f9ac2e0865bd40c067129cd49078429"
+    },
+    "tests/capstone_independent_fixture_producer.gd": {
+      "bytes": 3585,
+      "sha256": "b98d87c340eae680518fc1d5dd00481ef4fa11198927d28fc8bec69d56f95b88"
+    },
+    "tests/capstone_independent_schema_test.gd": {
+      "bytes": 15049,
+      "sha256": "f45cc0dc0730786ea809223783b48a6156db7bd3a18c07c3435032eb0ae23809"
+    },
+    "tests/capstone_old14_pack_probe.gd": {
+      "bytes": 2474,
+      "sha256": "f8c3146a5ebb29cc27efd3b1bf1d84d4a297ec8b09ee246c157fffdf27dfd1e1"
+    },
+    "tests/capstone_rules_test.gd": {
+      "bytes": 32976,
+      "sha256": "6732ad4327d087e6af79d470ef24f68940b373292ae161f73bb41682729849d4"
+    },
+    "tests/capstone_schema_test.gd": {
+      "bytes": 18592,
+      "sha256": "8c045c98f07d9a8abeadeda18775e928e1c5fed5acdb6cc9f6180be4824b113d"
+    },
+    "tests/combat_learning_schema_test.gd": {
+      "bytes": 3746,
+      "sha256": "4cfabac4705c4bed08e2442685c9b5868368a1194cd93dd9f9d4058d61d0cbc5"
+    },
+    "tests/fixtures/v029_game_state.gd.txt": {
+      "bytes": 81624,
+      "sha256": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159"
+    },
+    "tests/fixtures/weapon_fitting/provenance.json": {
+      "bytes": 2135,
+      "sha256": "14912385256444e441350c79e2fd2435af7898ef604cafa0216ed40a3960b292"
+    },
+    "tests/fixtures/weapon_fitting/schema_14_default.json": {
+      "bytes": 1771,
+      "sha256": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2"
+    },
+    "tests/fixtures/weapon_fitting/schema_15_default.json": {
+      "bytes": 1843,
+      "sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6"
+    },
+    "tests/heting_consignee_rules_test.gd": {
+      "bytes": 23835,
+      "sha256": "2f5c1c3f731596e4a62a8b918bb7a9ab9a182dd506dbf322571cb54e90242800"
+    },
+    "tests/heting_consignee_schema_test.gd": {
+      "bytes": 15388,
+      "sha256": "e3ac9cddb175c8e48b58dc0871707e73a97ef1eec446c1899922c9798ebf914d"
+    },
+    "tests/heting_receipt_rules_test.gd": {
+      "bytes": 37495,
+      "sha256": "d4ee8e546422ce53203027c4a76c92be5ce414e392dbaae715e8fdd5a1ae0b77"
+    },
+    "tests/local_save_transfer_test.gd": {
+      "bytes": 17514,
+      "sha256": "a7beec9df1bdd06c443ed0bb38123c71600d0ef206dda191b4f1d55b231573d3"
+    },
+    "tests/party_roster_rules_test.gd": {
+      "bytes": 20177,
+      "sha256": "19aa05cb527b3c1dd3f59d456998b5a43b2b2ae96ff41a5eaa67154b8ee60ee9"
+    },
+    "tests/party_state_integration_test.gd": {
+      "bytes": 36424,
+      "sha256": "e640eea9ad9ade8d91ab2f15ff4a31027fed84a3aa2b4e5cea7825f0da179631"
+    },
+    "tests/save_transfer_independent_test.gd": {
+      "bytes": 15549,
+      "sha256": "1638986aa63794e7fcc104a33f5be0ce486ae807c8481cbeaeede5fa5b123187"
+    },
+    "tests/weapon_fitting_fixture_producer.gd": {
+      "bytes": 2211,
+      "sha256": "51955c4a99e922f8dd66ecd70a2b7ae7e94cf3ce388e04d4a832d6cc2e92b0a9"
+    },
+    "tests/weapon_fitting_fixture_producer.gd.uid": {
+      "bytes": 20,
+      "sha256": "61c9aef89507532b07b8af492a2dc9da46e95d84674503d3112970446ea105aa"
+    },
+    "tests/weapon_fitting_history_test.gd": {
+      "bytes": 8888,
+      "sha256": "3ccf1a4fc2bc3ab1cd8ff78c0b9aa81e0396759ab98cfd226099529ac1922bfe"
+    },
+    "tests/weapon_fitting_history_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "7246592b95ec693654b670195272e6fdb09a3fe585eccaecae7110c64a065c49"
+    },
+    "tests/weapon_fitting_old15_pack_probe.gd": {
+      "bytes": 5043,
+      "sha256": "a982769d468686ef99585360271c25d863b14226273dd00344b4978c33a36c20"
+    },
+    "tests/weapon_fitting_old15_pack_probe.gd.uid": {
+      "bytes": 20,
+      "sha256": "1093ab5f65177bf9c5dce781503df9f8b5274afae889529dfc2214c0ce27d180"
+    },
+    "tests/weapon_fitting_read_consumers_test.gd": {
+      "bytes": 3822,
+      "sha256": "9e37e966793fe91c21f469e1212ddc2c44a136d87c50d0a884b62ca89a187629"
+    },
+    "tests/weapon_fitting_read_consumers_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "bf2cf505601dc1361e000a3bcb21ed2488935a66f9b050b4e04ac682b2c67d25"
+    },
+    "tests/weapon_fitting_rules_test.gd": {
+      "bytes": 4330,
+      "sha256": "a278fe5ae949f5f464ba46cb9c18d1d3d1f88333d049643f5a1133e474a8832e"
+    },
+    "tests/weapon_fitting_rules_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "9659f6ed4cc2d9c3b23a14cd840a282d3f36df94aa4ff506ad4ea00d173ab8f5"
+    },
+    "tests/weapon_fitting_schema_test.gd": {
+      "bytes": 23465,
+      "sha256": "d2f86f054776f086dd4c83885c97c12dff4ce0782e5d66e34daf07a09521ad21"
+    },
+    "tests/weapon_fitting_schema_test.gd.uid": {
+      "bytes": 19,
+      "sha256": "7fb5c1beb6fb6dd6a42c4162a6db4e26564cb712618793b191c814a6917aa685"
+    },
+    "tests/weapon_fitting_state_test.gd": {
+      "bytes": 12106,
+      "sha256": "35aa01a1fa7453c35039e48cccb417f30cd211bbbeebe5060e2132c22b0a22ca"
+    },
+    "tests/weapon_fitting_state_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "55238cb8fcaa6ff950a04e1eb2fb5e031fba6a72e35db7b7b737b1daca4317f3"
+    },
+    "tests/weapon_fitting_trial_metrics_test.gd": {
+      "bytes": 15492,
+      "sha256": "832836d20775026f793661eb37e7fd6c811cdda194213f2be154f0e1427249fd"
+    },
+    "tests/weapon_fitting_trial_metrics_test.gd.uid": {
+      "bytes": 19,
+      "sha256": "81a8a9c01a25cce229a347b3088fd8e4eaf14313db4fef5eab16e76657bf4f87"
+    },
+    "tests/weapon_fitting_trial_model_test.gd": {
+      "bytes": 14938,
+      "sha256": "2150121339a5cbb994253ead5231037bb85ce37e5e83b4448c811be43c926d15"
+    },
+    "tests/weapon_fitting_trial_model_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "ad4aacedf24f2da4cd3c2610bb2a8133ac4c7123d469453d1402dc5d43e2711a"
+    }
+  },
+  "live_public_commit": "4ebd9fdd",
+  "live_version": "0.0.29",
+  "live_writer": 15,
+  "numerical_binding_sha256": "7de95368c60c746317fae2d933f47212aea8c852f667a29d7bbd08b471a40124",
+  "public_base": "3e3cbd8",
+  "scope": "Owned-file bindings are focused scopes, not a full-regression snapshot",
+  "source_base": "b400e280f436fbf35d2b146dfd38bb24abebd208",
+  "source_version": "0.0.30",
+  "writer": 16
+}

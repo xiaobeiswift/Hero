@@ -3,6 +3,7 @@ extends SceneTree
 ## proximity. Frozen old readers use CURRENT dependencies; full old-runtime
 ## rejection is a separate optional process with the retained old Web28 PCK.
 const State = preload("res://scripts/game_state.gd")
+const Frozen15 = preload("res://tests/weapon_fitting_fixture_producer.gd")
 const Quest = preload("res://scripts/volume_one_capstone_rules.gd")
 const Slots = preload("res://scripts/local_save_slots.gd")
 const Transfer = preload("res://scripts/local_save_transfer.gd")
@@ -28,7 +29,7 @@ func _init() -> void:
 	_test_roundtrips_and_transfer()
 	_test_old_reader_gate()
 	_remove_tree(fixture_root)
-	if failures == 0: print("PASS: %d schema15 legacy1–14/bundle/strictness/slots/transfer/authentic-old14-source-reader checks; current dependencies; genuine producers1,9–14 and authored contracts2–8; no scene/browser claim" % checks)
+	if failures == 0: print("PASS: %d schema16 legacy1–14/bundle/strictness/slots/transfer/authentic-old14-source-reader checks; current dependencies; genuine producers1,9–14 and authored contracts2–8; no scene/browser claim" % checks)
 	quit(0 if failures == 0 else 1)
 
 func check(ok: bool, label: String) -> void:
@@ -38,7 +39,7 @@ func check(ok: bool, label: String) -> void:
 func _bytes(path: String) -> PackedByteArray: return FileAccess.get_file_as_bytes(path)
 func _hash(bytes: PackedByteArray) -> String:
 	var h := HashingContext.new(); h.start(HashingContext.HASH_SHA256); h.update(bytes); return h.finish().hex_encode()
-func _document(data: Dictionary, version: Variant = 15) -> PackedByteArray:
+func _document(data: Dictionary, version: Variant = State.SAVE_VERSION) -> PackedByteArray:
 	return JSON.stringify({"version": version, "player": data}, "\t").to_utf8_buffer()
 func _write(path: String, bytes: PackedByteArray) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE); check(file != null, "Open isolated fixture")
@@ -69,7 +70,7 @@ func _test_legacy() -> void:
 			for key: String in Quest.FIELDS: check(inspected.state.to_dict()[key] == State.new().to_dict()[key], "Absent capstone defaults neutral:" + key)
 			check(inspected.state.hp == 100 and inspected.state.qi == 2 and inspected.state.medicine == 3 and inspected.state.coins == 24, "Legacy default migration gives no recovery or reward")
 			var path := fixture_root + "/migrate%d.json" % item.version
-			check(inspected.state.save_game(path) == OK and JSON.parse_string(_bytes(path).get_string_from_utf8()).version == 15, "Explicit save writes15")
+			check(inspected.state.save_game(path) == OK and JSON.parse_string(_bytes(path).get_string_from_utf8()).version == 16, "Explicit save writes16")
 		var payload: Dictionary = JSON.parse_string(item.bytes.get_string_from_utf8()).player
 		for mask: int in range(1, 7):
 			var partial := payload.duplicate(true)
@@ -93,7 +94,8 @@ func _test_legacy() -> void:
 	check(migrated.ok, "Authentic old14 serializer with completed consignee and injuries migrates")
 	if migrated.ok:
 		var converted: Dictionary = migrated.state.to_dict()
-		for key: String in Quest.FIELDS: converted.erase(key)
+		check(migrated.state.weapon_fitting == "plain", "Old14 defaults to original fitting")
+		for key: String in Quest.FIELDS + ["weapon_fitting"]: converted.erase(key)
 		check(live._same_save_value(converted, original), "All old stories/resources/roster preserved exactly")
 		check(migrated.state.party_resources.shen.hp == 0 and migrated.state.hp == 73 and migrated.state.qi == 1, "No load-time revival or refill")
 		var changed: Dictionary = Quest.progress(migrated.state)
@@ -103,21 +105,21 @@ func _test_legacy() -> void:
 func _test_rejections() -> void:
 	var live := State.new(); live.coins = 777; live.skill_cooldown = 3
 	var before: Dictionary = live.to_dict(); var good := State.new().to_dict()
-	check(State.SAVE_VERSION == 15 and State.PartyRoster.PAYLOAD_VERSION == 15, "Whole-state and roster accept up to15")
-	check(State.Consignee.INTRODUCED_VERSION == 14 and State.Consignee.MAX_SAVE_VERSION == 15, "Consignee introduction remains14, support ceiling15")
-	for version: int in [14, 15]:
-		var canonical: Dictionary = old_script.new().to_dict() if version == 14 else good
+	check(State.SAVE_VERSION == 16 and State.PartyRoster.PAYLOAD_VERSION == 16, "Whole-state and roster accept up to16")
+	check(State.Consignee.INTRODUCED_VERSION == 14 and State.Consignee.MAX_SAVE_VERSION == 16, "Consignee introduction remains14, support ceiling16")
+	for version: int in [14, 15, 16]:
+		var canonical: Dictionary = old_script.new().to_dict() if version == 14 else (Frozen15.old_reader().new().to_dict() if version == 15 else good)
 		for key: String in canonical:
 			var missing := canonical.duplicate(true); missing.erase(key)
 			check(not live.inspect_save_bytes(_document(missing, version)).ok, "All canonical%d fields mandatory:%s" % [version, key])
 		var no_consignee := canonical.duplicate(true)
 		for key: String in State.Consignee.FIELDS: no_consignee.erase(key)
-		check(not live.inspect_save_bytes(_document(no_consignee, version)).ok, "Entire consignee bundle required since14 even under15 ceiling")
+		check(not live.inspect_save_bytes(_document(no_consignee, version)).ok, "Entire consignee bundle required since14 even under16 ceiling")
 	var legacy13: Dictionary = JSON.parse_string(_bytes(FIXTURES + "schema_13_default.json").get_string_from_utf8()).player
 	for key: String in legacy13:
 		var missing := legacy13.duplicate(true); missing.erase(key)
 		check(not live.inspect_save_bytes(_document(missing, 13)).ok, "Legacy13 old fields still mandatory:" + key)
-	for version: int in [12, 13, 14, 15]:
+	for version: int in [12, 13, 14, 15, 16]:
 		var extra := good.duplicate(true); extra.capstone_reward_claimed = true
 		check(not live.inspect_save_bytes(_document(extra, version)).ok, "Strict current formats reject hidden reward/extra fields")
 	for key: String in Quest.FIELDS:
@@ -127,7 +129,7 @@ func _test_rejections() -> void:
 	for stage: Variant in [-1, 0.5, 8, 99, "3", true]:
 		var malformed: Dictionary = _ready().to_dict(); malformed.capstone_stage = stage
 		check(not live.inspect_save_bytes(_document(malformed)).ok, "Invalid stage rejected:" + str(stage))
-	for version: Variant in [null, -1, 0, 14.5, 15.5, 16, 99, "15", true, {}, []]:
+	for version: Variant in [null, -1, 0, 14.5, 15.5, 16.5, 17, 99, "15", true, {}, []]:
 		check(not live.inspect_save_bytes(_document(good, version)).ok, "Malformed/unknown header rejected:" + str(version))
 	for malformed: PackedByteArray in [PackedByteArray(), "{}".to_utf8_buffer(), "[]".to_utf8_buffer(), "{broken".to_utf8_buffer(), '{"version":15,"player":[]}'.to_utf8_buffer()]:
 		check(not live.inspect_save_bytes(malformed).ok, "Malformed envelope rejected")
@@ -141,8 +143,8 @@ func _test_rejections() -> void:
 	var invalid := good.duplicate(true); invalid.capstone_stage = 6
 	var path := fixture_root + "/invalid.json"; _write(path, _document(invalid)); var original := _bytes(path)
 	check(live.load_game(path) == ERR_FILE_CORRUPT and live.to_dict() == before and live.skill_cooldown == 3 and _bytes(path) == original, "Invalid load changes neither persistent/transient state nor bytes")
-	_write(path, _document(good, 16)); original = _bytes(path)
-	check(live.load_game(path) == ERR_FILE_UNRECOGNIZED and live.to_dict() == before and live.skill_cooldown == 3 and _bytes(path) == original, "Future16 rejection atomic")
+	_write(path, _document(good, 17)); original = _bytes(path)
+	check(live.load_game(path) == ERR_FILE_UNRECOGNIZED and live.to_dict() == before and live.skill_cooldown == 3 and _bytes(path) == original, "Future17 rejection atomic")
 	var malformed_live := State.new(); malformed_live.capstone_stage = 6
 	check(malformed_live.save_game(path) == ERR_FILE_CORRUPT and _bytes(path) == original, "Invalid save does not overwrite existing file")
 
@@ -179,9 +181,9 @@ func _test_roundtrips_and_transfer() -> void:
 		var original := _bytes(slots.path_for(1))
 		check(slots.load_slot(loaded, 1) == OK and loaded.to_dict() == state.to_dict(), "Stage, draft, ending, old resources exact roundtrip")
 		state.coins += 1; check(slots.save_slot(state, 1) == OK and _bytes(slots.path_for(1) + ".bak") == original, "Backup retains exact prior bytes")
-		check(slots.load_backup(loaded, 1) == OK and slots.describe(1).status == "valid" and slots.describe_backup(1).status == "valid", "Current15 and backup15 metadata accepted")
-		var export := transfer.export_slot(1, true); check(export.ok and export.version == 15 and export.bytes == original, "Export exact15 backup bytes")
-		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 15, "Same reader accepts15 for empty slot")
+		check(slots.load_backup(loaded, 1) == OK and slots.describe(1).status == "valid" and slots.describe_backup(1).status == "valid", "Current16 and backup16 metadata accepted")
+		var export := transfer.export_slot(1, true); check(export.ok and export.version == 16 and export.bytes == original, "Export exact16 backup bytes")
+		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 16, "Same reader accepts16 for empty slot")
 		if preview.ok:
 			check(transfer.commit_import(preview.token).ok and _bytes(slots.path_for(2)) == original, "Import retains exact bytes")
 			check(transfer.commit_import(preview.token).ok, "Repeated import confirmation is read-only")
@@ -204,7 +206,8 @@ func _test_old_reader_gate() -> void:
 	old.party_battle_epoch = 8; old.receipt_battle_epoch = 9; old.party_settlement = {"sentinel": [1, 2]}; old.receipt_settlement = {"sentinel": 3}
 	var all_before := _all_script_properties(old)
 	var before: Dictionary = old.to_dict(); var path := fixture_root + "/true15.json"
-	check(State.new().save_game(path) == OK and JSON.parse_string(_bytes(path).get_string_from_utf8()).version == 15, "Current serializer creates actual15 subject")
+	var producer15 := Frozen15.old_reader()
+	check(producer15 != null and producer15.new().save_game(path) == OK and JSON.parse_string(_bytes(path).get_string_from_utf8()).version == 15, "Pinned genuine15 source serializer creates actual15 historical subject")
 	var bytes := _bytes(path)
 	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == before and old.skill_cooldown == 3 and old.enemy_hp == 17 and _bytes(path) == bytes, "Authentic old14 source/current dependencies rejects15 before state/disk changes")
 	check(old._same_save_value(_all_script_properties(old), all_before), "Every old script variable, including all persistent/transient fields, unchanged by rejection")

@@ -1,0 +1,79 @@
+{
+  "binding": {
+    "bytes": 5880,
+    "path": "Hero-staging/equipment-fitting-phase1/core/validation.json",
+    "sha256": "228ebad8e96f79e36370bf07852d3fce821978c18cdd26e3c6ab527faccf1e9f"
+  },
+  "checks": 4408,
+  "new_focused_checks": 1188,
+  "overlap_warning": "Retained suites overlap migration; no cross-scope unique total",
+  "report": {
+    "bytes": 4857,
+    "path": "Hero-staging/equipment-fitting-phase1/core/RESULT.md",
+    "sha256": "457b681dc953eef9256dc2ffbbcbec4c8b5bf149680ed25aa7a03945cae6f553"
+  },
+  "source_base": "b400e280f436fbf35d2b146dfd38bb24abebd208",
+  "status": "passed_focused_source_only",
+  "tests": [
+    {
+      "checks": 382,
+      "exit_code": 0,
+      "log_sha256": "0005873b7c99cae5cabdd1b2a8f9e411839c760a581414e49e0ece55af05aa34",
+      "test": "tests/weapon_fitting_rules_test.gd"
+    },
+    {
+      "checks": 540,
+      "exit_code": 0,
+      "log_sha256": "61f6e8a09c64c9e735b2b319ca4175c0ff67cf6aed3a7ce4cab2fc16a4765d94",
+      "test": "tests/weapon_fitting_state_test.gd"
+    },
+    {
+      "checks": 174,
+      "exit_code": 0,
+      "log_sha256": "23d5d4c7b2d4a81350b75e3ccb3a89eca8ebb89674dfa495c4881ebc2875a409",
+      "test": "tests/weapon_fitting_read_consumers_test.gd"
+    },
+    {
+      "checks": 92,
+      "exit_code": 0,
+      "log_sha256": "0cb43950d0d007725cb11f1b44a6547c95374014d5e8f638f0f81fead3712906",
+      "test": "tests/weapon_fitting_history_test.gd"
+    },
+    {
+      "checks": 57,
+      "exit_code": 0,
+      "log_sha256": "2d7350cdf5ba871cb16a659f3f78851eb7fb73126b4f986f38726a653cb8239f",
+      "test": "tests/sect_rules_test.gd"
+    },
+    {
+      "checks": 134,
+      "exit_code": 0,
+      "log_sha256": "c4944037743386788bbaeb2fb406b1a6322e38be7e9faa3e649ef805a678826b",
+      "test": "tests/courtyard_exercise_rules_test.gd"
+    },
+    {
+      "checks": 476,
+      "exit_code": 0,
+      "log_sha256": "891c4e2b4bc89c61ea456c406fd9bd84535d2519d6da5ddbad089c40fd049c99",
+      "test": "tests/heting_receipt_combat_test.gd"
+    },
+    {
+      "checks": 512,
+      "exit_code": 0,
+      "log_sha256": "a7d6943154ec49ef1bab809544a4a1f2e372ac165318b79456ce3448637c56d5",
+      "test": "tests/party_roster_rules_test.gd"
+    },
+    {
+      "checks": 1245,
+      "exit_code": 0,
+      "log_sha256": "6a8b2b71dade42244965694b8e43a5076de8af0e00752aa6259d81d4c1347147",
+      "test": "tests/advanced_martial_rules_test.gd"
+    },
+    {
+      "checks": 796,
+      "exit_code": 0,
+      "log_sha256": "d6a44002b6549a923cca7059457398340352888613a8b420506f99c660d7ff19",
+      "test": "tests/party_state_integration_test.gd"
+    }
+  ]
+}

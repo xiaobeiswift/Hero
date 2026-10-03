@@ -1,7 +1,8 @@
 extends SceneTree
 ## Retained independent synthetic model/IO checks. No user saves, earned progression, UI or browser claim.
-## The current15 fixture producer and old14-pack probe form a separate optional two-process gate.
+## The pinned genuine15 fixture producer and old14-pack probe form a separate optional two-process gate.
 const State = preload("res://scripts/game_state.gd")
+const Frozen15 = preload("res://tests/weapon_fitting_fixture_producer.gd")
 const Quest = preload("res://scripts/volume_one_capstone_rules.gd")
 const Consignee = preload("res://scripts/heting_consignee_rules.gd")
 const Slots = preload("res://scripts/local_save_slots.gd")
@@ -34,7 +35,7 @@ func _init() -> void:
 	_old_reader()
 	print("INDEPENDENT_SCHEMA_RESULT checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)
-func doc(data: Dictionary, version: Variant = 15) -> PackedByteArray:
+func doc(data: Dictionary, version: Variant = State.SAVE_VERSION) -> PackedByteArray:
 	return JSON.stringify({"version": version, "player": data}, "\t").to_utf8_buffer()
 func write(path: String, bytes: PackedByteArray) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
@@ -89,7 +90,8 @@ func _legacy() -> void:
 			check(result.ok, "Real14 progressed accepted stage%d %s" % [stage, plan])
 			if not result.ok: continue
 			var converted: Dictionary = result.state.to_dict()
-			for key: String in Quest.FIELDS: converted.erase(key)
+			check(result.state.weapon_fitting == "plain", "Old14 fitting defaults plain")
+			for key: String in Quest.FIELDS + ["weapon_fitting"]: converted.erase(key)
 			check(eq(converted, raw_data), "Every real14 story/resource/cargo/array field preserved stage%d %s" % [stage, plan])
 			check(result.state.party_resources.shen.hp == 0 and result.state.party_resources.tang.hp == 1 and result.state.party_roster == ["hero", "shen", "qin"], "Downed deployed and wounded bench survive migration")
 			if stage == 5:
@@ -97,7 +99,7 @@ func _legacy() -> void:
 					var cap := raw_data.duplicate(true)
 					cap.capstone_stage = capstage; cap.capstone_draft = "pause_batch" if capstage >= 6 else ""; cap.capstone_ending = "pause_batch" if capstage >= 6 else ""
 					var migrated: Dictionary = live.inspect_save_bytes(doc(cap, 14))
-					check(migrated.ok and eq(migrated.state.to_dict(), cap), "Present complete valid14 capstone is never dropped stage%d" % capstage)
+					check(migrated.ok and migrated.state.weapon_fitting == "plain" and eq(without_fitting(migrated.state.to_dict()), cap), "Present complete valid14 capstone is never dropped stage%d" % capstage)
 	for version: int in [14, 15]:
 		var original: Dictionary = progress(old_script.new()).to_dict()
 		if version == 15: original.capstone_stage = 0; original.capstone_draft = ""; original.capstone_ending = ""
@@ -113,13 +115,13 @@ func _legacy() -> void:
 func _modern() -> void:
 	var live := State.new(); live.coins = 777; live.skill_cooldown = 4
 	var before: Dictionary = live.to_dict(); var good := State.new().to_dict()
-	check(State.SAVE_VERSION == 15 and State.PartyRoster.PAYLOAD_VERSION == 15 and Consignee.INTRODUCED_VERSION == 14 and Consignee.MAX_SAVE_VERSION == 15, "Schema cap and introduction split")
+	check(State.SAVE_VERSION == 16 and State.PartyRoster.PAYLOAD_VERSION == 16 and Consignee.INTRODUCED_VERSION == 14 and Consignee.MAX_SAVE_VERSION == 16, "Schema cap and introduction split")
 	for key: String in good:
 		var bad := good.duplicate(true); bad.erase(key)
-		check(not live.inspect_save_bytes(doc(bad)).ok, "All15 keys required:" + key)
+		check(not live.inspect_save_bytes(doc(bad)).ok, "All16 keys required:" + key)
 	for extra: String in ["capstone_reward_claimed", "capstone_orders", "capstone_right", "unknown"]:
 		var bad := good.duplicate(true); bad[extra] = false
-		check(not live.inspect_save_bytes(doc(bad)).ok, "Redundant/unknown15 field rejected:" + extra)
+		check(not live.inspect_save_bytes(doc(bad)).ok, "Redundant/unknown16 field rejected:" + extra)
 	for key: String in Quest.FIELDS:
 		for badvalue: Variant in [null, false, true, 0.5, -1, 8, [], {}, "unknown", INF, -INF, NAN]:
 			var bad := good.duplicate(true); bad[key] = badvalue
@@ -132,11 +134,11 @@ func _modern() -> void:
 				var expected: bool = (stage <= 4 and draft == "" and ending == "") or (stage == 5 and ending == "") or (stage >= 6 and draft != "" and ending == draft)
 				var result: Dictionary = live.inspect_save_bytes(doc(data))
 				check(result.ok == expected, "Exact stage/draft/ending truth table:%d %s %s" % [stage, draft, ending])
-				if result.ok: check(eq(result.state.to_dict(), data), "Accepted15 exact roundtrip")
-	for version: Variant in [0, 16, 99, 14.5, "15", true, null, INF, NAN]:
+				if result.ok: check(eq(result.state.to_dict(), data), "Accepted16 exact roundtrip")
+	for version: Variant in [0, 17, 99, 14.5, "16", true, null, INF, NAN]:
 		var bytes := doc(good, version); var result: Dictionary = live.inspect_save_bytes(bytes)
 		check(not result.ok, "Malformed/future version rejected:" + str(version))
-		if version is int and version in [16, 99]: check(result.error == ERR_FILE_UNRECOGNIZED, "Future version gives explicit unrecognized")
+		if version is int and version in [17, 99]: check(result.error == ERR_FILE_UNRECOGNIZED, "Future version gives explicit unrecognized")
 	var bad := good.duplicate(true); bad.capstone_stage = 1
 	var path := folder + "/bad.json"; var bytes := doc(bad); write(path, bytes)
 	check(live.load_game(path) == ERR_FILE_CORRUPT and live.to_dict() == before and live.skill_cooldown == 4 and FileAccess.get_file_as_bytes(path) == bytes, "Rejected disk load preserves bytes, live persistent and transient state")
@@ -156,7 +158,7 @@ func _roundtrip_transfer() -> void:
 	state.capstone_draft = "pause_batch"
 	check(slots.save_slot(state, 1) == OK and FileAccess.get_file_as_bytes(slots.path_for(1) + ".bak") == original, "Backup preserves exact previous empty draft")
 	var exported: Dictionary = transfer.export_slot(1, true)
-	check(exported.ok and exported.version == 15 and exported.bytes == original, "Backup raw-byte export exact15")
+	check(exported.ok and exported.version == 16 and exported.bytes == original, "Backup raw-byte export exact16")
 	var preview: Dictionary = transfer.preview_import(original, 2)
 	check(preview.ok and transfer.commit_import(preview.token).ok and FileAccess.get_file_as_bytes(slots.path_for(2)) == original, "Empty-slot import preserves raw bytes")
 	var loaded := State.new()
@@ -186,11 +188,15 @@ func _old_policy_equivalence() -> void:
 		if policy == "rest": old.heal_rest(); current.heal_rest()
 		else: old.gain_xp(160); current.gain_xp(160)
 		var data: Dictionary = current.to_dict()
-		for key: String in Quest.FIELDS: data.erase(key)
-		check(eq(old.to_dict(), data), "Actual old14 vs15 existing explicit recovery/growth policy byte-value parity:" + policy)
+		check(current.weapon_fitting == "plain", "Historical policy retains plain fitting")
+		for key: String in Quest.FIELDS + ["weapon_fitting"]: data.erase(key)
+		check(eq(old.to_dict(), data), "Actual old14 vs16 existing explicit recovery/growth policy byte-value parity:" + policy)
 func _old_reader() -> void:
-	var current := State.new(); var path := folder + "/true15-subject.json"
-	check(current.save_game(path) == OK, "Current producer writes true15 subject for authentic source-reader gate")
+	var producer15 := Frozen15.old_reader()
+	check(producer15 != null, "Pinned15 producer loaded")
+	if producer15 == null: return
+	var current = producer15.new(); var path := folder + "/true15-subject.json"
+	check(current.save_game(path) == OK, "Pinned historical producer writes true15 subject for authentic source-reader gate")
 	var bytes := FileAccess.get_file_as_bytes(path); var old = old_script.new()
 	old.coins = 913; old.skill_cooldown = 3
 	var before: Dictionary = old.to_dict()
@@ -198,3 +204,6 @@ func _old_reader() -> void:
 	check(old.to_dict() == before and old.skill_cooldown == 3 and FileAccess.get_file_as_bytes(path) == bytes, "Raw old-reader rejection byte/persistent/transient preserving")
 	var control := folder + "/true14-control.json"
 	check(old.save_game(control) == OK and old.load_game(control) == OK, "Real old14 source control accepted")
+
+func without_fitting(data: Dictionary) -> Dictionary:
+	var result := data.duplicate(true); result.erase("weapon_fitting"); return result

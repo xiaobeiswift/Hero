@@ -1,0 +1,52 @@
+{
+  "baseline_commit": "b400e280f436fbf35d2b146dfd38bb24abebd208",
+  "binding": {
+    "bytes": 20048,
+    "path": "Hero-staging/equipment-fitting-phase1/migration/VALIDATION.json",
+    "sha256": "cc98e686afe30380bb50b4f4cbd271f354d4adb3cb6d7e0fe002cde622aa7e16"
+  },
+  "counts_are_overlapping_diagnostic_scopes": true,
+  "excluded_claims": [
+    "full unchanged-old-gate source regression",
+    "fitting UI/controller/proximity/native pixels",
+    "earned gameplay",
+    "new exported16 PCK or Windows/browser/live acceptance",
+    "automatic autosave backup",
+    "commit or publication"
+  ],
+  "existing_suites_checks": 81997,
+  "existing_test_rationales": {
+    "tests/audit_party_model_test.gd": "Advance production writer equality15→16 only; integrated party assertions retained.",
+    "tests/capstone_independent_fixture_producer.gd": "Historical old14 PCK subject now uses byte-pinned genuine15 source serializer with current dependencies. Current progress helpers are unchanged; never labels current16 as15.",
+    "tests/capstone_independent_schema_test.gd": "Use current16 document/writer/slot expectations, retain capstone intro15 and true14/15 cases. Verify migrated fitting plain before excluding only that newly absent field from historical equalities. Source old14 rejection still receives a genuine15 producer; old rest/growth comparisons retain every pre-existing field.",
+    "tests/capstone_old14_pack_probe.gd": "Description says pinned15 producer rather than current15. Existing actual-old14 rejects actual15 and accepts actual14 assertions are unchanged.",
+    "tests/capstone_rules_test.gd": "Include16 in supported schema matrix; future unsupported value advances16→17; capstone introduced15 absence conditions remain unchanged.",
+    "tests/capstone_schema_test.gd": "Current writer/exports are16; historical completeness matrix separately tests genuine14 and genuine15 plus current16. Future17 rejects. Old14 source receives genuine15; old-field equality excludes only verified-plain fitting and original capstone additions.",
+    "tests/combat_learning_schema_test.gd": "Current writer16 equality and labels; explicit13,14,15,16 internal-required/type matrix; synthetic pre13 absent fitting. Existing schema12 reader rejects current writer and roundtrip assertions preserved.",
+    "tests/heting_consignee_rules_test.gd": "Future schema17 rejection replaces16, while since14 mandatory bundle assertion remains exactly14.",
+    "tests/heting_consignee_schema_test.gd": "Current writer/slots/transfer equality16 and future17; genuine13 equality verifies plain then excludes fitting. Frozen actual13-rejects14 source producer/reader controls unchanged.",
+    "tests/heting_receipt_rules_test.gd": "Current integration writer equality/labels16; explicitly projected schema10 positive control omits only the newly introduced fitting field. Original historical rejection and all snapshot/transaction assertions retained.",
+    "tests/local_save_transfer_test.gd": "Unsupported future17; synthetic historical layouts omit fitting below16; loop now includes all versions1–16 and old12 rejection adds16 without dropping13/14/15.",
+    "tests/party_roster_rules_test.gd": "Support16 in explicit modern and pair-mask matrices; reject17 as future, preserve schema12 introduction and old migration/resource assertions.",
+    "tests/party_state_integration_test.gd": "Preserve stated historical11/12-reject14 subjects using pinned genuine14 serializer and its exact field set, rather than a moving current writer. Label current required-field checks16. Old reader byte/state/transient guards retained.",
+    "tests/save_transfer_independent_test.gd": "Synthetic old layouts omit fitting before16; authentic legacy export list adds pinned15. Explicit15 parser cases deliberately retain valid present plain fitting and remain historical-header compatibility controls."
+  },
+  "failures": 0,
+  "final_checks": 85512,
+  "fixture_provenance": "Genuine producer1 and9–15; authored historical-layout contracts2–8. Historical files pinned; no current-payload relabeling used for historical boundary subjects.",
+  "historical_scopes": {
+    "old13_rejects14": "11 checks: exact Web25 old13 packed reader with genuine14 source-generated subject; pre-existing mixed-dependency scope, not complete old runtime",
+    "old14_rejects15": "9 checks: separate process complete old14 PCK/dependency closure, genuine15 historical-source subject, positive14 control",
+    "old15_rejects16": "20 checks: separate process complete old15 PCK/dependency closure, actual current16 subject, genuine15 positive control; all script properties and primary/manual/backup bytes preserved",
+    "old15_source_rejects16": "Separately labeled source reader with current dependencies inside independent schema suite"
+  },
+  "new_schema_checks": 3475,
+  "old_reader_checks": 40,
+  "report": {
+    "bytes": 4617,
+    "path": "Hero-staging/equipment-fitting-phase1/migration/RESULT.md",
+    "sha256": "0371a3958ad6d96a6d5a319f33f1928aa29df91315e09d62d9953250c25e0352"
+  },
+  "source_checks": 85472,
+  "status": "passed source/model/native-filesystem scope only"
+}

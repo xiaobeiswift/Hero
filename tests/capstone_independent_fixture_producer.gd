@@ -1,8 +1,9 @@
 extends SceneTree
 ## Portable independent fixtures. Synthetic mechanics, never earned gameplay.
 ## Static factory methods do not run _init; CLI invocation produces a genuine
-## current15 default document for the separate-process old14 pack probe.
+## pinned genuine15 default document for the separate-process old14 pack probe.
 const State = preload("res://scripts/game_state.gd")
+const Frozen15 = preload("res://tests/weapon_fitting_fixture_producer.gd")
 const OLD_PATH = "res://tests/fixtures/v028_game_state.gd.txt"
 const OLD_SHA = "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5"
 static func old_reader() -> GDScript:
@@ -20,10 +21,12 @@ func _init() -> void:
 	var path: String = args[0]
 	if FileAccess.file_exists(path) or DirAccess.dir_exists_absolute(path) or FileAccess.file_exists(path + ".tmp") or DirAccess.dir_exists_absolute(path + ".tmp"):
 		push_error("Fixture output or staging path already exists; refusing overwrite."); quit(2); return
-	var current := State.new()
+	var producer := Frozen15.old_reader()
+	if producer == null: quit(1); return
+	var current = producer.new()
 	if current.SAVE_VERSION != 15 or current.save_game(path) != OK:
-		push_error("Could not write current15 fixture."); quit(1); return
-	print("PASS: actual current15 producer wrote isolated old-reader subject ", path)
+		push_error("Could not write pinned15 fixture."); quit(1); return
+	print("PASS: actual pinned15 source/current-dependency producer wrote isolated old-reader subject ", path)
 	quit(0)
 
 static func apply_progress(s, plan: String = "hold_for_inspection", stage: int = 5) -> Array[bool]:

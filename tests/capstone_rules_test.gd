@@ -193,7 +193,7 @@ func _test_malformed_bundle() -> void:
 	for stage: int in range(8):
 		var data: Dictionary = _at_stage(stage).to_dict(); data.capstone_stage = float(stage)
 		check(Rules.valid(data, 15), "Integral JSON stage accepted")
-	for version: int in range(1, 16):
+	for version: int in range(1, 17):
 		for mask: int in range(8):
 			var data: Dictionary = canonical.duplicate(true)
 			for index: int in 3:
@@ -206,7 +206,7 @@ func _test_malformed_bundle() -> void:
 	for extra: String in ["capstone_reward_claimed", "capstone_book", "capstone_right", "capstone_orders", "capstone_contributions"]:
 		var data: Dictionary = canonical.duplicate(true); data[extra] = false
 		check(not Rules.valid(data, 15), "No hidden saved capstone field " + extra)
-	for version: int in [-2, 0, 16, 99]: check(not Rules.valid(canonical, version), "Unsupported model schema")
+	for version: int in [-2, 0, 17, 99]: check(not Rules.valid(canonical, version), "Unsupported model schema")
 
 
 func _test_prior_chain() -> void:

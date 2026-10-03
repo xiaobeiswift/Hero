@@ -1,0 +1,215 @@
+{
+  "counts_are_separate_scopes": true,
+  "evidence": {
+    "final_binding": {
+      "bytes": 29356,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/FINAL_BINDING.json",
+      "sha256": "948c137351046ad8953f56243e8e9dde9571dd32743726d9159aa3aa7d3c23cb"
+    },
+    "report": {
+      "bytes": 8154,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/REVIEW.md",
+      "sha256": "e9b598fcee541ef39bfad1fa86f0c791a5f59f7aeded1f9e257420a0d7aded42"
+    }
+  },
+  "excluded_attempt": "old-parity-first-setup-error:90 harness setup failures selecting formation while solo, corrected legal setup; excluded from acceptance",
+  "failure_count": 0,
+  "invariant_rows": 648,
+  "invariant_transactions": 19482,
+  "invariants": {
+    "checks": 357111,
+    "failures": [],
+    "metrics_coverage": {
+      "absorptions": 690,
+      "completed_rounds": 3604,
+      "precap_exceeds_hp_lost": 236,
+      "protects": 3117
+    },
+    "outcomes": {
+      "defeat": 120,
+      "flee": 216,
+      "win": 312
+    },
+    "scope": "Independent model projection/factory/accepted-token/settlement invariants; no engine editor, native, UI proximity, controller, full regression or package acceptance"
+  },
+  "limitations": [
+    "Copied-source model checks, not actual-PCK combat execution; actual old15 reader evidence is reviewed separately in migration-review.json",
+    "1920 synthetic combat cases are not earned journey fixtures;552 retained earned actor-input cases are not story entry/reward/progression acceptance",
+    "No fitting UI/controller generation/proximity, native input or pixels, complete regression, package/export/Windows, deployment or publication gate",
+    "Large diagnostic counts and repeated matched scenarios are not independent players, statistical win rates or balance guarantees",
+    "Source project version/test runner/docs edits while tests ran were outside minimal copied model projects; final script/UID identity was verified"
+  ],
+  "parity": {
+    "accepted_actions": {
+      "art:qin_shoudu": 354,
+      "art:shen_xumai": 880,
+      "art:tang_fenjin": 912,
+      "art:伏汐藏锋": 170,
+      "art:回潮断浪": 308,
+      "art:束潮削势": 214,
+      "art:照夜一线": 763,
+      "art:石隙封腕": 220,
+      "art:磐石回锋": 426,
+      "art:续灯引锋": 174,
+      "art:藏锋立岳": 172,
+      "art:青灯息争": 182,
+      "art:青灯续脉": 354,
+      "attack": 26187,
+      "enemy:attack": 12260,
+      "enemy:protect": 2248,
+      "internal:hero_tiaoxi": 1497,
+      "internal:qin_guiyuan": 178,
+      "internal:shen_yangmai": 908,
+      "internal:tang_dingxi": 702,
+      "item": 900,
+      "lightness:hero_tawei": 3034,
+      "lightness:qin_yanliu": 354,
+      "lightness:shen_liuying": 1711,
+      "lightness:tang_cunbu": 932
+    },
+    "accepted_transactions": 56040,
+    "candidate_checks": 290797,
+    "direct_adapter_accepted_transactions": 966,
+    "direct_adapter_cases": 90,
+    "earned_actor_rows": 552,
+    "encounters": [
+      "archive_boss",
+      "capstone_authorizer",
+      "courtyard_practice",
+      "heting_consignee",
+      "heting_receipt",
+      "mist_keeper",
+      "mist_scout",
+      "sect_trial",
+      "sluice_boss",
+      "sluice_scout",
+      "story",
+      "training"
+    ],
+    "first_difference": null,
+    "normalization": "NONE; every output key, text, epoch, token, initial/final snapshot, actor/team, full transaction hash and full event hash compared",
+    "old_checks": 290797,
+    "pass": true,
+    "result_sha256": {
+      "candidate": "28864e61305697d67019c633853a914b5623cf0c83fd6c0f2698643c6f0d32fc",
+      "old": "28864e61305697d67019c633853a914b5623cf0c83fd6c0f2698643c6f0d32fc"
+    },
+    "rows": 2472,
+    "synthetic_rows": 1920
+  },
+  "parity_check_count_note": "Each JSON records290797 diagnostic checks; each log290798 includes one later output-writability assertion. Do not combine the two mirrored runs or overlapping scopes.",
+  "raw_artifacts": [
+    {
+      "bytes": 8154,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/REVIEW.md",
+      "sha256": "e9b598fcee541ef39bfad1fa86f0c791a5f59f7aeded1f9e257420a0d7aded42"
+    },
+    {
+      "bytes": 47595,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/candidate-binding.json",
+      "sha256": "6c20e384ad4c3395cf615214932b63fdb5e4ca1a2c51b09aed6dad5835b9aa34"
+    },
+    {
+      "bytes": 1906,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/compare.py",
+      "sha256": "742d3e5ba393c343508efbb5bd2fb3c3a09c691ea4cac1db71a216f4c0216430"
+    },
+    {
+      "bytes": 3554,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/finalize.py",
+      "sha256": "74ff72043c748ed2161a898898e3ab0313864dafbcf0c6234210d1672611e42d"
+    },
+    {
+      "bytes": 16743,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/invariants.gd",
+      "sha256": "e55e2675014e39fafb8cb7938c7ab309b0b60025ae9ec3a539650561c9ba83db"
+    },
+    {
+      "bytes": 548,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/migration-review.json",
+      "sha256": "981d6e91b7cd6563b366b84658223a635c8991ae8a67bdd8e42667a2f9753e42"
+    },
+    {
+      "bytes": 47141,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-binding.json",
+      "sha256": "efa57b24fb663d273e102f72cfa5460283a1b3d70c2d10e99f3213757fdeea8b"
+    },
+    {
+      "bytes": 23067,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-runtime-identity.json",
+      "sha256": "6ef34f07f2e661b9614187014fb72bf0df0e098483f8819d9952a083ba86d1c3"
+    },
+    {
+      "bytes": 1650,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/parity-comparison.json",
+      "sha256": "f8f3f468a642108b260451445181b669c4f2aaba73937ce9ace35714b087a870"
+    },
+    {
+      "bytes": 8222,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/parity.gd",
+      "sha256": "59f7fd34d268ea46011d380a94eefaec2789210a61f4717f7d1e8c22276dd251"
+    },
+    {
+      "bytes": 2764,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/prepare.py",
+      "sha256": "40e88799d22b3c038ffc59771eb805a7473fa33d6410abe85a5df41a0c9ad367"
+    },
+    {
+      "bytes": 729,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/run.sh",
+      "sha256": "78523565e1f57e8dc215e65989ef8999e92d921e7cdce8d059fc2eea12806dff"
+    },
+    {
+      "bytes": 101009938,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity/result.json",
+      "sha256": "28864e61305697d67019c633853a914b5623cf0c83fd6c0f2698643c6f0d32fc"
+    },
+    {
+      "bytes": 101009938,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/candidate-parity/result.json",
+      "sha256": "28864e61305697d67019c633853a914b5623cf0c83fd6c0f2698643c6f0d32fc"
+    },
+    {
+      "bytes": 5448291,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/candidate-invariants/result.json",
+      "sha256": "688f5486b60a3e3a2aeefec177c05ee520123aa68d83d6dea19f050758f0c121"
+    },
+    {
+      "bytes": 127,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity/engine.log",
+      "sha256": "5c83a3ec5891361c2354ece40306c6ee1dc23b3c0db01a05af0260d07b690d40"
+    },
+    {
+      "bytes": 127,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/candidate-parity/engine.log",
+      "sha256": "5c83a3ec5891361c2354ece40306c6ee1dc23b3c0db01a05af0260d07b690d40"
+    },
+    {
+      "bytes": 130,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/candidate-invariants/engine.log",
+      "sha256": "7861795915888971218f3bf170482071d18563b7d18c17b7d120a60806fe50b4"
+    },
+    {
+      "bytes": 19298,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity-first-setup-error/engine.log",
+      "sha256": "72db58005f1b6640dcdf50ce19d6d7637c1baa6da7c4345e4c1b6dc3487e2bb9"
+    },
+    {
+      "bytes": 100714146,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity-first-setup-error/result.json",
+      "sha256": "2d2e9783e39999f94d9fab34da6c5d8c66026147f7394ba1b5d063edd1407551"
+    },
+    {
+      "bytes": 47141,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity-first-setup-error/binding.json",
+      "sha256": "7a3a3d02bbbcb46164dd59e704d31ac3fb43ff3808089707b2aa50f970ca7b08"
+    },
+    {
+      "bytes": 6706,
+      "path": "Hero-staging/equipment-fitting-phase1/independent-model/old-parity-first-setup-error/parity.gd",
+      "sha256": "fe4b2e497eaa22a34bb237e5ef458406264cc41b7c9f175cf93aa70f44e5a604"
+    }
+  ],
+  "source_scripts_and_uids": 218,
+  "status": "passed_source_only"
+}

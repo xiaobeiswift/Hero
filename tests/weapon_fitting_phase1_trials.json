@@ -1,0 +1,122 @@
+{
+  "binding": {
+    "bytes": 3860,
+    "path": "Hero-staging/equipment-fitting-phase1/trials/FINAL_BINDING.json",
+    "sha256": "3b195aca4d3d57f489f99cd93db9358cdd4a36f5d374dd593decf1db61f100bd"
+  },
+  "counts_are_overlapping_diagnostic_scopes": true,
+  "failed_attempts_retained": [
+    "model-attempt1",
+    "metrics-attempt1"
+  ],
+  "final_suites": {
+    "metrics": {
+      "checks": 66844,
+      "failures": 0,
+      "rows": 74
+    },
+    "model": {
+      "checks": 3911,
+      "failures": 0,
+      "rows": 50
+    }
+  },
+  "raw_artifacts": {
+    "import-final/engine.log": {
+      "bytes": 1642,
+      "sha256": "0721a29343d69ae30f825722a9051f652b14eb53ad9e849335f9d329fb36ba69"
+    },
+    "metrics-attempt1/engine.log": {
+      "bytes": 31664,
+      "sha256": "514d59b27af6c5d3b9b5f311979763bdc026643f77a3cedc43a77ef9f30b87b0"
+    },
+    "metrics-attempt1/result.json": {
+      "bytes": 593063,
+      "sha256": "eee66856a42285a28fba9a44042c3e52a331283b3c54dd1d12facb4ce1356739"
+    },
+    "metrics-attempt2/engine.log": {
+      "bytes": 5204,
+      "sha256": "7f22ef8b0afed60b074d3878f0779583095b552de14a7e5708c7ddda8a68867f"
+    },
+    "metrics-attempt2/result.json": {
+      "bytes": 593062,
+      "sha256": "d937a7f146f8d841bc9d07c687495e47f1d11207738a19e33445de1817abfea3"
+    },
+    "model-attempt1/engine.log": {
+      "bytes": 4792,
+      "sha256": "724efef8e2510327abfec25a49c5afb9aec0e00166aee3f63c22d1f6c8abf91a"
+    },
+    "model-attempt1/result.json": {
+      "bytes": 9851,
+      "sha256": "8e9833075e315eede5fe9d3c772cdd4bff2d22f697872db01ff6e10c64b8b82a"
+    },
+    "model-attempt2/engine.log": {
+      "bytes": 3620,
+      "sha256": "50aac75110efb79f3ff937e7d18ab10c00d4099cf14ba3b8275df1698ff8d987"
+    },
+    "model-attempt2/result.json": {
+      "bytes": 9851,
+      "sha256": "db12c28ca5bc1a3bf7a361cfabb7f676b3f105bb77ee4408468a34452d47515e"
+    },
+    "model-final/engine.log": {
+      "bytes": 3620,
+      "sha256": "6fd710bdf98f88213b48c207615b041391f273746de3fac55b35ea60bf3a6e41"
+    },
+    "model-final/result.json": {
+      "bytes": 9851,
+      "sha256": "ea54c9cd5584b966d660ebdaa9ab48058b3a9d803c4b66fb935ac71a13796c3f"
+    },
+    "pinned-b400-automatic.gd": {
+      "bytes": 34255,
+      "sha256": "e1184548085af19dc0142fd01c25fe667b2be7e661bee50c03fd821899fb1c42"
+    },
+    "pinned-b400-automatic.original.gd": {
+      "bytes": 34287,
+      "sha256": "0c1a4aac314af2e351f7b28fc12977335443f7bb45edf65fe9d1c15727cfc367"
+    }
+  },
+  "raw_root": "Hero-staging/equipment-fitting-phase1/trials",
+  "report": {
+    "bytes": 7611,
+    "path": "Hero-staging/equipment-fitting-phase1/trials/REPORT.md",
+    "sha256": "61ed29d6038b1f98141811c6ef3a0aceb711b756572c53b2eb14140bd3fbd6c4"
+  },
+  "scope_limits": [
+    "No new UI",
+    "No native/render testing",
+    "No full unchanged gate regression claim",
+    "No new PCK/export/native rollout",
+    "No publication or commits"
+  ],
+  "source": {
+    "scripts/automatic_party_combat.gd": {
+      "bytes": 37723,
+      "sha256": "4a0869cd675db68393c5dbff08ce19be5dd1a4cca032963e339fb703decb7fe7"
+    },
+    "scripts/weapon_fitting_trial_rules.gd": {
+      "bytes": 5375,
+      "sha256": "eb0de173b3a6816831ddafdcc20fe57c6f0ca4ac04aab559ac3f85b52eee91c9"
+    },
+    "scripts/weapon_fitting_trial_rules.gd.uid": {
+      "bytes": 19,
+      "sha256": "967e29b202d4ed38df4e96a68f78bee0779f539c0fa422d912b74d60474b0d96"
+    },
+    "tests/weapon_fitting_trial_metrics_test.gd": {
+      "bytes": 15492,
+      "sha256": "832836d20775026f793661eb37e7fd6c811cdda194213f2be154f0e1427249fd"
+    },
+    "tests/weapon_fitting_trial_metrics_test.gd.uid": {
+      "bytes": 19,
+      "sha256": "81a8a9c01a25cce229a347b3088fd8e4eaf14313db4fef5eab16e76657bf4f87"
+    },
+    "tests/weapon_fitting_trial_model_test.gd": {
+      "bytes": 14938,
+      "sha256": "2150121339a5cbb994253ead5231037bb85ce37e5e83b4448c811be43c926d15"
+    },
+    "tests/weapon_fitting_trial_model_test.gd.uid": {
+      "bytes": 20,
+      "sha256": "ad4aacedf24f2da4cd3c2610bb2a8133ac4c7123d469453d1402dc5d43e2711a"
+    }
+  },
+  "status": "passed_focused_source_only"
+}

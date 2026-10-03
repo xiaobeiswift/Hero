@@ -31,7 +31,7 @@ func _init() -> void:
 	_remove_tree(fixture_root)
 	check(not DirAccess.dir_exists_absolute(fixture_root), "Remove only this isolated test fixture_root")
 	if failures == 0:
-		print("PASS: %d party state integration checks (schema14/migration/selection/transactions/settlement/save safety)" % checks)
+		print("PASS: %d party state integration checks (current16/migration/historical11-12-reject14/selection/transactions/settlement/save safety)" % checks)
 	else:
 		push_error("FAIL: %d / %d party state integration checks" % [failures, checks])
 	quit(0 if failures == 0 else 1)
@@ -208,7 +208,17 @@ func test_migration_and_reader() -> void:
 	old.coins = 71
 	old.hp = 23
 	var old_before: Dictionary = old.to_dict()
-	check(original.save_game(path) == OK, "Write actual schema14 save for old-reader rejection")
+	# Preserve the historical11/12-versus14 subjects after the current writer moves on.
+	var producer14_path := "res://tests/fixtures/v028_game_state.gd.txt"
+	check(FileAccess.get_sha256(producer14_path) == "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5", "Genuine14 producer source pin")
+	var producer14_script := GDScript.new(); producer14_script.source_code = FileAccess.get_file_as_string(producer14_path).replace("class_name HeroState\n", "")
+	check(producer14_script.reload() == OK, "Frozen14 producer compiles with current dependencies")
+	var producer14 = producer14_script.new()
+	for key: String in producer14.to_dict():
+		var value = original.get(key)
+		if value is Array: producer14.get(key).assign(value)
+		else: producer14.set(key, value.duplicate(true) if value is Dictionary else value)
+	check(producer14.SAVE_VERSION == 14 and producer14.save_game(path) == OK, "Write actual frozen-schema14 save for historical-reader rejection")
 	var current_bytes: PackedByteArray = _bytes(path)
 	check(old.load_game(path) == ERR_FILE_UNRECOGNIZED and old.to_dict() == old_before and _bytes(path) == current_bytes, "Exact schema11 reader rejects schema14 without touching state or file")
 	var predecessor_path: String = "res://tests/fixtures/v022_game_state.gd.txt"
@@ -246,7 +256,7 @@ func test_strict_loads() -> void:
 	for key: String in good:
 		var missing: Dictionary = good.duplicate(true)
 		missing.erase(key)
-		_reject_load(live, missing, "Missing schema14 field " + key)
+		_reject_load(live, missing, "Missing current16 field " + key)
 	for roster: Variant in [[], ["shen", "hero"], ["hero", "hero"], ["hero", "ghost"], ["hero", "shen", "tang", "hero"], "hero", null]:
 		var data: Dictionary = good.duplicate(true)
 		data.party_roster = roster
@@ -265,7 +275,7 @@ func test_strict_loads() -> void:
 			_reject_load(live, data, "Invalid raw hero scalar " + key)
 	var zero: Dictionary = good.duplicate(true)
 	zero.hp = 0
-	_reject_load(live, zero, "Raw schema14 heroHP0 cannot hide behind old loader clamp")
+	_reject_load(live, zero, "Raw current16 heroHP0 cannot hide behind old loader clamp")
 	var extra: Dictionary = good.duplicate(true)
 	extra.party_resources.shen.max_hp = 999
 	_reject_load(live, extra, "Unknown companion entry field")

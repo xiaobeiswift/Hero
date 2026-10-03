@@ -315,7 +315,7 @@ func _test_malformed_data() -> void:
 		for key: String in Rules.FIELDS:
 			var partial: Dictionary = legacy.duplicate(true); partial[key] = neutral[key]
 			check(not Rules.valid(partial, version), "Partial legacy bundle rejected")
-	check(not Rules.valid({}, 14) and not Rules.valid(neutral, 0) and not Rules.valid(neutral, 16), "Future16 rejects while schema14 bundle remains mandatory")
+	check(not Rules.valid({}, 14) and not Rules.valid(neutral, 0) and not Rules.valid(neutral, 17), "Future17 rejects while schema14 bundle remains mandatory")
 	var valid: Dictionary = _secured().to_dict()
 	for stage: Variant in [null, false, true, "3", -1, 6, 1.5, NAN, INF, -INF, [], {}]:
 		var bad: Dictionary = valid.duplicate(true); bad.consignee_stage = stage

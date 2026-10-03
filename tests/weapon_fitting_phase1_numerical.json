@@ -1,0 +1,133 @@
+{
+  "comparison_profile": {
+    "B": "sum of original-fitting selected actor attacks",
+    "attack": 40,
+    "bracer_attack": 16,
+    "bracer_hp": "floor(24*B/5)",
+    "heavy_attack": 64,
+    "rounding": "Each nonnegative quotient is truncated independently; total12*B if B%5==0, else12*B-1; no remainder redistribution",
+    "striker_hp": "floor(36*B/5)"
+  },
+  "engine": "Godot4.6.3.stable.official.7d41c59c4",
+  "harness_sha256": {
+    "audit.py": "3040996004fa045f73b74ef4a16f21054f8273f0178729d5d089a540a2911bb5",
+    "model/boundary.gd": "800ae5edbfc7f56d1266df0ba54ee1309e2e7a02b369ec054d965434d916ca1d",
+    "model/early.gd": "3a86650579adc16c609d1b2fcd2d7c703bc3ff1a0c4c35c854a4eec7a4055b9d",
+    "model/entry_arena.gd": "95ee57273746bf7028d025a6e1f14c84f64c423d0f40c88ad47b20627b3846b4",
+    "model/frozen_arena.gd": "7642f72a9ff355989d96a9d6a59027f27d0dbc863e5d8e1c5c72b0eed4ca8ab1",
+    "model/late_real.gd": "bf45f98e3968facbfff725d550eef65e0a0aab185bcd699a81a15cddf57d6837",
+    "model/probe.gd": "b508d7daab2ec9bc9b6f7b1dd20bc4939ec9291a2b93fb7b0b1a821b1dfd6b16",
+    "run-probe.sh": "0412c228231d78c09313f90fca74e87dc8c982526d4895834004cab1cb3c8dfc",
+    "summarize.py": "576f26dd0543118a8ad54ae32c332184ded6ac8f5a8428a9f186bd48ceac8098"
+  },
+  "limitations": [
+    "Design-only exact source model; no new UI/save schema/browser/native rendering validation",
+    "Repeated matched scenarios are not independent samples or statistical win rates",
+    "Stronger optional profile44/54 wins at entry, all54 use3 virtual medicines; use ordinary96/64 as default",
+    "At synthetic level99 the existing incoming damage floor erases practical fitting differentiation",
+    "Final accepted contract permits effective attack1002/defense1001 rather than clamping or upper999 refusal; only final boundary evidence uses that accepted rule"
+  ],
+  "probe_input_manifest_sha256": "f998e8858412fd45fe11f244f22e5f28d0bd8c2ce4da70d022d4db0c99fae578",
+  "recommendation": {
+    "defense": {
+      "attack": -3,
+      "defense": 2,
+      "requires_base_attack": 4
+    },
+    "derived_maxima_from_valid_base": {
+      "attack": 1002,
+      "defense": 1001
+    },
+    "offense": {
+      "attack": 3,
+      "defense": -2,
+      "requires_base_defense": 2
+    },
+    "original": {
+      "attack": 0,
+      "defense": 0
+    }
+  },
+  "runs": [
+    {
+      "checks": 20924,
+      "name": "early",
+      "outcomes": {
+        "win": 648
+      },
+      "rows": 648,
+      "sha256": "4a8634f986c93f1580e7a466d69566c95b64cfb9e7997d333327e8e0dfb8b26c",
+      "triplets": 216
+    },
+    {
+      "checks": 50956,
+      "name": "late-real",
+      "outcomes": {
+        "win": 648
+      },
+      "rows": 648,
+      "sha256": "4a43277f765863a20526fc080903e1d04193ac20da38b04bd3680023ba6768d9",
+      "triplets": 216
+    },
+    {
+      "checks": 13826,
+      "name": "final-wood",
+      "outcomes": {
+        "win": 162
+      },
+      "rows": 162,
+      "sha256": "a7a32cd6edde31f76c297c6c45896335f3ba334f2ca7f41971e6ce338e6d0f60",
+      "triplets": 54
+    },
+    {
+      "checks": 39596,
+      "name": "final-pressure",
+      "outcomes": {
+        "defeat": 58,
+        "win": 266
+      },
+      "rows": 324,
+      "sha256": "d3c3464ebc9158c01c788b21c33dd6aa4f460823ae726e7c9e6a03a197abc7c5",
+      "triplets": 108
+    },
+    {
+      "checks": 6173,
+      "name": "boundary-final",
+      "outcomes": {
+        "win": 72
+      },
+      "rows": 72,
+      "sha256": "0bf5c4360c40063e32f3925d6e32fcd9679188f165f58ceb5afd479bed292b8d",
+      "triplets": 24
+    },
+    {
+      "checks": 11804,
+      "name": "entry-arena",
+      "outcomes": {
+        "defeat": 10,
+        "win": 98
+      },
+      "rows": 108,
+      "sha256": "cc8874ab19261538ff4bc092e6bb84a2db9f0d0534435217a83197e7602c1b0b",
+      "triplets": 36
+    }
+  ],
+  "runtime_commit": "0641da7da036706a8f1ed58cae846b7682e45ec2",
+  "runtime_manifest_sha256": "99fef46b18162a98b3da70b4b8780262af53c4a1f23de3ac016fcddb54dc87f2",
+  "scalar_pair_checks": 2997000,
+  "source_and_report_sha256": {
+    "ACCEPTED_CONTRACT.md": "b6de00db6ff086c9dbab7fc7f85e269c899eab5b305b860e21ef6ba57f83808c",
+    "NUMERICAL_RECOMMENDATION.md": "31a53891b48541ffd77b21a6a7c43bcf89576871fdd686d9827b93f7833db8b6",
+    "RESULT_EXAMPLES.md": "75899e1ff90bd9e080e8e0c8b47c54a8f971225245c4210b81919356300a1ac8",
+    "probe-inputs.sha256": "f998e8858412fd45fe11f244f22e5f28d0bd8c2ce4da70d022d4db0c99fae578",
+    "runtime-inputs.sha256": "99fef46b18162a98b3da70b4b8780262af53c4a1f23de3ac016fcddb54dc87f2",
+    "source-after-audit.json": "05bacb62b0dd1d40b0bbb033ab35c55bfd160b57ca9e98643e21a8195d6d881b",
+    "source-before.json": "df8c04efac6ee090940206811de971fb49b42c911f8f0b0829d75d6f52300566"
+  },
+  "source_binding_complete_before_parent_edits": true,
+  "source_head": "b400e280f436fbf35d2b146dfd38bb24abebd208",
+  "source_preservation_pass": true,
+  "status": "FROZEN DESIGN ONLY: no runtime edits",
+  "total_recorded_rows_including_overlap_and_exploratory_entry_comparison": 1962,
+  "total_reported_godot_checks": 143279
+}

@@ -20,7 +20,7 @@ func _init() -> void:
 	check(old.SAVE_VERSION == 14 and not old.to_dict().has("capstone_stage"), "Actual old14 reader loaded in separate old-pack process")
 	old.coins = 913; old.skill_cooldown = 3; old.party_battle_epoch = 53
 	var data: Dictionary = old.to_dict(); var bytes := FileAccess.get_file_as_bytes(subject)
-	check(JSON.parse_string(bytes.get_string_from_utf8()).version == 15, "Subject is supplied true15 current-producer document")
+	check(JSON.parse_string(bytes.get_string_from_utf8()).version == 15, "Subject is supplied true15 pinned-producer document")
 	check(old.load_game(subject) == ERR_FILE_UNRECOGNIZED, "Old packed reader rejects15 before restoration")
 	check(old.to_dict() == data and old.skill_cooldown == 3 and old.party_battle_epoch == 53 and old.party_session == null, "Packed rejection preserves persistent/transient state")
 	check(FileAccess.get_file_as_bytes(subject) == bytes, "Rejected current subject bytes unchanged")

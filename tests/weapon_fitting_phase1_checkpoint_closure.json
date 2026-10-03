@@ -1,0 +1,47 @@
+{
+  "status": "source_only_phase1_checkpoint",
+  "recorded_utc": "2026-10-03T12:33:31.665198+00:00",
+  "full_regression": {
+    "path": "Hero-staging/equipment-fitting-phase1/aggregate/full-02-result.json",
+    "bytes": 18516,
+    "sha256": "d48e28a94df045e9fe203c8846f0f1883a9c09711aa0bb47b7e3b6ee31276858"
+  },
+  "full_regression_input_count": 1533,
+  "no_source_change_during_full_run": true,
+  "post_run_documentation_and_reproduction_changes": {
+    "COMBAT.md": "db4720d94d31ecd3f3bf7827387e670bf98ce1844fbc80063c699c3dfbd4040e",
+    "DEVELOPMENT.md": "723c663a22c024250e4d666eaf3fa6c0f50a22dc14e44928287929785ba721f2",
+    "PROGRESS.md": "679658cfff9ce8527708f3a4bf00e0ab46740c55a3b175cb6f928dc44373c010",
+    "README.md": "733dc8ee0f509fb1866f23ea0e933b403a9e4742e709dacda1928e47386d3dfe",
+    "ROADMAP.md": "9a064953428221b06e6e095f5e4faea0e94d343dc00c1f5e01ca487f370372a9",
+    "WEB_EXPORT.md": "c6a73a0dff7014fb7e2c8b62010dd6054035a078f927c5a154827f9954b33b1d",
+    "tests/TEST_RESULTS.md": "d8bffd905a2e0f2254a756ff6284f492096ec3a3a9bcebae5b07f7a3db8e596a",
+    "tests/weapon_fitting_phase1_binding.json": "ac07dcbc23304b7e7829a1d9d3416fc212c4276e9f876469850e584e7405931b",
+    "tests/weapon_fitting_phase1_contract.md": "395ed50f1d101336f9c7633b5119e13fa945342c5bb2db485f1602e44aaf5f37",
+    "tests/weapon_fitting_phase1_core.json": "d0f2f7171772c6cf9bc5f9ef6810560a4eaafc3d9f6d0d086d1fa0927a86c1e3",
+    "tests/weapon_fitting_phase1_evidence_index.json": "d0fbad075770c67a4fb4d0f8dc1907fe65026bcd8b57b6918ac7c48104f5a5e0",
+    "tests/weapon_fitting_phase1_full_regression.json": "d927e5cb9bfd861aedbc47e89bcc0906bebd1c5d5bcc8bf4a0dea0935179758e",
+    "tests/weapon_fitting_phase1_independent.json": "ec44244123893757af7f523891ffbe551238360db507e2d853a13302a48e518d",
+    "tests/weapon_fitting_phase1_migration.json": "203e7f20a892c4ccc82106c5ccc77ece2ff1a4e4fda24e1473eafde1dbe01453",
+    "tests/weapon_fitting_phase1_numerical.json": "545a33b539d8dddedca4803b371639880af7ba679069147dd68ca6ed810bc2fc",
+    "tests/weapon_fitting_phase1_reproduce.py": "5ede024be73b7cc65d325d3f398f2895a53d76e47e0bd649f8f0f3d5fee4cef1",
+    "tests/weapon_fitting_phase1_trials.json": "135343413a3a6bde30e4843fd74baec7cd8b4b9128352e2a32eca4e799766ee3"
+  },
+  "post_run_change_scope": "Seven documentation updates and ten new QA/reproduction records, written only after full-02 completed. Then CHECKSUMS and this closure are finalized. All pre-existing runtime, tests, runner, project, export settings and assets still exactly match the accepted full-run snapshot. These post-run record additions are not claimed to have existed during that run.",
+  "portable_helper_validation": {
+    "path": "Hero-staging/equipment-fitting-phase1/checkpoint-preparation/portable-helper-revision/FINAL_BINDING.json",
+    "bytes": 9447,
+    "sha256": "5634ec70e8710d92166805ef5ab07a71709464aefc467fe69853dd5069ffe4bd"
+  },
+  "portable_helper_source_sha256": "5ede024be73b7cc65d325d3f398f2895a53d76e47e0bd649f8f0f3d5fee4cef1",
+  "fresh_copy_scope": "All1543 source paths except builds/.gdignore copied; helper replaced in place with tested revision. All1542 final candidate paths unchanged across first import, seven focused suites, current16 production and separate complete-old15 PCK gate. No initial .godot cache; cache created by import.",
+  "excluded_claims": [
+    "fitting UI or physical proximity acceptance",
+    "native pixels/input",
+    "new export package",
+    "independent Windows build",
+    "browser recovery",
+    "deployment"
+  ],
+  "live": "0.0.29 Web1 schema15; source0.0.30 writer16 only"
+}

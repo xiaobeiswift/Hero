@@ -19,7 +19,7 @@ func _init() -> void:
 	_test_roundtrips_and_transfer()
 	_test_frozen_reader()
 	_remove_tree(fixture_root)
-	if failures == 0: print("PASS: %d consignee introduced14/current15 migration/atomicity/slot/transfer/real-Web25-reader checks; genuine producers1,9–13, authored contracts2–8" % checks)
+	if failures == 0: print("PASS: %d consignee introduced14/current16 migration/atomicity/slot/transfer/real-Web25-reader checks; genuine producers1,9–13, authored contracts2–8" % checks)
 	quit(0 if failures == 0 else 1)
 
 func check(ok: bool, label: String) -> void:
@@ -67,7 +67,7 @@ func _test_legacy() -> void:
 		check(migrated.coins == 24 and migrated.hp == 100 and migrated.qi == 2 and migrated.medicine == 3 and migrated.party_roster == ["hero"], "Original default resources unchanged")
 		check(not migrated.internal_unlocked and not migrated.qin_unlocked and migrated.receipt_stage == 0, "No unearned recruits, lesson or prior reward")
 		var rewritten: String = fixture_root + "/migrated%d.json" % item.version
-		check(migrated.save_game(rewritten) == OK and JSON.parse_string(_bytes(rewritten).get_string_from_utf8()).version == 15, "Only explicit new save writes current schema15")
+		check(migrated.save_game(rewritten) == OK and JSON.parse_string(_bytes(rewritten).get_string_from_utf8()).version == 16, "Only explicit new save writes current schema16")
 		check(_bytes(path) == bytes, "Migration never rewrites historical source")
 		var partial: Dictionary = JSON.parse_string(bytes.get_string_from_utf8()).player
 		partial.consignee_stage = 0
@@ -87,7 +87,8 @@ func _test_legacy() -> void:
 	check(inspected.ok, "Genuine Web25 serializer progressed schema13 migrates")
 	if inspected.ok:
 		var converted: Dictionary = inspected.state.to_dict()
-		for key: String in Quest.FIELDS + State.Capstone.FIELDS: converted.erase(key)
+		check(inspected.state.weapon_fitting == "plain", "Historical13 fitting defaults plain")
+		for key: String in Quest.FIELDS + State.Capstone.FIELDS + ["weapon_fitting"]: converted.erase(key)
 		check(live._same_save_value(converted, original), "Every old ending/resource/recruit/reward field remains exact")
 		check(inspected.state.party_resources.shen.hp == 0, "Migration never revives injured companion")
 
@@ -95,7 +96,7 @@ func _test_modern_rejections() -> void:
 	var live := State.new(); live.coins = 777; live.skill_cooldown = 3
 	var before: Dictionary = live.to_dict()
 	var good := State.new().to_dict()
-	check(State.SAVE_VERSION == 15 and live.PartyRoster.PAYLOAD_VERSION == 15, "Both whole-save and party schema caps explicitly15; introduced14 completeness is separately preserved")
+	check(State.SAVE_VERSION == 16 and live.PartyRoster.PAYLOAD_VERSION == 16, "Both whole-save and party schema caps explicitly16; introduced14 completeness is separately preserved")
 	for key: String in good:
 		var missing := good.duplicate(true); missing.erase(key)
 		check(not live.inspect_save_bytes(_document(missing)).ok, "Modern required key rejects: " + key)
@@ -109,7 +110,7 @@ func _test_modern_rejections() -> void:
 	for stage: Variant in [-1, 0.5, 1, 2, 3, 4, 5, 6]:
 		var data := good.duplicate(true); data.consignee_stage = stage
 		check(not live.inspect_save_bytes(_document(data)).ok, "Unproven/inconsistent stage rejects:" + str(stage))
-	for version: Variant in [0, 13.5, 14.5, 16, 99, "15", true]:
+	for version: Variant in [0, 13.5, 14.5, 17, 99, "16", true]:
 		var inspected := live.inspect_save_bytes(JSON.stringify({"version": version, "player": good}).to_utf8_buffer())
 		check(not inspected.ok, "Unknown/malformed schema rejects")
 	var path := fixture_root + "/bad.json"; _write(path, _document(extras)); var bytes := _bytes(path)
@@ -153,10 +154,10 @@ func _test_roundtrips_and_transfer() -> void:
 		check(slots.load_slot(loaded, 1) == OK and loaded.to_dict() == state.to_dict(), "Stage/ending exact roundtrip")
 		state.coins += 1; check(slots.save_slot(state, 1) == OK and _bytes(slots.path_for(1) + ".bak") == original, "Backup preserves exact former stage")
 		check(slots.load_backup(loaded, 1) == OK and loaded.to_dict() != state.to_dict(), "Stage backup restores detached model")
-		check(slots.describe(1).status == "valid" and slots.describe_backup(1).status == "valid", "Metadata sees current14 and backup14")
-		var export := transfer.export_slot(1, true); check(export.ok and export.version == 15 and export.bytes == original, "Export exact current15 backup bytes")
-		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 15, "Empty-slot current15 preview")
-		if preview.ok: check(transfer.commit_import(preview.token).ok and _bytes(slots.path_for(2)) == original, "Import retains exact current15 bytes")
+		check(slots.describe(1).status == "valid" and slots.describe_backup(1).status == "valid", "Metadata sees current16 and backup16")
+		var export := transfer.export_slot(1, true); check(export.ok and export.version == 16 and export.bytes == original, "Export exact current16 backup bytes")
+		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 16, "Empty-slot current16 preview")
+		if preview.ok: check(transfer.commit_import(preview.token).ok and _bytes(slots.path_for(2)) == original, "Import retains exact current16 bytes")
 		check(not transfer.preview_import(original, 2).ok, "Never replace occupied import target")
 		var historical := _bytes(FIXTURES + "schema_13_default.json"); preview = transfer.preview_import(historical, 3)
 		check(preview.ok and preview.version == 13, "Genuine schema13 empty-slot preview")
