@@ -32,6 +32,22 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
+# Journal guidance phase1: pure catalog/route/session only; no new J consumer UI yet.
+# Separate profiles prevent retained suites from supplying incidental user files.
+JOURNAL_MODEL_ROOT="$(realpath "$TEST_ROOT")/journal-model"
+mkdir "$JOURNAL_MODEL_ROOT"
+mkdir -p "$JOURNAL_MODEL_ROOT"/{focused,independent}/{data,config,cache}
+XDG_DATA_HOME="$JOURNAL_MODEL_ROOT/focused/data" \
+XDG_CONFIG_HOME="$JOURNAL_MODEL_ROOT/focused/config" \
+XDG_CACHE_HOME="$JOURNAL_MODEL_ROOT/focused/cache" \
+  run_checked --headless --log-file "$JOURNAL_MODEL_ROOT/focused/engine.log" \
+  --path . --script tests/journal_guidance_model_test.gd -- "$JOURNAL_MODEL_ROOT/focused/result.json"
+XDG_DATA_HOME="$JOURNAL_MODEL_ROOT/independent/data" \
+XDG_CONFIG_HOME="$JOURNAL_MODEL_ROOT/independent/config" \
+XDG_CACHE_HOME="$JOURNAL_MODEL_ROOT/independent/cache" \
+  run_checked --headless --log-file "$JOURNAL_MODEL_ROOT/independent/engine.log" \
+  --path . --script tests/journal_guidance_independent_test.gd -- "$JOURNAL_MODEL_ROOT/independent/result.json"
+
 # Equipment fitting phase1: schema16 and detached, reward-free trial models.
 # No fitting controls/native/new-package acceptance is implied by this suite.
 run_checked --headless --path . --script tests/weapon_fitting_rules_test.gd
