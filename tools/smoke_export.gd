@@ -10,6 +10,9 @@ var _unified_basic_encounters: Dictionary = {}
 var _unified_facts_ok: bool = true
 var _exploration_prerequisite_checks: int = 0
 var _condition_prerequisite_checks: int = 0
+var _transfer_prerequisite_checks: int = 0
+var _transfer_setup_checks: int = 0
+var _transfer_directory_counter: int = 0
 var checks := 0
 var failures := 0
 var game
@@ -51,7 +54,7 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites() or not _transfer_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal):
@@ -72,6 +75,11 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	_transfer_fresh_title()
+	if OS.get_cmdline_user_args().has("--transfer-only"):
+		await _test_transfer_pack()
+		await _finish_run(rehearsal, "transfer-only")
+		return
 	if OS.get_cmdline_user_args().has("--condition-only"):
 		await _test_condition_pack()
 		await _finish_run(rehearsal, "condition-only")
@@ -178,6 +186,7 @@ func _run() -> void:
 	await _test_exploration_pack()
 	await _test_unified_pack()
 	await _test_condition_pack()
+	await _test_transfer_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -1368,7 +1377,7 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.25", "V25 exploration companion condition project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.26", "V26 empty-slot save transfer project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 13, "V22 requires save schema13")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
@@ -2272,7 +2281,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all10 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.25", "Packed actual title retains companion-condition0.0.25 identity")
+	_check(title != null and title.text=="0.0.26", "Packed actual title retains empty-slot-transfer0.0.26 identity")
 	for kind: String in encounters.IDS: await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -3160,3 +3169,383 @@ func _condition_live_changes(row) -> void:
 	if game.active_modal: game._close_modal()
 	game._process(0)
 	_check(not game.state.battle_active and row.is_visible_in_tree() and _condition_projection_matches(row), "Packed real battle settlement refreshes condition from accepted persistent HP/Qi")
+
+# V26 adds an independent measured scope. Transport below is deliberately fake:
+# the exact PCK's real core/UI/lifecycle runs natively; actual browser downloads,
+# picker user activation and durable IDBFS persistence require separate Web QA.
+class TransferPackBrowser extends RefCounted:
+	signal selection_finished(operation: int, status: String, bytes: PackedByteArray)
+	var enabled: bool = true
+	var operation: int = -1
+	var picks: int = 0
+	var cancellations: int = 0
+	var downloads: Array = []
+	var disposed: bool = false
+	func available() -> bool: return enabled and not disposed
+	func choose_file(value: int) -> bool:
+		operation = value; picks += 1
+		return available()
+	func cancel() -> void:
+		operation = -1; cancellations += 1
+	func dispose() -> void:
+		disposed = true; cancel()
+	func request_download(bytes: PackedByteArray, slot: int, backup: bool) -> bool:
+		if not available(): return false
+		downloads.append({"bytes":bytes.duplicate(),"slot":slot,"backup":backup})
+		return true
+
+func _transfer_prerequisites() -> bool:
+	var previous: int = failures
+	var first: int = checks
+	for module: String in ["local_save_transfer", "browser_save_transfer", "save_transfer_ui"]:
+		_check(ResourceLoader.exists("res://scripts/"+module+".gd"), "Transfer package retains actual runtime before scene instantiation: "+module)
+	_transfer_prerequisite_checks = checks-first
+	return failures == previous
+
+func _transfer_fresh_title() -> void:
+	var first: int = checks
+	var original: bool = game.browser_mode
+	var original_gate: bool = game.web_save_transfer_enabled
+	var files: Dictionary = _courtyard_save_files()
+	var before: Dictionary = _receipt_variables(game.state)
+	_check(not game.state.has_save() and not game.save_slots.store.has_manual_saves(), "Packed fresh profile has no fabricated save or manual slot")
+	game.browser_mode = true; game._show_title()
+	_check(not game.web_save_transfer_enabled and _find_button(game.overlay,"导入 / 导出手记") == null and not game.save_slots.transfer.allowed(), "Packed release default-off gate suppresses unverified browser UI and direct operations")
+	game.web_save_transfer_enabled = true; game._show_title()
+	_check(_find_button(game.overlay,"导入 / 导出手记") != null and _find_button(game.overlay,"查阅手记") == null, "Packed fresh browser title offers import before any local save exists")
+	_check(_courtyard_save_files() == files and _receipt_variables(game.state) == before, "Packed title transfer affordance creates no autosave or journey mutation")
+	game.browser_mode = original; game.web_save_transfer_enabled = original_gate; game._show_title()
+	_transfer_setup_checks = checks-first
+
+func _transfer_directory(label: String) -> String:
+	_transfer_directory_counter += 1
+	var path: String = "user://transfer-pack-%03d-%s" % [_transfer_directory_counter,label]
+	_check(DirAccess.make_dir_absolute(ProjectSettings.globalize_path(path)) == OK, "Packed transfer fixture claims a fresh isolated directory: "+label)
+	return path
+
+func _transfer_write(path: String, bytes: PackedByteArray) -> void:
+	var file: FileAccess = FileAccess.open(path,FileAccess.WRITE)
+	_check(file != null, "Packed transfer fixture opens only isolated audit bytes: "+path.get_file())
+	if file != null:
+		file.store_buffer(bytes); file.close()
+
+func _transfer_files(directory: String) -> Dictionary:
+	var result: Dictionary = {}
+	for name: String in DirAccess.get_files_at(directory):
+		result[name] = FileAccess.get_file_as_bytes(directory.path_join(name))
+	for name: String in DirAccess.get_directories_at(directory):
+		result[name+"/"] = _transfer_files(directory.path_join(name))
+	return result
+
+func _transfer_document(version: int = 13) -> Dictionary:
+	var model = load("res://scripts/game_state.gd").new()
+	var data: Dictionary = model.to_dict()
+	data.player_name = "归舟客"
+	if version < 13: data.erase("internal_unlocked")
+	if version < 12:
+		for key: String in ["party_roster","party_resources","qin_stage","qin_unlocked"]: data.erase(key)
+	if version < 11: data.erase("receipt_stage")
+	return {"version":version,"player":data}
+
+func _transfer_bytes(version: int = 13) -> PackedByteArray:
+	# BOM, spacing and trailing newlines make any reserialization observable.
+	return ("\ufeff  "+JSON.stringify(_transfer_document(version),"  ")+"\n\n").to_utf8_buffer()
+
+func _transfer_failure_script():
+	# Compile only after packed-module prerequisites, never preload a missing
+	# current script before an old package can receive its fail-closed verdict.
+	var script := GDScript.new()
+	script.source_code = """extends "res://scripts/local_save_transfer.gd"
+var fault: String = ""
+var stage_reads: int = 0
+var renames: int = 0
+func _create_stage_directory() -> Dictionary:
+	if fault == "create": return _failure(ERR_CANT_CREATE,"stage_create_failed")
+	return super._create_stage_directory()
+func _open_stage(path: String) -> FileAccess:
+	if fault == "open": return null
+	return super._open_stage(path)
+func _write_stage(file: FileAccess, bytes: PackedByteArray) -> Error:
+	if fault == "write":
+		file.store_buffer(bytes.slice(0,12))
+		return ERR_FILE_CANT_WRITE
+	return super._write_stage(file,bytes)
+func _flush_stage(file: FileAccess) -> Error:
+	if fault == "flush": return ERR_FILE_CANT_WRITE
+	return super._flush_stage(file)
+func _read_bytes(path: String) -> Dictionary:
+	var result: Dictionary = super._read_bytes(path)
+	if path.get_file() == "incoming.json":
+		stage_reads += 1
+		if fault == "readback": return {"ok":true,"error":OK,"bytes":"changed staged bytes".to_utf8_buffer()}
+		if fault == "occupied":
+			var file: FileAccess = FileAccess.open(_slots.path_for(1)+".bak",FileAccess.WRITE)
+			file.store_string("new competing backup"); file.close()
+	return result
+func _rename_stage(source: String, destination: String) -> Error:
+	renames += 1
+	if fault == "rename": return ERR_CANT_CREATE
+	return super._rename_stage(source,destination)
+"""
+	_check(script.reload() == OK, "Packed transfer injected I/O probes compile against actual shipped core")
+	return script
+
+func _test_transfer_pack() -> void:
+	var first: int = checks
+	var core = load("res://scripts/local_save_transfer.gd")
+	var model = load("res://scripts/game_state.gd")
+	_check(core.MAX_IMPORT_BYTES == 1048576 and model.MAX_SAVE_BYTES == 1048576 and model.SAVE_VERSION == 13, "Packed transfer preserves schema13 and exact one-MiB envelope")
+	_check(game.save_slots.transfer.get_script() == load("res://scripts/save_transfer_ui.gd") and game.save_slots.transfer.adapter.get_script() == load("res://scripts/browser_save_transfer.gd"), "Packed real SaveSlots owns shipped transfer UI and production browser adapter")
+	_check(not game.save_slots.transfer.adapter.available(), "Native exact-pack audit does not impersonate the Web JavaScript bridge")
+	_transfer_core_versions(core,model)
+	_transfer_core_rejections(core)
+	_transfer_core_targets(core)
+	_transfer_core_transactions(core)
+	await _transfer_actual_ui()
+	print("Empty-slot save transfer exact-runtime coverage: %d checks; actual packaged byte inspector/core/UI; schemas1-13; raw bytes; 1MiB/UTF8/semantic gates; empty manual slots only; staged/readback/final-recheck and failure preservation; native injected transport/lifecycle; no browser download or durability claim" % (checks-first+_transfer_prerequisite_checks+_transfer_setup_checks))
+
+func _transfer_core_versions(core,model) -> void:
+	for version: int in range(1,14):
+		var directory: String = _transfer_directory("schema%d" % version)
+		var store = load("res://scripts/local_save_slots.gd").new(directory)
+		var helper = core.new(directory)
+		var bytes: PackedByteArray = _transfer_bytes(version)
+		var probe = model.new()
+		probe.coins = 987; probe.battle_active = true; probe.enemy_hp = 31
+		var before: Dictionary = _receipt_variables(probe)
+		var inspected: Dictionary = probe.inspect_save_bytes(bytes)
+		_check(inspected.ok and inspected.version == version and inspected.state != probe and _receipt_variables(probe) == before, "Packed detached inspector accepts schema and preserves all live fields: "+str(version))
+		var preview: Dictionary = helper.preview_import(bytes,1)
+		_check(preview.get("ok",false) and preview.version == version and preview.metadata.player_name == "归舟客" and preview.metadata.level == 1 and preview.metadata.location == "qingwei", "Packed transfer metadata comes from validated schema: "+str(version))
+		_check(not preview.has("state") and not preview.has("bytes") and not FileAccess.file_exists(store.path_for(1)), "Packed preview exposes detached metadata but writes no file: "+str(version))
+		var committed: Dictionary = helper.commit_import(preview.get("token",-1))
+		_check(committed.get("status","") == "imported" and FileAccess.get_file_as_bytes(store.path_for(1)) == bytes and _transfer_files(directory).size() == 1, "Packed import preserves original BOM/format/version bytes and leaves no stage: "+str(version))
+		var exported: Dictionary = helper.export_slot(1)
+		_check(exported.get("ok",false) and exported.bytes == bytes and exported.version == version and exported.metadata == preview.metadata, "Packed raw export retains original schema and validated metadata: "+str(version))
+		_check(_receipt_variables(probe) == before, "Packed metadata/commit/export never changes original detached caller: "+str(version))
+	var directory: String = _transfer_directory("exports")
+	var store = load("res://scripts/local_save_slots.gd").new(directory)
+	var helper = core.new(directory)
+	for slot: int in range(4):
+		var bytes: PackedByteArray = _transfer_bytes(slot+1)
+		_transfer_write(store.path_for(slot),bytes)
+		if slot > 0: _transfer_write(store.path_for(slot)+".bak",_transfer_bytes(slot+8))
+	var files: Dictionary = _transfer_files(directory)
+	for slot: int in range(4):
+		for backup: bool in ([false] if slot == 0 else [false,true]):
+			var result: Dictionary = helper.export_slot(slot,backup)
+			var path: String = store.path_for(slot)+(".bak" if backup else "")
+			_check(result.get("ok",false) and result.bytes == FileAccess.get_file_as_bytes(path) and result.digest == FileAccess.get_sha256(path), "Packed exports original validated saved bytes with digest: %d/%s" % [slot,backup])
+			_check(_transfer_files(directory) == files, "Packed export never saves/rotates/reformats any primary or backup")
+	_check(not helper.export_slot(0,true).ok, "Packed autosave has no invented backup export")
+
+func _transfer_core_rejections(core) -> void:
+	var directory: String = _transfer_directory("reject")
+	var helper = core.new(directory)
+	var valid: PackedByteArray = _transfer_bytes()
+	var invalid: Array = [PackedByteArray(),"{".to_utf8_buffer(),"[]".to_utf8_buffer(),"null".to_utf8_buffer(),PackedByteArray([0]),PackedByteArray([0xc0,0x80]),PackedByteArray([0xed,0xa0,0x80]),PackedByteArray([0xf4,0x90,0x80,0x80]),PackedByteArray([0xe2,0x82]),PackedByteArray([0xff])]
+	for version: Variant in [0,14,-1,13.5,"13",true,null]:
+		var document: Dictionary = _transfer_document(); document.version = version
+		invalid.append(JSON.stringify(document).to_utf8_buffer())
+	for key: String in ["hp","level","quest_stage","internal_unlocked","party_roster","party_resources"]:
+		var document: Dictionary = _transfer_document(); document.player.erase(key)
+		invalid.append(JSON.stringify(document).to_utf8_buffer())
+	for patch: Dictionary in [{"hp":0},{"hp":999999},{"coins":-1},{"level":1.5},{"map_id":"unknown"},{"quest_stage":-1},{"internal_unlocked":true},{"party_roster":["hero","qin"]},{"player_name":" "}]:
+		var document: Dictionary = _transfer_document(); document.player.merge(patch,true)
+		invalid.append(JSON.stringify(document).to_utf8_buffer())
+	invalid.append(("[".repeat(513)+"0"+"]".repeat(513)).to_utf8_buffer())
+	var oversized: PackedByteArray = valid.duplicate(); oversized.resize(1048577); oversized.fill(32)
+	invalid.append(oversized)
+	for index: int in range(invalid.size()):
+		var result: Dictionary = helper.preview_import(invalid[index],1)
+		_check(not result.ok and _transfer_files(directory).is_empty(), "Packed untrusted input fails before writes: "+str(index))
+	var exact: PackedByteArray = valid.duplicate()
+	var padding := PackedByteArray(); padding.resize(1048576-exact.size()); padding.fill(32); exact.append_array(padding)
+	_check(helper.preview_import(exact,1).get("ok",false), "Packed exact one-MiB valid save remains accepted")
+	var future: Dictionary = _transfer_document(); future.version = 14
+	var result: Dictionary = helper.preview_import(JSON.stringify(future).to_utf8_buffer(),1)
+	_check(not result.ok and result.error == ERR_FILE_UNRECOGNIZED, "Packed future schema returns incompatibility rather than rewriting")
+	for text: String in [JSON.stringify(_transfer_document()).trim_suffix("}")+",}",JSON.stringify(_transfer_document()).replace('"version":13','"version":1,"version":13')]:
+		var result_legacy: Dictionary = helper.preview_import(text.to_utf8_buffer(),1)
+		_check(result_legacy.get("ok",false), "Packed byte wrapper preserves existing trailing-comma and duplicate-key parser semantics")
+
+func _transfer_core_targets(core) -> void:
+	var bytes: PackedByteArray = _transfer_bytes()
+	for slot: Variant in [0,-1,4,1.0,true,"1","../hero_save.json",null]:
+		var directory: String = _transfer_directory("invalid-target")
+		var helper = core.new(directory)
+		_check(not helper.target_available(slot) and not helper.preview_import(bytes,slot).ok and _transfer_files(directory).is_empty(), "Packed only integer manual targets1-3 are admissible: "+str(slot))
+	for slot: int in [1,2,3]:
+		var directory: String = _transfer_directory("manual-target")
+		var helper = core.new(directory)
+		var preview: Dictionary = helper.preview_import(bytes,slot)
+		_check(preview.get("ok",false) and helper.commit_import(preview.token).get("ok",false) and not helper.target_available(slot), "Packed each empty manual slot accepts one explicit import: "+str(slot))
+	for suffix: String in ["", ".bak", ".tmp", ".bak.tmp"]:
+		for folder: bool in [false,true]:
+			var directory: String = _transfer_directory("occupied")
+			var helper = core.new(directory)
+			var path: String = directory.path_join("hero_slot_1.json"+suffix)
+			if folder: _check(DirAccess.make_dir_absolute(ProjectSettings.globalize_path(path)) == OK, "Packed fixture creates a conflicting directory")
+			else: _transfer_write(path,"preexisting unparsed bytes".to_utf8_buffer())
+			var files: Dictionary = _transfer_files(directory)
+			_check(not helper.target_available(1) and not helper.preview_import(bytes,1).ok and _transfer_files(directory) == files, "Packed corrupt files, backup-only and conflicting paths never count as empty: "+suffix+str(folder))
+	var directory: String = _transfer_directory("bad-source")
+	var helper = core.new(directory)
+	_transfer_write(directory.path_join("hero_slot_1.json"),"corrupt source".to_utf8_buffer())
+	_transfer_write(directory.path_join("hero_slot_1.json.bak"),_transfer_bytes(12))
+	var files: Dictionary = _transfer_files(directory)
+	_check(not helper.export_slot(1).ok and helper.export_slot(1,true).ok and _transfer_files(directory) == files, "Packed corrupt primary export leaves independently valid backup export intact")
+
+func _transfer_core_transactions(core) -> void:
+	var bytes: PackedByteArray = _transfer_bytes()
+	var directory: String = _transfer_directory("tokens")
+	var helper = core.new(directory)
+	var first: Dictionary = helper.preview_import(bytes,1)
+	var second: Dictionary = helper.preview_import(bytes,2)
+	_check(not helper.commit_import(first.token).ok and _transfer_files(directory).is_empty(), "Packed selecting a new target invalidates earlier confirmation")
+	helper.cancel_preview(second.token)
+	_check(not helper.commit_import(second.token).ok and _transfer_files(directory).is_empty(), "Packed explicit cancel invalidates pending token")
+	first = helper.preview_import(bytes,1); helper.preview_import("bad".to_utf8_buffer(),2)
+	_check(not helper.commit_import(first.token).ok and _transfer_files(directory).is_empty(), "Packed even invalid reselection invalidates previous valid confirmation")
+	first = helper.preview_import(bytes,1)
+	var original: PackedByteArray = bytes.duplicate(); bytes[0] = 32
+	_check(helper.commit_import(first.token).get("status","") == "imported" and FileAccess.get_file_as_bytes(directory.path_join("hero_slot_1.json")) == original, "Packed caller byte-array mutation cannot alter privately retained preview")
+	var files: Dictionary = _transfer_files(directory)
+	_check(helper.commit_import(first.token).get("status","") == "already_imported" and _transfer_files(directory) == files, "Packed duplicate commit is read-only idempotent for unchanged result")
+	_transfer_write(directory.path_join("hero_slot_1.json"),"changed target".to_utf8_buffer()); files = _transfer_files(directory)
+	_check(not helper.commit_import(first.token).ok and _transfer_files(directory) == files, "Packed replay after target replacement never reports success or overwrites it")
+	first = helper.preview_import(original,2)
+	helper._preview.bytes[0] = 32
+	_check(not helper.commit_import(first.token).ok and _transfer_files(directory) == files, "Packed retained-byte digest rejects changed confirmation before any write")
+	first = helper.preview_import(original,3)
+	helper._preview.slot = 2
+	_check(not helper.commit_import(first.token).ok and _transfer_files(directory) == files, "Packed changed target binding rejects confirmation without writing either slot")
+	var failure_script = _transfer_failure_script()
+	for fault: String in ["create","open","write","flush","readback","occupied","rename",""]:
+		var fault_directory: String = _transfer_directory("io-"+fault)
+		var injected = failure_script.new(fault_directory); injected.fault = fault
+		_transfer_write(fault_directory.path_join("hero_save.json"),original)
+		_transfer_write(fault_directory.path_join("hero_slot_2.json"),_transfer_bytes(11))
+		_transfer_write(fault_directory.path_join("hero_slot_2.json.bak"),_transfer_bytes(10))
+		var stable: Dictionary = _transfer_files(fault_directory)
+		var preview: Dictionary = injected.preview_import(original,1)
+		_check(preview.get("ok",false), "Packed I/O fault fixture has a validated empty target: "+fault)
+		var result: Dictionary = injected.commit_import(preview.get("token",-1))
+		var expected: Dictionary = stable.duplicate(true)
+		if fault == "occupied": expected["hero_slot_1.json.bak"] = "new competing backup".to_utf8_buffer()
+		elif fault == "": expected["hero_slot_1.json"] = original
+		_check(result.ok == fault.is_empty() and _transfer_files(fault_directory) == expected, "Packed staged failure or success preserves all other files and removes only owned stage: "+fault)
+		if not fault.is_empty():
+			injected.fault = ""
+			_check(not injected.commit_import(preview.token).ok and _transfer_files(fault_directory) == expected, "Packed failed confirmation is consumed and cannot silently retry: "+fault)
+		if fault in ["readback","occupied"]: _check(injected.stage_reads == 1 and injected.renames == 0, "Packed staged byte verification and final occupancy recheck precede rename: "+fault)
+		elif fault in ["rename",""]: _check(injected.stage_reads == 1 and injected.renames == 1, "Packed commit reaches exactly one rename only after verified readback: "+fault)
+
+func _transfer_actual_ui() -> void:
+	var original_browser: bool = game.browser_mode
+	var original_gate: bool = game.web_save_transfer_enabled
+	var original_storage: bool = game.browser_storage_available
+	var original_store = game.save_slots.store
+	game.save_slots.transfer.dispose()
+	var directory: String = _transfer_directory("real-ui")
+	var store = load("res://scripts/local_save_slots.gd").new(directory)
+	var fake := TransferPackBrowser.new()
+	var panel = load("res://scripts/save_transfer_ui.gd").new(game.save_slots,directory,fake)
+	game.save_slots.store = store; game.save_slots.transfer = panel
+	game.browser_mode = true; game.web_save_transfer_enabled = true; game.browser_storage_available = false
+	game._new_game(); _condition_freeze()
+	game.state.coins = 37; game.state.player_name = "当前旅人"
+	var before: Dictionary = _receipt_variables(game.state)
+	var autosaves: Dictionary = _courtyard_save_files()
+	var position: Vector2 = game.world.player_pos
+	var bytes: PackedByteArray = _transfer_bytes()
+	game._show_save_slots()
+	_check(_find_button(game.overlay,"导入 / 导出手记") != null, "Packed actual browser SaveSlots offers transfer")
+	_press("导入 / 导出手记")
+	_check(game.overlay.get_meta("save_transfer",false) and not game.modal_autosave_on_close and _gather_text(game.overlay).contains("持久存储"), "Packed transfer modal suppresses close-autosave and explains unavailable persistence")
+	_press("导入到空白手记"); _press("选择文件 → 手记一")
+	var operation: int = fake.operation
+	_check(fake.picks == 1 and panel._pending_generation == game.modal_generation and _transfer_files(directory).is_empty(), "Packed actual target button synchronously requests picker through injected native transport without writes")
+	fake.selection_finished.emit(operation,"selected",bytes)
+	_check(_gather_text(game.overlay).contains("归舟客") and _find_button(game.overlay,"确认导入 手记一") != null and _transfer_files(directory).is_empty(), "Packed selected bytes show validated preview and separate explicit confirmation")
+	var stale_confirm: Callable = game.modal_actions[0]
+	fake.selection_finished.emit(operation,"selected",bytes)
+	_check(game.modal_actions[0] == stale_confirm and panel._preview_token >= 0, "Packed repeated picker callback cannot mint or replace confirmation")
+	_press("取消导入"); stale_confirm.call()
+	_check(_transfer_files(directory).is_empty() and _receipt_variables(game.state) == before and _courtyard_save_files() == autosaves, "Packed canceled preview and stale confirmation preserve current journey and all save bytes")
+	panel.targets(); _press("选择文件 → 手记一"); operation = fake.operation
+	await _key(KEY_ESCAPE)
+	fake.selection_finished.emit(operation,"selected",bytes)
+	_check(not game.overlay.get_meta("save_transfer",false) and panel._preview_token == -1 and _transfer_files(directory).is_empty(), "Packed actual Esc invalidates late selected callback and returns to SaveSlots")
+	await _key(KEY_ESCAPE)
+	_check(not game.active_modal and _receipt_variables(game.state) == before and _courtyard_save_files() == autosaves and game.world.player_pos == position, "Packed Esc from transfer then SaveSlots never autosaves unsaved current journey")
+	for status: String in ["cancelled","oversize","invalid","read_error"]:
+		panel.targets(); _press("选择文件 → 手记一"); operation = fake.operation
+		fake.selection_finished.emit(operation,status,PackedByteArray())
+		_check(_gather_text(game.overlay).contains("未导入手记") and _transfer_files(directory).is_empty() and _courtyard_save_files() == autosaves, "Packed picker terminal failure leaves every byte unchanged: "+status)
+	panel.targets(); _press("选择文件 → 手记一"); operation = fake.operation
+	_press("重新选择文件")
+	var newest: int = fake.operation
+	fake.selection_finished.emit(operation,"selected",bytes)
+	_check(panel._preview_token < 0 and newest != operation and _transfer_files(directory).is_empty(), "Packed older picker result cannot replace newer selection")
+	fake.selection_finished.emit(newest,"selected",bytes)
+	var confirm: Callable = game.modal_actions[0]
+	_transfer_write(store.path_for(1)+".bak","appeared after preview".to_utf8_buffer())
+	var conflict_files: Dictionary = _transfer_files(directory)
+	confirm.call(); confirm.call()
+	_check(_gather_text(game.overlay).contains("未导入手记") and _transfer_files(directory) == conflict_files and _receipt_variables(game.state) == before, "Packed actual confirm rechecks newly occupied target and repeated click preserves failure bytes")
+	panel.targets()
+	_check(_find_button(game.overlay,"选择文件 → 手记一") == null and _find_button(game.overlay,"选择文件 → 手记二") != null, "Packed backup-only slot disappears from import target choices")
+	_press("选择文件 → 手记二"); fake.selection_finished.emit(fake.operation,"selected",bytes)
+	confirm = game.modal_actions[0]
+	confirm.call(); confirm.call()
+	_check(FileAccess.get_file_as_bytes(store.path_for(2)) == bytes and _gather_text(game.overlay).contains("手记已导入") and not FileAccess.file_exists(store.path_for(2)+".bak"), "Packed actual UI writes original bytes to only empty target and ignores double confirmation")
+	_check(_receipt_variables(game.state) == before and _courtyard_save_files() == autosaves and game.world.player_pos == position, "Packed successful import leaves active model/world/autosave completely unchanged")
+	_press("查阅手记"); _press("手记二"); _press("读取当前版本")
+	_check(_find_button(game.overlay,"确认读取") != null and _receipt_variables(game.state) == before and _courtyard_save_files() == autosaves, "Packed imported slot remains a separate explicit load-confirmation workflow")
+	await _key(KEY_ESCAPE)
+	_check(_receipt_variables(game.state) == before and _courtyard_save_files() == autosaves, "Packed dismissing explicit load confirmation remains read-only")
+	panel.exports(); _press("手记二"); _press("下载当前版本")
+	_check(fake.downloads.size() == 1 and fake.downloads[0].bytes == bytes and fake.downloads[0].slot == 2 and not fake.downloads[0].backup, "Packed actual download button sends exact saved bytes through injectable transport")
+	_check(_gather_text(game.overlay).contains("已请求下载，请在浏览器确认保留") and _gather_text(game.overlay).contains("未提供文件已落盘的回执"), "Packed download result truthfully distinguishes request from completed browser download")
+	_check(_receipt_variables(game.state) == before and _courtyard_save_files() == autosaves and _transfer_files(directory).size() == 2, "Packed download UI never saves unsaved active journey or rotates backup")
+	panel.back(); await _key(KEY_ESCAPE)
+	_check(_receipt_variables(game.state) == before and _courtyard_save_files() == autosaves, "Packed successful transfer/download return chain suppresses implicit autosave")
+	_check(load("res://scripts/save_transfer_ui.gd").escape_text("[b]<旅人>&") == "[lb]b[rb]&lt;旅人&gt;&amp;", "Packed metadata escape neutralizes BBCode and markup in one pass")
+	fake.enabled = false; panel.show()
+	_check(_gather_text(game.overlay).contains("手记转存暂不可用") and _find_button(game.overlay,"导入到空白手记") == null, "Packed absent browser adapter disables unsafe action controls")
+	fake.enabled = true
+	panel.targets(); _press("选择文件 → 手记三"); operation = fake.operation
+	game._show_map(); fake.selection_finished.emit(operation,"selected",bytes)
+	_check(not game.overlay.get_meta("save_transfer",false) and panel._preview_token == -1 and not FileAccess.file_exists(store.path_for(3)), "Packed replacement modal invalidates in-flight selection lifecycle")
+	game.modal_autosave_on_close = false; game._close_modal()
+	for screen: String in ["battle","receipt_battle","party_battle"]:
+		game.current_screen = screen
+		var generation: int = game.modal_generation
+		panel.show()
+		_check(not panel.allowed() and game.modal_generation == generation, "Packed transfer never opens in battle screen: "+screen)
+	game.current_screen = "explore"
+	game.state.battle_active = true
+	_check(not panel.allowed(), "Packed transfer blocks active model battle even when presentation screen is stale")
+	game.state.battle_active = false
+	game.battle_busy = true
+	_check(not panel.allowed(), "Packed transfer blocks pending battle presentation")
+	game.battle_busy = false
+	game.battle_art.hit("flee", {"valid":true})
+	_check(game.battle_art.is_presenting() and not panel.allowed(), "Packed actual pending battle-art presentation suppresses transfer even after model battle ends")
+	game.battle_art.reset_presentation()
+	for key: String in ["party_battle","receipt_battle","courtyard_practice"]:
+		game.overlay.set_meta(key,true)
+		_check(not panel.allowed(), "Packed transfer blocks retained battle controller metadata: "+key)
+		game.overlay.remove_meta(key)
+	game.quit_pending = true
+	_check(not panel.allowed(), "Packed transfer blocks quit-pending callbacks")
+	game.quit_pending = false
+	panel.targets(); _press("选择文件 → 手记三"); operation = fake.operation
+	panel.dispose(); fake.selection_finished.emit(operation,"selected",bytes)
+	_check(fake.disposed and panel._preview_token == -1 and not FileAccess.file_exists(store.path_for(3)), "Packed disposal disconnects callback and leaves no hidden pending import")
+	_check(_receipt_variables(game.state) == before and _courtyard_save_files() == autosaves, "Packed lifecycle/guards leave complete active model and autosave unchanged")
+	game.save_slots.store = original_store
+	game.save_slots.transfer = load("res://scripts/save_transfer_ui.gd").new(game.save_slots)
+	game.browser_mode = original_browser; game.web_save_transfer_enabled = original_gate; game.browser_storage_available = original_storage
+	game._show_title()

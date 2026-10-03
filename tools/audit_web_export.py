@@ -9,8 +9,9 @@ LEGACY='e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5'
 SCHEMA11='fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30'
 SCHEMA9='fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f'
 SCHEMA12='7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a'
-EXPECTED_CHECKS=3350  # Measured full source3345 plus five PCK-only assertions.
-EXPECTED_SOURCE_CHECKS=3345  # Exactly five project/exclusion assertions require a PCK.
+EXPECTED_CHECKS=3692  # Measured full source3687 plus five PCK-only assertions.
+EXPECTED_SOURCE_CHECKS=3687  # Exactly five project/exclusion assertions require a PCK.
+EXPECTED_TRANSFER_CHECKS=342  # Independently measured actual empty-slot transfer runtime gates.
 EXPECTED_CONDITION_CHECKS=191  # Independently marked actual companion-condition runtime gates.
 EXPECTED_EXPLORATION_CHECKS=349
 EXPECTED_UNIFIED_CHECKS=1247
@@ -20,6 +21,7 @@ PRESERVED_COVERAGE='Preserved noncombat exact-runtime coverage:'
 UNIFIED_COVERAGE='Schema13 unified automatic exact-runtime coverage:'
 EXPLORATION_COVERAGE='Ordered exploration party exact-runtime coverage:'
 CONDITION_COVERAGE='Exploration companion condition exact-runtime coverage:'
+TRANSFER_COVERAGE='Empty-slot save transfer exact-runtime coverage:'
 OLD_COVERAGE=('Schema12 four-actor exact-runtime coverage:', 'Schema12 sluice exact-runtime coverage:', 'Schema12 archive exact-runtime coverage:')
 
 def sha(path):
@@ -78,16 +80,16 @@ def verify_source_manifest(build, report, root=None):
 
 
 def completed_pack_checks(text, exit_code):
-    """Fail closed on pre-automatic, partial, rehearsal, duplicate or error logs."""
-    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS)<=0:
+    """Fail closed on pre-automatic, partial, rehearsal, duplicate, pre-transfer or error logs."""
+    if exit_code != 0 or min(EXPECTED_CHECKS,EXPECTED_UNIFIED_CHECKS,EXPECTED_PRESERVED_CHECKS,EXPECTED_EXPLORATION_CHECKS,EXPECTED_CONDITION_CHECKS,EXPECTED_TRANSFER_CHECKS)<=0:
         return None
     if EXPECTED_SOURCE_CHECKS != EXPECTED_CHECKS-5: return None
-    if EXPECTED_CHECKS != 2810+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS: return None
+    if EXPECTED_CHECKS != 2810+EXPECTED_EXPLORATION_CHECKS+EXPECTED_CONDITION_CHECKS+EXPECTED_TRANSFER_CHECKS: return None
     lines=text.splitlines()
     if [line for line in lines if line.lstrip().startswith('Audit scope:')] != [COMPLETE_SCOPE]: return None
     if 'SOURCE REHEARSAL:' in text or any(marker in text for marker in OLD_COVERAGE): return None
     if any(line.lstrip().startswith(('ERROR:', 'SCRIPT ERROR:')) for line in lines): return None
-    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS)):
+    for marker,expected in ((PRESERVED_COVERAGE,EXPECTED_PRESERVED_CHECKS),(UNIFIED_COVERAGE,EXPECTED_UNIFIED_CHECKS),(EXPLORATION_COVERAGE,EXPECTED_EXPLORATION_CHECKS),(CONDITION_COVERAGE,EXPECTED_CONDITION_CHECKS),(TRANSFER_COVERAGE,EXPECTED_TRANSFER_CHECKS)):
         coverage=[line for line in lines if line.lstrip().startswith(marker.removesuffix(':'))]
         if len(coverage)!=1 or re.fullmatch(re.escape(marker)+r' '+str(expected)+r' checks;[^\n]+',coverage[0]) is None: return None
     summaries=[line for line in lines if line.lstrip().startswith(('PASS:', 'FAIL:'))]
@@ -128,7 +130,7 @@ def main():
     if verify_source_manifest(build,report)!=source_manifest_sha256:raise RuntimeError('Source manifest changed during audit')
     evidence={'source_commit':report['source_commit'],'engine':version,'pck_sha256':sha(build/'site/index.pck'),
               'audit_sha256':sha(driver),'legacy_sha256':LEGACY,'schema11_reader_sha256':SCHEMA11,'schema9_reader_sha256':SCHEMA9,'schema12_reader_sha256':SCHEMA12,'source_manifest_sha256':source_manifest_sha256,'save_schema':13,'party_capacity':4,'log_sha256':sha(log),'exit_code':result.returncode,
-              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
+              'passed':passed,'checks':checks,'preserved_checks':EXPECTED_PRESERVED_CHECKS if passed else None,'unified_checks':EXPECTED_UNIFIED_CHECKS if passed else None,'exploration_checks':EXPECTED_EXPLORATION_CHECKS if passed else None,'condition_checks':EXPECTED_CONDITION_CHECKS if passed else None,'transfer_checks':EXPECTED_TRANSFER_CHECKS if passed else None,'transfer_transport':'native injected fake; real packed core/UI; not browser download/persistence','scope':'Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close'}
     (directory/'PCK-AUDIT.json').write_text(json.dumps(evidence,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(evidence));return 0 if passed else 1
 
