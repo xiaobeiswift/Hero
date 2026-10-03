@@ -86,11 +86,11 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	_check(_modal_text().contains("尺上旧痕") and _modal_text().contains("邀请唐栖"),"Journal records pending final invitation")
 	game._close_modal();game._interact("bridge_worker");_press("邀请同行")
 	game._process(0)
-	_check(game.state.tangqi_unlocked and game.state.current_companion()=="唐栖" and game.world.companion_active,"Recruitment immediately enables active Tang follower")
+	_check(game.state.tangqi_unlocked and game.state.current_companion()=="唐栖" and game.world.follower_ids()==(["shen","tang"] if shen else ["tang"]),"Recruitment immediately enables Tang and retains every selected follower")
 	game._load()
 	_check(game.state.tangqi_unlocked and game.state.current_companion()=="唐栖" and game.state.xp==50,"Active Tang and quest reward survive reload")
 	await process_frame;await process_frame
-	_check(game.world.companion_name=="唐栖" and game.world.nearby_name=="修桥工位" and game.near_label.text.contains("修桥工位"),"Active Tang has correct follower identity and worksite prompt after reload")
+	_check(game.world.has_follower("tang") and game.world.nearby_name=="修桥工位" and game.near_label.text.contains("修桥工位"),"Active Tang has correct follower identity and worksite prompt after reload")
 	var before=game.state.to_dict()
 	game._interact("bridge_worker")
 	_check(_find_button(game.overlay,"去找旧工册")==null and _find_button(game.overlay,"邀请同行")==null and _find_button(game.overlay,"传给学徒")==null,"Completed NPC revisit offers no replay or duplicate reward")
@@ -105,7 +105,7 @@ func _test_personal_route(choice:String,shen:bool) -> void:
 	_check(roster!=null and not roster.cells.tang.toggle.disabled and roster.cells.shen.toggle.disabled==not shen and roster.cells.qin.toggle.disabled,"Roster toggles only genuinely recruited companions")
 	_press("返回行囊");await _key(KEY_4)
 	game._travel("qingwei",Vector2(330,330));game._process(0)
-	_check(game.world.nearby_name=="沈青","Inactive or unrecruited Shen is present at the clinic while Tang follows")
+	_check(game.world.nearby_name==("药铺伙计" if shen else "沈青"),"Clinic identity follows actual Shen deployment while Tang also follows")
 	if not shen:
 		await _key(KEY_E)
 		_check(_find_button(game.overlay,"邀请同行")!=null,"Shen remains recruitable after Tang joins first")

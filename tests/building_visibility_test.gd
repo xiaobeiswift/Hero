@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Art=preload("res://scripts/qingwei_environment_art.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
@@ -32,12 +33,15 @@ func run()->void:
 		var progress=app.state.to_dict()
 		for i in range(20):app.world._building_opacity(row[0])
 		assert(app.state.to_dict()==progress and app.world.buildings==geometry)
-		app.world.teleport(Vector2(480,440));app.world.companion_pos=row[1]
-		app.world.companion_active=false;assert(app.world._building_opacity(row[0])==1.0)
-		app.world.companion_active=true;assert(app.world._building_opacity(row[0])==.35)
-		for who in ["沈青","唐栖"]:
-			app.world.companion_name=who;assert(app.world._building_opacity(row[0])==.35)
-		app.world.companion_active=false
+		app.world.teleport(Vector2(480,440))
+		# Prepared render fixtures isolate opacity; they do not simulate movement.
+		PartyFixture.prepare_render(app.world,[]);assert(app.world._building_opacity(row[0])==1.0)
+		for id in ["shen","tang","qin"]:
+			PartyFixture.prepare_render(app.world,[PartyFixture.render_frame(id,row[1])])
+			assert(app.world._building_opacity(row[0])==.35)
+		PartyFixture.prepare_render(app.world,[PartyFixture.render_frame("shen",Vector2(480,440)),PartyFixture.render_frame("tang",Vector2(490,440)),PartyFixture.render_frame("qin",row[1])])
+		assert(app.world._building_opacity(row[0])==.35)
+		PartyFixture.prepare_render(app.world,[])
 	app.world.teleport(Vector2(900,695));Input.action_press("move_up")
 	for i in range(8):app.world._process(.05)
 	Input.action_release("move_up")

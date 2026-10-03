@@ -1,0 +1,21 @@
+{
+  "version": "0.0.24",
+  "schema": 13,
+  "base_commit": "698aee69ee4a68144c46fd06056d3a6b83d69c16",
+  "result": "PASS",
+  "run": "One uninterrupted complete run-tests.sh execution after final Qin art and audit-gate integration",
+  "godot_commands": 122,
+  "godot_banners": 122,
+  "python_tests": 64,
+  "pass_summaries": 120,
+  "engine_errors": 0,
+  "exit_code": 0,
+  "log_sha256": "b2f3a37ce7ef3024f1868f4c75217a2e7469e078cc66fa189d959b2473447e4a",
+  "log_bytes": 104634,
+  "runner_sha256": "05d265181844ed5424ceaaaaa9bc868cc47bc5d514df2fef5c4be785f2285496",
+  "source_model": "Automatic basics once/living actor/round and martial/internal/lightness remain unchanged; no state/save/combat scripts edited",
+  "native_record": "party_exploration_native_check.json",
+  "review_record": "party_exploration_review_check.json",
+  "exact_pck": "pending export; required3159 checks",
+  "live_web": "0.0.23 Web1 unchanged"
+}

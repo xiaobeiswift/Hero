@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 ## Full scene presentation contracts. No user save files are read or written.
 const Scene=preload("res://scenes/main.tscn")
@@ -61,6 +62,7 @@ func run()->void:
 	check(app.hud.identity_wash.modulate.a<0.3,"HUD fades when it would obscure the player at the map edge")
 	app.world.teleport(Vector2(470,615));app.hud.tick(1.0)
 	check(app.hud.identity_wash.modulate.a==1.0,"HUD returns to full contrast after player moves clear")
+	_follower_visibility()
 	var controller = UnifiedUI.open_training(app);app._process(0)
 	check(not app.hud.exploration.visible and controller.visible,"Combat gets a dedicated uncluttered HUD")
 	check(not app.world.visible,"Opaque battle keeps exploration renderer hidden")
@@ -87,3 +89,29 @@ func run()->void:
 	check(app.hud.toast_wash.position==Vector2(330,182) and not app.status_label.clip_text,"Exploration restores wrapping notice placement")
 	app._stop_audio();app.queue_free();await process_frame
 	print("%s: %d full-world wuxia HUD checks"%["PASS" if failures==0 else "FAIL",checks]);quit(0 if failures==0 else 1)
+
+func _follower_visibility() -> void:
+	# Prepared render fixtures isolate all-actor HUD occlusion at supported zooms.
+	# These cached poses make no movement, recruitment, or saved-resource claim.
+	var old_zoom:int=app.view_preferences.zoom_index
+	for zoom_index in range(3):
+		app.view_preferences.zoom_index=zoom_index;app._apply_view_zoom()
+		app.world.teleport(Vector2(600,450))
+		var player_point:Vector2=(app.world.player_pos-app.world.camera_pos)*app.view_zoom
+		var player_rect:Rect2=Rect2(player_point-Vector2(27,80)*app.view_zoom,Vector2(54,90)*app.view_zoom)
+		var panels:Array=[app.hud.identity_wash,app.hud.quest_wash,app.hud.place_wash]
+		panels.append_array(app.hud.nav_buttons)
+		for panel:Control in panels:
+			var panel_rect:Rect2=panel.get_rect()
+			check(not panel_rect.intersects(player_rect),"Follower-only HUD fixture keeps player clear at zoom "+str(app.view_zoom))
+			var foot:Vector2=app.world.camera_pos+panel_rect.get_center()/app.view_zoom+Vector2(0,35)
+			for id in ["shen","tang","qin"]:
+				var persistent:Dictionary=app.state.to_dict()
+				PartyFixture.prepare_render(app.world,[PartyFixture.render_frame(id,foot)])
+				app.hud.tick(1.0)
+				check(panel.modulate.a<.3,"HUD corner/quick-action region fades for "+id+" at zoom "+str(app.view_zoom))
+				PartyFixture.prepare_render(app.world,[]);app.hud.tick(1.0)
+				check(panel.modulate.a==1.0,"HUD region restores contrast after follower clears: "+id)
+				check(app.state.to_dict()==persistent,"Prepared follower visibility does not alter player progress or resources")
+	app.view_preferences.zoom_index=old_zoom;app._apply_view_zoom()
+	app.world.teleport(Vector2(470,615));app.hud.tick(1.0)

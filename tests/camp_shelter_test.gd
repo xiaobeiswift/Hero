@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Art=preload("res://scripts/painted_camp_shelter.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
@@ -23,6 +24,12 @@ func run()->void:
 	app.world.painted_camp_enabled=false
 	for i in range(points.size()):assert(app.world._can_walk(points[i])==before[i])
 	app.world.painted_camp_enabled=true;app.world.teleport(points[0]);await create_timer(.1).timeout;assert(app.world.nearby_id=="bandit")
+	# Prepared render fixtures extend opacity integration to every follower slot.
+	for id in ["shen","tang","qin"]:
+		PartyFixture.prepare_render(app.world,[PartyFixture.render_frame(id,Vector2(1339,720))])
+		assert(Art.opacity_for(app.world.exploration_actor_positions())==.45)
+	PartyFixture.prepare_render(app.world,[])
+	assert(Art.opacity_for(app.world.exploration_actor_positions())==1.0)
 	var e=InputEventKey.new();e.physical_keycode=KEY_E;e.pressed=true;Input.parse_input_event(e);await process_frame
 	e=InputEventKey.new();e.physical_keycode=KEY_E;e.pressed=false;Input.parse_input_event(e);await process_frame
 	assert(app.active_modal and app.modal_actions.size()==2)

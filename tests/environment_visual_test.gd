@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const World=preload("res://scripts/world.gd")
 const Art=preload("res://scripts/qingwei_environment_art.gd")
 const Actor=preload("res://scripts/traveler_visual.gd")
@@ -22,14 +23,15 @@ func run()->void:
 		var step=Actor.pose(pair[0],PI*.5,true)
 		check(float(step.gait)>.99,"Walking has articulated alternating gait")
 		check(Actor.pose(pair[0],2,false).gait==0,"Idle feet remain planted")
-	world.companion_active=true;world.teleport(Vector2(460,430));world.facing=Vector2.RIGHT
-	var p=world.player_pos;var old_phase=world.companion_walk_time
-	world._process(.05)
-	check(world.player_pos==p,"Presentation does not move idle player")
-	check(world.companion_moving and world.companion_walk_time>old_phase,"Follower animates from real displacement")
-	world.companion_pos=world._companion_follow_target()
-	world._process(.05)
-	check(not world.companion_moving,"Follower rests at destination without sliding gait")
+	# Actual input and accepted world segments establish walking and idle phases.
+	for id in ["shen","tang","qin"]:
+		PartyFixture.select_world(world,["hero",id])
+		var p:Vector2=world.player_pos
+		world._process(.05)
+		check(world.player_pos==p,"Presentation does not move idle player")
+		PartyFixture.check_cardinal_motion(world,id,Vector2(600,450))
+		check(not world.follower_view(id).moving,"Follower rests without sliding gait: "+id)
+	world.set_exploration_party([])
 	world.player_pos=Vector2(500,670)
 	check(world._tree_opacity({"pos":Vector2(510,740),"scale":1.0})<.5,"Foreground canopy fades over traveller")
 	check(world._tree_opacity({"pos":Vector2(510,620),"scale":1.0})==1.0,"Background trees remain opaque")

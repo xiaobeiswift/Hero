@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Art=preload("res://scripts/painted_noticeboard.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
@@ -30,19 +31,28 @@ func run()->void:
 	var prompt:Rect2=app.world._interaction_prompt_rect(foot)
 	assert(not prompt.intersects(Rect2(app.world.player_pos-Vector2(20,62),Vector2(40,70))))
 	assert(Rect2(app.world.camera_pos,app.world.viewport_rect.size).encloses(prompt))
-	app.world.companion_active=true;app.world.companion_pos=Vector2(785,520)
+	# Prepared render fixtures: prompt/opacity only, not following or recruitment.
+	for id in ["shen","tang","qin"]:
+		PartyFixture.prepare_render(app.world,[PartyFixture.render_frame(id,Vector2(785,520))])
+		prompt=app.world._interaction_prompt_rect(foot)
+		assert(not prompt.intersects(Rect2(app.world.player_pos-Vector2(20,62),Vector2(40,70))))
+		assert(not prompt.intersects(Rect2(app.world.follower_view(id).position-Vector2(20,62),Vector2(40,70))))
+	PartyFixture.prepare_render(app.world,[PartyFixture.render_frame("shen",Vector2(900,540)),PartyFixture.render_frame("tang",Vector2(1000,540)),PartyFixture.render_frame("qin",Vector2(785,520))])
 	prompt=app.world._interaction_prompt_rect(foot)
-	assert(not prompt.intersects(Rect2(app.world.player_pos-Vector2(20,62),Vector2(40,70))))
-	assert(not prompt.intersects(Rect2(app.world.companion_pos-Vector2(20,62),Vector2(40,70))))
-	app.world.companion_active=false
+	for position in app.world.exploration_actor_positions():
+		assert(not prompt.intersects(Rect2(position-Vector2(20,62),Vector2(40,70))))
+	PartyFixture.prepare_render(app.world,[])
 	app.world.teleport(release_repro);await process_frame
 	assert(app.world.player_pos.distance_to(release_repro)<.01)
 	assert(app.world._noticeboard_opacity(foot)==.38 and app.world.nearby_id=="board")
-	app.world.teleport(Vector2(715,540));app.world.companion_pos=release_repro
+	app.world.teleport(Vector2(715,540))
 	assert(app.world._noticeboard_opacity(foot)==1.0)
-	app.world.companion_active=true
+	for id in ["shen","tang","qin"]:
+		PartyFixture.prepare_render(app.world,[PartyFixture.render_frame(id,release_repro)])
+		assert(app.world._noticeboard_opacity(foot)==.38)
+	PartyFixture.prepare_render(app.world,[PartyFixture.render_frame("shen",Vector2(900,540)),PartyFixture.render_frame("tang",Vector2(1000,540)),PartyFixture.render_frame("qin",release_repro)])
 	assert(app.world._noticeboard_opacity(foot)==.38)
-	app.world.companion_active=false
+	PartyFixture.prepare_render(app.world,[])
 	var progress=app.state.to_dict();var before=[]
 	for p in [Vector2(715,540),Vector2(720,460),Vector2(720,480)]:before.append(app.world._can_walk(p))
 	app.world.painted_board_enabled=false

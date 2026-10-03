@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 ## Independent current-UI/save-close audit for Hero / 渡灯录.
 ## Run only this focused test with isolated XDG_DATA_HOME and XDG_CACHE_HOME.
 ## All active state/manual files additionally live under one unique fixture.
@@ -75,9 +76,8 @@ func _base() -> void:
 	state_probe.archive_clues.assign(["clerk", "inscription"]); state_probe.seal_sequence.assign([2,0,1])
 	state_probe.mist_stage = 4; state_probe.mist_gauges.assign(state_probe.Mist.GAUGES)
 	state_probe.mist_approach = "duel"; state_probe.mist_ending = "release_water"
-	state_probe.companion_unlocked = true; state_probe.active_companion = "沈青"
+	assert(state_probe.recruit_companion()); assert(state_probe.set_party_roster(["hero","shen"]))
 	state_probe.shen_care_stage = 5; state_probe.shen_care_choice = "mobile"
-	state_probe._apply_party_plan(state_probe.PartyRoster.load_plan(state_probe, {"active_companion": "沈青"}, 11))
 	game._travel("mistwood", Vector2(1440,505))
 
 func _port(stage: int = 3, cargo: String = "reserve", plan: String = "short_ferries", bridge: String = "east") -> void:
@@ -308,7 +308,7 @@ func _all_state() -> Dictionary:
 	return result
 
 func _world() -> Array:
-	return [game.world.map_id, game.world.player_pos, game.world.companion_pos, game.world.heting_bridge, game.world.heting_cargo, game.world.heting_draft, game.world.heting_delivered.duplicate()]
+	return [game.world.map_id, game.world.player_pos, game.world.companion_pos, PartyFixture.positions(game.world), game.world.heting_bridge, game.world.heting_cargo, game.world.heting_draft, game.world.heting_delivered.duplicate()]
 func _write_document(path: String, version: int, player: Dictionary) -> void:
 	var file = FileAccess.open(path, FileAccess.WRITE); file.store_string(JSON.stringify({"version": version, "player": player})); file.close()
 func _bytes(path: String) -> PackedByteArray: return FileAccess.get_file_as_bytes(path)

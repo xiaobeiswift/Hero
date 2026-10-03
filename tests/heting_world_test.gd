@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 ## Actual VillageWorld + MapChart integration. Isolated test save only.
 ## This is headless runtime/geometry coverage, not rendered-pixel or GUI QA.
 const World = preload("res://scripts/world.gd")
@@ -143,7 +144,7 @@ func _geometry_and_navigation() -> void:
 				_check(reached, label + " real world flood reaches " + id)
 				world.teleport(EXPECTED[id])
 				_check(world.player_pos == EXPECTED[id], label + " legal landmark survives teleport")
-			world.companion_active = true
+			PartyFixture.select_world(world)
 			world.active = true
 			world.teleport(Vector2(820,735))
 			_walk_route([Vector2(330,735),Vector2(330,780),Vector2(230,780)] if side == "west" else [Vector2(1390,735),Vector2(1390,600)], label + " active pontoon")
@@ -152,7 +153,7 @@ func _geometry_and_navigation() -> void:
 			if cargo.is_empty():
 				world.teleport(Vector2(805,665))
 				_walk_route([Vector2(805,350),Vector2(535,350)], label + " foot shortcut")
-	world.companion_active = false
+	world.set_exploration_party([])
 
 func _flood(start: Vector2) -> Dictionary:
 	var queue:Array[Vector2]=[start]
@@ -178,11 +179,13 @@ func _walk_route(route: Array, label: String) -> void:
 		Input.action_press(action)
 		for _step in range(steps):
 			var previous:Vector2=world.player_pos
-			var old_companion:Vector2=world.companion_pos
+			var old_followers:Dictionary=PartyFixture.positions(world)
 			world._process(delta)
 			_check(world._can_step(previous,world.player_pos), label + " actual movement stays on terrain")
-			_check(Heting.walkable(world.companion_pos,world.heting_bridge), label + " follower is on land")
-			_check(Heting.can_step(old_companion,world.companion_pos,world.heting_bridge) or world.companion_pos.is_equal_approx(world.player_pos), label + " follower segment is legal or explicitly resynced")
+			for id in world.follower_ids():
+				var position:Vector2=world.follower_view(id).position
+				_check(Heting.walkable(position,world.heting_bridge), label + " follower is on land: "+id)
+				_check(Heting.can_step(old_followers[id],position,world.heting_bridge), label + " follower segment is legal: "+id)
 		Input.action_release(action)
 		_check(world.player_pos.distance_to(endpoint) < 0.05, label + " actual input reaches endpoint")
 
@@ -227,7 +230,7 @@ func _long_frame_input() -> void:
 				_check(world._can_step(start,elbow) and world._can_step(elbow,world.player_pos), "Actual diagonal long-frame axis segments cannot tunnel")
 
 func _ready_state():
-	var s=State.new()
+	var s=PartyFixture.recruited_state()
 	s.quest_stage=6;s.ending="守望";s.choose_sect("听潮阁")
 	s.side_stage=3;s.side_choice="rescue";s.side_reward_claimed=true;s.side_found.assign(["boatman","ledger"]);s.side_clues=2
 	s.chapter_two_stage=4;s.chapter_two_ending="protect_witness";s.archive_clues.assign(["clerk","inscription"]);s.seal_sequence.assign([2,0,1])
@@ -263,11 +266,14 @@ func _loaded_save_recovery() -> void:
 				var before:Dictionary=loaded.to_dict()
 				_sync_from_state(loaded)
 				world.change_map(loaded.map_id,loaded.position)
+				_check(world.set_exploration_party(PartyFixture.manifest(loaded)).ok,"Loaded recruited roster supplies exploration followers")
 				var expected:Vector2=position if Heting.walkable(position,side,true) else Heting.LOADED_SAFE
 				_check(world.player_pos==expected, "Loaded save preserves valid point or repairs to island")
 				_check(world.heting_cargo==cargo and world.heting_delivered==loaded.heting_delivered, "World repair never drops or delivers cargo")
 				_check(loaded.to_dict()==before, "Geometry repair does not change model or rewards")
-				_check(Heting.walkable(world.companion_pos,side), "Loaded companion spawns on valid terrain")
+				_check(world.follower_ids()==["shen","tang","qin"], "Loaded save restores every selected follower")
+				for id in world.follower_ids():
+					_check(Heting.walkable(world.follower_view(id).position,side), "Loaded follower spawns on valid terrain: "+id)
 			for invalid in [Vector2(NAN,0),Vector2(INF,0),Vector2(-500,-500)]:
 				world.teleport(invalid)
 				_check(world.player_pos==Heting.LOADED_SAFE and world.heting_cargo==cargo, "Bad runtime position safely retains loaded cart")
@@ -293,38 +299,54 @@ func _loaded_save_recovery() -> void:
 	world.heting_ending=""
 
 func _companion_segments() -> void:
-	world.companion_active=true
+	var recruited=PartyFixture.select_world(world)
 	world.heting_cargo=""
 	for side in ["west","east"]:
 		world.heting_bridge=side
 		world.change_map("heting",Heting.ENTRY)
 		for point in [Vector2(805,505),Vector2(600,585),Vector2(1015,820),Vector2(330,715),Vector2(1530,552),Vector2(820,735)]:
-			world.teleport(point)
-			for direction in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:
-				world.facing=direction
+			for pair in [[Vector2.LEFT,"move_left"],[Vector2.RIGHT,"move_right"],[Vector2.UP,"move_up"],[Vector2.DOWN,"move_down"]]:
 				for delta in [1.0/60.0,0.25,1.0]:
-					var before:Vector2=world.companion_pos
-					world._process(delta)
-					_check(Heting.walkable(world.companion_pos,side), "Companion edge/corner interpolation has legal endpoint")
-					_check(Heting.can_step(before,world.companion_pos,side) or world.companion_pos==world.player_pos, "Companion edge/corner follows safe segment or syncs")
-		# Both endpoints are legal, but the direct interpolation crosses the basin.
+					world.facing=pair[0];world.teleport(point)
+					var before:Dictionary=PartyFixture.positions(world)
+					Input.action_press(pair[1]);world._process(delta);Input.action_release(pair[1])
+					for id in world.follower_ids():
+						var position:Vector2=world.follower_view(id).position
+						_check(Heting.walkable(position,side), "Follower edge/corner actual movement has legal endpoint: "+id)
+						_check(Heting.can_step(before[id],position,side), "Follower edge/corner follows safe segment: "+id)
+		# A real teleport crosses disconnected legal endpoints without animating a
+		# basin-crossing segment. Every rank is reseeded into the new component.
+		world.teleport(Vector2(230,780))
 		world.teleport(Vector2(665,620))
-		world.companion_pos=Vector2(230,780)
-		world._process(1.0)
-		_check(world.companion_pos==world.player_pos, "Disconnected legal endpoints never cause a water-crossing lerp")
-		# The companion was left on the former floating deck while the player
-		# operated the island winch; no stale deck coordinate survives next tick.
-		world.teleport(Vector2(820,735))
-		world.companion_pos=Vector2(475,735) if side=="east" else Vector2(1140,735)
+		_check(world.follower_recovery_reason=="teleport", "Disconnected relocation has explicit teleport recovery")
+		for id in world.follower_ids():
+			var actor:Dictionary=world.follower_view(id)
+			_check(Heting.can_step(world.player_pos,actor.position,side) and not actor.moving, "Disconnected legal endpoints never cause a water-crossing lerp: "+id)
+		# Occupy the active deck through actual relocation, then remove that deck.
+		world.teleport(Vector2(475,735) if side=="west" else Vector2(1140,735))
+		world.heting_bridge="east" if side=="west" else "west"
 		world._process(0.0)
-		_check(world.companion_pos==world.player_pos, "Removed pontoon resynchronizes companion without interpolation")
+		for id in world.follower_ids():
+			var actor:Dictionary=world.follower_view(id)
+			_check(Heting.walkable(actor.position,world.heting_bridge) and Heting.can_step(world.player_pos,actor.position,world.heting_bridge) and not actor.moving, "Removed pontoon resynchronizes follower without interpolation: "+id)
+		world.heting_bridge=side
 		world.heting_cargo="sealed"
 		world.teleport(Vector2(820,735))
-		world.companion_pos=Vector2(NAN,0)
-		world._process(0.1)
-		_check(world.companion_pos==world.player_pos and world.heting_cargo=="sealed", "Invalid companion repairs without changing cargo")
+		# Deliberate private helper fault injection, one chosen actor per case.
+		# Inspected private helper layout; never a production setter or render-cache write.
+		for broken_id in world.follower_ids():
+			var before_player:Vector2=world.player_pos
+			var before_resources:Dictionary=recruited.to_dict()
+			world._party_trail._actors[broken_id].position=Vector2(NAN,0)
+			world._process(0.1)
+			_check(world.follower_recovery_reason=="invalid_position", "Nonfinite follower state requests explicit repair: "+broken_id)
+			_check(world.player_pos==before_player and recruited.to_dict()==before_resources and world.heting_cargo=="sealed", "Repair changes neither player nor persistent resources/cargo: "+broken_id)
+			for id in world.follower_ids():
+				var actor:Dictionary=world.follower_view(id)
+				_check(Heting.walkable(actor.position,side) and Heting.can_step(world.player_pos,actor.position,side) and not actor.moving, "Invalid follower repairs onto reachable ground without interpolation: "+id)
+
 		world.heting_cargo=""
-	world.companion_active=false
+	world.set_exploration_party([])
 
 func _other_region_regression() -> void:
 	world.heting_target_id="heting_scale"
@@ -334,12 +356,14 @@ func _other_region_regression() -> void:
 		_check(not world.interactables.has("heting_cargo"), "Fifth-region cargo markers never leak into "+id)
 		_check(world.interactables.has(world._quest_target_id()) or world._quest_target_id().is_empty(), "Stale fifth target never breaks old region "+id)
 	world.change_map("qingwei",Lightness.LANDING)
-	world.companion_active=true
-	_check(Lightness.on_islet(world.companion_pos), "Existing lightness companion spawn stays on island")
+	PartyFixture.select_world(world)
+	for id in world.follower_ids():
+		_check(Lightness.on_islet(world.follower_view(id).position), "Existing lightness follower spawn stays on island: "+id)
 	for facing in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:
 		world.facing=facing
 		world._process(0.25)
-		_check(Lightness.on_islet(world.companion_pos), "Existing lightness following is unaffected")
+		for id in world.follower_ids():
+			_check(Lightness.on_islet(world.follower_view(id).position), "Existing lightness following is unaffected: "+id)
 	_check(not world._can_step(Lightness.SHORE,Lightness.LANDING), "Heting integration does not open lightness water gap")
 	world.change_map("unknown",Vector2(460,430))
 	_check(world.map_id=="qingwei", "Unknown region still falls back safely")
@@ -348,7 +372,7 @@ func _other_region_regression() -> void:
 func _draw_states() -> void:
 	chart.map_id="heting"
 	chart.markers=Heting.points()
-	world.companion_active=true
+	PartyFixture.select_world(world)
 	var cases:int=0
 	for side in ["west","east"]:
 		chart.heting_bridge=side
@@ -369,6 +393,7 @@ func _draw_states() -> void:
 					world.mist_ending=previous_ending
 					world.heting_target_id="heting_scale"
 					world.change_map("heting",Vector2(820,735))
+					_check(world.follower_ids()==["shen","tang","qin"],"All three followers participate in each headless draw")
 					chart.player_position=world.player_pos
 					chart.current_target=world._quest_target_id()
 					var previous_world_draw:int=world.draw_count

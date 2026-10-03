@@ -1,0 +1,21 @@
+{
+  "scope": "Full source smoke rehearsal for upcoming exact Web package; not a PCK or browser pass",
+  "version": "0.0.24",
+  "schema": 13,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "result": "PASS",
+  "source_checks": 3154,
+  "required_exact_pck_checks": 3159,
+  "preserved_checks": 1471,
+  "unified_checks": 1247,
+  "exploration_checks": 349,
+  "python_checks": 64,
+  "source_log_sha256": "0adbe506d906fbe662587bc8b46379ca03be4cd9eb489b6feee92cccddfd0b54",
+  "gates": {
+    "tools/smoke_export.gd": "da7bf89f4ca67bcd0ab97d706af234cd75f62fe7c42d0f111971434a977479c5",
+    "tools/audit_web_export.py": "f6f516d8dd01f60f123c1ae40535722db1a287fbe5fe294c8edcc0a91363fd46",
+    "tests/test_web_pack_audit.py": "131df5cf672d75421199614dca4ee7d5485f469b26e4bf5c1f4ffc5e10abf921"
+  },
+  "frozen_historical_readers": "schema9/10/11/12 bytes preserved",
+  "limits": "Exactly five package-only assertions are omitted by source rehearsal. Exact exported resource, browser audio/persistence and live deployment gates remain separate."
+}

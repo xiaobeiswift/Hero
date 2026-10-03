@@ -22,6 +22,7 @@ class PackAuditTests(unittest.TestCase):
         return (audit.COMPLETE_SCOPE + '\n'
                 + audit.PRESERVED_COVERAGE + f' {audit.EXPECTED_PRESERVED_CHECKS} checks; actual runtime\n'
                 + audit.UNIFIED_COVERAGE + f' {audit.EXPECTED_UNIFIED_CHECKS} checks; actual runtime\n'
+                + audit.EXPLORATION_COVERAGE + f' {audit.EXPECTED_EXPLORATION_CHECKS} checks; actual runtime\n'
                 + f'PASS: {audit.EXPECTED_CHECKS} exported-pack checks; 0 failures\n')
 
     def test_complete_schema13_pack_log_required(self):
@@ -30,6 +31,8 @@ class PackAuditTests(unittest.TestCase):
         invalid = [
             (complete, 1),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '3215 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2810 exported-pack'), 0),
+            (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', str(audit.EXPECTED_SOURCE_CHECKS)+' exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2799 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '2725 exported-pack'), 0),
             (complete.replace(str(audit.EXPECTED_CHECKS)+' exported-pack', '1516 exported-pack'), 0),
@@ -45,7 +48,8 @@ class PackAuditTests(unittest.TestCase):
             (complete+complete, 0),
         ]
         for marker, count in ((audit.PRESERVED_COVERAGE,audit.EXPECTED_PRESERVED_CHECKS),
-                              (audit.UNIFIED_COVERAGE,audit.EXPECTED_UNIFIED_CHECKS)):
+                              (audit.UNIFIED_COVERAGE,audit.EXPECTED_UNIFIED_CHECKS),
+                              (audit.EXPLORATION_COVERAGE,audit.EXPECTED_EXPLORATION_CHECKS)):
             line=marker+f' {count} checks; actual runtime\n'
             invalid.extend([
                 (complete.replace(line,''),0),
@@ -65,18 +69,49 @@ class PackAuditTests(unittest.TestCase):
         from unittest.mock import patch
         root=Path(__file__).resolve().parents[1]
         driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        self.assertEqual(audit.EXPECTED_PRESERVED_CHECKS,1471)
+        self.assertEqual(audit.EXPECTED_UNIFIED_CHECKS,1247)
+        self.assertEqual(audit.EXPECTED_EXPLORATION_CHECKS,349)
+        self.assertEqual(audit.EXPECTED_CHECKS,2810+audit.EXPECTED_EXPLORATION_CHECKS)
+        self.assertEqual(audit.EXPECTED_SOURCE_CHECKS,audit.EXPECTED_CHECKS-5)
         self.assertGreater(audit.EXPECTED_UNIFIED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_PRESERVED_CHECKS,0)
         self.assertGreater(audit.EXPECTED_CHECKS,audit.EXPECTED_UNIFIED_CHECKS+audit.EXPECTED_PRESERVED_CHECKS)
         self.assertNotEqual(audit.EXPECTED_CHECKS,3215)
-        self.assertIn('== "0.0.23"',driver)
-        self.assertIn('title.text=="0.0.23"',driver)
+        self.assertIn('== "0.0.24"',driver)
+        self.assertIn('title.text=="0.0.24"',driver)
         self.assertNotIn('"0.0.21"',driver)
         self.assertIn('await _test_unified_pack()\n\tawait _finish_run(rehearsal)',driver)
         self.assertNotIn('game._battle_action(',driver)
         self.assertNotIn('res://tests/unified_ui_test_driver.gd',driver)
-        with patch.object(audit,'EXPECTED_UNIFIED_CHECKS',0):
-            self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
+        for name in ('EXPECTED_UNIFIED_CHECKS','EXPECTED_PRESERVED_CHECKS','EXPECTED_EXPLORATION_CHECKS'):
+            with patch.object(audit,name,0):
+                self.assertIsNone(audit.completed_pack_checks(self.complete_log(),0))
+
+    def test_malformed_extra_summary_and_indented_errors_fail_closed(self):
+        complete=self.complete_log()
+        for extra in ('PASS: malformed duplicate', 'FAIL: aborted before summary',
+                      ' PASS: malformed duplicate', '\tERROR: resource failed',
+                      '  SCRIPT ERROR: interrupted assertion',
+                      ' '+audit.COMPLETE_SCOPE,
+                      ' '+audit.EXPLORATION_COVERAGE+' malformed duplicate'):
+            with self.subTest(extra=extra):
+                self.assertIsNone(audit.completed_pack_checks(complete+extra+'\n',0))
+
+    def test_exploration_scope_cannot_impersonate_full_pack(self):
+        complete=self.complete_log()
+        for scope in ('exploration-only','preserved-only','unified-only'):
+            self.assertIsNone(audit.completed_pack_checks(complete.replace('scope: complete','scope: '+scope),0))
+        root=Path(__file__).resolve().parents[1]
+        driver=(root/'tools/smoke_export.gd').read_text(encoding='utf-8')
+        self.assertIn('await _test_exploration_pack()\n\tawait _test_unified_pack()',driver)
+        self.assertIn('not _exploration_prerequisites()',driver)
+        self.assertIn('HashingContext.HASH_SHA256',driver)
+        self.assertIn('_test_qin_idle_pack(qin, all_hashes)',driver)
+        self.assertIn('painted_qin_idle.png',driver)
+        self.assertIn('qin.idle_texture_for(direction)',driver)
+        self.assertIn('texture.atlas != qin.texture_for(direction,0).atlas',driver)
+        self.assertNotIn('res://tests/party_exploration_fixture.gd',driver)
 
     def test_frozen_historical_readers_are_byte_exact(self):
         root = Path(__file__).resolve().parents[1]

@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 ## Independent headless geometry/input audit. Isolated save adapter; no normal player saves or GUI.
 const World = preload("res://scripts/world.gd")
 const L = preload("res://scripts/lightness_rules.gd")
@@ -126,17 +127,19 @@ func _actual_long_frame_input() -> void:
 	_check(world.player_pos.is_equal_approx(Vector2(518.5, 420)), "Real ordinary movement still advances at original speed")
 
 func _companion_boundary() -> void:
-	world.companion_active = true
+	PartyFixture.select_world(world)
 	for i in range(72):
 		var angle: float = i * TAU / 72.0
 		var p: Vector2 = L.ISLET_CENTER + Vector2(cos(angle), sin(angle)) * L.ISLET_RADIUS * 0.999
 		world.teleport(p)
-		_check(L.on_islet(world.companion_pos), "Teleport companion stays inside at every island edge")
+		for id in world.follower_ids():
+			_check(L.on_islet(world.follower_view(id).position), "Teleport follower stays inside at every island edge: "+id)
 		for facing in [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]:
 			world.facing = facing
 			world._process(0.25)
-			_check(L.on_islet(world.companion_pos), "Follower stays inside for every edge and facing")
-	world.companion_active = false
+			for id in world.follower_ids():
+				_check(L.on_islet(world.follower_view(id).position), "Follower stays inside for every edge and facing: "+id)
+	world.set_exploration_party([])
 
 func _map_and_recovery() -> void:
 	world.teleport(Vector2(1460, 930))

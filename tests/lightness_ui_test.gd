@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const UnifiedUI = preload("res://tests/unified_ui_test_driver.gd")
 const L=preload("res://scripts/lightness_rules.gd")
 func _run()->void:
@@ -19,6 +20,9 @@ func _talk_light(id:String)->void:
 	_check(game.active_modal,"Actual E opens "+id)
 func _geometry()->void:
 	var w=game.world
+	game.state=PartyFixture.recruited_state(["hero","shen","tang","qin"],AuditState.new())
+	game._sync_world_state()
+	_check(w.follower_ids()==["shen","tang","qin"],"Geometry uses all three actually recruited/selected companions")
 	_check(w._can_walk(L.SHORE) and w._can_walk(L.LANDING) and w._can_walk(L.RELIC_POSITION),"Authored departure/landing/lore are safe")
 	_check(not w._can_walk(Vector2(1458,930)),"Water separates ordinary land from islet")
 	_check(not w._can_step(L.SHORE,L.LANDING) and not w._can_step(L.LANDING,L.SHORE),"Long-step normal movement cannot tunnel either direction across water")
@@ -28,10 +32,12 @@ func _geometry()->void:
 	_check(not w._can_step(Vector2(NAN,0),L.LANDING) and not w._can_step(L.SHORE,Vector2(INF,0)),"Invalid movement segment safely rejected")
 	for facing in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:
 		for fraction in [0.0,0.5,0.9]:
-			w.teleport(L.ISLET_CENTER+Vector2(36*fraction,0));w.facing=facing;w.companion_active=true
-			_check(L.on_islet(w.companion_pos),"Teleport places companion inside islet")
+			w.teleport(L.ISLET_CENTER+Vector2(36*fraction,0));w.facing=facing
+			for id in w.follower_ids():
+				_check(L.on_islet(w.follower_view(id).position),"Teleport places companion inside islet: "+id)
 			w._process(0.25)
-			_check(L.on_islet(w.companion_pos),"Follower remains on islet under every cardinal facing")
+			for id in w.follower_ids():
+				_check(L.on_islet(w.follower_view(id).position),"Follower remains on islet under every cardinal facing: "+id)
 	w.teleport(L.SHORE);w._update_nearby()
 	_check(w.nearby_id=="reed_cross","Mainland cannot interact with nearby gated islet points across water")
 	w.teleport(L.LANDING);w._update_nearby()
@@ -50,7 +56,7 @@ func _playable_route()->void:
 	_check(not L.on_islet(game.world.player_pos),"Cancel leaves player safely on shore")
 	await _talk_light("reed_cross");_press("踏苇过水")
 	_check(L.on_islet(game.world.player_pos) and game.state.position==game.world.player_pos,"Explicit crossing synchronizes world and persistent position")
-	_check(L.on_islet(game.world.companion_pos),"Companion lands safely with player")
+	_check(game.world.has_follower("shen") and L.on_islet(game.world.follower_view("shen").position),"Recruited Shen lands safely with player")
 	game._load()
 	_check(L.on_islet(game.world.player_pos),"Immediate autosave/load preserves the island rather than old bank position")
 	await _talk_light("reed_relic")

@@ -1,4 +1,5 @@
 extends "res://tests/audit_second_region_test.gd"
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 ## Independent real-scene audit for Hero / 渡灯录. No production file writes.
 ## Run with an isolated XDG_DATA_HOME. The active adapter and every manual slot
 ## are routed below one unique fixture; navigation uses actual movement actions.
@@ -79,12 +80,11 @@ func _prepare(prior: String, party: String = "") -> void:
 	probe.resources = {"iron": 2, "timber": 3, "cloth": 4, "herb": 5}
 	probe.coins = 137; probe.medicine = 8
 	if party == "沈青":
-		probe.companion_unlocked = true; probe.active_companion = party
+		assert(probe.recruit_companion()); assert(probe.set_party_roster(["hero","shen"]))
 		probe.shen_care_stage = 5; probe.shen_care_choice = "mobile"
 	elif party == "唐栖":
 		probe.bridge_repaired = true; probe.tangqi_stage = 3; probe.tangqi_choice = "teach"
-		probe.tangqi_unlocked = true; probe.active_companion = party
-	probe._apply_party_plan(probe.PartyRoster.load_plan(probe, {"active_companion": party}, 11))
+		assert(probe.recruit_tangqi()); assert(probe.set_party_roster(["hero","tang"]))
 	game._travel("mistwood", Vector2(1440, 505))
 	game._process(0)
 
@@ -285,7 +285,9 @@ func _save_branches_and_recovery() -> void:
 		game.world.heting_bridge = "west"; game.world.heting_cargo = ""
 		game._load()
 		_check(game.world.player_pos == Port.LOADED_SAFE and probe.heting_cargo == "reserve" and probe.heting_delivered == ["meal", "sealed"], "Unsafe loaded coordinate repaired after terrain state without losing or delivering cargo")
-		_check(Port.walkable(game.world.companion_pos, "east", false), "Restored companion is placed on legal terrain")
+		var followers_safe:bool=Port.walkable(game.world.player_pos,"east",false)
+		for id in game.world.follower_ids():followers_safe=followers_safe and Port.walkable(game.world.follower_view(id).position,"east",false)
+		_check(followers_safe, "Restored player and every selected follower are placed on legal terrain")
 	_set_port(3, "reserve", "open_scale", "west")
 	game._save()
 	var valid: Dictionary = probe.to_dict()
@@ -391,7 +393,7 @@ func _full_state() -> Dictionary:
 	return result
 
 func _world_snapshot() -> Dictionary:
-	return {"map": game.world.map_id, "player": game.world.player_pos, "companion": game.world.companion_pos, "bridge": game.world.heting_bridge, "cargo": game.world.heting_cargo, "draft": game.world.heting_draft, "delivered": game.world.heting_delivered.duplicate(), "ending": game.world.heting_ending}
+	return {"map": game.world.map_id, "player": game.world.player_pos, "companion": game.world.companion_pos, "followers": PartyFixture.positions(game.world), "bridge": game.world.heting_bridge, "cargo": game.world.heting_cargo, "draft": game.world.heting_draft, "delivered": game.world.heting_delivered.duplicate(), "ending": game.world.heting_ending}
 
 func _slot_bytes() -> Dictionary:
 	var result: Dictionary = {}
@@ -463,7 +465,7 @@ func _drive_segment(destination: Vector2) -> void:
 	for i in range(steps):
 		game.world._process(length / float(steps) / game.world.SPEED)
 		safe = safe and game.world._can_walk(game.world.player_pos)
-		if game.world.companion_active: safe = safe and Port.walkable(game.world.companion_pos, probe.heting_bridge, false)
+		for id in game.world.follower_ids():safe=safe and Port.walkable(game.world.follower_view(id).position,probe.heting_bridge,false)
 	for action in ["move_left", "move_right", "move_up", "move_down"]: Input.action_release(action)
 	walked_distance += length
 	_check(safe, "Actual movement and companion remain on legal port terrain")

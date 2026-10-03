@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Art=preload("res://scripts/painted_village_sprite.gd")
 const World=preload("res://scripts/world.gd")
 func _initialize()->void:run.call_deferred()
@@ -12,11 +13,17 @@ func run()->void:
 		assert(Art.texture_for("shen",direction).region.position.x==Art.direction_column(direction)*256)
 	var anchor=Vector2(320,430)
 	assert((Art.drawing_rect(anchor).position+Art.FOOT*(72.0/256.0)).distance_to(anchor)<.001)
-	world.companion_active=true;world.companion_name="沈青"
+	PartyFixture.select_world(world,["hero","shen"])
 	assert(world._painted_npc_role("healer").is_empty())
 	assert(world.get_npc_name("healer")=="药铺伙计")
-	world.companion_name="唐栖"
+	PartyFixture.select_world(world,["hero","tang"])
 	assert(world._painted_npc_role("healer")=="healer")
+	PartyFixture.select_world(world)
+	assert(world._painted_npc_role("healer").is_empty() and world.get_npc_name("healer")=="药铺伙计")
+	world.change_map("frostbridge",Vector2(600,805))
+	assert(world.get_npc_name("bridge_worker")=="修桥工位")
+	world.change_map("mistwood",Vector2(350,395))
+	assert(world.get_npc_name("mist_guide")=="引路亭")
 	world.change_map("sluice",Vector2(190,520))
 	assert(world._painted_npc_role("elder").is_empty())
 	assert(Art.texture_for("unknown")==null)

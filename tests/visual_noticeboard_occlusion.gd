@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 const Prefs=preload("res://scripts/view_preferences.gd")
@@ -16,7 +17,9 @@ func run()->void:
 	app.world.teleport(Vector2(720.63916015625,469.580535888672));await capture("185-noticeboard-behind-visible")
 	app.world.teleport(Vector2(720,515));await capture("186-noticeboard-front-opaque")
 	app.state.quest_stage=3;app.state.recruit_companion();app._sync_world_state();app._refresh()
-	app.world.teleport(Vector2(750,520));app.world.set_process(false);app.world.companion_pos=Vector2(720,467);app.world.companion_moving=false;app.world.queue_redraw()
+	app.world.teleport(Vector2(750,520));app.world.set_process(false)
+	# Prepared render fixture for the overlap screenshot only.
+	PartyFixture.prepare_render(app.world,[PartyFixture.render_frame("shen",Vector2(720,467))]);app.world.queue_redraw()
 	await capture("187-noticeboard-companion-visible")
 	app.world.set_process(true);app._show_board();await capture("188-noticeboard-reading-after-fade")
 	app.queue_free();await create_timer(.25).timeout;print("PASS: noticeboard party occlusion actual engine captures");quit()

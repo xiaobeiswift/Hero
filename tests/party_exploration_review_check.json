@@ -1,0 +1,49 @@
+{
+  "result": "PASS; no must-fix findings",
+  "scope": "Independent focused code review and actual-input adversarial model/world checks; separate art/native/package gates",
+  "reviewed_source": {
+    "scripts/main.gd": {
+      "review_sha256": "3fa60992d97cf3032ac6a4c6c4094b55e33eb8eb2d179a537d1f2568fb6f323b",
+      "live_sha256": "3fa60992d97cf3032ac6a4c6c4094b55e33eb8eb2d179a537d1f2568fb6f323b"
+    },
+    "scripts/world.gd": {
+      "review_sha256": "43bfe4c4f9eef844294cadb722fbb2332a6dd55b4a4ab6dcab1575f0b9e2b586",
+      "live_sha256": "43bfe4c4f9eef844294cadb722fbb2332a6dd55b4a4ab6dcab1575f0b9e2b586"
+    },
+    "scripts/exploration_party_trail.gd": {
+      "review_sha256": "115b5346f5502b3e7674d2aeb222d5eb1a8167dd0907064248e5d6835d8e0e6f",
+      "live_sha256": "115b5346f5502b3e7674d2aeb222d5eb1a8167dd0907064248e5d6835d8e0e6f"
+    },
+    "scripts/game_hud.gd": {
+      "review_sha256": "dcdbbc4f72c96fd162de6ccddcadcde8fb3717d780a75c0e406389b4de4c689d",
+      "live_sha256": "dcdbbc4f72c96fd162de6ccddcadcde8fb3717d780a75c0e406389b4de4c689d"
+    },
+    "scripts/heting_region.gd": {
+      "review_sha256": "8f141d6068289a3dab20f98baef570395a64676c16502828e7e56f46047e37aa",
+      "live_sha256": "8f141d6068289a3dab20f98baef570395a64676c16502828e7e56f46047e37aa"
+    },
+    "scripts/mistwood_region.gd": {
+      "review_sha256": "4fbf65bfb7c04a0044fee0023b8716401408064f2a972227331c609e73af7b86",
+      "live_sha256": "4fbf65bfb7c04a0044fee0023b8716401408064f2a972227331c609e73af7b86"
+    },
+    "scripts/frostbridge_region.gd": {
+      "review_sha256": "4fc58d3e39240fe72d63da3bfe9b547b1a8067b9657214c206d231623e035099",
+      "live_sha256": "4fc58d3e39240fe72d63da3bfe9b547b1a8067b9657214c206d231623e035099"
+    },
+    "tests/party_exploration_fixture.gd": {
+      "review_sha256": "2579ed7c74e2408afee895c247930ff990b239c406563531934d2ae656cc0a0c",
+      "live_sha256": "2579ed7c74e2408afee895c247930ff990b239c406563531934d2ae656cc0a0c"
+    }
+  },
+  "checks": {
+    "adversarial": 307211,
+    "world": 91,
+    "render_consumers": 26,
+    "hud": 286
+  },
+  "motion_frames": 10000,
+  "roster_orders_and_subsets": 16,
+  "driver_sha256": "1a0456b64a59ce5241bafe0b3a982826453b26636ef35a02b51c56788157dd6b",
+  "log_sha256": "c14576028a8ea8def5a7e97bd073900065ed7869d692a09b1b99442ad95b8f63",
+  "limits": "No universal new scenery-fading system; current actor-aware fading updated to include all followers"
+}

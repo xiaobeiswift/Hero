@@ -1,4 +1,5 @@
 extends SceneTree
+const PartyFixture=preload("res://tests/party_exploration_fixture.gd")
 const Scene=preload("res://scenes/main.tscn")
 const Model=preload("res://scripts/game_state.gd")
 const Prefs=preload("res://scripts/view_preferences.gd")
@@ -16,7 +17,9 @@ func run()->void:
 	app.view_preferences.zoom_index=2;app._apply_view_zoom()
 	for row in [["205-shrine-roof-visibility",Vector2(900,695)],["206-clinic-roof-visibility",Vector2(300,185)],["207-shrine-front-depth",Vector2(900,820)]]:
 		assert(app.world._can_walk(row[1]));app.world.teleport(row[1]);await capture(row[0])
-	assert(app.world._can_walk(Vector2(1050,710)));app.world.teleport(Vector2(1050,710));app.world.companion_active=true;app.world.companion_name="沈青";app.world.companion_pos=Vector2(900,695);app.world.companion_moving=false;app.world.companion_facing=Vector2.DOWN
+	assert(app.world._can_walk(Vector2(1050,710)));app.world.teleport(Vector2(1050,710))
+	# Prepared render fixture, not evidence of movement or recruited membership.
+	PartyFixture.prepare_render(app.world,[PartyFixture.render_frame("shen",Vector2(900,695))])
 	await capture("208-companion-roof-visibility")
 	app.queue_free();await create_timer(.25).timeout;print("PASS: actual building roof/foreground/companion visibility captures");quit()
 func capture(name:String)->void:
