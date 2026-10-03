@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 309.183,
+  "log_sha256": "41e6c96f980b0db33e85528aa9a921c3bb0cebe70baf45a941f318361de3d7d5",
+  "runner_sha256": "39813611925d0ec132df100accc026910c81525214cdffa84b63086836a43185",
+  "source_content_changes": [],
+  "engine_commands": 124,
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "game_version": "0.0.25",
+  "save_schema": 13,
+  "python_tests": 65,
+  "pass_summaries": 122,
+  "engine_errors": 0,
+  "run": "Uninterrupted bash run-tests.sh with isolated profile; final124-command runner",
+  "runtime_unchanged": true,
+  "native_scope": "Separate prepared native framebuffer capture; actual browser graphics/audio/persistence remains unverified."
+}

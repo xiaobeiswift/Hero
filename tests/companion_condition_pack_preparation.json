@@ -1,0 +1,38 @@
+{
+  "status": "source rehearsal and parser validation complete; exact PCK execution pending lead export",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "version": "0.0.25",
+  "save_schema": 13,
+  "source_checks": 3345,
+  "exact_pck_target_checks": 3350,
+  "preserved_checks": 1471,
+  "unified_checks": 1247,
+  "exploration_checks": 349,
+  "condition_checks": 191,
+  "python_tests": 65,
+  "before_after_frozen_manifest_equal": true,
+  "source_rehearsal_rejected_by_pack_parser": true,
+  "historical_actual_log_rejections": {
+    "builds/Hero-Web-0.0.24-web1/exact-pack-audit/PCK-AUDIT.log": {
+      "sha256": "11974305297808848bd0645be719e21db78e53977d6e9a43c12dc593ab191bd2",
+      "rejected": true
+    },
+    "builds/Hero-Web-0.0.23-web1/exact-pack-audit/PCK-AUDIT.log": {
+      "sha256": "4e33702a8904f76576cde161a0cf9edab769af777074911356465c5ae4a79d53",
+      "rejected": true
+    },
+    "builds/Hero-Web-0.0.22-web1/exact-pack-audit/PCK-AUDIT.log": {
+      "sha256": "d1706290da5bf7274a285f046b51e0e978da8e7b0a2748f0c1b8653f694b5bdf",
+      "rejected": true
+    }
+  },
+  "raw_failed_attempts_preserved": [
+    "focused-01",
+    "focused-02",
+    "focused-03"
+  ],
+  "script_errors_are_failures_even_if_godot_exit_zero": true,
+  "log_sha256": "6a8b78ba6b7299a1e459015bb3574812494d943e2d4157eef94775d1983fc53b",
+  "native_input_scope": "Godot native headless viewport input; no browser graphics/audio/storage or physical close claim",
+  "standard_user_saves_touched": false
+}

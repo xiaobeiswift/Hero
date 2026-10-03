@@ -1,0 +1,109 @@
+{
+  "review_status": "accepted: code, lifecycle, input, geometry and corrected native pixels",
+  "base_commit": "73ec674",
+  "engine": "Godot 4.6.3.stable.official.7d41c59c4",
+  "run_path": "retained staging run-20261003-014743",
+  "runtime_before_after_equal": true,
+  "source_hashes": {
+    "scripts/main.gd": "861435a1a023c4f346238293a7b9cc07128385817718305a0e940a4b2fcd6ca2",
+    "scripts/game_hud.gd": "880a5805756587246a1e26852a2b70a9693b226286aab87191ff573d0badbd90",
+    "scripts/exploration_companion_condition.gd": "ea85eb549962be1e522c68c886c22e5f1a0c78db83490f8da218ed1941ebe655",
+    "tests/companion_condition_independent_test.gd": "4c4218212b0546159cd64f3ccd74868476113784b58cc269386b63b5f30afe39"
+  },
+  "tests": [
+    {
+      "name": "companion_condition_independent_test",
+      "exit_code": 0
+    },
+    {
+      "name": "party_roster_ui_test",
+      "exit_code": 0
+    },
+    {
+      "name": "hud_layout_test",
+      "exit_code": 0
+    },
+    {
+      "name": "navigation_visibility_test",
+      "exit_code": 0
+    },
+    {
+      "name": "exploration_party_world_integration_test",
+      "exit_code": 0
+    },
+    {
+      "name": "unified_practice_lifecycle_test",
+      "exit_code": 0
+    },
+    {
+      "name": "unified_terminal_close_test",
+      "exit_code": 0
+    },
+    {
+      "name": "view_zoom_test",
+      "exit_code": 0
+    }
+  ],
+  "independent_checks": 798,
+  "retained_red_regression": {
+    "run": "run-20261003-014506",
+    "checks": 621,
+    "failures": 124,
+    "cause": "Actual ProgressBar themed minimum exceeded intended5/4px and spilled outside83px cards",
+    "resolved": true
+  },
+  "scope": [
+    "16 ordered recruited companion subsets and actual card positions",
+    "Exact bars and readable details, HP0/downed preservation",
+    "Actual native hover, Tab/Shift-Tab, Enter/Space/keypad Enter, E and arrow world-control semantics",
+    "Direct folio Escape/return, info detours, stale callbacks, unsaved-state and disk-byte invariance",
+    "Failed deliberate selection autosave and explicit retry semantics",
+    "Real training scheduler/settlement, healer rest, level growth, actual owned-save load",
+    "Real virtual-practice decline/scheduler/retreat without real resource/save changes",
+    "Invalid snapshot clear/recovery and quit/modal/battle guards",
+    "Actual post-theme bar geometry;1179x736 bounds;3 zoom navigation exclusion/follower fade checks"
+  ],
+  "limits": [
+    "Reviewer did not run complete aggregate suite or publish/export; parent owns those gates",
+    "Screenshots use prepared resource/recruitment and occlusion fixtures; actual battle/rest/load/practice are established separately by the independent headless test"
+  ],
+  "must_fixes_remaining": [],
+  "visual_review": {
+    "capture_root": "retained staging preflight-004",
+    "independently_inspected_images": [
+      {
+        "name": "01-prepared-full-lowhp-lowqi-downed-1280x800.png",
+        "sha256": "5a78d3b58ad4433679f71dac60ab9923600da8a23f1058eade91d2c3ff30ca0e"
+      },
+      {
+        "name": "02-prepared-hover-lowhp-detail-1280x800.png",
+        "sha256": "0948d8020357df1139610b261a2c6cb5ddda5475cb07f8c617402f5f9ae8d760"
+      },
+      {
+        "name": "03-prepared-keyboard-downed-detail-1280x800.png",
+        "sha256": "3db75538379d853b00b9eee62a41ecb1e9e6d86624468c70de6bfbb03849b0f1"
+      },
+      {
+        "name": "04-prepared-direct-roster-1280x800.png",
+        "sha256": "480066fdacc4a92d1bd5fa10457fed77fd4bca2d8e6f2133a87c64ff38150a66"
+      },
+      {
+        "name": "05-prepared-roster-escape-exploration-1280x800.png",
+        "sha256": "63fbc8d56ceb91730ea0d011aa42727209d92882f1ffa595b7e687ee61557379"
+      },
+      {
+        "name": "06-prepared-solo-hides-empty-1280x800.png",
+        "sha256": "9c3656fd96d86543cd5cbe6eeb193dbd2020e55e53f9af22fbd872372ee7cbb6"
+      },
+      {
+        "name": "07-prepared-ordered-subset-1179x736.png",
+        "sha256": "b998574beac740693e729674c2d2be6fec2cbaeebfd8a3844c10fea8afe33d5d"
+      },
+      {
+        "name": "08-prepared-compact-world-hud-overlap-1179x736.png",
+        "sha256": "bdde1343ba1ad8af8c3bad17fb663d5531a17d6802e3f8f3512ee9abba554002"
+      }
+    ],
+    "result": "All8 accepted. Thin separate bars contained in cards; hover/focus exact details have bottom padding; readable zeroHP/downed; ordered compact1179x736 subset; direct roster/return; solo empty slots hidden; overlap fading."
+  }
+}
