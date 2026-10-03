@@ -1,0 +1,63 @@
+{
+  "verdict": "Exact external one-line receipt-schema adaptation accepted by static review; no runtime edit or engine execution.",
+  "files": {
+    "ADAPTATION.json": {
+      "bytes": 698,
+      "sha256": "2ed3c70189004e1109e648e7a9fa817479b60c05fe68d092797e0f0e3b3f2023"
+    },
+    "actual_receipt_schema.json": {
+      "bytes": 639,
+      "sha256": "ef93d9c5ecf48ffb9578f5e358939f4e5923ce0b5407f1537c2e22d0f87fe3e6"
+    },
+    "published-helper.py.txt": {
+      "bytes": 17940,
+      "sha256": "29cc76e90dd1cef27ec51cdf1639447d2fbd6a7db2dc29aa1cb416d9a4013899"
+    },
+    "capture_imported_windows.py": {
+      "bytes": 17950,
+      "sha256": "c63cd822f3b13744dd0c25b439983b7f4aac052716be8a1389a0af316b6eb6e1"
+    },
+    "first_render.gd": {
+      "bytes": 12530,
+      "sha256": "e6548e95ff94c4bee92e7ec199fed3387d9e7d661ddc5857f23d6331e30beda8"
+    },
+    "source-sha256.json": {
+      "bytes": 183836,
+      "sha256": "b02494ed1bd254e6ad022421659eac67638ece8518fb2bcb29178233dd045a66"
+    },
+    "test_receipt_schema.py": {
+      "bytes": 2605,
+      "sha256": "52ab47eea2bf4db005fceaf07e08a631c02da71ec5e27841e96b3c7df0a7eb8d"
+    },
+    "test_capture_static.py": {
+      "bytes": 4698,
+      "sha256": "6e48c21e24633f1d5b6f3db0c4b5ccbd6f3b4480ea99d9e008b542bdb46b189e"
+    }
+  },
+  "exact_change": {
+    "from": "receipt['error_lines'] == []",
+    "to": "receipt['import']['error_lines'] == []",
+    "replacement_count": 1,
+    "all_other_bytes_unchanged": true
+  },
+  "checks": {
+    "receipt_guard_ast": 7,
+    "portable_static": 14,
+    "all_passed": true,
+    "logs": {
+      "schema-7.log": "720f803aa72a9020806257416cd6199def30755180c4e6a8aadaeed3cd0976df",
+      "static-14.log": "682b695f78bdc28f381c6dee1743562b5e8738e69e7ee2360e88e12e5eb0f9e1"
+    }
+  },
+  "fixture_faithfulness": "All receipt fields accessed by the production guard are preserved in the supplied projection. Provenance identifies original receipt SHA afa8279d7db55a407bb4e4009ee1c1c96b61c3c7b6b172b79a8c76385ec16fb8; private/unaccessed data is explicitly omitted. This reviewer did not remotely retrieve that receipt, so actual remote correspondence remains parent/Windows-owner supplied evidence.",
+  "guard_evidence": [
+    "Tests extract the exact production need() Boolean AST by unique message; only restricted comparisons/subscripts/Boolean AST nodes and receipt name are allowed.",
+    "Old helper reproduces KeyError on supplied nested shape; corrected helper accepts it.",
+    "Nested error list rejects even with top-level empty shadow; missing nested field raises before mutation/engine launch.",
+    "Nonzero import exit, original source changes, failed status and changed marker all reject."
+  ],
+  "limits": [
+    "No Windows/Godot execution, native image, contrast, full regression, PCK or release acceptance.",
+    "Windows owner must preserve failed attempt and verify the exact adapted bytes before the authorized invocation."
+  ]
+}
