@@ -1,0 +1,15 @@
+{
+  "commit": "3e3f189ff9995ac27aa108e9d71da28083659493",
+  "public_commit": "6eab8c98",
+  "path": "scripts/game_state.gd",
+  "git_blob": "9678ab268d862b6eddc0bbd21939d17c341a79bc",
+  "sha256": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+  "bytes": 65261,
+  "schema": 13,
+  "scope": "Frozen byte-exact actual Web25 reader. Test loading removes only class_name HeroState\\n in memory. Version rejection precedes restoration; dependencies resolve from current source. This is reader-model evidence, not a full old-runtime/browser acceptance claim. Never package or upload this fixture as runtime code.",
+  "reference_pck": {
+    "path": "builds/Hero-Web-0.0.25-web1/site/index.pck",
+    "sha256": "1c5d2f6b8f59b1314b179cea2e238c76682b44dbabba15401b03e80d5a738acb",
+    "use": "Exact cloud-exported Web25 candidate from same published source; NOT Windows-deployed live artifact bytes. Local read-only rejection evidence only; do not package or upload."
+  }
+}
