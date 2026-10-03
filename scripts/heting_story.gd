@@ -20,6 +20,7 @@ func handle(id:String)->bool:
 	match id:
 		"exit_heting":entry()
 		"return_mistwood":leave()
+		"consignee_warehouse":host.consignee_story.open("consignee_warehouse")
 		"heting_dispatch":dispatch()
 		"heting_cargo":cargo()
 		"heting_lighter":lighter()
@@ -41,6 +42,7 @@ func enter()->void:
 	host._travel("heting",Vector2(180,350))
 func leave()->void:
 	if not _at("return_mistwood") or host.state.battle_active:return
+	if host.consignee_story.leave():return
 	if host.state.heting_cargo.is_empty():
 		host._travel("mistwood",Vector2(1440,505));return
 	_modal("北岸归路","押车 / 先留好货物","这辆板车留在鹤汀埠。若要离开，先把未交的一批退回原位；已交货物与草案不变，回来仍可继续。\n\n不会删除任务或扣你的行囊材料。",[["退车后离开",_guard(park_and_leave)],["留在埠内",host._close_modal]],true)
@@ -59,7 +61,7 @@ func dispatch()->void:
 	if s.heting_stage==3:draft();return
 	if s.heting_stage==4:
 		var body="“西边写去回，东边留复称签。今夜先把人照应到，天亮还得把秤重新摆开。”" if s.heting_ending=="short_ferries" else "“东边有人守着秤，西边的锅也没灭。可远泊那几家没走到岸上的，明早得再问一遍。”"
-		_modal("孟绫 · 理缆人","一秤两岸 / 埠灯未尽",body+"\n\n"+companion_line(),[["查看交割单",manifest],["告辞",host._close_modal]],true);return
+		_modal("孟绫 · 理缆人","一秤两岸 / 埠灯未尽",body+"\n\n"+companion_line(),[[host.consignee_story.link_label("heting_dispatch"),_guard(host.consignee_story.open.bind("heting_dispatch"))],["查看交割单",manifest],["告辞",host._close_modal]],true);return
 	var opening="“缓水渠先分走了急流，东泊桩脚露得早。我们把浮栈先系在东边。秦禾的信随后也到了，船都安稳。”" if s.mist_ending=="release_water" else "“钟信先到，船家早早退进内湾。西边借两只稳船搭好了浮栈。东泊退水迟些，眼下照样能改泊。”"
 	var choices:Array=[["去中埠提货",host._close_modal],["重看交割单",manifest],["告辞",host._close_modal]]
 	if not s.heting_cargo.is_empty():choices.append(["退车归位",_guard(park)])
@@ -73,6 +75,8 @@ func manifest()->void:
 	body+="\n当前押车："+_cargo_name()+"\n浮栈："+("西岸" if s.heting_bridge=="west" else "东岸")+"；北步栈仅供步行。\n\n"+("两担封粮已当面复称，实物与提前写成的水损票不符。" if s.heting_delivered.has("sealed") else "封粮尚未复称，不提前断定实物与票据相符。")
 	_modal("鹤汀交割单","记录 / 实交才作数",body,[["回交割牌",dispatch],["收起货单",host._close_modal]],true)
 func cargo()->void:
+	if host.state.heting_stage==4:
+		_modal("中埠粮船","一秤两岸 / 实交记录保留","昨夜的两张货签已有实交记号，不能重复领取。新核查的北仓两篓另外记账。",[[host.consignee_story.link_label("heting_cargo"),_guard(host.consignee_story.open.bind("heting_cargo"))],["先离开",host._close_modal]],true);return
 	if not host.state.heting_cargo.is_empty():loaded();return
 	var available=host.state.available_heting_cargo("heting_cargo")
 	if available.is_empty():
@@ -139,6 +143,7 @@ func receiver(id:String)->void:
 	if not is_relief and s.heting_stage==4:
 		var receipt_label:String=["谈谈复签（可选）","复签应战准备","查看待核副签","重看复签记录"][s.receipt_stage]
 		options.append([receipt_label,_guard(host.receipt_story.open)])
+		options.append([host.consignee_story.link_label(id),_guard(host.consignee_story.open.bind(id))])
 	_modal(title,"一秤两岸 / 岸边所见",text,options,true)
 func base_result(id:String)->String:
 	var s=host.state
@@ -176,7 +181,7 @@ func draft()->void:
 func lighter()->void:
 	var s=host.state
 	if s.heting_stage==4:
-		_modal("南泊短驳","一秤两岸 / 后来的船",aftermath("heting_lighter"));return
+		_modal("南泊短驳","一秤两岸 / 后来的船",aftermath("heting_lighter"),[[host.consignee_story.link_label("heting_lighter"),_guard(host.consignee_story.open.bind("heting_lighter"))],["告辞",host._close_modal]],true);return
 	if not s.heting_cargo.is_empty():loaded();return
 	if s.heting_stage<3:
 		_modal("南泊短驳","交割 / 待分粮","这两担待分粮已留好，船工没有催你付钱。\n\n"+("先交妥开锅粮与对秤封粮。" if s.heting_stage==1 else "先到交割牌，与孟绫议定今晚的人手。")+"\n\n粮不会因你离开一会儿便被收走。");return
@@ -205,21 +210,27 @@ func companion_line()->String:
 	if s.current_companion()=="唐栖":return "唐栖：“改栈的法子留在牌背，让下一个轮值的人也会用。”" if s.tangqi_choice=="teach" else "唐栖：“两边缆位各有受力，别只照着一张旧图硬搬。”"
 	return ""
 func title()->String:
+	if host.state.consignee_stage in [1,2,3,4]:return "未损先收"
 	if host.state.receipt_stage in [1,2]:return "复签不撤"
 	return ["鹤汀来路","一车两岸","夜工待议","最后一车","埠灯未尽"][host.state.heting_stage]
 func hint()->String:
 	var s=host.state
+	if s.consignee_stage in [1,2,3,4]:
+		if s.map_id!="heting":return "沿既有粮路返回鹤汀埠，继续未损先收；北仓封粮、已查记录与草案保留。"
+		return s.Consignee.hint(s)+" 复签仍可到东岸公秤另办。"
 	if s.receipt_stage in [1,2]:return s.Receipt.hint(s)
+	if s.consignee_stage==5:return s.Consignee.hint(s)+" 旧复签仍可到东岸公秤另核，或沿北岸山道返回。"
 	if s.heting_stage==0:return "沿听雨关东侧下埠道前往鹤汀埠，追看粮船的实交。"
 	if not s.heting_cargo.is_empty():return "押"+_cargo_name()+"至"+_receiver_name(_receiver_for(s.heting_cargo))+"；窄步栈过不了车，可免费改泊或沿北岸绕行。"
-	return {1:"中埠粮船有两批固定货：开锅粮送西岸，对秤封粮送东岸，可任选先后。",2:"两批已办妥。回北岸交割牌，与孟绫议定今夜的人手。",3:"到南泊短驳提待分粮；按草案交货前仍可改议。",4:"今夜已有实际安排。可回访两岸，或沿北岸山道返回。"}[s.heting_stage]
+	return {1:"中埠粮船有两批固定货：开锅粮送西岸，对秤封粮送东岸，可任选先后。",2:"两批已办妥。回北岸交割牌，与孟绫议定今夜的人手。",3:"到南泊短驳提待分粮；按草案交货前仍可改议。",4:"今夜安排保留。可问孟绫的新撤运单；东岸复签仍可另办。"}[s.heting_stage]
 func target_id()->String:
 	var s=host.state
 	if s.map_id=="heting":
+		if s.consignee_stage in [1,2,3,4]:return host.consignee_story.target_id()
 		if s.receipt_stage in [1,2]:return "heting_scale"
 		if not s.heting_cargo.is_empty():return _receiver_for(s.heting_cargo)
 		return {1:"heting_cargo",2:"heting_dispatch",3:"heting_lighter",4:"heting_dispatch"}.get(s.heting_stage,"heting_dispatch")
-	if s.heting_stage in [1,2,3] or (s.heting_stage==0 and s.mist_stage==4 and s.map_id=="mistwood"):
+	if s.consignee_stage in [1,2,3,4] or s.heting_stage in [1,2,3] or (s.heting_stage==0 and s.mist_stage==4 and s.map_id=="mistwood"):
 		return {"qingwei":"exit_sluice","sluice":"exit_frostbridge","frostbridge":"exit_mistwood","mistwood":"exit_heting"}.get(s.map_id,"")
 	return ""
 func journal()->String:
@@ -234,4 +245,5 @@ func journal()->String:
 		text+="\n公秤棚夜间不留人，新交割等天亮复核。" if s.heting_draft=="short_ferries" else "\n远泊的人仍须靠岸，或等明日短渡。"
 	text+="\n"+hint()
 	if s.receipt_stage>0:text+="\n\n[color=#d3b276]鹤汀余事 · 复签不撤[/color]\n"+s.Receipt.journal(s)
+	if s.consignee_stage>0:text+="\n\n[color=#d3b276]鹤汀续事 · 未损先收[/color]\n"+s.Consignee.journal(s)
 	return text

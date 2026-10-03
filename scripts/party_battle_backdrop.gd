@@ -16,12 +16,14 @@ const ENCOUNTER_STYLES = {
 	"training": "courtyard",
 	"sect_trial": "courtyard",
 	"courtyard_practice": "courtyard",
+	"heting_consignee": "warehouse",
 }
 const FIELD = Rect2(0, 0, 1280, 685)
 const APRON = Rect2(0, 278, 1280, 407)
 # Keep the original hall's steps behind y=320, with the left party silhouettes
 # clear of its plaster walls. These are decoration coordinates, never nav data.
 const HALL = {"type": "hall", "pos": Vector2(653, 201), "size": Vector2(380, 74)}
+const WAREHOUSE = {"type":"hall", "pos":Vector2(676,173), "size":Vector2(435,110)}
 const FLOOR_BASE = Color(.88, .87, .76)
 const FLOOR_DETAIL = Color(1, 1, 1, .50)
 const HALL_TINT = Color(.81, .86, .76)
@@ -33,6 +35,8 @@ static var _hall_texture: Texture2D
 static var _willow_texture: Texture2D
 static var _hall_rect: Rect2
 static var _plaque_rect: Rect2
+static var _warehouse_rect: Rect2
+static var _warehouse_plaque: Rect2
 static var _apron_mesh: ArrayMesh
 static var _far_willows: Array[Rect2] = []
 static var _near_willows: Array[Rect2] = []
@@ -50,7 +54,7 @@ static func style_for(encounter_id: String) -> String:
 	return String(ENCOUNTER_STYLES.get(encounter_id, "ferry"))
 
 static func floor_texture_for(encounter_id: String) -> Texture2D:
-	return EARTH if style_for(encounter_id) == "courtyard" else WOOD
+	return EARTH if style_for(encounter_id) in ["courtyard","warehouse"] else WOOD
 
 static func prepare() -> void:
 	if _prepared: return
@@ -58,6 +62,8 @@ static func prepare() -> void:
 	_willow_texture = VillageEnvironment.texture_for("willow")
 	_hall_rect = VillageEnvironment.building_rect(HALL)
 	_plaque_rect = VillageEnvironment.plaque_rect(HALL)
+	_warehouse_rect = VillageEnvironment.building_rect(WAREHOUSE)
+	_warehouse_plaque = VillageEnvironment.plaque_rect(WAREHOUSE)
 	_apron_mesh = Tiles.geometry(APRON, 512.0).mesh
 	_far_willows.append(_willow_rect(Vector2(386,292), 1.92))
 	_far_willows.append(_willow_rect(Vector2(602,298), 1.68))
@@ -73,7 +79,9 @@ static func _willow_rect(foot: Vector2, scale_factor: float) -> Rect2:
 
 static func draw(canvas: CanvasItem, floor_mesh: ArrayMesh, encounter_id: String, clock: float) -> void:
 	prepare()
-	if style_for(encounter_id) == "courtyard":
+	if style_for(encounter_id) == "warehouse":
+		_draw_warehouse(canvas, floor_mesh)
+	elif style_for(encounter_id) == "courtyard":
 		_draw_courtyard(canvas, floor_mesh)
 	else:
 		_draw_ferry(canvas, floor_mesh, clock)
@@ -117,3 +125,23 @@ static func _draw_ferry(canvas: CanvasItem, floor_mesh: ArrayMesh, clock: float)
 	for y: float in [.32,.68]: canvas.draw_line(ground_point(0,y),ground_point(1,y),Color(.05,.12,.13,.25),2,true)
 	for foot: Vector2 in [Vector2(115,337),Vector2(1165,337)]:
 		canvas.draw_set_transform(foot,0,Vector2.ONE*2.05); Lantern.draw(canvas,Vector2.ZERO,clock); canvas.draw_set_transform(Vector2.ZERO)
+
+static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh) -> void:
+	# Reuse the actual harbor warehouse's original hall art, earth and deck.
+	# All combat floor geometry/feet remain the shared controller's coordinates.
+	canvas.draw_rect(FIELD, Color("718b80"))
+	canvas.draw_rect(Rect2(0,180,1280,160), Color("90a89b"))
+	canvas.draw_rect(Rect2(0,278,1280,407), Color("858f77"))
+	if _apron_mesh: canvas.draw_mesh(_apron_mesh, EARTH, Transform2D.IDENTITY, Color(1,1,1,.28))
+	if floor_mesh:
+		canvas.draw_mesh(floor_mesh,null,Transform2D.IDENTITY,Color(.85,.83,.69))
+		canvas.draw_mesh(floor_mesh,EARTH,Transform2D.IDENTITY,Color(1,1,1,.54))
+	if _hall_texture:
+		canvas.draw_texture_rect(_hall_texture,_warehouse_rect,false,Color(.93,.94,.85))
+		canvas.draw_string(FONT,_warehouse_plaque.position+Vector2(0,_warehouse_plaque.size.y*.79),"北 仓 交 割",HORIZONTAL_ALIGNMENT_CENTER,_warehouse_plaque.size.x,15,Color("e7d8b5"))
+	# Bound papers and low loading boards identify a working store, not a hall.
+	for x: float in [610,1142]:
+		canvas.draw_rect(Rect2(x,249,54,40),Color("635e47"))
+		canvas.draw_rect(Rect2(x+7,253,39,27),Color("d8cfb1"))
+		for line: int in range(3): canvas.draw_line(Vector2(x+13,260+line*6),Vector2(x+39,260+line*6),Color("647568"),1.0)
+	canvas.draw_line(Vector2(0,302),Vector2(1280,302),Color(.30,.38,.31,.38),5.0)

@@ -14,6 +14,7 @@ const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
 const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
+const ConsigneeStory=preload("res://scripts/heting_consignee_story.gd")
 const ReceiptUI=preload("res://scripts/heting_receipt_ui.gd")
 const PartyUI=preload("res://scripts/party_battle_ui.gd")
 const PartyRosterUI=preload("res://scripts/party_roster_ui.gd")
@@ -52,6 +53,7 @@ var advanced_martial
 var mist_story
 var heting_story
 var receipt_story
+var consignee_story
 var save_slots
 var hud
 var _hud_navigation_flags:int=-1
@@ -132,6 +134,7 @@ func _ready() -> void:
 	mist_story=MistwoodStory.new(self)
 	heting_story=HetingStory.new(self)
 	receipt_story=ReceiptStory.new(self)
+	consignee_story=ConsigneeStory.new(self)
 	world.traversal_blocked.connect(_toast)
 	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
@@ -796,6 +799,7 @@ func _show_journal() -> void:
 	if not port_journal.is_empty():
 		body=port_journal.strip_edges()+"\n\n"+body if _track_heting() else body+port_journal
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
+	modal_autosave_on_close=false
 
 func _save() -> void:
 	if current_screen in ["battle","receipt_battle","party_battle","title"]:
@@ -1041,6 +1045,10 @@ func _notification(what:int) -> void:
 func _start_receipt_battle()->bool:
 	return _start_unified_battle("heting_receipt")
 
+func _start_party_consignee_battle(generation:int)->bool:
+	if generation!=modal_generation or not consignee_story.battle_entry_ready():return false
+	return PartyUI.open(self,"heting_consignee")!=null
+
 func _start_party_receipt_battle()->bool:
 	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
 	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
@@ -1175,6 +1183,7 @@ func _sluice_cache_dialogue() -> void:
 func _show_map() -> void:
 	if current_screen in ["battle","receipt_battle","party_battle"] or state.battle_active: return
 	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
+	modal_autosave_on_close=false
 	var panel = overlay.get_child(overlay.get_child_count()-1)
 	panel.set_meta("minimum_page_height",570.0)
 	panel.find_child("DialogueBody",true,false).hide()
@@ -1189,6 +1198,7 @@ func _show_map() -> void:
 	chart.current_target = world._quest_target_id()
 	chart.heting_bridge=state.heting_bridge
 	chart.heting_cargo=state.heting_cargo
+	chart.consignee_cargo_location=state.consignee_cargo_location
 	chart.bridge_repaired=state.bridge_repaired
 	panel.add_child(chart)
 
@@ -1208,6 +1218,12 @@ func _show_workshop() -> void:
 
 func _sync_world_state() -> void:
 	world.heting_stage=state.heting_stage
+	world.consignee_stage=state.consignee_stage
+	world.consignee_observations=state.consignee_observations
+	world.consignee_draft=state.consignee_draft
+	world.consignee_cargo_location=state.consignee_cargo_location
+	world.consignee_ending=state.consignee_ending
+	world.refresh_heting_points()
 	world.heting_bridge=state.heting_bridge
 	world.heting_delivered=state.heting_delivered
 	world.heting_cargo=state.heting_cargo
@@ -1266,4 +1282,4 @@ func _track_heting()->bool:
 	if state.map_id=="heting":return state.heting_stage>0
 	if companion_story.pending() or shen_story.pending():return false
 	if state.map_id=="qingwei" and state.sect_trial_won and state.sect_rank==1:return false
-	return state.heting_stage in [1,2,3] or (state.heting_stage==0 and state.mist_stage==4 and state.map_id=="mistwood")
+	return state.consignee_stage in [1,2,3,4] or state.heting_stage in [1,2,3] or (state.heting_stage==0 and state.mist_stage==4 and state.map_id=="mistwood")

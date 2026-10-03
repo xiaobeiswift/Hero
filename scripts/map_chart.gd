@@ -14,6 +14,7 @@ var current_target: String = ""
 var bridge_repaired:bool=false
 var heting_bridge:String="west"
 var heting_cargo:String=""
+var consignee_cargo_location:String=""
 var cart_route:PackedVector2Array=PackedVector2Array()
 
 const CHART_SIZE := Vector2(780, 330)
@@ -35,10 +36,15 @@ func _ready() -> void:
 	refresh_cart_route()
 	queue_redraw()
 
+func heting_cart_loaded()->bool:
+	return not heting_cargo.is_empty() or consignee_cargo_location=="cart"
+
 func refresh_cart_route()->void:
 	cart_route=PackedVector2Array()
-	if map_id=="heting" and not heting_cargo.is_empty() and markers.has(current_target):
-		cart_route=CartRoutes.route(player_position,markers[current_target].pos,heting_bridge)
+	# Resolve the rules' receiver ID without inventing a second overlapping dot.
+	var target="heting_cargo" if current_target=="heting_grain_boat" else current_target
+	if map_id=="heting" and heting_cart_loaded() and markers.has(target):
+		cart_route=CartRoutes.route(player_position,markers[target].pos,heting_bridge)
 
 func _draw() -> void:
 	# A bordered paper chart, with a restrained surveying grid beneath the terrain.
@@ -171,7 +177,7 @@ func _draw_markers() -> void:
 		if not world_position.is_finite():
 			continue
 		var p := _point(world_position.clamp(Vector2.ZERO, WORLD_SIZE))
-		var is_target := id == current_target
+		var is_target := id == ("heting_cargo" if current_target=="heting_grain_boat" else current_target)
 		if is_target:
 			draw_circle(p, 10, Color(0.83, 0.6, 0.26, 0.18))
 			draw_arc(p, 9, 0, TAU, 32, GOLD, 2, true)
@@ -231,7 +237,7 @@ func _draw_legend() -> void:
 	_text(Vector2(162, y + 4), "人物 / 地点", 11, INK)
 	draw_arc(Vector2(272, y), 6, 0, TAU, 24, GOLD, 1.7, true)
 	_text(Vector2(285, y + 4), "当前机缘", 11, INK)
-	if map_id=="heting" and not heting_cargo.is_empty():
+	if map_id=="heting" and heting_cart_loaded():
 		draw_line(Vector2(374,y),Vector2(392,y),GOLD,2.5,true)
 		_text(Vector2(400,y+4),"可推车路线",10,INK)
 	var title:String={"qingwei":"青苇渡 · 渡口图","sluice":"废闸古道 · 两岸图","frostbridge":"霜桥驿 · 印台图","mistwood":"雾竹坡 · 听雨图","heting":"鹤汀埠 · 港池图"}.get(map_id,"江湖舆图")
@@ -311,7 +317,7 @@ func _draw_heting_map() -> void:
 		draw_rect(_world_rect(surface.position, surface.size), Color("b8aa83") if deck else Color("c8cbb0"))
 		if surface == Heting.FOOT_PIER or surface == Heting.WEST_PONTOON or surface == Heting.EAST_PONTOON:
 			_bridge(surface.position, surface.size)
-	if not heting_cargo.is_empty():
+	if heting_cart_loaded():
 		var pier=_world_rect(Heting.FOOT_PIER.position,Heting.FOOT_PIER.size)
 		draw_rect(pier,Color(.66,.35,.28,.24))
 		draw_line(pier.position+Vector2(3,3),pier.end-Vector2(3,3),ROSE,1.7,true)
@@ -331,4 +337,4 @@ func _draw_heting_map() -> void:
 	_text(_point(Vector2(840,237)),"北岸横街 · 板车可绕行",11,INK,170,HORIZONTAL_ALIGNMENT_CENTER)
 	_text(_point(Vector2(735,530)),"北步栈",10,INK,70,HORIZONTAL_ALIGNMENT_CENTER)
 	_text(_point(Vector2(650,929)),"西浮栈泊靠" if heting_bridge=="west" else "东浮栈泊靠",11,INK,145,HORIZONTAL_ALIGNMENT_CENTER)
-	_text(_point(Vector2(435,1000)),"北步栈不通板车 · 可在绞缆机免费调桥" if not heting_cargo.is_empty() else "北步栈通行人 · 板车走侧浮栈",10,INK,345,HORIZONTAL_ALIGNMENT_CENTER)
+	_text(_point(Vector2(435,1000)),"北步栈不通板车 · 可在绞缆机免费调桥" if heting_cart_loaded() else "北步栈通行人 · 板车走侧浮栈",10,INK,345,HORIZONTAL_ALIGNMENT_CENTER)

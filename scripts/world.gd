@@ -55,6 +55,12 @@ var mist_ending:String=""
 var mist_completed:bool=false
 var heting_target_id:String=""
 var heting_stage:int=0
+# Read-only scene projection of the separate post-harbor lot.
+var consignee_stage:int=0
+var consignee_observations:Array[String]=[]
+var consignee_draft:String=""
+var consignee_cargo_location:String=""
+var consignee_ending:String=""
 var _cart_hint_shown:bool=false
 var chapter_stage:int=0
 var chapter_ending:String=""
@@ -194,7 +200,7 @@ func change_map(id: String, spawn: Vector2) -> void:
 		_village_points = interactables.duplicate(true)
 	map_id = id if id in ["qingwei", "sluice", "frostbridge", "mistwood", "heting"] else "qingwei"
 	match map_id:
-		"heting":interactables=Heting.points()
+		"heting":interactables=Heting.points(heting_stage==4,consignee_stage)
 		"mistwood":interactables=Mist.points()
 		"frostbridge":interactables=Frost.points()
 		"sluice":interactables=_sluice_points.duplicate(true)
@@ -202,6 +208,20 @@ func change_map(id: String, spawn: Vector2) -> void:
 	teleport(spawn)
 	current_location = _location_for_position()
 	location_changed.emit(current_location)
+	queue_redraw()
+
+func heting_cart_loaded() -> bool:
+	# Never alias the new lot into old delivery fields: movement alone is shared.
+	return not heting_cargo.is_empty() or consignee_cargo_location=="cart"
+
+func heting_marker_id(id:String) -> String:
+	# The rules use a receiver identity; the world has one existing boat marker.
+	return "heting_cargo" if id=="heting_grain_boat" else id
+
+func refresh_heting_points() -> void:
+	if map_id!="heting":return
+	interactables=Heting.points(heting_stage==4,consignee_stage)
+	_update_nearby()
 	queue_redraw()
 
 func get_region_hint() -> String:
@@ -217,14 +237,14 @@ func get_region_hint() -> String:
 		_: return "废闸已重归安宁。旧仓尚有遗物，可以继续探索。"
 
 func _safe_spawn() -> Vector2:
-	if map_id=="heting":return Heting.LOADED_SAFE if not heting_cargo.is_empty() else Heting.safe_spawn()
+	if map_id=="heting":return Heting.LOADED_SAFE if heting_cart_loaded() else Heting.safe_spawn()
 	return Vector2(150,550) if map_id=="mistwood" else (Vector2(190,500) if map_id=="frostbridge" else (Vector2(190, 520) if map_id == "sluice" else Vector2(460, 430)))
 
 func teleport(position: Vector2) -> void:
 	# Heting recovery is deterministic: stale bridges, water and loaded foot-pier
 	# positions go to the island, without dropping or delivering the cargo.
 	if map_id=="heting":
-		player_pos = Heting.repaired_position(position, heting_bridge, not heting_cargo.is_empty())
+		player_pos = Heting.repaired_position(position, heting_bridge, heting_cart_loaded())
 		_reset_followers("teleport")
 		camera_pos = _camera_target()
 		_update_nearby()
@@ -265,7 +285,7 @@ func _process(delta: float) -> void:
 	time_passed += delta
 	if not _can_walk(player_pos):teleport(player_pos)
 	_ensure_follower_topology()
-	if map_id!="heting" or heting_cargo.is_empty() or player_pos.distance_to(Heting.FOOT_PIER.get_center())>200:_cart_hint_shown=false
+	if map_id!="heting" or not heting_cart_loaded() or player_pos.distance_to(Heting.FOOT_PIER.get_center())>200:_cart_hint_shown=false
 	var direction := Vector2.ZERO
 	if active:
 		direction.x = float(_pressed("move_right", KEY_D, KEY_RIGHT)) - float(_pressed("move_left", KEY_A, KEY_LEFT))
@@ -276,7 +296,7 @@ func _process(delta: float) -> void:
 		facing = direction
 		walk_time += delta * 10.5
 		var target := player_pos + direction * SPEED * delta
-		if map_id=="heting" and not heting_cargo.is_empty() and Heting.at_foot_pier(target) and not _can_step(player_pos,target) and not _cart_hint_shown:
+		if map_id=="heting" and heting_cart_loaded() and Heting.at_foot_pier(target) and not _can_step(player_pos,target) and not _cart_hint_shown:
 			_cart_hint_shown=true
 			traversal_blocked.emit("窄步栈只供步行。押车请改接侧浮栈，或沿北岸横街绕行。")
 		var next_x := Vector2(target.x, player_pos.y)
@@ -351,7 +371,7 @@ func _update_nearby() -> void:
 			nearby_name = get_npc_name(id)
 
 func _can_step(start:Vector2,finish:Vector2)->bool:
-	if map_id=="heting":return Heting.can_step(start,finish,heting_bridge,not heting_cargo.is_empty())
+	if map_id=="heting":return Heting.can_step(start,finish,heting_bridge,heting_cart_loaded())
 	if not start.is_finite() or not finish.is_finite() or not _can_walk(start) or not _can_walk(finish):return false
 	var steps=maxi(1,int(ceil(start.distance_to(finish)/8.0)))
 	for i in range(1,steps+1):
@@ -359,7 +379,7 @@ func _can_step(start:Vector2,finish:Vector2)->bool:
 	return true
 
 func _can_walk(p: Vector2) -> bool:
-	if map_id=="heting":return Heting.walkable(p,heting_bridge,not heting_cargo.is_empty())
+	if map_id=="heting":return Heting.walkable(p,heting_bridge,heting_cart_loaded())
 	if not p.is_finite():
 		return false
 	if map_id=="mistwood":return Mist.walkable(p)
@@ -420,7 +440,7 @@ func _draw() -> void:
 		_draw_terrain_layer()
 		return
 	if map_id=="heting":
-		Heting.draw(self,heting_bridge,heting_delivered,heting_cargo,heting_draft,heting_ending,mist_ending);return
+		Heting.draw(self,heting_bridge,heting_delivered,heting_cargo,heting_draft,heting_ending,mist_ending,heting_stage==4,consignee_stage,consignee_cargo_location,consignee_ending);return
 	if map_id=="mistwood":
 		Mist.draw(self);return
 	if map_id=="frostbridge":
@@ -874,7 +894,9 @@ func _draw_camp_fire() -> void:
 	draw_circle(fire + Vector2(0, -3), 4, Color("e5bf71"))
 
 func _painted_npc_role(id:String)->String:
-	if map_id=="heting":return Heting.npc_role(id)
+	if map_id=="heting":
+		if id=="consignee_warehouse" and consignee_stage>=3:return ""
+		return Heting.npc_role(id)
 	if map_id!="qingwei" or not PaintedCast.CAST.has(id):return ""
 	if id=="healer" and has_follower("shen"):return ""
 	return id
@@ -966,6 +988,16 @@ func _interaction_prompt_rect(target:Vector2,text:String="")->Rect2:
 
 func interaction_verb(id: String) -> String:
 	# These verbs describe the sheet opened by E; delivery still needs its choice.
+	if heting_stage==4 and id=="consignee_warehouse":
+		return ["问北仓封粮","核验封粮","前往对质","提取粮车","查看提货位","查看交接记录"][clampi(consignee_stage,0,5)]
+	if heting_stage==4 and consignee_stage>0:
+		if id=="heting_dispatch" and consignee_stage==1:return "核对撤运单"
+		if id=="heting_lighter" and consignee_stage==1:return "核对收货联"
+		if id in ["heting_scale","heting_cargo"]:
+			if consignee_cargo_location=="cart":
+				var receiver="heting_scale" if consignee_draft=="hold_for_inspection" else "heting_cargo"
+				return "商议本批交接" if id==receiver else "询问本批去处"
+			if consignee_stage==5:return "查看交接记录"
 	if id=="heting_dispatch":return "商议分粮" if heting_stage in [2,3] else "交谈"
 	if id=="heting_winch":return "调整浮桥"
 	if id in ["heting_cargo","heting_lighter"]:
@@ -995,7 +1027,9 @@ func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	if map_id=="qingwei":visible_ids.append("courtyard_practice")
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
-	if map_id=="heting":visible_ids=["heting_dispatch","heting_relief","heting_scale"]
+	if map_id=="heting":
+		visible_ids=["heting_dispatch","heting_relief","heting_scale"]
+		if interactables.has("consignee_warehouse"):visible_ids.append("consignee_warehouse")
 	for id: String in visible_ids:
 		var p: Vector2 = interactables[id]["pos"]
 		var selected := nearby_id == id
@@ -1084,7 +1118,8 @@ func _draw_view_framing() -> void:
 	draw_set_transform(Vector2.ZERO)
 
 func _quest_target_id() -> String:
-	if interactables.has(heting_target_id):return heting_target_id
+	var harbor_target=heting_marker_id(heting_target_id)
+	if interactables.has(harbor_target):return harbor_target
 	if interactables.has(shen_target_id):return shen_target_id
 	if map_id=="mistwood" and (not mist_completed or not interactables.has(personal_target_id)):return mist_target_id if interactables.has(mist_target_id) else "mist_guide"
 	if map_id=="qingwei" and mentor_pending:return "mentor"
@@ -1414,7 +1449,7 @@ func _follower_can_step(start:Vector2,finish:Vector2) -> bool:
 	return _can_step(start,finish)
 
 func _follower_topology_key() -> Array:
-	if map_id=="heting":return [map_id,heting_bridge,not heting_cargo.is_empty()]
+	if map_id=="heting":return [map_id,heting_bridge,heting_cart_loaded()]
 	if map_id=="frostbridge":return [map_id,bridge_repaired]
 	return [map_id]
 

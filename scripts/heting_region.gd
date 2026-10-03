@@ -2,6 +2,7 @@ class_name HetingRegion
 extends RefCounted
 const Worksites=preload("res://scripts/heting_worksites_art.gd")
 const Machinery=preload("res://scripts/heting_machinery_art.gd")
+const ConsigneeArt=preload("res://scripts/painted_battle_duhui.gd")
 const MaterialTiles=preload("res://scripts/world_material_tiles.gd")
 const WOOD_TILE=160.0
 const WATER_TILE=480.0
@@ -13,7 +14,7 @@ const PeopleArt=preload("res://scripts/painted_village_civilians.gd")
 const GroundArt=preload("res://assets/generated/environment/qingwei_moss_earth.png")
 ## Region V: Heting's broad working harbour, drawn from its collision geometry.
 ## Pure state input: no GameState reads, writes, inventory or quest transitions.
-## draw(host, bridge_side, delivered=[], cargo="", draft="", ending="", mist_ending="")
+## draw(host, old harbor inputs..., new chapter availability/stage/location/ending)
 ## Host is VillageWorld: camera/viewport/player/time, exploration_actor_positions,
 ## append_follower_layers, _draw_follower, _ellipse, _ellipse_arc, _label, _draw_person,
 ## _draw_region_sign, _draw_nameplates and _draw_view_framing helpers.
@@ -30,6 +31,13 @@ const BUILDINGS := [Rect2(420, 195, 220, 78), Rect2(90, 618, 215, 90), Rect2(132
 const ACTOR_RADIUS := 7.0
 const LOADED_SAFE := Vector2(820, 665)
 const ENTRY := Vector2(180, 350)
+const CONSIGNEE_WAREHOUSE := Vector2(700,315)
+const CONSIGNEE_CELL_SIZE := 94.0
+const CONSIGNEE_WAREHOUSE_BASKETS := [Vector2(760,303),Vector2(795,303)]
+const CONSIGNEE_SCALE_LOT := Vector2(1461,834)
+const CONSIGNEE_WAREHOUSE_LOT := Vector2(778,303)
+const CONSIGNEE_LOT_SCALE := 1.6
+const CONSIGNEE_BOAT_EMPTIES := [Vector2(615,674),Vector2(647,674)]
 const INK := Color("334b46")
 const PAPER := Color("e2d3ad")
 const WOOD := Color("ae9971")
@@ -38,8 +46,8 @@ const WATER := Color("709591")
 const GOLD := Color("c9a260")
 const FOOTPRINT_OFFSETS := [Vector2.ZERO, Vector2(7, 0), Vector2(-7, 0), Vector2(0, 7), Vector2(0, -7), Vector2(4.95, 4.95), Vector2(-4.95, 4.95), Vector2(4.95, -4.95), Vector2(-4.95, -4.95)]
 
-static func points() -> Dictionary:
-	return {
+static func points(consignee_available:bool=false, consignee_stage:int=0) -> Dictionary:
+	var result:Dictionary = {
 		"return_mistwood": {"pos": Vector2(150, 335), "name": "返回雾竹坡", "kind": "exit"},
 		"heting_dispatch": {"pos": Vector2(535, 350), "name": "孟绫·交割牌", "kind": "npc"},
 		"heting_winch": {"pos": Vector2(820, 735), "name": "双向绞缆机", "kind": "mechanism"},
@@ -48,6 +56,41 @@ static func points() -> Dictionary:
 		"heting_relief": {"pos": Vector2(230, 780), "name": "顾婶·粥棚", "kind": "rest"},
 		"heting_scale": {"pos": Vector2(1390, 600), "name": "施衡·公秤棚", "kind": "npc"},
 	}
+
+	if consignee_available:
+		result["consignee_warehouse"]={"pos":CONSIGNEE_WAREHOUSE,"name":"杜晦·北仓封粮" if consignee_stage<3 else "北仓提货位","kind":"npc" if consignee_stage<3 else "cargo"}
+	return result
+
+static func consignee_visual_state(available:bool, stage:int, cargo_location:String, ending:String) -> Dictionary:
+	# Pure rendering description. Empty baskets are loading places, not another
+	# copy of the new lot. Returned grain is recorded as opened/distributed.
+	var result={"visible":available,"duhui":false,"warehouse_full":0,"warehouse_empty":0,
+		"cart_full":0,"scale_full":0,"boat_empty":0,"warehouse_record":"",
+		"scale_record":"","boat_record":""}
+	if not available:return result
+	result.duhui=stage<3
+	if stage==0 or cargo_location=="warehouse":result.warehouse_full=2
+	else:result.warehouse_empty=2
+	if cargo_location=="cart":result.cart_full=2
+	result.warehouse_record="北仓新号 · 两篓封粮" if stage<3 else ("强提已止 · 原篓待搬" if cargo_location=="warehouse" else "撤运单划止 · 提货位已空")
+	if stage==5 and ending=="hold_for_inspection" and cargo_location=="public_scale":
+		result.scale_full=2
+		result.scale_record="本批两篓 · 共同封存待验"
+		result.boat_record="本批暂存回条 · 待验不取用"
+	elif stage==5 and ending=="return_to_owner" and cargo_location=="grain_boat":
+		result.boat_empty=2
+		result.scale_record="本批返还抄件 · 封样已开"
+		result.boat_record="本批返还记定 · 开篓分用"
+	return result
+
+static func consignee_layers(visual:Dictionary) -> Array[Dictionary]:
+	var result:Array[Dictionary]=[]
+	if not visual.get("visible",false):return result
+	result.append({"y":303.0,"kind":"consignee_warehouse"})
+	if visual.duhui:result.append({"y":CONSIGNEE_WAREHOUSE.y,"kind":"consignee_duhui"})
+	if not String(visual.scale_record).is_empty():result.append({"y":834.0,"kind":"consignee_scale"})
+	if not String(visual.boat_record).is_empty():result.append({"y":674.0,"kind":"consignee_boat"})
+	return result
 
 static func terrain_rects(bridge_side: String, cart_loaded: bool = false) -> Array[Rect2]:
 	# This exact positive union also paints the ground and cartographic overview.
@@ -128,7 +171,7 @@ static func location(p: Vector2) -> String:
 		return "鹤汀埠 · 东岸公秤"
 	return "鹤汀埠 · 港池"
 
-static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = "", draft: String = "", ending: String = "", mist_ending: String = "") -> void:
+static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = "", draft: String = "", ending: String = "", mist_ending: String = "", consignee_available:bool=false, consignee_stage:int=0, consignee_location:String="", consignee_ending:String="") -> void:
 	w.draw_rect(Rect2(Vector2.ZERO, w.viewport_rect.size), Color("a8b4a5"))
 	w.draw_set_transform(-w.camera_pos)
 	w.draw_rect(Rect2(Vector2.ZERO, WORLD_SIZE), WATER)
@@ -145,7 +188,8 @@ static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = 
 	_boat(w, Vector2(955, 911), Vector2(160, 76), "lighter", ending == "short_ferries")
 	_mist_memory(w, mist_ending)
 	_dock_furniture(w, delivered, cargo)
-	var layers: Array[Dictionary] = []
+	var consignee=consignee_visual_state(consignee_available,consignee_stage,consignee_location,consignee_ending)
+	var layers: Array[Dictionary] = consignee_layers(consignee)
 	for i in range(BUILDINGS.size()):
 		layers.append({"y": BUILDINGS[i].end.y, "kind": "building", "index": i})
 	layers.append({"y": 643.0, "kind": "crane"})
@@ -171,12 +215,18 @@ static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = 
 			"scale": _scale(w, delivered.has("sealed"), ending)
 			"dispatch": _dispatch_board(w, delivered, draft, ending)
 			"npc": _npc(w, layer.id, locations[layer.id].pos)
+			"consignee_warehouse": _consignee_warehouse(w,consignee)
+			"consignee_duhui": _consignee_duhui(w)
+			"consignee_scale": _consignee_scale(w,consignee)
+			"consignee_boat": _consignee_boat(w,consignee)
 			"player":
 				w._draw_person(w.player_pos, Color("326e69"), true, "player")
 				if not cargo.is_empty():
 					# Compact cart is centred on the valid actor footprint, not a
 					# separate trailing body that swings over the water when turning.
 					_cart(w, w.player_pos, cargo)
+				elif int(consignee.cart_full)>0:
+					_consignee_cart(w,w.player_pos,consignee)
 			"follower":
 				w._draw_follower(layer.id)
 				w.draw_set_transform(-w.camera_pos)
@@ -526,7 +576,7 @@ static func _scale(w, sealed_delivered: bool, ending: String) -> void:
 		w._label(Vector2(1317, 794), "共同存粮 · 当面记账", 12, Color("64735a"), 199, HORIZONTAL_ALIGNMENT_CENTER)
 
 static func npc_role(id:String)->String:
-	return {"heting_dispatch":"clerk","heting_relief":"resident","heting_scale":"porter"}.get(id,"")
+	return {"heting_dispatch":"clerk","heting_relief":"resident","heting_scale":"porter","consignee_warehouse":"duhui"}.get(id,"")
 
 static func _npc(w, id: String, p: Vector2) -> void:
 	var role=npc_role(id)
@@ -561,6 +611,87 @@ static func _aftermath(w, ending: String) -> void:
 		_worker(w, Vector2(1318, 699), Color("7d9078"))
 		_worker(w, Vector2(1480, 716), Color("9a9872"))
 		w._label(Vector2(1294, 922), "公秤今夜留人 · 短渡明日再行", 12, Color("717553"), 253, HORIZONTAL_ALIGNMENT_CENTER)
+
+
+static func consignee_opacity(actors:Array[Vector2]) -> float:
+	var area=ConsigneeArt.opaque_rect(CONSIGNEE_WAREHOUSE,CONSIGNEE_CELL_SIZE)
+	for actor:Vector2 in actors:
+		if actor.y<CONSIGNEE_WAREHOUSE.y and area.intersects(Rect2(actor-Vector2(16,60),Vector2(32,64))):return .40
+	return 1.0
+
+static func _consignee_duhui(w) -> void:
+	# This is the accepted stationary idle key, not a generated walk cycle.
+	var opacity=consignee_opacity(w.exploration_actor_positions())
+	w._ellipse(CONSIGNEE_WAREHOUSE+Vector2(-6,2),Vector2(20,5),Color(.17,.25,.20,.2*opacity))
+	if not ConsigneeArt.draw(w,CONSIGNEE_WAREHOUSE,{},opacity,CONSIGNEE_CELL_SIZE):
+		w._draw_person(CONSIGNEE_WAREHOUSE,Color("49647b"),false,"villager")
+
+static func consignee_basket_layout(place:String,visual:Dictionary) -> Array[Dictionary]:
+	# The accepted sealed-hamper atlas cell already depicts TWO baskets.
+	# One pair sprite is the whole new lot; empty cells depict one basket each.
+	var result:Array[Dictionary]=[]
+	if not visual.get("visible",false):return result
+	var full=int(visual.get(place+"_full",0))
+	if full>0:
+		var foot=CONSIGNEE_WAREHOUSE_LOT if place=="warehouse" else (CONSIGNEE_SCALE_LOT if place=="scale" else Vector2(0,-3))
+		result.append({"id":"cargo_hampers_sealed","pos":foot,"scale":1.2 if place=="cart" else CONSIGNEE_LOT_SCALE,"baskets":2})
+	elif int(visual.get(place+"_empty",0))>0:
+		for foot:Vector2 in (CONSIGNEE_WAREHOUSE_BASKETS if place=="warehouse" else CONSIGNEE_BOAT_EMPTIES):
+			result.append({"id":"grain_basket_empty","pos":foot,"scale":1.0,"baskets":1})
+	return result
+
+static func _consignee_baskets(w,place:String,visual:Dictionary,offset:Vector2=Vector2.ZERO) -> void:
+	for basket:Dictionary in consignee_basket_layout(place,visual):
+		var p:Vector2=basket.pos+offset
+		var opacity=1.0
+		var area=Machinery.drawing_rect(basket.id,p,basket.scale)
+		for actor:Vector2 in w.exploration_actor_positions():
+			if actor.y<p.y and area.intersects(Rect2(actor-Vector2(16,60),Vector2(32,64))):opacity=.40;break
+		if not Machinery.draw(w,basket.id,p,basket.scale,opacity):
+			if basket.baskets==2:
+				_basket(w,p+Vector2(-10,0),true,true,.65)
+				_basket(w,p+Vector2(10,0),true,true,.65)
+			else:_basket(w,p,false,false)
+
+static func _consignee_cart(w,p:Vector2,visual:Dictionary) -> void:
+	# The original vector chassis contains no generic sacks: the single paired
+	# atlas cell is all of the new load. Ground contacts stay within 6.5px.
+	w._ellipse(p+Vector2(0,1),Vector2(11,4),Color(.2,.29,.22,.2))
+	w.draw_line(p+Vector2(-5,-2),p+Vector2(-5,4),WOOD_DARK,3,true)
+	w.draw_line(p+Vector2(5,-2),p+Vector2(5,4),WOOD_DARK,3,true)
+	w.draw_rect(Rect2(p+Vector2(-14,-22),Vector2(28,19)),Color("8a7b57"))
+	w.draw_line(p+Vector2(-10,-5),p+Vector2(-6,-30),WOOD_DARK,2,true)
+	w.draw_line(p+Vector2(10,-5),p+Vector2(6,-30),WOOD_DARK,2,true)
+	_consignee_baskets(w,"cart",visual,p)
+	w.draw_line(p+Vector2(-13,-4),p+Vector2(13,-4),Color("d0bd8d"),3,true)
+
+static func consignee_record_opacity(p:Vector2,actors:Array[Vector2]) -> float:
+	var area=Rect2(p-Vector2(19,29),Vector2(38,32))
+	for actor:Vector2 in actors:
+		if actor.y<p.y and area.intersects(Rect2(actor-Vector2(16,60),Vector2(32,64))):return .40
+	return 1.0
+
+static func _consignee_record(w,p:Vector2,text:String,stopped:bool=false) -> void:
+	# Reuse the harbor's paper, ink and seal vocabulary, with no new raster art.
+	var opacity=consignee_record_opacity(p,w.exploration_actor_positions())
+	w.draw_line(p+Vector2(0,3),p-Vector2(0,28),Color(WOOD_DARK,opacity),3,true)
+	w.draw_rect(Rect2(p-Vector2(19,29),Vector2(38,27)),Color(PAPER,opacity))
+	for i in range(3):w.draw_line(p+Vector2(-14,-23+i*5),p+Vector2(12-i*3,-23+i*5),Color(Color("737557"),opacity),1,true)
+	w.draw_arc(p+Vector2(10,-9),3,0,TAU,12,Color(Color("ad654b"),opacity),1.2,true)
+	if stopped:w.draw_line(p+Vector2(-15,-25),p+Vector2(14,-6),Color(Color("ad654b"),opacity),2,true)
+	w._label(p+Vector2(-91,20),text,11,Color(Color("625f46"),opacity),182,HORIZONTAL_ALIGNMENT_CENTER)
+
+static func _consignee_warehouse(w,visual:Dictionary) -> void:
+	_consignee_baskets(w,"warehouse",visual)
+	_consignee_record(w,Vector2(838,303),visual.warehouse_record,not visual.duhui)
+
+static func _consignee_scale(w,visual:Dictionary) -> void:
+	_consignee_baskets(w,"scale",visual)
+	_consignee_record(w,Vector2(1404,834),visual.scale_record)
+
+static func _consignee_boat(w,visual:Dictionary) -> void:
+	_consignee_baskets(w,"boat",visual)
+	_consignee_record(w,Vector2(686,674),visual.boat_record)
 
 static func _worker(w, p: Vector2, color: Color) -> void:
 	w._ellipse(p, Vector2(9, 4), Color(0.25, 0.34, 0.27, 0.18))
