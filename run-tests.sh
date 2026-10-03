@@ -72,6 +72,30 @@ if [[ -n "${HERO_WEB29_PCK:-}" ]]; then
     run_checked --headless --main-pack "$FITTING_OLD_PCK" \
     --script "$(pwd)/tests/weapon_fitting_old15_pack_probe.gd" -- "$FITTING_OLD_PCK" "$FITTING_SUBJECT" "$FITTING_CONTROL"
 fi
+# Fitting controls use genuine HeroState, so each suite gets an empty profile.
+# Engine logs/results stay outside user:// for strict save-file comparisons.
+FITTING_UI_ROOT="$(realpath "$TEST_ROOT")/fitting-ui"
+mkdir "$FITTING_UI_ROOT" # Refuse reusing retained fitting profile evidence.
+mkdir -p "$FITTING_UI_ROOT"/{functional,safety,earned}/{data,config,cache}
+XDG_DATA_HOME="$FITTING_UI_ROOT/functional/data" \
+XDG_CONFIG_HOME="$FITTING_UI_ROOT/functional/config" \
+XDG_CACHE_HOME="$FITTING_UI_ROOT/functional/cache" \
+  run_checked --headless --log-file "$FITTING_UI_ROOT/functional/engine.log" \
+  --path . --script tests/weapon_fitting_ui_test.gd
+HERO_CHECK_TIMEOUT_SECONDS=480 \
+XDG_DATA_HOME="$FITTING_UI_ROOT/safety/data" \
+XDG_CONFIG_HOME="$FITTING_UI_ROOT/safety/config" \
+XDG_CACHE_HOME="$FITTING_UI_ROOT/safety/cache" \
+  run_checked --headless --log-file "$FITTING_UI_ROOT/safety/engine.log" \
+  --path . --script tests/weapon_fitting_ui_independent_test.gd -- --output="$FITTING_UI_ROOT/safety/result.json"
+HERO_CHECK_TIMEOUT_SECONDS=1200 \
+XDG_DATA_HOME="$FITTING_UI_ROOT/earned/data" \
+XDG_CONFIG_HOME="$FITTING_UI_ROOT/earned/config" \
+XDG_CACHE_HOME="$FITTING_UI_ROOT/earned/cache" \
+  run_checked --headless --log-file "$FITTING_UI_ROOT/earned/engine.log" --audio-driver Dummy --fixed-fps 60 \
+  --path . --script tests/weapon_fitting_earned_scene_test.gd -- --output="$FITTING_UI_ROOT/earned/result.json"
+# Keep complete large QA reports byte-equivalent without one giant JSON string.
+run_checked --headless --path . --script tests/report_json_writer_test.gd
 # 截令归灯 introduced schema15; current writer16 retains all its gates.
 # Native framebuffer, exact new PCK and browser acceptance remain separate.
 run_checked --headless --path . --script tests/capstone_rules_test.gd
