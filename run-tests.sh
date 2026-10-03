@@ -32,6 +32,13 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
+# Save transfer is shipped default-off; opt-in tests use isolated synthetic bytes.
+run_checked --headless --path . --script tests/local_save_transfer_test.gd
+run_checked --headless --path . --script tests/save_transfer_ui_test.gd
+run_checked --headless --path . --script tests/save_transfer_independent_test.gd
+run_checked --headless --path . --script tests/save_transfer_independent_ui_test.gd
+run_checked --headless --path . --script tests/browser_save_transfer_adapter_independent_test.gd
+node tests/test_browser_save_transfer_dom.cjs
 run_checked --headless --path . --script tests/companion_condition_display_test.gd
 run_checked --headless --path . --script tests/companion_condition_independent_test.gd
 run_checked --headless --path . --script tests/exploration_party_trail_test.gd
