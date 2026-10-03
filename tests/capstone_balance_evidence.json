@@ -1,0 +1,2715 @@
+{
+  "checks": 67471,
+  "failures": 0,
+  "scope": "Production State/API earned routes and detached model comparisons. Map-only travel and exact scene-local opening effects are explicit; no main-scene proximity, rendering or playable chapter claim.",
+  "entry_profiles": [
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 12
+        },
+        "attack": 35,
+        "bridge_repaired": false,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 537,
+        "companion_unlocked": false,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 6,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {},
+        "party_roster": [
+          "hero"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 0,
+        "qin_unlocked": false,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 0,
+          "herb": 3,
+          "iron": 0,
+          "timber": 0
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "听潮阁",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "",
+        "tangqi_stage": 0,
+        "tangqi_unlocked": false,
+        "victories": 6,
+        "xp": 135
+      },
+      "recruits": false,
+      "school": "听潮阁",
+      "total_xp": 1035
+    },
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 7
+        },
+        "attack": 35,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "听潮阁",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "听潮阁",
+      "total_xp": 1110
+    },
+    {
+      "lessons": true,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "回潮断浪": 5,
+          "照夜一线": 1
+        },
+        "attack": 35,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "回潮断浪",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": true,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": true,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "听潮阁",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "听潮阁",
+      "total_xp": 1110
+    },
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 12
+        },
+        "attack": 31,
+        "bridge_repaired": false,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 537,
+        "companion_unlocked": false,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 184,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 184,
+        "max_qi": 6,
+        "medicine": 6,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {},
+        "party_roster": [
+          "hero"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 0,
+        "qin_unlocked": false,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 0,
+          "herb": 3,
+          "iron": 0,
+          "timber": 0
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "照野堂",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "",
+        "tangqi_stage": 0,
+        "tangqi_unlocked": false,
+        "victories": 6,
+        "xp": 135
+      },
+      "recruits": false,
+      "school": "照野堂",
+      "total_xp": 1035
+    },
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 9
+        },
+        "attack": 31,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 184,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 184,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "照野堂",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "照野堂",
+      "total_xp": 1110
+    },
+    {
+      "lessons": true,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 1,
+          "青灯续脉": 7
+        },
+        "attack": 31,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 9,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "青灯续脉",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 184,
+        "internal_unlocked": true,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": true,
+        "map_id": "frostbridge",
+        "max_hp": 184,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "照野堂",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "照野堂",
+      "total_xp": 1110
+    },
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 12
+        },
+        "attack": 31,
+        "bridge_repaired": false,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 537,
+        "companion_unlocked": false,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 12,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 6,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {},
+        "party_roster": [
+          "hero"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 0,
+        "qin_unlocked": false,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 0,
+          "herb": 3,
+          "iron": 0,
+          "timber": 0
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "问石门",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "",
+        "tangqi_stage": 0,
+        "tangqi_unlocked": false,
+        "victories": 6,
+        "xp": 135
+      },
+      "recruits": false,
+      "school": "问石门",
+      "total_xp": 1035
+    },
+    {
+      "lessons": false,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 9
+        },
+        "attack": 31,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 12,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "照夜一线",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": false,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": false,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "问石门",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "问石门",
+      "total_xp": 1110
+    },
+    {
+      "lessons": true,
+      "persistent_entry": {
+        "active_companion": "秦禾",
+        "archive_clues": [
+          "clerk",
+          "inscription"
+        ],
+        "armor": "粗布行衣",
+        "art_uses": {
+          "照夜一线": 1,
+          "磐石回锋": 1
+        },
+        "attack": 31,
+        "bridge_repaired": true,
+        "capstone_draft": "",
+        "capstone_ending": "",
+        "capstone_stage": 3,
+        "chapter_two_ending": "open_records",
+        "chapter_two_stage": 4,
+        "claimed_deeds": [],
+        "coins": 557,
+        "companion_unlocked": true,
+        "consignee_cargo_location": "public_scale",
+        "consignee_contributions": [],
+        "consignee_draft": "hold_for_inspection",
+        "consignee_ending": "hold_for_inspection",
+        "consignee_observations": [
+          "lot_seals",
+          "removal_order",
+          "southern_counterfoil"
+        ],
+        "consignee_stage": 5,
+        "defense": 12,
+        "ending": "秉公",
+        "equipment": "旧铁剑",
+        "equipped_art": "磐石回锋",
+        "formation": "并肩",
+        "gathered_nodes": [
+          "frost_timber"
+        ],
+        "herbs": 0,
+        "heting_bridge": "east",
+        "heting_cargo": "",
+        "heting_delivered": [
+          "meal",
+          "sealed",
+          "reserve"
+        ],
+        "heting_draft": "short_ferries",
+        "heting_ending": "short_ferries",
+        "heting_stage": 4,
+        "hp": 160,
+        "internal_unlocked": true,
+        "learned_arts": [],
+        "level": 6,
+        "lightness_relics": [],
+        "lightness_unlocked": true,
+        "map_id": "frostbridge",
+        "max_hp": 160,
+        "max_qi": 6,
+        "medicine": 7,
+        "mist_approach": "records",
+        "mist_ending": "release_water",
+        "mist_gauges": [
+          "rain",
+          "stone",
+          "basin"
+        ],
+        "mist_stage": 4,
+        "party_resources": {
+          "qin": {
+            "hp": 160,
+            "qi": 6
+          },
+          "shen": {
+            "hp": 122,
+            "qi": 6
+          },
+          "tang": {
+            "hp": 139,
+            "qi": 6
+          }
+        },
+        "party_roster": [
+          "hero",
+          "shen",
+          "tang",
+          "qin"
+        ],
+        "player_name": "无名客",
+        "position": {
+          "x": 460.0,
+          "y": 430.0
+        },
+        "qi": 6,
+        "qin_stage": 4,
+        "qin_unlocked": true,
+        "quest_stage": 6,
+        "receipt_stage": 0,
+        "resources": {
+          "cloth": 2,
+          "herb": 3,
+          "iron": 0,
+          "timber": 1
+        },
+        "seal_sequence": [
+          2,
+          0,
+          1
+        ],
+        "sect": "问石门",
+        "sect_merit": 0,
+        "sect_rank": 1,
+        "sect_trial_won": false,
+        "shen_care_choice": "",
+        "shen_care_stage": 0,
+        "side_choice": "rescue",
+        "side_clues": 2,
+        "side_found": [
+          "boatman",
+          "ledger"
+        ],
+        "side_reward_claimed": true,
+        "side_stage": 3,
+        "tangqi_choice": "teach",
+        "tangqi_stage": 3,
+        "tangqi_unlocked": true,
+        "victories": 6,
+        "xp": 210
+      },
+      "recruits": true,
+      "school": "问石门",
+      "total_xp": 1110
+    }
+  ],
+  "recovery": [
+    {
+      "actual_defeats": 68,
+      "entry_stats": [
+        6,
+        160,
+        6,
+        35,
+        9
+      ],
+      "medicine_actually_spent": 6,
+      "result": {
+        "accepted_actions": 38,
+        "actors": 1,
+        "coins_change": 0,
+        "detached_probe": false,
+        "encounter": "capstone_authorizer",
+        "hp": {
+          "hero": "27/160"
+        },
+        "label": "zero_zero_free_lesson_retry_听潮阁",
+        "level": 6,
+        "medicine_end": 0,
+        "medicine_start": 0,
+        "outcome": "win",
+        "policy": "queued",
+        "qi": {
+          "hero": "4/6"
+        },
+        "reward_xp": 0,
+        "rounds": 14,
+        "settled_hp": 27,
+        "settled_level": 6,
+        "start": {
+          "hero": {
+            "attack": 35,
+            "defense": 9,
+            "hp": 160,
+            "max_hp": 160,
+            "max_qi": 6,
+            "qi": 6
+          }
+        },
+        "trial_met": false
+      },
+      "school": "听潮阁",
+      "total_xp_before_after": 1035
+    },
+    {
+      "actual_defeats": 68,
+      "entry_stats": [
+        6,
+        184,
+        6,
+        31,
+        9
+      ],
+      "medicine_actually_spent": 6,
+      "result": {
+        "accepted_actions": 49,
+        "actors": 1,
+        "coins_change": 0,
+        "detached_probe": false,
+        "encounter": "capstone_authorizer",
+        "hp": {
+          "hero": "83/184"
+        },
+        "label": "zero_zero_free_lesson_retry_照野堂",
+        "level": 6,
+        "medicine_end": 0,
+        "medicine_start": 0,
+        "outcome": "win",
+        "policy": "queued",
+        "qi": {
+          "hero": "5/6"
+        },
+        "reward_xp": 0,
+        "rounds": 18,
+        "settled_hp": 83,
+        "settled_level": 6,
+        "start": {
+          "hero": {
+            "attack": 31,
+            "defense": 9,
+            "hp": 184,
+            "max_hp": 184,
+            "max_qi": 6,
+            "qi": 6
+          }
+        },
+        "trial_met": false
+      },
+      "school": "照野堂",
+      "total_xp_before_after": 1035
+    },
+    {
+      "actual_defeats": 68,
+      "entry_stats": [
+        6,
+        160,
+        6,
+        31,
+        12
+      ],
+      "medicine_actually_spent": 6,
+      "result": {
+        "accepted_actions": 41,
+        "actors": 1,
+        "coins_change": 0,
+        "detached_probe": false,
+        "encounter": "capstone_authorizer",
+        "hp": {
+          "hero": "119/160"
+        },
+        "label": "zero_zero_free_lesson_retry_问石门",
+        "level": 6,
+        "medicine_end": 0,
+        "medicine_start": 0,
+        "outcome": "win",
+        "policy": "queued",
+        "qi": {
+          "hero": "4/6"
+        },
+        "reward_xp": 0,
+        "rounds": 15,
+        "settled_hp": 119,
+        "settled_level": 6,
+        "start": {
+          "hero": {
+            "attack": 31,
+            "defense": 12,
+            "hp": 160,
+            "max_hp": 160,
+            "max_qi": 6,
+            "qi": 6
+          }
+        },
+        "trial_met": false
+      },
+      "school": "问石门",
+      "total_xp_before_after": 1035
+    }
+  ],
+  "timing_comparisons": [
+    {
+      "greedy_damage": 237,
+      "greedy_medicine": 3,
+      "greedy_rounds": 14,
+      "label": "听潮阁/minimum/并肩",
+      "timed_damage": 182,
+      "timed_medicine": 2,
+      "timed_opening_damage": 408,
+      "timed_rounds": 11,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 237,
+      "greedy_medicine": 3,
+      "greedy_rounds": 14,
+      "label": "听潮阁/starter_only/[\"hero\"]/并肩",
+      "timed_damage": 182,
+      "timed_medicine": 2,
+      "timed_opening_damage": 408,
+      "timed_rounds": 11,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 158,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 151,
+      "timed_medicine": 0,
+      "timed_opening_damage": 356,
+      "timed_rounds": 9,
+      "timed_support": {
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 124,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/starter_only/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 91,
+      "timed_medicine": 0,
+      "timed_opening_damage": 354,
+      "timed_rounds": 7,
+      "timed_support": {
+        "focus": 4,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 97,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "听潮阁/starter_only/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 80,
+      "timed_medicine": 0,
+      "timed_opening_damage": 362,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 74,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 84,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 59,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 49,
+      "timed_medicine": 0,
+      "timed_opening_damage": 308,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 57,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 53,
+      "timed_medicine": 0,
+      "timed_opening_damage": 254,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 237,
+      "greedy_medicine": 3,
+      "greedy_rounds": 14,
+      "label": "听潮阁/starter_only/[\"hero\"]/护后",
+      "timed_damage": 182,
+      "timed_medicine": 2,
+      "timed_opening_damage": 408,
+      "timed_rounds": 11,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 164,
+      "greedy_medicine": 1,
+      "greedy_rounds": 9,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 164,
+      "timed_medicine": 1,
+      "timed_opening_damage": 356,
+      "timed_rounds": 9,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 134,
+      "greedy_medicine": 1,
+      "greedy_rounds": 9,
+      "label": "听潮阁/starter_only/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 117,
+      "timed_medicine": 1,
+      "timed_opening_damage": 356,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 114,
+      "greedy_medicine": 1,
+      "greedy_rounds": 10,
+      "label": "听潮阁/starter_only/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 110,
+      "timed_medicine": 1,
+      "timed_opening_damage": 362,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 90,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 99,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 76,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 73,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 66,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/starter_only/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 63,
+      "timed_medicine": 0,
+      "timed_opening_damage": 324,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 65,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 63,
+      "timed_medicine": 0,
+      "timed_opening_damage": 254,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 179,
+      "greedy_medicine": 1,
+      "greedy_rounds": 12,
+      "label": "听潮阁/free_lessons/[\"hero\"]/并肩",
+      "timed_damage": 197,
+      "timed_medicine": 1,
+      "timed_opening_damage": 378,
+      "timed_rounds": 14,
+      "timed_support": {
+        "lightness_absorb": 4
+      }
+    },
+    {
+      "greedy_damage": 138,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 141,
+      "timed_medicine": 0,
+      "timed_opening_damage": 356,
+      "timed_rounds": 9,
+      "timed_support": {
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 73,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "听潮阁/free_lessons/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 98,
+      "timed_medicine": 0,
+      "timed_opening_damage": 271,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 4,
+        "lightness_absorb": 3,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 86,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/free_lessons/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 70,
+      "timed_medicine": 0,
+      "timed_opening_damage": 362,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 54,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 84,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 77,
+      "timed_medicine": 0,
+      "timed_opening_damage": 319,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/free_lessons/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 49,
+      "timed_medicine": 0,
+      "timed_opening_damage": 308,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 25,
+      "greedy_medicine": 0,
+      "greedy_rounds": 5,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 254,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 179,
+      "greedy_medicine": 1,
+      "greedy_rounds": 12,
+      "label": "听潮阁/free_lessons/[\"hero\"]/护后",
+      "timed_damage": 197,
+      "timed_medicine": 1,
+      "timed_opening_damage": 378,
+      "timed_rounds": 14,
+      "timed_support": {
+        "lightness_absorb": 4
+      }
+    },
+    {
+      "greedy_damage": 134,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 134,
+      "timed_medicine": 0,
+      "timed_opening_damage": 356,
+      "timed_rounds": 9,
+      "timed_support": {
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 104,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/free_lessons/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 119,
+      "timed_medicine": 0,
+      "timed_opening_damage": 275,
+      "timed_rounds": 9,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 3,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 113,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "听潮阁/free_lessons/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 80,
+      "timed_medicine": 0,
+      "timed_opening_damage": 362,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 69,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 79,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 76,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 71,
+      "timed_medicine": 0,
+      "timed_opening_damage": 319,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 65,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "听潮阁/free_lessons/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 324,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 33,
+      "greedy_medicine": 0,
+      "greedy_rounds": 5,
+      "label": "听潮阁/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 254,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 274,
+      "greedy_medicine": 3,
+      "greedy_rounds": 15,
+      "label": "照野堂/minimum/并肩",
+      "timed_damage": 219,
+      "timed_medicine": 2,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 274,
+      "greedy_medicine": 3,
+      "greedy_rounds": 15,
+      "label": "照野堂/starter_only/[\"hero\"]/并肩",
+      "timed_damage": 219,
+      "timed_medicine": 2,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 159,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 151,
+      "timed_medicine": 0,
+      "timed_opening_damage": 374,
+      "timed_rounds": 9,
+      "timed_support": {
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 124,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "照野堂/starter_only/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 108,
+      "timed_medicine": 0,
+      "timed_opening_damage": 330,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 4,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 97,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "照野堂/starter_only/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 80,
+      "timed_medicine": 0,
+      "timed_opening_damage": 380,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 74,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 84,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 60,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 7,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "照野堂/starter_only/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 49,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 57,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 53,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 274,
+      "greedy_medicine": 3,
+      "greedy_rounds": 15,
+      "label": "照野堂/starter_only/[\"hero\"]/护后",
+      "timed_damage": 219,
+      "timed_medicine": 2,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 165,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 164,
+      "timed_medicine": 0,
+      "timed_opening_damage": 374,
+      "timed_rounds": 9,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 134,
+      "greedy_medicine": 1,
+      "greedy_rounds": 9,
+      "label": "照野堂/starter_only/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 117,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 114,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "照野堂/starter_only/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 110,
+      "timed_medicine": 0,
+      "timed_opening_damage": 380,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 90,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 99,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 76,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 74,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 7,
+      "timed_support": {
+        "barrier_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 66,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "照野堂/starter_only/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 63,
+      "timed_medicine": 0,
+      "timed_opening_damage": 336,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 65,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "照野堂/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 63,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 232,
+      "greedy_medicine": 0,
+      "greedy_rounds": 17,
+      "label": "照野堂/free_lessons/[\"hero\"]/并肩",
+      "timed_damage": 269,
+      "timed_medicine": 0,
+      "timed_opening_damage": 338,
+      "timed_rounds": 18,
+      "timed_support": {
+        "lightness_absorb": 6
+      }
+    },
+    {
+      "greedy_damage": 148,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 160,
+      "timed_medicine": 0,
+      "timed_opening_damage": 310,
+      "timed_rounds": 11,
+      "timed_support": {
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 104,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "照野堂/free_lessons/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 129,
+      "timed_medicine": 0,
+      "timed_opening_damage": 282,
+      "timed_rounds": 9,
+      "timed_support": {
+        "focus": 4,
+        "lightness_absorb": 3,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 86,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "照野堂/free_lessons/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 86,
+      "timed_medicine": 0,
+      "timed_opening_damage": 307,
+      "timed_rounds": 11,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 56,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 101,
+      "timed_medicine": 0,
+      "timed_opening_damage": 276,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 4,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 90,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 89,
+      "timed_medicine": 0,
+      "timed_opening_damage": 275,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/free_lessons/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 67,
+      "timed_medicine": 0,
+      "timed_opening_damage": 264,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 47,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 232,
+      "greedy_medicine": 0,
+      "greedy_rounds": 17,
+      "label": "照野堂/free_lessons/[\"hero\"]/护后",
+      "timed_damage": 269,
+      "timed_medicine": 0,
+      "timed_opening_damage": 338,
+      "timed_rounds": 18,
+      "timed_support": {
+        "lightness_absorb": 6
+      }
+    },
+    {
+      "greedy_damage": 142,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 152,
+      "timed_medicine": 0,
+      "timed_opening_damage": 310,
+      "timed_rounds": 11,
+      "timed_support": {
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 104,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "照野堂/free_lessons/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 119,
+      "timed_medicine": 0,
+      "timed_opening_damage": 293,
+      "timed_rounds": 9,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 3,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 114,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "照野堂/free_lessons/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 98,
+      "timed_medicine": 0,
+      "timed_opening_damage": 307,
+      "timed_rounds": 11,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 72,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 97,
+      "timed_medicine": 0,
+      "timed_opening_damage": 276,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 113,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 80,
+      "timed_medicine": 0,
+      "timed_opening_damage": 275,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 66,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "照野堂/free_lessons/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 61,
+      "timed_medicine": 0,
+      "timed_opening_damage": 274,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 65,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "照野堂/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 244,
+      "greedy_medicine": 4,
+      "greedy_rounds": 15,
+      "label": "问石门/minimum/并肩",
+      "timed_damage": 195,
+      "timed_medicine": 3,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 244,
+      "greedy_medicine": 4,
+      "greedy_rounds": 15,
+      "label": "问石门/starter_only/[\"hero\"]/并肩",
+      "timed_damage": 195,
+      "timed_medicine": 3,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 150,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "问石门/starter_only/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 142,
+      "timed_medicine": 0,
+      "timed_opening_damage": 374,
+      "timed_rounds": 9,
+      "timed_support": {
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 115,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "问石门/starter_only/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 99,
+      "timed_medicine": 0,
+      "timed_opening_damage": 330,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 4,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 94,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "问石门/starter_only/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 71,
+      "timed_medicine": 0,
+      "timed_opening_damage": 380,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 68,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 78,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 54,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 7,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "问石门/starter_only/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 43,
+      "timed_medicine": 0,
+      "timed_opening_damage": 320,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 54,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 47,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "lightness_absorb": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 244,
+      "greedy_medicine": 4,
+      "greedy_rounds": 15,
+      "label": "问石门/starter_only/[\"hero\"]/护后",
+      "timed_damage": 195,
+      "timed_medicine": 3,
+      "timed_opening_damage": 432,
+      "timed_rounds": 12,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 147,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "问石门/starter_only/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 146,
+      "timed_medicine": 0,
+      "timed_opening_damage": 374,
+      "timed_rounds": 9,
+      "timed_support": {}
+    },
+    {
+      "greedy_damage": 116,
+      "greedy_medicine": 1,
+      "greedy_rounds": 9,
+      "label": "问石门/starter_only/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 102,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 105,
+      "greedy_medicine": 1,
+      "greedy_rounds": 10,
+      "label": "问石门/starter_only/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 92,
+      "timed_medicine": 0,
+      "timed_opening_damage": 380,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 78,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 87,
+      "timed_medicine": 0,
+      "timed_opening_damage": 332,
+      "timed_rounds": 6,
+      "timed_support": {
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 70,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 62,
+      "timed_medicine": 0,
+      "timed_opening_damage": 378,
+      "timed_rounds": 7,
+      "timed_support": {
+        "barrier_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "问石门/starter_only/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 51,
+      "timed_medicine": 0,
+      "timed_opening_damage": 336,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 59,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "问石门/starter_only/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 51,
+      "timed_medicine": 0,
+      "timed_opening_damage": 266,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 79,
+      "greedy_medicine": 0,
+      "greedy_rounds": 15,
+      "label": "问石门/free_lessons/[\"hero\"]/并肩",
+      "timed_damage": 89,
+      "timed_medicine": 0,
+      "timed_opening_damage": 177,
+      "timed_rounds": 15,
+      "timed_support": {
+        "guard": 5,
+        "lightness_absorb": 4
+      }
+    },
+    {
+      "greedy_damage": 116,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\"]/并肩",
+      "timed_damage": 128,
+      "timed_medicine": 0,
+      "timed_opening_damage": 222,
+      "timed_rounds": 11,
+      "timed_support": {
+        "guard": 2,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 77,
+      "greedy_medicine": 0,
+      "greedy_rounds": 10,
+      "label": "问石门/free_lessons/[\"hero\", \"tang\"]/并肩",
+      "timed_damage": 101,
+      "timed_medicine": 0,
+      "timed_opening_damage": 241,
+      "timed_rounds": 9,
+      "timed_support": {
+        "focus": 5,
+        "guard": 1,
+        "lightness_absorb": 3,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 60,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "问石门/free_lessons/[\"hero\", \"qin\"]/并肩",
+      "timed_damage": 71,
+      "timed_medicine": 0,
+      "timed_opening_damage": 219,
+      "timed_rounds": 11,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "guard": 2,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"tang\"]/并肩",
+      "timed_damage": 92,
+      "timed_medicine": 0,
+      "timed_opening_damage": 232,
+      "timed_rounds": 8,
+      "timed_support": {
+        "focus": 3,
+        "lightness_absorb": 4,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 90,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"qin\"]/并肩",
+      "timed_damage": 80,
+      "timed_medicine": 0,
+      "timed_opening_damage": 275,
+      "timed_rounds": 9,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "lightness_absorb": 3
+      }
+    },
+    {
+      "greedy_damage": 50,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/free_lessons/[\"hero\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 58,
+      "timed_medicine": 0,
+      "timed_opening_damage": 220,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 4,
+        "lightness_absorb": 2,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 25,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/并肩",
+      "timed_damage": 36,
+      "timed_medicine": 0,
+      "timed_opening_damage": 225,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "guard": 1,
+        "lightness_absorb": 3,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 79,
+      "greedy_medicine": 0,
+      "greedy_rounds": 15,
+      "label": "问石门/free_lessons/[\"hero\"]/护后",
+      "timed_damage": 89,
+      "timed_medicine": 0,
+      "timed_opening_damage": 177,
+      "timed_rounds": 15,
+      "timed_support": {
+        "guard": 5,
+        "lightness_absorb": 4
+      }
+    },
+    {
+      "greedy_damage": 52,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\"]/护后",
+      "timed_damage": 72,
+      "timed_medicine": 0,
+      "timed_opening_damage": 222,
+      "timed_rounds": 11,
+      "timed_support": {
+        "guard": 4,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 29,
+      "greedy_medicine": 0,
+      "greedy_rounds": 9,
+      "label": "问石门/free_lessons/[\"hero\", \"tang\"]/护后",
+      "timed_damage": 53,
+      "timed_medicine": 0,
+      "timed_opening_damage": 170,
+      "timed_rounds": 9,
+      "timed_support": {
+        "focus": 3,
+        "guard": 3,
+        "lightness_absorb": 2,
+        "weaken": 3
+      }
+    },
+    {
+      "greedy_damage": 36,
+      "greedy_medicine": 0,
+      "greedy_rounds": 11,
+      "label": "问石门/free_lessons/[\"hero\", \"qin\"]/护后",
+      "timed_damage": 59,
+      "timed_medicine": 0,
+      "timed_opening_damage": 219,
+      "timed_rounds": 11,
+      "timed_support": {
+        "barrier_absorb": 3,
+        "guard": 4,
+        "lightness_absorb": 2
+      }
+    },
+    {
+      "greedy_damage": 20,
+      "greedy_medicine": 0,
+      "greedy_rounds": 7,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"tang\"]/护后",
+      "timed_damage": 39,
+      "timed_medicine": 0,
+      "timed_opening_damage": 232,
+      "timed_rounds": 7,
+      "timed_support": {
+        "focus": 3,
+        "guard": 2,
+        "lightness_absorb": 1,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 24,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"qin\"]/护后",
+      "timed_damage": 44,
+      "timed_medicine": 0,
+      "timed_opening_damage": 212,
+      "timed_rounds": 8,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "guard": 3,
+        "lightness_absorb": 1
+      }
+    },
+    {
+      "greedy_damage": 20,
+      "greedy_medicine": 0,
+      "greedy_rounds": 8,
+      "label": "问石门/free_lessons/[\"hero\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 30,
+      "timed_medicine": 0,
+      "timed_opening_damage": 230,
+      "timed_rounds": 7,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 3,
+        "guard": 2,
+        "lightness_absorb": 1,
+        "weaken": 2
+      }
+    },
+    {
+      "greedy_damage": 19,
+      "greedy_medicine": 0,
+      "greedy_rounds": 6,
+      "label": "问石门/free_lessons/[\"hero\", \"shen\", \"tang\", \"qin\"]/护后",
+      "timed_damage": 29,
+      "timed_medicine": 0,
+      "timed_opening_damage": 184,
+      "timed_rounds": 6,
+      "timed_support": {
+        "barrier_absorb": 2,
+        "focus": 2,
+        "guard": 2,
+        "lightness_absorb": 1,
+        "weaken": 2
+      }
+    }
+  ],
+  "original_report": {
+    "sha256": "e6b01951a66a735febe3ccadb8fa2696cefddf8629218e17829072a3027238da",
+    "bytes": 2558967
+  },
+  "matrix_count": 297,
+  "journey_count": 267
+}

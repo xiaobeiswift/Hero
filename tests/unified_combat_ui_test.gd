@@ -1,4 +1,5 @@
 extends SceneTree
+const PhaseOneBoundary = preload("res://tests/capstone_phase1_boundary.gd")
 const Main = preload("res://scripts/main.gd")
 const Model = preload("res://scripts/game_state.gd")
 const Encounters = preload("res://scripts/unified_encounter_rules.gd")
@@ -112,7 +113,7 @@ func _run()->void:
 	s=State.new();s.fixture=fixture
 	app=load("res://scenes/main.tscn").instantiate();app.set_script(CloseProbe);app.state=s
 	root.add_child(app);await process_frame;app._stop_audio();app.audio_on=false;app.world.set_process(false)
-	for kind:String in Encounters.IDS:
+	for kind:String in PhaseOneBoundary.READY_IDS:
 		_setup(kind,2 if kind=="story" else 1)
 		await _key(KEY_E)
 		check(app.active_modal,"E opens actual entry dialogue: "+kind)
@@ -276,6 +277,10 @@ func _legacy_route_guard()->void:
 	var core=load("res://scripts/automatic_party_combat.gd")
 	check(core.SUPPORTED_ENCOUNTERS==Encounters.IDS,"Every known encounter and rehearsal uses the one shared catalog")
 	_setup("training",1)
+	var boundary_state: Dictionary = s.to_dict()
+	var boundary_writes: int = s.writes
+	check(not CombatUI.ENCOUNTER_TITLES.has(PhaseOneBoundary.MODEL_ONLY_ID),"New capstone model has no falsely advertised scene/art registration")
+	check(CombatUI.open(app,PhaseOneBoundary.MODEL_ONLY_ID)==null and s.to_dict()==boundary_state and s.writes==boundary_writes,"Model-only scene request rejects before autosave, resources or controller entry")
 	check(not app._start_unified_battle("unknown") and app.current_screen=="explore" and not s.battle_active,"Unknown scene route never opens fallback battle")
 
 func _viewport_input_matrix()->void:

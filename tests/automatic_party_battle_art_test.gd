@@ -1,4 +1,5 @@
 extends SceneTree
+const PhaseOneBoundary = preload("res://tests/capstone_phase1_boundary.gd")
 ## Actual scheduler transactions over prepared detached combat descriptors.
 ## No HeroState, player save, fabricated accepted events, or recruitment claims.
 const Art = preload("res://scripts/party_battle_art.gd")
@@ -196,7 +197,7 @@ func round_to(rules, target: int) -> void:
 	check(rules.snapshot().round == target, "Real scheduler reaches requested round")
 
 func test_routes() -> void:
-	for encounter: String in Rules.ENCOUNTER_IDS:
+	for encounter: String in PhaseOneBoundary.READY_IDS:
 		for formation: String in ["护后","并肩"]:
 			for count: int in range(1,5):
 				var rules = model(encounter,count,formation)

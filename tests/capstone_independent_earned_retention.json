@@ -1,0 +1,83 @@
+{
+  "checks": 51871,
+  "same_runtime_as_independent_acceptance": true,
+  "tests": {
+    "earned": {
+      "checks": 11099,
+      "failures": 0,
+      "cases": 24,
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+        "--script",
+        "res://tests/capstone_independent_earned_test.gd"
+      ],
+      "sha256": "736800700af20e383ac4196dcc77cfaf1e6940952f8d0e65122ea1f590412969",
+      "uid": "uid://dn22qapea3r6r",
+      "uid_sha256": "49a4d31009b8441dced0f9123336c23adfc504f2a3ae78970cde22eb64be9fee",
+      "unique_user_result": "/tmp/hero-capstone-retained-50bjmtzt/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-8-303369/result.json",
+      "no_output_argument_required": true,
+      "stable_snapshot": true
+    },
+    "recovery": {
+      "checks": 3301,
+      "failures": 0,
+      "cases": 3,
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+        "--script",
+        "res://tests/capstone_independent_recovery_test.gd"
+      ],
+      "sha256": "d402539dd7408fe1cca5a0daabe2d24e6acfb1905e3c118396f4f06672f0b260",
+      "uid": "uid://wamujnpckhjf",
+      "uid_sha256": "40fd3622c62931c3148551c78424a6a0aac0de74c8799ad89f151a0550e3c6d0",
+      "unique_user_result": "/tmp/hero-capstone-retained-wzcf6x82/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-23-296804/result.json",
+      "no_output_argument_required": true,
+      "stable_snapshot": true
+    },
+    "party": {
+      "checks": 34019,
+      "failures": 0,
+      "cases": 96,
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+        "--script",
+        "res://tests/capstone_independent_party_test.gd"
+      ],
+      "sha256": "0b9b1a477b97ccf3ed63b295e7231a049c1665a38b4da8fe4a44314ade055a9f",
+      "uid": "uid://u7v12ojje0x6",
+      "uid_sha256": "e17fc7fcd3a6f3d24e4557bad69e73b424986261c425de5985b5089cbca60d3c",
+      "unique_user_result": "/tmp/hero-capstone-retained-jhh8bc5d/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-38-296213/result.json",
+      "no_output_argument_required": true,
+      "stable_snapshot": true
+    },
+    "boundary": {
+      "checks": 3452,
+      "failures": 0,
+      "cases": 4,
+      "command": [
+        "godot",
+        "--headless",
+        "--path",
+        "/workspace/scratch/61762639b34b/Hero-recovery-20261002-0918/source",
+        "--script",
+        "res://tests/capstone_independent_boundary_test.gd"
+      ],
+      "sha256": "1b3760db9bc7c0713f14c5e0119b687688e9e49400adc2fc000df181b33e80ba",
+      "uid": "uid://bpyo22o203t68",
+      "uid_sha256": "5ddbef5ab9feaa9626a42618d1a734eb292a8e9b6a1946d3699da2e5396cc032",
+      "unique_user_result": "/tmp/hero-capstone-retained-iofdo6xj/data/godot/app_userdata/Hero · 渡灯录/capstone-independent-53-293998/result.json",
+      "no_output_argument_required": true,
+      "stable_snapshot": true
+    }
+  },
+  "original_evidence_sha256": "ae3c6ca37aff8edce493397650a56928f9873f4d9d1d4ef323b1152c9e9279fc"
+}

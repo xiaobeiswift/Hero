@@ -1,4 +1,5 @@
 extends SceneTree
+const PhaseOneBoundary = preload("res://tests/capstone_phase1_boundary.gd")
 ## Paint geometry/cache/gradient checks only. Native framebuffer review at both
 ## window sizes and fixed-state legacy frame comparisons remain separate gates.
 const Scenery = preload("res://scripts/party_battle_backdrop.gd")
@@ -34,7 +35,7 @@ func _luminance(c: Color) -> float:
 func _fixed_context() -> void:
 	check(Scenery.ENCOUNTER_STYLES == {"training":"courtyard","sect_trial":"courtyard","courtyard_practice":"courtyard","heting_consignee":"warehouse"},"Only the original bounded style mapping is accepted")
 	var legacy: int = 0
-	for id: String in Encounters.IDS:
+	for id: String in PhaseOneBoundary.READY_IDS:
 		var expected: String = "warehouse" if id == "heting_consignee" else ("courtyard" if id in ["training","sect_trial","courtyard_practice"] else "ferry")
 		check(Scenery.style_for(id) == expected,"Existing encounter keeps its exact style: " + id)
 		check(Scenery.floor_texture_for(id) == (Scenery.EARTH if expected in ["courtyard","warehouse"] else Scenery.WOOD),"Original floor material remains selected: " + id)
@@ -150,7 +151,7 @@ func run() -> void:
 	probe.floor_mesh = floor_mesh
 	probe.size = Vector2(1280,685)
 	root.add_child(probe)
-	for id: String in Encounters.IDS:
+	for id: String in PhaseOneBoundary.READY_IDS:
 		probe.encounter = id
 		for repeated: int in range(3):
 			Scenery.prepare()

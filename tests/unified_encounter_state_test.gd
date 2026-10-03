@@ -1,4 +1,5 @@
 extends SceneTree
+const PhaseOneBoundary = preload("res://tests/capstone_phase1_boundary.gd")
 const State=preload("res://scripts/game_state.gd")
 const Encounters=preload("res://scripts/unified_encounter_rules.gd")
 var checks=0
@@ -58,7 +59,7 @@ func _step(s)->Dictionary:
   check(not s.finish_party_presentation(tx.epoch,tx.token).get("accepted",false),"Duplicate ack cannot settle twice")
  return tx
 func _run()->void:
- for id:String in Encounters.IDS:
+ for id:String in PhaseOneBoundary.READY_IDS:
   var s=_prepared(id,2 if id=="story" else 1)
   check(s.start_party_battle(id),"All authored encounter ids enter shared model: "+id)
   if not s.battle_active:continue

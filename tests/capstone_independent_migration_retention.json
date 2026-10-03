@@ -1,0 +1,32 @@
+{
+  "status": "PASS: retained portable focused tests",
+  "completed_at_utc": "2026-10-03T07:40:39.528299+00:00",
+  "schema_checks": 636,
+  "state_checks": 1412,
+  "separate_old_pck_checks": 9,
+  "total_assertions": 2057,
+  "failures": 0,
+  "current15_fixture_producer": "PASS",
+  "runtime_and_owned_sources_stable_before_after": true,
+  "original_staged_drivers_and_evidence_unchanged": true,
+  "new_files_sha256": {
+    "tests/capstone_independent_schema_test.gd": "821c89ec49de5f99a4ad60c317d761430d70fc377de6b5a2b0b21251e82acdd3",
+    "tests/capstone_independent_schema_test.gd.uid": "6464a7f04c7a5db2628ad4b9ab5367bb5b6d325ca3dd76fd77a111ec4c6fccdb",
+    "tests/capstone_independent_state_test.gd": "82625a1637fdbd336ab58d41f7113a5514d8fe09ff7d678e9c6f66dce962243e",
+    "tests/capstone_independent_state_test.gd.uid": "e335ba4d94ec5b119eba18b6bbdab2f273d4bea6805b14d89edb52b44fc7562d",
+    "tests/capstone_old14_pack_probe.gd": "d14e2d65236fb3385f40f50027db426eca7fb0ba83871a834fc0db284ecd3da2",
+    "tests/capstone_old14_pack_probe.gd.uid": "d441338c5806c29d4af788fa0d798c6d52e2ae3f8786c985889a28e49cf5fb2e",
+    "tests/capstone_independent_fixture_producer.gd": "9c5a5ae21fe775f912e71a956539219bc01324a77bae7a3a1e4882c4cde5f57e",
+    "tests/capstone_independent_fixture_producer.gd.uid": "64f0af75740e3403d34a698434e202a11ca16163669aeba28bba9bcbdc673cf4"
+  },
+  "logs": [
+    "portable-schema.log",
+    "portable-state.log",
+    "portable-producer.log",
+    "portable-old-pck.log",
+    "portable-runtime-stability.log",
+    "original-evidence-still-intact.log"
+  ],
+  "scope": "Focused independent synthetic schema/model/filesystem checks; no full aggregate, earned balance, scene/render/browser/deployment claim",
+  "original_evidence_sha256": "bf4daba761a04730f9989acf1a985a000a6410c87e7b90f4b73aa6faa1ba5943"
+}

@@ -9,10 +9,10 @@ func check(ok:bool,message:String)->void:
 func _init()->void:
  if OS.get_environment("XDG_DATA_HOME").is_empty():quit(2);return
  var fresh=State.new()
- check(State.SAVE_VERSION==14 and not fresh.internal_unlocked,"New schema14 has no unearned internal lesson")
+ check(State.SAVE_VERSION==15 and not fresh.internal_unlocked,"New schema15 has no unearned internal lesson")
  check(not fresh.learn_internal_skill(),"Lesson rejects level1/unjoined")
  var legacy=fresh.to_dict();legacy.erase("internal_unlocked")
- for field:String in State.Consignee.FIELDS:legacy.erase(field)
+ for field:String in State.Consignee.FIELDS+State.Capstone.FIELDS:legacy.erase(field)
  for version in range(1,13):
   var migrated=fresh._stage_save_data(legacy,version)
   check(migrated.ok,"Legacy%d loads"%version)
@@ -29,8 +29,10 @@ func _init()->void:
  check(not schema13.has("consignee_stage") and schema13.has("internal_unlocked"),"Genuine schema13 fixture has internal lesson and no consignee bundle")
  var prior13=fresh._stage_save_data(schema13,13)
  check(prior13.ok and not prior13.state.internal_unlocked and prior13.state.consignee_stage==0,"Genuine schema13 migrates without either unearned progression")
- for version:int in [13,State.SAVE_VERSION]:
+ for version:int in [13,14,State.SAVE_VERSION]:
   var current:Dictionary=schema13 if version==13 else fresh.to_dict()
+  if version==14:
+   for field:String in State.Capstone.FIELDS:current.erase(field)
   for malformed in [null,1,"true",{},[]]:
    var data=current.duplicate(true);data.internal_unlocked=malformed
    check(not fresh._stage_save_data(data,version).ok,"Schema%d lesson flag is strict boolean"%version)
@@ -38,14 +40,14 @@ func _init()->void:
   check(not fresh._stage_save_data(missing,version).ok,"Schema%d lesson flag is required"%version)
   var unearned=current.duplicate(true);unearned.internal_unlocked=true
   check(not fresh._stage_save_data(unearned,version).ok,"Schema%d unearned lesson rejects"%version)
- var root="user://schema14-%d"%OS.get_process_id();DirAccess.make_dir_recursive_absolute(root)
+ var root="user://schema15-%d"%OS.get_process_id();DirAccess.make_dir_recursive_absolute(root)
  var path=root+"/new.json"
  check(fresh.save_game(path)==OK,"Current complete save writes")
  var prior=GDScript.new();prior.source_code=FileAccess.get_file_as_string("res://tests/fixtures/v022_game_state.gd.txt").replace("class_name HeroState\n","")
  check(prior.reload()==OK,"Frozen schema12 reader parses")
  var old=prior.new();var before=old.to_dict()
- check(old.load_game(path)==ERR_FILE_UNRECOGNIZED and old.to_dict()==before,"Old reader rejects current14 without mutation")
+ check(old.load_game(path)==ERR_FILE_UNRECOGNIZED and old.to_dict()==before,"Old reader rejects current15 without mutation")
  var reader=State.new();check(reader.load_game(path)==OK and reader.to_dict()==fresh.to_dict(),"New reader round trips")
  DirAccess.remove_absolute(path);DirAccess.remove_absolute(root)
- if failures==0:print("PASS: %d explicit internal-learning/schema13–14 compatibility checks"%checks)
+ if failures==0:print("PASS: %d explicit internal-learning/schema13–15 compatibility checks"%checks)
  quit(0 if failures==0 else 1)

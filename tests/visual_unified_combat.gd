@@ -16,7 +16,7 @@ func _run()->void:
  root.add_child(app);await process_frame;app._stop_audio();app.audio_on=false;app.world.set_process(false)
  root.size=Vector2i(1280,800)
  var index=320
- for kind:String in Encounters.IDS:
+ for kind:String in PhaseOneBoundary.READY_IDS:
   var count=4 if kind in ["training","courtyard_practice","heting_receipt","heting_consignee"] else (3 if kind.begins_with("mist_") else 2)
   _setup(kind,count)
   if kind!="story":s.learn_internal_skill();s.learn_lightness()

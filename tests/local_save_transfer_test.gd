@@ -152,7 +152,7 @@ func test_envelope() -> void:
 	DirAccess.remove_absolute(Slots.new(directory).path_for(1))
 	for malformed: PackedByteArray in [PackedByteArray(), " ".to_utf8_buffer(), "null".to_utf8_buffer(), "[]".to_utf8_buffer(), "{}".to_utf8_buffer(), "{".to_utf8_buffer(), valid + " false".to_utf8_buffer(), valid + valid]:
 		check(not transfer.preview_import(malformed, 1).ok, "Empty/malformed/trailing second data rejected")
-	for version: Variant in [0, 1.5, 15, 99, "14", true, null]:
+	for version: Variant in [0, 1.5, 16, 99, "15", true, null]:
 		check(not transfer.preview_import(document(version), 1).ok, "Invalid/future version rejected: " + str(version))
 	for patch: Dictionary in [{"hp": 0}, {"hp": 101}, {"qi": 7}, {"resources": {}}, {"resources": {"wood": -1}}, {"internal_unlocked": true}, {"qin_unlocked": true}, {"map_id": "../escape"}, {"level": 100}, {"player_name": "  noncanonical  "}]:
 		check(not transfer.preview_import(document(State.SAVE_VERSION, patch), 1).ok, "Current semantic/canonical/progression violation rejected: " + str(patch))
@@ -183,6 +183,8 @@ func test_versions() -> void:
 		var data := State.new().to_dict()
 		if version == 13:
 			data = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player
+		if version < 15:
+			for field: String in State.Capstone.FIELDS: data.erase(field)
 		if version < 14:
 			for field: String in State.Consignee.FIELDS: data.erase(field)
 		if version < 13: data.erase("internal_unlocked")
@@ -205,13 +207,15 @@ func test_versions() -> void:
 	check(frozen.reload() == OK, "Genuine frozen schema12 reader still compiles")
 	var old = frozen.new()
 	var before: Dictionary = old.to_dict()
-	for version: int in [13, 14]:
+	for version: int in [13, 14, 15]:
 		var current := Slots.new(_root.path_join("legacy-%d" % version)).path_for(1)
 		check(old.load_game(current) == ERR_FILE_UNRECOGNIZED and old.to_dict() == before, "Frozen old reader rejects schema%d without mutation" % version)
 
 func document(version: Variant = State.SAVE_VERSION, patch: Dictionary = {}) -> PackedByteArray:
 	var data := State.new().to_dict()
 	# Synthetic old-layout stress cases; genuine historical13 has its own fixture.
+	if version is int and version < 15:
+		for field: String in State.Capstone.FIELDS: data.erase(field)
 	if version is int and version < 14:
 		for field: String in State.Consignee.FIELDS: data.erase(field)
 	if version is int and version < 13: data.erase("internal_unlocked")

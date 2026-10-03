@@ -19,7 +19,7 @@ func _init() -> void:
 	_test_roundtrips_and_transfer()
 	_test_frozen_reader()
 	_remove_tree(fixture_root)
-	if failures == 0: print("PASS: %d schema14 migration/atomicity/slot/transfer/real-Web25-reader checks; genuine producers1,9–13, authored contracts2–8" % checks)
+	if failures == 0: print("PASS: %d consignee introduced14/current15 migration/atomicity/slot/transfer/real-Web25-reader checks; genuine producers1,9–13, authored contracts2–8" % checks)
 	quit(0 if failures == 0 else 1)
 
 func check(ok: bool, label: String) -> void:
@@ -34,7 +34,7 @@ func _write(path: String, bytes: PackedByteArray) -> void:
 	check(file != null, "Open isolated fixture")
 	if file != null: file.store_buffer(bytes); file.close()
 
-func _document(data: Dictionary, version: int = 14) -> PackedByteArray:
+func _document(data: Dictionary, version: int = State.SAVE_VERSION) -> PackedByteArray:
 	return JSON.stringify({"version": version, "player": data}, "\t").to_utf8_buffer()
 
 func _hash(bytes: PackedByteArray) -> String:
@@ -67,7 +67,7 @@ func _test_legacy() -> void:
 		check(migrated.coins == 24 and migrated.hp == 100 and migrated.qi == 2 and migrated.medicine == 3 and migrated.party_roster == ["hero"], "Original default resources unchanged")
 		check(not migrated.internal_unlocked and not migrated.qin_unlocked and migrated.receipt_stage == 0, "No unearned recruits, lesson or prior reward")
 		var rewritten: String = fixture_root + "/migrated%d.json" % item.version
-		check(migrated.save_game(rewritten) == OK and JSON.parse_string(_bytes(rewritten).get_string_from_utf8()).version == 14, "Only explicit new save writes schema14")
+		check(migrated.save_game(rewritten) == OK and JSON.parse_string(_bytes(rewritten).get_string_from_utf8()).version == 15, "Only explicit new save writes current schema15")
 		check(_bytes(path) == bytes, "Migration never rewrites historical source")
 		var partial: Dictionary = JSON.parse_string(bytes.get_string_from_utf8()).player
 		partial.consignee_stage = 0
@@ -87,7 +87,7 @@ func _test_legacy() -> void:
 	check(inspected.ok, "Genuine Web25 serializer progressed schema13 migrates")
 	if inspected.ok:
 		var converted: Dictionary = inspected.state.to_dict()
-		for key: String in Quest.FIELDS: converted.erase(key)
+		for key: String in Quest.FIELDS + State.Capstone.FIELDS: converted.erase(key)
 		check(live._same_save_value(converted, original), "Every old ending/resource/recruit/reward field remains exact")
 		check(inspected.state.party_resources.shen.hp == 0, "Migration never revives injured companion")
 
@@ -95,7 +95,7 @@ func _test_modern_rejections() -> void:
 	var live := State.new(); live.coins = 777; live.skill_cooldown = 3
 	var before: Dictionary = live.to_dict()
 	var good := State.new().to_dict()
-	check(State.SAVE_VERSION == 14 and live.PartyRoster.PAYLOAD_VERSION == 14, "Both whole-save and party schema caps explicitly14")
+	check(State.SAVE_VERSION == 15 and live.PartyRoster.PAYLOAD_VERSION == 15, "Both whole-save and party schema caps explicitly15; introduced14 completeness is separately preserved")
 	for key: String in good:
 		var missing := good.duplicate(true); missing.erase(key)
 		check(not live.inspect_save_bytes(_document(missing)).ok, "Modern required key rejects: " + key)
@@ -109,7 +109,7 @@ func _test_modern_rejections() -> void:
 	for stage: Variant in [-1, 0.5, 1, 2, 3, 4, 5, 6]:
 		var data := good.duplicate(true); data.consignee_stage = stage
 		check(not live.inspect_save_bytes(_document(data)).ok, "Unproven/inconsistent stage rejects:" + str(stage))
-	for version: Variant in [0, 13.5, 15, 99, "14", true]:
+	for version: Variant in [0, 13.5, 14.5, 16, 99, "15", true]:
 		var inspected := live.inspect_save_bytes(JSON.stringify({"version": version, "player": good}).to_utf8_buffer())
 		check(not inspected.ok, "Unknown/malformed schema rejects")
 	var path := fixture_root + "/bad.json"; _write(path, _document(extras)); var bytes := _bytes(path)
@@ -154,9 +154,9 @@ func _test_roundtrips_and_transfer() -> void:
 		state.coins += 1; check(slots.save_slot(state, 1) == OK and _bytes(slots.path_for(1) + ".bak") == original, "Backup preserves exact former stage")
 		check(slots.load_backup(loaded, 1) == OK and loaded.to_dict() != state.to_dict(), "Stage backup restores detached model")
 		check(slots.describe(1).status == "valid" and slots.describe_backup(1).status == "valid", "Metadata sees current14 and backup14")
-		var export := transfer.export_slot(1, true); check(export.ok and export.version == 14 and export.bytes == original, "Export exact stage14 backup bytes")
-		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 14, "Empty-slot stage14 preview")
-		if preview.ok: check(transfer.commit_import(preview.token).ok and _bytes(slots.path_for(2)) == original, "Import retains exact14 bytes")
+		var export := transfer.export_slot(1, true); check(export.ok and export.version == 15 and export.bytes == original, "Export exact current15 backup bytes")
+		var preview := transfer.preview_import(original, 2); check(preview.ok and preview.version == 15, "Empty-slot current15 preview")
+		if preview.ok: check(transfer.commit_import(preview.token).ok and _bytes(slots.path_for(2)) == original, "Import retains exact current15 bytes")
 		check(not transfer.preview_import(original, 2).ok, "Never replace occupied import target")
 		var historical := _bytes(FIXTURES + "schema_13_default.json"); preview = transfer.preview_import(historical, 3)
 		check(preview.ok and preview.version == 13, "Genuine schema13 empty-slot preview")
@@ -175,7 +175,12 @@ func _test_frozen_reader() -> void:
 	check(script.reload() == OK, "Actual Web25 reader compiles with class name adaptation only")
 	var old = script.new(); old.coins = 913; old.skill_cooldown = 3
 	var before: Dictionary = old.to_dict(); var path := fixture_root + "/format14.json"
-	check(State.new().save_game(path) == OK, "Create true14 document")
+	var producer_bytes := _bytes("res://tests/fixtures/v028_game_state.gd.txt")
+	check(_hash(producer_bytes) == "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5", "True14 producer byte pin")
+	var producer_script := GDScript.new(); producer_script.source_code = producer_bytes.get_string_from_utf8().replace("class_name HeroState\n", "")
+	check(producer_script.reload() == OK, "Frozen14 producer compiles with class-name adaptation only")
+	var producer = producer_script.new()
+	check(producer.SAVE_VERSION == 14 and producer.save_game(path) == OK, "Actual frozen14 producer creates true14 document")
 	var bytes := _bytes(path)
 	check(old.SAVE_VERSION == 13 and old.load_game(path) == ERR_FILE_UNRECOGNIZED, "Deployed schema13 reader rejects14 at version gate")
 	check(old.to_dict() == before and old.skill_cooldown == 3 and _bytes(path) == bytes, "Frozen reader rejected before state or file mutation")

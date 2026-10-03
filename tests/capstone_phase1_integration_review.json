@@ -1,0 +1,333 @@
+{
+  "status": "PASS: bounded independent phase-one integration review after test-only corrections",
+  "completed_at_utc": "2026-10-03T07:58:14.983100+00:00",
+  "baseline": "5e71af1c plus reviewed working-tree changes",
+  "engine": "Godot 4.6.3.stable.official.7d41c59c4",
+  "scope": "Lead-owned migration fixture adaptations, explicit model-only presentation boundary, preservation of old11 positive tests, current runner wiring, and source-to-evidence provenance. No source edits by reviewer.",
+  "required_fixes_remaining": [],
+  "resolved_finding": {
+    "severity": "P1",
+    "issue": "Inherited PhaseOneBoundary constant was redeclared by three test subclasses, preventing parsing",
+    "initial_failures_preserved": [
+      {
+        "script": "tests/party_battle_backdrop_test.gd",
+        "line": 2,
+        "log": "party_battle_backdrop_test.log",
+        "mode": "normal focused execution"
+      },
+      {
+        "script": "tests/record_heting_polish.gd",
+        "line": 2,
+        "log": "record_heting_polish-parse-initial.log",
+        "mode": "parse-only"
+      },
+      {
+        "script": "tests/visual_unified_combat.gd",
+        "line": 2,
+        "log": "visual_unified_combat-parse-initial.log",
+        "mode": "parse-only"
+      }
+    ],
+    "corrections": [
+      {
+        "path": "tests/party_battle_backdrop_test.gd",
+        "correction": "Removed only redundant inherited PhaseOneBoundary declaration; unchanged test body/loops/assertions",
+        "exact_one_line_removal_verified": true,
+        "initial_sha256": "1b8bfcae9c93d116a28411b6946f478890799f213097f377816f06b5116b0df0",
+        "final_sha256": "906ceec969973324353452d3e645f878bf091545684bab85aaac89c9be9e2c2c"
+      },
+      {
+        "path": "tests/record_heting_polish.gd",
+        "correction": "Removed only redundant inherited PhaseOneBoundary declaration; unchanged test body/loops/assertions",
+        "exact_one_line_removal_verified": true,
+        "initial_sha256": "9111c9b39c8ece86bddcddf8d2bc971a3d1a94069749c490e8222ea33355e603",
+        "final_sha256": "59bdb626a024fc25f01526f8dc5e00219958e11b5bf950cf5d4b4a4c4d1316d4"
+      },
+      {
+        "path": "tests/visual_unified_combat.gd",
+        "correction": "Removed only redundant inherited PhaseOneBoundary declaration; unchanged test body/loops/assertions",
+        "exact_one_line_removal_verified": true,
+        "initial_sha256": "f4c6953b2791f9a10cdba2e6da43205775d058bfc5ef7154b699d86e53d04463",
+        "final_sha256": "57f90baeb02289b80a6075b34f404334d239ddd702e7e6ad8e6f9f544829d687"
+      }
+    ],
+    "runtime_or_assertion_weakening": false
+  },
+  "initial_focused_execution": {
+    "utc": "2026-10-03T07:50:32.403495+00:00",
+    "isolated_root": "/tmp/hero-final-integration-review-hybxopyz",
+    "source_stable": true,
+    "changes": {},
+    "tests": [
+      {
+        "test": "capstone_model_presentation_boundary_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/capstone_model_presentation_boundary_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 20 capstone model-only presentation boundary checks; shipped11 positive suites remain separate"
+        ]
+      },
+      {
+        "test": "automatic_party_battle_art_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/automatic_party_battle_art_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 34913 automatic renderer fact/entitlement/round/pose/geometry checks; 161 headless canvas frames"
+        ]
+      },
+      {
+        "test": "party_battle_backdrop_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/party_battle_backdrop_test.gd"
+        ],
+        "exit": 1,
+        "errors": [
+          "SCRIPT ERROR: Parse Error: The member \"PhaseOneBoundary\" already exists in parent class res://tests/automatic_party_battle_art_test.gd.",
+          "ERROR: Failed to load script \"res://tests/party_battle_backdrop_test.gd\" with error \"Parse error\"."
+        ],
+        "summary": []
+      },
+      {
+        "test": "combat_learning_schema_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/combat_learning_schema_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 58 explicit internal-learning/schema13–15 compatibility checks"
+        ]
+      },
+      {
+        "test": "heting_consignee_schema_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/heting_consignee_schema_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 506 consignee introduced14/current15 migration/atomicity/slot/transfer/real-Web25-reader checks; genuine producers1,9–13, authored contracts2–8"
+        ]
+      },
+      {
+        "test": "capstone_independent_schema_test",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/capstone_independent_schema_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "INDEPENDENT_SCHEMA_RESULT checks=636 failures=0"
+        ]
+      }
+    ],
+    "all_pass": false
+  },
+  "final_focused_recheck": {
+    "utc": "2026-10-03T07:55:58.945046+00:00",
+    "isolated_root": "/tmp/hero-final-integration-recheck-o1rttws6",
+    "source_stable": true,
+    "changes_during_recheck": {},
+    "changes_since_initial": {
+      "tests/party_battle_backdrop_test.gd": {
+        "before": "1b8bfcae9c93d116a28411b6946f478890799f213097f377816f06b5116b0df0",
+        "after": "906ceec969973324353452d3e645f878bf091545684bab85aaac89c9be9e2c2c"
+      },
+      "tests/record_heting_polish.gd": {
+        "before": "9111c9b39c8ece86bddcddf8d2bc971a3d1a94069749c490e8222ea33355e603",
+        "after": "59bdb626a024fc25f01526f8dc5e00219958e11b5bf950cf5d4b4a4c4d1316d4"
+      },
+      "tests/visual_unified_combat.gd": {
+        "before": "f4c6953b2791f9a10cdba2e6da43205775d058bfc5ef7154b699d86e53d04463",
+        "after": "57f90baeb02289b80a6075b34f404334d239ddd702e7e6ad8e6f9f544829d687"
+      }
+    },
+    "tests": [
+      {
+        "test": "party_battle_backdrop_test",
+        "mode": "executed",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/party_battle_backdrop_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 1233 contextual background/shared scheduler checks: all11 rendered encounters,1–4 actors,both formations"
+        ]
+      },
+      {
+        "test": "record_heting_polish",
+        "mode": "parse-only",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--check-only",
+          "--script",
+          "tests/record_heting_polish.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": []
+      },
+      {
+        "test": "visual_unified_combat",
+        "mode": "parse-only",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--check-only",
+          "--script",
+          "tests/visual_unified_combat.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": []
+      },
+      {
+        "test": "capstone_model_presentation_boundary_test",
+        "mode": "executed",
+        "command": [
+          "python3",
+          "tools/run_godot_check.py",
+          "godot",
+          "--headless",
+          "--path",
+          ".",
+          "--script",
+          "tests/capstone_model_presentation_boundary_test.gd"
+        ],
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "PASS: 20 capstone model-only presentation boundary checks; shipped11 positive suites remain separate"
+        ]
+      }
+    ],
+    "all_pass": true
+  },
+  "six_unique_passing_focused_assertions": 37366,
+  "initial_evidence_hashes_all_still_match": true,
+  "final_source_manifest": {
+    "path": "recheck/source-after.json",
+    "sha256": "eb9ad141f672b6a4b97e9da723d5e6a9ddd3e39fab23e3559b8e13c0bcb61be2",
+    "entries": 775,
+    "all_entries_still_match": true
+  },
+  "final_key_sha256": {
+    "scripts/game_state.gd": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+    "scripts/heting_consignee_rules.gd": "df73a66abb3495c11c5f85d66d674fe39f683d21428da3b200ad7dc8a293965f",
+    "scripts/party_roster_rules.gd": "6f475b73ca9452440f6356388ab7f369f90ed68ffb7b8464c7c7bc0e808e4c1d",
+    "scripts/party_battle_ui.gd": "52f866fa337fe82c0554b941cad76c36d7001094263ec59a3292cb1ee1fc2a43",
+    "scripts/volume_one_capstone_rules.gd": "e3946a143d7d60d659b0aa8344a4c4775282a989ba3b7f309c4db0a17a09cb64",
+    "scripts/automatic_party_combat.gd": "0c1a4aac314af2e351f7b28fc12977335443f7bb45edf65fe9d1c15727cfc367",
+    "scripts/unified_encounter_rules.gd": "0ac66828398d0b6849cf64e34c394157efe79119c2cc2691bf2ef4b40ed8dd75",
+    "tests/capstone_phase1_boundary.gd": "d915d75874f01ad9c519df30fc95633095b3e86f3c3b127543cf248e56599dbc",
+    "tests/capstone_model_presentation_boundary_test.gd": "a0d43a7874927397600fc55bce8e192a1c71e76abafb18ffe90e6d8a4c56be93",
+    "tests/combat_learning_schema_test.gd": "71a2799cf21b242521238c905217ba38fbb466c810077d0dd73605bc0328326f",
+    "tests/heting_consignee_schema_test.gd": "ff58cf5e782267c522b1fa62c6ce2b60158da7c358b6f09bfeb875d5507c3901",
+    "tests/heting_consignee_web25_reader_test.gd": "1af08286a31499c5369cd911ae1b5d295c211591c1e6607334edc91d681ca344",
+    "tests/capstone_independent_schema_test.gd": "821c89ec49de5f99a4ad60c317d761430d70fc377de6b5a2b0b21251e82acdd3",
+    "tests/capstone_old14_pack_probe.gd": "d14e2d65236fb3385f40f50027db426eca7fb0ba83871a834fc0db284ecd3da2",
+    "tests/fixtures/v028_game_state.gd.txt": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+    "run-tests.sh": "38e8f598238ccd065e992e62cdfe0e6a85cbc4614d2a377ca9c0d95a84cfae44"
+  },
+  "verified_invariants": [
+    "Writer15 explicitly accepts1–14; internal-learning required from13, Consignee full bundle required from14, Capstone full bundle required from15",
+    "Frozen actual14 source equals historical Git blob; every original1–13 fixture hash matches",
+    "Old real13 reader is still tested against true14 bytes; old real14 rejection of true15 is separately produced and separately executed with --main-pack",
+    "READY_IDS exactly equals the baseline11 catalog, without deletion of any old encounter",
+    "PartyBattleUI rejects unregistered capstone title before autosave/model entry; actual new model and renderer refusal tested",
+    "All old runner test paths retained; twelve capstone suites and distinct optional old-reader gates added; shell syntax valid",
+    "Migration runtime/retained-source hashes and earned dependencies/results match current source and preserved evidence",
+    "Only three redundant inherited test declarations changed after initial review; no runtime, assertion, loop or coverage changes"
+  ],
+  "audited_prior_evidence": {
+    "migration_portable_assertions": 2057,
+    "earned_retained_assertions": 51871,
+    "old11_event_parity": "176/176",
+    "old11_controller_defeat_parity": "33/33",
+    "scope": "Evidence hashes audited; those larger suites were not independently rerun by this final reviewer"
+  },
+  "phase2_required_gate": "Restore positive all12 model/scene/art coverage in affected suites and captures, replace model-only negative readiness expectations with actual scene/original-art integration, and establish live site/proximity/input/modal-generation checks.",
+  "aggregate_status": "Lead full-02 still pending at review completion; separate aggregate acceptance is not claimed",
+  "not_claimed": [
+    "New capstone scene/playable route",
+    "Native pixel/art acceptance",
+    "Capture execution after parse-only checks",
+    "New package/export acceptance",
+    "Browser persistence",
+    "Live rollout/publication"
+  ],
+  "evidence_files": {
+    "initial_report": "review-initial.md",
+    "initial_hashes": "initial-evidence.sha256.json",
+    "migration_and_runner_audit": "static-provenance-audit.json",
+    "earned_provenance_audit": "earned-evidence-audit.json",
+    "focused_result": "focused-results.json",
+    "recheck_result": "recheck/results.json"
+  },
+  "original_evidence_sha256": "e81f9527fe9dba3dadfb4af717fe6f774e3c92df60c367c714d9bd0112ed51c4"
+}

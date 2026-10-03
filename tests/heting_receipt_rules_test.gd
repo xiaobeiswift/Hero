@@ -1,6 +1,6 @@
 extends SceneTree
 ## Use isolated XDG directories. --pure-rules runs before HeroState is wired;
-## the normal invocation also tests the current schema14 state boundary and verifies
+## the normal invocation also tests the current schema15 state boundary and verifies
 ## that its frozen historical reader rejects newer saves without mutation.
 const State = preload("res://scripts/game_state.gd")
 const Rules = preload("res://scripts/heting_receipt_rules.gd")
@@ -66,7 +66,7 @@ func _init() -> void:
 	_test_text_is_read_only()
 	if not OS.get_cmdline_user_args().has("--pure-rules"):
 		_test_state_integration()
-	var scope: String = "pure rules" if OS.get_cmdline_user_args().has("--pure-rules") else "rules and schema14 integration"
+	var scope: String = "pure rules" if OS.get_cmdline_user_args().has("--pure-rules") else "rules and schema15 integration"
 	if failures == 0:
 		print("PASS: %d Heting receipt checks (%s)" % [checks, scope])
 	else:
@@ -298,8 +298,8 @@ func _invalid_load(live, data: Dictionary, version: int, label: String) -> void:
 
 func _test_state_integration() -> void:
 	var probe = State.new()
-	if probe.get("receipt_stage") == null or State.SAVE_VERSION != 14:
-		check(false, "HeroState must expose receipt_stage and integrated schema14 before normal integration checks")
+	if probe.get("receipt_stage") == null or State.SAVE_VERSION != 15:
+		check(false, "HeroState must expose receipt_stage and integrated schema15 before normal integration checks")
 		return
 	check(DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(ROOT)) == OK, "Create isolated save fixture directory")
 	check(probe.receipt_stage == 0 and probe.to_dict().receipt_stage == 0, "Natural HeroState creation and serialization use stage zero")
@@ -609,10 +609,10 @@ func _test_historical_reader_rejection() -> void:
 	var old_reader = old_script.new()
 	check(old_reader.SAVE_VERSION == 10, "Pinned archived reader declares its actual schema10 version")
 	var compatible: Dictionary = _wrapper_ready().to_dict()
-	for field: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked", "internal_unlocked"] + State.Consignee.FIELDS:
+	for field: String in ["receipt_stage", "party_roster", "party_resources", "qin_stage", "qin_unlocked", "internal_unlocked"] + State.Consignee.FIELDS + State.Capstone.FIELDS:
 		compatible.erase(field)
 	_write_document(compatible, 10)
-	check(old_reader.load_game(SAVE) == OK and old_reader.to_dict() == compatible, "Historical-reader control accepts its own schema-10 document")
+	check(old_reader.load_game(SAVE) == OK and old_reader.to_dict() == compatible, "Pinned historical reader accepts explicitly projected schema10 layout control")
 	old_reader.coins = 4242
 	old_reader.battle_active = true
 	old_reader.enemy_hp = 37
@@ -626,8 +626,8 @@ func _test_historical_reader_rejection() -> void:
 			if stage >= 2: Rules.settle_victory(current)
 			if stage == 3: current.compare_receipt()
 			var path: String = ROOT + "/v019-rejection-" + ending + "-" + str(stage) + ".json"
-			check(current.save_game(path) == OK, "Create an actual schema14 document for the historical-reader test")
+			check(current.save_game(path) == OK, "Create an actual schema15 document for the historical-reader test")
 			var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
-			check(old_reader.load_game(path) == ERR_FILE_UNRECOGNIZED, "Actual v0.0.19 reader refuses schema14 before mutation")
+			check(old_reader.load_game(path) == ERR_FILE_UNRECOGNIZED, "Actual v0.0.19 reader refuses schema15 before mutation")
 			check(_snapshot(old_reader) == before, "Historical rejection preserves all live old progress and active battle fields")
 			check(FileAccess.get_file_as_bytes(path) == bytes and not FileAccess.file_exists(path + ".tmp"), "Historical rejection preserves the new save bytes without a replacement file")

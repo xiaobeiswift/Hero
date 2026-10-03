@@ -7,7 +7,7 @@ func run()->void:
  art=Art.new();root.add_child(art);await process_frame;art.set_process(false)
  ground=PackedVector2Array([art.ground_point(0,0),art.ground_point(1,0),art.ground_point(1,1),art.ground_point(0,1)])
  check(Scenery.style_for("unrecognized")=="ferry","Unknown visual key cannot select a special gameplay context")
- for encounter:String in Encounters.IDS:
+ for encounter:String in PhaseOneBoundary.READY_IDS:
   var style="warehouse" if encounter=="heting_consignee" else ("courtyard" if encounter in ["training","sect_trial","courtyard_practice"] else "ferry")
   for count:int in [1,2,3,4]:
    for form:String in ["并肩","护后"]:

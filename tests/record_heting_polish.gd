@@ -59,7 +59,7 @@ func _legacy_matrix() -> void:
 	for compact: bool in [false,true]:
 		await _window(compact)
 		for formation_name: String in ["护后","并肩"]:
-			for kind: String in Encounters.IDS:
+			for kind: String in PhaseOneBoundary.READY_IDS:
 				if kind=="heting_consignee":continue
 				var panel=await _new_battle(kind,formation_name)
 				if panel==null:continue

@@ -1,0 +1,55 @@
+{
+  "review": "Independent capstone phase-one migration/state safety",
+  "status": "PASS: scoped stable independent migration/state/model/IO review",
+  "date_utc": "2026-10-03",
+  "baseline": "5e71af1c",
+  "engine": "Godot 4.6.3.stable.official.7d41c59c4",
+  "tests": {
+    "schema_safety": 638,
+    "state_safety": 1272,
+    "separate_old_pck": 9,
+    "total": 1919,
+    "failures": 0
+  },
+  "all_source_and_fixture_hashes_stable_before_after": true,
+  "manifest": "runtime-final-before.sha256",
+  "runtime_sha256": {
+    "scripts/game_state.gd": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+    "scripts/volume_one_capstone_rules.gd": "e3946a143d7d60d659b0aa8344a4c4775282a989ba3b7f309c4db0a17a09cb64",
+    "scripts/volume_one_capstone_combat_data.gd": "398ae7c6c9bae9d4a52fbddee1662585fc47d8ed330c32f7abfe276c4f53dac0",
+    "scripts/automatic_party_combat.gd": "0c1a4aac314af2e351f7b28fc12977335443f7bb45edf65fe9d1c15727cfc367",
+    "scripts/unified_encounter_rules.gd": "0ac66828398d0b6849cf64e34c394157efe79119c2cc2691bf2ef4b40ed8dd75",
+    "scripts/heting_consignee_rules.gd": "df73a66abb3495c11c5f85d66d674fe39f683d21428da3b200ad7dc8a293965f",
+    "scripts/party_roster_rules.gd": "6f475b73ca9452440f6356388ab7f369f90ed68ffb7b8464c7c7bc0e808e4c1d",
+    "scripts/heting_consignee_story.gd": "5acd28466bdca9c0255fedc7d2d62dde95ad40b08a7bfdcd25c4f86164510b31"
+  },
+  "fixed_finding": {
+    "severity": "blocking",
+    "description": "Capstone.progress includes party_resources for helper eligibility; generic entry-progress comparator rejected legitimate companion combat resource changes after real victory",
+    "reproduction": "Qin deployed with qi0 gains qi2 through actual automatic combat; exact capstone terminal validator succeeds but generic progress comparator blocks settlement",
+    "fix": "Bypass only redundant capstone generic progress comparison after dedicated exact same-session/token/spec/full-entry/accepted-resource validation",
+    "verified": "Independent schema/state rerun passed; initial failure log and diagnostic retained"
+  },
+  "old_reader": {
+    "bytes": 72931,
+    "sha256": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+    "scope": "Authentic source14 reader with current dependency files; class_name removed only in memory"
+  },
+  "old_pck": {
+    "bytes": 57195048,
+    "sha256": "c8e652c0c716ef1c78ae80b1a70a08db97b9395e0ab8be1407e954ed52d46bad",
+    "scope": "Separate process --main-pack exact retained old cloud-exported Web28 PCK; no current source preloads; true14 control accepted, true15 rejected, original bytes and old state unchanged"
+  },
+  "not_claimed": [
+    "earned gameplay balance",
+    "scene live site/proximity/modal generation",
+    "native rendering/art/actual movement",
+    "browser persistence or transport",
+    "Windows or server rollout",
+    "full aggregate repository regression",
+    "complete old11 dynamic trace parity in this independent suite"
+  ],
+  "repro": "bash Hero-staging/capstone-phase1/independent-migration/run_independent.sh",
+  "completed_at_utc": "2026-10-03T07:32:53.894652+00:00",
+  "original_evidence_sha256": "4f71901d867cc77cd84af40f610c329539794b7ca56487a73a9faa0388de2c97"
+}

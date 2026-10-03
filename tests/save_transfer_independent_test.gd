@@ -213,8 +213,8 @@ func test_encoding_and_parser_envelope() -> void:
 	var bom: PackedByteArray = PackedByteArray([239, 187, 191]); bom.append_array(good)
 	var valid_cases: Array[PackedByteArray] = [good, bom]
 	var player: String = JSON.stringify(Model.new().to_dict())
-	valid_cases.append(("{\"version\":99,\"version\":14,\"player\":" + player + "}").to_utf8_buffer())
-	valid_cases.append(("{\"version\":14,\"player\":" + player + ",}").to_utf8_buffer())
+	valid_cases.append(("{\"version\":99,\"version\":15,\"player\":" + player + "}").to_utf8_buffer())
+	valid_cases.append(("{\"version\":15,\"player\":" + player + ",}").to_utf8_buffer())
 	var exact: PackedByteArray = good.duplicate(); exact.resize(1048576)
 	for i: int in range(good.size(), exact.size()): exact[i] = 32
 	valid_cases.append(exact)
@@ -224,14 +224,16 @@ func test_encoding_and_parser_envelope() -> void:
 		if p.ok: service.cancel_preview(p.token)
 	var too_big: PackedByteArray = exact.duplicate(); too_big.append(32)
 	var bad_cases: Array[PackedByteArray] = [PackedByteArray(), too_big, "[]".to_utf8_buffer(), good + "false".to_utf8_buffer(), good + PackedByteArray([0]), PackedByteArray([192, 175]), PackedByteArray([237, 160, 128]), PackedByteArray([244, 144, 128, 128]), PackedByteArray([226, 130])]
-	bad_cases.append(("{\"version\":14,\"player\":" + player + ",\"deep\":" + "[".repeat(513) + "0" + "]".repeat(513) + "}").to_utf8_buffer())
-	bad_cases.append(("{\"version\":14,\"player\":" + player + ",\"version\":99}").to_utf8_buffer())
+	bad_cases.append(("{\"version\":15,\"player\":" + player + ",\"deep\":" + "[".repeat(513) + "0" + "]".repeat(513) + "}").to_utf8_buffer())
+	bad_cases.append(("{\"version\":15,\"player\":" + player + ",\"version\":99}").to_utf8_buffer())
 	for bytes: PackedByteArray in bad_cases:
 		check(not service.preview_import(bytes, 1).ok and snapshot(path).is_empty(), "Malformed/oversize/unsupported input stays read-only")
 	for version: int in range(1, Model.SAVE_VERSION + 1):
 		var data: Dictionary = Model.new().to_dict()
 		if version == 13:
 			data = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/legacy_saves/schema_13_default.json")).player
+		if version < 15:
+			for field: String in Model.Capstone.FIELDS: data.erase(field)
 		if version < 14:
 			for field: String in Model.Consignee.FIELDS: data.erase(field)
 		if version < 13: data.erase("internal_unlocked")
@@ -244,7 +246,7 @@ func test_frozen_legacy_exports() -> void:
 	var path: String = subdir("genuine-legacy")
 	var slots := Slots.new(path)
 	var service := Transfer.new(path)
-	for fixture_name: String in ["v017", "v019", "v020", "v025"]:
+	for fixture_name: String in ["v017", "v019", "v020", "v025", "v028"]:
 		var frozen_path: String = "res://tests/fixtures/" + fixture_name + "_game_state.gd.txt"
 		var old_script := GDScript.new()
 		old_script.source_code = FileAccess.get_file_as_string(frozen_path).replace("class_name HeroState\n", "")

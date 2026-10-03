@@ -18,13 +18,18 @@ func _init() -> void:
 	pck = ProjectSettings.globalize_path(pck)
 	check(FileAccess.file_exists(pck) and _hash(pck) == EXPECTED_PCK_SHA, "Pinned exact cloud-exported Web25 PCK identity; not live artifact bytes")
 	if failures > 0: quit(1); return
-	# Capture true current-produced bytes before mounting any historical assets.
-	# Load it dynamically then release all source resources; packed reader is
-	# requested below with CACHE_MODE_IGNORE and identified by its own version.
+	# Preserve the historical13-versus14 reader boundary using exact frozen14
+	# producer source. Packed reader code is version-pinned below; this legacy
+	# test does not claim an isolated dependency closure. The new14-versus15
+	# complete-old-runtime probe runs in a separate process.
 	var current_path := "res://scripts/game_state.gd"
-	var current = load(current_path).new()
+	var producer_source := FileAccess.get_file_as_string("res://tests/fixtures/v028_game_state.gd.txt")
+	check(FileAccess.get_sha256("res://tests/fixtures/v028_game_state.gd.txt") == "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5", "Exact frozen14 producer source")
+	var producer := GDScript.new(); producer.source_code = producer_source.replace("class_name HeroState\n", "")
+	check(producer.reload() == OK, "Compile frozen14 producer with class-name adaptation only")
+	var current = producer.new()
 	var path := "user://web25-reject14-%d-%d.json" % [OS.get_process_id(), Time.get_ticks_usec()]
-	check(current.SAVE_VERSION == 14 and current.save_game(path) == OK, "Actual current producer writes14")
+	check(current.SAVE_VERSION == 14 and current.save_game(path) == OK, "Actual frozen14 producer writes14")
 	var absolute_path := ProjectSettings.globalize_path(path)
 	var bytes := FileAccess.get_file_as_bytes(absolute_path)
 	current = null
