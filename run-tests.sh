@@ -32,6 +32,34 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
+# 截令归灯 phase 1: schema15 / independent state and earned combat models.
+# Scene, accepted art, final chapter UI and new package acceptance are separate.
+run_checked --headless --path . --script tests/capstone_rules_test.gd
+run_checked --headless --path . --script tests/capstone_schema_test.gd
+run_checked --headless --path . --script tests/capstone_state_test.gd
+run_checked --headless --path . --script tests/capstone_combat_test.gd
+run_checked --headless --path . --script tests/capstone_balance_test.gd
+run_checked --headless --path . --script tests/capstone_model_presentation_boundary_test.gd
+run_checked --headless --path . --script tests/capstone_independent_schema_test.gd
+run_checked --headless --path . --script tests/capstone_independent_state_test.gd
+run_checked --headless --path . --script tests/capstone_independent_earned_test.gd
+run_checked --headless --path . --script tests/capstone_independent_recovery_test.gd
+run_checked --headless --path . --script tests/capstone_independent_party_test.gd
+run_checked --headless --path . --script tests/capstone_independent_boundary_test.gd
+# Optional exact old28 reader, isolated in a separate engine process.
+# Its bytes/dependencies are not replaced by current source; no browser claim.
+if [[ -n "${HERO_WEB28_PCK:-}" ]]; then
+  CAPSTONE_PROBE_ROOT="$(mktemp -d "$(realpath "$TEST_ROOT")/capstone-old14.XXXXXX")"
+  CAPSTONE_OLD_PCK="$(realpath "$HERO_WEB28_PCK")"
+  CAPSTONE_SUBJECT="$CAPSTONE_PROBE_ROOT/current15.json"
+  run_checked --headless --path . --script tests/capstone_independent_fixture_producer.gd -- "$CAPSTONE_SUBJECT"
+  mkdir -p "$CAPSTONE_PROBE_ROOT/old"/{data,config,cache}
+  XDG_DATA_HOME="$CAPSTONE_PROBE_ROOT/old/data" \
+  XDG_CONFIG_HOME="$CAPSTONE_PROBE_ROOT/old/config" \
+  XDG_CACHE_HOME="$CAPSTONE_PROBE_ROOT/old/cache" \
+    run_checked --headless --main-pack "$CAPSTONE_OLD_PCK" \
+    --script "$(pwd)/tests/capstone_old14_pack_probe.gd" -- "$CAPSTONE_OLD_PCK" "$CAPSTONE_SUBJECT"
+fi
 # 未损先收: isolated quest/state/schema14 models plus real scene/transport/art.
 # Exact Web pack and native pixel acceptance remain separately recorded.
 run_checked --headless --path . --script tests/heting_consignee_rules_test.gd
