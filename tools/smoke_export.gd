@@ -9,6 +9,7 @@ var _unified_skills: Dictionary = {}
 var _unified_basic_encounters: Dictionary = {}
 var _unified_facts_ok: bool = true
 var _exploration_prerequisite_checks: int = 0
+var _condition_prerequisite_checks: int = 0
 var checks := 0
 var failures := 0
 var game
@@ -50,7 +51,7 @@ func _run() -> void:
 		_check(not DirAccess.dir_exists_absolute("res://screenshots"), "Screenshots excluded")
 		_check(not DirAccess.dir_exists_absolute("res://builds"), "Build outputs excluded")
 	# A stale pack must fail before instantiating a scene or creating a save.
-	if not _current_prerequisites() or not _exploration_prerequisites():
+	if not _current_prerequisites() or not _exploration_prerequisites() or not _condition_prerequisites():
 		print("FAIL: current package prerequisites; %d checks; %d failures; no game instantiated" % [checks,failures])
 		quit(1); return
 	if not _receipt_legacy_prerequisite(rehearsal) or not _party_legacy_prerequisite(rehearsal) or not _schema12_legacy_prerequisite(rehearsal) or not _schema9_legacy_prerequisite(rehearsal):
@@ -71,6 +72,10 @@ func _run() -> void:
 	await process_frame
 	_check(game.has_method("_new_game"), "Packed gameplay script loads")
 	_check(game.current_screen == "title", "Release opens at title")
+	if OS.get_cmdline_user_args().has("--condition-only"):
+		await _test_condition_pack()
+		await _finish_run(rehearsal, "condition-only")
+		return
 	if OS.get_cmdline_user_args().has("--exploration-only"):
 		await _test_exploration_pack()
 		await _finish_run(rehearsal, "exploration-only")
@@ -172,6 +177,7 @@ func _run() -> void:
 		return
 	await _test_exploration_pack()
 	await _test_unified_pack()
+	await _test_condition_pack()
 	await _finish_run(rehearsal)
 
 func _finish_run(rehearsal: bool, scope: String = "complete") -> void:
@@ -1362,7 +1368,7 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.24", "V24 ordered exploration project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.25", "V25 exploration companion condition project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 13, "V22 requires save schema13")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
@@ -2266,7 +2272,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all10 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.24", "Packed actual title retains ordered-exploration0.0.24 identity")
+	_check(title != null and title.text=="0.0.25", "Packed actual title retains companion-condition0.0.25 identity")
 	for kind: String in encounters.IDS: await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
@@ -2869,3 +2875,288 @@ func _exploration_boundaries() -> void:
 	outcome=trail.record_segment(Vector2.ZERO,Vector2(9000,0)); game.world._recover_follower_fault(outcome)
 	_check(outcome.reason=="history_capacity" and game.world._follower_reseed_count==reseeds and _exploration_positions()==positions, "Packed history capacity fails closed without teleporting actors")
 	game.world.follower_recovery_reason="" # Clear diagnostic only; no membership/resource mutation.
+
+# V25 adds a separately counted projection/input suite. All state comes from
+# packaged runtime models; no release assertion depends on res://tests fixtures.
+func _condition_prerequisites() -> bool:
+	var previous: int = failures
+	var first: int = checks
+	_check(ResourceLoader.exists("res://scripts/exploration_companion_condition.gd"), "Condition package retains the actual compact companion display module")
+	_condition_prerequisite_checks = checks-first
+	return failures == previous
+
+func _condition_orders(prefix: Array = []) -> Array:
+	var result: Array = [prefix.duplicate()]
+	for id: String in ["shen", "tang", "qin"]:
+		if not prefix.has(id): result.append_array(_condition_orders(prefix+[id]))
+	return result
+
+func _condition_projected_ids(snapshot: Dictionary) -> Array:
+	var ids: Array = []
+	if not snapshot.get("ok", false): return ids
+	for id: String in snapshot.roster:
+		if id != "hero": ids.append(id)
+	return ids
+
+func _condition_card_matches(row, snapshot: Dictionary, id: String) -> bool:
+	if not row.cards.has(id): return false
+	var card: Dictionary = row.cards[id]
+	var actor: Dictionary = _party_actor(snapshot,id)
+	var selected: bool = snapshot.get("ok",false) and snapshot.get("roster",[]).has(id)
+	if card.button.visible != selected: return false
+	if not selected: return true
+	return card.hp_bar.value == actor.hp and card.hp_bar.max_value == actor.max_hp and card.qi_bar.value == actor.qi and card.qi_bar.max_value == actor.max_qi and card.status.text.contains("倒下") == (int(actor.hp)==0)
+
+func _condition_projection_matches(row) -> bool:
+	var snapshot: Dictionary = game.state.party_resource_snapshot()
+	if not snapshot.get("ok",false) or row.displayed_ids != _condition_projected_ids(snapshot): return false
+	for id: String in ["shen", "tang", "qin"]:
+		if not _condition_card_matches(row,snapshot,id): return false
+	return true
+
+func _condition_folio():
+	return game.overlay.get_meta("party_roster") if game.overlay.has_meta("party_roster") else null
+
+func _condition_freeze() -> void:
+	game.set_process(false); game.world.set_process(false)
+	game._process(0)
+
+func _condition_injure() -> void:
+	game.state.hp = 17; game.state.qi = 1
+	game.state.party_resources.shen = {"hp":7,"qi":0}
+	game.state.party_resources.tang = {"hp":0,"qi":1}
+	game.state.party_resources.qin = {"hp":9,"qi":2}
+	game._refresh(); game._process(0)
+
+func _condition_key(key: Key, shift: bool = false, echo: bool = false) -> void:
+	var event := InputEventKey.new()
+	event.physical_keycode = key; event.keycode = key; event.pressed = true
+	event.shift_pressed = shift; event.echo = echo
+	Input.parse_input_event(event); await process_frame
+	event.pressed = false; event.echo = false
+	Input.parse_input_event(event); await process_frame
+
+func _condition_click(button: Control) -> void:
+	game._process(0)
+	var point: Vector2 = button.get_global_rect().get_center()
+	var motion := InputEventMouseMotion.new(); motion.position = point; motion.global_position = point
+	root.push_input(motion, true)
+	await process_frame
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT; event.position = point; event.global_position = point; event.pressed = true
+	root.push_input(event, true)
+	await process_frame
+	event.pressed = false; root.push_input(event, true)
+	await process_frame
+
+func _test_condition_pack() -> void:
+	var first: int = checks
+	game._new_game(); _condition_freeze()
+	var row = game.hud.companion_condition
+	_check(row != null and row.get_script() == load("res://scripts/exploration_companion_condition.gd"), "Packed main HUD instantiates the real condition component")
+	if row == null: return
+	_check(row.displayed_ids.is_empty() and _condition_projection_matches(row), "Packed new journey displays no fabricated or unrecruited companion")
+	_check(game.hud.identity_wash.position == Vector2(20,23) and game.hp_bar.value == game.state.hp, "Packed compact display preserves the existing protagonist HUD")
+	_party_prepare(4); _condition_freeze(); _condition_injure()
+	var portraits = load("res://scripts/character_portraits.gd")
+	for id: String in ["shen", "tang", "qin"]:
+		var shown = row.cards[id].portrait.texture
+		var authored = portraits.texture_for(id)
+		_check(shown is AtlasTexture and shown.atlas == authored.atlas and shown.region == authored.region and shown.filter_clip and shown.atlas.get_image() != null, "Packed compact portrait uses the original imported actor crop: "+id)
+	var orders: Array = _condition_orders()
+	_check(orders.size() == 16, "Packed condition suite enumerates all sixteen ordered companion subsets")
+	for selected: Array in orders:
+		_check(game.state.set_party_roster(["hero"]+selected), "Packed condition accepts actual ordered roster: "+str(selected))
+		var before: Dictionary = game.state.to_dict().duplicate(true)
+		var files: Dictionary = _courtyard_save_files()
+		game._refresh(); game._process(0)
+		var snapshot: Dictionary = game.state.party_resource_snapshot()
+		_check(row.displayed_ids == selected, "Packed compact display follows actual selected roster order: "+str(selected))
+		var increasing: bool = true; var x: float = -INF
+		for id: String in selected:
+			var center: float = row.cards[id].button.get_global_rect().get_center().x
+			increasing = increasing and center > x; x = center
+		_check(increasing, "Packed compact cards occupy their declared left-to-right roster order: "+str(selected))
+		for id: String in ["shen", "tang", "qin"]:
+			_check(_condition_card_matches(row,snapshot,id), "Packed compact HP/Qi/downed and omission reflect real selected actor: "+str(selected)+id)
+		_check(game.state.to_dict() == before and _courtyard_save_files() == files, "Packed condition refresh changes no resources/roster/progression or save bytes: "+str(selected))
+	_check(game.state.set_party_roster(["hero","qin","tang","shen"]), "Packed condition prepares noncanonical deployed order")
+	game.state.active_companion = "沈青"; game._refresh(); game._process(0)
+	_check(row.displayed_ids == ["qin","tang","shen"] and row.cards.tang.status.text.contains("倒下"), "Packed condition ignores legacy preference and retains selected HP0 actor")
+	await _condition_readonly_inputs(row)
+	await _condition_failure_refresh(row)
+	await _condition_hidden_boundaries(row)
+	await _condition_live_changes(row)
+	game._new_game(); _condition_freeze()
+	_check(row.displayed_ids.is_empty() and _condition_projection_matches(row), "Packed condition discards recruited display after new-game replacement")
+	game._show_title(); game._process(0)
+	_check(not row.is_visible_in_tree(), "Packed condition disappears on actual title return")
+	print("Exploration companion condition exact-runtime coverage: %d checks; actual packaged HUD and original portraits; all16 ordered subsets; exact HP/Qi/downed; native mouse/keys; read-only folio/story return; stale/failed-snapshot guards; modal/battle/quit suppression; rest/load/roster/practice freshness; no browser claim" % (checks-first+_condition_prerequisite_checks))
+
+func _condition_readonly_inputs(row) -> void:
+	var before: Dictionary = game.state.to_dict().duplicate(true)
+	_check(game.state.save_game() == OK, "Packed condition records an isolated checkpoint before view-only interaction")
+	var files: Dictionary = _courtyard_save_files()
+	var generation: int = game.modal_generation
+	for id: String in ["qin","tang","shen"]:
+		row.cards[id].button.grab_focus(); game._process(0)
+		var actor: Dictionary = _party_actor(game.state.party_resource_snapshot(),id)
+		_check(row.detail_panel.visible and row.detail_label.text.contains(actor.name) and row.detail_label.text.contains("气血  %d / %d" % [actor.hp,actor.max_hp]) and row.detail_label.text.contains("真气  %d / %d" % [actor.qi,actor.max_qi]) and row.cards[id].button.get_meta("downed") == (actor.hp == 0), "Packed keyboard inspection exposes own exact numeric resources: "+id)
+	row.cards.qin.button.grab_focus(); await _condition_key(KEY_TAB,true)
+	_check(row.roster_button.has_focus(), "Packed native Shift-Tab wraps from first selected card to roster entry")
+	await _condition_key(KEY_ENTER,false,true)
+	_check(not game.active_modal and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed held-key echo cannot activate compact entry or rewrite a save")
+	await _condition_click(row.cards.qin.button)
+	var folio = _condition_folio()
+	_check(folio != null and game.active_modal and game.current_screen == "explore", "Packed real pointer on compact Qin opens the actual roster folio")
+	if folio == null: return
+	game._process(0)
+	var stale_change: Callable = folio._toggle_actor.bind("qin")
+	var position: Vector2 = game.world.player_pos
+	Input.action_press("move_right"); game.world._process(.08); Input.action_release("move_right")
+	_check(game.world.player_pos == position and not game.world.active, "Packed held movement cannot leak through direct roster modal")
+	_check(not row.is_visible_in_tree() and not row.detail_panel.visible, "Packed direct folio suppresses compact cards and floating details")
+	_check(folio.return_button.text.contains("赶路") or folio.return_button.text.contains("探索"), "Packed direct-origin roster labels its exploration return")
+	game._show_exploration_party_roster(generation)
+	_check(_condition_folio() == folio, "Packed stale double activation cannot replace the open direct roster")
+	await _key(KEY_ESCAPE); game._process(0)
+	_check(not game.active_modal and game.current_screen == "explore" and not game.overlay.has_meta("inventory") and row.is_visible_in_tree(), "Packed native Esc from direct roster returns immediately to exploration")
+	_check(game.state.to_dict() == before and _courtyard_save_files() == files, "Packed pointer view and Esc preserve every model value and saved/backup byte")
+	if stale_change.is_valid(): stale_change.call()
+	game._show_exploration_party_roster(generation)
+	_check(not game.active_modal and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed dismissed roster and old compact-generation callbacks cannot mutate or reopen the journey")
+	for key: Key in [KEY_ENTER,KEY_SPACE]:
+		row.roster_button.grab_focus()
+		await _key(key)
+		folio = _condition_folio()
+		_check(folio != null and game.active_modal, "Packed focused direct entry opens through actual native key: "+str(key))
+		if folio == null: return
+		await _key(KEY_ESCAPE); game._process(0)
+		_check(not game.active_modal and row.is_visible_in_tree() and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed keyboard view/close remains read-only: "+str(key))
+	row.cards.qin.button.grab_focus(); await _key(KEY_TAB)
+	_check(row.cards.tang.button.has_focus(), "Packed native Tab follows selected compact-card order")
+	row.cards.qin.button.grab_focus()
+	await _key(KEY_RIGHT)
+	_check(not game.active_modal and not row.cards.qin.button.has_focus(), "Packed directional input releases compact focus without opening or navigating a folio")
+	await _condition_click(row.roster_button)
+	folio = _condition_folio()
+	_check(folio != null, "Packed direct roster button accepts native pointer input")
+	if folio == null: return
+	folio.cells.tang.story.pressed.emit(); game._process(0)
+	_check(game.active_modal and _gather_text(game.overlay).contains("唐栖") and not row.is_visible_in_tree(), "Packed direct-origin story opens actual Tang information while condition stays hidden")
+	await _key(KEY_ESCAPE); game._process(0)
+	_check(not game.active_modal and not game.overlay.has_meta("inventory") and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed direct-origin story Escape retains exploration context without save mutation")
+	game._show_inventory(); await _key(KEY_5)
+	folio = _condition_folio()
+	_check(folio != null and folio.return_button.text.contains("行囊"), "Packed existing inventory-origin roster keeps its inventory return")
+	await _key(KEY_ESCAPE)
+	_check(game.active_modal and game.overlay.get_meta("inventory",false), "Packed inventory-origin Escape still returns to inventory")
+	game._close_modal(); game._process(0)
+	row.cards.qin.button.grab_focus(); game.world.nearby_id = "elder"; game.world.nearby_name = "陆伯"
+	await _key(KEY_E)
+	_check(game.active_modal and not game.overlay.has_meta("party_roster") and _gather_text(game.overlay).contains("陆伯"), "Packed focused compact card leaves E available for the real nearby NPC")
+	game._close_modal(); game._process(0)
+
+func _condition_failure_refresh(row) -> void:
+	var valid_roster: Array = game.state.party_roster.duplicate()
+	game.state.party_roster.assign(["hero","qin","qin"]); game._refresh()
+	var before: Dictionary = game.state.to_dict().duplicate(true)
+	var files: Dictionary = _courtyard_save_files()
+	game._process(0)
+	var cleared: bool = row.displayed_ids.is_empty()
+	for id: String in ["shen","tang","qin"]: cleared = cleared and not row.cards[id].button.visible
+	_check(not game.state.party_resource_snapshot().ok and cleared and row.roster_button.disabled, "Packed failed actual resource snapshot clears stale cards and disables entry")
+	game._show_exploration_party_roster(game.modal_generation)
+	_check(not game.active_modal and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed invalid snapshot cannot open roster or repair malformed state by viewing")
+	game.state.party_roster.assign(valid_roster)
+	game.state.party_resources.qin = {"hp":3,"qi":0}; game._refresh(); game._process(0)
+	_check(_condition_projection_matches(row) and row.cards.qin.hp_bar.value == 3 and not row.roster_button.disabled, "Packed failed snapshot retries cleanly with fresh valid resources at the same roster")
+	game.state.party_resources.shen = {"hp":0,"qi":2}; game._refresh(); game._process(0)
+	_check(row.cards.shen.hp_bar.value == 0 and row.cards.shen.qi_bar.value == 2 and row.cards.shen.status.text.contains("倒下"), "Packed same-roster HP0/Qi mutation refreshes without rebuilding selection")
+
+func _condition_hidden_boundaries(row) -> void:
+	var generation: int = game.modal_generation
+	game._show_map(); game._process(0)
+	var before: Dictionary = game.state.to_dict().duplicate(true)
+	var files: Dictionary = _courtyard_save_files(); var modal: int = game.modal_generation
+	game._show_exploration_party_roster(generation)
+	_check(not row.is_visible_in_tree() and not row.detail_panel.visible and game.modal_generation == modal and not game.overlay.has_meta("party_roster"), "Packed older compact callback cannot replace an unrelated active modal")
+	_check(game.state.to_dict() == before and _courtyard_save_files() == files, "Packed modal-blocked entry performs no save or state write")
+	game._close_modal(); game._process(0)
+	for screen: String in ["title","battle","receipt_battle","party_battle"]:
+		game.current_screen = screen; game._process(0)
+		generation = game.modal_generation; before = game.state.to_dict().duplicate(true); files = _courtyard_save_files()
+		game._show_exploration_party_roster(generation)
+		_check(not row.is_visible_in_tree() and not row.detail_panel.visible and not game.overlay.has_meta("party_roster") and game.modal_generation == generation and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed screen boundary hides and rejects compact entry: "+screen)
+	game.current_screen = "explore"; game.quit_pending = true; game._process(0)
+	generation = game.modal_generation; before = game.state.to_dict().duplicate(true); files = _courtyard_save_files()
+	game._show_exploration_party_roster(generation)
+	_check(not row.is_visible_in_tree() and not row.detail_panel.visible and not game.active_modal and game.modal_generation == generation and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed pending quit suppresses compact controls without modifying state or saves")
+	game.quit_pending = false; game._process(0)
+	_check(row.is_visible_in_tree() and _condition_projection_matches(row), "Packed canceled boundary restores exact real companion resources")
+	row.cards.qin.button.grab_focus()
+	for zoom: float in [1.0,1.25,1.5]:
+		game.view_zoom = zoom; game._refresh(); game._sync_hud_navigation(true)
+		var covered: bool = true
+		for rect: Rect2 in row.reserved_rects():
+			var projected: Rect2 = Rect2(rect.position/zoom,rect.size/zoom)
+			covered = covered and game.world.hud_exclusion_rects.has(projected)
+		_check(covered and Rect2(0,0,1280,800).encloses(row.get_global_rect()) and row.size.x <= 304 and row.detail_panel.visible and Rect2(0,0,1280,800).encloses(row.detail_panel.get_global_rect()) and not row.detail_panel.get_global_rect().intersects(game.hud.toast_wash.get_global_rect()), "Packed compact display stays bounded and reserves its world-navigation area at zoom "+str(zoom))
+	game.view_zoom = 1.0; game._refresh()
+
+func _condition_live_changes(row) -> void:
+	# Actual free-rest and roster actions, not a test-only display fixture.
+	game._interact("healer"); game._process(0)
+	var rest = _find_button(game.overlay,"免费调息")
+	_check(rest != null and not row.is_visible_in_tree(), "Packed actual healer dialogue hides condition before explicit rest")
+	if rest != null: rest.pressed.emit()
+	game._process(0)
+	var snapshot: Dictionary = game.state.party_resource_snapshot()
+	var rested: bool = true
+	for id: String in ["shen","tang","qin"]:
+		var actor: Dictionary = _party_actor(snapshot,id)
+		rested = rested and actor.hp == actor.max_hp and actor.qi == actor.max_qi
+	_check(rested and _condition_projection_matches(row) and not game.active_modal, "Packed explicit free rest refreshes HP/Qi/downed from actual restored resources")
+	_condition_injure(); game.state.set_party_roster(["hero","qin","tang","shen"]); game._refresh(); game._process(0)
+	game._show_exploration_party_roster(game.modal_generation)
+	var folio = _condition_folio()
+	_check(folio != null, "Packed condition opens actual roster for freshness lifecycle")
+	if folio == null: return
+	folio.cells.tang.toggle.pressed.emit(); await _key(KEY_ESCAPE); game._process(0)
+	_check(row.displayed_ids == ["qin","shen"] and not row.cards.tang.button.visible and game.state.party_resources.tang.hp == 0, "Packed real folio bench removes compact card without reviving downed actor")
+	game._show_exploration_party_roster(game.modal_generation); folio = _condition_folio()
+	folio.cells.tang.toggle.pressed.emit(); await _key(KEY_ESCAPE); game._process(0)
+	_check(row.displayed_ids == ["qin","shen","tang"] and _condition_projection_matches(row) and row.cards.tang.status.text.contains("倒下"), "Packed real reselect appends compact card in new roster order with preserved HP0")
+	_check(game.state.save_game() == OK, "Packed condition creates reload checkpoint with explicit selected HP0")
+	var durable: Dictionary = game.state.to_dict().duplicate(true)
+	game.state.party_resources.qin.hp = 2; game.state.set_party_roster(["hero","shen"]); game._refresh(); game._process(0)
+	_check(row.displayed_ids == ["shen"], "Packed condition shows changed live roster before load")
+	await _key(KEY_F9); _condition_freeze()
+	_check(game.state.to_dict() == durable and row.displayed_ids == ["qin","shen","tang"] and _condition_projection_matches(row), "Packed actual F9 load refreshes exact saved order/HP/Qi/HP0 rather than stale display cache")
+	_unified_prepare("courtyard_practice",4); _condition_freeze(); _condition_injure()
+	game.world.teleport(game.world.interactables.courtyard_practice.pos); game._process(0)
+	_check(game.state.save_game() == OK, "Packed condition creates real injured checkpoint before virtual practice")
+	var before: Dictionary = game.state.to_dict().duplicate(true); var files: Dictionary = _courtyard_save_files()
+	var panel = await _unified_enter("courtyard_practice")
+	_check(panel != null and game.state.battle_active and not row.is_visible_in_tree(), "Packed actual virtual practice controller suppresses exploration condition")
+	if panel == null: return
+	var generation: int = game.modal_generation
+	game._show_exploration_party_roster(generation)
+	_check(game.overlay.get_meta("party_battle",null) == panel and game.modal_generation == generation and not game.overlay.has_meta("party_roster"), "Packed stale exploration entry cannot displace real practice controller")
+	_unified_leave(); game._process(0)
+	_check(not game.state.battle_active and game.state.party_settlement.practice and game.state.to_dict() == before and _courtyard_save_files() == files, "Packed practice leave preserves injured real resources and checkpoint bytes")
+	if game.active_modal: game._close_modal()
+	game._process(0)
+	_check(row.is_visible_in_tree() and _condition_projection_matches(row) and row.cards.tang.hp_bar.value == 0, "Packed practice return restores real injured/HP0 condition instead of virtual full bars")
+
+	# A real nonpractice return must reproject the accepted persistent settlement.
+	game._close_modal(); game._process(0)
+	panel = _unified_open_training(); game._process(0)
+	_check(panel != null and game.state.battle_active and not row.is_visible_in_tree(), "Packed actual nonpractice battle hides all exploration condition controls")
+	if panel == null: return
+	var tx: Dictionary = _unified_begin(panel,false); _party_finish(panel)
+	_check(tx.get("accepted",false), "Packed real training resolves an actual controller action before return")
+	_unified_leave()
+	if game.active_modal: game._close_modal()
+	game._process(0)
+	_check(not game.state.battle_active and row.is_visible_in_tree() and _condition_projection_matches(row), "Packed real battle settlement refreshes condition from accepted persistent HP/Qi")
