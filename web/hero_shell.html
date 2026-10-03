@@ -237,6 +237,81 @@ const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 	let statusMode = '';
 	let engine;
 
+	// HERO_SAVE_TRANSFER_BEGIN: local file transport only; no server upload.
+	window.HeroSaveTransfer = (() => {
+		const LIMIT = 1048576;
+		let active = null;
+		function clear(operation) {
+			if (!operation) return;
+			if (active === operation) active = null;
+			operation.input.onchange = null;
+			operation.input.oncancel = null;
+			operation.input.remove();
+			if (operation.reader) {
+				operation.reader.onload = null;
+				operation.reader.onerror = null;
+				operation.reader.onabort = null;
+				if (operation.reader.readyState === 1) operation.reader.abort();
+			}
+			operation.callback = null;
+		}
+		function finish(operation, status, bytes) {
+			if (active !== operation) return;
+			const callback = operation.callback;
+			clear(operation);
+			// Do not retain the File, filename or bytes after the terminal callback.
+			if (bytes) callback(operation.token, status, bytes);
+			else callback(operation.token, status);
+		}
+		return Object.freeze({
+			cancel() { clear(active); },
+			chooseFile(token, callback) {
+				clear(active);
+				if (!Number.isSafeInteger(token) || typeof callback !== 'function') return false;
+				const input = document.createElement('input');
+				input.type = 'file';
+				input.accept = '.json,application/json';
+				input.multiple = false;
+				input.style.display = 'none';
+				const operation = { token, callback, input, reader: null };
+				active = operation;
+				input.oncancel = () => finish(operation, 'cancelled');
+				input.onchange = () => {
+					if (active !== operation || operation.reader) return;
+					if (!input.files || input.files.length !== 1) {
+						finish(operation, input.files && input.files.length === 0 ? 'cancelled' : 'invalid');
+						return;
+					}
+					const file = input.files[0];
+					if (!(file instanceof File) || file.size === 0 || file.size > LIMIT) {
+						finish(operation, file && file.size > LIMIT ? 'oversize' : 'invalid');
+						return;
+					}
+					const reader = new FileReader();
+					operation.reader = reader;
+					reader.onerror = () => finish(operation, 'read_error');
+					reader.onabort = () => finish(operation, 'cancelled');
+					reader.onload = () => {
+						const bytes = reader.result;
+						if (!(bytes instanceof ArrayBuffer) || bytes.byteLength === 0 || bytes.byteLength !== file.size || bytes.byteLength > LIMIT) {
+							finish(operation, 'invalid');
+							return;
+						}
+						finish(operation, 'selected', bytes);
+					};
+					try { reader.readAsArrayBuffer(file); }
+					catch (_) { finish(operation, 'read_error'); }
+				};
+				document.body.appendChild(input);
+				// Synchronous click retains the triggering Godot input activation.
+				try { input.click(); }
+				catch (_) { clear(operation); return false; }
+				return true;
+			}
+		});
+	})();
+	// HERO_SAVE_TRANSFER_END
+
 	window.HeroWeb = Object.freeze({
 		getBuildInfo: function () {
 			return JSON.stringify({ game_version: buildNotice.dataset.gameVersion, web_revision: buildNotice.dataset.webRevision });
