@@ -16,7 +16,28 @@
   "display_server": "X11",
   "source_base_commit": "733003e51fd429f3315aaf3a4431db7f8dba06f0",
   "source_identity": "733003e51fd429f3315aaf3a4431db7f8dba06f0 + prepared integrated working tree",
-  "committed_source_binding": "Pending lead integration commit. Captured runtime hashes, not an uncreated clean commit, bind these pixels.",
+  "committed_source_binding": {
+    "runtime_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+    "runtime_tree": "5820f600847e00cc545476d2c5183a893e1eef05",
+    "production_default_gate": false,
+    "genuine_browser_acceptance": false,
+    "captured_runtime_entries": 390,
+    "tracked_runtime_entries_byte_matched_to_commit": 312,
+    "generated_import_cache_entries_unchanged": 78,
+    "capture_label": "preflight-001",
+    "source_inventory_sha256": "5193d7b8e85566b0c5208d2adc580748f21f6112b95f85b163a7fe85dd91dee8",
+    "scope": "312trackedruntimefilesexactcommitmatch;78generatedimport-cachefilesseparatelyboundtocapture,notgitobjects. NativeinjectedWebmode/testgate/faketransportonly.",
+    "screenshot_sha256": {
+      "01-default-off-cold-web-title-1280x800.png": "10031efd6149a45d3335f09dd4e3fff9f73ba28c859f5a9c34d8724b7a8b79ed",
+      "02-test-opt-in-transfer-menu-1280x800.png": "71ab7a3ee58c92ce07487f62f17404115c6cd496ef3000cba01639e6eaa893c0",
+      "03-synthetic-json-empty-target-preview-1280x800.png": "4ace83622c0945c962e9620625ef70cfa4860c3ed347bfed7ae8b71c8f294c3b",
+      "04-confirmed-import-no-autoload-1280x800.png": "c3d08de2a7fed9a3aff827341d35db3be6f19cd0e5da7156c04d8e1abe46686a",
+      "05-occupied-backup-only-unavailable-1280x800.png": "db7760fcf9e0b15480d256290ffcc2ca7bbd2ddac140ff58d427a7ede4823d32",
+      "06-invalid-json-no-change-1280x800.png": "3d2a869fe3d36b845e7bdaaa4e31010fb3d71f1fbe4e447250dcfc75a5167539",
+      "07-cancelled-file-no-change-1280x800.png": "2e83b303d8e7c23f75923fbc17ac4150c9dfe09a68d11dab9a45844b73f154c2",
+      "08-compact-empty-target-preview-1179x736.png": "927682acde90074496cbb367f03a472d5746c58e24b1c379874cf1d20b6fe6de"
+    }
+  },
   "qualifiers": [
     "Eight actual Godot native framebuffer PNGs from the full main scene; no generated or composited screenshot imagery.",
     "A visible test-only provenance banner labels TEST-GATE-OPT-IN and FAKEBROWSERTRANSPORT on every frame. It is not production UI.",
@@ -742,7 +763,7 @@
     "capture_label": "preflight-001",
     "source_base_commit": "733003e51fd429f3315aaf3a4431db7f8dba06f0",
     "captured_source_kind": "Integrated working tree; exact local runtime bytes.",
-    "source_commit_binding_pending": true,
+    "source_commit_binding_pending": false,
     "production_default_gate": false,
     "genuine_browser_acceptance": false,
     "source_entry_count": 390,
@@ -1162,7 +1183,29 @@
       "original_source_unchanged": true,
       "frozen_runtime_unchanged": true
     },
-    "inventory_scope": "Runtime assets/scripts/scenes/licenses/web/configuration/import descriptors/UIDs and imported cache; test driver hashed separately. Generated caches are not implied to be tracked Git objects."
+    "inventory_scope": "Runtime assets/scripts/scenes/licenses/web/configuration/import descriptors/UIDs and imported cache; test driver hashed separately. Generated caches are not implied to be tracked Git objects.",
+    "frozen_commit_verification": {
+      "runtime_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+      "runtime_tree": "5820f600847e00cc545476d2c5183a893e1eef05",
+      "production_default_gate": false,
+      "genuine_browser_acceptance": false,
+      "captured_runtime_entries": 390,
+      "tracked_runtime_entries_byte_matched_to_commit": 312,
+      "generated_import_cache_entries_unchanged": 78,
+      "capture_label": "preflight-001",
+      "source_inventory_sha256": "5193d7b8e85566b0c5208d2adc580748f21f6112b95f85b163a7fe85dd91dee8",
+      "scope": "312trackedruntimefilesexactcommitmatch;78generatedimport-cachefilesseparatelyboundtocapture,notgitobjects. NativeinjectedWebmode/testgate/faketransportonly.",
+      "screenshot_sha256": {
+        "01-default-off-cold-web-title-1280x800.png": "10031efd6149a45d3335f09dd4e3fff9f73ba28c859f5a9c34d8724b7a8b79ed",
+        "02-test-opt-in-transfer-menu-1280x800.png": "71ab7a3ee58c92ce07487f62f17404115c6cd496ef3000cba01639e6eaa893c0",
+        "03-synthetic-json-empty-target-preview-1280x800.png": "4ace83622c0945c962e9620625ef70cfa4860c3ed347bfed7ae8b71c8f294c3b",
+        "04-confirmed-import-no-autoload-1280x800.png": "c3d08de2a7fed9a3aff827341d35db3be6f19cd0e5da7156c04d8e1abe46686a",
+        "05-occupied-backup-only-unavailable-1280x800.png": "db7760fcf9e0b15480d256290ffcc2ca7bbd2ddac140ff58d427a7ede4823d32",
+        "06-invalid-json-no-change-1280x800.png": "3d2a869fe3d36b845e7bdaaa4e31010fb3d71f1fbe4e447250dcfc75a5167539",
+        "07-cancelled-file-no-change-1280x800.png": "2e83b303d8e7c23f75923fbc17ac4150c9dfe09a68d11dab9a45844b73f154c2",
+        "08-compact-empty-target-preview-1179x736.png": "927682acde90074496cbb367f03a472d5746c58e24b1c379874cf1d20b6fe6de"
+      }
+    }
   },
   "selected_source_screenshots": [
     {

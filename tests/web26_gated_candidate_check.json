@@ -1,0 +1,148 @@
+{
+  "game_version": "0.0.26",
+  "web_revision": 1,
+  "source_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+  "source_tree": "5820f600847e00cc545476d2c5183a893e1eef05",
+  "save_schema": 13,
+  "party_capacity": 4,
+  "production_default_web_transfer_enabled": false,
+  "build": {
+    "label": "Hero-Web-0.0.26-web1",
+    "source_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "template_sha256": "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9",
+    "source_entries": 312,
+    "source_bytes": 76910442,
+    "build_script_sha256": "bd708be5604634c4e7cdb04efaeb3a933c5b5163ece5a50e501582c313067c5a",
+    "start_free": 24325902336,
+    "minimum_free": 24163549184,
+    "reserve_bytes": 536870912,
+    "status": "archive verified; browser testing pending",
+    "browser_validation": "pending",
+    "deployment": "not performed",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "web_build": {
+      "game_version": "0.0.26",
+      "web_revision": 1,
+      "caption": "0.0.26 · Web 1"
+    },
+    "build_identity_tool_sha256": "eb80c29fce4e7eb0c92aab56fb3d603a2a05f37d41119a98f21ebd0a454735fc",
+    "site_files": {
+      "ASSET_LICENSES.md": {
+        "sha256": "907dfbe4546bd3c9ec99a24b166985ef7ad12abbcb5aa0bf0ea9c0c529ed068c",
+        "bytes": 8374
+      },
+      "WEB_EXPORT.md": {
+        "sha256": "28666d6fd5541fe9f589361e7b80bed22678fb01bacb6048326ff480e6daa1e0",
+        "bytes": 7413
+      },
+      "index.apple-touch-icon.png": {
+        "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+        "bytes": 13219
+      },
+      "index.audio.position.worklet.js": {
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+        "bytes": 2973
+      },
+      "index.audio.worklet.js": {
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+        "bytes": 7298
+      },
+      "index.html": {
+        "sha256": "1c150c26cc8376303cadd992fc80d1b87d087249ca40ce12b2f812971ab3f587",
+        "bytes": 11864
+      },
+      "index.icon.png": {
+        "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+        "bytes": 6110
+      },
+      "index.js": {
+        "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+        "bytes": 315759
+      },
+      "index.pck": {
+        "sha256": "31b4d894e384083cf1b79141e9a7eb49d41dc0c5ca81cf1fc91700e1ae00f97d",
+        "bytes": 55745812
+      },
+      "index.png": {
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+        "bytes": 21443
+      },
+      "index.wasm": {
+        "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+        "bytes": 37700666
+      },
+      "licenses/FONT-LICENSE.txt": {
+        "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+        "bytes": 14712
+      },
+      "licenses/GODOT-LICENSE.txt": {
+        "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+        "bytes": 1150
+      },
+      "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+        "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+        "bytes": 93474
+      }
+    },
+    "archive": {
+      "file": "Hero-Web-0.0.26-web1.zip",
+      "bytes": 65127589,
+      "sha256": "dc524f05f3b4cb65906293860375244a7cb87386aae9b6be6bb3b7d6a48104b7"
+    }
+  },
+  "exact_pack_audit": {
+    "source_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "pck_sha256": "31b4d894e384083cf1b79141e9a7eb49d41dc0c5ca81cf1fc91700e1ae00f97d",
+    "audit_sha256": "8314912c4a5f4e4ecd7084c2cfccbed2f2453d5916dfce8fc5f2ac9d45e4666a",
+    "legacy_sha256": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "schema11_reader_sha256": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "schema9_reader_sha256": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "schema12_reader_sha256": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "source_manifest_sha256": "d6faf1a2f6f2225b429500765150ae86707237e8de1f83f322c1ba5f6fecccff",
+    "save_schema": 13,
+    "party_capacity": 4,
+    "log_sha256": "c354437e4ebb665ab4e5194d92a49560de9b024454d5bfeef35f3370e2fc3098",
+    "exit_code": 0,
+    "passed": true,
+    "checks": 3692,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "condition_checks": 191,
+    "transfer_checks": 342,
+    "transfer_transport": "native injected fake; real packed core/UI; not browser download/persistence",
+    "scope": "Exact Web PCK under native editor; not browser graphics/audio/persistence or physical window-close"
+  },
+  "native_capture_binding": {
+    "runtime_commit": "2b378d281d63b816142f0bdf8c32218e11295d92",
+    "runtime_tree": "5820f600847e00cc545476d2c5183a893e1eef05",
+    "production_default_gate": false,
+    "genuine_browser_acceptance": false,
+    "captured_runtime_entries": 390,
+    "tracked_runtime_entries_byte_matched_to_commit": 312,
+    "generated_import_cache_entries_unchanged": 78,
+    "capture_label": "preflight-001",
+    "source_inventory_sha256": "5193d7b8e85566b0c5208d2adc580748f21f6112b95f85b163a7fe85dd91dee8",
+    "scope": "312trackedruntimefilesexactcommitmatch;78generatedimport-cachefilesseparatelyboundtocapture,notgitobjects. NativeinjectedWebmode/testgate/faketransportonly.",
+    "screenshot_sha256": {
+      "01-default-off-cold-web-title-1280x800.png": "10031efd6149a45d3335f09dd4e3fff9f73ba28c859f5a9c34d8724b7a8b79ed",
+      "02-test-opt-in-transfer-menu-1280x800.png": "71ab7a3ee58c92ce07487f62f17404115c6cd496ef3000cba01639e6eaa893c0",
+      "03-synthetic-json-empty-target-preview-1280x800.png": "4ace83622c0945c962e9620625ef70cfa4860c3ed347bfed7ae8b71c8f294c3b",
+      "04-confirmed-import-no-autoload-1280x800.png": "c3d08de2a7fed9a3aff827341d35db3be6f19cd0e5da7156c04d8e1abe46686a",
+      "05-occupied-backup-only-unavailable-1280x800.png": "db7760fcf9e0b15480d256290ffcc2ca7bbd2ddac140ff58d427a7ede4823d32",
+      "06-invalid-json-no-change-1280x800.png": "3d2a869fe3d36b845e7bdaaa4e31010fb3d71f1fbe4e447250dcfc75a5167539",
+      "07-cancelled-file-no-change-1280x800.png": "2e83b303d8e7c23f75923fbc17ac4150c9dfe09a68d11dab9a45844b73f154c2",
+      "08-compact-empty-target-preview-1179x736.png": "927682acde90074496cbb367f03a472d5746c58e24b1c379874cf1d20b6fe6de"
+    }
+  },
+  "rollout": "Explicitly not scheduled for this disabled feature; live0.0.25 remains.",
+  "acceptance_limits": [
+    "Actual browser file picker/user activation/FileReader and JavaScriptBridge ArrayBuffer path remain unverified.",
+    "No browser download-completion receipt; no new-profile import/reload recovery evidence.",
+    "Synchronous virtual-filesystem safety does not guarantee IndexedDB durability or cross-tab/process exclusion.",
+    "Default-off source/package safety checkpoint only; no browser-ready or durable recovery claim."
+  ]
+}
