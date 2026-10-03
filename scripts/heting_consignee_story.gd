@@ -69,8 +69,8 @@ func open(site: String = "heting_dispatch") -> void:
 		5: _record(site)
 
 func _offer(site: String) -> void:
-	var night: String = "昨夜短渡照原议分粮，次晨才来接续核查。" if host.state.heting_ending == "short_ferries" else "昨夜公秤照原议守秤，轮值船工今晨换了班。"
-	_modal("杜晦 · 平川粮栈收货管事" if site == Rules.SOURCE else ("孟绫 · 北仓新单" if site == "heting_dispatch" else "北仓新撤运单"), "鹤汀续事 / 未损先收", night + "\n\n北仓另有新编号的两篓封粮，调度牌却收到一张按水损撤运的单子。船工转述：平川粮栈的杜晦穿着整洁青衣、赭色背心，账袋紧贴腰侧，短棍横在北仓门边。他只催照单提货。\n\n“预结的钱已入账，这批就该归栈里。撤运令既到了，先搬；验粮的事，让后面的班次补。”\n\n新单旁附着孟绫的话：“预结是谁的凭据，要查；这两篓究竟如何，也得亲眼看。”\n\n可亲查北仓封粮、调度牌撤运单、南驳船收货联，先后不限。旧复签只是可选旁证，无须补做，也不改变昨夜的分粮。", [["接下本批核查", _guard(_begin.bind(site), site)], ["先不接下", _guard(_close)]])
+	var night: String = "此前短渡照原议分粮，交割后的新一班开始接续核查。" if host.state.heting_ending == "short_ferries" else "此前公秤照原议守秤，交割后的轮值船工已换了班。"
+	_modal("杜晦 · 平川粮栈收货管事" if site == Rules.SOURCE else ("孟绫 · 北仓新单" if site == "heting_dispatch" else "北仓新撤运单"), "鹤汀续事 / 未损先收", night + "\n\n北仓另有新编号的两篓封粮，调度牌却收到一张按水损撤运的单子。船工转述：平川粮栈的杜晦穿着整洁青衣、赭色背心，账袋紧贴腰侧，短棍横在北仓门边。他只催照单提货。\n\n“预结的钱已入账，这批就该归栈里。撤运令既到了，先搬；验粮的事，让后面的班次补。”\n\n新单旁附着孟绫的话：“预结是谁的凭据，要查；这两篓究竟如何，也得亲眼看。”\n\n可亲查北仓封粮、调度牌撤运单、南驳船收货联，先后不限。旧复签只是可选旁证，无须补做，也不改变此前的分粮。", [["接下本批核查", _guard(_begin.bind(site), site)], ["先不接下", _guard(_close)]])
 
 func _begin(site: String) -> void:
 	if not SITES.has(site) or not _at(site) or not host.state.begin_consignee(): return
@@ -118,7 +118,7 @@ func _resolve(answer: String, site: String) -> void:
 
 func _plan_menu(site: String) -> void:
 	if not _at(site) or host.state.consignee_stage not in [2, 3, 4]: return
-	_modal("这一批怎样安置", "未损先收 / 可更改的草案", "杜晦把预结当成既得收货权，又照先到的撤运令办事；但这批粮没有先验，不能由那张水损理由直接带走。\n\n" + Rules.plan_description("hold_for_inspection") + "\n\n" + Rules.plan_description("return_to_owner") + "\n\n两案都须先到北仓阻止强提，再亲自押同一车到接粮处。交锋只保住粮，最后当面确认交接才得120修为、60文；两案相同。昨夜的安排不改。", [["拟作封粮留验", _guard(_choose.bind("hold_for_inspection", site), site)], ["拟作撤运还粮", _guard(_choose.bind("return_to_owner", site), site)], ["再想一想", _guard(_close)]])
+	_modal("这一批怎样安置", "未损先收 / 可更改的草案", "杜晦把预结当成既得收货权，又照先到的撤运令办事；但这批粮没有先验，不能由那张水损理由直接带走。\n\n" + Rules.plan_description("hold_for_inspection") + "\n\n" + Rules.plan_description("return_to_owner") + "\n\n两案都须先到北仓阻止强提，再亲自押同一车到接粮处。交锋只保住粮，最后当面确认交接才得120修为、60文；两案相同。此前的安排不改。", [["拟作封粮留验", _guard(_choose.bind("hold_for_inspection", site), site)], ["拟作撤运还粮", _guard(_choose.bind("return_to_owner", site), site)], ["再想一想", _guard(_close)]])
 
 func _choose(plan: String, site: String) -> void:
 	if not _at(site): return
@@ -156,7 +156,7 @@ func _loaded(site: String) -> void:
 	if not _at(site) or host.state.consignee_stage != 4: return
 	var options: Array = [["继续押送", _guard(_close)], ["更改本批草案", _guard(_plan_menu.bind(site), site)]]
 	if site == Rules.SOURCE: options.append(["把本批停回北仓", _guard(_park, Rules.SOURCE)])
-	_modal("本批封粮 · 押车货签", "未损先收 / 交接前仍可改议", Rules.plan_description(host.state.consignee_draft) + "\n\n一车两篓，不与昨夜三批混记。窄步栈过不了车；北街和当前侧浮栈可通行。离港前须明确确认把车停回北仓，回来可再提。", options)
+	_modal("本批封粮 · 押车货签", "未损先收 / 交接前仍可改议", Rules.plan_description(host.state.consignee_draft) + "\n\n一车两篓，不与此前三批混记。窄步栈过不了车；北街和当前侧浮栈可通行。离港前须明确确认把车停回北仓，回来可再提。", options)
 
 func _park() -> void:
 	if not _at(Rules.SOURCE) or not host.state.park_consignee_cargo(): return
@@ -170,7 +170,7 @@ func _receiver(site: String) -> void:
 		var other: String = "hold_for_inspection" if site == "heting_scale" else "return_to_owner"
 		_modal("本批封粮 · 先核去处", "未损先收 / 这里不是当前接粮处", Rules.plan_description(plan) + "\n\n可以继续照原案押送，也可在这里更改草案。更改后仍会单独询问是否正式交下，不会悄悄定案。", [["照原案继续送", _guard(_close)], ["改作" + PLAN_NAMES[other], _guard(_choose.bind(other, site), site)], ["先不交货", _guard(_close)]])
 		return
-	_modal("施衡与轮值船工" if site == "heting_scale" else "中埠粮船 · 原主接粮", "未损先收 / 最后交接确认", Rules.plan_description(plan) + "\n\n" + ("施衡与船工共同留封样，原主保留暂存回条。待验期间，这批粮不能分用。" if plan == "hold_for_inspection" else "原主收回这一批，返还记录与抄件分别保留；开篓分用后不再保有整批封样。") + "\n\n确认后本批去向不再更改，得120修为、60文，只结算一次。昨夜分粮、旧复签与已经核过的事实均保留。", [["确认交下本批", _guard(_finish.bind(site, receiver, plan), site)], ["先留在车上", _guard(_close)], ["更改本批草案", _guard(_plan_menu.bind(site), site)]])
+	_modal("施衡与轮值船工" if site == "heting_scale" else "中埠粮船 · 原主接粮", "未损先收 / 最后交接确认", Rules.plan_description(plan) + "\n\n" + ("施衡与船工共同留封样，原主保留暂存回条。待验期间，这批粮不能分用。" if plan == "hold_for_inspection" else "原主收回这一批，返还记录与抄件分别保留；开篓分用后不再保有整批封样。") + "\n\n确认后本批去向不再更改，得120修为、60文，只结算一次。此前分粮、旧复签与已经核过的事实均保留。", [["确认交下本批", _guard(_finish.bind(site, receiver, plan), site)], ["先留在车上", _guard(_close)], ["更改本批草案", _guard(_plan_menu.bind(site), site)]])
 
 func _finish(site: String, receiver: String, expected_plan: String) -> void:
 	if site not in ["heting_scale", "heting_cargo"] or not _at(site) or receiver != (Rules.SCALE if site == "heting_scale" else Rules.GRAIN_BOAT): return
@@ -179,7 +179,7 @@ func _finish(site: String, receiver: String, expected_plan: String) -> void:
 
 func _completion(site: String) -> void:
 	if not _at(site) or host.state.consignee_stage != 5: return
-	_modal("未损先收 · 交接已记", "本批完成 / " + PLAN_NAMES[host.state.consignee_ending], Rules.aftermath(host.state, "receiving_point") + "\n\n本次交接已结算120修为、60文。重看记录或重试保存不再发奖。\n\n平川粮栈是本批当地的收货受益方，杜晦按预结授权提粮；上游授权从何而来仍待追查。不能据此断言全案告破。昨夜安排照旧，旧复签仍可另核。", [["收好交接记录", _guard(_close)], ["重看本批记录", _guard(_record.bind(site), site)]])
+	_modal("未损先收 · 交接已记", "本批完成 / " + PLAN_NAMES[host.state.consignee_ending], Rules.aftermath(host.state, "receiving_point") + "\n\n本次交接已结算120修为、60文。重看记录或重试保存不再发奖。\n\n"+("平川粮栈是本批当地的收货受益方，杜晦按预结授权提粮。后来已发留底核定：梁缜·签令主事须对这组核准与交发负责，仍不代表全案告破。此前分粮安排照旧，旧复签仍可另核。" if host.state.capstone_stage>=3 else "平川粮栈是本批当地的收货受益方，杜晦按预结授权提粮；这组上游授权仍待追查。不能据此断言全案告破。此前分粮安排照旧，旧复签仍可另核。"), [["收好交接记录", _guard(_close)], ["重看本批记录", _guard(_record.bind(site), site)]])
 
 func leave() -> bool:
 	if host.state.consignee_cargo_location != "cart": return false

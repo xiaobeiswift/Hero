@@ -20,6 +20,8 @@ const Islet=preload("res://scripts/reed_islet.gd")
 const Heting=preload("res://scripts/heting_region.gd")
 const Mist=preload("res://scripts/mistwood_region.gd")
 const Frost=preload("res://scripts/frostbridge_region.gd")
+const CapstoneNavigation=preload("res://scripts/volume_one_capstone_navigation.gd")
+const CapstoneRules=preload("res://scripts/volume_one_capstone_rules.gd")
 
 ## Original layered wuxia village with painted architecture and articulated travellers.
 signal interacted(id: String)
@@ -61,6 +63,16 @@ var consignee_observations:Array[String]=[]
 var consignee_draft:String=""
 var consignee_cargo_location:String=""
 var consignee_ending:String=""
+# Read-only projections supplied by main from the canonical capstone model.
+# Orders are fresh Rules.order_rows objects, never a new saved or mutable docket.
+var capstone_stage:int=0
+var capstone_draft:String=""
+var capstone_ending:String=""
+var capstone_goal:Dictionary={}
+var capstone_orders:Array[Dictionary]=[]
+const CAPSTONE_DESK_ID:String="capstone_order_desk"
+const CAPSTONE_DESK_POSITION:Vector2=Vector2(1340,650)
+const CAPSTONE_DESK_APPROACH:Vector2=Vector2(1340,690)
 var _cart_hint_shown:bool=false
 var chapter_stage:int=0
 var chapter_ending:String=""
@@ -202,13 +214,55 @@ func change_map(id: String, spawn: Vector2) -> void:
 	match map_id:
 		"heting":interactables=Heting.points(heting_stage==4,consignee_stage)
 		"mistwood":interactables=Mist.points()
-		"frostbridge":interactables=Frost.points()
-		"sluice":interactables=_sluice_points.duplicate(true)
+		"frostbridge":interactables=Frost.points(capstone_stage)
+		"sluice":interactables=_current_sluice_points()
 		_:interactables=_village_points.duplicate(true)
 	teleport(spawn)
 	current_location = _location_for_position()
 	location_changed.emit(current_location)
 	queue_redraw()
+
+func _current_sluice_points() -> Dictionary:
+	var points:Dictionary=_sluice_points.duplicate(true)
+	if capstone_stage>0:
+		points[CAPSTONE_DESK_ID]={"pos":CAPSTONE_DESK_POSITION,"name":"待发令案","kind":"board"}
+	return points
+
+func refresh_capstone_points() -> void:
+	# Rebuild only the affected point dictionaries. No relocation, topology change,
+	# follower reseed or state writes when a page changes the capstone projection.
+	if map_id=="sluice":interactables=_current_sluice_points()
+	elif map_id=="frostbridge":interactables=Frost.points(capstone_stage)
+	_update_nearby()
+	queue_redraw()
+
+func capstone_navigation() -> Dictionary:
+	return CapstoneNavigation.resolve(capstone_goal,map_id)
+
+func capstone_archive_presentation() -> String:
+	if capstone_stage==3:return "liang"
+	if capstone_stage>=4:return "book_taken"
+	return "legacy"
+
+func capstone_desk_rows() -> Array[Dictionary]:
+	# Defensive detached view: stale or partial projections do not paint a
+	# fabricated fifth order, already-executed future order, or stale old batch.
+	var rows:Array[Dictionary]=[]
+	if capstone_stage<4 or capstone_orders.size()!=CapstoneRules.ORDER_IDS.size():return rows
+	for index:int in CapstoneRules.ORDER_IDS.size():
+		var row:Dictionary=capstone_orders[index]
+		if row.get("id","")!=CapstoneRules.ORDER_IDS[index] or row.get("batch_id","")!=CapstoneRules.BATCH:return []
+		if not row.get("disposition","") in ["pending","cancelled","held","continuing"]:return []
+		rows.append(row.duplicate(true))
+	return rows
+
+func capstone_desk_caption() -> String:
+	var rows:Array[Dictionary]=capstone_desk_rows()
+	if rows.is_empty():return "待核令案 · 尚未取得本班簿"
+	if capstone_stage==4:return "本班四号 · 尚待逐号分类"
+	if capstone_stage==5:return "四号仍待处置 · "+("未拟稿" if capstone_draft.is_empty() else "仅有草案")
+	var labels:Dictionary={"cancelled":"已撤销","held":"暂缓复核","continuing":"循例核验交发"}
+	return "001·002 "+String(labels.get(rows[0].disposition,"待处置"))+" / 003·004 "+String(labels.get(rows[2].disposition,"待处置"))
 
 func heting_cart_loaded() -> bool:
 	# Never alias the new lot into old delivery fields: movement alone is shared.
@@ -275,6 +329,10 @@ func teleport(position: Vector2) -> void:
 	queue_redraw()
 
 func get_npc_name(id: String) -> String:
+	if id==CAPSTONE_DESK_ID and capstone_stage>0:return "待发令案"
+	if id=="chapter_archive":
+		if capstone_stage==3:return "梁缜·签令主事"
+		if capstone_stage>=4:return "霜桥印台·簿已取"
 	if id=="stranded_boatman" and (side_stage>=2 or side_target_id=="ledger_runner"):return "许照川"
 	if has_follower("shen") and id=="healer":return "药铺伙计"
 	if has_follower("tang") and id=="bridge_worker":return "修桥工位"
@@ -987,6 +1045,19 @@ func _interaction_prompt_rect(target:Vector2,text:String="")->Rect2:
 	return best
 
 func interaction_verb(id: String) -> String:
+	if capstone_stage>0:
+		if id==CAPSTONE_DESK_ID:
+			if capstone_stage==4:return "核对四号"
+			if capstone_stage==5:return "核对处置草案"
+			return "查看处置记录" if capstone_stage>=6 else "查看令案"
+		if id=="chapter_archive":
+			if capstone_stage==3:return "与梁缜对质"
+			if capstone_stage==4:return "核对四号"
+			if capstone_stage==5:return "核对草案"
+			if capstone_stage>=6:return "查看留档"
+		if id=="chapter_host" and capstone_stage==1:return "核明旧信"
+		if id=="chapter_clerk" and capstone_stage==2:return "核对已发留底"
+		if id=="elder" and capstone_stage==6:return "报告四号处置"
 	# These verbs describe the sheet opened by E; delivery still needs its choice.
 	if heting_stage==4 and id=="consignee_warehouse":
 		return ["问北仓封粮","核验封粮","前往对质","提取粮车","查看提货位","查看交接记录"][clampi(consignee_stage,0,5)]
@@ -1026,6 +1097,7 @@ func interaction_verb(id: String) -> String:
 func _draw_nameplates() -> void:
 	var visible_ids: Array = ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"] if map_id=="frostbridge" else (["stranded_boatman", "ledger_runner", "sluice_boss"] if map_id == "sluice" else ["elder", "healer", "bandit", "mentor"])
 	if map_id=="qingwei":visible_ids.append("courtyard_practice")
+	if map_id=="sluice" and interactables.has(CAPSTONE_DESK_ID):visible_ids.append(CAPSTONE_DESK_ID)
 	if map_id=="mistwood":visible_ids=["mist_guide","mist_scout","mist_gate"]
 	if map_id=="heting":
 		visible_ids=["heting_dispatch","heting_relief","heting_scale"]
@@ -1035,16 +1107,19 @@ func _draw_nameplates() -> void:
 		var selected := nearby_id == id
 		if selected:
 			_ellipse_arc(p + Vector2(0, 1), Vector2(21, 8), Color("ecd298"))
-		var width := 116.0 if map_id=="heting" else 80.0
+		var width := 116.0 if map_id=="heting" or (id=="chapter_archive" and capstone_stage>=3) else 80.0
 		var display_name: String = get_npc_name(id)
 		var name_y=-83.0 if id=="mist_guide" else (-78.0 if not _painted_npc_role(id).is_empty() else -57.0)
+		if id=="chapter_archive" and capstone_stage==3:name_y=-83.0
+		if id==CAPSTONE_DESK_ID:name_y=-104.0
 		draw_style_box(_round_box(Color(0.08,0.18,0.17,0.80),3),Rect2(p+Vector2(-width*0.5,name_y-15),Vector2(width,20)))
 		_label(p+Vector2(-width*0.5,name_y),display_name,13,Color("f0e5c3"),width,HORIZONTAL_ALIGNMENT_CENTER,true)
 	var target_id := _quest_target_id()
 	if not target_id.is_empty():
 		var target_p: Vector2 = interactables[target_id]["pos"]
 		var yy := (-47.0 if target_id in ["herb", "exit_sluice", "return_village", "sluice_cache", "exit_frostbridge", "return_sluice"] else -73.0) + sin(time_passed * 2.5) * 3
-		if not _painted_npc_role(target_id).is_empty():yy=-107.0+sin(time_passed*2.5)*3
+		if not _painted_npc_role(target_id).is_empty() or (target_id=="chapter_archive" and capstone_stage==3):yy=-107.0+sin(time_passed*2.5)*3
+		if target_id==CAPSTONE_DESK_ID:yy=-132.0+sin(time_passed*2.5)*3
 		_poly([target_p + Vector2(0, yy - 7), target_p + Vector2(6, yy), target_p + Vector2(0, yy + 7), target_p + Vector2(-6, yy)], C_GOLD)
 		draw_line(target_p + Vector2(0, yy - 3), target_p + Vector2(0, yy + 1), C_INK, 1.4)
 	if not nearby_id.is_empty() and active:
@@ -1118,6 +1193,8 @@ func _draw_view_framing() -> void:
 	draw_set_transform(Vector2.ZERO)
 
 func _quest_target_id() -> String:
+	var capstone_target:String=CapstoneNavigation.target_id(capstone_goal,map_id)
+	if interactables.has(capstone_target):return capstone_target
 	var harbor_target=heting_marker_id(heting_target_id)
 	if interactables.has(harbor_target):return harbor_target
 	if interactables.has(shen_target_id):return shen_target_id
@@ -1209,12 +1286,14 @@ func _draw_sluice() -> void:
 		layers.append({"y": tree["pos"].y, "kind": "tree", "data": tree})
 	for id: String in ["stranded_boatman", "ledger_runner", "sluice_boss"]:
 		layers.append({"y": interactables[id]["pos"].y, "kind": "npc", "id": id})
+	if interactables.has(CAPSTONE_DESK_ID):layers.append({"y":CAPSTONE_DESK_POSITION.y,"kind":"capstone_desk"})
 	layers.append({"y": player_pos.y, "kind": "player"})
 	append_follower_layers(layers)
 	for index:int in layers.size():layers[index]["draw_order"]=index
 	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] if a["y"] != b["y"] else a["draw_order"] < b["draw_order"])
 	for item in layers:
 		match item["kind"]:
+			"capstone_desk": _draw_capstone_desk(CAPSTONE_DESK_POSITION)
 			"ruin": _draw_ruined_storehouse(item["data"])
 			"tree": _draw_tree(item["data"])
 			"npc":
@@ -1239,6 +1318,37 @@ func _draw_sluice() -> void:
 	_draw_nameplates()
 	draw_set_transform(Vector2.ZERO)
 	_draw_view_framing()
+
+func _capstone_prop_opacity(p:Vector2,bounds:Rect2) -> float:
+	for actor:Vector2 in exploration_actor_positions():
+		if actor.y<p.y and bounds.intersects(Rect2(actor-Vector2(16,60),Vector2(32,64))):return .42
+	return 1.0
+
+func _draw_capstone_desk(p:Vector2) -> void:
+	# Exactly four independently numbered authored sheets, only after book access.
+	# This is a low walk-through prop, not a new obstacle or pickup container.
+	var opacity:float=_capstone_prop_opacity(p,Rect2(p-Vector2(58,48),Vector2(116,52)))
+	_ellipse(p+Vector2(0,3),Vector2(60,12),Color(.06,.13,.10,.23*opacity))
+	for x:int in [-46,46]:draw_rect(Rect2(p+Vector2(x-3,-17),Vector2(6,21)),_faded(Color("544e3b"),opacity))
+	draw_style_box(_round_box(_faded(Color("554f3a"),opacity),3),Rect2(p-Vector2(59,47),Vector2(118,35)))
+	draw_rect(Rect2(p-Vector2(57,45),Vector2(114,31)),_faded(Color("aa9368"),opacity))
+	var rows:Array[Dictionary]=capstone_desk_rows()
+	var short_labels:Dictionary={"pending":"待","cancelled":"撤","held":"缓","continuing":"续"}
+	var inks:Dictionary={"pending":Color("374d45"),"cancelled":Color("763a36"),"held":Color("634c23"),"continuing":Color("285952")}
+	for index:int in rows.size():
+		var sheet:=Rect2(p+Vector2(-52+index*27,-43),Vector2(24,27))
+		var disposition:String=rows[index].disposition
+		draw_rect(sheet,_faded(Color("f2e7c8"),opacity))
+		draw_rect(sheet,_faded(Color("6f684d"),opacity),false,1)
+		_label(sheet.position+Vector2(0,10),"%03d"%(index+1),9,_faded(Color("233b34"),opacity),24,HORIZONTAL_ALIGNMENT_CENTER)
+		_label(sheet.position+Vector2(0,23),short_labels[disposition],12,_faded(inks[disposition],opacity),24,HORIZONTAL_ALIGNMENT_CENTER)
+	# Semantic, high-contrast local caption avoids relying on stamp colors.
+	var caption:String=capstone_desk_caption()
+	var font:Font=ui_font if ui_font!=null else ThemeDB.fallback_font
+	var width:float=maxf(164,font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x+16)
+	var plate:=Rect2(p+Vector2(-width*.5,-88),Vector2(width,21))
+	draw_style_box(_round_box(_faded(Color("243e36"),opacity),3),plate)
+	_label(plate.position+Vector2(0,15),caption,11,_faded(Color("f4e9ca"),opacity),width,HORIZONTAL_ALIGNMENT_CENTER)
 
 func _sluice_path(points: Array[Vector2], width: float) -> void:
 	draw_polyline(PackedVector2Array(points), Color("6d8273"), width + 9, true)

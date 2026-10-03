@@ -13,13 +13,14 @@ const Tang = preload("res://scripts/painted_battle_tang.gd")
 const Qin = preload("res://scripts/painted_battle_qin.gd")
 const Rival = preload("res://scripts/painted_battle_puheng.gd")
 const DuHui = preload("res://scripts/painted_battle_duhui.gd")
+const Liang = preload("res://scripts/painted_battle_liang.gd")
 const Rigs = preload("res://scripts/courtyard_training_rigs.gd")
 const RIG_SCALE = 1.35
 const Scenery = preload("res://scripts/party_battle_backdrop.gd")
 const FONT = preload("res://assets/fonts/NotoSansSC.otf")
-const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "sect_trial", "du_hui", "consignee_guard"]
-const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0, "du_hui": 236.0, "consignee_guard": 290.0}
-const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580), "archive_boss":Vector2(865,580), "mist_scout":Vector2(865,580), "mist_keeper":Vector2(865,580), "sect_trial":Vector2(865,580), "du_hui":Vector2(1045,460), "consignee_guard":Vector2(865,580)}
+const IDS = ["hero", "shen", "tang", "qin", "puheng", "striker", "bracer", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "sect_trial", "du_hui", "consignee_guard", "liang_zhen"]
+const CELL_SIZE = {"hero": 290.0, "shen": 235.0, "tang": 235.0, "qin": 230.0, "puheng": 300.0, "bracer": 300.0, "striker": 290.0, "du_hui": 236.0, "consignee_guard": 290.0, "liang_zhen": Liang.DEFAULT_CELL_SIZE}
+const ENEMY_FEET = {"puheng": Vector2(865,580), "bracer": Vector2(865,580), "striker": Vector2(1045,460), "sluice_scout":Vector2(865,580), "sluice_boss":Vector2(865,580), "archive_boss":Vector2(865,580), "mist_scout":Vector2(865,580), "mist_keeper":Vector2(865,580), "sect_trial":Vector2(865,580), "du_hui":Vector2(1045,460), "consignee_guard":Vector2(865,580), "liang_zhen":Vector2(865,580)}
 const ENEMY_TINTS = {"bracer":Color(.70,.88,.91), "striker":Color(1,.88,.76), "sluice_scout":Color(.67,.73,.79), "sluice_boss":Color(.91,.77,.65), "archive_boss":Color(.77,.79,.94), "mist_scout":Color(.72,.89,.76), "mist_keeper":Color(.57,.77,.66), "sect_trial":Color(.92,.78,.86), "consignee_guard":Color(.73,.79,.77)}
 const QIN_CHEST = {"idle":Vector2(245,210),"strike":Vector2(775,233),"protect":Vector2(1290,239),"hurt":Vector2(258,711),"down":Vector2(815,837),"recover":Vector2(1312,767)}
 const ACTION_DURATION = .86
@@ -91,7 +92,7 @@ func _ready() -> void:
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_floor = _make_floor()
-	for atlas in [Hero, Shen, Tang, Rival, DuHui]:
+	for atlas in [Hero, Shen, Tang, Rival, DuHui, Liang]:
 		for pose: String in atlas.POSES: atlas.texture_for(pose)
 	for pose: String in Qin.SOURCE_RECTS: Qin.texture_for(pose)
 	Rigs.texture_for("timber"); Rigs.texture_for("hemp")
@@ -404,7 +405,7 @@ func actor_visual_pose(id: String) -> String:
 	if id == "qin": return _qin_pose(unit,segment,t)
 	var hit: bool = not segment.is_empty() and segment.target_id == id and _has_event(segment, "damage") and t >= CONTACT_AT and t < .54
 	if int(unit.hp) <= 0 and not hit: return "down" if id in ["shen","tang"] else "kneel"
-	if hit: return "cover" if id in ["shen","tang"] else ("guard" if bool(unit.get("status", {}).get("guard", false)) or (id in ["du_hui","consignee_guard"] and bool(unit.get("brace",false))) or _has_event(segment,"barrier_absorb") or _has_event(segment,"lightness_absorb") else "hurt")
+	if hit: return "cover" if id in ["shen","tang"] else ("guard" if bool(unit.get("status", {}).get("guard", false)) or (id in ["du_hui","consignee_guard","liang_zhen"] and bool(unit.get("brace",false))) or _has_event(segment,"barrier_absorb") or _has_event(segment,"lightness_absorb") else "hurt")
 	if int(unit.hp) <= 0: return "down" if id in ["shen","tang"] else "kneel"
 	if not segment.is_empty() and segment.source_id == id and t >= .02 and t < .63:
 		if String(segment.action_id) in ["guard","enemy:protect"]: return "cover" if id in ["shen","tang"] else "guard"
@@ -418,7 +419,7 @@ func actor_visual_pose(id: String) -> String:
 			if id in ["shen","tang"]: return "assist" if t >= .14 else "cover"
 			return "windup" if t < .27 else "strike"
 	if bool(unit.get("status", {}).get("guard", false)): return "cover" if id in ["shen","tang"] else "guard"
-	if id in ["du_hui","consignee_guard"] and bool(unit.get("brace",false)): return "guard"
+	if id in ["du_hui","consignee_guard","liang_zhen"] and bool(unit.get("brace",false)): return "guard"
 	# brace belongs to the protected recipient. Only this unit's protect intent
 	# justifies a guarding pose while waiting; Pu Heng retains his original art.
 	for intent: Dictionary in _display.get("enemy_intents", []):
@@ -488,6 +489,7 @@ func rig_projectile_tip(id: String) -> Vector2:
 	return start.lerp(target_anchor(segment.target_id),progress)+Vector2(0,-sin(progress*PI)*22)
 
 func _weapon_offset(id: String) -> Vector2:
+	if id == "liang_zhen": return Liang.weapon_point(Vector2.ZERO,CELL_SIZE.liang_zhen,"strike")
 	if id == "du_hui": return DuHui.weapon_point(Vector2.ZERO,CELL_SIZE.du_hui,"strike")
 	if id == "qin": return Qin.weapon_point(Vector2.ZERO,CELL_SIZE.qin,"strike")
 	return (Vector2(WEAPON[_kind(id)]) - _source_foot(id)) * _scale(id)
@@ -497,6 +499,7 @@ func _kind(id: String) -> String: return id if _is_ally(id) else "rival"
 func _scale(id: String) -> float: return float(CELL_SIZE.get(id,290.0)) / 512.0
 func _source_foot(id: String) -> Vector2: return Hero.FOOT if _is_ally(id) else Rival.FOOT
 func actor_rect(id: String) -> Rect2:
+	if id == "liang_zhen": return Liang.drawing_rect(actor_foot(id),CELL_SIZE.liang_zhen,actor_visual_pose(id))
 	if id == "du_hui": return DuHui.drawing_rect(actor_foot(id),CELL_SIZE.du_hui,actor_visual_pose(id))
 	if is_practice_rig(id): return _rig_transform(id) * Rigs.drawing_rect(Vector2.ZERO,id,rig_pose(id),_clock)
 	if id == "qin": return Qin.drawing_rect(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
@@ -506,6 +509,7 @@ func _down_transform(id: String) -> Transform2D:
 	return Transform2D(PI * .5, Vector2(.38,1), 0.0, actor_foot(id) + Vector2(-87,-28))
 
 func actor_alpha_rect(id: String) -> Rect2:
+	if id == "liang_zhen": return Liang.opaque_rect(actor_foot(id),CELL_SIZE.liang_zhen,actor_visual_pose(id))
 	if id == "du_hui": return DuHui.opaque_rect(actor_foot(id),CELL_SIZE.du_hui,actor_visual_pose(id))
 	if is_practice_rig(id): return actor_rect(id)
 	if id == "qin": return Qin.opaque_rect(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
@@ -518,6 +522,7 @@ func actor_alpha_rect(id: String) -> Rect2:
 	return Rect2(actor_rect(id).position + bounds.position * _scale(id), bounds.size * _scale(id))
 
 func target_anchor(id: String) -> Vector2:
+	if id == "liang_zhen": return Liang.chest_point(actor_foot(id),CELL_SIZE.liang_zhen,actor_visual_pose(id))
 	if id == "du_hui": return DuHui.chest_point(actor_foot(id),CELL_SIZE.du_hui,actor_visual_pose(id))
 	if id.is_empty() or not IDS.has(id): return Vector2.ZERO
 	if is_practice_rig(id): return _rig_transform(id) * Rigs.target_anchor(Vector2.ZERO,id,rig_pose(id),_clock)
@@ -527,6 +532,7 @@ func target_anchor(id: String) -> Vector2:
 	return actor_rect(id).position + Vector2(CHEST[_kind(id)][pose]) * _scale(id)
 
 func blade_tip(id: String) -> Vector2:
+	if id == "liang_zhen": return Liang.weapon_point(actor_foot(id),CELL_SIZE.liang_zhen,actor_visual_pose(id))
 	if id == "du_hui": return DuHui.weapon_point(actor_foot(id),CELL_SIZE.du_hui,actor_visual_pose(id))
 	if is_practice_rig(id): return rig_weapon_anchor(id)
 	if id == "qin": return Qin.weapon_point(actor_foot(id),CELL_SIZE.qin,actor_visual_pose(id))
@@ -535,7 +541,7 @@ func blade_tip(id: String) -> Vector2:
 func unit_label_rect(id: String) -> Rect2:
 	var bounds: Rect2 = actor_alpha_rect(id)
 	var extra_status: bool = not _is_ally(id) and int(_unit(_display,id).get("status",{}).get("weaken_strikes",0)) > 0
-	var extent: Vector2 = Vector2(126,34) if _is_ally(id) else Vector2(216 if id == "du_hui" else 156,62 if extra_status or id in ["du_hui","consignee_guard"] else 46)
+	var extent: Vector2 = Vector2(126,34) if _is_ally(id) else Vector2(216 if id in ["du_hui","liang_zhen"] else 156,62 if extra_status or id in ["du_hui","consignee_guard","liang_zhen"] else 46)
 	var x: float = clampf(actor_foot(id).x - extent.x * .5, 8.0, 1272.0 - extent.x)
 	var base: Rect2 = Rect2(Vector2(x,maxf(70.0,bounds.position.y-extent.y-9)),extent)
 	for shift: float in [0,24,-24,48,-48,72,-72,96,-96]:
@@ -612,6 +618,10 @@ func _draw() -> void:
 	if _presenting: _draw_effects()
 
 func _draw_actor(id: String) -> void:
+	if id == "liang_zhen":
+		var frame: AtlasTexture = Liang.texture_for(actor_visual_pose(id))
+		if frame != null: draw_texture_rect(frame,actor_rect(id),false,Color(1,1,1,.78 if int(_unit(_display,id).get("hp",0)) <= 0 else 1.0))
+		return
 	if id == "du_hui":
 		var frame: AtlasTexture = DuHui.texture_for(actor_visual_pose(id))
 		if frame != null: draw_texture_rect(frame,actor_rect(id),false,Color(1,1,1,.78 if int(_unit(_display,id).get("hp",0)) <= 0 else 1.0))

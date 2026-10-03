@@ -18,6 +18,8 @@ const ENCOUNTER_STYLES = {
 	"courtyard_practice": "courtyard",
 	"heting_consignee": "warehouse",
 }
+const CAPSTONE_ENCOUNTER = "capstone_authorizer"
+const ARCHIVE_PLAQUE = "霜桥印台"
 const FIELD = Rect2(0, 0, 1280, 685)
 const APRON = Rect2(0, 278, 1280, 407)
 # Keep the original hall's steps behind y=320, with the left party silhouettes
@@ -91,10 +93,11 @@ static func _prepare_warehouse() -> void:
 	_warehouse_apron_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
 
 static func style_for(encounter_id: String) -> String:
+	if encounter_id == CAPSTONE_ENCOUNTER: return "archive"
 	return String(ENCOUNTER_STYLES.get(encounter_id, "ferry"))
 
 static func floor_texture_for(encounter_id: String) -> Texture2D:
-	return EARTH if style_for(encounter_id) in ["courtyard","warehouse"] else WOOD
+	return EARTH if style_for(encounter_id) in ["courtyard","warehouse","archive"] else WOOD
 
 static func prepare() -> void:
 	if _prepared: return
@@ -120,7 +123,9 @@ static func _willow_rect(foot: Vector2, scale_factor: float) -> Rect2:
 
 static func draw(canvas: CanvasItem, floor_mesh: ArrayMesh, encounter_id: String, clock: float) -> void:
 	prepare()
-	if style_for(encounter_id) == "warehouse":
+	if style_for(encounter_id) == "archive":
+		_draw_warehouse(canvas, floor_mesh, ARCHIVE_PLAQUE)
+	elif style_for(encounter_id) == "warehouse":
 		_draw_warehouse(canvas, floor_mesh)
 	elif style_for(encounter_id) == "courtyard":
 		_draw_courtyard(canvas, floor_mesh)
@@ -167,7 +172,7 @@ static func _draw_ferry(canvas: CanvasItem, floor_mesh: ArrayMesh, clock: float)
 	for foot: Vector2 in [Vector2(115,337),Vector2(1165,337)]:
 		canvas.draw_set_transform(foot,0,Vector2.ONE*2.05); Lantern.draw(canvas,Vector2.ZERO,clock); canvas.draw_set_transform(Vector2.ZERO)
 
-static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh) -> void:
+static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh, plaque: String = "北 仓 交 割") -> void:
 	# Reuse the actual harbor warehouse's original hall art, earth and deck.
 	# All combat floor geometry/feet remain the shared controller's coordinates.
 	canvas.draw_polygon(_warehouse_sky_points, _warehouse_sky_colors)
@@ -178,7 +183,7 @@ static func _draw_warehouse(canvas: CanvasItem, floor_mesh: ArrayMesh) -> void:
 		canvas.draw_mesh(floor_mesh,EARTH,Transform2D.IDENTITY,Color(1,1,1,.54))
 	if _hall_texture:
 		canvas.draw_texture_rect(_hall_texture,_warehouse_rect,false,Color(.93,.94,.85))
-		canvas.draw_string(FONT,_warehouse_plaque.position+Vector2(0,_warehouse_plaque.size.y*.79),"北 仓 交 割",HORIZONTAL_ALIGNMENT_CENTER,_warehouse_plaque.size.x,15,Color("e7d8b5"))
+		canvas.draw_string(FONT,_warehouse_plaque.position+Vector2(0,_warehouse_plaque.size.y*.79),plaque,HORIZONTAL_ALIGNMENT_CENTER,_warehouse_plaque.size.x,15,Color("e7d8b5"))
 	# Bound papers and low loading boards identify a working store, not a hall.
 	for x: float in [610,1142]:
 		canvas.draw_rect(Rect2(x,249,54,40),Color("635e47"))

@@ -152,7 +152,7 @@ static func plan_description(plan: String) -> String:
 static func method_description(method: String) -> String:
 	match method:
 		"solo": return "自己逐项核对，不需同伴、材料或额外本领。"
-		"tang_teach": return "唐栖按曾教给船工的抄录次序逐项复读，与你核对已发册和分存抄件；不凭手艺辨认笔迹。"
+		"tang_teach": return "唐栖沿工册传抄时逐项复核的做法，与你并读已发册和分存抄件；不凭手艺辨认笔迹。"
 		"tang_preserve": return "唐栖沿用保留原页的做法，另纸标注改处，与你核对已发册和分存抄件。"
 		"qin_timing": return "秦禾依轮值核时经历，与你并看原读数、核收与签发时刻；旧职衔本身不作定责凭据。"
 		"shen_shore": return "沈青依留岸照护安排，与你列明未核事项留所等候和循例交发的差别，不添病人姓名或伤情。"
@@ -209,7 +209,7 @@ static func journal(s) -> String:
 		lines.append("沿用原已公开账页逐号归档，不宣称先前公开已撤回。" if s.chapter_two_ending == "open_records" else "只用货号、时刻和脱敏抄件互校，继续封存证人及带信往来身份。")
 		lines.append("鹤汀完整封样仍在当地共同留验，没有移到霜桥。" if s.consignee_ending == "hold_for_inspection" else "鹤汀两篓已返还，使用当时实查、划止及返还记录，不复原封样或重新扣粮。")
 		if s.receipt_stage == 3: lines.append("已并看的旧复称副签仅作原先两担的旁证，不替代两篓实查或四号新令核对。")
-		lines.append("移交时刻取自短渡轮值记录，昨夜分粮安排不改。" if s.heting_ending == "short_ferries" else "移交时刻取自公秤轮值记录，昨夜分粮安排不改。")
+		lines.append("移交时刻取自短渡轮值记录，此前分粮安排不改。" if s.heting_ending == "short_ferries" else "移交时刻取自公秤轮值记录，此前分粮安排不改。")
 	if s.capstone_stage >= 4:
 		lines.append("交锋后取得另一件本班未发令簿，只有四号新待发令；此前已发册定责不依赖这本战后取得的簿。胜利未发终章奖励，也未自动分类或处置。")
 	if s.capstone_stage >= 5:

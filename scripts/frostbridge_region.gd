@@ -1,5 +1,6 @@
 class_name FrostbridgeRegion
 extends RefCounted
+const Liang=preload("res://scripts/painted_battle_liang.gd")
 ## Region III: an original winter post town. Pure geometry/data, no scene mutation.
 const BUILDINGS=[
 	{"pos":Vector2(290,205),"size":Vector2(248,110),"name":"霜 桥 驿 馆","type":"inn"},
@@ -7,8 +8,8 @@ const BUILDINGS=[
 	{"pos":Vector2(1160,565),"size":Vector2(250,132),"name":"封 仓 印 台","type":"hall"},
 ]
 const TREES=[Vector2(155,230),Vector2(220,390),Vector2(185,725),Vector2(484,855),Vector2(585,530),Vector2(652,190),Vector2(975,210),Vector2(1432,268),Vector2(1490,538),Vector2(1040,955),Vector2(1350,905)]
-static func points() -> Dictionary:
-	return {
+static func points(capstone_stage:int=0) -> Dictionary:
+	var result:Dictionary={
 		"exit_mistwood":{"pos":Vector2(1450,200),"name":"雾竹坡古道","kind":"exit"},
 		"return_sluice":{"pos":Vector2(140,500),"name":"返回废闸","kind":"exit"},
 		"chapter_host":{"pos":Vector2(405,365),"name":"温行舟","kind":"elder"},
@@ -20,6 +21,11 @@ static func points() -> Dictionary:
 		"frost_timber":{"pos":Vector2(335,805),"name":"散落木料","kind":"resource"},
 		"frost_herb":{"pos":Vector2(1400,425),"name":"耐寒药草","kind":"resource"},
 	}
+	if capstone_stage==3:result.chapter_archive.name="梁缜·签令主事"
+	elif capstone_stage>=4:
+		result.chapter_archive.name="霜桥印台·簿已取"
+		result.chapter_archive.kind="board"
+	return result
 static func walkable(p:Vector2,repaired:bool) -> bool:
 	if not p.is_finite() or p.x<30 or p.x>1570 or p.y<155 or p.y>1015:return false
 	for b in BUILDINGS:
@@ -58,6 +64,7 @@ static func draw(w) -> void:
 	for t in TREES:layers.append({"y":t.y,"kind":"tree","p":t})
 	for id in ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"]:layers.append({"y":w.interactables[id].pos.y,"kind":"npc","id":id})
 	for id in ["frost_ore","frost_timber","frost_herb"]:layers.append({"y":w.interactables[id].pos.y,"kind":"resource","id":id})
+	if w.capstone_stage>=2:layers.append({"y":w.interactables.chapter_clerk.pos.y+4,"kind":"issued_ledger","p":w.interactables.chapter_clerk.pos+Vector2(32,4)})
 	layers.append({"y":w.player_pos.y,"kind":"player"})
 	w.append_follower_layers(layers)
 	# Preserve insertion order when feet and scenery share a y coordinate.
@@ -67,7 +74,12 @@ static func draw(w) -> void:
 		match layer.kind:
 			"building":w._draw_building(layer.data)
 			"tree":_pine(w,layer.p)
+			"issued_ledger":_issued_ledger(w,layer.p)
 			"npc":
+				if layer.id=="chapter_archive" and w.capstone_archive_presentation()!="legacy":
+					if w.capstone_archive_presentation()=="liang":_liang(w,w.interactables.chapter_archive.pos)
+					else:_archive_aftermath(w,w.interactables.chapter_archive.pos)
+					continue
 				var colors={"chapter_host":Color("977c5e"),"chapter_clerk":Color("b5c5ad"),"chapter_archive":Color("8d665e"),"bridge_worker":Color("81947d")}
 				if layer.id=="bridge_worker" and w.has_follower("tang"):
 					w.draw_rect(Rect2(w.interactables[layer.id].pos-Vector2(20,15),Vector2(40,16)),Color("796b50"))
@@ -119,3 +131,26 @@ static func _resource(w,id:String,p:Vector2,depleted:bool) -> void:
 
 static func _poly(w,points:Array,color:Color) -> void:
 	w.draw_colored_polygon(PackedVector2Array(points),color)
+
+static func _liang(w,p:Vector2) -> void:
+	w._ellipse(p+Vector2(0,2),Vector2(18,6),Color(.08,.15,.14,.25))
+	Liang.draw(w,p,{},1.0,Liang.NPC_CELL_SIZE)
+
+static func _issued_ledger(w,p:Vector2) -> void:
+	# Attached to Ji's existing interaction, never a competing pickup/NPC.
+	var opacity:float=w._capstone_prop_opacity(p,Rect2(p-Vector2(18,23),Vector2(36,28)))
+	w.draw_rect(Rect2(p-Vector2(18,17),Vector2(36,20)),w._faded(Color("665c43"),opacity))
+	w.draw_rect(Rect2(p-Vector2(13,21),Vector2(27,15)),w._faded(Color("ede1bb"),opacity))
+	w.draw_line(p+Vector2(0,-20),p+Vector2(0,-7),w._faded(Color("8a7956"),opacity),1)
+	for offset:int in [-9,4]:
+		for line:int in range(3):w.draw_line(p+Vector2(offset,-17+line*4),p+Vector2(offset+6,-17+line*4),w._faded(Color("4f6153"),opacity),1)
+
+static func _archive_aftermath(w,p:Vector2) -> void:
+	# The book has been taken, so neither Han nor Liang nor a duplicate book is
+	# drawn. The empty stand and receipt mark the existing interaction site.
+	var opacity:float=w._capstone_prop_opacity(p,Rect2(p-Vector2(32,31),Vector2(64,36)))
+	w._ellipse(p+Vector2(0,3),Vector2(36,10),Color(.06,.13,.11,.19*opacity))
+	for x:int in [-24,24]:w.draw_rect(Rect2(p+Vector2(x-3,-19),Vector2(6,23)),w._faded(Color("675943"),opacity))
+	w.draw_rect(Rect2(p-Vector2(34,31),Vector2(68,16)),w._faded(Color("8e805b"),opacity))
+	w.draw_rect(Rect2(p-Vector2(19,33),Vector2(38,13)),w._faded(Color("e8dcb8"),opacity))
+	w._label(p+Vector2(-19,-23),"簿已取",9,w._faded(Color("314a3f"),opacity),38,HORIZONTAL_ALIGNMENT_CENTER)

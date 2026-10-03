@@ -59,8 +59,8 @@ func open() -> void:
 
 
 func _offer() -> void:
-	var last_night: String = "昨夜两名埠工随短渡分粮，秤棚没有夜班。施衡照约在次晨开秤，才来核对白日留下的副签。" if host.state.heting_ending == "short_ferries" else "昨夜两名埠工守秤，共同存粮也照章记下。次晨换班，施衡把白日的副签拿出来续核；远泊的短渡仍待接着安排。"
-	_modal("鹤汀余事 / 可选 · 次晨复核", last_night + "\n\n“昨夜怎样分粮，照原议的办。这张复称签，也不能因换了一班人就撤。”\n\n两名受雇刀手截住了送签的人，把副签扣在秤棚外。他们要施衡撤下实交记录，免得假水损票与那笔预结粮钱留下可核的来路。\n\n这是一件可选余事，随时可先离开。接下只记委托，不立刻开战；两岸原定安排与第四章奖励不变。", [["接下取签之事", _guard(_accept)], ["先不接下", _guard(_close, false)]])
+	var last_night: String = "此前两名埠工随短渡分粮，秤棚没有夜班。施衡照约在交割后的次晨开秤，此后仍待核对白日留下的副签。" if host.state.heting_ending == "short_ferries" else "此前两名埠工守秤，共同存粮也照章记下。交割后的次晨已换过轮值，施衡仍要续核白日的副签；远泊的短渡照原议接续。"
+	_modal("鹤汀余事 / 可选 · 交割后的复核", last_night + "\n\n“此前怎样分粮，照原议的办。这张复称签，也不能因换了一班人就撤。”\n\n两名受雇刀手截住了送签的人，把副签扣在秤棚外。他们要施衡撤下实交记录，免得假水损票与那笔预结粮钱留下可核的来路。\n\n这是一件可选余事，随时可先离开。接下只记委托，不立刻开战；两岸原定安排与第四章奖励不变。", [["接下取签之事", _guard(_accept)], ["先不接下", _guard(_close, false)]])
 
 
 func _accept() -> void:
@@ -130,7 +130,7 @@ func _compare() -> void:
 func _record() -> void:
 	if not _at_scale() or host.state.receipt_stage != 3:
 		return
-	var body: String = Receipt.journal(host.state) + "\n\n“能认下这两担，就把这两担记住。不拿它替整船、替所有人作保。”\n\n复核已写进行纪。短渡与守秤各自照顾的难处仍在，昨夜的安排照旧；回访只重看记录。"
+	var body: String = Receipt.journal(host.state) + "\n\n“能认下这两担，就把这两担记住。不拿它替整船、替所有人作保。”\n\n复核已写进行纪。短渡与守秤各自照顾的难处仍在，此前的安排照旧；回访只重看记录。"
 	var options: Array = [["收好记录", _guard(_close, false)]]
 	if host.save_warning:
 		body += "\n\n本次记录尚未存妥，当前进度仍保留。重试只补存这份结果，不重复核签或发奖。"
@@ -162,13 +162,13 @@ func after_battle(summary: Dictionary) -> void:
 		"flee":
 			if host.state.receipt_stage != 1:
 				return
-			body = "你退回秤棚一侧，副签仍待取回。已经出招、用药的消耗照实保留，撤退不另扣钱，也没有发放奖励。\n\n" + _resources() + "\n可以先去西岸粥棚免费调息，之后再到施衡处应战；昨夜的分粮安排照旧。"
+			body = "你退回秤棚一侧，副签仍待取回。已经出招、用药的消耗照实保留，撤退不另扣钱，也没有发放奖励。\n\n" + _resources() + "\n可以先去西岸粥棚免费调息，之后再到施衡处应战；此前的分粮安排照旧。"
 			options.append(["先回埠内", _guard(_close, false)])
 		"defeat":
 			if host.state.receipt_stage != 1:
 				return
 			body = "埠工将你送回西岸粥棚。败退时遗落了%d文；照应后气血已恢复，真气至少留2点，用掉的回春散没有返还。\n\n" % maxi(0, -int(summary.get("coin_change", 0)))
-			body += _resources() + "\n副签仍待取回，没有发放胜利奖励。棚下可继续免费调息；准备好后回东岸找施衡即可，接下的委托与昨夜安排都还在。"
+			body += _resources() + "\n副签仍待取回，没有发放胜利奖励。棚下可继续免费调息；准备好后回东岸找施衡即可，接下的委托与此前安排都还在。"
 			options.append(["在西岸歇脚", _guard(_close, false)])
 		_:
 			return

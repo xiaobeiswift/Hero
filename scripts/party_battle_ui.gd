@@ -3,8 +3,8 @@ extends Control
 const Arena = preload("res://scripts/party_battle_art.gd")
 const Commands = preload("res://scripts/party_category_hud.gd")
 const Pause = preload("res://scripts/pause_menu.gd")
-const ENCOUNTER_TITLES = {"story":"渡口问剑", "training":"旧友切磋", "heting_receipt":"复签不撤", "heting_consignee":"未损先收", "sluice_scout":"半页水令", "sluice_boss":"逆水而行", "archive_boss":"封仓问剑", "mist_scout":"竹坡问路", "mist_keeper":"听雨辨令", "sect_trial":"门中验艺", "courtyard_practice":"南庭演练"}
-const ENCOUNTER_LOCATIONS = {"story":"青苇渡 · 蒲横", "training":"青苇渡 · 蒲横", "heting_receipt":"公秤外栈桥 · 实战", "heting_consignee":"北仓提货位 · 杜晦", "sluice_scout":"废闸栈道 · 截住传令", "sluice_boss":"旧闸栈台 · 罗沉", "archive_boss":"霜桥仓台 · 韩砚", "mist_scout":"雾竹坡 · 巡坡斥候", "mist_keeper":"听雨关 · 守令使", "sect_trial":"练武堂 · 岑远", "courtyard_practice":"练武堂 · 虚拟资源"}
+const ENCOUNTER_TITLES = {"story":"渡口问剑", "training":"旧友切磋", "heting_receipt":"复签不撤", "heting_consignee":"未损先收", "capstone_authorizer":"截令归灯", "sluice_scout":"半页水令", "sluice_boss":"逆水而行", "archive_boss":"封仓问剑", "mist_scout":"竹坡问路", "mist_keeper":"听雨辨令", "sect_trial":"门中验艺", "courtyard_practice":"南庭演练"}
+const ENCOUNTER_LOCATIONS = {"story":"青苇渡 · 蒲横", "training":"青苇渡 · 蒲横", "heting_receipt":"公秤外栈桥 · 实战", "heting_consignee":"北仓提货位 · 杜晦", "capstone_authorizer":"霜桥印台 · 梁缜", "sluice_scout":"废闸栈道 · 截住传令", "sluice_boss":"旧闸栈台 · 罗沉", "archive_boss":"霜桥仓台 · 韩砚", "mist_scout":"雾竹坡 · 巡坡斥候", "mist_keeper":"听雨关 · 守令使", "sect_trial":"练武堂 · 岑远", "courtyard_practice":"练武堂 · 虚拟资源"}
 var host
 var generation: int
 var epoch: int
@@ -59,10 +59,11 @@ class UnitPlate extends Button:
 
 static func open(owner, kind: String) -> Control:
 	# A known model is not a ready scene until its original art/title is integrated.
-	# Reject before autosave or model entry; phase-one capstone stays model-only.
+	# Reject unknown registrations before autosave or model entry.
 	if not ENCOUNTER_TITLES.has(kind): return null
 	if owner.current_screen != "explore" or owner.quit_pending or owner.state.battle_active: return null
 	if kind == "heting_consignee" and not owner.consignee_story.battle_entry_ready(): return null
+	if kind == "capstone_authorizer" and not owner.capstone_story.battle_entry_ready(): return null
 	# Every real entry checkpoints before accepting any new combat costs.
 	if kind != "courtyard_practice":
 		owner._autosave()
@@ -394,6 +395,8 @@ func _return_to_world(result: Dictionary) -> void:
 	if result.outcome == "win" and kind == "sect_trial": owner.sect_progress.victory(); return
 	if kind == "heting_consignee":
 		owner.consignee_story.after_battle(result.duplicate(true)); return
+	if kind == "capstone_authorizer":
+		owner.capstone_story.after_battle(result.duplicate(true)); return
 	if kind == "heting_receipt":
 		var receipt_result = result.duplicate(true)
 		receipt_result.stage = int(result.get("receipt_stage", owner.state.receipt_stage))

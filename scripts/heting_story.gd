@@ -66,17 +66,19 @@ func dispatch()->void:
 	var choices:Array=[["去中埠提货",host._close_modal],["重看交割单",manifest],["告辞",host._close_modal]]
 	if not s.heting_cargo.is_empty():choices.append(["退车归位",_guard(park)])
 	_modal("孟绫 · 理缆人","一秤两岸 / 一车一签",opening+"\n\n孟绫把三张货签压在牌上。\n\n“先办两批：开锅粮送西岸粥棚，对秤封粮送东岸秤棚，先后由你。南泊那批待分粮，等看清今晚怎样用人再动。”\n\n“一车只押一批。中间步栈过不了车，岛上的绞缆机能把浮栈换到另一岸；也可上岸后沿北街绕行。”",choices,true)
-func manifest()->void:
+func manifest_body()->String:
 	var s=host.state;var body=""
 	for id in ["meal","sealed","reserve"]:
 		var status="已交" if s.heting_delivered.has(id) else ("车上" if s.heting_cargo==id else "未提")
 		var destination=_receiver_name(_receiver_for(id)) if id!="reserve" or not s.heting_draft.is_empty() else "两批办妥后再议"
 		body+="%s · %s → %s\n" % [status,CARGO_NAMES[id],destination]
 	body+="\n当前押车："+_cargo_name()+"\n浮栈："+("西岸" if s.heting_bridge=="west" else "东岸")+"；北步栈仅供步行。\n\n"+("两担封粮已当面复称，实物与提前写成的水损票不符。" if s.heting_delivered.has("sealed") else "封粮尚未复称，不提前断定实物与票据相符。")
-	_modal("鹤汀交割单","记录 / 实交才作数",body,[["回交割牌",dispatch],["收起货单",host._close_modal]],true)
+	return body
+func manifest()->void:
+	_modal("鹤汀交割单","记录 / 实交才作数",manifest_body(),[["回交割牌",dispatch],["收起货单",host._close_modal]],true)
 func cargo()->void:
 	if host.state.heting_stage==4:
-		_modal("中埠粮船","一秤两岸 / 实交记录保留","昨夜的两张货签已有实交记号，不能重复领取。新核查的北仓两篓另外记账。",[[host.consignee_story.link_label("heting_cargo"),_guard(host.consignee_story.open.bind("heting_cargo"))],["先离开",host._close_modal]],true);return
+		_modal("中埠粮船","一秤两岸 / 实交记录保留","此前的两张货签已有实交记号，不能重复领取。北仓两篓的核查另外记账。",[[host.consignee_story.link_label("heting_cargo"),_guard(host.consignee_story.open.bind("heting_cargo"))],["先离开",host._close_modal]],true);return
 	if not host.state.heting_cargo.is_empty():loaded();return
 	var available=host.state.available_heting_cargo("heting_cargo")
 	if available.is_empty():

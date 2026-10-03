@@ -179,7 +179,7 @@ static func hint(s) -> String:
 static func journal(s) -> String:
 	if s.consignee_stage == 0:
 		return hint(s)
-	var lines: Array[String] = [TITLE + "：只查北仓新编号的两篓封粮，与昨夜三批交割分开。"]
+	var lines: Array[String] = [TITLE + "：只查北仓新编号的两篓封粮，与此前三批交割分开。"]
 	if s.consignee_observations.has("lot_seals"):
 		lines.append("封绳与篓内实查：本批两篓封记相合，内粮干燥；不能推作整船无损。")
 	if s.consignee_observations.has("removal_order"):
@@ -189,14 +189,15 @@ static func journal(s) -> String:
 	if s.receipt_stage == 3:
 		lines.append("旧复称副签另作旁证；旧副签只关乎原先两担，不代替本批两篓实查。")
 	lines.append("沿用公开账页的货号与时刻。" if s.chapter_two_ending == "open_records" else "沿用不署证人姓名的货号与时刻抄件，保护证人的安排不变。")
-	lines.append("短渡轮值船工提供这批移交时刻，昨夜短渡分粮照旧。" if s.heting_ending == "short_ferries" else "公秤轮值船工提供这批移交时刻，昨夜开秤分粮照旧。")
+	lines.append("短渡轮值船工提供这批移交时刻，此前短渡分粮照旧。" if s.heting_ending == "short_ferries" else "公秤轮值船工提供这批移交时刻，此前开秤分粮照旧。")
 	for method: String in s.consignee_contributions:
 		lines.append(method_description(method))
 	if s.consignee_stage >= 3:
 		lines.append("已阻止杜晦与看仓人的这次强提；胜负没有代你选择封存或返还。")
 	if s.consignee_stage == 5:
 		lines.append(aftermath(s, "receiving_point"))
-		lines.append("已确认本批的当地受益方是平川粮栈；上游授权由谁发出仍待追查，未据此断言全案告破。")
+		var later_stage: Variant = s.get("capstone_stage")
+		lines.append("本批当地收货受益方已确认为平川粮栈。当时尚待追查的这组上游授权，后来在霜桥已发留底中核定为梁缜·签令主事的核准与交发；结论限于已核编号链，不代表全案告破。" if later_stage is int and later_stage>=3 else "已确认本批的当地受益方是平川粮栈；上游授权由谁发出仍待追查，未据此断言全案告破。")
 	else:
 		lines.append(plan_description(s.consignee_draft))
 	return "\n".join(lines)

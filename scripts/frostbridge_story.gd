@@ -32,7 +32,7 @@ func innkeeper() -> void:
 	var body="‘你从青苇渡来？那盏灯总算亮了。’\n\n温行舟说，粮仓的原账被韩砚看守，门上用了水、驿、仓三种印扣。\n先问东北文书房的纪小砚，再看看北桥西头的旧碑。\n\n驿馆可免费歇脚。南桥坏了，工匠唐栖正在找木料。"
 	if state.chapter_two_stage==2:body="三印已经解开。去东南封仓印台，向韩砚问清原账的去向。\n\n驿馆仍有一处热炭，整备好了再动身。"
 	elif state.chapter_two_stage>=4:
-		body=("驿道旁挂出了原账。粮价和水令第一次被放在同一张纸上核对。" if state.chapter_two_ending=="open_records" else "船工姓名被妥善封存。驿站和船家各持一份账，谁也不能独自改字。")+"\n\n温行舟收好你的旧信：‘霜桥的人会记得，你不只问了一场胜负。’"
+		body=("驿道旁挂出了原账。粮价和水令第一次被放在同一张纸上核对。" if state.chapter_two_ending=="open_records" else "船工姓名被妥善封存。驿站和船家各持一份账，谁也不能独自改字。")+("\n\n温行舟仍替你收存着那封旧信：‘霜桥的人会记得，你不只问了一场胜负。’" if state.capstone_stage<2 else "\n\n温行舟已把原信交还你，也留下了署名说明：‘霜桥的人会记得，你不只问了一场胜负。’")
 	host._modal("温行舟 · 驿丞","霜桥驿 / 借灯问路",body,[["借榻调息",rest],["告辞",host._close_modal]],true)
 func rest() -> void:
 	host.state.heal_rest();host._close_modal();host._toast("驿馆调息完毕，气血与真气已恢复。")

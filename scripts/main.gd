@@ -15,6 +15,8 @@ const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
 const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
 const ConsigneeStory=preload("res://scripts/heting_consignee_story.gd")
+const CapstoneStory=preload("res://scripts/volume_one_capstone_story.gd")
+const CapstoneNavigation=preload("res://scripts/volume_one_capstone_navigation.gd")
 const ReceiptUI=preload("res://scripts/heting_receipt_ui.gd")
 const PartyUI=preload("res://scripts/party_battle_ui.gd")
 const PartyRosterUI=preload("res://scripts/party_roster_ui.gd")
@@ -54,6 +56,7 @@ var mist_story
 var heting_story
 var receipt_story
 var consignee_story
+var capstone_story
 var save_slots
 var hud
 var _hud_navigation_flags:int=-1
@@ -135,6 +138,7 @@ func _ready() -> void:
 	heting_story=HetingStory.new(self)
 	receipt_story=ReceiptStory.new(self)
 	consignee_story=ConsigneeStory.new(self)
+	capstone_story=CapstoneStory.new(self)
 	world.traversal_blocked.connect(_toast)
 	save_slots=SaveSlotsUI.new(self)
 	_setup_audio()
@@ -291,7 +295,7 @@ func _process(delta: float) -> void:
 	world.active = not quit_pending and not active_modal and current_screen == "explore"
 	_sync_world_state()
 	state.position = world.player_pos
-	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" else ""
+	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" or state.capstone_stage>0 else ""
 	var near_key: String = world.nearby_id+"|"+world.nearby_name+"|"+near_action
 	if near_key != last_near:
 		last_near = near_key
@@ -409,6 +413,15 @@ func _refresh() -> void:
 	if state.sect_trial_won and state.sect_rank==1 and state.map_id=="qingwei":
 		quest_label.text="待领门中荐记"
 		hint_label.text="岑远已验明考绩。到练武堂南庭领取内门荐记。"
+
+	var capstone_goal: Dictionary = state.Capstone.goal(state)
+	if not capstone_goal.is_empty():
+		quest_label.text=state.Capstone.TITLE
+		hint_label.text=String(capstone_goal.objective)
+		var next_stop: Dictionary = CapstoneNavigation.resolve(capstone_goal,state.map_id)
+		if next_stop.get("is_exit",false) and world.interactables.has(next_stop.target_id):
+			hint_label.text+=" 先沿"+world.get_npc_name(next_stop.target_id)+"行路。"
+		if state.capstone_stage>0:chapter_header.text="第一卷终章  ·  截令归灯"
 
 	if hud!=null:
 		hud.refresh()
@@ -590,6 +603,7 @@ func _new_game() -> void:
 func _interact(id: String) -> void:
 	if active_modal or current_screen != "explore": return
 	if audio_on: sfx.play()
+	if capstone_story.handle(id):return
 	match id:
 		"courtyard_practice": _practice_dialogue()
 		"mentor": sect_progress.show()
@@ -625,7 +639,11 @@ func _elder_dialogue() -> void:
 		4:
 			_modal("陆伯","抉择 / 灯火归处","你带回了灯芯和私收渡税的账页。账页上的印章，竟与旧信上的水纹一致。\n\n陆伯沉默良久：‘这账，是交给县衙，还是留给渡口的船家？’\n\n[color=#d3b276]你的选择将留在青苇渡，也会写入往后的江湖。[/color]",[["交给县衙",func(): _finish_quest("秉公")],["交给船家",func(): _finish_quest("守望")]],true)
 		_:
-			_modal("陆伯","灯已归来","渡口的灯又亮了。"+("县衙已收下账页，往后还须有人盯着。" if state.ending=="秉公" else "船家们把账页抄成了三份，谁也不能轻易夺走。")+"\n\n你的旧信指向上游的霜桥城。等一切准备妥当，就顺流去看看吧。")
+			var onward: String = "你的旧信指向上游的霜桥驿。等一切准备妥当，就沿旧路去看看吧。"
+			if state.chapter_two_stage>=4:onward="你已沿旧信走到霜桥，原账也有了归处。未办完的机缘仍可继续，想歇脚时就回来。"
+			var goal: Dictionary = state.Capstone.goal(state)
+			if state.capstone_stage in [1,2,3,4,5] and not goal.is_empty():onward="这一程仍有待办："+String(goal.objective)+"回来歇脚不改变已查记录。"
+			_modal("陆伯","灯已归来" if state.capstone_stage<7 else "青苇余响 / 灯下可歇","渡口的灯仍亮着。"+("县衙已收下账页，往后还须有人盯着。" if state.ending=="秉公" else "船家们把账页抄成了三份，谁也不能轻易夺走。")+"\n\n"+onward)
 
 func _healer_dialogue() -> void:
 	if state.quest_stage >= 3 and not state.companion_unlocked:
@@ -798,6 +816,9 @@ func _show_journal() -> void:
 	var port_journal=heting_story.journal()
 	if not port_journal.is_empty():
 		body=port_journal.strip_edges()+"\n\n"+body if _track_heting() else body+port_journal
+	if state.capstone_stage>0:
+		var capstone_record: String = state.Capstone.journal(state)
+		body=capstone_record+"\n\n"+body if state.capstone_stage<7 else body+"\n\n"+capstone_record
 	_modal("江湖志","机缘 / 因果与见闻",body,[],true)
 	modal_autosave_on_close=false
 
@@ -1049,6 +1070,10 @@ func _start_party_consignee_battle(generation:int)->bool:
 	if generation!=modal_generation or not consignee_story.battle_entry_ready():return false
 	return PartyUI.open(self,"heting_consignee")!=null
 
+func _start_party_capstone_battle(generation:int)->bool:
+	if generation!=modal_generation or not capstone_story.battle_entry_ready():return false
+	return PartyUI.open(self,"capstone_authorizer")!=null
+
 func _start_party_receipt_battle()->bool:
 	if current_screen!="explore" or quit_pending or state.battle_active or state.map_id!="heting" or world.map_id!="heting":return false
 	if not world.interactables.has("heting_scale") or not world.player_pos.is_finite() or world.player_pos.distance_to(world.interactables.heting_scale.pos)>=75.0:return false
@@ -1158,7 +1183,7 @@ func _sluice_boss_dialogue() -> void:
 		_modal("旧闸守门人", "废闸 / 证据未齐", "闸楼里的人没有应声。要让对方开口，你需要船工的证言，以及传令人的水令账页。")
 		return
 	if state.side_stage >= 3:
-		_modal("闸门归静", "废闸 / 已了因果", "水流恢复了往常的节律。你找到的那份伪造水令，指向上游的霜桥城。\n\n这段路已走完，另一段江湖尚待展开。")
+		_modal("闸门归静", "废闸 / 已了因果", ("水流恢复了往常的节律。你找到的那份伪造水令，指向上游的霜桥驿。\n\n这段路已走完，另一段江湖尚待展开。" if state.capstone_stage<3 else "旧闸的水流已恢复往常节律。霜桥留底核定了这一组改令与交发责任；罗沉当初照改令开闸的事实仍保留。\n\n"+("旧证已经核明；本班未发令簿还须到霜桥印台取得。" if state.capstone_stage==3 else "旧证不会因新的上游署名被抹去。新簿四号另在南侧守闸桌逐号核记。")))
 		return
 	_modal("闸首 · 罗沉", "交锋 / 逆水而行", "证言与账页摆在面前，罗沉再无借口。\n\n‘开闸的印是我的，改时辰的手却不在这里。你能赢我，也未必能赢那条粮路。’\n\n[color=#d3b276]罗沉轻重招交替。未守住的重击会让实际受击者留下破绽，接下来的两次来击各多受3点伤害；该队员带守势的武学可清除并防止破绽。[/color]\n\n每位存活队员每轮自动普攻一次；按头顶意图安排防护武学、轻功与治疗。先保存再应战，旧仓药棚可免费休整。",[["问个明白",_sluice_party_entry.bind("sluice_boss",modal_generation+1)],["先行整备",_close_modal]],true)
 
@@ -1217,6 +1242,12 @@ func _show_workshop() -> void:
 	workshop.show()
 
 func _sync_world_state() -> void:
+	world.capstone_stage=state.capstone_stage
+	world.capstone_draft=state.capstone_draft
+	world.capstone_ending=state.capstone_ending
+	world.capstone_goal=state.Capstone.goal(state)
+	world.capstone_orders=state.Capstone.order_rows(state)
+	world.refresh_capstone_points()
 	world.heting_stage=state.heting_stage
 	world.consignee_stage=state.consignee_stage
 	world.consignee_observations=state.consignee_observations
