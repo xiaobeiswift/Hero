@@ -1,0 +1,29 @@
+{
+  "candidate": "combat-v4.png",
+  "sha256": "4812052ca14b016e43818713eaefe3a15ba3baa79fc421a8d40fc1e6774b5f33",
+  "generator": "built-in image_gen.imagegen",
+  "original": "generated_images/exec-7be62910-8b1a-41f8-b010-84c883c52185.png",
+  "copy_matches_original": true,
+  "status": "passed_independent_source_and_native_artboard_review",
+  "reasons": [],
+  "raster_edits_outside_imagegen": false,
+  "source_project_integrated": false,
+  "runtime_corner_exclusion": {
+    "pixels_alpha_gt_2": 44,
+    "max_alpha": 12,
+    "bounds_inclusive": [
+      1243,
+      1245,
+      1253,
+      1253
+    ],
+    "region": [
+      700,
+      840,
+      530,
+      395
+    ],
+    "reason": "Detached artifact well outside intended character silhouette; excluded only through runtime AtlasTexture region."
+  },
+  "review_scope": "Six combat pose art and stationary72px NPC idle; not portrait, gameplay, audio or release."
+}

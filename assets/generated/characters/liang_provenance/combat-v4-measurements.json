@@ -1,0 +1,253 @@
+{
+  "source": "assets/generated/characters/painted_liang_combat_v4.png",
+  "mode": "RGBA",
+  "size": [
+    1254,
+    1254
+  ],
+  "sha256": "4812052ca14b016e43818713eaefe3a15ba3baa79fc421a8d40fc1e6774b5f33",
+  "alpha_threshold": "> 2/255",
+  "alpha_range": [
+    0,
+    255
+  ],
+  "poses": {
+    "idle": {
+      "source_region": [
+        0,
+        0,
+        690,
+        474
+      ],
+      "alpha_bounds": [
+        137,
+        13,
+        339,
+        455
+      ],
+      "gutters_ltrb": [
+        137,
+        13,
+        214,
+        6
+      ],
+      "foot_anchor": [
+        372,
+        464
+      ],
+      "chest_anchor": [
+        373,
+        157
+      ],
+      "weapon_anchor": [
+        169,
+        370
+      ],
+      "battle_visible_size": [
+        135.07,
+        181.289
+      ]
+    },
+    "windup": {
+      "source_region": [
+        690,
+        0,
+        564,
+        474
+      ],
+      "alpha_bounds": [
+        772,
+        18,
+        400,
+        449
+      ],
+      "gutters_ltrb": [
+        82,
+        18,
+        82,
+        7
+      ],
+      "foot_anchor": [
+        982,
+        465
+      ],
+      "chest_anchor": [
+        965,
+        188
+      ],
+      "weapon_anchor": [
+        1050,
+        33
+      ],
+      "battle_visible_size": [
+        159.375,
+        178.898
+      ]
+    },
+    "strike": {
+      "source_region": [
+        0,
+        474,
+        750,
+        366
+      ],
+      "alpha_bounds": [
+        28,
+        477,
+        655,
+        355
+      ],
+      "gutters_ltrb": [
+        28,
+        3,
+        67,
+        8
+      ],
+      "foot_anchor": [
+        457,
+        828
+      ],
+      "chest_anchor": [
+        396,
+        592
+      ],
+      "weapon_anchor": [
+        83,
+        558
+      ],
+      "battle_visible_size": [
+        260.977,
+        141.445
+      ]
+    },
+    "guard": {
+      "source_region": [
+        750,
+        474,
+        504,
+        366
+      ],
+      "alpha_bounds": [
+        821,
+        478,
+        376,
+        355
+      ],
+      "gutters_ltrb": [
+        71,
+        4,
+        57,
+        7
+      ],
+      "foot_anchor": [
+        1040,
+        829
+      ],
+      "chest_anchor": [
+        1008,
+        607
+      ],
+      "weapon_anchor": [
+        865,
+        524
+      ],
+      "battle_visible_size": [
+        149.812,
+        141.445
+      ]
+    },
+    "hurt": {
+      "source_region": [
+        0,
+        840,
+        700,
+        414
+      ],
+      "alpha_bounds": [
+        150,
+        846,
+        444,
+        380
+      ],
+      "gutters_ltrb": [
+        150,
+        6,
+        106,
+        28
+      ],
+      "foot_anchor": [
+        447,
+        1223
+      ],
+      "chest_anchor": [
+        409,
+        964
+      ],
+      "weapon_anchor": [
+        195,
+        1157
+      ],
+      "battle_visible_size": [
+        176.906,
+        151.406
+      ]
+    },
+    "kneel": {
+      "source_region": [
+        700,
+        840,
+        530,
+        395
+      ],
+      "alpha_bounds": [
+        794,
+        893,
+        410,
+        322
+      ],
+      "gutters_ltrb": [
+        94,
+        53,
+        26,
+        20
+      ],
+      "foot_anchor": [
+        1030,
+        1211
+      ],
+      "chest_anchor": [
+        997,
+        1018
+      ],
+      "weapon_anchor": [
+        828,
+        1172
+      ],
+      "battle_visible_size": [
+        163.359,
+        128.297
+      ]
+    }
+  },
+  "limit": "Numerical geometry only; facing, anatomy and identity require pixel review.",
+  "excluded_corner_fringe": {
+    "pixels": 44,
+    "max_alpha": 12,
+    "bounds_inclusive": [
+      1243,
+      1245,
+      1253,
+      1253
+    ],
+    "method": "Runtime region excludes distant corner artifact; no PNG edits."
+  },
+  "npc_idle_visible_height": 72.0,
+  "source_pixels_modified": false,
+  "notes": [
+    "Foot anchors are stance baseline midpoints, not necessarily painted pixels.",
+    "All poses share one anatomical scale; bent/kneeling poses are naturally shorter.",
+    "Independent source regions are required. This is not a uniform 2x3 grid.",
+    "Minimum measured transparent alpha>2 gutter is three source pixels.",
+    "Runtime kneel region excludes 44 detached low-alpha pixels in extreme bottom-right corner."
+  ]
+}
