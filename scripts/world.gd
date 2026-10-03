@@ -13,7 +13,8 @@ const PaintedCast=preload("res://scripts/painted_village_sprite.gd")
 const GroundTexture=preload("res://assets/generated/environment/qingwei_moss_earth.png")
 const EnvironmentArt=preload("res://scripts/qingwei_environment_art.gd")
 const Traveler=preload("res://scripts/traveler_visual.gd")
-const QinArt=preload("res://scripts/painted_battle_qin.gd")
+const QinWalk=preload("res://scripts/painted_qin_sprite.gd")
+const PartyTrail=preload("res://scripts/exploration_party_trail.gd")
 const Lightness=preload("res://scripts/lightness_rules.gd")
 const Islet=preload("res://scripts/reed_islet.gd")
 const Heting=preload("res://scripts/heting_region.gd")
@@ -67,14 +68,35 @@ var nearby_id: String = ""
 var nearby_name: String = ""
 var viewport_rect: Rect2 = Rect2(24, 108, 910, 568)
 var ui_font: Font
-var companion_active: bool = false
-var companion_name:String="沈青"
+const FOLLOWER_NAMES={"shen":"沈青","tang":"唐栖","qin":"秦禾"}
 var shen_target_id:String=""
 var personal_target_id:String=""
-var companion_pos: Vector2 = Vector2(429, 451)
-var companion_facing:=Vector2.DOWN
-var companion_walk_time:=0.0
-var companion_moving:=false
+var _party_trail=PartyTrail.new()
+var _follower_frames:Array[Dictionary]=[]
+var _follower_topology:Array=[]
+var _follower_head:Vector2=Vector2(460,430)
+var _followers_initialized:bool=false
+var follower_recovery_reason:String=""
+var _follower_reseed_count:int=0
+# Read-only compatibility views for diagnostics; membership has one source.
+var companion_active:bool:
+	get:return not _follower_frames.is_empty()
+	set(_value):pass
+var companion_name:String:
+	get:return String(FOLLOWER_NAMES.get(_first_follower().get("id",""),""))
+	set(_value):pass
+var companion_pos:Vector2:
+	get:return _first_follower().get("position",player_pos)
+	set(_value):pass
+var companion_facing:Vector2:
+	get:return _first_follower().get("facing",Vector2.DOWN)
+	set(_value):pass
+var companion_walk_time:float:
+	get:return float(_first_follower().get("walk_phase",0.0))
+	set(_value):pass
+var companion_moving:bool:
+	get:return bool(_first_follower().get("moving",false))
+	set(_value):pass
 
 const WORLD_SIZE := Vector2(1600, 1050)
 const SPEED := 185.0
@@ -203,7 +225,7 @@ func teleport(position: Vector2) -> void:
 	# positions go to the island, without dropping or delivering the cargo.
 	if map_id=="heting":
 		player_pos = Heting.repaired_position(position, heting_bridge, not heting_cargo.is_empty())
-		companion_pos = Heting.safe_companion_position(player_pos, player_pos + Vector2(-31, 21), heting_bridge)
+		_reset_followers("teleport")
 		camera_pos = _camera_target()
 		_update_nearby()
 		moved.emit(player_pos)
@@ -226,7 +248,7 @@ func teleport(position: Vector2) -> void:
 		if not found:
 			destination = _safe_spawn()
 	player_pos = destination
-	companion_pos = _islet_companion_target() if map_id=="qingwei" and Lightness.on_islet(player_pos) else player_pos + Vector2(-31, 21)
+	_reset_followers("teleport")
 	camera_pos = _camera_target()
 	_update_nearby()
 	moved.emit(player_pos)
@@ -234,13 +256,15 @@ func teleport(position: Vector2) -> void:
 
 func get_npc_name(id: String) -> String:
 	if id=="stranded_boatman" and (side_stage>=2 or side_target_id=="ledger_runner"):return "许照川"
-	if companion_active and companion_name=="沈青" and id=="healer":return "药铺伙计"
-	if companion_active and companion_name=="唐栖" and id=="bridge_worker":return "修桥工位"
+	if has_follower("shen") and id=="healer":return "药铺伙计"
+	if has_follower("tang") and id=="bridge_worker":return "修桥工位"
+	if has_follower("qin") and id=="mist_guide":return "引路亭"
 	return String(interactables.get(id, {}).get("name", id))
 
 func _process(delta: float) -> void:
 	time_passed += delta
-	if map_id=="heting" and not _can_walk(player_pos):teleport(player_pos)
+	if not _can_walk(player_pos):teleport(player_pos)
+	_ensure_follower_topology()
 	if map_id!="heting" or heting_cargo.is_empty() or player_pos.distance_to(Heting.FOOT_PIER.get_center())>200:_cart_hint_shown=false
 	var direction := Vector2.ZERO
 	if active:
@@ -257,22 +281,16 @@ func _process(delta: float) -> void:
 			traversal_blocked.emit("窄步栈只供步行。押车请改接侧浮栈，或沿北岸横街绕行。")
 		var next_x := Vector2(target.x, player_pos.y)
 		if _can_step(player_pos,next_x):
+			var previous_x:Vector2=player_pos
 			player_pos.x = next_x.x
+			_record_follow_segment(previous_x,player_pos)
 		var next_y := Vector2(player_pos.x, target.y)
 		if _can_step(player_pos,next_y):
+			var previous_y:Vector2=player_pos
 			player_pos.y = next_y.y
+			_record_follow_segment(previous_y,player_pos)
 		moved.emit(player_pos)
-	companion_moving=false
-	if companion_active:
-		var old_companion_pos=companion_pos
-		var companion_target := _companion_follow_target()
-		if map_id=="heting":_follow_heting_companion(companion_target,delta)
-		else:companion_pos = companion_pos.lerp(companion_target, minf(delta * 4.2, 1.0))
-		var companion_step=companion_pos-old_companion_pos
-		companion_moving=companion_step.length()>delta*5
-		if companion_moving:
-			companion_facing=companion_step.normalized()
-			companion_walk_time+=companion_step.length()*0.060
+	_advance_followers(delta)
 	camera_pos = camera_pos.lerp(_camera_target(), minf(delta * 9.0, 1.0))
 	_update_nearby()
 	var new_location := _location_for_position()
@@ -331,18 +349,6 @@ func _update_nearby() -> void:
 			closest = distance
 			nearby_id = id
 			nearby_name = get_npc_name(id)
-
-func _companion_follow_target()->Vector2:
-	if map_id=="qingwei" and Lightness.on_islet(player_pos):return _islet_companion_target()
-	# Adult-proportion figures need lateral separation to remain individually readable.
-	var side=Vector2(-facing.y,facing.x)*28.0
-	var rear=player_pos-facing*42.0+Vector2(0,10)
-	for candidate in [rear+side,rear-side,rear]:
-		if _can_step(player_pos,candidate):return candidate
-	return player_pos
-
-func _islet_companion_target()->Vector2:
-	return player_pos.lerp(Lightness.ISLET_CENTER,0.45)+Vector2(-8,4)
 
 func _can_step(start:Vector2,finish:Vector2)->bool:
 	if map_id=="heting":return Heting.can_step(start,finish,heting_bridge,not heting_cargo.is_empty())
@@ -456,11 +462,11 @@ func _draw() -> void:
 	for id: String in ["elder", "healer", "bandit", "mentor"]:
 		layers.append({"y": interactables[id]["pos"].y, "kind": "npc", "id": id})
 	layers.append({"y": player_pos.y, "kind": "player"})
-	if companion_active:
-		layers.append({"y": companion_pos.y, "kind": "companion"})
+	append_follower_layers(layers)
 	layers.append({"y": 410.0, "kind": "extra", "pos": Vector2(656, 410), "robe": Color("a8754e"), "role":"porter"})
 	layers.append({"y": 561.0, "kind": "extra", "pos": Vector2(379, 561), "robe": Color("727e62"), "role":"resident"})
-	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
+	for index:int in layers.size():layers[index]["draw_order"]=index
+	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] if a["y"] != b["y"] else a["draw_order"] < b["draw_order"])
 	for item in layers:
 		match item["kind"]:
 			"practice_rigs": _draw_practice_rigs()
@@ -472,7 +478,7 @@ func _draw() -> void:
 			"tree": _draw_tree(item["data"])
 			"npc": _draw_npc(item["id"])
 			"player": _draw_person(player_pos, Color("356d66"), true, "player")
-			"companion": _draw_companion()
+			"follower": _draw_follower(String(item["id"]))
 			"extra": _draw_person(item["pos"], item["robe"], false, item["role"])
 	_draw_particles()
 	_draw_nameplates()
@@ -616,15 +622,21 @@ func _fence(a: Vector2, b: Vector2, posts: int) -> void:
 		draw_line(p - Vector2(1, 23), p - Vector2(1, 2), Color("9aa27b"), 1, true)
 
 func _building_opacity(b: Dictionary) -> float:
-	var actors := [player_pos]
-	if companion_active:
-		actors.append(companion_pos)
-	return EnvironmentArt.building_opacity(b, actors)
+	var actors:Array[Vector2]=exploration_actor_positions()
+	if map_id=="qingwei":return EnvironmentArt.building_opacity(b, actors)
+	var bounds=Rect2(b["pos"]-Vector2(50,70),b["size"]+Vector2(110,135))
+	var threshold:float=b["pos"].y+b["size"].y
+	for actor:Vector2 in actors:
+		if actor.y < threshold and bounds.intersects(Rect2(actor-Vector2(16,60),Vector2(32,64))):return .35
+	return 1.0
+
+func _faded(color:Color,opacity:float) -> Color:
+	return Color(color.r,color.g,color.b,color.a*opacity)
 
 func _draw_building(b: Dictionary) -> void:
 	var bounds:Rect2=EnvironmentArt.building_rect(b) if map_id=="qingwei" else Rect2(b["pos"]-Vector2(50,70),b["size"]+Vector2(110,135))
 	if not _world_rect_visible(bounds.grow(10)):return
-	var opacity: float = _building_opacity(b) if map_id == "qingwei" else 1.0
+	var opacity: float = _building_opacity(b)
 	if map_id=="qingwei" and EnvironmentArt.draw_building(self,b,opacity):
 		var plaque:Rect2=EnvironmentArt.plaque_rect(b)
 		var ink := Color("ebd7a4")
@@ -635,62 +647,61 @@ func _draw_building(b: Dictionary) -> void:
 	var size: Vector2 = b["size"]
 	var name_text: String = b["name"]
 	var shrine: bool = b["type"] == "shrine"
-	var wall := Color("d3c6a1") if not shrine else Color("bfba94")
+	var wall := _faded(Color("d3c6a1"),opacity) if not shrine else _faded(Color("bfba94"),opacity)
 	# Long late-afternoon shadow, stepped foundation, plaster and timber frame.
-	_poly([p + Vector2(8, size.y), p + Vector2(size.x + 12, size.y), p + Vector2(size.x + 46, size.y + 30), p + Vector2(30, size.y + 30)], Color(0.17, 0.28, 0.23, 0.15))
-	draw_rect(Rect2(p + Vector2(-7, size.y - 10), Vector2(size.x + 14, 18)), Color("76816b"))
-	draw_rect(Rect2(p + Vector2(-12, size.y + 6), Vector2(size.x + 24, 9)), Color("a3a68a"))
-	draw_rect(Rect2(p + Vector2(-15, size.y + 15), Vector2(size.x + 30, 6)), Color("b7b79b"))
+	_poly([p + Vector2(8, size.y), p + Vector2(size.x + 12, size.y), p + Vector2(size.x + 46, size.y + 30), p + Vector2(30, size.y + 30)], _faded(Color(0.17, 0.28, 0.23, 0.15),opacity))
+	draw_rect(Rect2(p + Vector2(-7, size.y - 10), Vector2(size.x + 14, 18)), _faded(Color("76816b"),opacity))
+	draw_rect(Rect2(p + Vector2(-12, size.y + 6), Vector2(size.x + 24, 9)), _faded(Color("a3a68a"),opacity))
+	draw_rect(Rect2(p + Vector2(-15, size.y + 15), Vector2(size.x + 30, 6)), _faded(Color("b7b79b"),opacity))
 	draw_rect(Rect2(p, size), wall)
-	draw_rect(Rect2(p + Vector2(0, 22), Vector2(size.x, 15)), Color(0.2, 0.29, 0.24, 0.16))
+	draw_rect(Rect2(p + Vector2(0, 22), Vector2(size.x, 15)), _faded(Color(0.2, 0.29, 0.24, 0.16),opacity))
 	for x in [8.0, size.x * 0.32, size.x * 0.68, size.x - 8]:
-		draw_rect(Rect2(p + Vector2(x - 3, 20), Vector2(6, size.y - 20)), Color("66705a"))
-	draw_rect(Rect2(p + Vector2(0, size.y - 7), Vector2(size.x, 7)), Color("858c70"))
+		draw_rect(Rect2(p + Vector2(x - 3, 20), Vector2(6, size.y - 20)), _faded(Color("66705a"),opacity))
+	draw_rect(Rect2(p + Vector2(0, size.y - 7), Vector2(size.x, 7)), _faded(Color("858c70"),opacity))
 	var door_w := 37.0 if not shrine else 42.0
 	var door := p + Vector2(size.x * 0.5 - door_w * 0.5, size.y - 58)
-	draw_rect(Rect2(door, Vector2(door_w, 58)), Color("465d50"))
-	draw_rect(Rect2(door + Vector2(3, 4), Vector2(door_w - 6, 54)), Color("5a6d57"))
-	draw_line(door + Vector2(door_w * 0.5, 0), door + Vector2(door_w * 0.5, 58), Color("c0af81"), 1)
+	draw_rect(Rect2(door, Vector2(door_w, 58)), _faded(Color("465d50"),opacity))
+	draw_rect(Rect2(door + Vector2(3, 4), Vector2(door_w - 6, 54)), _faded(Color("5a6d57"),opacity))
+	draw_line(door + Vector2(door_w * 0.5, 0), door + Vector2(door_w * 0.5, 58), _faded(Color("c0af81"),opacity), 1)
 	for side in [0.17, 0.83]:
 		var wp := p + Vector2(size.x * side - 18, size.y - 51)
-		draw_rect(Rect2(wp, Vector2(36, 29)), Color("8d997b"))
-		draw_rect(Rect2(wp + Vector2(3, 3), Vector2(30, 23)), Color("bcbf95"))
+		draw_rect(Rect2(wp, Vector2(36, 29)), _faded(Color("8d997b"),opacity))
+		draw_rect(Rect2(wp + Vector2(3, 3), Vector2(30, 23)), _faded(Color("bcbf95"),opacity))
 		for x in range(4):
-			draw_line(wp + Vector2(4 + x * 9, 2), wp + Vector2(4 + x * 9, 28), Color("687a60"), 1.4)
-		draw_line(wp + Vector2(1, 14), wp + Vector2(35, 14), Color("687a60"), 1.4)
+			draw_line(wp + Vector2(4 + x * 9, 2), wp + Vector2(4 + x * 9, 28), _faded(Color("687a60"),opacity), 1.4)
+		draw_line(wp + Vector2(1, 14), wp + Vector2(35, 14), _faded(Color("687a60"),opacity), 1.4)
 	# Broad curved eaves and hand-drawn tile courses.
 	var roof_top := p.y - 33.0
 	var roof_bottom := p.y + 31.0
-	_poly([Vector2(p.x - 25, roof_bottom - 10), Vector2(p.x - 8, roof_bottom - 12), Vector2(p.x + 28, roof_top), Vector2(p.x + size.x - 28, roof_top), Vector2(p.x + size.x + 8, roof_bottom - 12), Vector2(p.x + size.x + 25, roof_bottom - 10), Vector2(p.x + size.x + 16, roof_bottom + 2), Vector2(p.x - 16, roof_bottom + 2)], C_ROOF)
+	_poly([Vector2(p.x - 25, roof_bottom - 10), Vector2(p.x - 8, roof_bottom - 12), Vector2(p.x + 28, roof_top), Vector2(p.x + size.x - 28, roof_top), Vector2(p.x + size.x + 8, roof_bottom - 12), Vector2(p.x + size.x + 25, roof_bottom - 10), Vector2(p.x + size.x + 16, roof_bottom + 2), Vector2(p.x - 16, roof_bottom + 2)], _faded(C_ROOF,opacity))
 	for row in range(6):
 		var t := float(row) / 5.0
 		var yy := lerpf(roof_top + 6, roof_bottom - 2, t)
 		var left := lerpf(p.x + 26, p.x - 13, t)
 		var right := lerpf(p.x + size.x - 26, p.x + size.x + 13, t)
-		draw_line(Vector2(left, yy), Vector2(right, yy), C_ROOF_LIGHT, 1.7, true)
+		draw_line(Vector2(left, yy), Vector2(right, yy), _faded(C_ROOF_LIGHT,opacity), 1.7, true)
 		for tile in range(int((right - left) / 15.0)):
 			var xx := left + 6 + tile * 15 + (row % 2) * 4
-			draw_line(Vector2(xx, yy - 6), Vector2(xx - 2, yy - 1), Color(0.15, 0.29, 0.26, 0.4), 1)
-	draw_polyline(PackedVector2Array([Vector2(p.x - 26, roof_bottom - 10), Vector2(p.x - 16, roof_bottom + 2), Vector2(p.x + size.x + 16, roof_bottom + 2), Vector2(p.x + size.x + 26, roof_bottom - 10)]), Color("638272"), 3, true)
-	draw_line(Vector2(p.x + 25, roof_top), Vector2(p.x + size.x - 25, roof_top), Color("7a927b"), 4, true)
+			draw_line(Vector2(xx, yy - 6), Vector2(xx - 2, yy - 1), _faded(Color(0.15, 0.29, 0.26, 0.4),opacity), 1)
+	draw_polyline(PackedVector2Array([Vector2(p.x - 26, roof_bottom - 10), Vector2(p.x - 16, roof_bottom + 2), Vector2(p.x + size.x + 16, roof_bottom + 2), Vector2(p.x + size.x + 26, roof_bottom - 10)]), _faded(Color("638272"),opacity), 3, true)
+	draw_line(Vector2(p.x + 25, roof_top), Vector2(p.x + size.x - 25, roof_top), _faded(Color("7a927b"),opacity), 4, true)
 	# Gold-lettered wood plaque.
 	var plaque_width := 78.0 if name_text.length() == 3 else 101.0
 	var plaque_p := p + Vector2((size.x - plaque_width) * 0.5, 30)
-	draw_rect(Rect2(plaque_p, Vector2(plaque_width, 24)), Color("405b50"))
-	draw_rect(Rect2(plaque_p + Vector2(2, 2), Vector2(plaque_width - 4, 20)), Color("bba36c"), false, 1)
-	_label(plaque_p + Vector2(0, 17), name_text, 15, C_PAPER, plaque_width, HORIZONTAL_ALIGNMENT_CENTER)
+	draw_rect(Rect2(plaque_p, Vector2(plaque_width, 24)), _faded(Color("405b50"),opacity))
+	draw_rect(Rect2(plaque_p + Vector2(2, 2), Vector2(plaque_width - 4, 20)), _faded(Color("bba36c"),opacity), false, 1)
+	_label(plaque_p + Vector2(0, 17), name_text, 15, _faded(C_PAPER,opacity), plaque_width, HORIZONTAL_ALIGNMENT_CENTER)
 	for x in [19.0, size.x - 19]:
 		_draw_lantern(p + Vector2(x, 45), 0.75)
 	if b["type"] == "tea":
 		var flag_p := p + Vector2(size.x + 21, 57)
-		draw_line(flag_p - Vector2(0, 21), flag_p + Vector2(0, 55), Color("57694f"), 3)
-		_poly([flag_p + Vector2(-18, -16), flag_p + Vector2(14, -16), flag_p + Vector2(14, 34), flag_p + Vector2(-2, 26), flag_p + Vector2(-18, 34)], Color("c7bd91"))
-		_label(flag_p + Vector2(-15, 12), "茶", 24, Color("576a51"), 28, HORIZONTAL_ALIGNMENT_CENTER)
+		draw_line(flag_p - Vector2(0, 21), flag_p + Vector2(0, 55), _faded(Color("57694f"),opacity), 3)
+		_poly([flag_p + Vector2(-18, -16), flag_p + Vector2(14, -16), flag_p + Vector2(14, 34), flag_p + Vector2(-2, 26), flag_p + Vector2(-18, 34)], _faded(Color("c7bd91"),opacity))
+		_label(flag_p + Vector2(-15, 12), "茶", 24, _faded(Color("576a51"),opacity), 28, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _tree_opacity(tree:Dictionary)->float:
-	# Foreground crowns fade for either visible party member, preserving depth context.
-	var actors=[player_pos]
-	if companion_active:actors.append(companion_pos)
+	# Foreground crowns fade for any deployed actor, preserving depth context.
+	var actors:Array[Vector2]=exploration_actor_positions()
 	var tree_scale:float=tree["scale"]
 	for actor:Vector2 in actors:
 		var offset:Vector2=actor-tree["pos"]
@@ -759,8 +770,7 @@ func _draw_practice_rigs()->void:
 	draw_set_transform(-camera_pos)
 
 func _noticeboard_opacity(p:Vector2)->float:
-	var actors=[player_pos]
-	if companion_active:actors.append(companion_pos)
+	var actors:Array[Vector2]=exploration_actor_positions()
 	return Noticeboard.opacity_for(p,actors)
 
 func _draw_board(p: Vector2) -> void:
@@ -843,8 +853,7 @@ func _draw_camp() -> void:
 	if not _world_rect_visible(Rect2(1240,650,170,180)):return
 	if painted_camp_enabled:
 		_ellipse(CampShelter.WORLD_FOOT+Vector2(0,1),Vector2(46,7),Color(.1,.2,.15,.16))
-		var actors=[player_pos]
-		if companion_active:actors.append(companion_pos)
+		var actors:Array[Vector2]=exploration_actor_positions()
 		if CampShelter.draw(self,CampShelter.opacity_for(actors)):return
 	var p := Vector2(1328, 733)
 	_poly([p + Vector2(-38, -6), p + Vector2(2, -64), p + Vector2(62, -2)], Color("727653"))
@@ -867,7 +876,7 @@ func _draw_camp_fire() -> void:
 func _painted_npc_role(id:String)->String:
 	if map_id=="heting":return Heting.npc_role(id)
 	if map_id!="qingwei" or not PaintedCast.CAST.has(id):return ""
-	if id=="healer" and companion_active and companion_name=="沈青":return ""
+	if id=="healer" and has_follower("shen"):return ""
 	return id
 
 func _draw_npc(id: String) -> void:
@@ -879,7 +888,7 @@ func _draw_npc(id: String) -> void:
 		if PaintedCast.draw_idle(self,p,painted_role):return
 	var robe := Color("8d8163")
 	if id == "healer": robe = Color("c1c4a5")
-	if id == "healer" and companion_active and companion_name=="沈青":
+	if id == "healer" and has_follower("shen"):
 		_draw_person(p, Color("9a9676"), false, "clerk")
 		return
 	if id == "bandit": robe = Color("8e6853")
@@ -901,12 +910,16 @@ func _draw_person(p: Vector2, robe: Color, is_player: bool, kind: String) -> voi
 	var role="shen" if kind=="healer" else kind
 	Traveler.draw_actor(self,p,robe,Vector2.DOWN,time_passed+p.x*0.03,false,role,0.96)
 
-func _draw_companion() -> void:
-	if companion_name=="秦禾":
-		_ellipse(companion_pos+Vector2(1,2),Vector2(11,4),Color(.05,.14,.12,.27))
-		QinArt.draw(self,companion_pos,"idle",1.0,78)
+func _draw_follower(id:String) -> void:
+	var actor:Dictionary=follower_view(id)
+	if actor.is_empty():return
+	var foot:Vector2=actor.position
+	if not _world_rect_visible(Rect2(foot-Vector2(45,90),Vector2(90,115))):return
+	if id=="qin":
+		_ellipse(foot+Vector2(1,2),Vector2(13,5),Color(.05,.14,.12,.27))
+		QinWalk.draw(self,foot,actor.facing,actor.moving,actor.walk_phase,72.0)
 		return
-	Traveler.draw_actor(self,companion_pos,Color("82978c") if companion_name=="唐栖" else Color("cbd0b0"),companion_facing,companion_walk_time if companion_moving else time_passed+2.0,companion_moving,"tang" if companion_name=="唐栖" else "shen",1.03)
+	Traveler.draw_actor(self,foot,Color("82978c") if id=="tang" else Color("cbd0b0"),actor.facing,actor.walk_phase,actor.moving,id,1.03)
 
 func _draw_lantern_post(p: Vector2) -> void:
 	if map_id=="qingwei" and painted_lanterns_enabled:
@@ -933,8 +946,8 @@ func _interaction_prompt_rect(target:Vector2,text:String="")->Rect2:
 	if ui_font!=null and not text.is_empty():
 		size.x=maxf(size.x,ceilf(ui_font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x)+20)
 	var view=Rect2(camera_pos+Vector2(8,8),viewport_rect.size-Vector2(16,16))
-	var bodies=[Rect2(player_pos-Vector2(20,62),Vector2(40,70))]
-	if companion_active:bodies.append(Rect2(companion_pos-Vector2(20,62),Vector2(40,70)))
+	var bodies:Array[Rect2]=[]
+	for foot:Vector2 in exploration_actor_positions():bodies.append(Rect2(foot-Vector2(20,62),Vector2(40,70)))
 	var best=Rect2(target+Vector2(-size.x*.5,16),size)
 	var best_score=INF
 	var offsets=[Vector2(-size.x*.5,16),Vector2(48,8),Vector2(-48-size.x,8),Vector2(-size.x*.5,-106)]
@@ -1162,9 +1175,9 @@ func _draw_sluice() -> void:
 	for id: String in ["stranded_boatman", "ledger_runner", "sluice_boss"]:
 		layers.append({"y": interactables[id]["pos"].y, "kind": "npc", "id": id})
 	layers.append({"y": player_pos.y, "kind": "player"})
-	if companion_active:
-		layers.append({"y": companion_pos.y, "kind": "companion"})
-	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"])
+	append_follower_layers(layers)
+	for index:int in layers.size():layers[index]["draw_order"]=index
+	layers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["y"] < b["y"] if a["y"] != b["y"] else a["draw_order"] < b["draw_order"])
 	for item in layers:
 		match item["kind"]:
 			"ruin": _draw_ruined_storehouse(item["data"])
@@ -1174,7 +1187,7 @@ func _draw_sluice() -> void:
 				var robe := Color("a39c80") if id == "stranded_boatman" else Color("838c6b") if id == "ledger_runner" else Color("8a6351")
 				_draw_person(interactables[id]["pos"], robe, false, interactables[id]["kind"])
 			"player": _draw_person(player_pos, Color("356d66"), true, "player")
-			"companion": _draw_companion()
+			"follower": _draw_follower(String(item["id"]))
 	_draw_lantern_post(Vector2(728, 490))
 	_draw_lantern_post(Vector2(1088, 821))
 	_draw_lantern_post(Vector2(1307, 731))
@@ -1357,12 +1370,95 @@ func _ellipse_arc(center: Vector2, radii: Vector2, color: Color) -> void:
 		points.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
 	draw_polyline(points, color, 1, true)
 
-func _follow_heting_companion(desired: Vector2, delta: float) -> void:
-	var target := Heting.safe_companion_position(player_pos, desired, heting_bridge)
-	var next := companion_pos.lerp(target, clampf(delta * 4.2, 0.0, 1.0))
-	# Legal endpoints alone do not make a legal segment around the basin or a
-	# warehouse corner. If interrupted, sync to the player's safe position.
-	if Heting.can_step(companion_pos, next, heting_bridge, false):
-		companion_pos = next
+# The following state is presentation-only and never enters a save dictionary.
+func set_exploration_party(manifest:Array) -> Dictionary:
+	_ensure_follower_topology()
+	var result:Dictionary=_party_trail.set_members(manifest,player_pos,facing,_follower_can_walk,_follower_can_step)
+	if result.get("recovery_required",false):
+		_recover_follower_fault(result)
+		result=_party_trail.set_members(manifest,player_pos,facing,_follower_can_walk,_follower_can_step)
+	_refresh_follower_view()
+	queue_redraw()
+	return result
+
+func _first_follower() -> Dictionary:
+	return _follower_frames[0] if not _follower_frames.is_empty() else {}
+
+func follower_view(id:String) -> Dictionary:
+	for actor:Dictionary in _follower_frames:
+		if actor.id==id:return actor
+	return {}
+
+func has_follower(id:String) -> bool:
+	return not follower_view(id).is_empty()
+
+func follower_ids() -> Array[String]:
+	var result:Array[String]=[]
+	for actor:Dictionary in _follower_frames:result.append(actor.id)
+	return result
+
+func exploration_actor_positions() -> Array[Vector2]:
+	var result:Array[Vector2]=[player_pos]
+	for actor:Dictionary in _follower_frames:result.append(actor.position)
+	return result
+
+func append_follower_layers(layers:Array) -> void:
+	for actor:Dictionary in _follower_frames:layers.append({"y":actor.position.y,"kind":"follower","id":actor.id})
+
+func _follower_can_walk(point:Vector2) -> bool:
+	if map_id=="heting":return Heting.walkable(point,heting_bridge,false)
+	return _can_walk(point)
+
+func _follower_can_step(start:Vector2,finish:Vector2) -> bool:
+	if map_id=="heting":return Heting.can_step(start,finish,heting_bridge,false)
+	return _can_step(start,finish)
+
+func _follower_topology_key() -> Array:
+	if map_id=="heting":return [map_id,heting_bridge,not heting_cargo.is_empty()]
+	if map_id=="frostbridge":return [map_id,bridge_repaired]
+	return [map_id]
+
+func _ensure_follower_topology() -> void:
+	# A removed bridge may invalidate the hero as well as the retained trail.
+	# Repair through the existing teleport contract before seeding any actor.
+	if not _can_walk(player_pos):
+		teleport(player_pos)
+		return
+	if not _followers_initialized or _follower_topology != _follower_topology_key():
+		_reset_followers("topology")
+	elif not player_pos.is_equal_approx(_follower_head):
+		_reset_followers("external_relocation")
+
+func _reset_followers(reason:String) -> void:
+	var result:Dictionary=_party_trail.reseed(player_pos,facing,_follower_can_walk,_follower_can_step,reason)
+	if result.get("ok",false):
+		_follower_reseed_count+=1
+		_follower_head=player_pos
+		_follower_topology=_follower_topology_key()
+		_followers_initialized=true
+	follower_recovery_reason=reason if result.get("ok",false) else String(result.get("reason","reseed_failed"))
+	_refresh_follower_view()
+
+func _refresh_follower_view() -> void:
+	_follower_frames=_party_trail.snapshot()
+
+func _record_follow_segment(start:Vector2,finish:Vector2) -> void:
+	if start.is_equal_approx(finish):return
+	var result:Dictionary=_party_trail.record_segment(start,finish)
+	_follower_head=finish
+	_recover_follower_fault(result)
+
+func _advance_followers(delta:float) -> void:
+	var result:Dictionary=_party_trail.advance(delta,_follower_can_walk,_follower_can_step)
+	_recover_follower_fault(result)
+	_refresh_follower_view()
+
+func _recover_follower_fault(result:Dictionary) -> void:
+	if not result.get("recovery_required",false):return
+	var reason:String=String(result.get("reason",""))
+	# Capacity or a blocked retained path is a stop, not a license to teleport
+	# through its missing corner. Explicit topology/relocation resets happen above.
+	if reason in ["invalid_position","invalid_player_position","relocation_required"]:
+		_reset_followers(reason)
 	else:
-		companion_pos = Heting.repaired_position(player_pos, heting_bridge, false)
+		follower_recovery_reason=reason

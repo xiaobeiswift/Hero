@@ -14,8 +14,8 @@ const GroundArt=preload("res://assets/generated/environment/qingwei_moss_earth.p
 ## Region V: Heting's broad working harbour, drawn from its collision geometry.
 ## Pure state input: no GameState reads, writes, inventory or quest transitions.
 ## draw(host, bridge_side, delivered=[], cargo="", draft="", ending="", mist_ending="")
-## Host is VillageWorld: camera/viewport/player/companion/time plus existing
-## _ellipse, _ellipse_arc, _label, _draw_person, _draw_companion,
+## Host is VillageWorld: camera/viewport/player/time, exploration_actor_positions,
+## append_follower_layers, _draw_follower, _ellipse, _ellipse_arc, _label, _draw_person,
 ## _draw_region_sign, _draw_nameplates and _draw_view_framing helpers.
 
 const WORLD_SIZE := Vector2(1600, 1050)
@@ -157,9 +157,11 @@ static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = 
 	for id in ["heting_dispatch", "heting_relief", "heting_scale"]:
 		layers.append({"y": locations[id].pos.y, "kind": "npc", "id": id})
 	layers.append({"y": w.player_pos.y, "kind": "player"})
-	if w.companion_active:
-		layers.append({"y": w.companion_pos.y, "kind": "companion"})
-	layers.sort_custom(func(a, b): return a.y < b.y)
+	w.append_follower_layers(layers)
+	# Preserve insertion order when feet and scenery share a y coordinate.
+	for i in range(layers.size()):
+		layers[i]["draw_order"] = i
+	layers.sort_custom(func(a, b): return a.y < b.y if a.y != b.y else a.draw_order < b.draw_order)
 	for layer in layers:
 		match layer.kind:
 			"building": _warehouse(w, BUILDINGS[layer.index], layer.index)
@@ -175,8 +177,8 @@ static func draw(w, bridge_side: String, delivered: Array = [], cargo: String = 
 					# Compact cart is centred on the valid actor footprint, not a
 					# separate trailing body that swings over the water when turning.
 					_cart(w, w.player_pos, cargo)
-			"companion":
-				w._draw_companion()
+			"follower":
+				w._draw_follower(layer.id)
 				w.draw_set_transform(-w.camera_pos)
 	_aftermath(w, ending)
 	w._draw_region_sign(Vector2(150, 335), "雾竹坡", -1)
@@ -402,8 +404,7 @@ static func warehouse_spec(index:int)->Dictionary:
 
 static func _warehouse(w, r: Rect2, index: int) -> void:
 	var building=warehouse_spec(index)
-	var actors:Array=[w.player_pos]
-	if w.companion_active:actors.append(w.companion_pos)
+	var actors:Array[Vector2]=w.exploration_actor_positions()
 	if BuildingsArt.draw_building(w,building,BuildingsArt.building_opacity(building,actors)):
 		var plaque=BuildingsArt.plaque_rect(building)
 		w._label(plaque.position+Vector2(0,plaque.size.y*.80),["交割棚","西岸粥棚","公秤棚"][index],10,PAPER,plaque.size.x,HORIZONTAL_ALIGNMENT_CENTER)
@@ -506,8 +507,7 @@ static func _relief(w, meal_delivered: bool, ending: String) -> void:
 
 static func _scale(w, sealed_delivered: bool, ending: String) -> void:
 	var p:=Vector2(1418,697)
-	var actors:Array=[w.player_pos]
-	if w.companion_active:actors.append(w.companion_pos)
+	var actors:Array[Vector2]=w.exploration_actor_positions()
 	var opacity=Worksites.opacity_for("public_scale",p,actors)
 	Worksites.draw(w,"public_scale",p,1.0,opacity)
 	if sealed_delivered:
@@ -623,6 +623,5 @@ static func _poly(w, vertices: Array, color: Color) -> void:
 	w.draw_colored_polygon(PackedVector2Array(vertices), color)
 
 static func _machine_opacity(w,id:String,foot:Vector2)->float:
-	var actors:Array=[w.player_pos]
-	if w.companion_active:actors.append(w.companion_pos)
+	var actors:Array[Vector2]=w.exploration_actor_positions()
 	return Machinery.opacity_for(id,foot,actors)

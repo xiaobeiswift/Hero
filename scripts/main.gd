@@ -53,6 +53,7 @@ var receipt_story
 var save_slots
 var hud
 var _hud_navigation_flags:int=-1
+var _exploration_party_signature:Array=[]
 var world
 var world_view: SubViewport
 var font: Font
@@ -356,6 +357,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		KEY_MINUS,KEY_KP_SUBTRACT: _change_view_zoom(-1)
 
 func _refresh() -> void:
+	_sync_exploration_party()
 	world.visible=current_screen=="explore" and not overlay.has_meta("courtyard_practice")
 	region_header.text = state.current_region_name()
 	weather_label.text="暮春  /  山风  /  薄霜" if state.map_id=="frostbridge" else "暮春  /  酉时  /  微风"
@@ -565,8 +567,10 @@ func _request_new_game() -> void:
 func _new_game() -> void:
 	if current_screen=="party_battle":return
 	state.reset_game()
+	_exploration_party_signature.clear()
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
+	_sync_exploration_party()
 	current_screen = "explore"
 	_close_modal()
 	_toast("先去前方找守灯人陆伯聊聊。靠近后按 E / Enter。")
@@ -620,7 +624,7 @@ func _healer_dialogue() -> void:
 	else:
 		var choices:Array=[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]]
 		if shen_story.visible():choices.append(["药箱之外",shen_story.pharmacy])
-		_modal("药铺伙计" if state.current_companion()=="沈青" else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散通常恢复45点气血，照野堂弟子为55点；战斗中使用也算一回合。",choices,true)
+		_modal("药铺伙计" if world.has_follower("shen") else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散通常恢复45点气血，照野堂弟子为55点；战斗中每位队员每轮最多用一次，不替代自动普攻。",choices,true)
 
 func _buy_medicine() -> void:
 	if state.coins < 12:
@@ -673,6 +677,7 @@ func _show_party_roster()->void:
 
 func _party_roster_changed(folio,generation:int)->void:
 	if not is_instance_valid(folio) or current_screen!="explore" or not active_modal or modal_generation!=generation or overlay.get_meta("party_roster",null)!=folio:return
+	_sync_world_state()
 	_autosave();_refresh()
 	folio.set_save_notice("队伍仍保留在当前旅程，但尚未存妥；请点击重试保存。" if save_warning else "")
 
@@ -780,9 +785,11 @@ func _load() -> void:
 	_apply_loaded_state()
 
 func _apply_loaded_state(message:String="前缘已续 · 读档成功。")->void:
+	_exploration_party_signature.clear()
 	current_screen = "explore"
 	_sync_world_state()
 	world.change_map(state.map_id,state.position)
+	_sync_exploration_party()
 	modal_autosave_on_close=true
 	_close_modal()
 	_toast(message)
@@ -1049,6 +1056,7 @@ func _travel(destination: String, spawn: Vector2) -> void:
 	state.map_id = destination
 	_sync_world_state()
 	world.change_map(destination,spawn)
+	_sync_exploration_party()
 	state.position = world.player_pos
 	location_label.text = world.current_location
 	_autosave()
@@ -1167,8 +1175,6 @@ func _sync_world_state() -> void:
 	world.mist_completed=state.mist_stage>=4
 	world.heting_target_id=heting_story.target_id() if _track_heting() else ""
 	world.quest_stage = state.quest_stage
-	world.companion_active = not state.current_companion().is_empty()
-	world.companion_name=state.current_companion()
 	world.personal_target_id=companion_story.target_id()
 	world.shen_target_id=shen_story.target_id() if _track_shen() else ""
 	world.mist_target_id=mist_story.target_id()
@@ -1180,6 +1186,27 @@ func _sync_world_state() -> void:
 	world.resource_depleted=state.gathered_nodes
 	world.side_stage = state.side_stage
 	world.side_target_id = ("ledger_runner" if state.side_found.has("boatman") else "stranded_boatman") if state.side_stage<2 else ""
+	_sync_exploration_party()
+
+func _sync_exploration_party() -> void:
+	if not is_instance_valid(world):return
+	# Membership follows the validated deployed roster, never the legacy single
+	# companion preference. HP/Qi and combat resources are not written here.
+	var signature:Array=[state.get_instance_id(),state.party_roster.duplicate(),state.companion_unlocked,state.tangqi_unlocked,state.qin_recruited()]
+	if signature == _exploration_party_signature:return
+	var resources:Dictionary=state.party_resource_snapshot()
+	if not resources.get("ok",false):
+		_exploration_party_signature.clear()
+		world.set_exploration_party([])
+		return # Do not cache a failed view; a corrected state can retry.
+	var by_id:Dictionary={}
+	for actor:Dictionary in resources.actors:
+		if actor.id in ["shen","tang","qin"] and actor.recruited and actor.selected:by_id[actor.id]=actor
+	var manifest:Array=[]
+	for id:String in resources.roster:
+		if by_id.has(id):manifest.append({"id":id,"name":String(by_id[id].name)})
+	var applied:Dictionary=world.set_exploration_party(manifest)
+	if applied.get("ok",false):_exploration_party_signature=signature.duplicate(true)
 
 func _show_save_slots()->void:save_slots.save_page()
 func _show_load_slots()->void:save_slots.load_page()

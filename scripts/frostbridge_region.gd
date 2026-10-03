@@ -59,21 +59,23 @@ static func draw(w) -> void:
 	for id in ["chapter_host","chapter_clerk","chapter_archive","bridge_worker"]:layers.append({"y":w.interactables[id].pos.y,"kind":"npc","id":id})
 	for id in ["frost_ore","frost_timber","frost_herb"]:layers.append({"y":w.interactables[id].pos.y,"kind":"resource","id":id})
 	layers.append({"y":w.player_pos.y,"kind":"player"})
-	if w.companion_active:layers.append({"y":w.companion_pos.y,"kind":"companion"})
-	layers.sort_custom(func(a,b):return a.y<b.y)
+	w.append_follower_layers(layers)
+	# Preserve insertion order when feet and scenery share a y coordinate.
+	for i in range(layers.size()):layers[i]["draw_order"]=i
+	layers.sort_custom(func(a,b):return a.y<b.y if a.y!=b.y else a.draw_order<b.draw_order)
 	for layer in layers:
 		match layer.kind:
 			"building":w._draw_building(layer.data)
 			"tree":_pine(w,layer.p)
 			"npc":
 				var colors={"chapter_host":Color("977c5e"),"chapter_clerk":Color("b5c5ad"),"chapter_archive":Color("8d665e"),"bridge_worker":Color("81947d")}
-				if layer.id=="bridge_worker" and w.companion_active and w.companion_name=="唐栖":
+				if layer.id=="bridge_worker" and w.has_follower("tang"):
 					w.draw_rect(Rect2(w.interactables[layer.id].pos-Vector2(20,15),Vector2(40,16)),Color("796b50"))
 					w.draw_line(w.interactables[layer.id].pos+Vector2(-12,-18),w.interactables[layer.id].pos+Vector2(15,-14),Color("c7b38a"),4)
 				else:w._draw_person(w.interactables[layer.id].pos,colors[layer.id],false,"tang" if layer.id=="bridge_worker" else w.interactables[layer.id].kind)
 			"resource":_resource(w,layer.id,w.interactables[layer.id].pos,w.resource_depleted.has(layer.id))
 			"player":w._draw_person(w.player_pos,Color("326e69"),true,"player")
-			"companion":w._draw_companion()
+			"follower":w._draw_follower(layer.id)
 	w._label(Vector2(180,920),"霜 桥 驿  ·  印 下 有 声",24,Color("66867e"),480,HORIZONTAL_ALIGNMENT_CENTER)
 	for i in range(35):
 		var p=Vector2(fmod(i*117+w.time_passed*5,1600),fmod(i*73+w.time_passed*11,1050))

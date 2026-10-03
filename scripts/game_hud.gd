@@ -245,13 +245,15 @@ func tick(delta: float) -> void:
 	exploration.visible=host.current_screen=="explore"
 	host.location_label.visible=host.location_label.text!=host.region_header.text
 	if exploration.visible:
-		var point: Vector2=(host.world.player_pos-host.world.camera_pos)*host.view_zoom
-		var actor_rect:=Rect2(point-Vector2(27,80)*host.view_zoom,Vector2(54,90)*host.view_zoom)
+		var actor_rects:Array[Rect2]=[]
+		for foot:Vector2 in host.world.exploration_actor_positions():
+			var point:Vector2=(foot-host.world.camera_pos)*host.view_zoom
+			actor_rects.append(Rect2(point-Vector2(27,80)*host.view_zoom,Vector2(54,90)*host.view_zoom))
 		for item in [identity_wash,quest_wash,place_wash]:
-			var target_alpha: float=.23 if Rect2(item.position,item.size).intersects(actor_rect) else 1.0
+			var target_alpha: float=.23 if _overlaps_party(Rect2(item.position,item.size),actor_rects) else 1.0
 			item.modulate.a=move_toward(item.modulate.a,target_alpha,delta*5.0)
 		for item in nav_buttons:
-			var target_alpha: float=.23 if item.get_rect().intersects(actor_rect) else 1.0
+			var target_alpha: float=.23 if _overlaps_party(item.get_rect(),actor_rects) else 1.0
 			item.modulate.a=move_toward(item.modulate.a,target_alpha,delta*5.0)
 	interaction.visible=exploration.visible and not host.world.nearby_id.is_empty() and not host.active_modal
 	movement_hint.visible=not interaction.visible
@@ -319,3 +321,8 @@ func _action_style(background: Color, edge: Color) -> StyleBoxFlat:
 	result.corner_radius_top_left=2;result.corner_radius_bottom_right=2
 	result.content_margin_left=3;result.content_margin_right=3;result.content_margin_top=3;result.content_margin_bottom=3
 	return result
+
+func _overlaps_party(area:Rect2,actors:Array[Rect2])->bool:
+	for actor:Rect2 in actors:
+		if area.intersects(actor):return true
+	return false

@@ -73,8 +73,10 @@ static func draw(w) -> void:
 	for id in locations:
 		layers.append({"y":locations[id].pos.y,"kind":"landmark","id":id,"p":locations[id].pos})
 	layers.append({"y":w.player_pos.y,"kind":"player"})
-	if w.companion_active:layers.append({"y":w.companion_pos.y,"kind":"companion"})
-	layers.sort_custom(func(a,b):return a.y<b.y)
+	w.append_follower_layers(layers)
+	# Preserve insertion order when feet and scenery share a y coordinate.
+	for i in range(layers.size()):layers[i]["draw_order"]=i
+	layers.sort_custom(func(a,b):return a.y<b.y if a.y!=b.y else a.draw_order<b.draw_order)
 	for layer in layers:
 		match layer.kind:
 			"terrace":_terrace(w,layer.rect)
@@ -83,8 +85,8 @@ static func draw(w) -> void:
 			"gate":_gate(w)
 			"landmark":_landmark(w,layer.id,layer.p)
 			"player":w._draw_person(w.player_pos,Color("326e69"),true,"player")
-			"companion":
-				w._draw_companion()
+			"follower":
+				w._draw_follower(layer.id)
 				w.draw_set_transform(-w.camera_pos)
 	_weather(w)
 	w._draw_nameplates()
@@ -234,8 +236,9 @@ static func _landmark(w,id:String,p:Vector2) -> void:
 		"return_frostbridge":w._draw_region_sign(p,"霜桥古道",-1)
 		"exit_heting":w._draw_region_sign(p,"鹤汀埠",1)
 		"mist_guide":
-			w._draw_person(p,Color("a5b98e"),false,"healer")
-			# An oil-paper umbrella identifies Qin He even in a misty wide shot.
+			if not w.has_follower("qin"):
+				w._draw_person(p,Color("a5b98e"),false,"healer")
+			# The umbrella marks Qin He's original station while she travels with us.
 			w.draw_line(p+Vector2(10,-8),p+Vector2(10,-55),Color("777352"),2,true)
 			_poly(w,[p+Vector2(-19,-49),p+Vector2(10,-67),p+Vector2(40,-49),p+Vector2(25,-45),p+Vector2(10,-48),p+Vector2(-5,-45)],Color("cec49b"))
 			for x in [-16,1,23,37]:w.draw_line(p+Vector2(10,-65),p+Vector2(x,-49),Color("a8a17c"),1,true)
