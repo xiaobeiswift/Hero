@@ -32,7 +32,8 @@ for item in manifest["historical_controllers"]:
         assert Path(replacement).is_file(), replacement
     print("  Historical only: " + item["path"] + " -> " + ", ".join(item["current_replacements"]))
 PYMANIFEST
-# Journal guidance phase1: pure catalog/route/session only; no new J consumer UI yet.
+# Journal guidance: pure models, retained frozen oracle, genuine scene input/IO.
+# Native pixels/earned walking/exact new PCK remain separate gates.
 # Separate profiles prevent retained suites from supplying incidental user files.
 JOURNAL_MODEL_ROOT="$(realpath "$TEST_ROOT")/journal-model"
 mkdir "$JOURNAL_MODEL_ROOT"
@@ -47,6 +48,40 @@ XDG_CONFIG_HOME="$JOURNAL_MODEL_ROOT/independent/config" \
 XDG_CACHE_HOME="$JOURNAL_MODEL_ROOT/independent/cache" \
   run_checked --headless --log-file "$JOURNAL_MODEL_ROOT/independent/engine.log" \
   --path . --script tests/journal_guidance_independent_test.gd -- "$JOURNAL_MODEL_ROOT/independent/result.json"
+
+JOURNAL_UI_ROOT="$(realpath "$TEST_ROOT")/journal-ui"
+mkdir "$JOURNAL_UI_ROOT"
+mkdir -p "$JOURNAL_UI_ROOT"/{functional,safety}/{data,config,cache}
+XDG_DATA_HOME="$JOURNAL_UI_ROOT/functional/data" \
+XDG_CONFIG_HOME="$JOURNAL_UI_ROOT/functional/config" \
+XDG_CACHE_HOME="$JOURNAL_UI_ROOT/functional/cache" \
+  run_checked --headless --log-file "$JOURNAL_UI_ROOT/functional/engine.log" \
+  --path . --script tests/journal_guidance_ui_test.gd -- --output="$JOURNAL_UI_ROOT/functional/result.json"
+HERO_CHECK_TIMEOUT_SECONDS=600 \
+HERO_JOURNAL_SCENE_REPORT="$JOURNAL_UI_ROOT/safety/result.json" \
+HERO_JOURNAL_SCENE_CASE="" \
+XDG_DATA_HOME="$JOURNAL_UI_ROOT/safety/data" \
+XDG_CONFIG_HOME="$JOURNAL_UI_ROOT/safety/config" \
+XDG_CACHE_HOME="$JOURNAL_UI_ROOT/safety/cache" \
+  run_checked --headless --log-file "$JOURNAL_UI_ROOT/safety/engine.log" \
+  --path . --script tests/journal_guidance_scene_independent_test.gd
+# Same-schema compatibility is a positive roundtrip, not another migration.
+# The middle process loads only the retained complete Web30 runtime closure.
+if [[ -n "${HERO_WEB30_PCK:-}" ]]; then
+  JOURNAL_COMPAT_ROOT="$(mktemp -d "$(realpath "$TEST_ROOT")/journal-old30.XXXXXX")"
+  JOURNAL_OLD_PCK="$(realpath "$HERO_WEB30_PCK")"
+  for mode in produce old verify; do
+    mkdir -p "$JOURNAL_COMPAT_ROOT/$mode"/{data,config,cache}
+    JOURNAL_PACK_ARGUMENTS=(--path .)
+    if [[ "$mode" == old ]]; then JOURNAL_PACK_ARGUMENTS=(--main-pack "$JOURNAL_OLD_PCK"); fi
+    XDG_DATA_HOME="$JOURNAL_COMPAT_ROOT/$mode/data" \
+    XDG_CONFIG_HOME="$JOURNAL_COMPAT_ROOT/$mode/config" \
+    XDG_CACHE_HOME="$JOURNAL_COMPAT_ROOT/$mode/cache" \
+      run_checked --headless --log-file "$JOURNAL_COMPAT_ROOT/$mode/engine.log" \
+      "${JOURNAL_PACK_ARGUMENTS[@]}" --script "$(pwd)/tests/journal_guidance_old30_pack_probe.gd" \
+      -- "$mode" "$JOURNAL_OLD_PCK" "$JOURNAL_COMPAT_ROOT/roundtrip"
+  done
+fi
 
 # Equipment fitting phase1: schema16 and detached, reward-free trial models.
 # No fitting controls/native/new-package acceptance is implied by this suite.
