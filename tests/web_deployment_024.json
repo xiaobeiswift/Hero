@@ -1,0 +1,33 @@
+{
+  "parent_verified_at_utc": "2026-10-03T01:29Z",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.24",
+  "web_revision": 1,
+  "save_schema": 13,
+  "party_capacity": 4,
+  "source_commit": "e185a134e06af8afb427eb96d32fb52459ee10f8",
+  "source_local_mapping": "0760f091c370b8b5777ec1de646ad32045d26ea7",
+  "source_tree": "2b50c6a65eff4be44c78b6dec3677f810f50f470",
+  "windows": {
+    "exact_pck_checks": 3159,
+    "preserved_checks": 1471,
+    "unified_checks": 1247,
+    "exploration_checks": 349,
+    "failures": 0,
+    "pck_sha256": "44d04112d7bc4e1de9bc202d97dcaa81bb413e4fc8251216af2e56c99748a4da",
+    "archive_bytes": 65094611,
+    "archive_sha256": "b96e44f03f08348d91ffb1608620716fa3748439b09ca470567e6aa624dd28b9",
+    "runtime_source_hashes": 304,
+    "isolated_test_profile": true
+  },
+  "deployment": {
+    "https_complete_asset_hashes": 14,
+    "checks_passed": 36,
+    "tls_mime_version_cache_headers_verified": true,
+    "caddy_configuration": "unchanged",
+    "unrelated_git_https_status": 200,
+    "retention": "Current 0.0.24-web1 only; old 0.0.23 retired after verified recoverability and zero readers. Saves and unique evidence retained."
+  },
+  "evidence_scope": "Recorded from the parent-confirmed independent Windows build and deployment receipt. This cloud engineering checkpoint did not perform server operations. Confirmation time is minute precision, not an invented server switch timestamp.",
+  "limits": "Actual browser graphics/audio/reload persistence remains unverified. Native-editor exact-PCK audit and HTTPS byte verification do not establish browser runtime validation. No GitHub package uploaded."
+}
