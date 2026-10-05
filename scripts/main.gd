@@ -589,7 +589,10 @@ func _close_modal() -> void:
 	_refresh()
 	if current_screen == "explore" and save_on_close: _autosave()
 
-func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false) -> void:
+func _npc_dialogue(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
+	_modal(title,subtitle,body,options,wide,false,true)
+
+func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false, npc_folio: bool = false) -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -600,7 +603,7 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(veil)
 	if current_screen!="title" or paper:
-		DialogueSheet.build(self,title,subtitle,body,options,wide)
+		DialogueSheet.build(self,title,subtitle,body,options,wide,npc_folio)
 		return
 	if current_screen == "title" and ResourceLoader.exists("res://assets/generated/qingwei_ferry_title.png"):
 		var art = TextureRect.new()
@@ -742,30 +745,30 @@ func _elder_dialogue() -> void:
 		return
 	match state.quest_stage:
 		0:
-			_modal("陆伯 · 守灯人","机缘 / 渡口失灯","灯绳是被利刃割断的。灯不亮，运粮的船便不敢进港，偏偏有人要收一笔‘借火钱’。\n\n药师沈青认得绳上留下的药味，可她还在照看受伤的船工。劳烦你去东北苇岸，采一株青穗草。",[["这盏灯，我来找",func(): state.quest_stage=1; _close_modal(); _autosave(); _toast("新机缘：沿北侧土路向东，寻找发光的青穗草。")]])
+			_npc_dialogue("陆伯 · 守灯人","机缘 / 渡口失灯","灯绳是被利刃割断的。灯不亮，运粮的船便不敢进港，偏偏有人要收一笔‘借火钱’。\n\n药师沈青认得绳上留下的药味，可她还在照看受伤的船工。劳烦你去东北苇岸，采一株青穗草。",[["这盏灯，我来找",func(): state.quest_stage=1; _close_modal(); _autosave(); _toast("新机缘：沿北侧土路向东，寻找发光的青穗草。")]])
 		1:
-			_modal("陆伯","渡口失灯","青穗草长在东北苇岸。沿村中土路向东，再往北，便能看到那丛淡青色的草。\n\n别急着与人动刀，先问清这条河上的事。")
+			_npc_dialogue("陆伯","渡口失灯","青穗草长在东北苇岸。沿村中土路向东，再往北，便能看到那丛淡青色的草。\n\n别急着与人动刀，先问清这条河上的事。")
 		2,3:
-			_modal("陆伯","渡口失灯","沈青的药铺就在村西。查明缘由后，再去东南旧渡口。\n\n老夫守了三十年的灯，只盼它照见归人，不替任何人照见银子。")
+			_npc_dialogue("陆伯","渡口失灯","沈青的药铺就在村西。查明缘由后，再去东南旧渡口。\n\n老夫守了三十年的灯，只盼它照见归人，不替任何人照见银子。")
 		4:
-			_modal("陆伯","抉择 / 灯火归处","你带回了灯芯和私收渡税的账页。账页上的印章，竟与旧信上的水纹一致。\n\n陆伯沉默良久：‘这账，是交给县衙，还是留给渡口的船家？’\n\n[color=#d3b276]你的选择将留在青苇渡，也会写入往后的江湖。[/color]",[["交给县衙",func(): _finish_quest("秉公")],["交给船家",func(): _finish_quest("守望")]],true)
+			_npc_dialogue("陆伯","抉择 / 灯火归处","你带回了灯芯和私收渡税的账页。账页上的印章，竟与旧信上的水纹一致。\n\n陆伯沉默良久：‘这账，是交给县衙，还是留给渡口的船家？’\n\n[color=#d3b276]你的选择将留在青苇渡，也会写入往后的江湖。[/color]",[["交给县衙",func(): _finish_quest("秉公")],["交给船家",func(): _finish_quest("守望")]],true)
 		_:
 			var onward: String = "你的旧信指向上游的霜桥驿。等一切准备妥当，就沿旧路去看看吧。"
 			if state.chapter_two_stage>=4:onward="你已沿旧信走到霜桥，原账也有了归处。未办完的机缘仍可继续，想歇脚时就回来。"
 			var goal: Dictionary = state.Capstone.goal(state)
 			if state.capstone_stage in [1,2,3,4,5] and not goal.is_empty():onward="这一程仍有待办："+String(goal.objective)+"回来歇脚不改变已查记录。"
-			_modal("陆伯","灯已归来" if state.capstone_stage<7 else "青苇余响 / 灯下可歇","渡口的灯仍亮着。"+("县衙已收下账页，往后还须有人盯着。" if state.ending=="秉公" else "船家们把账页抄成了三份，谁也不能轻易夺走。")+"\n\n"+onward)
+			_npc_dialogue("陆伯","灯已归来" if state.capstone_stage<7 else "青苇余响 / 灯下可歇","渡口的灯仍亮着。"+("县衙已收下账页，往后还须有人盯着。" if state.ending=="秉公" else "船家们把账页抄成了三份，谁也不能轻易夺走。")+"\n\n"+onward)
 
 func _healer_dialogue() -> void:
 	if state.quest_stage >= 3 and not state.companion_unlocked:
-		_modal("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n沈青每轮自动以银针出手一次；你可另行安排她的青灯渡脉、温灯养脉与流萤步。青灯渡脉消耗3真气，治疗一名仍站立的队友；气血与真气各自记录。并肩轮换承受来击，护后由前位先挡敌锋。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
+		_npc_dialogue("沈青 · 药师", "同行 / 一程风雨", "蒲横的刀快，我的药箱也不慢。\n\n沈青收好药箱：‘治伤不能只等伤者上门。你若愿意，这一程我们同行。’\n\n沈青每轮自动以银针出手一次；你可另行安排她的青灯渡脉、温灯养脉与流萤步。青灯渡脉消耗3真气，治疗一名仍站立的队友；气血与真气各自记录。并肩轮换承受来击，护后由前位先挡敌锋。", [["邀请同行",func(): state.recruit_companion(); state.heal_rest(); _close_modal(); _autosave(); _toast("沈青加入队伍，可在行囊切换阵型。")],["先疗伤",func(): state.heal_rest(); _close_modal(); _toast("沈青为你疗伤。想好后可再来邀请同行。")]])
 		return
 	if state.quest_stage == 2 and state.herbs > 0:
-		_modal("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，看清敌方意图，及时安排武学与疗伤。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
+		_npc_dialogue("沈青 · 药师","线索 / 绳上的药味","正是青穗草，多谢。船工醒后说，河帮的人把灯藏在旧渡口。\n\n绳上的不是毒，是常见的止血膏。有人一边替船工包扎，一边收他过河的钱。\n\n带上这两包回春散。刀剑无眼，看清敌方意图，及时安排武学与疗伤。",[["收下药，前往旧渡口",func(): state.herbs-=1; state.medicine+=2; state.quest_stage=3; state.gain_xp(20); _close_modal(); _autosave(); _toast("获得回春散 ×2、修为 +20。前往东南旧渡口。")]])
 	else:
 		var choices:Array=[["免费调息",func(): state.heal_rest(); _close_modal(); _toast("气血与真气已恢复。")],["买药 · 12 文",_buy_medicine],["告辞",_close_modal]]
 		if shen_story.visible():choices.append(["药箱之外",shen_story.pharmacy])
-		_modal("药铺伙计" if world.has_follower("shen") else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散通常恢复45点气血，照野堂弟子为55点；战斗中每位队员每轮最多用一次，不替代自动普攻。",choices,true)
+		_npc_dialogue("药铺伙计" if world.has_follower("shen") else "沈青 · 药师","青苇药铺","行走江湖，先学会照顾自己。\n\n我可以替你调息疗伤，也能卖你一份回春散（12 铜钱）。\n回春散通常恢复45点气血，照野堂弟子为55点；战斗中每位队员每轮最多用一次，不替代自动普攻。",choices,true)
 
 func _buy_medicine() -> void:
 	if state.coins < 12:

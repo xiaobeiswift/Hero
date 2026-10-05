@@ -3,6 +3,7 @@ extends Control
 const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
 const Trials = preload("res://scripts/weapon_fitting_trial_rules.gd")
 const Paper = preload("res://scripts/inventory_panel.gd")
+const Folio = preload("res://scripts/folio_theme.gd")
 const SAVE_NOTICE = "存档提示：本版任何保存（包括原装）均写入格式16，旧版无法读取。升级前请自行保留旧档。自动续写不会额外备份，手动手记沿用原备份规则。"
 const TITLE_SAVE_NOTICE = "所有保存均为格式16，旧版无法读取；自动存档不额外备份。"
 const PAGES = ["preview", "confirm", "trial", "results"]
@@ -19,6 +20,22 @@ var candidate_buttons: Dictionary = {}
 var action_buttons: Dictionary = {}
 var result_rows: Array = []
 var body: RichTextLabel
+var details_open: bool = false
+var details_button: Button
+var overview_blocks: Array[Control] = []
+
+class ReadingPaper extends Folio.ReadingWash:
+	func _draw() -> void:
+		# One continuous native tint; original folio grain remains underneath.
+		# The inherited passive feather shader never repeats or enlarges texture.
+		wash_material.set_shader_parameter("wash_size", size)
+		draw_rect(Rect2(Vector2.ZERO,size), Color(.933,.890,.800,strength))
+
+class DisclosureEdges extends Folio.ScrollEdges:
+	var visibility_owner: Control
+	func _refresh_edges() -> void:
+		super._refresh_edges()
+		visible = visible and is_instance_valid(visibility_owner) and visibility_owner.is_visible_in_tree()
 
 static func open(owner, choice: String = "", view: String = "preview", preset: String = "ordinary", entry: String = "workshop") -> Control:
 	if not _owner_ready(owner) or view not in PAGES or preset not in Trials.PROFILES or entry not in ["workshop", "courtyard"]: return null
@@ -165,17 +182,32 @@ func build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var veil = ColorRect.new(); veil.color = Color(.01, .04, .04, .78)
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); add_child(veil)
-	var frame = host._panel(self, Rect2(65,38,1150,724), Color("133333"), Color("c5aa70")); frame.name = "FittingFrame"
-	var paper = Paper.PaperSurface.new(); paper.position = Vector2(18,130); paper.size = Vector2(1114,482); frame.add_child(paper)
-	_text(frame, "剑 上 配 件" if page != "results" else "南 庭 试 配 记", Rect2(34,17,800,43), 29, host.PAPER, "FittingTitle")
-	_text(frame, {"preview":"配件预览 / 只改主角攻击与防御", "confirm":"明确确认 / 免费装配与恢复", "trial":"借用试招 / 普通木人默认，可选高压", "results":"本次会话 / 最近两次同条件实测"}[page], Rect2(36,63,860,24), 15, host.GOLD)
-	_text(frame, "当前已装配：%s  ·  实际攻击%d / 防御%d  ·  %s / %s" % [Fittings.LABELS[source_state.weapon_fitting], source_state.effective_attack(), source_state.effective_defense(), source_state.equipment, source_state.armor], Rect2(36,97,1065,25), 16, host.PAPER, "FittingInstalled")
-	var exit_button = host._button(frame,"关闭 ×",Rect2(1010,22,104,41),close); exit_button.name = "FittingClose"; exit_button.focus_mode = Control.FOCUS_ALL
+	var frame = host._panel(self, Rect2(40,46,1200,714), Color.TRANSPARENT, Color.TRANSPARENT); frame.name = "FittingFrame"
+	frame.add_theme_stylebox_override("panel", Folio.style(Color.TRANSPARENT))
+	Folio.backing(frame, Rect2(0,0,1200,714))
+	var paper = ReadingPaper.new(); paper.name = "FittingReadingPaper"
+	paper.position = Vector2(438,156); paper.size = Vector2(744,470); paper.strength = .82
+	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE; paper.focus_mode = Control.FOCUS_NONE
+	frame.add_child(paper)
+	_heading(frame, "剑 上 配 件" if page != "results" else "南 庭 试 配 记", Rect2(138,26,250,40), 30, Folio.BONE, "FittingTitle")
+	_text(frame, {"preview":"配件预览 / 只改主角攻击与防御", "confirm":"明确确认 / 免费装配与恢复", "trial":"借用试招 / 普通木人默认，可选高压", "results":"本次会话 / 最近两次同条件实测"}[page], Rect2(138,76,250,44), 15, Folio.BRASS)
+	_text(frame, "当前已装配：%s  ·  实际攻击%d / 防御%d  ·  %s / %s" % [Fittings.LABELS[source_state.weapon_fitting], source_state.effective_attack(), source_state.effective_defense(), source_state.equipment, source_state.armor], Rect2(138,126,250,72), 16, Folio.BONE, "FittingInstalled")
+	var exit_button = host._button(frame,"关闭 ×",Rect2(1038,20,136,48),close); exit_button.name = "FittingClose"; exit_button.focus_mode = Control.FOCUS_ALL
+	Folio.skin_button(exit_button, "header_close"); exit_button.add_theme_font_size_override("font_size", 17)
+	var status: String = "预览与当前已装配相同" if candidate == source_state.weapon_fitting else "仅预览 · 尚未装配"
+	if page == "confirm": status = "明确确认 · 装配并保存当前真实旅程"
+	elif page == "trial": status = "本次借用：%s · %s" % [Fittings.LABELS[candidate],"普通木人" if profile == "ordinary" else "进阶高压"]
+	elif page == "results": status = "本次会话 / 最近两次同条件实测"
+	_text(frame, status, Rect2(456,58,570,26), 16, Folio.SECONDARY_INK, "FittingViewStatus")
+	_heading(frame, "南庭试配记" if page == "results" else Fittings.LABELS[candidate], Rect2(456,90,662,60), 42, Folio.INK, "FittingCandidateHeading")
+	Folio.rule(frame, Rect2(456,159,662,1), Folio.BRASS)
+	if page == "results":
+		_text(frame,"本次借用：%s\n%s" % [Fittings.LABELS[candidate],"普通木人" if profile == "ordinary" else "进阶高压"],Rect2(138,234,250,66),18,Folio.BONE,"FittingBorrowedIdentity")
 	if page == "results": _build_results(frame)
 	elif page == "confirm": _build_confirmation(frame)
 	else: _build_preview(frame)
 	var warning: String = "当前旅程有未保存的变化；请点击重试保存。\n" if host.save_warning else ""
-	_text(frame, warning + SAVE_NOTICE, Rect2(36,542,1078,67), 13, Color("6b593e"), "FittingSaveNotice")
+	_text(frame, warning + SAVE_NOTICE, Rect2(456,510,690,90), 15, Folio.SECONDARY_INK, "FittingSaveNotice")
 	var actions: Array = []
 	if page == "preview":
 		actions = [["equip","装配此项",confirm_selection],["revert","免费恢复原装",revert_original],["trial","借用试招",prepare_trial],["retry_save","重试保存",retry_save] if host.save_warning else ["results","本次会话记录",show_results],["workshop","返回工艺",return_workshop]]
@@ -185,12 +217,27 @@ func build() -> void:
 		actions = [["confirm","确认装配" if candidate != "plain" else "确认免费恢复原装",confirm_equip],["cancel","取消，返回预览",back]]
 	else:
 		actions = [["start","再次借用",start_trial],["trial","更换试配",prepare_trial],["preview","返回预览",_replace.bind("preview")],["workshop","返回工艺",return_workshop],["close","回到南庭",close]]
-	var width: float = (1078.0 - 12.0 * (actions.size()-1)) / actions.size()
 	for i: int in actions.size():
 		var action: Array = actions[i]
-		var button = host._button(frame, action[1], Rect2(36+i*(width+12),630,width,46), action[2])
+		var button = host._button(frame, action[1], _action_rect(action[0]), action[2])
 		button.focus_mode = Control.FOCUS_ALL
-		button.name = "FittingAction_" + action[0]; button.add_theme_font_size_override("font_size",16)
+		button.name = "FittingAction_" + action[0]
+		var primary: bool = action[0] == "confirm" or (action[0] == "equip" and page == "preview") or (action[0] == "start" and page in ["trial", "results"])
+		var secondary: bool = action[0] == "trial" and page in ["preview", "results"]
+		Folio.skin_button(button, "primary" if primary else ("auto" if secondary else "cloth_quiet"))
+		button.add_theme_font_size_override("font_size", 24 if primary else (21 if secondary else 16))
+		if primary:
+			for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
+				var style: StyleBox = button.get_theme_stylebox(state).duplicate()
+				style.content_margin_top = 5; style.content_margin_bottom = 5
+				button.add_theme_stylebox_override(state, style)
+		elif page == "trial" and action[0] in ["ordinary", "pressure"]:
+			Folio.skin_button(button, "auto"); button.add_theme_font_size_override("font_size", 16)
+		elif page == "confirm" and action[0] == "cancel" or page == "results" and action[0] == "preview":
+			Folio.skin_button(button, "paper_quiet")
+			button.add_theme_font_size_override("font_size", 16)
+			button.add_theme_stylebox_override("normal", Folio.style(Color.TRANSPARENT, Folio.BRASS, 1))
+			button.add_theme_stylebox_override("disabled", Folio.style(Color(.24,.20,.15,.09), Folio.SECONDARY_INK, 1))
 		action_buttons[action[0]] = button
 		if action[0] == "equip": button.disabled = candidate == source_state.weapon_fitting or not source_state.preview_weapon_fitting(candidate).get("ok",false)
 		if action[0] == "revert": button.disabled = source_state.weapon_fitting == "plain"
@@ -200,23 +247,41 @@ func build() -> void:
 	var help: String = "1–3 仅预览配件  ·  4 装配确认  ·  5 借用试招  ·  Tab/Enter 聚焦操作  ·  Esc 返回"
 	if page == "confirm": help = "1 明确确认并保存  ·  2 / Esc 取消  ·  关闭不会装配"
 	elif page == "results": help = "1 再次借用  ·  2 更换试配  ·  3 返回预览  ·  Esc 回到南庭"
-	_text(frame, help, Rect2(36,688,1078,22), 13, Color("b4c0a7"), "FittingHelp")
+	var help_backing = Folio.rule(self,Rect2(168,760,1048,32),Color(Folio.INK,.92)); help_backing.name = "FittingHelpBacking"
+	_text(self, help, Rect2(178,762,1038,26), 14, Folio.BONE, "FittingHelp")
 
 func _build_preview(frame: Control) -> void:
 	for i: int in Fittings.IDS.size():
 		var id: String = Fittings.IDS[i]
 		var projection: Dictionary = source_state.preview_weapon_fitting(id)
 		var selected: bool = candidate == id
-		var button = host._button(frame,"",Rect2(36+i*363,148,351,87),choose_candidate.bind(id))
+		var title: String = "%d  %s" % [i+1,Fittings.LABELS[id]]
+		var status: String = " · 预览中" if selected else ""
+		var delta: String = ["攻防不变 · 免费恢复","攻击 +3 / 防御 −2","攻击 −3 / 防御 +2"][i]
+		var button = host._button(frame,title+status+"\n"+delta,Rect2(138,212+i*94,250,86),choose_candidate.bind(id))
 		button.name = "FittingCandidate_"+id
 		button.focus_mode = Control.FOCUS_ALL
-		button.add_theme_stylebox_override("normal",host._style(Color("2d5b50") if selected else Color("25433e"),host.GOLD if selected else Color("6d8273")))
+		button.clip_text = true
+		Folio.skin_button(button, "row", selected)
+		# Keep the semantic caption on the real Button; only native child labels draw it.
+		for key: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color", "font_outline_color", "font_shadow_color"]:
+			button.add_theme_color_override(key, Color.TRANSPARENT)
 		candidate_buttons[id] = button
-		var glyph_width: int = 58 if id != "plain" else 0
+		if selected:
+			var ribbon = Folio.Ribbon.new(); ribbon.name = "FittingPreviewRibbon"
+			ribbon.show_behind_parent = true
+			ribbon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			ribbon.mouse_filter = Control.MOUSE_FILTER_IGNORE; ribbon.focus_mode = Control.FOCUS_NONE
+			button.add_child(ribbon)
+		var glyph_width: int = 44 if id != "plain" else 0
 		if id != "plain":
-			var glyph = Paper.ItemGlyph.new(); glyph.kind = "sword" if id == "edge" else "armor"; glyph.position = Vector2(10,15); glyph.size = Vector2(48,55); button.add_child(glyph)
-		_text(button, "%d  %s%s" % [i+1,Fittings.LABELS[id]," · 预览中" if selected else ""],Rect2(16+glyph_width,8,320-glyph_width,29),19,host.PAPER)
-		_text(button, ["攻防不变 · 免费恢复","攻击 +3 / 防御 −2","攻击 −3 / 防御 +2"][i],Rect2(16+glyph_width,45,320-glyph_width,24),15,host.GOLD)
+			var glyph = Paper.ItemGlyph.new(); glyph.kind = "sword" if id == "edge" else "armor"; glyph.position = Vector2(10,8); glyph.size = Vector2(48,55); glyph.scale = Vector2(.75,.75); button.add_child(glyph)
+			glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE; glyph.focus_mode = Control.FOCUS_NONE
+		var heading = _text(button, title, Rect2(16+glyph_width,5,216-glyph_width,33),22,Folio.BONE,"FittingCandidateTitle")
+		heading.add_theme_font_override("font", Folio.heading_font())
+		_text(button, delta, Rect2(16,39,214,24),15,Folio.BONE if selected else Folio.BRASS,"FittingCandidateDelta")
+		if selected: _text(button, status, Rect2(16,63,214,22),15,Folio.BONE,"FittingCandidatePreview")
+		else: Folio.rule(button, Rect2(16,81,214,1), Folio.BRASS.darkened(.3))
 		button.tooltip_text = projection.get("reason", "") if not projection.get("ok",false) else "仅切换预览，不会装配或保存"
 	var projection: Dictionary = source_state.preview_weapon_fitting(candidate)
 	var caption: String = "预览与当前已装配相同" if candidate == source_state.weapon_fitting else "仅预览 · 尚未装配"
@@ -238,8 +303,23 @@ func _build_preview(frame: Control) -> void:
 		else: text += String(prepared.reason)+"\n"
 		if not courtyard_ready(host): text += "[b]请先走到青苇渡练武堂南庭木人旁，此处无法开始。[/b]\n"
 		if profile == "pressure":
-			_text(frame,"高压可能使初入门派者落败；高等级可能触及伤害下限，三种结果也可能相同。",Rect2(38,501,1070,32),15,Color("7c5726"),"FittingPressureWarning")
-	body = _rich(frame,text,Rect2(38,252,1070,240 if page == "trial" else 275),18,"FittingBody")
+			_text(frame,"高压可能使初入门派者落败；高等级可能触及伤害下限，三种结果也可能相同。",Rect2(456,481,690,24),15,Folio.SECONDARY_INK,"FittingPressureWarning")
+	overview_blocks.append(_comparison(frame, projection))
+	if page == "preview":
+		var scope: String = "选择配件只作预览；明确确认后才装配。可免费恢复原装。\n只影响主角，不替换佩剑衣甲，不改变气血、真气、同伴或行囊。" if projection.get("ok",false) else String(projection.reason)
+		overview_blocks.append(_text(frame,scope,Rect2(456,330,662,52),17,Folio.INK,"FittingPreviewScope"))
+		overview_blocks.append(_text(frame,"借用试招须亲自走到青苇渡练武堂南庭木人旁；不会传送。",Rect2(456,386,662,48),16,Folio.SECONDARY_INK,"FittingBorrowingLocation"))
+	else:
+		var prepared: Dictionary = Trials.build(source_state,candidate,profile)
+		_text(frame,"借用满气血、满真气与3份40点药；真实伤势、药品、熟练与进度不变，无奖励。" if prepared.ok else String(prepared.reason),Rect2(456,330,690,48),16,Folio.INK,"FittingBorrowedResources")
+		_text(frame,"借用试招须亲自走到青苇渡练武堂南庭木人旁；不会传送。" if courtyard_ready(host) else "请先走到青苇渡练武堂南庭木人旁，此处无法开始。",Rect2(456,382,690,34),16,Folio.SECONDARY_INK,"FittingBorrowingLocation")
+	details_button = host._button(frame,"配件与试招说明 ▸",Rect2(456,437,310,36),_toggle_details)
+	details_button.name = "FittingDetailsToggle"; details_button.focus_mode = Control.FOCUS_ALL
+	Folio.skin_button(details_button,"paper_quiet"); details_button.add_theme_font_size_override("font_size",16)
+	details_button.add_theme_stylebox_override("normal",Folio.style(Color.TRANSPARENT,Folio.BRASS,1))
+	body = _rich(frame,text,Rect2(456,178,662,144) if page == "trial" else Rect2(456,178,662,244),18,"FittingBody")
+	body.visible = false
+	frame.get_node("FittingBodyScrollEdges").visible = false
 
 func _build_confirmation(frame: Control) -> void:
 	var projected: Dictionary = source_state.preview_weapon_fitting(candidate)
@@ -248,16 +328,18 @@ func _build_confirmation(frame: Control) -> void:
 	else: text += String(projected.reason)+"\n\n"
 	text += "本次免费，只更换配件。真实资源、成长、同伴、佩剑衣甲均不改变。\n\n"
 	text += "点击确认后装配，并按现有规则保存当前真实旅程与位置。\n保存失败时所选配件仍在内存，旧存档保留，可明确重试。\n\n取消、Esc或关闭均不会装配，也不会保存。"
-	body = _rich(frame,text,Rect2(40,156,1065,366),21,"FittingBody")
+	_comparison(frame, projected)
+	body = _rich(frame,text,Rect2(456,326,662,168),21,"FittingBody")
 
 func _build_results(frame: Control) -> void:
 	var snapshot: Dictionary = source_state.fitting_comparison_snapshot()
 	var prepared: Dictionary = Trials.build(source_state,candidate,profile)
 	var current_key: String = String(prepared.metadata.comparison_key) if prepared.ok else ""
 	if current_key.is_empty() or current_key != snapshot.comparison_key or snapshot.results.is_empty():
-		body = _rich(frame,"当前队伍与档位尚无可并列的试招记录。\n\n更换队伍、阵型、招式、基础能力或档位后，须按新条件重新试招。\n仅保留本次会话最近两次同条件结果；读档或新旅程会清空。\n\n当前已装配仍为%s；本次借用候选为%s。" % [Fittings.LABELS[source_state.weapon_fitting],Fittings.LABELS[candidate]],Rect2(40,158,1065,360),21,"FittingResultsEmpty")
+		body = _rich(frame,"当前队伍与档位尚无可并列的试招记录。\n\n更换队伍、阵型、招式、基础能力或档位后，须按新条件重新试招。\n仅保留本次会话最近两次同条件结果；读档或新旅程会清空。\n\n当前已装配仍为%s；本次借用候选为%s。" % [Fittings.LABELS[source_state.weapon_fitting],Fittings.LABELS[candidate]],Rect2(456,176,662,276),20,"FittingResultsEmpty")
 		return
 	result_rows = snapshot.results.duplicate(true)
+	if result_rows.size() == 2: Folio.rule(frame, Rect2(787,176,1,276), Folio.BRASS)
 	for i: int in result_rows.size():
 		var row: Dictionary = result_rows[i]
 		var facts: Dictionary = row.metadata
@@ -273,8 +355,53 @@ func _build_results(frame: Control) -> void:
 			text += "%s：借用余血%d / 余气%d，累计失血%d\n" % [String(actor.name).replace("[","[lb]"),remaining.hp,remaining.qi,metrics.actual_hp_lost_by_actor[actor.id]]
 		text += "余借药 %d 份\n\n" % metrics.remaining_resources.medicine
 		text += _profile_text(facts)
-		_rich(frame,text,Rect2(40+i*545,154,520,338),16,"FittingResult"+str(i+1))
-	_text(frame,"同条件实测只反映这两次操作；不会保证普遍优势。真实资源与已装配均未因借用改变。",Rect2(40,504,1064,30),15,Color("6b593e"),"FittingComparisonCaveat")
+		_rich(frame,text,Rect2(456+i*343,176,319,276),16,"FittingResult"+str(i+1))
+	_text(frame,"同条件实测只反映这两次操作；不会保证普遍优势。真实资源与已装配均未因借用改变。",Rect2(456,466,662,34),15,Folio.SECONDARY_INK,"FittingComparisonCaveat")
+
+func _action_rect(action: String) -> Rect2:
+	if page == "preview":
+		return {"equip":Rect2(456,610,250,52),"revert":Rect2(138,512,250,42),"trial":Rect2(726,610,250,52),"results":Rect2(138,560,250,42),"retry_save":Rect2(138,560,250,42),"workshop":Rect2(138,608,250,42)}[action]
+	if page == "trial":
+		return {"start":Rect2(456,610,250,52),"ordinary":Rect2(726,610,176,52),"pressure":Rect2(918,610,176,52),"equip":Rect2(138,560,250,42),"back":Rect2(138,608,250,42)}[action]
+	if page == "confirm":
+		return {"confirm":Rect2(456,610,330,52),"cancel":Rect2(806,610,312,52)}[action]
+	return {"start":Rect2(456,610,220,52),"trial":Rect2(692,610,204,52),"preview":Rect2(912,610,206,52),"workshop":Rect2(138,560,250,42),"close":Rect2(138,608,250,42)}[action]
+
+func _comparison(frame: Control, projected: Dictionary) -> Control:
+	var group = Control.new(); group.name = "FittingComparisonNumbers"; group.size = frame.size
+	group.mouse_filter = Control.MOUSE_FILTER_IGNORE; group.focus_mode = Control.FOCUS_NONE; frame.add_child(group)
+	for i: int in 2:
+		var x: float = 456 + i*346
+		var current: int = source_state.effective_attack() if i == 0 else source_state.effective_defense()
+		var after: int = int(projected.get("attack" if i == 0 else "defense", current))
+		var stem: String = "FittingAttack" if i == 0 else "FittingDefense"
+		_text(group,"攻击" if i == 0 else "防御",Rect2(x,177,296,28),18,Folio.SECONDARY_INK,stem+"Label")
+		Folio.rule(group,Rect2(x,209,296,1),Folio.BRASS)
+		_text(group,"当前实际",Rect2(x,216,116,23),15,Folio.SECONDARY_INK,stem+"BeforeCaption")
+		_text(group,"装配预览",Rect2(x+160,216,136,23),15,Folio.SECONDARY_INK,stem+"AfterCaption")
+		_heading(group,str(current),Rect2(x,240,116,53),36,Folio.INK,stem+"Before")
+		_text(group,"→",Rect2(x+119,249,36,32),20,Folio.SECONDARY_INK,stem+"Arrow")
+		_heading(group,str(after) if projected.get("ok",false) else "—",Rect2(x+160,240,136,53),36,Folio.INK,stem+"After")
+		var change: int = after-current
+		_text(group,("与已装配相同" if change == 0 else "较已装配 "+("+" if change > 0 else "")+str(change)) if projected.get("ok",false) else "尚不可装配",Rect2(x+160,295,136,23),15,Folio.SECONDARY_INK,stem+"Delta")
+	return group
+
+func _toggle_details() -> void:
+	if not valid() or not is_instance_valid(details_button) or not is_instance_valid(body) or page not in ["preview","trial"]: return
+	var return_focus: bool = details_open and body.has_focus()
+	details_open = not details_open
+	for block: Control in overview_blocks: block.visible = not details_open
+	body.visible = details_open
+	details_button.text = "收起说明 ▴" if details_open else "配件与试招说明 ▸"
+	var edges = body.get_parent().get_node("FittingBodyScrollEdges")
+	if details_open: edges._refresh_edges()
+	else: edges.visible = false
+	if return_focus and valid() and is_instance_valid(details_button): details_button.grab_focus()
+
+func _heading(parent: Node, value: String, rect: Rect2, pixels: int, color: Color, node_name: String) -> Label:
+	var label = _text(parent,value,rect,pixels,color,node_name)
+	label.add_theme_font_override("font",Folio.heading_font())
+	return label
 
 static func _profile_text(metadata: Dictionary) -> String:
 	var enemies: Array = metadata.enemy_specs
@@ -283,6 +410,11 @@ static func _profile_text(metadata: Dictionary) -> String:
 func _text(parent: Node, value: String, rect: Rect2, pixels: int, color: Color, node_name: String = "") -> Label:
 	var label = Paper.text(host,parent,value,rect,pixels,color)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_override("font", Folio.BODY_FONT)
+	label.focus_mode = Control.FOCUS_NONE
+	# Host creates the Label before configuring its font/wrap; discard the
+	# temporary unwrapped minimum width after the real presentation is set.
+	label.size = rect.size
 	if not node_name.is_empty(): label.name = node_name
 	return label
 
@@ -292,8 +424,21 @@ func _rich(parent: Node, value: String, rect: Rect2, pixels: int, node_name: Str
 	text.focus_mode = Control.FOCUS_ALL
 	text.gui_input.connect(_scroll_text.bind(text))
 	text.tooltip_text = "滚轮翻阅；Tab聚焦正文后，可用方向键、PageUp/PageDown、Home/End翻阅"
-	text.add_theme_color_override("default_color",Color("304a42")); text.add_theme_font_size_override("normal_font_size",pixels)
+	text.mouse_filter = Control.MOUSE_FILTER_STOP
+	text.add_theme_font_override("normal_font", Folio.BODY_FONT)
+	text.add_theme_color_override("default_color", Folio.INK); text.add_theme_font_size_override("normal_font_size",pixels)
+	text.add_theme_color_override("font_selected_color", Folio.BONE)
+	text.add_theme_color_override("selection_color", Folio.INK)
+	text.add_theme_stylebox_override("normal", Folio.style(Color.TRANSPARENT))
+	text.add_theme_stylebox_override("focus", Folio.focus_style(false))
 	text.add_theme_constant_override("line_separation",5); parent.add_child(text)
+	Folio.scrollbar(text.get_v_scroll_bar())
+	if node_name == "FittingBody" and page in ["preview","trial"]:
+		var edges = DisclosureEdges.new(); edges.name = node_name+"ScrollEdges"
+		edges.scroll_bar = text.get_v_scroll_bar(); edges.visibility_owner = text; edges.ink = Folio.SECONDARY_INK
+		edges.position = rect.position-Vector2(0,7); edges.size = rect.size+Vector2(0,14)
+		edges.mouse_filter = Control.MOUSE_FILTER_IGNORE; edges.focus_mode = Control.FOCUS_NONE; parent.add_child(edges)
+	else: Folio.scroll_edges(parent, text.get_v_scroll_bar(), rect)
 	return text
 
 func _scroll_text(event: InputEvent, region: RichTextLabel) -> void:

@@ -6,7 +6,7 @@ const CLOTH = Color("1c3036")
 const PAPER = Color("ded7c5")
 const BONE = Color("f1e9d8")
 const BRASS = Color("b5a078")
-const CINNABAR = Color("9c4234")
+const CINNABAR = Color("7d3028")
 const SECONDARY_INK = Color("3d3428")
 const DISABLED_BACKING = Color("283337")
 const DISABLED_TEXT = Color("b7b3a8")
@@ -93,11 +93,16 @@ static func skin_button(button: Button, role: String = "paper_quiet", selected: 
 	var disabled: StyleBoxFlat = style(Color.TRANSPARENT)
 	if role == "primary":
 		normal = style(CINNABAR, BRASS, 1)
-		hover = style(Color("8f382d"), BONE, 1)
-		pressed = style(Color("81372d"), BRASS, 1)
+		hover = style(Color("702b23"), BONE, 1)
+		pressed = style(Color("63251f"), BRASS, 1)
 		disabled = style(DISABLED_BACKING, BRASS.darkened(.35), 1)
 		button.add_theme_font_override("font", heading_font())
 		button.add_theme_font_size_override("font_size", 24)
+		var ornament = PrimaryOrnament.new()
+		ornament.name = "FolioPrimaryOrnament"
+		ornament.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(ornament)
+		ornament.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	elif role == "header_close":
 		# The text-free painting has no baked close strip; this backing is native.
 		normal = style(Color("1b2c30"))
@@ -122,9 +127,10 @@ static func skin_button(button: Button, role: String = "paper_quiet", selected: 
 	button.add_theme_stylebox_override("pressed", pressed)
 	button.add_theme_stylebox_override("disabled", disabled)
 	var focus: StyleBoxFlat = focus_style(dark)
-	if role in ["primary", "header_close", "row", "cloth_disclosure"]:
+	if role in ["primary", "header_close", "row", "cloth_disclosure", "auto"]:
 		# Inset row focus cannot clip when a middle row touches the scroll edge.
-		# Primary/header focus stays over their guaranteed native dark fill.
+		# Primary/header/Auto focus stays over guaranteed native dark fill.
+		# Auto is inset so its ring cannot meet the guidance continuation mark.
 		# Surrounding painted paper can contain both light and dark scenery.
 		focus.set_expand_margin_all(-4)
 	button.add_theme_stylebox_override("focus", focus)
@@ -132,16 +138,72 @@ static func skin_button(button: Button, role: String = "paper_quiet", selected: 
 static func scrollbar(bar: VScrollBar, dark: bool = false) -> void:
 	bar.focus_mode = Control.FOCUS_NONE
 	bar.custom_minimum_size.x = 10
-	var track = style(Color(.03,.07,.08,.12) if dark else Color(.20,.15,.07,.10))
-	var thumb = style(BRASS if dark else SECONDARY_INK)
-	thumb.content_margin_left = 3
-	thumb.content_margin_right = 3
-	thumb.content_margin_top = 12
-	thumb.content_margin_bottom = 12
+	# Generic button margins and theme arrows can force a 20px minimum width.
+	# Keep a 10px native hit area, with a 2px rail and a 4px brass/ink thumb.
+	for side: String in ["left", "right", "top", "bottom"]:
+		bar.add_theme_constant_override("padding_" + side, 0)
+	var blank = Image.create_empty(1, 1, false, Image.FORMAT_RGBA8)
+	blank.fill(Color.TRANSPARENT)
+	var spacer = ImageTexture.create_from_image(blank)
+	for icon: String in ["increment", "increment_highlight", "increment_pressed", "decrement", "decrement_highlight", "decrement_pressed"]:
+		bar.add_theme_icon_override(icon, spacer)
+	var track = _scrollbar_style(Color(.71,.63,.47,.20) if dark else Color(.20,.15,.07,.16), 4)
 	bar.add_theme_stylebox_override("scroll", track)
-	bar.add_theme_stylebox_override("grabber", thumb)
-	bar.add_theme_stylebox_override("grabber_highlight", style(BONE if dark else INK))
-	bar.add_theme_stylebox_override("grabber_pressed", style(BONE if dark else INK))
+	bar.add_theme_stylebox_override("scroll_focus", track)
+	bar.add_theme_stylebox_override("grabber", _scrollbar_style(BRASS if dark else SECONDARY_INK, 3, 24))
+	bar.add_theme_stylebox_override("grabber_highlight", _scrollbar_style(BONE if dark else INK, 2, 24))
+	bar.add_theme_stylebox_override("grabber_pressed", _scrollbar_style(BONE if dark else INK, 2, 24))
+
+static func _scrollbar_style(color: Color, inset: float, minimum_height: float = 0) -> StyleBoxFlat:
+	var result = StyleBoxFlat.new()
+	result.bg_color = color
+	result.set_content_margin_all(0)
+	result.content_margin_top = minimum_height * .5
+	result.content_margin_bottom = minimum_height * .5
+	result.expand_margin_left = -inset
+	result.expand_margin_right = -inset
+	result.set_corner_radius_all(1)
+	return result
+
+static func scroll_edges(parent: Control, bar: VScrollBar, rect: Rect2, dark: bool = false) -> Control:
+	var edges = ScrollEdges.new()
+	edges.name = String(bar.get_parent().name) + "ScrollEdges"
+	edges.scroll_bar = bar
+	edges.ink = BRASS if dark else SECONDARY_INK
+	# Marks sit 4–7px outside the viewport, beyond its 3px focus ring.
+	# No text, focus border, thumb or hit area is covered by a wash/mask.
+	edges.position = rect.position - Vector2(0,7)
+	edges.size = rect.size + Vector2(0,14)
+	edges.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	edges.focus_mode = Control.FOCUS_NONE
+	parent.add_child(edges)
+	return edges
+
+class ScrollEdges extends Control:
+	var scroll_bar: VScrollBar
+	var ink: Color = BRASS
+	var more_above: bool = false
+	var more_below: bool = false
+	func _ready() -> void:
+		scroll_bar.changed.connect(_refresh_edges)
+		scroll_bar.value_changed.connect(_value_changed)
+		_refresh_edges()
+	func _value_changed(_value: float) -> void:
+		_refresh_edges()
+	func _refresh_edges() -> void:
+		if not is_instance_valid(scroll_bar): return
+		var lower_limit: float = maxf(scroll_bar.min_value, scroll_bar.max_value - scroll_bar.page)
+		var overflow: bool = lower_limit > scroll_bar.min_value + .5
+		more_above = overflow and scroll_bar.value > scroll_bar.min_value + .5
+		more_below = overflow and scroll_bar.value < lower_limit - .5
+		visible = more_above or more_below
+		queue_redraw()
+	func _draw() -> void:
+		var x: float = size.x * .5
+		if more_above:
+			draw_polyline(PackedVector2Array([Vector2(x-4,3), Vector2(x,0), Vector2(x+4,3)]), ink, 1.5, true)
+		if more_below:
+			draw_polyline(PackedVector2Array([Vector2(x-4,size.y-3), Vector2(x,size.y), Vector2(x+4,size.y-3)]), ink, 1.5, true)
 
 static func rule(parent: Control, rect: Rect2, color: Color = BRASS) -> ColorRect:
 	var line = ColorRect.new()
@@ -166,8 +228,11 @@ static func mark(parent: Control, kind: String, rect: Rect2, color: Color = BRAS
 static func reading_wash(parent: Control, rect: Rect2, strength: float = .94) -> Control:
 	var wash = ReadingWash.new()
 	wash.name = "FolioReadingWash"
-	wash.position = rect.position
-	wash.size = rect.size
+	# The supplied rectangle is the full-strength reading area. Feather only
+	# outside it, so the first/last glyphs and scrolled text keep their backing.
+	var padded: Rect2 = rect.grow_individual(18, 20, 64, 24)
+	wash.position = padded.position
+	wash.size = padded.size
 	wash.strength = strength
 	wash.paper_texture = atlas("paper_sample")
 	wash.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
@@ -178,19 +243,43 @@ static func reading_wash(parent: Control, rect: Rect2, strength: float = .94) ->
 class ReadingWash extends Control:
 	var strength: float = .94
 	var paper_texture: Texture2D
+	var wash_material: ShaderMaterial
+	func _init() -> void:
+		var shader = Shader.new()
+		shader.code = """
+shader_type canvas_item;
+render_mode unshaded;
+uniform vec2 wash_size = vec2(1.0);
+varying vec2 wash_position;
+void vertex() {
+	wash_position = VERTEX;
+}
+void fragment() {
+	float left = smoothstep(0.0, 18.0, wash_position.x);
+	float right = 1.0 - smoothstep(wash_size.x - 64.0, wash_size.x, wash_position.x);
+	float top = smoothstep(0.0, 20.0, wash_position.y);
+	float bottom = 1.0 - smoothstep(wash_size.y - 24.0, wash_size.y, wash_position.y);
+	COLOR.a *= left * right * top * bottom;
+}
+"""
+		wash_material = ShaderMaterial.new()
+		wash_material.shader = shader
+		material = wash_material
 	func _draw() -> void:
-		# A feathered paper wash, not an opaque rectangular card over the scene.
-		# The reading column receives a calm backing; art beyond its edge remains clear.
+		# One sample of the existing paper atlas, with a continuous alpha field.
+		# No overlapping strips, doubled alpha seams, or hard rectangular edge.
 		if paper_texture == null: return
-		var columns: int = 48
-		var source_size: Vector2 = paper_texture.get_size()
-		for i: int in columns:
-			var left: float = float(i) / columns
-			var edge: float = clampf((1.0 - left) / .08, 0.0, 1.0)
-			var tint = Color(1,1,1,strength * edge)
-			var target = Rect2(left * size.x, 0, size.x / columns + 1, size.y)
-			var source = Rect2(left * source_size.x, 0, source_size.x / columns, source_size.y)
-			draw_texture_rect_region(paper_texture, target, source, tint)
+		wash_material.set_shader_parameter("wash_size", size)
+		draw_texture_rect(paper_texture, Rect2(Vector2.ZERO, size), false, Color(1,1,1,strength))
+
+class PrimaryOrnament extends Control:
+	func _draw() -> void:
+		var button: Button = get_parent() as Button
+		var ink: Color = BRASS.darkened(.35) if button != null and button.disabled else BRASS
+		for corner: Vector2 in [Vector2(8,8), Vector2(size.x-8,8), Vector2(8,size.y-8), Vector2(size.x-8,size.y-8)]:
+			var inward = Vector2(1 if corner.x < size.x*.5 else -1, 1 if corner.y < size.y*.5 else -1)
+			draw_line(corner, corner + Vector2(9*inward.x,0), ink, 1, true)
+			draw_line(corner, corner + Vector2(0,6*inward.y), ink, 1, true)
 
 class Ribbon extends Control:
 	func _draw() -> void:
@@ -200,7 +289,7 @@ class Ribbon extends Control:
 			Vector2(0,2), Vector2(w-10,0), Vector2(w-5,h*.18),
 			Vector2(w-11,h*.39), Vector2(w,h*.57), Vector2(w-9,h*.76),
 			Vector2(w-4,h-2), Vector2(0,h)
-		]), Color("9c4234"))
+		]), Color("7d3028"))
 		draw_line(Vector2(3,7), Vector2(3,h-7), Color("b5a078"), 1, true)
 		draw_line(Vector2(3,7), Vector2(14,7), Color("b5a078"), 1, true)
 		draw_line(Vector2(3,h-7), Vector2(14,h-7), Color("b5a078"), 1, true)

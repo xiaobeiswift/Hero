@@ -265,11 +265,13 @@ func _rebuild(focus_key: String = "") -> void:
 func _build_guidance(frame: Control) -> void:
 	# This region is separate from the list: neither its safety prose nor Auto can
 	# disappear when the earned catalogue grows. Full prose has its own scrollbar.
-	Folio.rule(frame, Rect2(140,510,244,1), Folio.BRASS)
-	Folio.mark(frame, "compass", Rect2(139,524,27,27), Folio.BRASS)
-	_text(frame, "当前指引", Rect2(176,525,204,29), 20, Folio.BRASS, "JournalGuidanceHeading")
-	guidance_body = _rich(frame, _guidance_text(guidance_snapshot), Rect2(139,561,250,79 if page == "journal" else 130), 16, "JournalCurrentGuidance", true)
+	var guidance_top: float = 456 if page == "journal" else 510
+	Folio.rule(frame, Rect2(140,guidance_top,244,1), Folio.BRASS)
+	Folio.mark(frame, "compass", Rect2(139,guidance_top+14,27,27), Folio.BRASS)
+	_text(frame, "当前指引", Rect2(176,guidance_top+15,204,29), 20, Folio.BRASS, "JournalGuidanceHeading")
+	guidance_body = _rich(frame, _guidance_text(guidance_snapshot), Rect2(139,guidance_top+51,250,133 if page == "journal" else 130), 16, "JournalCurrentGuidance", true)
 	guidance_body.tooltip_text = "完整的当前行动、下一处与行路限制；滚轮或聚焦后用方向键、Home / End 阅读"
+	Folio.scroll_edges(frame, guidance_body.get_v_scroll_bar(), guidance_body.get_rect(), true)
 	if page == "journal":
 		var automatic: Button = _button(frame, "恢复自动指引", Rect2(141,650,248,48), _auto_bound.bind(_view_token), "JournalAction_auto", false, "auto")
 		automatic.disabled = source_session.tracked_arc_id.is_empty()
@@ -280,7 +282,8 @@ func _build_journal(frame: Control) -> void:
 	_list_scroll = ScrollContainer.new()
 	_list_scroll.name = "JournalList"
 	_list_scroll.position = Vector2(132,87)
-	_list_scroll.size = Vector2(268,410)
+	# Leave a quiet lower edge instead of the next title's tiny first sliver.
+	_list_scroll.size = Vector2(268,340)
 	_list_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_list_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_list_scroll.follow_focus = true
@@ -288,6 +291,7 @@ func _build_journal(frame: Control) -> void:
 	_list_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
 	frame.add_child(_list_scroll)
 	_style_scrollbar(_list_scroll.get_v_scroll_bar(), true)
+	Folio.scroll_edges(frame, _list_scroll.get_v_scroll_bar(), _list_scroll.get_rect(), true)
 	# Six-pixel gutters keep the cloth edges calm; row focus itself is inset.
 	var padding = MarginContainer.new()
 	padding.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -345,12 +349,12 @@ func _build_journal(frame: Control) -> void:
 		var rule_y: float = 105 + title_box_height
 		Folio.rule(frame, Rect2(455,rule_y,382,1), Color("a39172"))
 		var body_y: float = rule_y + 29
-		Folio.reading_wash(frame, Rect2(449,body_y-2,440,553-body_y), .93)
+		Folio.reading_wash(frame, Rect2(449,body_y-2,404,557-body_y), .93)
 		body = _rich(frame, _detail_text(selected), Rect2(454,body_y,391,553-body_y), 22, "JournalBody")
 	else:
 		# Exceptionally long identities are never clipped or silently abbreviated.
 		# Put the actual title into the same real scrolling reading area as its prose.
-		Folio.reading_wash(frame, Rect2(449,102,704,456), .98)
+		Folio.reading_wash(frame, Rect2(449,102,665,454), .98)
 		body = _rich(frame, "[font_size=42]" + _bbcode_escape(title) + "[/font_size]\n\n" + _detail_text(selected), Rect2(454,108,652,446), 22, "JournalBody")
 	body.bbcode_enabled = true
 	body.tooltip_text += "；已得见闻可由下方书页入口阅读"
@@ -410,7 +414,7 @@ func _build_history(frame: Control) -> void:
 		_history_text = "\n\n────────────────\n\n".join(sections)
 		if _history_text.is_empty(): _history_text = "暂无已得见闻。"
 		_history_catalog = _catalog.duplicate(true)
-	Folio.reading_wash(frame, Rect2(449,219,714,361), .98)
+	Folio.reading_wash(frame, Rect2(449,219,659,357), .98)
 	body = _rich(frame, _history_text, Rect2(454,223,646,351), 19, "JournalHistoryBody")
 	_focus_order.append(body)
 	_focus_order.append(guidance_body)
@@ -461,10 +465,23 @@ func _detail_text(row: Dictionary) -> String:
 	lines.append("[font_size=24][color=#5d251e]下一步[/color][/font_size]\n" + _bbcode_escape(String(row.get("next_action", ""))))
 	if row.get("trackable", false):
 		var preview: Dictionary = host.journal_preview(String(row.id)).duplicate(true)
-		lines.append("[font_size=19][color=#3d3428]查看中的行路[/color]\n" + _bbcode_escape(_route_text(preview)) + "[/font_size]")
+		lines.append("[font_size=19][color=#3d3428]查看中的行路[/color]\n[/font_size]" + _paragraph_span(_route_text(preview), 19))
 	else:
-		lines.append("[font_size=19][color=#3d3428]已完成事项仅供阅读。\n由下方“已得见闻”阅读完整记载。[/color][/font_size]")
+		lines.append(_paragraph_span("已完成事项仅供阅读。\n由下方“已得见闻”阅读完整记载。", 19, "#3d3428"))
 	return "\n\n".join(lines)
+
+func _paragraph_span(value: String, pixels: int, color: String = "") -> String:
+	var parts: PackedStringArray = value.split("\n", true)
+	var result: String = ""
+	for i: int in parts.size():
+		var piece: String = _bbcode_escape(parts[i])
+		if i < parts.size() - 1: piece += "\n"
+		result += "[font_size=%d]" % pixels
+		if not color.is_empty(): result += "[color=" + color + "]"
+		result += piece
+		if not color.is_empty(): result += "[/color]"
+		result += "[/font_size]"
+	return result
 
 func _bbcode_escape(value: String) -> String:
 	return value.replace("[", "[lb]")
@@ -682,7 +699,17 @@ func _focus_key(key: String, expected: Dictionary) -> void:
 		if not is_instance_valid(control): control = body
 	if not is_instance_valid(control): return
 	control.grab_focus()
-	if is_instance_valid(_list_scroll) and _list_scroll.is_ancestor_of(control): _list_scroll.ensure_control_visible(control)
+	if is_instance_valid(_list_scroll) and _list_scroll.is_ancestor_of(control):
+		# Restoring the bar queues container sorting. Reveal only after that layout
+		# boundary, without retaining a row object or stealing newer GUI focus.
+		var reveal: Callable = _reveal_list_focus_after_layout.bind(control.get_instance_id(), _list_scroll.get_instance_id(), expected)
+		if not get_tree().process_frame.is_connected(reveal): get_tree().process_frame.connect(reveal, CONNECT_ONE_SHOT)
+
+func _reveal_list_focus_after_layout(control_id: int, scroll_id: int, expected: Dictionary) -> void:
+	if not _callback_valid(expected) or not is_instance_valid(_list_scroll) or _list_scroll.get_instance_id() != scroll_id: return
+	var control: Control = get_viewport().gui_get_focus_owner()
+	if not is_instance_valid(control) or not control.is_inside_tree() or control.get_instance_id() != control_id or not _list_scroll.is_ancestor_of(control): return
+	_list_scroll.ensure_control_visible(control)
 
 func _restore_scroll(expected: Dictionary) -> void:
 	if not _callback_valid(expected): return
