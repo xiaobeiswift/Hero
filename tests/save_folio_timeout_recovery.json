@@ -1,0 +1,64 @@
+{
+  "status": "FOCUSED_TIMING_DIAGNOSTIC_PASSED_COMPLETE_NEW_FULL_REQUIRED",
+  "source_runtime_commit": "3d5aa59b0fa6887085effe0f474985141e325459",
+  "public_runtime_equivalent": "7bde8c0bf62f5bda5dbd1f1e21a51665d6eea96f",
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "failed_full": {
+    "success": false,
+    "retained_exit_code": 124,
+    "completed_canonical_processes": 54,
+    "incomplete_process": "tests/heting_consignee_earned_party_test.gd",
+    "observed_limit_seconds": 120,
+    "terminal_sha256": "41438dc34c8920c169d8b721e1918cc9e94550087988ed32c19eef7018596317",
+    "source_originals": 1746,
+    "changed_originals": [],
+    "first_outcome_matches_prior": true,
+    "second_progress": "stage2 with allthree clues and qin_timing/shen_mobile/tang_preserve contributions; no final report",
+    "cause_limit": "Only explicit wall-time termination is established; exact slowdown cause unproven. No OOM or failed game assertion inferred."
+  },
+  "prior_same_case": {
+    "source_commit": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "wall_seconds": 106.084
+  },
+  "focused_diagnostic": {
+    "canonical_check_seconds": 240,
+    "outer_seconds": 300,
+    "wall_seconds": 121.607,
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "companion_method_records": 6,
+    "receipt_sha256": "8180aa501f0a69dd87c3f31c70a80cd299ae491c65b79681d29d3a302e0cf162",
+    "engine_record_sha256": "11c26bfe0da6827e536274e1b9986190e12dcf08cae57bef7241b4674c3f38ba",
+    "earned_report_sha256": "6eab8523b3f8d994fa95ba27e34dbdc0b6669a9469949b52223ea89786ec8181",
+    "wrapper_sha256": "30d086c30d36a239ac48fbd9d27f464f8ae183d8e49333a3fe9d41794097c2d6",
+    "supervisor_exit_code": 0,
+    "remaining_owned_children": [],
+    "forced_owned_children": [],
+    "changed_originals": [],
+    "source_originals": 1746,
+    "runtime_unchanged": true,
+    "original_argv": [
+      "--headless",
+      "--fixed-fps",
+      "60",
+      "--path",
+      ".",
+      "--script",
+      "tests/heting_consignee_earned_party_test.gd"
+    ]
+  },
+  "change": "Only prefix this one retained run_checked invocation with HERO_CHECK_TIMEOUT_SECONDS=240; no PATH shim, test-body/assertion, game runtime or global timeout changes",
+  "coverage_contract": "Same184 canonical engine argv vectors, all other per-case limits,7200 aggregate and4GiB/2GiB storage floors; complete fresh five-phase full still required",
+  "native_binding": "Twelve492-check screenshots and1380direct-geometry evidence retain their actual3d5aa59/source bindings. Runtime384 remains byte-identical; no new native run is claimed for this test-only change.",
+  "limits": [
+    "Focused timing pass cannot fill or turn failed full01 into success",
+    "API-earned predecessor history and genuine four-person new-chapter scene actions; fixed60Hz headless",
+    "New full, source rehearsal, new PCK and platform boundaries remain pending",
+    "Live0.0.32 remains unchanged; transfer default-off/schema16/slots1–3 unchanged"
+  ]
+}
