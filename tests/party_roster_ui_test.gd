@@ -1,5 +1,5 @@
 extends SceneTree
-## Isolated real-state menu checks. This test never invokes a save API.
+## Isolated real-state UI checks. Main save calls use a counting adapter; no player save file is written.
 const State = preload("res://scripts/game_state.gd")
 const Roster = preload("res://scripts/party_roster_ui.gd")
 const Portraits = preload("res://scripts/character_portraits.gd")
@@ -66,18 +66,34 @@ func geometry(size: Vector2) -> void:
 	menu.size = size
 	menu._layout()
 	check(Rect2(Vector2.ZERO, size).encloses(menu.frame.get_rect()), "Frame bounded at " + str(size))
-	var prior: Rect2
+	var prior: Array[Rect2] = []
 	for id: String in Roster.IDS:
 		var cell: Dictionary = menu.cells[id]
 		check(Rect2(Vector2.ZERO, menu.frame.size).encloses(cell.panel.get_rect()), "Card stays on page: " + id)
-		if id != "hero": check(not prior.intersects(cell.panel.get_rect()), "Cards never overlap: " + id)
-		prior = cell.panel.get_rect()
+		for earlier: Rect2 in prior:
+			check(not earlier.intersects(cell.panel.get_rect()), "Actor sections never overlap: " + id)
+		prior.append(cell.panel.get_rect())
 		for child: Node in cell.panel.get_children():
 			if child is Control and child.visible:
 				check(Rect2(Vector2.ZERO, cell.panel.size).encloses(child.get_rect()), "Card content is bounded: " + id + "/" + child.name)
 		check(cell.toggle.size.y >= 38, "Native toggle has a usable click target")
 	for child: Node in menu.frame.get_children():
-		if child is Control: check(Rect2(Vector2.ZERO, menu.frame.size).encloses(child.get_rect()), "Page content is bounded: " + child.name)
+		if child is Control and child.visible: check(Rect2(Vector2.ZERO, menu.frame.size).encloses(child.get_rect()), "Page content is bounded: " + child.name)
+	var hero: Rect2 = menu.cells.hero.panel.get_rect()
+	var previous_bottom: float = -1
+	for id: String in ["shen", "tang", "qin"]:
+		var row: Rect2 = menu.cells[id].panel.get_rect()
+		check(row.position.x >= hero.end.x, "Companion rows occupy the right-hand leaf: " + id)
+		check(row.position.y >= previous_bottom, "Fixed display order stays Shen, Tang, Qin: " + id)
+		previous_bottom = row.end.y
+		check(not menu.cells[id].toggle.get_rect().intersects(menu.cells[id].story.get_rect()), "Actor action targets never overlap: " + id)
+	check(not menu.notice.get_rect().intersects(menu.return_button.get_rect()), "Notice and return have separate space")
+	if menu.retry_button.visible:
+		check(not menu.notice.get_rect().intersects(menu.retry_button.get_rect()), "Failure notice and retry have separate space")
+		check(not menu.retry_button.get_rect().intersects(menu.return_button.get_rect()), "Retry and return targets remain separate")
+	var node_count: int = menu.find_children("*", "", true, false).size()
+	for repeat in range(4): menu.refresh()
+	check(menu.find_children("*", "", true, false).size() == node_count, "Refresh cannot accumulate decoration or control nodes")
 
 
 func key(code: int, shift: bool = false) -> void:

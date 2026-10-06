@@ -1,0 +1,895 @@
+{
+  "status": "accepted_bounded_native_visual_matrix",
+  "source_commit": "0378635bf0c0c8ca707198900e86b630f4e1d83c",
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "binding": {
+    "driver_sha256": "01423d91e7283f924abeb191a85f7771770d1ffd1d401079192ab89ac0bd984f",
+    "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "helper_sha256": "fd30f21f8f3fe0f1f30a29f928051aa488332986e0eee1b7a8608c92a196382b",
+    "runtime_entries": 382.0,
+    "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+    "scope": "new native scripted capture of prepared legal fixtures",
+    "source": "/workspace/scratch/61762639b34b/Hero-remote-recovery-20261006/source",
+    "source_commit": "0378635bf0c0c8ca707198900e86b630f4e1d83c",
+    "source_tree": "21cd0a7c14d596f7ca24752072f4f9373cd775fd",
+    "suite": "companion_folio_native_capture",
+    "tool_sha256": {
+      "guard": "1ccaa43fb9c68ed2b32ebf42f1e1aa4b9fc234d624e989aa9d35ff4343ddb515",
+      "launcher": "63203d476e06954ac5c6159e1ace1f56be1f10cf4ef59f2e214f572dee23be64",
+      "native_driver_original": "01423d91e7283f924abeb191a85f7771770d1ffd1d401079192ab89ac0bd984f"
+    }
+  },
+  "native_result_sha256": "d19ff440da2c5754b2ae854bcbe9583ae9adf81f1f6ffefc48c40734f49dd8f6",
+  "launcher_result_sha256": "ba4d6e29900e9385af262443917839d355311cf8debba9464a1acf3a08cf2f42",
+  "native_checks": 690,
+  "launcher_success": true,
+  "changed_originals": [],
+  "reviewed_images": [
+    {
+      "name": "01-unrecruited-1280",
+      "sha256": "a8c42b884bcc8642400ce4b2bbe54a2fb008ced060e244bbeb77bd5e651238cb",
+      "bytes": 1410324,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    {
+      "name": "02-unrecruited-960",
+      "sha256": "8d9d5cd4eddaa7aa7704d9b23411b29068478cf632f3fe8409037536a62a46a9",
+      "bytes": 881906,
+      "dimensions": [
+        960,
+        600
+      ]
+    },
+    {
+      "name": "03-four-selected-1280",
+      "sha256": "d7024a6158af64d7928a506ff764159f5e026a55f6afd167e8bf3403b40c9310",
+      "bytes": 1430586,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    {
+      "name": "04-four-selected-960",
+      "sha256": "c4364b4ef4c6f6311bac69a122226aea59cf56dcc23ab52cdcf8059969b95509",
+      "bytes": 887692,
+      "dimensions": [
+        960,
+        600
+      ]
+    },
+    {
+      "name": "05-mixed-order-bench-downed-1280",
+      "sha256": "56c292bce08913ebeb5fd197f49035f767c5c00972a3f1c44025380f6b6150bb",
+      "bytes": 1428440,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    {
+      "name": "06-mixed-order-bench-downed-960",
+      "sha256": "5900fc6e1e8ffa536a7b4c13388296509dd2efe0b3a56abac20720e26599a21a",
+      "bytes": 886190,
+      "dimensions": [
+        960,
+        600
+      ]
+    },
+    {
+      "name": "07-real-save-failure-1280",
+      "sha256": "18011f908dc57d00e7225646eedf4464c70cebedbbffb33db43fc28c27eea31a",
+      "bytes": 1427638,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    {
+      "name": "08-real-save-failure-960",
+      "sha256": "630bb6ec2b224b818b83eb179b84f1ae5874fd1cb8d02fb38ba154a36554962e",
+      "bytes": 887220,
+      "dimensions": [
+        960,
+        600
+      ]
+    },
+    {
+      "name": "09-legal-long-name-wide-1280",
+      "sha256": "42ac6f0b4aed734c0cad96dddae3a50cf454a59c1312b8715fd43be1f3b3c78e",
+      "bytes": 1438399,
+      "dimensions": [
+        1280,
+        800
+      ]
+    },
+    {
+      "name": "10-legal-long-name-wide-960",
+      "sha256": "1f0af711aa419728fa65354182997dec510aa0f5f158f4e7592b63cb89b3ae58",
+      "bytes": 894785,
+      "dimensions": [
+        960,
+        600
+      ]
+    }
+  ],
+  "maximum_name_geometry": [
+    {
+      "image": "09-legal-long-name-wide-1280",
+      "name": "江湖夜雨青苇渡灯长风归客山河故人行舟",
+      "name_logical_rect": [
+        178.0,
+        144.048126220703,
+        250.0,
+        73.0
+      ],
+      "name_line_count": 2,
+      "name_visible_line_count": 2,
+      "next_role_rect": [
+        178.0,
+        219.048126220703,
+        58.0,
+        28.0
+      ]
+    },
+    {
+      "image": "10-legal-long-name-wide-960",
+      "name": "江湖夜雨青苇渡灯长风归客山河故人行舟",
+      "name_logical_rect": [
+        178.0,
+        144.048126220703,
+        250.0,
+        73.0
+      ],
+      "name_line_count": 2,
+      "name_visible_line_count": 2,
+      "next_role_rect": [
+        178.0,
+        219.048126220703,
+        58.0,
+        28.0
+      ]
+    }
+  ],
+  "observations": [
+    "All ten complete native images inspected individually after terminal result.",
+    "Both 18-character maximum-name images now show complete two-line name above separate role/status, portrait, resources and action.",
+    "Compact failed-save image08 now visibly shows native retry keyboard ring after actual Tab/Shift-Tab.",
+    "All five states at both sizes have unclipped folio, readable native labels/resources, unchanged portrait identities/aspect, fixed display order and explicit actual roster order, separate action targets, readable notices and keyboard footer.",
+    "No additional visual blocker found in the scoped matrix."
+  ],
+  "sampled_contrast": [
+    {
+      "category": "paper_hp",
+      "image": "03-four-selected-1280.png",
+      "image_sha256": "d7024a6158af64d7928a506ff764159f5e026a55f6afd167e8bf3403b40c9310",
+      "foreground_xy": [
+        631,
+        230
+      ],
+      "foreground_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        636,
+        226
+      ],
+      "background_rgb": [
+        240,
+        225,
+        198
+      ],
+      "contrast_ratio": 13.126,
+      "search_roi": [
+        628,
+        219,
+        752,
+        242
+      ],
+      "foreground_target_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "paper_hp",
+      "image": "04-four-selected-960.png",
+      "image_sha256": "c4364b4ef4c6f6311bac69a122226aea59cf56dcc23ab52cdcf8059969b95509",
+      "foreground_xy": [
+        474,
+        168
+      ],
+      "foreground_rgb": [
+        25,
+        39,
+        41
+      ],
+      "background_xy": [
+        475,
+        164
+      ],
+      "background_rgb": [
+        240,
+        225,
+        198
+      ],
+      "contrast_ratio": 11.947,
+      "search_roi": [
+        471,
+        164,
+        564,
+        182
+      ],
+      "foreground_target_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "cloth_hp",
+      "image": "03-four-selected-1280.png",
+      "image_sha256": "d7024a6158af64d7928a506ff764159f5e026a55f6afd167e8bf3403b40c9310",
+      "foreground_xy": [
+        271,
+        228
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        266,
+        228
+      ],
+      "background_rgb": [
+        11,
+        24,
+        28
+      ],
+      "contrast_ratio": 14.968,
+      "search_roi": [
+        268,
+        219,
+        413,
+        242
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        11,
+        24,
+        28
+      ]
+    },
+    {
+      "category": "cloth_hp",
+      "image": "04-four-selected-960.png",
+      "image_sha256": "c4364b4ef4c6f6311bac69a122226aea59cf56dcc23ab52cdcf8059969b95509",
+      "foreground_xy": [
+        237,
+        176
+      ],
+      "foreground_rgb": [
+        239,
+        232,
+        215
+      ],
+      "background_xy": [
+        229,
+        183
+      ],
+      "background_rgb": [
+        11,
+        24,
+        28
+      ],
+      "contrast_ratio": 14.801,
+      "search_roi": [
+        201,
+        164,
+        310,
+        182
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        11,
+        24,
+        28
+      ]
+    },
+    {
+      "category": "cloth_secondary",
+      "image": "01-unrecruited-1280.png",
+      "image_sha256": "a8c42b884bcc8642400ce4b2bbe54a2fb008ced060e244bbeb77bd5e651238cb",
+      "foreground_xy": [
+        179,
+        118
+      ],
+      "foreground_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_xy": [
+        174,
+        118
+      ],
+      "background_rgb": [
+        10,
+        28,
+        34
+      ],
+      "contrast_ratio": 6.875,
+      "search_roi": [
+        178,
+        108,
+        375,
+        132
+      ],
+      "foreground_target_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_target_rgb": [
+        10,
+        28,
+        34
+      ]
+    },
+    {
+      "category": "cloth_secondary",
+      "image": "02-unrecruited-960.png",
+      "image_sha256": "8d9d5cd4eddaa7aa7704d9b23411b29068478cf632f3fe8409037536a62a46a9",
+      "foreground_xy": [
+        182,
+        84
+      ],
+      "foreground_rgb": [
+        170,
+        152,
+        114
+      ],
+      "background_xy": [
+        175,
+        80
+      ],
+      "background_rgb": [
+        10,
+        28,
+        34
+      ],
+      "contrast_ratio": 6.192,
+      "search_roi": [
+        134,
+        81,
+        281,
+        99
+      ],
+      "foreground_target_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_target_rgb": [
+        10,
+        28,
+        34
+      ]
+    },
+    {
+      "category": "error_notice",
+      "image": "07-real-save-failure-1280.png",
+      "image_sha256": "18011f908dc57d00e7225646eedf4464c70cebedbbffb33db43fc28c27eea31a",
+      "foreground_xy": [
+        498,
+        667
+      ],
+      "foreground_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_xy": [
+        493,
+        667
+      ],
+      "background_rgb": [
+        240,
+        225,
+        198
+      ],
+      "contrast_ratio": 7.005,
+      "search_roi": [
+        496,
+        664,
+        975,
+        688
+      ],
+      "foreground_target_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "error_notice",
+      "image": "08-real-save-failure-960.png",
+      "image_sha256": "630bb6ec2b224b818b83eb179b84f1ae5874fd1cb8d02fb38ba154a36554962e",
+      "foreground_xy": [
+        554,
+        506
+      ],
+      "foreground_rgb": [
+        126,
+        49,
+        41
+      ],
+      "background_xy": [
+        550,
+        507
+      ],
+      "background_rgb": [
+        239,
+        225,
+        199
+      ],
+      "contrast_ratio": 6.896,
+      "search_roi": [
+        372,
+        498,
+        731,
+        516
+      ],
+      "foreground_target_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "primary_button",
+      "image": "03-four-selected-1280.png",
+      "image_sha256": "d7024a6158af64d7928a506ff764159f5e026a55f6afd167e8bf3403b40c9310",
+      "foreground_xy": [
+        933,
+        301
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        930,
+        301
+      ],
+      "background_rgb": [
+        99,
+        37,
+        31
+      ],
+      "contrast_ratio": 9.58,
+      "search_roi": [
+        928,
+        289,
+        1008,
+        315
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        99,
+        37,
+        31
+      ]
+    },
+    {
+      "category": "primary_button",
+      "image": "04-four-selected-960.png",
+      "image_sha256": "c4364b4ef4c6f6311bac69a122226aea59cf56dcc23ab52cdcf8059969b95509",
+      "foreground_xy": [
+        700,
+        226
+      ],
+      "foreground_rgb": [
+        219,
+        203,
+        188
+      ],
+      "background_xy": [
+        697,
+        226
+      ],
+      "background_rgb": [
+        99,
+        37,
+        31
+      ],
+      "contrast_ratio": 7.317,
+      "search_roi": [
+        696,
+        217,
+        756,
+        236
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        99,
+        37,
+        31
+      ]
+    },
+    {
+      "category": "disabled_button",
+      "image": "01-unrecruited-1280.png",
+      "image_sha256": "a8c42b884bcc8642400ce4b2bbe54a2fb008ced060e244bbeb77bd5e651238cb",
+      "foreground_xy": [
+        936,
+        301
+      ],
+      "foreground_rgb": [
+        183,
+        179,
+        168
+      ],
+      "background_xy": [
+        939,
+        300
+      ],
+      "background_rgb": [
+        40,
+        51,
+        55
+      ],
+      "contrast_ratio": 6.194,
+      "search_roi": [
+        928,
+        289,
+        1008,
+        315
+      ],
+      "foreground_target_rgb": [
+        183,
+        179,
+        168
+      ],
+      "background_target_rgb": [
+        40,
+        51,
+        55
+      ]
+    },
+    {
+      "category": "disabled_button",
+      "image": "02-unrecruited-960.png",
+      "image_sha256": "8d9d5cd4eddaa7aa7704d9b23411b29068478cf632f3fe8409037536a62a46a9",
+      "foreground_xy": [
+        718,
+        226
+      ],
+      "foreground_rgb": [
+        158,
+        157,
+        149
+      ],
+      "background_xy": [
+        715,
+        226
+      ],
+      "background_rgb": [
+        40,
+        51,
+        55
+      ],
+      "contrast_ratio": 4.763,
+      "search_roi": [
+        696,
+        217,
+        756,
+        236
+      ],
+      "foreground_target_rgb": [
+        183,
+        179,
+        168
+      ],
+      "background_target_rgb": [
+        40,
+        51,
+        55
+      ]
+    },
+    {
+      "category": "paper_focus",
+      "image": "05-mixed-order-bench-downed-1280.png",
+      "image_sha256": "56c292bce08913ebeb5fd197f49035f767c5c00972a3f1c44025380f6b6150bb",
+      "foreground_xy": [
+        1031,
+        277
+      ],
+      "foreground_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        1030,
+        272
+      ],
+      "background_rgb": [
+        240,
+        225,
+        199
+      ],
+      "contrast_ratio": 13.133,
+      "search_roi": [
+        1030,
+        276,
+        1162,
+        280
+      ],
+      "foreground_target_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "paper_focus",
+      "image": "06-mixed-order-bench-downed-960.png",
+      "image_sha256": "5900fc6e1e8ffa536a7b4c13388296509dd2efe0b3a56abac20720e26599a21a",
+      "foreground_xy": [
+        773,
+        208
+      ],
+      "foreground_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        768,
+        203
+      ],
+      "background_rgb": [
+        240,
+        225,
+        198
+      ],
+      "contrast_ratio": 13.126,
+      "search_roi": [
+        772,
+        207,
+        872,
+        210
+      ],
+      "foreground_target_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_target_rgb": [
+        240,
+        225,
+        198
+      ]
+    },
+    {
+      "category": "retry_keyboard_focus",
+      "image": "07-real-save-failure-1280.png",
+      "image_sha256": "18011f908dc57d00e7225646eedf4464c70cebedbbffb33db43fc28c27eea31a",
+      "foreground_xy": [
+        1018,
+        668
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        1015,
+        668
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477,
+      "search_roi": [
+        1018,
+        668,
+        1153,
+        670
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        125,
+        48,
+        40
+      ]
+    },
+    {
+      "category": "retry_keyboard_focus",
+      "image": "08-real-save-failure-960.png",
+      "image_sha256": "630bb6ec2b224b818b83eb179b84f1ae5874fd1cb8d02fb38ba154a36554962e",
+      "foreground_xy": [
+        763,
+        501
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        762,
+        504
+      ],
+      "background_rgb": [
+        112,
+        43,
+        35
+      ],
+      "contrast_ratio": 8.445,
+      "search_roi": [
+        763,
+        501,
+        866,
+        503
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        125,
+        48,
+        40
+      ]
+    },
+    {
+      "category": "complete_maximum_name",
+      "image": "09-legal-long-name-wide-1280.png",
+      "image_sha256": "42ac6f0b4aed734c0cad96dddae3a50cf454a59c1312b8715fd43be1f3b3c78e",
+      "foreground_xy": [
+        181,
+        167
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        177,
+        169
+      ],
+      "background_rgb": [
+        11,
+        24,
+        28
+      ],
+      "contrast_ratio": 14.968,
+      "search_roi": [
+        178,
+        147,
+        428,
+        214
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        11,
+        24,
+        28
+      ]
+    },
+    {
+      "category": "complete_maximum_name",
+      "image": "10-legal-long-name-wide-960.png",
+      "image_sha256": "1f0af711aa419728fa65354182997dec510aa0f5f158f4e7592b63cb89b3ae58",
+      "foreground_xy": [
+        185,
+        129
+      ],
+      "foreground_rgb": [
+        238,
+        231,
+        214
+      ],
+      "background_xy": [
+        193,
+        133
+      ],
+      "background_rgb": [
+        11,
+        24,
+        28
+      ],
+      "contrast_ratio": 14.666,
+      "search_roi": [
+        134,
+        111,
+        321,
+        161
+      ],
+      "foreground_target_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_target_rgb": [
+        11,
+        24,
+        28
+      ]
+    }
+  ],
+  "sampling_method": "For each declared ROI, find actual image pixel closest to nominal text/ring RGB, break ties by x then y. Find actual background within Chebyshev distance3–8 closest to declared substrate RGB, then nearest Euclidean distance and coordinates. Read both RGB values from native PNG. Coordinates are zero-based physical pixels.",
+  "contrast_formula": "sRGB relative luminance: c<=0.04045 => c/12.92 else ((c+0.055)/1.055)^2.4; L=.2126R+.7152G+.0722B; (Lmax+.05)/(Lmin+.05). Coordinates are zero-based actual PNG pixels.",
+  "limits": [
+    "Prepared fixture native scripted captures are not manually earned progression or OS/browser interaction.",
+    "Selected actual core-pixel contrast samples are not a whole-screen accessibility certification or worst-case audit.",
+    "Physical960x600 capture uses logical1280x800 canvas; direct logical1179x737 geometry is separate behavior evidence.",
+    "Windows runtime, Web-browser smoke, packages and publication require separate evidence.",
+    "First native run remains preserved and visually failed for maximum-name overlap; it is not replaced by this result."
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "status": "focused_and_native_accepted_full_package_pending",
+  "source_candidate": "0378635bf0c0c8ca707198900e86b630f4e1d83c",
+  "runtime_entries": 382,
+  "runtime_digest": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "genuine_behavior_checks": 1738,
+  "native_scene_checks": 690,
+  "native_frames": 10,
+  "retained_roster_checks": 642,
+  "coverage_note": "Legacy642 ran before final maximum-name presentation correction; fresh full retained regression must cover final bytes. Import used earlier candidate and is not final full import acceptance. Counts overlap and are not summed.",
+  "runs": [
+    {
+      "kind": "import",
+      "record": "qa-companion-import-01",
+      "source_commit": "ff910e6fc0b2f397330ebc6306153fb2576e3bb4",
+      "source_tree": "747c3082082a9904cc13ef659bb7c64a07de2e35",
+      "runtime_sha256": "f3b605d86215eefc4d0873425bde6cd2f04596a2e8db012f8999c9425b37a0e5",
+      "originals_unchanged": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "import",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "launcher_result_sha256": "9e0938f8d09db9060d828f2dcf265c20ff11eb13b9c89f118862885fcae25974",
+      "launcher_tool_sha256": "a6cd8ff7af5bc13c72a56270875c3ef3be6ad1306d4edd7140b15ce939e81254"
+    },
+    {
+      "kind": "retained roster",
+      "record": "qa-companion-legacy-01",
+      "source_commit": "3186561f8adc825f144338feb8fa3017c0ab85b6",
+      "source_tree": "261d509da6a89e5e2459df0f353facca2e7b41cc",
+      "runtime_sha256": "1cefc23018e41b919a03e97da7c74fe1798e5062df63c45486b60eae851608f2",
+      "originals_unchanged": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "launcher_result_sha256": "4eec1c1406d8740b65645305633e76d47f2ca6e55298f0429ec729dbbc5f88df",
+      "launcher_tool_sha256": "382eae32b2ee15a17d9c220cb0685577bae39d51a50efae32e5f4555d82c7aae"
+    },
+    {
+      "kind": "final genuine behavior",
+      "record": "qa-companion-behavior-05",
+      "source_commit": "0378635bf0c0c8ca707198900e86b630f4e1d83c",
+      "source_tree": "21cd0a7c14d596f7ca24752072f4f9373cd775fd",
+      "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+      "originals_unchanged": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "launcher_result_sha256": "3d831f41e012fd178606a717f1f54234218f3213adcba1f1a511f121e09c3109",
+      "launcher_tool_sha256": "63203d476e06954ac5c6159e1ace1f56be1f10cf4ef59f2e214f572dee23be64"
+    },
+    {
+      "kind": "final native",
+      "record": "qa-companion-native-02",
+      "source_commit": "0378635bf0c0c8ca707198900e86b630f4e1d83c",
+      "source_tree": "21cd0a7c14d596f7ca24752072f4f9373cd775fd",
+      "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+      "originals_unchanged": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "native",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "launcher_result_sha256": "ba4d6e29900e9385af262443917839d355311cf8debba9464a1acf3a08cf2f42",
+      "launcher_tool_sha256": "63203d476e06954ac5c6159e1ace1f56be1f10cf4ef59f2e214f572dee23be64"
+    }
+  ],
+  "preserved_failures": [
+    {
+      "record": "qa-companion-behavior-01",
+      "reason": "Strict divider geometry failure; no full pass"
+    },
+    {
+      "record": "qa-companion-behavior-02",
+      "reason": "Same strict failure instrumented:0.000015258789px vertical overflow at1179; divider y subsequently floored"
+    },
+    {
+      "record": "qa-companion-behavior-03",
+      "reason": "1724 assertions reached but launcher failed on test-only missing-meta engine errors; retained as failed"
+    },
+    {
+      "record": "qa-companion-native-01",
+      "reason": "689 behavior checks passed but09/10 failed visual review: max-name overlap;08 keyboard-focus capture corrected"
+    }
+  ],
+  "corrected_runtime": "Actual wrapped Label minimum height, floored row divider, existing formation copy describes名录",
+  "mechanics": "Only party_roster_ui.gd presentation plus0.0.32 metadata;12 protected mutation/save/navigation/input/focus methods byte-identical to058effd. Schema16, resources, party order/capacity and all combat rules unchanged.",
+  "review_file": "tests/companion_folio_native_review.json",
+  "review_sha256": "6108235eafcbdbc13002b87597a618e38bf818f8a80b2e60d50be403c05955f9",
+  "limits": [
+    "Prepared legal fixtures/scripted native inputs, not earned journeys or manual browser testing",
+    "Sampled actual pixel contrast only, not exhaustive accessibility certification",
+    "Full retained source regression/new exact source+PCK audits and Windows historical-reader branches pending for these bytes",
+    "Live Web31 stays b98a468; this source checkpoint is not a website deployment",
+    "Default-off save transfer and existing browser WebGL2 limitation unchanged"
+  ]
+}
