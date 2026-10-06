@@ -1,0 +1,336 @@
+{
+  "status": "Fresh bounded native capture passed; full regression/package/browser still pending",
+  "source_commit": "6950926ceb42279807b882ed9a36dc30b2c25ae1",
+  "source_tree": "a6d22cc64525f5f09a0e6b8851ef0415955d281b",
+  "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+  "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+  "tracked_originals": 1688,
+  "changed_originals": [],
+  "checks": 994,
+  "failures": [],
+  "frame_count": 16,
+  "frames": [
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1475859,
+      "display_server": "X11",
+      "name": "01-journal-auto-qin-browsed-tang-1280",
+      "note": "Retained legal input; queued J and pointer browse. Automatic Qin differs from browsed Tang.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "aaa3393fc527a9dae1466ffc3fa49762222d82c6ba7cf0d169612439dd532257"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 918753,
+      "display_server": "X11",
+      "name": "02-journal-auto-qin-browsed-tang-960",
+      "note": "Same journal state, physical compact window; no explicit track action.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "d8bb00f4e711851dc0db4f5ae03a8061de1061dc80be40d67f6243ecd81399b8"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1422616,
+      "display_server": "X11",
+      "name": "03-fitting-equipped-edge-1280",
+      "note": "Prepared equipped edge fitting; queued B then 5 opens production UI.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "db1d343d2320192b19529f8e157cd963559de4cc3daff46aee759501581a58fe"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 883167,
+      "display_server": "X11",
+      "name": "04-fitting-preview-guard-960",
+      "note": "Queued candidate preview only; no confirmation, equip, trial, or save suppression.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "7e2f14f2f5bcdaab7052a340bc33f8e138f91a3ccca48665b85afe708d96d20e"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1366831,
+      "display_server": "X11",
+      "name": "05-shen-opt-in-dialog-1280",
+      "note": "Queued E beside prepared Shen position. Invitation remains unselected.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "f117bd46e04f533e2e672f2a2ae1ad408b096bf1083b064d761fd86b732cb980"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 801475,
+      "display_server": "X11",
+      "name": "06-shen-opt-in-dialog-960",
+      "note": "Compact NPC dialog; no recruitment/healing option activated.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "04efb9d7f199734daaa18151fbb5f6bf2a6b292c7625abc243fa145214de7883"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1395055,
+      "display_server": "X11",
+      "name": "07-inventory-normal-1280",
+      "note": "Normal legal fresh state, queued I; disabled reasons are actual controls.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "87f3b9a63d2fc80fe2dab4b520f1b73b852ddd3b9ec0c82113e33e98f3ead9a6"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 869332,
+      "display_server": "X11",
+      "name": "08-inventory-legal-long-name-960",
+      "note": "Exact legal 18-character name, validated and saved, shown at compact size.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "f63fef9ee76dfc96fc6616e66e9df139ae5a17a35c2db8183169f1656935a660"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1408095,
+      "display_server": "X11",
+      "name": "09-martial-learned-1280",
+      "note": "All four prepared legal moves learned; queued K; no equip action.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "110db455346a5bd2d87c98e890a847e2c766805cf490185930685c285dc97eae"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 871519,
+      "display_server": "X11",
+      "name": "10-martial-locked-960",
+      "note": "Two locked advanced pages use actual disabled controls and requirements.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "95bb68455028b696429802462186d8d2f965ee739b1878f6e0920c6d285da9e7"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1376460,
+      "display_server": "X11",
+      "name": "11-workshop-buy-shortage-1280",
+      "note": "Queued market navigation and pointer Buy; actual zero-coin shortage, no transaction.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "2b32755ee764c26069dd268e05184b3212944112a6f5bfe647c18c800f1a19c6"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 851917,
+      "display_server": "X11",
+      "name": "12-workshop-sell-shortage-960",
+      "note": "Queued return and pointer Sell; absent materials, no transaction.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "84e0e284c8225d0519991108846a89cd07fe4c8fc2fd2278e299dbf3078cc486"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1358391,
+      "display_server": "X11",
+      "name": "13-cultivation-overview-1280",
+      "note": "Queued E and settled pointer to mentor learning; no merit spent.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "5b30af37879f27663473b2b7d78386f6a86555dc7e1c785f0a6f7860fc13bc12"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 841862,
+      "display_server": "X11",
+      "name": "14-cultivation-overview-960",
+      "note": "Same prepared overview at compact physical dimensions.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "57436e7aff78eb43f2c0ad8f0bec2b0597c5850df6e340faf8c0f4d22ab6ca33"
+    },
+    {
+      "actual_window": [
+        960,
+        600
+      ],
+      "bytes": 847144,
+      "display_server": "X11",
+      "name": "15-cultivation-detail-960",
+      "note": "Queued numeric detail navigation; learning confirmation remains unselected.",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "requested_window": [
+        960,
+        600
+      ],
+      "sha256": "e19ea2f69c30ea77af289081af3d7da43db27c1b7edac3ef283636ae9e2a5ae9"
+    },
+    {
+      "actual_window": [
+        1280,
+        800
+      ],
+      "bytes": 1370863,
+      "display_server": "X11",
+      "name": "16-cultivation-deeds-1280",
+      "note": "Prepared eligible deeds; pointer opens page; no reward claimed.",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "requested_window": [
+        1280,
+        800
+      ],
+      "sha256": "0791b16125fdbaf1bce6a6e56b1e8da02e1f7d96b4481c36b9f54ee11a7e052b"
+    }
+  ],
+  "raw_capture_sha256": "e38d6e738c053965a8af2af050352153487739bf069e9cac43ae8f028a44638e",
+  "raw_launcher_sha256": "1bcf709cc97eeb1808e0fae2cdb40568ff62ad6a252797a468c26c19289795d1",
+  "native_environment": {
+    "display_server": "X11",
+    "renderer": "OpenGL4.5 Mesa25.0.7 llvmpipe LLVM19.1.7",
+    "warning": "Changing VSync mode is unsupported by this graphics driver; warning retained, no ERROR/SCRIPT ERROR"
+  },
+  "qualifiers": [
+    "Prepared legal fixtures are not progression earned in this run",
+    "Queued engine input is scripted; no manual, browser, or OS-pointer interaction",
+    "Sixteen bounded samples cover both physical sizes across every family, not every state/size cross-product",
+    "Native PNGs require independent pixel inspection; geometry alone is not visual acceptance",
+    "Byte equality does not prove absence of same-content production autosave writes",
+    "No battle trial, combat correctness, full-story completion, publication, or platform portability certification",
+    "Runtime/tool/source integrity must also pass the outer launcher after native process exit"
+  ],
+  "launch_route": "Reviewed command from the existing authorized cloud terminal; shell executor omitted DISPLAY and refused before engine execution. No display configuration changed.",
+  "historical_evidence_recreated": false
+}

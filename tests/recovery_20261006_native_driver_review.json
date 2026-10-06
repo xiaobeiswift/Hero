@@ -1,0 +1,28 @@
+{
+  "status": "Independent static/Python review passed; actual native execution pending",
+  "existing_python_checks": 15,
+  "additional_native_mock_checks": 17,
+  "driver_sha256": "fcc0f04bddc6dcfca70c837cb3cb4869dd0094a5940e33004b9f276981b2c1a4",
+  "launcher_sha256": "2fd799b032eb2411dcb412cfee5e1597439ed2469c43a072b37a36225066ddd9",
+  "unchanged_guard_sha256": "1ccaa43fb9c68ed2b32ebf42f1e1aa4b9fc234d624e989aa9d35ff4343ddb515",
+  "scope": "Actual source handlers/fixtures reviewed; guarded dynamic loads, settled pointer timing, external PNGs, current source/engine/driver binding, unchanged import/test commands. No Godot or native run by reviewer.",
+  "native_frame_target": 16,
+  "sizes": [
+    [
+      1280,
+      800
+    ],
+    [
+      960,
+      600
+    ]
+  ],
+  "qualifiers": [
+    "Prepared legal fixtures",
+    "Scripted engine viewport input",
+    "Native cloud display only",
+    "Not every state/size cross-product",
+    "No browser/manual/earned/full-release claim"
+  ],
+  "runtime_changed": false
+}

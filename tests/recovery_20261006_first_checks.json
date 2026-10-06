@@ -1,0 +1,268 @@
+{
+  "scope": "Fresh recovery evidence; original local closure and its missing raw records are not reconstructed",
+  "date_utc": "2026-10-06",
+  "records": {
+    "headless_import": {
+      "source_commit": "4e8cedc7b318b7629b39a0ed50979685f9dd8269",
+      "source_tree": "e2e5285c8534d0f3e1611cb476463a6ca9855920",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "tracked_originals": 1681,
+      "changed_originals": [],
+      "success": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "import",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "raw_launcher_sha256": "b927375ede587ad601f186075c191abfc10da46c8d748cd3b84e0c3a04e5e343",
+      "generated_counts": {
+        "godot_cache": 98,
+        "untracked_uids": 0
+      },
+      "main_execution": false
+    },
+    "retained_journal_ui": {
+      "source_commit": "4e8cedc7b318b7629b39a0ed50979685f9dd8269",
+      "source_tree": "e2e5285c8534d0f3e1611cb476463a6ca9855920",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "tracked_originals": 1681,
+      "changed_originals": [],
+      "success": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "raw_launcher_sha256": "375ca5240833d6fe7ba5c69c07e6e8fee9315c86625fda4282c8d633d6d51d66",
+      "suite_result": {
+        "checks": 120,
+        "engine": {
+          "build": "official",
+          "hash": "7d41c59c457bd5a245092b4e7eb2d833e3b3f8c3",
+          "hex": 263683,
+          "major": 4,
+          "minor": 6,
+          "patch": 3,
+          "status": "stable",
+          "string": "4.6.3-stable (official)",
+          "timestamp": 0
+        },
+        "failures": [],
+        "metrics": {
+          "catalog_builds": 7,
+          "full_resolves": 28,
+          "marker_view_builds": 15,
+          "preview_reanchors": 0,
+          "preview_resolves": 10,
+          "route_reanchors": 1
+        },
+        "scope": "Prepared source-scene integration using genuine production HeroState and real userdata files. Main observer delegates production saves. Main/World processing remain enabled. The first divergent-position open is a labeled synchronous handler boundary; later J entry and controls use flushed input events. Native Control dispatch is headless, not rendered/native contrast/earned/browser/Windows/package proof."
+      },
+      "raw_suite_sha256": "8157589cec8334e479fb60ec0ce6e8c5e92255ae504b870ef44c890a63def33c"
+    },
+    "retained_martial_obsolete_layout": {
+      "source_commit": "4e8cedc7b318b7629b39a0ed50979685f9dd8269",
+      "source_tree": "e2e5285c8534d0f3e1611cb476463a6ca9855920",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "tracked_originals": 1681,
+      "changed_originals": [],
+      "success": false,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 124,
+          "error_lines": [
+            "SCRIPT ERROR: Assertion failed.",
+            "SCRIPT ERROR: Assertion failed."
+          ]
+        }
+      ],
+      "raw_launcher_sha256": "0b45ac9ddbd2a651b9b7eeb7aa5246bc87a7eab28b3a2057a12c571f81937266",
+      "failure": "test failed; evidence preserved",
+      "console_excerpt": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nSCRIPT ERROR: Assertion failed.\n          at: run (res://tests/martial_folio_test.gd:57)\n          GDScript backtrace (most recent call first):\n              [0] run (res://tests/martial_folio_test.gd:57)",
+      "interpretation": "The old geometry threshold is incompatible with the recovered folio layout. This failed result is retained; the reviewed replacement has not been executed at this checkpoint."
+    },
+    "new_folio_run01_failed": {
+      "source_commit": "c2ad6ce33dd01a7f00625e1b37fb3cf908b01cbc",
+      "source_tree": "39cd2e9ab781cd0c3263972308833237449310ce",
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "tracked_originals": 1686,
+      "changed_originals": [],
+      "success": false,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 1,
+          "error_lines": [
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: NEW current folio behavior validation failed, 18 failures / 11401 checks",
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: cultivation: Completed stories expose one-point deed claims",
+            "ERROR: ERROR: cultivation: Pointer target exists: 复命·废闸水令查证",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+            "ERROR: ERROR: cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+            "ERROR: ERROR: NEW current folio behavior validation failed, 18 failures / 11401 checks"
+          ]
+        }
+      ],
+      "raw_launcher_sha256": "5b239437e72cf442bf84978830c816415dd309fbfab7ac0b6a1d0a442270c9c2",
+      "checks": 11401,
+      "failures": [
+        "cultivation: Completed stories expose one-point deed claims",
+        "cultivation: Pointer target exists: 复命·废闸水令查证",
+        "cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+        "cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+        "cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+        "cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+        "cultivation: Completed stories expose one-point deed claims",
+        "cultivation: Pointer target exists: 复命·废闸水令查证",
+        "cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+        "cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+        "cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+        "cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged",
+        "cultivation: Completed stories expose one-point deed claims",
+        "cultivation: Pointer target exists: 复命·废闸水令查证",
+        "cultivation: Sluice deed grants exactly1 once: only expected canonical fields change",
+        "cultivation: Sluice deed grants exactly1 once: reload retains exact canonical state",
+        "cultivation: Old and direct duplicate first-deed requests are inert: only expected canonical fields change",
+        "cultivation: Old and direct duplicate first-deed requests are inert: save bytes unchanged"
+      ],
+      "sections": [
+        "inventory",
+        "martial",
+        "workshop",
+        "cultivation"
+      ],
+      "checkpoint_count": 462,
+      "raw_suite_sha256": "a63a60478762a720979090fa10d7984978d89df3e58209e3db2ebbc03035f924",
+      "interpretation": "The scripted pointer sampled before deferred NPC layout and opened the neighboring option. Production eligibility and rewards were valid. The reviewed test-only timing correction remains unrun here."
+    },
+    "retained_martial_migration_pass": {
+      "source_commit": "c2ad6ce33dd01a7f00625e1b37fb3cf908b01cbc",
+      "source_tree": "39cd2e9ab781cd0c3263972308833237449310ce",
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "tracked_originals": 1686,
+      "changed_originals": [],
+      "success": true,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "error_lines": []
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "error_lines": []
+        }
+      ],
+      "raw_launcher_sha256": "540da8b63c65da864fc25125a46c157e5a597b7786ea48301fca62afdf6b4ba5"
+    },
+    "new_folio_run02_pass": {
+      "source_commit": "2a29af3a48f5e1ac83e01b906ca531e0c94c6e00",
+      "source_tree": "4913b105cfe5478ca7284796f2dd7fc057a53f0c",
+      "checks": 11499,
+      "failures": [],
+      "sections": [
+        "inventory",
+        "martial",
+        "workshop",
+        "cultivation",
+        "real_save_failure_retry",
+        "battle_gate"
+      ],
+      "checkpoint_count": 470,
+      "runtime_sha256_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "changed_originals": [],
+      "raw_result_sha256": "6f0380386631ca66478fda08a7847c7f83417590c60c9a84623dc7960dc4dd02",
+      "raw_launcher_sha256": "f340ac1541a6e15197698f828bb5d31f51ad5a79b2c9118eebd653e7c61b690f",
+      "limits": [
+        "Prepared legal fixtures; does not establish full story journey earning",
+        "No native screenshot or pixel/contrast certification",
+        "Does not replace unavailable historical tests or evidence",
+        "Save byte equality establishes unchanged content, not a syscall write count"
+      ]
+    },
+    "cached_import_before_full_freeze": {
+      "source_commit": "6950926ceb42279807b882ed9a36dc30b2c25ae1",
+      "success": true,
+      "changed_originals": [],
+      "runtime_sha256_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+      "generated_test_uids": {
+        "tests/recovery_folio_behavior_test.gd.uid": "de6ae8d80bf08a77d09f5084332caf7439afc85015e8e7127f1a44153bf81ab4"
+      },
+      "raw_launcher_sha256": "b9c2b1a3c91dcebdea4fda6b18b9c51c9d3a526e32808c064d564863b623725a",
+      "note": "The generated test UID is retained in the next source freeze before full regression; no production/runtime input changed."
+    }
+  },
+  "still_pending": [
+    "Complete reconstructed source regression",
+    "New exact package and package-only checks",
+    "Historical complete-package boundaries",
+    "Actual browser gameplay/audio/persistence"
+  ],
+  "runtime_changed": false
+}

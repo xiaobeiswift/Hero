@@ -1,0 +1,19 @@
+{
+  "status": "Reviewed retained-layout migration executed successfully on c2ad6ce; all original/runtime inputs remained unchanged",
+  "source_test": "tests/martial_folio_test.gd",
+  "original_public_commit": "45e7204e76d9dd8b7bfb387422be1b76088d068d",
+  "original_sha256": "d3ccdaf730f87359d6bea37e6d0595d7160974a4af2f97859a31fc451804db4b",
+  "original_preserved": "tests/fixtures/recovery_20261006/martial_folio_test.gd.txt",
+  "original_failure": "Actual guarded run reached the obsolete description boundary at line57, then the owned child timed out at120seconds after its assertion stopped the coroutine. Runtime/source originals remained unchanged.",
+  "raw_failed_launcher_sha256": "0b45ac9ddbd2a651b9b7eeb7aa5246bc87a7eab28b3a2057a12c571f81937266",
+  "replacement_contract": [
+    "Retain original248pixel logical text width",
+    "Full description rectangle lies inside the folio",
+    "Minimum full-text height fits the actual description height",
+    "24logicalpixel margin separates description from comparison paper",
+    "Description does not overlap any comparison card"
+  ],
+  "unchanged_scope": "All costs, effects, learned/locked states, proficiency thresholds, input, school matrices and stale/battle guards retained. No production edit.",
+  "new_test_sha256": "09515080194137c96da0ce8e5f05535062f3b410c355c276861551b26ef57f24",
+  "successful_launcher_sha256": "540da8b63c65da864fc25125a46c157e5a597b7786ea48301fca62afdf6b4ba5"
+}

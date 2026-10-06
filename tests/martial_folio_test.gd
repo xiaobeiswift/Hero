@@ -54,7 +54,14 @@ func run()->void:
 				await key(KEY_K);await key(KEY_1+i);assert(app.state.equipped_art==available[i] and not app.active_modal)
 				await key(KEY_K);await process_frame
 				var description=app.overlay.find_child("EquippedArtDescription",true,false)
-				assert(description.size.x==248 and description.position.x+description.size.x<310 and description.get_minimum_size().y<=58)
+				# Recovery migration: the folio moved the left reading column; keep
+				# full text fit and separation from the comparison paper/card column.
+				var reading_paper=app.overlay.find_child("MartialReadingPaper",true,false)
+				assert(description.size.x==248 and Rect2(Vector2.ZERO,description.get_parent().size).encloses(description.get_rect()))
+				assert(description.get_minimum_size().y<=description.size.y)
+				assert(description.get_rect().end.x+24<=reading_paper.position.x)
+				for comparison_card in description.get_parent().find_children("ArtCard_*","Control",true,false):
+					assert(not description.get_rect().intersects(comparison_card.get_rect()))
 				await key(KEY_ESCAPE)
 		await key(KEY_K);var stale:Callable=app.modal_actions[0];await key(KEY_ESCAPE);await key(KEY_K)
 		var current:String=app.state.equipped_art;stale.call();assert(app.active_modal and app.state.equipped_art==current)

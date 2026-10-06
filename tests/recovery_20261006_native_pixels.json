@@ -1,0 +1,333 @@
+{
+  "reviewed_at_utc": "2026-10-06T03:34:23.489811+00:00",
+  "status": "accepted_for_bounded_native_visual_matrix",
+  "blocking_findings": [],
+  "source_commit": "6950926ceb42279807b882ed9a36dc30b2c25ae1",
+  "source_tree": "a6d22cc64525f5f09a0e6b8851ef0415955d281b",
+  "capture_json": {
+    "path": "$RECOVERY_ROOT/qa-native-folio-02/results/test-result.json",
+    "sha256": "e38d6e738c053965a8af2af050352153487739bf069e9cac43ae8f028a44638e",
+    "matches_launcher": true,
+    "status": "pass",
+    "checks": 994,
+    "failures": []
+  },
+  "launcher": {
+    "path": "$RECOVERY_ROOT/qa-native-folio-02/results/launcher-result.json",
+    "sha256": "1bcf709cc97eeb1808e0fae2cdb40568ff62ad6a252797a468c26c19289795d1",
+    "success": true,
+    "mode": "native",
+    "phase_exit_codes": {
+      "guard": 0,
+      "native": 0
+    }
+  },
+  "integrity": {
+    "original_files_freshly_hashed": 1688,
+    "changed_or_missing_originals": [],
+    "stored_before_after_equal": true,
+    "runtime_files_freshly_hashed": 382,
+    "runtime_mapping_matches": true,
+    "runtime_sha256": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+    "runtime_digest_matches": true
+  },
+  "native_environment": {
+    "display": "X11",
+    "renderer": "OpenGL Compatibility / Mesa llvmpipe",
+    "retained_warning": "Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.",
+    "warning_count": 1
+  },
+  "frame_count": 16,
+  "frames": [
+    {
+      "name": "01-journal-auto-qin-browsed-tang-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/01-journal-auto-qin-browsed-tang-1280.png",
+      "sha256": "aaa3393fc527a9dae1466ffc3fa49762222d82c6ba7cf0d169612439dd532257",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "02-journal-auto-qin-browsed-tang-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/02-journal-auto-qin-browsed-tang-960.png",
+      "sha256": "d8bb00f4e711851dc0db4f5ae03a8061de1061dc80be40d67f6243ecd81399b8",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "03-fitting-equipped-edge-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/03-fitting-equipped-edge-1280.png",
+      "sha256": "db1d343d2320192b19529f8e157cd963559de4cc3daff46aee759501581a58fe",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "04-fitting-preview-guard-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/04-fitting-preview-guard-960.png",
+      "sha256": "7e2f14f2f5bcdaab7052a340bc33f8e138f91a3ccca48665b85afe708d96d20e",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "05-shen-opt-in-dialog-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/05-shen-opt-in-dialog-1280.png",
+      "sha256": "f117bd46e04f533e2e672f2a2ae1ad408b096bf1083b064d761fd86b732cb980",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "06-shen-opt-in-dialog-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/06-shen-opt-in-dialog-960.png",
+      "sha256": "04efb9d7f199734daaa18151fbb5f6bf2a6b292c7625abc243fa145214de7883",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "07-inventory-normal-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/07-inventory-normal-1280.png",
+      "sha256": "87f3b9a63d2fc80fe2dab4b520f1b73b852ddd3b9ec0c82113e33e98f3ead9a6",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "08-inventory-legal-long-name-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/08-inventory-legal-long-name-960.png",
+      "sha256": "f63fef9ee76dfc96fc6616e66e9df139ae5a17a35c2db8183169f1656935a660",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "09-martial-learned-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/09-martial-learned-1280.png",
+      "sha256": "110db455346a5bd2d87c98e890a847e2c766805cf490185930685c285dc97eae",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "10-martial-locked-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/10-martial-locked-960.png",
+      "sha256": "95bb68455028b696429802462186d8d2f965ee739b1878f6e0920c6d285da9e7",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "11-workshop-buy-shortage-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/11-workshop-buy-shortage-1280.png",
+      "sha256": "2b32755ee764c26069dd268e05184b3212944112a6f5bfe647c18c800f1a19c6",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "12-workshop-sell-shortage-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/12-workshop-sell-shortage-960.png",
+      "sha256": "84e0e284c8225d0519991108846a89cd07fe4c8fc2fd2278e299dbf3078cc486",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "13-cultivation-overview-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/13-cultivation-overview-1280.png",
+      "sha256": "5b30af37879f27663473b2b7d78386f6a86555dc7e1c785f0a6f7860fc13bc12",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "14-cultivation-overview-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/14-cultivation-overview-960.png",
+      "sha256": "57436e7aff78eb43f2c0ad8f0bec2b0597c5850df6e340faf8c0f4d22ab6ca33",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "15-cultivation-detail-960",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/15-cultivation-detail-960.png",
+      "sha256": "e19ea2f69c30ea77af289081af3d7da43db27c1b7edac3ef283636ae9e2a5ae9",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        960,
+        600
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    },
+    {
+      "name": "16-cultivation-deeds-1280",
+      "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/16-cultivation-deeds-1280.png",
+      "sha256": "0791b16125fdbaf1bce6a6e56b1e8da02e1f7d96b4481c36b9f54ee11a7e052b",
+      "sha256_matches": true,
+      "bytes_match": true,
+      "dimensions": [
+        1280,
+        800
+      ],
+      "dimensions_match": true,
+      "inspected_with": "view_image on the original PNG"
+    }
+  ],
+  "visual_findings": [
+    "Journal full and compact: browsed Tang row and automatic Qin guidance are visually distinguishable; main page title/body/actions are clear. The lower guidance paragraph is intentionally clipped within its scroll region, with visible scrollbar and downward edge cue; not all guidance text is simultaneously visible.",
+    "Fitting equipped/full and guard-preview/compact: actual installation, candidate preview, delta values, save notice and disabled current-equip action remain readable. Preview label explicitly says 尚未装配; no equip/trial action is inferred.",
+    "Shen dialogue at both sizes: opt-in choices, portrait, body and footer fit without overlap. Body completes above paper edge.",
+    "Inventory normal/full and legal-long-name/compact: all 18 name characters 江湖夜雨青苇渡灯长风归客山河故人行舟 are visible. Name uses two lines and the level suffix leaves 级 on a third line; school and reduced decorative portrait clear the wrapped identity. Equipped captions and item counts stay legible.",
+    "Martial learned/full and locked/compact: current, learned and locked statuses, requirements and disabled learning captions remain distinguishable. Bottom rules text is close to the page edge but visibly complete.",
+    "Workshop buy/full and sell/compact: zero inventory/coins, prices and shortage reasons are visible; last row and return action stay inside page bounds. Shortage buttons are recorded as enabled by controls metadata, so their status text is not classified as disabled.",
+    "Cultivation overview both sizes, compact detail and full deeds: required/current merit, action captions, status band, permanent-learning policy and one-time reward labels are readable; footer remains below folio. These are prepared states, not earned progression.",
+    "All 16 frames retain the shared original dark cloth, stitched spine/tassel, brass rules, warm paper and riverside illustration. No missing-texture placeholders, offscreen action/footer, or accidental text overlap was observed in this matrix."
+  ],
+  "contrast": {
+    "count": 40,
+    "disabled_count": 4,
+    "non_disabled_minimum": 5.747731,
+    "disabled_minimum": 5.18753,
+    "overall_minimum": 5.18753,
+    "method": "40 explicitly selected text controls across all 16 original native PNGs. Read RGB pixels without resizing or changing images. For each capture metadata rectangle inset by 2 pixels, choose the actual pixel nearest the source palette RGB by squared Euclidean distance (row-major tie). This targets a glyph core, not antialias edges. Select a visually blank 5x5 local background patch; retain the actual background pixel yielding the lowest WCAG sRGB relative-luminance contrast ratio with that core pixel. This produces 40 final actual-pixel pairs, not exhaustive text/edge/texture coverage. 4 disabled controls are reported separately; no WCAG conformance claim. For frame 14 primary caption, the foreground ROI is additionally restricted to central 30–90% width to exclude the brighter numeric shortcut. At compact scale the nearest-to-source glyph core can itself remain coverage blended; these measured rendered pixels are retained, not replaced with source RGB. Outer antialias fringe pixels are not measured.",
+    "artifact": "contrast-samples.json",
+    "artifact_sha256": "94ed789da4395ceb33c19561cf270905c6978afd2c1f302940f37f68f536e3cc",
+    "lowest_non_disabled": {
+      "frame": "14-cultivation-overview-960",
+      "control": "/root/Hero/ModalLayer/CultivationFolio/DialogueChoice3",
+      "foreground_xy": [
+        483,
+        516
+      ],
+      "foreground_rgb": [
+        222,
+        203,
+        187
+      ],
+      "background_xy": [
+        582,
+        520
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ]
+    },
+    "lowest_disabled": {
+      "frame": "02-journal-auto-qin-browsed-tang-960",
+      "control": "/root/Hero/ModalLayer/@Control@113/JournalFrame/JournalAction_auto",
+      "foreground_xy": [
+        260,
+        536
+      ],
+      "foreground_rgb": [
+        166,
+        164,
+        154
+      ],
+      "background_xy": [
+        145,
+        538
+      ],
+      "background_rgb": [
+        40,
+        51,
+        55
+      ]
+    }
+  },
+  "recommended_preview": {
+    "path": "$RECOVERY_ROOT/qa-native-folio-02/results/native-frames/01-journal-auto-qin-browsed-tang-1280.png",
+    "sha256": "aaa3393fc527a9dae1466ffc3fa49762222d82c6ba7cf0d169612439dd532257",
+    "reason": "Clearest complete visual of original folio materials, focused browse row, independent automatic guidance and track/history actions; 1280x800 native original. Not uploaded."
+  },
+  "limits": [
+    "Independent pixel review covers these 16 original native PNGs only; some branch-by-size combinations are absent.",
+    "No fitting trial/results/combat, full-story, browser, manual, OS-pointer or platform-portability acceptance.",
+    "Native captures were produced with scripted input and prepared legal fixtures; they are not an earned journey.",
+    "Forty sampled foreground/background pairs are not an exhaustive contrast audit and do not recreate historical 1057-sample coverage.",
+    "Antialias fringes and all texture positions are not contrast-audited; nearest-source rendered glyph cores can still be coverage blended at compact scale.",
+    "Byte equality establishes unchanged contents, not absence of same-content autosave writes.",
+    "No new artwork, source changes, screenshot edits, uploads or user delivery were made by this review."
+  ],
+  "public_copy_provenance": {
+    "raw_sha256": "681bf2de27424c56792fb8073c794eeb6cdde93ce605144810cd71e4ef8a6f49",
+    "normalization": "Only the local recovery-root prefix is replaced by $RECOVERY_ROOT; measurements and findings are unchanged."
+  }
+}
