@@ -1,0 +1,345 @@
+{
+  "method": "Actual PNG sRGB pixels at recorded zero-based coordinates; relative luminance channel linearization <=0.04045: c/12.92, otherwise ((c+0.055)/1.055)^2.4; weighted 0.2126,0.7152,0.0722; (lighter+0.05)/(darker+0.05). Representative highest-coverage glyph/ring cores and nearby plain backgrounds were selected after visual inspection.",
+  "samples": [
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "f6506279b59d6ace734119fa1fb2a3c08e3f36a425f1aa1aaddc02913f530e38",
+      "element": "corrupt status",
+      "glyph_or_ring_xy": [
+        793,
+        489
+      ],
+      "glyph_or_ring_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_xy": [
+        817,
+        496
+      ],
+      "background_rgb": [
+        239,
+        227,
+        205
+      ],
+      "contrast_ratio": 7.112419
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "8f1a95856855a4bb906e98c517cc03786bdf44ba83362596b8bc2c8b208959b2",
+      "element": "corrupt status",
+      "glyph_or_ring_xy": [
+        589,
+        374
+      ],
+      "glyph_or_ring_rgb": [
+        136,
+        66,
+        56
+      ],
+      "background_xy": [
+        615,
+        372
+      ],
+      "background_rgb": [
+        238,
+        225,
+        202
+      ],
+      "contrast_ratio": 5.638925
+    },
+    {
+      "frame": "06-occupied-backup-write-failure-1280.png",
+      "sha256": "a5361dd8f8e93f085cc0326e9665e1c32d1212062b7ce50f3e29ac2d3231264f",
+      "element": "inline failure",
+      "glyph_or_ring_xy": [
+        522,
+        653
+      ],
+      "glyph_or_ring_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_xy": [
+        860,
+        661
+      ],
+      "background_rgb": [
+        229,
+        221,
+        201
+      ],
+      "contrast_ratio": 6.673039
+    },
+    {
+      "frame": "06-occupied-backup-write-failure-960.png",
+      "sha256": "5d4ada224c6741f90e6191f5194999471778d1186709746130ba4bedfafd44d8",
+      "element": "inline failure",
+      "glyph_or_ring_xy": [
+        629,
+        500
+      ],
+      "glyph_or_ring_rgb": [
+        126,
+        49,
+        41
+      ],
+      "background_xy": [
+        647,
+        498
+      ],
+      "background_rgb": [
+        229,
+        221,
+        201
+      ],
+      "contrast_ratio": 6.579522
+    },
+    {
+      "frame": "04-overwrite-confirm-1280.png",
+      "sha256": "c462d6c2f17ba849b4fe56a3563373f0f96dbe044489c1e1c262aa6fd64c8e6e",
+      "element": "primary button text",
+      "glyph_or_ring_xy": [
+        1019,
+        589
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        1100,
+        595
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "04-overwrite-confirm-960.png",
+      "sha256": "a3aab802e26a00d26c198bb01a0cbca5daa6619689230177ad415685de5eadb4",
+      "element": "primary button text",
+      "glyph_or_ring_xy": [
+        752,
+        454
+      ],
+      "glyph_or_ring_rgb": [
+        211,
+        184,
+        170
+      ],
+      "background_xy": [
+        821,
+        449
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 4.819107
+    },
+    {
+      "frame": "04-overwrite-confirm-1280.png",
+      "sha256": "c462d6c2f17ba849b4fe56a3563373f0f96dbe044489c1e1c262aa6fd64c8e6e",
+      "element": "focus ring",
+      "glyph_or_ring_xy": [
+        862,
+        578
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        880,
+        583
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "04-overwrite-confirm-960.png",
+      "sha256": "a3aab802e26a00d26c198bb01a0cbca5daa6619689230177ad415685de5eadb4",
+      "element": "focus ring",
+      "glyph_or_ring_xy": [
+        646,
+        433
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        658,
+        438
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "03-corrupt-backup-detail-1280.png",
+      "sha256": "2d9f950d7343838c5f840a5c13c79d8896c5a7da6439c026e632918b86279da2",
+      "element": "load consequence",
+      "glyph_or_ring_xy": [
+        508,
+        495
+      ],
+      "glyph_or_ring_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        1058,
+        505
+      ],
+      "background_rgb": [
+        236,
+        223,
+        199
+      ],
+      "contrast_ratio": 12.848301
+    },
+    {
+      "frame": "03-corrupt-backup-detail-960.png",
+      "sha256": "17de59410da54122f23c20dbefea3d025b9c1bc3dc172490cdc6f65ca5a83a3f",
+      "element": "load consequence",
+      "glyph_or_ring_xy": [
+        479,
+        373
+      ],
+      "glyph_or_ring_rgb": [
+        18,
+        32,
+        35
+      ],
+      "background_xy": [
+        797,
+        381
+      ],
+      "background_rgb": [
+        232,
+        220,
+        199
+      ],
+      "contrast_ratio": 12.329473
+    },
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "f6506279b59d6ace734119fa1fb2a3c08e3f36a425f1aa1aaddc02913f530e38",
+      "element": "cloth guidance",
+      "glyph_or_ring_xy": [
+        205,
+        257
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        180,
+        286
+      ],
+      "background_rgb": [
+        8,
+        24,
+        28
+      ],
+      "contrast_ratio": 15.018222
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "8f1a95856855a4bb906e98c517cc03786bdf44ba83362596b8bc2c8b208959b2",
+      "element": "cloth guidance",
+      "glyph_or_ring_xy": [
+        135,
+        204
+      ],
+      "glyph_or_ring_rgb": [
+        237,
+        229,
+        213
+      ],
+      "background_xy": [
+        134,
+        213
+      ],
+      "background_rgb": [
+        7,
+        22,
+        26
+      ],
+      "contrast_ratio": 14.726653
+    },
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "f6506279b59d6ace734119fa1fb2a3c08e3f36a425f1aa1aaddc02913f530e38",
+      "element": "keyboard help",
+      "glyph_or_ring_xy": [
+        196,
+        751
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        650,
+        760
+      ],
+      "background_rgb": [
+        19,
+        34,
+        38
+      ],
+      "contrast_ratio": 13.536356
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "8f1a95856855a4bb906e98c517cc03786bdf44ba83362596b8bc2c8b208959b2",
+      "element": "keyboard help",
+      "glyph_or_ring_xy": [
+        264,
+        568
+      ],
+      "glyph_or_ring_rgb": [
+        225,
+        218,
+        203
+      ],
+      "background_xy": [
+        493,
+        568
+      ],
+      "background_rgb": [
+        19,
+        34,
+        38
+      ],
+      "contrast_ratio": 11.749759
+    }
+  ],
+  "limits": [
+    "Sampled pixel pairs, not an exhaustive contrast or WCAG certification. Antialiased edge pixels and textured backgrounds vary.",
+    "Bound only to original cfbb902 screenshots; later number placement/color refinement requires fresh pixels."
+  ]
+}

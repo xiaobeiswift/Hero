@@ -1,0 +1,208 @@
+{
+  "review": "independent actual12-frame native review cfbb902",
+  "reviewed_at_utc": "2026-10-06T10:59:52.735125+00:00",
+  "status": "original_capture_matrix_visually_reviewed_no_additional_blocker_requested_shortcut_refinement_pending",
+  "source_commit": "cfbb902b087a1dca78ae8e47ab33b6c0cc916026",
+  "source_tree": "0acba2e51e5548621b13ef3aac4557448d150308",
+  "runtime_entries": 384,
+  "runtime_digest": "e32fdcd9ad29b81d33b11aeda51ebee47365c041f80ad0838c8b9c173267edb5",
+  "checks": 492,
+  "tracked_originals_unchanged": 1739,
+  "terminal_receipts": {
+    "launcher-result.json": "1d61d74e91c47a6abda92e0ac79b6cf24cdaeec1e8c254206dcb3aa589b1d1b4",
+    "test-result.json": "61328fcfd8b0299a7d39ca0f1d6748158869e5a0962d3d8d95fc9dd28f17326d",
+    "native-binding.json": "c12792dc7618ba312e8af583066bf4d22ea2aca61f5c152233c648498e6c2dce",
+    "tracked-before.json": "354a3b330020d0b54aaa8590921812f6490018a1f7aba0a85e93c180310bda92",
+    "tracked-after.json": "354a3b330020d0b54aaa8590921812f6490018a1f7aba0a85e93c180310bda92"
+  },
+  "evidence_inventory_sha256": "79780859ff6d771ea2a065b3503c297f6449e5bf709ffb498d732e558f1c63ad",
+  "inventory_files_rehashed": 27,
+  "contrast_record_sha256": "344c255b31a837be925d041c7e11f16dd6c0dd36e0abb0b4183c4eae9b644983",
+  "frames": [
+    {
+      "name": "04-overwrite-confirm-1280",
+      "sha256": "c462d6c2f17ba849b4fe56a3563373f0f96dbe044489c1e1c262aa6fd64c8e6e",
+      "bytes": 1409196,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "04-overwrite-confirm-960",
+      "sha256": "a3aab802e26a00d26c198bb01a0cbca5daa6619689230177ad415685de5eadb4",
+      "bytes": 874179,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "01-save-list-success-1280",
+      "sha256": "f6506279b59d6ace734119fa1fb2a3c08e3f36a425f1aa1aaddc02913f530e38",
+      "bytes": 1340373,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "01-save-list-success-960",
+      "sha256": "8f1a95856855a4bb906e98c517cc03786bdf44ba83362596b8bc2c8b208959b2",
+      "bytes": 829347,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "06-occupied-backup-write-failure-1280",
+      "sha256": "a5361dd8f8e93f085cc0326e9665e1c32d1212062b7ce50f3e29ac2d3231264f",
+      "bytes": 1346646,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "06-occupied-backup-write-failure-960",
+      "sha256": "5d4ada224c6741f90e6191f5194999471778d1186709746130ba4bedfafd44d8",
+      "bytes": 833842,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "02-title-load-list-1280",
+      "sha256": "451996328cc804d44e37571a6ea6523fa021137c1e517ac3da5ccc41f42672e9",
+      "bytes": 1260551,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "02-title-load-list-960",
+      "sha256": "41aaa960363b8b7099764da4a8b69a3ecd89005647c8267e18bab8b3ca2a8bdc",
+      "bytes": 784024,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "03-corrupt-backup-detail-1280",
+      "sha256": "2d9f950d7343838c5f840a5c13c79d8896c5a7da6439c026e632918b86279da2",
+      "bytes": 1300883,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "03-corrupt-backup-detail-960",
+      "sha256": "17de59410da54122f23c20dbefea3d025b9c1bc3dc172490cdc6f65ca5a83a3f",
+      "bytes": 809100,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "05-backup-load-confirm-1280",
+      "sha256": "eb0f18e0948b750c2a5b670fd7f35c97ed72b9c5b26cab13b862d8308e0fef1b",
+      "bytes": 1295111,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    },
+    {
+      "name": "05-backup-load-confirm-960",
+      "sha256": "81f92827245e0cc22e94c1397d2130c65365400d4de6d76715656aadcc6a1cb9",
+      "bytes": 807197,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true
+    }
+  ],
+  "findings": [
+    "Both1280x800 and960x600 images inspected directly for all six states. No visible content overlap or clipping found.",
+    "Save lists show valid occupied, empty and unreadable entries adjacent to their own actions; inline actual success/failure is fully visible in the feedback band.",
+    "Title list visibly distinguishes newer version, empty primary and valid entries. The backup-only detail is tested separately without a dedicated frame.",
+    "Corrupt primary and genuine good backup are separated in detail; consequence text explicitly says backup load does not overwrite the primary.",
+    "Overwrite and backup-load confirmation source, memory replacement, autosave and manual-file consequences fit. Native keyboard focus rings are visibly present in both sizes for confirmations and failed-save retry.",
+    "Keyboard help and local-storage guidance fit the actual rendered pages. Original shortcut number is singular but separated from decorated buttons; root requested the later inside-button refinement, which remains independently pending.",
+    "Sampled cinnabar status contrast7.1124/5.6389; inline error6.6730/6.5795; primary caption7.4771/4.8191; focus ring7.4771 at both sizes. These are representative actual-pixel samples, not whole-screen certification.",
+    "Raw Label rectangles are oversized even where visible glyphs fit: original1280 footer bounds y743.9519,height915; title height262. These rectangles cannot establish strict containment. Pixel inspection is the evidence for visible fit.",
+    "All27 inventory files and all12 PNG byte counts/hash/dimensions verified. Guard/native exit0 and error-lines empty. Existing V-Sync capability warning is recorded; no settings changed."
+  ],
+  "limits": [
+    "This review is bound only to cfbb902/runtimee32fdcd9. Current runtime9d29b995 shortcut refinement does not inherit this pixel pass.",
+    "Failed title load is an actual native non-PNG assertion, not a dedicated visually reviewed failed-title screenshot.",
+    "Prepared legal fixtures and scripted native input; no browser/audio/Windows/full regression/PCK acceptance.",
+    "Reviewer launched no engine and edited no source."
+  ]
+}

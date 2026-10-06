@@ -112,5 +112,28 @@
     "No redesigned native frame, full regression or new PCK acceptance is claimed at this source checkpoint",
     "Metadata version assertions and reproducible validation tools were prepared after the focused run; runtime and focused driver remain separately hash-bound"
   ],
-  "independent_terminal_review_sha256": "bfac9bcea9beff85658eedf7ba4a774c8001c4ea966c08f311eda3b03ab3e994"
+  "independent_terminal_review_sha256": "bfac9bcea9beff85658eedf7ba4a774c8001c4ea966c08f311eda3b03ab3e994",
+  "initial_native": {
+    "source_commit": "cfbb902b087a1dca78ae8e47ab33b6c0cc916026",
+    "remote_equivalent": "c02af30ee57a0ba1bdfb60e7008587e58df13877",
+    "checks": 492,
+    "frames": 12,
+    "independent_pixel_review": "save_folio_native_initial_review.json",
+    "contrast_evidence": "save_folio_native_initial_contrast.json",
+    "status": "Initial runtime accepted for actual pixels; number-position refinement requires its own fresh native run",
+    "geometry_limit": "Raw Label control rectangles are oversized; they are not strict containment proof. Actual glyph/text visibility and PNGs were separately reviewed."
+  },
+  "current_refinement": {
+    "purpose": "Place the one existing shortcut numeral inside each button, matching its real foreground color",
+    "runtime_entries": 384,
+    "runtime_sha256": "9d29b9957781541c820065d287bc0962b9bb4c2cfb61cc64fb4ca0fd6cc4c421",
+    "tracked_originals_during_run": 1739,
+    "focused_checks": 449,
+    "focused_driver_sha256": "9e4591cf70099da1f0a927c9befef0221d8c4dc5bca2ab0fd1a8d5c193435b91",
+    "test_receipt_sha256": "b652427164264df5864b0dadc869066425f61d4941ab2ad1a86290a51d3a53be",
+    "launcher_receipt_sha256": "e4d11c6bd9968a61efc713f2419723a7dc15fe3e6eb7ee0e03fa1e6c684ffdeb",
+    "unchanged_originals_during_run": true,
+    "input_callbacks_and_mapping_unchanged": true,
+    "final_native_full_package_status": "pending"
+  }
 }
