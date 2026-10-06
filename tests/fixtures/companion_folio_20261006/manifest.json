@@ -1,0 +1,7 @@
+{
+  "source": "tests/party_roster_ui_test.gd",
+  "baseline_commit": "058effd139c1b37dc47c905c9add1c5196eca8e6",
+  "sha256": "81c3348c6ab68a1486f7dbec56c0f3d8c41bbeec243f4036c05e4f655acce96c",
+  "bytes": 17957,
+  "purpose": "Exact original fixture before companion folio geometry migration; not executed evidence"
+}
