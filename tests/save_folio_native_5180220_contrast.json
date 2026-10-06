@@ -1,0 +1,491 @@
+{
+  "source_commit": "5180220cff0f7b271215ffe631ae95ac670b02eb",
+  "runtime_digest": "9d29b9957781541c820065d287bc0962b9bb4c2cfb61cc64fb4ca0fd6cc4c421",
+  "method": "Actual PNG sRGB pixels at recorded zero-based coordinates; relative luminance channel linearization <=0.04045: c/12.92, otherwise ((c+0.055)/1.055)^2.4; weighted 0.2126,0.7152,0.0722; (lighter+0.05)/(darker+0.05). Representative highest-coverage glyph/ring cores and nearby plain backgrounds were selected after visual inspection.",
+  "samples": [
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "9367b9d6cf563e63429e44dedf1967d2f64af64aebcd1620c9eeebb9376bd1c9",
+      "element": "corrupt status",
+      "glyph_or_ring_xy": [
+        793,
+        489
+      ],
+      "glyph_or_ring_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_xy": [
+        817,
+        496
+      ],
+      "background_rgb": [
+        239,
+        227,
+        205
+      ],
+      "contrast_ratio": 7.112419
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "3c00465fba27e99067c0628ff516e1650589c16e001fc9f634d1b257d95f3498",
+      "element": "corrupt status",
+      "glyph_or_ring_xy": [
+        589,
+        374
+      ],
+      "glyph_or_ring_rgb": [
+        136,
+        66,
+        56
+      ],
+      "background_xy": [
+        615,
+        372
+      ],
+      "background_rgb": [
+        238,
+        225,
+        202
+      ],
+      "contrast_ratio": 5.638925
+    },
+    {
+      "frame": "06-occupied-backup-write-failure-1280.png",
+      "sha256": "6372347cdf38cab21a7c2e5298ebe7963305f35004facd3eaa749cb5c032f6f9",
+      "element": "inline failure",
+      "glyph_or_ring_xy": [
+        522,
+        653
+      ],
+      "glyph_or_ring_rgb": [
+        125,
+        48,
+        40
+      ],
+      "background_xy": [
+        860,
+        661
+      ],
+      "background_rgb": [
+        229,
+        221,
+        201
+      ],
+      "contrast_ratio": 6.673039
+    },
+    {
+      "frame": "06-occupied-backup-write-failure-960.png",
+      "sha256": "717746a89c4ee408c3ed7656071c933a74de1ee1695d296392304e8393540245",
+      "element": "inline failure",
+      "glyph_or_ring_xy": [
+        629,
+        500
+      ],
+      "glyph_or_ring_rgb": [
+        126,
+        49,
+        41
+      ],
+      "background_xy": [
+        647,
+        498
+      ],
+      "background_rgb": [
+        229,
+        221,
+        201
+      ],
+      "contrast_ratio": 6.579522
+    },
+    {
+      "frame": "04-overwrite-confirm-1280.png",
+      "sha256": "1a5df3c18a51a0c59490ea00f34075def8b9a4ea615d9e760aebfb2d4d0db59b",
+      "element": "primary button text",
+      "glyph_or_ring_xy": [
+        1019,
+        589
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        1100,
+        595
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "04-overwrite-confirm-960.png",
+      "sha256": "256d3f91542bc893d9877c9835db7a61486c0fb82d3dd42db84335ef8a82878e",
+      "element": "primary button text",
+      "glyph_or_ring_xy": [
+        752,
+        454
+      ],
+      "glyph_or_ring_rgb": [
+        211,
+        184,
+        170
+      ],
+      "background_xy": [
+        821,
+        449
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 4.819107
+    },
+    {
+      "frame": "04-overwrite-confirm-1280.png",
+      "sha256": "1a5df3c18a51a0c59490ea00f34075def8b9a4ea615d9e760aebfb2d4d0db59b",
+      "element": "focus ring",
+      "glyph_or_ring_xy": [
+        862,
+        578
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        880,
+        583
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "04-overwrite-confirm-960.png",
+      "sha256": "256d3f91542bc893d9877c9835db7a61486c0fb82d3dd42db84335ef8a82878e",
+      "element": "focus ring",
+      "glyph_or_ring_xy": [
+        646,
+        433
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        658,
+        438
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "03-corrupt-backup-detail-1280.png",
+      "sha256": "a981b45cdcec66de1be4df3bf64b24063b78dfe214964f0788fd95b62b3be073",
+      "element": "load consequence",
+      "glyph_or_ring_xy": [
+        508,
+        495
+      ],
+      "glyph_or_ring_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        1058,
+        505
+      ],
+      "background_rgb": [
+        236,
+        223,
+        199
+      ],
+      "contrast_ratio": 12.848301
+    },
+    {
+      "frame": "03-corrupt-backup-detail-960.png",
+      "sha256": "24caa988801b634de58871cbf05cc57f06ed5434717d1dbbe90d9c3a579ac82f",
+      "element": "load consequence",
+      "glyph_or_ring_xy": [
+        479,
+        373
+      ],
+      "glyph_or_ring_rgb": [
+        18,
+        32,
+        35
+      ],
+      "background_xy": [
+        797,
+        381
+      ],
+      "background_rgb": [
+        232,
+        220,
+        199
+      ],
+      "contrast_ratio": 12.329473
+    },
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "9367b9d6cf563e63429e44dedf1967d2f64af64aebcd1620c9eeebb9376bd1c9",
+      "element": "cloth guidance",
+      "glyph_or_ring_xy": [
+        205,
+        257
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        180,
+        286
+      ],
+      "background_rgb": [
+        8,
+        24,
+        28
+      ],
+      "contrast_ratio": 15.018222
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "3c00465fba27e99067c0628ff516e1650589c16e001fc9f634d1b257d95f3498",
+      "element": "cloth guidance",
+      "glyph_or_ring_xy": [
+        135,
+        204
+      ],
+      "glyph_or_ring_rgb": [
+        237,
+        229,
+        213
+      ],
+      "background_xy": [
+        134,
+        213
+      ],
+      "background_rgb": [
+        7,
+        22,
+        26
+      ],
+      "contrast_ratio": 14.726653
+    },
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "9367b9d6cf563e63429e44dedf1967d2f64af64aebcd1620c9eeebb9376bd1c9",
+      "element": "keyboard help",
+      "glyph_or_ring_xy": [
+        196,
+        751
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        650,
+        760
+      ],
+      "background_rgb": [
+        19,
+        34,
+        38
+      ],
+      "contrast_ratio": 13.536356
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "3c00465fba27e99067c0628ff516e1650589c16e001fc9f634d1b257d95f3498",
+      "element": "keyboard help",
+      "glyph_or_ring_xy": [
+        264,
+        568
+      ],
+      "glyph_or_ring_rgb": [
+        225,
+        218,
+        203
+      ],
+      "background_xy": [
+        493,
+        568
+      ],
+      "background_rgb": [
+        19,
+        34,
+        38
+      ],
+      "contrast_ratio": 11.749759
+    },
+    {
+      "frame": "01-save-list-success-1280.png",
+      "sha256": "9367b9d6cf563e63429e44dedf1967d2f64af64aebcd1620c9eeebb9376bd1c9",
+      "element": "inside numeral in list",
+      "glyph_or_ring_xy": [
+        994,
+        248
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        1007,
+        242
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "01-save-list-success-960.png",
+      "sha256": "3c00465fba27e99067c0628ff516e1650589c16e001fc9f634d1b257d95f3498",
+      "element": "inside numeral in list",
+      "glyph_or_ring_xy": [
+        747,
+        177
+      ],
+      "glyph_or_ring_rgb": [
+        234,
+        222,
+        205
+      ],
+      "background_xy": [
+        757,
+        182
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 6.806761
+    },
+    {
+      "frame": "04-overwrite-confirm-1280.png",
+      "sha256": "1a5df3c18a51a0c59490ea00f34075def8b9a4ea615d9e760aebfb2d4d0db59b",
+      "element": "inside numeral in focused confirmation",
+      "glyph_or_ring_xy": [
+        868,
+        604
+      ],
+      "glyph_or_ring_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        880,
+        599
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 7.477068
+    },
+    {
+      "frame": "04-overwrite-confirm-960.png",
+      "sha256": "256d3f91542bc893d9877c9835db7a61486c0fb82d3dd42db84335ef8a82878e",
+      "element": "inside numeral in focused confirmation",
+      "glyph_or_ring_xy": [
+        652,
+        444
+      ],
+      "glyph_or_ring_rgb": [
+        212,
+        187,
+        172
+      ],
+      "background_xy": [
+        662,
+        449
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast_ratio": 4.94675
+    },
+    {
+      "frame": "03-corrupt-backup-detail-1280.png",
+      "sha256": "a981b45cdcec66de1be4df3bf64b24063b78dfe214964f0788fd95b62b3be073",
+      "element": "inside numeral on quiet paper button",
+      "glyph_or_ring_xy": [
+        994,
+        392
+      ],
+      "glyph_or_ring_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        1009,
+        386
+      ],
+      "background_rgb": [
+        230,
+        218,
+        194
+      ],
+      "contrast_ratio": 12.224529
+    },
+    {
+      "frame": "03-corrupt-backup-detail-960.png",
+      "sha256": "24caa988801b634de58871cbf05cc57f06ed5434717d1dbbe90d9c3a579ac82f",
+      "element": "inside numeral on quiet paper button",
+      "glyph_or_ring_xy": [
+        747,
+        285
+      ],
+      "glyph_or_ring_rgb": [
+        29,
+        43,
+        44
+      ],
+      "background_xy": [
+        758,
+        290
+      ],
+      "background_rgb": [
+        229,
+        217,
+        192
+      ],
+      "contrast_ratio": 10.471544
+    }
+  ],
+  "limits": [
+    "Twenty representative actual-PNG pixel pairs, not exhaustive contrast or WCAG certification. Antialiased edge pixels and textured backgrounds vary.",
+    "These pixels were independently sampled from final5180220 captures; no earlier pixel values or hashes are treated as final evidence."
+  ]
+}

@@ -1,0 +1,500 @@
+{
+  "review": "independent final actual12-frame native acceptance5180220",
+  "reviewed_at_utc": "2026-10-06T11:14:06.532595+00:00",
+  "status": "accepted_final_native_1280_and_960_physical_matrix_logical1280",
+  "source_commit": "5180220cff0f7b271215ffe631ae95ac670b02eb",
+  "source_tree": "81032a5d016e39397730bedbd95fc87e55f55e82",
+  "runtime_entries": 384,
+  "runtime_digest": "9d29b9957781541c820065d287bc0962b9bb4c2cfb61cc64fb4ca0fd6cc4c421",
+  "checks": 492,
+  "tracked_originals_unchanged": 1741,
+  "terminal_receipts": {
+    "launcher-result.json": "ad32bfd146b2959268afff20345f22bc4592c9967f825899581e0d8acc86a0b2",
+    "test-result.json": "63a95c3e688dfce4cd4ba59ab09517e555b19b9d676409a5b3518de34bc47af0",
+    "native-binding.json": "9b25f03fc540e8836f6a164e24c6c73c3bbd2a27ae71d92a124a60823b0cc189",
+    "tracked-before.json": "b361299f53a7c4ee70abfb034788b37d63d7cadfd403c2947f48c5fa2cd38aaa",
+    "tracked-after.json": "b361299f53a7c4ee70abfb034788b37d63d7cadfd403c2947f48c5fa2cd38aaa"
+  },
+  "launcher_tool_sha256": "9ddb05ee01c48d8635e8719261578742aaf180686f275f1ffd9a8238e0cbe118",
+  "driver_sha256": "46e66e52f55a4ba432754626e5a227e438b2d8eda02eafbd052d9d9ee62bbe2f",
+  "helper_sha256": "fd30f21f8f3fe0f1f30a29f928051aa488332986e0eee1b7a8608c92a196382b",
+  "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "evidence_inventory_sha256": "76901e523975046a4931b1f1f3dfa9d04d76f8a7326fd6274cff9ca11179333d",
+  "inventory_files_rehashed": 27,
+  "contrast_record_sha256": "2a5bd0057a3034e326e6d528581e80f69c6ad394ba0a5655823103baf651fc73",
+  "frames": [
+    {
+      "name": "04-overwrite-confirm-1280",
+      "sha256": "1a5df3c18a51a0c59490ea00f34075def8b9a4ea615d9e760aebfb2d4d0db59b",
+      "bytes": 1409349,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 160,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 204,
+          "viewport_height": 210.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 5,
+        "screen": "explore",
+        "toast_text": "同行册核验 · 预备合法状态",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "04-overwrite-confirm-960",
+      "sha256": "256d3f91542bc893d9877c9835db7a61486c0fb82d3dd42db84335ef8a82878e",
+      "bytes": 874257,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 160,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 204,
+          "viewport_height": 210.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 5,
+        "screen": "explore",
+        "toast_text": "同行册核验 · 预备合法状态",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "01-save-list-success-1280",
+      "sha256": "9367b9d6cf563e63429e44dedf1967d2f64af64aebcd1620c9eeebb9376bd1c9",
+      "bytes": 1340962,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 4,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "手记一已写下。",
+        "inline_visible": true,
+        "modal_generation": 6,
+        "screen": "explore",
+        "toast_text": "手记一已写下。",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "01-save-list-success-960",
+      "sha256": "3c00465fba27e99067c0628ff516e1650589c16e001fc9f634d1b257d95f3498",
+      "bytes": 829732,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 4,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "手记一已写下。",
+        "inline_visible": true,
+        "modal_generation": 6,
+        "screen": "explore",
+        "toast_text": "手记一已写下。",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "06-occupied-backup-write-failure-1280",
+      "sha256": "6372347cdf38cab21a7c2e5298ebe7963305f35004facd3eaa749cb5c032f6f9",
+      "bytes": 1347223,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 4,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "手记未能保存，原文件保持不变。错误：12",
+        "inline_visible": true,
+        "modal_generation": 10,
+        "screen": "explore",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "06-occupied-backup-write-failure-960",
+      "sha256": "717746a89c4ee408c3ed7656071c933a74de1ee1695d296392304e8393540245",
+      "bytes": 834217,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 4,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "手记未能保存，原文件保持不变。错误：12",
+        "inline_visible": true,
+        "modal_generation": 12,
+        "screen": "explore",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "02-title-load-list-1280",
+      "sha256": "3327e270286874de04332436a12089e2149cf394a824e86d1ffa6ec95a1bb1be",
+      "bytes": 1260350,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 5,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 64,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 17,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "02-title-load-list-960",
+      "sha256": "04a09ba1906d24a9eb7a3502a4af2486c11ec302fb291c2ac53251fd5a28900c",
+      "bytes": 784095,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 5,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 64,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 17,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "03-corrupt-backup-detail-1280",
+      "sha256": "a981b45cdcec66de1be4df3bf64b24063b78dfe214964f0788fd95b62b3be073",
+      "bytes": 1300479,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 34,
+          "viewport_height": 72.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 20,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "03-corrupt-backup-detail-960",
+      "sha256": "24caa988801b634de58871cbf05cc57f06ed5434717d1dbbe90d9c3a579ac82f",
+      "bytes": 808889,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 128,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 34,
+          "viewport_height": 72.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 20,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "05-backup-load-confirm-1280",
+      "sha256": "05861ec9bfd664d887bd9a9ade46585cd9370a92f88ab78bcfae765d21dd0ca7",
+      "bytes": 1294908,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 160,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 102,
+          "viewport_height": 210.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 21,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    },
+    {
+      "name": "05-backup-load-confirm-960",
+      "sha256": "aab2160a59f4bc06c5613f6dea704ca120801d37b1108dd83b8b067fe16cfa00",
+      "bytes": 807193,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "visually_inspected": true,
+      "one_numeric_label_per_button": true,
+      "numeric_label_count": 2,
+      "text_line_count_mismatches": [],
+      "rich_text_metrics": [
+        {
+          "node": "SaveGuidance",
+          "content_height": 160,
+          "viewport_height": 224.0,
+          "scroll_offset": 0.0
+        },
+        {
+          "node": "SaveConsequences",
+          "content_height": 102,
+          "viewport_height": 210.0,
+          "scroll_offset": 0.0
+        }
+      ],
+      "focus_path": "SaveFolioPage/SaveFolioFrame/SaveChoice1",
+      "feedback": {
+        "active_modal": true,
+        "inline_text": "",
+        "inline_visible": false,
+        "modal_generation": 21,
+        "screen": "title",
+        "toast_text": "手记未能保存，原文件保持不变。错误：12",
+        "toast_visible": false
+      }
+    }
+  ],
+  "findings": [
+    "All12 final PNGs inspected directly at native dimensions, covering all six semantic states at both physical1280x800 and960x600 with logical1280x800. No visible overlap, clipping or missing full text found.",
+    "Each button has exactly one separate numeric Label. Actual inside numeral glyphs are visibly clear of captions, brass corner ornaments and focus ring at both sizes. White numerals on red primary actions and dark numerals on quiet paper actions match action ink.",
+    "Red unreadable/newer status and full inline genuine failure are legible at960. Actual success message is also visible inside the still-open save folio.",
+    "Corrupt primary and good backup remain distinct. Overwrite and backup-load source and all memory/autosave/manual-file consequences are fully visible.",
+    "Native focus rings on overwrite confirmation, backup-load confirmation and failed-save retry are visible in both sizes.",
+    "No Label visible-line count differs from its full-line count. Overwrite consequence content204 fits viewport210; backup confirmation102 fits210; detail34 fits72. These text metrics supplement actual pixels, not generic rectangle containment.",
+    "Representative actual contrast: red unreadable status7.1124/5.6389; inline error6.6730/6.5795; primary caption7.4771/4.8191; primary list numeral7.4771/6.8068; focused confirmation numeral7.4771/4.9467; quiet numeral12.2245/10.4715; focus ring7.4771 both sizes.",
+    "All27 inventory artifacts and12 PNG byte counts/hashes/dimensions verified, as well as exact source/tree/runtime/engine/driver/binding terminal identities. Guard/native exit0, no errors,492reported checks,1741tracked originals unchanged. Source clean at review."
+  ],
+  "limits": [
+    "Raw Label control rectangles remain oversized and cannot serve as strict containment proof; acceptance uses actual glyph visibility and declared text metrics.",
+    "Physical960 captures use logical1280. Direct1179-logical geometry diagnostic is separate and is not implied by this acceptance.",
+    "Failed title-load inline feedback is an actual native non-PNG test; this matrix has no dedicated failed-title screenshot.",
+    "Prepared fixtures, scripted native input and Dummy audio; no manual playthrough/browser/audio/Windows/full regression/PCK acceptance.",
+    "Reviewer launched no engine or source modification."
+  ]
+}
