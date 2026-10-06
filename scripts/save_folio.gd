@@ -204,11 +204,11 @@ func _layout_list(right: float, paper_width: float, scale_factor: float, width: 
 		_layout_row(rows[index], Rect2(right, 158 * scale_factor + index * row_height, paper_width, row_height), true)
 	for index: int in buttons.size():
 		if index == back_index:
-			_place_action(index, Rect2(width - 192 * scale_factor, 24 * scale_factor, 166 * scale_factor, 44), true)
+			_place_action(index, Rect2(width - 192 * scale_factor, 24 * scale_factor, 166 * scale_factor, 44))
 		elif index >= rows.size():
 			# The pre-existing transfer choice is reachable only when its separate
 			# production feature flag is explicitly enabled; no new entry is added.
-			_place_action(index, Rect2(138 * scale_factor, 419 * scale_factor, 250 * scale_factor, 44), true)
+			_place_action(index, Rect2(138 * scale_factor, 419 * scale_factor, 250 * scale_factor, 44))
 
 
 func _layout_detail(right: float, paper_width: float, scale_factor: float) -> void:
@@ -241,12 +241,12 @@ func _layout_row(row: Dictionary, rect: Rect2, with_action: bool) -> void:
 	if has_action: _place_action(row.action_index, Rect2(rect.position + Vector2(rect.size.x - action_width, 34), Vector2(action_width, 46)))
 
 
-func _place_action(index: int, rect: Rect2, dark: bool = false) -> void:
+func _place_action(index: int, rect: Rect2) -> void:
 	_rect(buttons[index], rect)
-	# Header/cloth numbers share their button's guaranteed dark backing;
-	# paper actions have a separate ink number beside the hit target.
-	_rect(numbers[index], Rect2(rect.position + Vector2(8 if dark else -24, 11), Vector2(18, 25)))
-	numbers[index].add_theme_color_override("font_color", Folio.BONE if dark else Folio.SECONDARY_INK)
+	# One shortcut number lives inside its own hit area, distinct from the
+	# brass corners. Match the action's ink on both primary and quiet buttons.
+	_rect(numbers[index], Rect2(rect.position + Vector2(8, 11), Vector2(18, 25)))
+	numbers[index].add_theme_color_override("font_color", buttons[index].get_theme_color("font_color"))
 
 
 func show_feedback(message: String, failed: bool) -> void:
