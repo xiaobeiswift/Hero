@@ -1,0 +1,73 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "decision": "ADMIT_ONLY_EXISTING_ARTIFACT_TO_ISOLATED_PCK_TESTS",
+  "original_receipt_success": false,
+  "canonical_exporter_exit_code": 0,
+  "outer_wrapper_exit_code": 1,
+  "original_receipt": {
+    "evidence_path": "save-folio-export-50b3100/export-once-01/results/export-receipt.json",
+    "bytes": 13638,
+    "sha256": "6ef9c5d02a76e9ae2933f177e3fe14a52a081e30f40250b512777474a1a0c382"
+  },
+  "independent_proposal": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/export-metadata-adjudication-proposal.json",
+    "bytes": 9078,
+    "sha256": "d7de3433d8d1eb6ad1d133c5807a7d0464e00efb3b614f5e129c849df6072ab7"
+  },
+  "artifact_admission": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/export-artifact-admission.json",
+    "bytes": 1860,
+    "sha256": "3fe3e0b6cdeb74ad70121be030f8869d29399d1b86745e213d0b0cef629576ff"
+  },
+  "accepted_exception": {
+    "path_role": "Owned canonical export USER parent directory",
+    "changed_fields": [
+      "mtime_ns",
+      "ctime_ns"
+    ],
+    "unchanged_fields": [
+      "device",
+      "inode",
+      "uid",
+      "gid",
+      "mode"
+    ],
+    "objectdb_snapshots": "Same original empty child; all identity and timestamp fields unchanged",
+    "source_originals_unchanged": 1747,
+    "runtime_files_unchanged": 384,
+    "other_bindings": "Engine, tools, markers, templates, source, site and archive integrity retained"
+  },
+  "prospective_observation": {
+    "seconds": 300,
+    "events": 58,
+    "raw_batches": 15,
+    "full_actual_export_bracket_covered": true,
+    "queue_complete": true,
+    "watch_invalidations_or_overflow": false,
+    "only_mutations": ".recovery_mode_lock CREATE/CLOSE_WRITE/DELETE",
+    "observer_sha256": "e4ff8b955969610c5e13008e93db2630055ddc3f26b89267e79ca586ec570752",
+    "raw_events_sha256": "b7a01f3d05242fad077d7aef5c1ea511f44e6ba5e1c5eeb7a8c92de863826fb4",
+    "bracket_verification_sha256": "c081ea5aea926206e4a9180d19a5d492ed28f58b8f0779d28f67b58655284ca0",
+    "pid_causation_established": false
+  },
+  "pck": {
+    "bytes": 77940412,
+    "sha256": "2b63a3c86e756ebd292e71052f42f18edc920200814602560a248a2adf1daa46"
+  },
+  "zip": {
+    "bytes": 87264025,
+    "sha256": "d7864e1349187f58fd3177142a5cf60b7b32d8d6edd6127ace2267965ef19215"
+  },
+  "site_archive_members": 14,
+  "limits": [
+    "This one existing artifact only; no re-export or broad metadata tolerance",
+    "Original strict export guard stays false and its failed receipt is preserved",
+    "Path events do not identify a responsible PID or prove direct exporter causation",
+    "Artifact admission alone is neither PCK success, deployment approval nor browser acceptance"
+  ]
+}

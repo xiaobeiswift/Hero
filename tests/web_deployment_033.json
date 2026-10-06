@@ -1,0 +1,87 @@
+{
+  "status": "live_verified_coordinator_reported",
+  "version": "0.0.33",
+  "web_revision": 1,
+  "site": "https://game.codable.cn/",
+  "remote_runtime_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "local_tested_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "tested_source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tested_source_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "windows": {
+    "record": "save_folio_windows33_validation.json",
+    "completed_utc": "2026-10-06T13:27:19Z",
+    "coordinator_read_utc": "2026-10-06T13:28:35Z",
+    "source_checks": 21584,
+    "pck_checks": 21589,
+    "site_members": 14,
+    "historical_and_new_subject_processes": 9,
+    "isolation_guards": 9,
+    "all_exit_codes": 0,
+    "zip": {
+      "bytes": 87263113,
+      "sha256": "7e1fe44261e4db2941f0e2c64fdee062f9feb5d317ed9bce37134c3c117c0e8a"
+    },
+    "pck": {
+      "bytes": 77940412,
+      "sha256": "7e8a99d4bfa53bdf3316cf60888fc8a58d228740ac98ffefb2343698c162114d"
+    },
+    "verification_report_sha256": "009582f3c403d03a45d14ef24a192d4a4c5ab0fa28c8577ea28ee77da3eb5865",
+    "scope": "Independent Windows build and native headless Web PCK/old-reader execution; not browser end-to-end or a desktop distributable"
+  },
+  "rollout": {
+    "atomic_switch_utc": "2026-10-06T15:10:26.671575Z",
+    "coordinator_verified_utc": "2026-10-06T15:18:18Z",
+    "https_checks_passed": 36,
+    "https_checks_total": 36,
+    "complete_site_members_verified": 14,
+    "checks": [
+      "complete SHA256 and length of all 14 members",
+      "MIME",
+      "TLS",
+      "version",
+      "cache and ETag",
+      "no directory browsing",
+      "Git link HTTP200"
+    ],
+    "matches_exact_windows_zip_and_pck": true,
+    "old_web32_served_directory_and_server_zip_retired_utc": "2026-10-06T15:14:30.011925Z",
+    "retirement_preconditions": "Complete Web32 recovery verified and zero readers checked twice",
+    "retained": [
+      "source history",
+      "formal recovery packages",
+      "operation and test records",
+      "manifests",
+      "save data"
+    ],
+    "configuration_and_security_unchanged": true,
+    "final_manifest_sha256": "269f99079293e9548e3100dff4b52ca6be41db94de91f0d7b8608fdffd9a3375",
+    "no_github_packaged_release": true,
+    "attribution": "Final deployment receipts verified and supplied by the coordinator from the existing authorized Windows/server workflow; this documentation task did not access or operate that server"
+  },
+  "game_invariants": {
+    "save_schema": 16,
+    "manual_slots": 3,
+    "party_capacity": 4,
+    "save_transfer_default_off": true,
+    "story_rewards_resources_unchanged": true
+  },
+  "evidence_scope": {
+    "native_capture_source": "3d5aa59b0fa6887085effe0f474985141e325459",
+    "native_runtime_equal_to_tested_source": true,
+    "linux_package_record": "save_folio_package_validation.json",
+    "raw_linux_export_guard_success": false,
+    "linux_admission": "Only the exact existing artifact under the independently reviewed USER parent mtime/ctime exception; no general relaxation or writer-PID proof",
+    "historical_completed_records": "The package and full records preserve their pre-rollout snapshot; this record adds later deployment facts",
+    "docs_after_tests": true
+  },
+  "limitations": [
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unverified",
+    "Earlier cloud browser stopped at unavailable WebGL2; Windows browser graphics capability was not measured",
+    "Prepared native frames and headless PCK/HTTPS checks do not substitute for browser end-to-end validation",
+    "Linux historical PCK processes were not run; Windows historical results remain separate platform-bound evidence",
+    "Web25 branch is the old13 reader with current dependencies, not the complete old runtime",
+    "Does not restore the unavailable original 1882-file local closure or claim commercial 1.0"
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "status": "accepted_on_actual_3d5aa59_capture",
+  "source_commit": "3d5aa59b0fa6887085effe0f474985141e325459",
+  "source_tree": "ff6cca4a1feebd72563fa84a604a220e0e7fd8ca",
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "checks": 492,
+  "frames": 12,
+  "tracked_originals_unchanged": 1746,
+  "capture_matrix": {
+    "physical_pixels": [
+      [
+        1280,
+        800
+      ],
+      [
+        960,
+        600
+      ]
+    ],
+    "logical_viewport": [
+      1280,
+      800
+    ],
+    "states_per_size": 6,
+    "input": "Prepared legal states and scripted input; fixed30; Dummy audio"
+  },
+  "current_source_runtime_equivalence": {
+    "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+    "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+    "runtime_entries_unchanged": 384,
+    "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+    "scope": "Later change is one runner timeout and records; no new 50b3100 screenshot run is claimed"
+  },
+  "terminal_receipts": {
+    "launcher-result.json": "0dd2092441567def223345af1c8df98c43f771f6d4b710c243f0c2e047ccef59",
+    "test-result.json": "226054e3cc276a006985e8b456383584016bd37a8500dbc79d9125c92357ff90",
+    "native-binding.json": "6b892b6c9aa76edcd66f0ee82f92fbb3c1767fd8cc8a61eb88e3c22c29e3564e",
+    "tracked-before.json": "c797457930bd87ae90d44664a1fb8e6f3f5d1c5becdc0f110943e9ad4329248c",
+    "tracked-after.json": "c797457930bd87ae90d44664a1fb8e6f3f5d1c5becdc0f110943e9ad4329248c"
+  },
+  "frame_bindings": [
+    {
+      "name": "04-overwrite-confirm-1280",
+      "sha256": "dca63376ed4d1bebb384a47f2ac44723179e5afdb6391ebf9dc7b6512ff5fad7",
+      "bytes": 1409214,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "04-overwrite-confirm-960",
+      "sha256": "d449f8a38f162605880eec3bee65265b1cbeeb346245ab2786cd88c6a7138c01",
+      "bytes": 874223,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "01-save-list-success-1280",
+      "sha256": "6773a9a291829a469431bac8ccf652c3525b07332c29b4aff32ed27fb26dad39",
+      "bytes": 1340767,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "01-save-list-success-960",
+      "sha256": "ee9018a3c019597a2645a1f4ebc25cd8e37e39fd921d2124460dbea89b234b6a",
+      "bytes": 829655,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "06-occupied-backup-write-failure-1280",
+      "sha256": "9448cdcd7a7d5d50dd52c4e0c9ed821cd5ba33c40f78f40306a88fd68f8d5b84",
+      "bytes": 1347075,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "06-occupied-backup-write-failure-960",
+      "sha256": "254e3f2fd637a94605876260abf752054afa14a4ddb02d9e4cbc0ea24fb89daf",
+      "bytes": 834151,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "02-title-load-list-1280",
+      "sha256": "d41a067b989c53bc6f1c4ec759c103a834ebf608e46156b2c72a2c5ab3ee8b18",
+      "bytes": 1260435,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "02-title-load-list-960",
+      "sha256": "71797f7aa5d58a957a16cc6934fb2a4929eb9b0ee3ec08954e63a6a358d4a19c",
+      "bytes": 784153,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "03-corrupt-backup-detail-1280",
+      "sha256": "5a01297c4001b42536343db9624f00a6fc327f3d4ac68a8b1adeeed3a6581eb9",
+      "bytes": 1300609,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "03-corrupt-backup-detail-960",
+      "sha256": "4dc9545b58c1175ae507b0d5c1b3ce21d0952755ba8a8a971398a9296f4e31bb",
+      "bytes": 808905,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "05-backup-load-confirm-1280",
+      "sha256": "9260ee543152e464c018c00afcbe279244ba032c93142e115e1ce0680868771c",
+      "bytes": 1294938,
+      "physical_pixels": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    },
+    {
+      "name": "05-backup-load-confirm-960",
+      "sha256": "7d699ad6830e353379e788c17d1980dbaed9d409d0c6d4553bd68013bed88b6c",
+      "bytes": 807227,
+      "physical_pixels": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ]
+    }
+  ],
+  "independent_pixel_review": {
+    "evidence_path": "companion-folio-review-staging/save_folio_3d5aa59_native_pixel_review.json",
+    "bytes": 17102,
+    "sha256": "f42bbb3f8c9ea597f6097d67b75c4a8657e602f2ad99d3bb9cf24edc99cb095d"
+  },
+  "contrast_review": {
+    "evidence_path": "companion-folio-review-staging/save_folio_3d5aa59_pixel_contrast.json",
+    "bytes": 10602,
+    "sha256": "7ee5fc65b624e8faf1a5b53a55190f0f8d37be35d99fd5df215f1c33377ce844"
+  },
+  "contrast_samples": 20,
+  "contrast_minimum_sample_ratio": 4.819107,
+  "limits": [
+    "Sampled actual PNG pixel pairs are not exhaustive contrast or WCAG certification",
+    "Physical960 frames still use logical1280; direct1179 logical geometry is separate evidence",
+    "Label control/character envelopes are not raster ink bounds or strict containment proof",
+    "No manual browser gameplay, audio, IndexedDB or physical-window-close acceptance"
+  ]
+}

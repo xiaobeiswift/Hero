@@ -1,0 +1,139 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "status": "all_four_packed_gates_passed_and_independently_accepted",
+  "source_rehearsal": {
+    "status": "passed_and_independently_accepted",
+    "checks": 21584,
+    "receipt": {
+      "evidence_path": "save-folio-gates-50b3100/package/source-rehearsal-01/results/package-result.json",
+      "bytes": 8404,
+      "sha256": "70f131561502e878448815272078bc5e3e8b4f854c935193ac13cdd3b3543c59"
+    },
+    "independent_acceptance": {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/source-acceptance.json",
+      "bytes": 8157,
+      "sha256": "8e6ab7d1da2351ff78ef2cfc8f55e3d76b975be24c5b08154b072c2bf5fda965"
+    }
+  },
+  "phases": [
+    {
+      "phase": "exact",
+      "checks": 21589,
+      "status": "passed_and_independently_accepted",
+      "terminal": {
+        "evidence_path": "save-folio-package-50b3100-pck01/exact-01/results/package-result.json",
+        "bytes": 11420,
+        "sha256": "44e69b5e2cf749147d8872544fd13f4fd8715ea99b1bcdd4cee054da5532c86e"
+      },
+      "all_three_commands_exit_zero": true,
+      "originals_before_after_match_frozen1747": true,
+      "raw_console_sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802",
+      "raw_engine_sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802"
+    },
+    {
+      "phase": "folio",
+      "checks": 11499,
+      "status": "passed_and_independently_accepted",
+      "terminal": {
+        "evidence_path": "save-folio-package-50b3100-pck01/folio-01/results/package-result.json",
+        "bytes": 9620,
+        "sha256": "fafc728282392e3d955f340cbaa701998de0ff8c0dd68a9a9e814c83b3d91834"
+      },
+      "all_three_commands_exit_zero": true,
+      "originals_before_after_match_frozen1747": true,
+      "raw_console_sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b",
+      "raw_engine_sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b",
+      "test_result_sha256": "3d837c51032d10657c64090a8e77f69c30909eb4245e0f09d314a1663f54813a"
+    },
+    {
+      "phase": "companion",
+      "checks": 1738,
+      "status": "passed_and_independently_accepted",
+      "terminal": {
+        "evidence_path": "save-folio-package-50b3100-pck01/companion-01/results/package-result.json",
+        "bytes": 9644,
+        "sha256": "61619319164b6aa1555f1e6471ce28b764fc9766434f9174884cc530f638a6d6"
+      },
+      "all_three_commands_exit_zero": true,
+      "originals_before_after_match_frozen1747": true,
+      "raw_console_sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b",
+      "raw_engine_sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b",
+      "test_result_sha256": "c193969ea9e04a0e2db3b4789f8a25ae4c1088b5af8c23a793d86ebe9f223ee4"
+    },
+    {
+      "phase": "save",
+      "checks": 449,
+      "status": "passed_and_independently_accepted",
+      "terminal": {
+        "evidence_path": "save-folio-package-50b3100-pck01/save-01/results/package-result.json",
+        "bytes": 9608,
+        "sha256": "495516839f15f1dbafe8a61702c44b6f40df42cd6106fccdb70c3eecd0df72df"
+      },
+      "all_three_commands_exit_zero": true,
+      "originals_before_after_match_frozen1747": true,
+      "raw_console_sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714",
+      "raw_engine_sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714",
+      "test_result_sha256": "364ed0c13b4a52b08ef2231dad74a59e39f161ba1ba487d2228bebb21c8f22bf"
+    }
+  ],
+  "pck": {
+    "bytes": 77940412,
+    "sha256": "2b63a3c86e756ebd292e71052f42f18edc920200814602560a248a2adf1daa46"
+  },
+  "zip": {
+    "bytes": 87264025,
+    "sha256": "d7864e1349187f58fd3177142a5cf60b7b32d8d6edd6127ace2267965ef19215"
+  },
+  "site_archive_members": 14,
+  "original_export_guard_success": false,
+  "windows_result": "Separately parent verified; see save_folio_windows33_validation.json",
+  "limits": [
+    "Counts have overlapping scopes and are not summed into a unique assertion total",
+    "Historical PCK inputs are unavailable in this Linux task; its historical processes and complete-old15 read of this Linux PCK subject were not executed. Windows results are separate platform-bound executions",
+    "Geometry1380/18 remains source-only; not a packed supplement",
+    "No deployment or GitHub package/release is claimed; live remains0.0.32 Web1 at this snapshot",
+    "Actual browser gameplay/audio/IndexedDB remain unverified; save transfer remains default off"
+  ],
+  "independent_acceptance": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/pck-final-acceptance.json",
+    "bytes": 13650,
+    "sha256": "1d0b0413a58e8221699bc7f6e33a4577b5a2d87b0367d16bd96935058a37c45c"
+  },
+  "evidence_manifest": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/pck-final-evidence-sha256.json",
+    "bytes": 12749,
+    "sha256": "a10ffb63d19cb84bcfff3ebcd98d8fb42ed637c2c858191ce1e0239523427aa9"
+  },
+  "evidence_files": 91,
+  "source_manifest_sha256": "6cb7a1c0584228c33b6aa265a2528d6a9ebdf312faa5055b4e32c158194eed0f",
+  "packed_subject": {
+    "version": 16,
+    "artifact": {
+      "evidence_path": "save-folio-package-50b3100-pck01/exact-01/results/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    "producer": "Actual exact-01 main-pack writer; not a header-relabelled fixture",
+    "linux_complete_old15_process_executed": false
+  },
+  "packed_namespace": "Each phase uses the exact PCK with main-pack and site path/cwd; globalized res root is empty; no physical source shadows",
+  "process_evidence": {
+    "four_private_owned_profiles": true,
+    "all12_recorded_engine_commands_exit_zero": true,
+    "helper_waits_for_each_owned_engine": true,
+    "separate_descendant_process_census": "Not emitted; not inferred",
+    "evidence_profiles_preserved": true
+  },
+  "post_run_bindings": {
+    "source_originals_unchanged": 1747,
+    "runtime_entries_unchanged": 384,
+    "all14_site_files_and_zip_members_verified": true,
+    "source_manifest_audit_passed": true,
+    "provenance_preflight_revalidated": true
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "status": "parent_verified_independent_windows_result",
+  "provenance": "Received parent-verified Windows execution result; this closure writer did not access or execute the Windows environment",
+  "parent_verified_at_utc": "2026-10-06T13:28:35Z",
+  "source_checks": 21584,
+  "actual_web_pck_checks": 21589,
+  "source_files": 1747,
+  "site_archive_members": 14,
+  "historical_and_new_subject_processes": 9,
+  "guards": 9,
+  "all_exit_codes_zero": true,
+  "boundary_counts": {
+    "web30_producer": 246,
+    "web30_complete_reader": 20,
+    "web30_current_verifier": 14,
+    "source16_complete_old15": 20,
+    "true15_complete_old14": 9,
+    "web25_old13_script_current_dependencies": 11,
+    "actual_new_pck16_complete_old15": 20
+  },
+  "unreported_producer_counts": "Two producer counts not supplied; no count inferred",
+  "pck": {
+    "bytes": 77940412,
+    "sha256": "7e8a99d4bfa53bdf3316cf60888fc8a58d228740ac98ffefb2343698c162114d"
+  },
+  "zip": {
+    "bytes": 87263113,
+    "sha256": "7e1fe44261e4db2941f0e2c64fdee062f9feb5d317ed9bce37134c3c117c0e8a"
+  },
+  "sha_only_external_adaptations": [
+    {
+      "path": "tests/journal_guidance_old30_pack_probe.gd",
+      "original_sha256": "4caf0a283a9e3c6a419eb0839afbb67a09d1173555f2ec9801ae86b5dc734227",
+      "retained_windows_pck_sha256": "2d0001652bfc5dc36e3251cbc3c5325382fe35b961c32ad61eee9994e63fa56d",
+      "expected_external_sha256": "1327791cdefb71eef4dc35146d310b6639157ddb4c638a105786f23f37bbfeb1",
+      "changed_line": 5,
+      "exactly_one_constant": true,
+      "reverse_identity": true,
+      "all_assertions_and_other_bytes_unchanged": true
+    },
+    {
+      "path": "tests/weapon_fitting_old15_pack_probe.gd",
+      "original_sha256": "a982769d468686ef99585360271c25d863b14226273dd00344b4978c33a36c20",
+      "retained_windows_pck_sha256": "2b0ede26a960ce1d0c290a0dd052812d18dfaae09115ad9ab623a7dcfc0ace28",
+      "expected_external_sha256": "44df85852b464ebc29ca95bb7d411143e8d905090a71fd8cff67f6694d3025a9",
+      "changed_line": 6,
+      "exactly_one_constant": true,
+      "reverse_identity": true,
+      "all_assertions_and_other_bytes_unchanged": true
+    },
+    {
+      "path": "tests/capstone_old14_pack_probe.gd",
+      "original_sha256": "f8c3146a5ebb29cc27efd3b1bf1d84d4a297ec8b09ee246c157fffdf27dfd1e1",
+      "retained_windows_pck_sha256": "ba9001abba30301315b1325c5cf946a12489801e3002f1b9b07329f04dd44359",
+      "expected_external_sha256": "1348668deb4cb54d625751130a03a28fae4afbc1b681177a6503f731f853cce8",
+      "changed_line": 6,
+      "exactly_one_constant": true,
+      "reverse_identity": true,
+      "all_assertions_and_other_bytes_unchanged": true
+    },
+    {
+      "path": "tests/heting_consignee_web25_reader_test.gd",
+      "original_sha256": "1af08286a31499c5369cd911ae1b5d295c211591c1e6607334edc91d681ca344",
+      "retained_windows_pck_sha256": "eca90b992079f8e0c3f3b2970162e6f24df67cc0cc55c06d9d53ad0287611178",
+      "expected_external_sha256": "40b2e530cf20363401351f8380e955df85d167a99733fd7a3c23525806f71be5",
+      "changed_line": 6,
+      "exactly_one_constant": true,
+      "reverse_identity": true,
+      "all_assertions_and_other_bytes_unchanged": true
+    }
+  ],
+  "parent_verified_result": {
+    "evidence_path": "publication-50b3100/windows33-parent-verified-result.json",
+    "bytes": 2080,
+    "sha256": "4186e8de6452042e309c491fdafde5747510aa4765e4c5d7421efd64157527fd"
+  },
+  "independent_sha_review": {
+    "evidence_path": "publication-50b3100/windows-historical-sha-independent-review.json",
+    "bytes": 3738,
+    "sha256": "f5ff27b36ed4f061ba12f35e2b25d5e928921db64106b5ca556377c843a36725"
+  },
+  "windows_verification_sha256": "009582f3c403d03a45d14ef24a192d4a4c5ab0fa28c8577ea28ee77da3eb5865",
+  "limits": [
+    "Windows builds and audits a Web PCK; no new desktop release acceptance",
+    "Four copied probe files change only expected SHA constants; source originals and assertions stay unchanged",
+    "Web25 is the old schema13 reader script with current dependencies, not a complete old13 runtime closure",
+    "The independently built Windows PCK differs in hash from Linux; byte identity is not claimed",
+    "No browser gameplay/audio/IndexedDB or deployment result follows from these gates"
+  ]
+}

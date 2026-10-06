@@ -1,0 +1,159 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "status": "completed_source_and_package_evidence_closure_not_deployment",
+  "prepared_at_utc": "2026-10-06T15:06:58.927990+00:00",
+  "path_convention": "evidence_path values are relative to the retained QA evidence archive root; not a claim that raw files are tracked in the source repository",
+  "binding_scope": "Receipts listed here were read and their complete current bytes hashed; underlying acceptance remains attributed to its original reviewer",
+  "references": [
+    {
+      "evidence_path": "companion-folio-review-staging/save_folio_3d5aa59_native_pixel_review.json",
+      "bytes": 17102,
+      "sha256": "f42bbb3f8c9ea597f6097d67b75c4a8657e602f2ad99d3bb9cf24edc99cb095d"
+    },
+    {
+      "evidence_path": "companion-folio-review-staging/save_folio_3d5aa59_pixel_contrast.json",
+      "bytes": 10602,
+      "sha256": "7ee5fc65b624e8faf1a5b53a55190f0f8d37be35d99fd5df215f1c33377ce844"
+    },
+    {
+      "evidence_path": "publication-50b3100/verified-remote-mapping.json",
+      "bytes": 1467,
+      "sha256": "0103075c3a661e6d5dc390c0dd1a02fa3ac454e5e871c113bc308931326814cf"
+    },
+    {
+      "evidence_path": "publication-50b3100/windows-historical-sha-independent-review.json",
+      "bytes": 3738,
+      "sha256": "f5ff27b36ed4f061ba12f35e2b25d5e928921db64106b5ca556377c843a36725"
+    },
+    {
+      "evidence_path": "publication-50b3100/windows33-parent-verified-result.json",
+      "bytes": 2080,
+      "sha256": "4186e8de6452042e309c491fdafde5747510aa4765e4c5d7421efd64157527fd"
+    },
+    {
+      "evidence_path": "qa-save-folio-earned-party-diagnostic-3d5aa59-01/results/diagnostic-result.json",
+      "bytes": 4813,
+      "sha256": "8180aa501f0a69dd87c3f31c70a80cd299ae491c65b79681d29d3a302e0cf162"
+    },
+    {
+      "evidence_path": "qa-save-folio-export-bracket-50b3100-01/verification.json",
+      "bytes": 647,
+      "sha256": "c081ea5aea926206e4a9180d19a5d492ed28f58b8f0779d28f67b58655284ca0"
+    },
+    {
+      "evidence_path": "qa-save-folio-export-events-50b3100-01/observation-result.json",
+      "bytes": 1662,
+      "sha256": "e4ff8b955969610c5e13008e93db2630055ddc3f26b89267e79ca586ec570752"
+    },
+    {
+      "evidence_path": "qa-save-folio-export-events-50b3100-01/raw-events.jsonl",
+      "bytes": 11820,
+      "sha256": "b7a01f3d05242fad077d7aef5c1ea511f44e6ba5e1c5eeb7a8c92de863826fb4"
+    },
+    {
+      "evidence_path": "qa-save-folio-full-3d5aa59-01/results/terminal-report.json",
+      "bytes": 3147,
+      "sha256": "41438dc34c8920c169d8b721e1918cc9e94550087988ed32c19eef7018596317"
+    },
+    {
+      "evidence_path": "qa-save-folio-full-50b3100-01/results/terminal-report.json",
+      "bytes": 6303,
+      "sha256": "5b99a0f111df3c4d0a1d056c20889e9077b97dde2978619924d80bfb607ff941"
+    },
+    {
+      "evidence_path": "save-folio-export-50b3100/export-once-01/results/export-receipt.json",
+      "bytes": 13638,
+      "sha256": "6ef9c5d02a76e9ae2933f177e3fe14a52a081e30f40250b512777474a1a0c382"
+    },
+    {
+      "evidence_path": "save-folio-gates-50b3100/package/source-rehearsal-01/results/package-result.json",
+      "bytes": 8404,
+      "sha256": "70f131561502e878448815272078bc5e3e8b4f854c935193ac13cdd3b3543c59"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/export-adjudication-evidence-sha256.json",
+      "bytes": 5893,
+      "sha256": "7bc1e65510d1ae58b35b153a5abe08c1a1b6767158b9199859b932a7a3dadf5a"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/export-artifact-admission.json",
+      "bytes": 1860,
+      "sha256": "3fe3e0b6cdeb74ad70121be030f8869d29399d1b86745e213d0b0cef629576ff"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/export-metadata-adjudication-proposal.json",
+      "bytes": 9078,
+      "sha256": "d7de3433d8d1eb6ad1d133c5807a7d0464e00efb3b614f5e129c849df6072ab7"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/full-acceptance.json",
+      "bytes": 5143,
+      "sha256": "375ab6eba8a6497da83bbfd3c5ec4d5242aa32fe27cdc2ef6f88e9292811446e"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/full-evidence-sha256.json",
+      "bytes": 77188,
+      "sha256": "1a0769f7e91d7aef775e2e399ad36df8da5a8cadeed88af4d4ed78ae1b9b636e"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/pck-final-acceptance.json",
+      "bytes": 13650,
+      "sha256": "1d0b0413a58e8221699bc7f6e33a4577b5a2d87b0367d16bd96935058a37c45c"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/pck-final-evidence-sha256.json",
+      "bytes": 12749,
+      "sha256": "a10ffb63d19cb84bcfff3ebcd98d8fb42ed637c2c858191ce1e0239523427aa9"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/source-acceptance.json",
+      "bytes": 8157,
+      "sha256": "8e6ab7d1da2351ff78ef2cfc8f55e3d76b975be24c5b08154b072c2bf5fda965"
+    },
+    {
+      "evidence_path": "save-folio-independent-acceptance-50b3100/source-evidence-sha256.json",
+      "bytes": 3328,
+      "sha256": "c52d9f8523f3c5db64ed582449e334967495ea52a9eca40592faf9bec91dc9bf"
+    },
+    {
+      "evidence_path": "save-folio-package-50b3100-pck01/companion-01/results/package-result.json",
+      "bytes": 9644,
+      "sha256": "61619319164b6aa1555f1e6471ce28b764fc9766434f9174884cc530f638a6d6"
+    },
+    {
+      "evidence_path": "save-folio-package-50b3100-pck01/exact-01/results/CURRENT16-SUBJECT.json",
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    {
+      "evidence_path": "save-folio-package-50b3100-pck01/exact-01/results/package-result.json",
+      "bytes": 11420,
+      "sha256": "44e69b5e2cf749147d8872544fd13f4fd8715ea99b1bcdd4cee054da5532c86e"
+    },
+    {
+      "evidence_path": "save-folio-package-50b3100-pck01/folio-01/results/package-result.json",
+      "bytes": 9620,
+      "sha256": "fafc728282392e3d955f340cbaa701998de0ff8c0dd68a9a9e814c83b3d91834"
+    },
+    {
+      "evidence_path": "save-folio-package-50b3100-pck01/save-01/results/package-result.json",
+      "bytes": 9608,
+      "sha256": "495516839f15f1dbafe8a61702c44b6f40df42cd6106fccdb70c3eecd0df72df"
+    },
+    {
+      "evidence_path": "source/tests/save_folio_timeout_recovery.json",
+      "bytes": 3109,
+      "sha256": "2a25a49bb28e84ecf7249c54b377af1783a7208b2198ef4d863a533215318939"
+    }
+  ],
+  "limits": [
+    "No raw logs, private environment paths, Library identifiers, credentials or server coordinates included",
+    "These new records and top sections are staged outside the frozen source and were not present during its tests",
+    "Existing source, builds and raw evidence remain unchanged; no engine or publication action performed"
+  ]
+}

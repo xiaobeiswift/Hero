@@ -1,0 +1,66 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "status": "fresh_complete_full_passed_after_one_case_timeout_allowance",
+  "historical_pending_record": {
+    "evidence_path": "source/tests/save_folio_timeout_recovery.json",
+    "bytes": 3109,
+    "sha256": "2a25a49bb28e84ecf7249c54b377af1783a7208b2198ef4d863a533215318939"
+  },
+  "historical_record_preserved": true,
+  "failed_full": {
+    "success": false,
+    "retained_exit_code": 124,
+    "completed_canonical_processes": 54,
+    "incomplete_process": "tests/heting_consignee_earned_party_test.gd",
+    "observed_limit_seconds": 120,
+    "terminal_sha256": "41438dc34c8920c169d8b721e1918cc9e94550087988ed32c19eef7018596317",
+    "source_originals": 1746,
+    "changed_originals": [],
+    "first_outcome_matches_prior": true,
+    "second_progress": "stage2 with allthree clues and qin_timing/shen_mobile/tang_preserve contributions; no final report",
+    "cause_limit": "Only explicit wall-time termination is established; exact slowdown cause unproven. No OOM or failed game assertion inferred."
+  },
+  "prior_same_case": {
+    "source_commit": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "wall_seconds": 106.084
+  },
+  "fresh_diagnostic": {
+    "canonical_check_seconds": 240,
+    "outer_seconds": 300,
+    "wall_seconds": 121.607,
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "companion_method_records": 6,
+    "receipt_sha256": "8180aa501f0a69dd87c3f31c70a80cd299ae491c65b79681d29d3a302e0cf162",
+    "engine_record_sha256": "11c26bfe0da6827e536274e1b9986190e12dcf08cae57bef7241b4674c3f38ba",
+    "earned_report_sha256": "6eab8523b3f8d994fa95ba27e34dbdc0b6669a9469949b52223ea89786ec8181"
+  },
+  "fresh_complete_full_case": {
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "wall_seconds": 103.884,
+    "semantic_fields_equal_prior_e8afec5": true,
+    "case_only_timeout_seconds": 240
+  },
+  "fresh_complete_full_terminal": {
+    "evidence_path": "qa-save-folio-full-50b3100-01/results/terminal-report.json",
+    "bytes": 6303,
+    "sha256": "5b99a0f111df3c4d0a1d056c20889e9077b97dde2978619924d80bfb607ff941"
+  },
+  "change": "Only this retained runner invocation receives HERO_CHECK_TIMEOUT_SECONDS=240; test bodies, assertions, all 184 engine argv vectors, all other limits and all 384 runtime inputs are unchanged",
+  "limits": [
+    "The earlier full run remains failed with exit124; the diagnostic did not repair it",
+    "Only the observed wall-time termination is established; no OOM, failed assertion or precise slowdown cause is inferred",
+    "Native screenshots retain their actual 3d5aa59 capture binding"
+  ]
+}

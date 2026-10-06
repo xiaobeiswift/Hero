@@ -1,0 +1,83 @@
+{
+  "source_commit": "50b3100a169df367a3872218e4ffc9020efab51b",
+  "remote_source_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+  "source_tree": "8f4b0b00c025d0c9c0924396d59a506bc12bac7d",
+  "tracked_files": 1747,
+  "runtime_entries": 384,
+  "runtime_sha256": "f490c4456a7cbf0719425da6039301149f7c90e937373201e1b7e3315590984c",
+  "status": "passed_and_independently_accepted",
+  "retained_script_executions": 183,
+  "retained_editor_imports": 1,
+  "retained_numeric_engine_records": 184,
+  "python_groups": {
+    "test_export_archives.py": 8,
+    "test_export_versions.py": 8,
+    "test_sequential_exports.py": 10,
+    "test_check_timeout.py": 6,
+    "test_web*.py": 61
+  },
+  "python_total": 93,
+  "node_mock_dom_checks": 53,
+  "supplements": {
+    "reconstructed": {
+      "checks": 11499,
+      "failures": 0,
+      "samples": null,
+      "test_result_sha256": "68bf684ea234dff3b50b86b0cb873c5155b357a67a7c87b9d29e74c36f1dd2c4"
+    },
+    "companion": {
+      "checks": 1738,
+      "failures": 0,
+      "samples": null,
+      "test_result_sha256": "2ac03ac062d9ee264d8375fe54c261ed69e143032b53f3a5d845c3f09fe2a2ed"
+    },
+    "save": {
+      "checks": 449,
+      "failures": 0,
+      "samples": null,
+      "test_result_sha256": "5f4d6901c1202c2a8f23f58751c4bbb9cf6439d47b49b1beaf19024b03ea7b4c"
+    },
+    "save_geometry": {
+      "checks": 1380,
+      "failures": 0,
+      "samples": 18,
+      "test_result_sha256": "15b37917ae6e474efb1a8da9034b05ad45355217e96f7eaeb9f6516928093570"
+    }
+  },
+  "all_five_phases_success_and_exit_zero": true,
+  "source_originals_verified": 1747,
+  "changed_tracked_files": [],
+  "source_runtime_engine_helpers_markers_unchanged": true,
+  "owned_cleanup": "No forced or remaining owned children",
+  "recovered_party_case": {
+    "checks": 4104,
+    "failures": 0,
+    "outcomes": 2,
+    "wall_seconds": 103.884,
+    "semantic_fields_equal_prior_e8afec5": true,
+    "case_only_timeout_seconds": 240
+  },
+  "terminal": {
+    "evidence_path": "qa-save-folio-full-50b3100-01/results/terminal-report.json",
+    "bytes": 6303,
+    "sha256": "5b99a0f111df3c4d0a1d056c20889e9077b97dde2978619924d80bfb607ff941"
+  },
+  "independent_acceptance": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/full-acceptance.json",
+    "bytes": 5143,
+    "sha256": "375ab6eba8a6497da83bbfd3c5ec4d5242aa32fe27cdc2ef6f88e9292811446e"
+  },
+  "evidence_manifest": {
+    "evidence_path": "save-folio-independent-acceptance-50b3100/full-evidence-sha256.json",
+    "bytes": 77188,
+    "sha256": "1a0769f7e91d7aef775e2e399ad36df8da5a8cadeed88af4d4ed78ae1b9b636e"
+  },
+  "evidence_files": 599,
+  "limits": [
+    "Counts overlap and are not summed into a unique assertion total",
+    "Node uses mocked DOM/FileReader; no actual browser acceptance",
+    "Geometry 1380/18 measures source logical layout, not native pixels or PCK",
+    "The separately accepted Windows historical processes are not Linux full-run executions",
+    "Original failed full run and diagnostic remain retained under their own bindings"
+  ]
+}
