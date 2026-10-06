@@ -14,6 +14,7 @@ const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
 const SaveFolio=preload("res://scripts/save_folio.gd")
 const TitleEntryFolio=preload("res://scripts/title_entry_folio.gd")
+const MapFolio=preload("res://scripts/map_folio.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
 const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
 const ConsigneeStory=preload("res://scripts/heting_consignee_story.gd")
@@ -411,7 +412,9 @@ func _sync_journal_guidance(force: bool = false, exact_route: bool = false) -> v
 			chart.markers = world.interactables.duplicate(true)
 			chart.set_journal_guidance(result,journal_guidance_revision)
 		var caption = overlay.find_child("MapGuidanceCaption",true,false)
-		if is_instance_valid(caption):caption.text = journal_guidance_caption(result)
+		if is_instance_valid(caption):
+			caption.text = journal_guidance_caption(result)
+			_layout_journal_map.call_deferred(caption.get_parent(),modal_generation)
 
 func journal_guidance_caption(value: Dictionary) -> String:
 	var mode: String = "正在追踪" if value.get("mode", "auto") == "manual" else ("自动指引 · 自由行路" if value.get("kind", "") == "exploration" else "自动指引")
@@ -600,7 +603,7 @@ func _close_modal() -> void:
 func _npc_dialogue(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
 	_modal(title,subtitle,body,options,wide,false,true)
 
-func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false, npc_folio: bool = false, save_folio_data: Dictionary = {}, title_entry_data: Dictionary = {}) -> void:
+func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false, npc_folio: bool = false, save_folio_data: Dictionary = {}, title_entry_data: Dictionary = {}, map_folio: bool = false) -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -615,6 +618,9 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 		return
 	if not title_entry_data.is_empty():
 		TitleEntryFolio.build(self,title,subtitle,body,options,title_entry_data)
+		return
+	if map_folio:
+		MapFolio.build(self,title,subtitle,options)
 		return
 	if current_screen!="title" or paper:
 		DialogueSheet.build(self,title,subtitle,body,options,wide,npc_folio)
@@ -1330,12 +1336,11 @@ func _show_map() -> void:
 	world.active = false
 	_sync_world_state()
 	_sync_journal_guidance(false,true)
-	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true)
+	_modal("江湖舆图",state.current_region_name()+" / 北在上 · 不提供传送","",[["收起舆图",_close_modal]],true,false,false,{},{},true)
 	modal_autosave_on_close=false
 	overlay.set_meta("journal_map",true)
-	var panel = overlay.get_child(overlay.get_child_count()-1)
-	panel.find_child("DialogueBody",true,false).hide()
-	var caption: Label = _label(panel,journal_guidance_caption(journal_guidance_snapshot),Rect2(35,123,panel.size.x-70,120),16,Color("304a42"))
+	var panel = overlay.get_node("DialogueSheet")
+	var caption: Label = _label(panel,journal_guidance_caption(journal_guidance_snapshot),MapFolio.CAPTION_RECT,18,Color("101f22"))
 	caption.name = "MapGuidanceCaption"
 	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var chart = Chart.new()
@@ -1346,25 +1351,21 @@ func _show_map() -> void:
 	chart.player_position = world.player_pos
 	chart.markers = world.interactables.duplicate(true)
 	chart.ui_font = font
+	chart.folio_presentation=true
 	chart.heting_bridge=state.heting_bridge
 	chart.heting_cargo=state.heting_cargo
 	chart.consignee_cargo_location=state.consignee_cargo_location
 	chart.bridge_repaired=state.bridge_repaired
 	chart.set_journal_guidance(journal_guidance_snapshot,journal_guidance_revision)
 	panel.add_child(chart)
+	_layout_journal_map(panel,modal_generation)
 	_layout_journal_map.call_deferred(panel,modal_generation)
 
 func _layout_journal_map(panel: Control, generation: int) -> void:
-	if not is_instance_valid(panel) or generation != modal_generation or not overlay.get_meta("journal_map",false):return
-	# Only this embedded map needs a caption band. Ordinary dialogue fit is unchanged.
-	panel.size.y = 720.0
-	panel.position.y = 40.0
-	for child: Node in panel.get_children():
-		if child is DialogueSheet.PaperSurface:child.size.y = 598.0
-	var close = panel.find_child("DialogueChoice1",true,false)
-	if is_instance_valid(close):close.position.y = 628.0
-	var help = panel.find_child("DialogueHelp",true,false)
-	if is_instance_valid(help):help.position.y = 688.0
+	if not is_instance_valid(panel) or panel.is_queued_for_deletion() or not panel.is_inside_tree():return
+	if not active_modal or generation != modal_generation or not overlay.get_meta("journal_map",false):return
+	if panel.get_parent()!=overlay or not panel.get_meta("map_folio",false):return
+	MapFolio.layout(panel)
 
 func _show_martials() -> void:
 	MartialPanel.show(self)

@@ -17,6 +17,7 @@ var heting_bridge:String="west"
 var heting_cargo:String=""
 var consignee_cargo_location:String=""
 var cart_route:PackedVector2Array=PackedVector2Array()
+var folio_presentation:bool=false
 
 const CHART_SIZE := Vector2(780, 330)
 const MAP_RECT := Rect2(Vector2(40, 20), Vector2(690, 270))
@@ -61,9 +62,10 @@ func refresh_cart_route()->void:
 
 func _draw() -> void:
 	# A bordered paper chart, with a restrained surveying grid beneath the terrain.
-	draw_style_box(_box(Color(0.04, 0.12, 0.11, 0.28), 8), Rect2(5, 5, 770, 315))
-	draw_style_box(_box(PAPER, 8), Rect2(0, 0, CHART_SIZE.x, CHART_SIZE.y))
-	draw_style_box(_box(Color(0, 0, 0, 0), 6, Color("9b9f7b")), Rect2(7, 7, 766, 316))
+	if not folio_presentation:
+		draw_style_box(_box(Color(0.04, 0.12, 0.11, 0.28), 8), Rect2(5, 5, 770, 315))
+		draw_style_box(_box(PAPER, 8), Rect2(0, 0, CHART_SIZE.x, CHART_SIZE.y))
+		draw_style_box(_box(Color(0, 0, 0, 0), 6, Color("9b9f7b")), Rect2(7, 7, 766, 316))
 	draw_rect(MAP_RECT, Color("c8cbb0"))
 	for i in range(9):
 		var x := MAP_RECT.position.x + i * MAP_RECT.size.x / 8.0
@@ -123,7 +125,7 @@ func _draw_village_map() -> void:
 	_building(Vector2(76, 525), Vector2(265, 123), "栈")
 	_building(Vector2(546, 587), Vector2(214, 96), "武")
 	_building(Vector2(826, 715), Vector2(152, 80), "祠")
-	_text(Vector2(490, 158), "池塘", 10, Color("597f70"), 65, HORIZONTAL_ALIGNMENT_CENTER)
+	_text(Vector2(490, 158), "池塘", 10, Color("203135") if folio_presentation else Color("597f70"), 65, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _draw_sluice_map() -> void:
 	_road([Vector2(45, 520), Vector2(406, 510), Vector2(565, 449), Vector2(888, 456), Vector2(1118, 417), Vector2(1220, 350), Vector2(1480, 291)], 8)
@@ -146,7 +148,7 @@ func _draw_sluice_map() -> void:
 	_building(Vector2(335, 180), Vector2(288, 116), "旧仓")
 	_building(Vector2(1193, 477), Vector2(240, 118), "闸所")
 	var gate := _world_rect(Vector2(795, 488), Vector2(284, 147))
-	draw_rect(gate, Color(0.29, 0.41, 0.33, 0.70))
+	draw_rect(gate, Color("304d42") if folio_presentation else Color(0.29, 0.41, 0.33, 0.70))
 	draw_rect(gate, Color("c2bd92"), false, 1.5)
 	_text(gate.position + Vector2(0, 19), "故水闸", 11, PAPER_LIGHT, gate.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 
@@ -168,7 +170,7 @@ func _building(position: Vector2, extent: Vector2, label: String) -> void:
 	draw_rect(rect, JADE)
 	draw_rect(rect, Color("4b7260"), false, 1)
 	draw_line(rect.position + Vector2(2, 3), rect.position + Vector2(rect.size.x - 2, 3), Color("97ad8c"), 1)
-	_text(rect.position + Vector2(0, rect.size.y * 0.5 + 4), label, 11, PAPER_LIGHT, rect.size.x, HORIZONTAL_ALIGNMENT_CENTER)
+	_text(rect.position + Vector2(0, rect.size.y * 0.5 + 4), label, 11, Color("071416") if folio_presentation else PAPER_LIGHT, rect.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _bridge(position: Vector2, extent: Vector2) -> void:
 	var rect := _world_rect(position, extent)
@@ -207,9 +209,11 @@ func _draw_markers() -> void:
 		if is_target:marker_name = String(journal_guidance_snapshot.get("next_target_name",marker_name))
 		# Keep even unexpected long labels inside the chart and prevent collisions.
 		var font := _font()
-		while font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x > 135 and marker_name.length() > 2:
+		var label_size: int = 14 if folio_presentation else 12
+		var label_width_limit: float = 155 if folio_presentation else 135
+		while font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x > label_width_limit and marker_name.length() > 2:
 			marker_name = marker_name.left(marker_name.length() - 2) + "…"
-		var text_width := maxf(36, font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x + 14)
+		var text_width := maxf(36, font.get_string_size(marker_name, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x + 14)
 		var offset := Vector2(-text_width * 0.5, 10)
 		if id in ["elder", "stranded_boatman", "sluice_boss"]:
 			offset.y = -29
@@ -217,17 +221,22 @@ func _draw_markers() -> void:
 			offset = Vector2(-text_width - 10, -11)
 		if id == "return_village":
 			offset = Vector2(10, -11)
+		# These two plaques otherwise cover actual landmark/player ink when the
+		# native labels are enlarged. Only their cards move; marker/world points
+		# and every road, crossing, building footprint and route stay unchanged.
+		if folio_presentation and map_id=="qingwei" and id=="board":offset.y=-32
+		if folio_presentation and id=="return_village":offset.y=-43
 		if id=="reed_cross":offset=Vector2(-text_width-12,4)
 		if id=="reed_relic":offset=Vector2(-text_width*0.5,-43)
-		var rect := Rect2(p + offset, Vector2(text_width, 22))
+		var rect := Rect2(p + offset, Vector2(text_width, 26 if folio_presentation else 22))
 		rect.position.x = clampf(rect.position.x, MAP_RECT.position.x + 3, MAP_RECT.end.x - rect.size.x - 3)
 		rect.position.y = clampf(rect.position.y, MAP_RECT.position.y + 3, MAP_RECT.end.y - rect.size.y - 3)
 		for previous in label_rects:
 			if rect.intersects(previous.grow(2)):
-				rect.position.y = clampf(previous.position.y - 25, MAP_RECT.position.y + 3, MAP_RECT.end.y - rect.size.y - 3)
+				rect.position.y = clampf(previous.position.y - (29 if folio_presentation else 25), MAP_RECT.position.y + 3, MAP_RECT.end.y - rect.size.y - 3)
 		label_rects.append(rect)
 		draw_style_box(_box(Color(0.89, 0.87, 0.75, 0.93), 4, Color("ba9c61") if is_target else Color(0.44, 0.55, 0.41, 0.32)), rect)
-		_text(rect.position + Vector2(0, 15), marker_name, 12, Color("795a2d") if is_target else INK, rect.size.x, HORIZONTAL_ALIGNMENT_CENTER)
+		_text(rect.position + Vector2(0, 18 if folio_presentation else 15), marker_name, 12, (Color("513919") if folio_presentation else Color("795a2d")) if is_target else INK, rect.size.x, HORIZONTAL_ALIGNMENT_CENTER)
 
 func _draw_player() -> void:
 	var safe_position := player_position if player_position.is_finite() else Vector2(460, 430)
@@ -255,13 +264,22 @@ func _draw_legend() -> void:
 		draw_line(Vector2(374,y),Vector2(392,y),GOLD,2.5,true)
 		_text(Vector2(400,y+4),"可推车路线",10,INK)
 	var title:String={"qingwei":"青苇渡 · 渡口图","sluice":"废闸古道 · 两岸图","frostbridge":"霜桥驿 · 印台图","mistwood":"雾竹坡 · 听雨图","heting":"鹤汀埠 · 港池图"}.get(map_id,"江湖舆图")
-	_text(Vector2(505, y + 4), title + "  /  仅供览图", 11, Color("68795f"), 225, HORIZONTAL_ALIGNMENT_RIGHT)
+	# The wider letters keep their complete legend. Its place title occupies the
+	# existing top margin, leaving the bottom row for the four distinct symbols.
+	if folio_presentation:
+		_text(Vector2(400,15),title+"  /  仅供览图",11,INK,330,HORIZONTAL_ALIGNMENT_RIGHT)
+	else:
+		_text(Vector2(505, y + 4), title + "  /  仅供览图", 11, Color("68795f"), 225, HORIZONTAL_ALIGNMENT_RIGHT)
 
 func _font() -> Font:
 	return ui_font if ui_font != null else ThemeDB.fallback_font
 
 func _text(position: Vector2, text: String, font_size: int, color: Color, width: float = -1, alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_LEFT) -> void:
-	draw_string(_font(), position, text, alignment, width, font_size, color)
+	var pixels: int = font_size+2 if folio_presentation else font_size
+	var ink: Color = Color("172c2e") if folio_presentation and color == INK else color
+	# Godot4.6's per-draw oversampling keeps this scaled map's glyph cache local
+	# to the request; it does not mutate the shared font or any project setting.
+	draw_string(_font(),position,text,alignment,width,pixels,ink,3,0,0,2.0 if folio_presentation else 0.0)
 
 func _box(color: Color, radius: int, border: Color = Color(0, 0, 0, 0)) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
