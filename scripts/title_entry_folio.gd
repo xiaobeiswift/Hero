@@ -80,8 +80,10 @@ func _build() -> void:
 	if kind == "home":
 		var fragments = body.split("\n\n", false)
 		chapter = _rich(cover, "TitleEntryChapter", String(fragments[0]) if fragments.size() >= 4 else "", 19, Folio.BRASS)
-		story = _rich(cover, "TitleEntryStory", String(fragments[1]) if fragments.size() >= 4 else body, 18, Folio.BONE)
-		motto = _label(self, "TitleEntryMotto", String(fragments[2]) if fragments.size() >= 4 else "", 23, Folio.BONE)
+		var introduction: String = String(fragments[1]) if fragments.size() >= 4 else body
+		story = _rich(cover, "TitleEntryStory", introduction.replace("，来到", "，\n来到"), 18, Folio.BONE)
+		var closing: String = String(fragments[2]) if fragments.size() >= 4 else ""
+		motto = _label(self, "TitleEntryMotto", closing.replace("，", "，\n"), 23, Folio.BONE)
 		motto.add_theme_font_override("font", Folio.HEADING_FONT)
 	else:
 		consequence_paper = PaperSurface.new()
@@ -172,13 +174,14 @@ func show_feedback(message: String) -> void:
 	feedback.text = message
 	feedback.tooltip_text = message
 	feedback_band.visible = not message.is_empty()
+	_layout()
 
 
 func _layout() -> void:
 	if not _built: return
 	var available: Vector2 = size if size.x > 0 and size.y > 0 else Vector2(1280,800)
 	var width: float = minf(502, available.x * .45)
-	var height: float = minf(716, available.y - 56)
+	var height: float = minf(716, available.y - 30)
 	cover.position = Vector2(maxf(28, available.x * .045), (available.y - height) * .5)
 	cover.size = Vector2(width, height)
 	cover.queue_redraw()
@@ -191,9 +194,14 @@ func _layout() -> void:
 	var action_height: float = 52
 	var action_gap: float = 8
 	if kind == "home":
-		_rect(chapter,Rect2(left,170,content,31))
-		_rect(story,Rect2(left,208,content,92))
-		if buttons.size() > 3: action_height = 44; action_gap = 6
+		var four_actions: bool = buttons.size() > 3
+		_rect(chapter,Rect2(left,153 if four_actions else 170,content,31))
+		_rect(story,Rect2(left,188 if four_actions else 208,content,92))
+		if four_actions:
+			_rect(cover.get_node("TitleEntryRule"),Rect2(left,145,content,1))
+			first_action = 284
+			action_height = 44
+			action_gap = 6
 		_rect(motto,Rect2(available.x*.51,available.y-169,available.x*.445,96))
 	else:
 		_rect(consequence_paper,Rect2(31,176,width-62,205))
@@ -204,11 +212,17 @@ func _layout() -> void:
 		_rect(buttons[index],Rect2(left,first_action+index*(action_height+action_gap),content,action_height))
 		_rect(buttons[index].get_node("ShortcutNumber"),Rect2(12,0,30,action_height))
 	var feedback_top: float = first_action + buttons.size()*(action_height+action_gap)-action_gap+6
-	_rect(feedback_band,Rect2(left,feedback_top,content,56))
-	_rect(feedback,Rect2(10,4,content-20,48))
-	_rect(notice,Rect2(left,height-112,content,64))
+	feedback.size = Vector2(content-20,48)
+	var feedback_height: float = maxf(48,feedback.get_combined_minimum_size().y)
+	_rect(feedback_band,Rect2(left,feedback_top,content,feedback_height+8))
+	_rect(feedback,Rect2(10,4,content-20,feedback_height))
+	# Keep the original warning text intact. A measured first-clause width
+	# naturally wraps at its semicolon instead of leaving a two-glyph tail.
+	var first_clause: String = notice.text.get_slice("；",0)+"；"
+	var notice_width: float = minf(content,Folio.BODY_FONT.get_string_size(first_clause,HORIZONTAL_ALIGNMENT_LEFT,-1,17).x+4)
+	_rect(notice,Rect2(left,height-124,notice_width,64))
 	_rect(cover.get_node("BuildVersion"),Rect2(width-186,34,148,23))
-	_rect(cover.get_node("TitleEntryKeyboardHelp"),Rect2(left,height-43,content,23))
+	_rect(cover.get_node("TitleEntryKeyboardHelp"),Rect2(left,height-58,content,23))
 	_rect(get_node("TitleMottoShade"),Rect2(0,available.y-250,available.x,250))
 
 
