@@ -1,0 +1,417 @@
+extends "res://tests/companion_folio_behavior_test.gd"
+## NEW Web33 evidence, never a recreation of baseline evidence.
+## Inherited guard/boot/input helpers only; no count subclass or fake writer.
+const FRAME_LIMIT = 12
+const HELPER_PATH = "res://tests/companion_folio_behavior_test.gd"
+const USER_SUFFIX = "data/godot/app_userdata/Hero · 渡灯录"
+const STATES = ["save-list-success", "title-load-list", "corrupt-backup-detail", "overwrite-confirm", "backup-load-confirm", "occupied-backup-write-failure"]
+var binding: Dictionary = {}
+var frames_dir = ""
+var captures: Array[Dictionary] = []
+var fixtures: Array[Dictionary] = []
+var boundaries: Array[Dictionary] = []
+var requested_size = Vector2i(1280,800)
+var collision_path = ""
+
+func _run() -> void:
+	if not _guard():
+		push_error("ERROR: save folio native guard rejected before game load")
+		quit(2); return
+	guard_passed = true
+	create_timer(180.0).timeout.connect(func():
+		if not finished:
+			_check(false,"Save folio capture exceeded 180-second watchdog")
+			_finish())
+	if not _check(DisplayServer.get_name() != "headless","Actual native display required"): _finish(); return
+	if not _check(DirAccess.make_dir_absolute(frames_dir) == OK,"Create exclusive native frame directory"): _finish(); return
+	if not await _boot(): _finish(); return
+	if not _check(String(ProjectSettings.get_setting("application/config/version", "")) == "0.0.33", "Actual Web33 runtime version"): _finish(); return
+	await _click("踏入江湖")
+	if not _check(app.current_screen == "explore" and not app.active_modal,"Real title input starts production journey"): _finish(); return
+	await _save_list_and_overwrite()
+	if not failures.is_empty(): _finish(); return
+	await _occupied_failure()
+	if not failures.is_empty(): _finish(); return
+	await _load_states()
+	if not failures.is_empty(): _finish(); return
+	await _failed_title_load()
+	_check(captures.size() == FRAME_LIMIT,"Exactly twelve new native PNGs")
+	_finish()
+
+func _page():
+	return app.overlay.get_node_or_null("SaveFolioPage")
+
+func _click(text: String) -> void:
+	var matches: Array[Button] = []
+	for node in app.overlay.find_children("*","Button",true,false):
+		if node.text == text and node.is_visible_in_tree() and not node.disabled: matches.append(node)
+	if not _check(matches.size() == 1,"One real visible button: "+text): return
+	await _pointer(matches[0],text)
+
+func _kind(expected: String) -> bool:
+	var page = _page()
+	return _check(page != null and app.active_modal and page.data.get("kind", "") == expected and page.frame.is_visible_in_tree(),"Actual visible folio kind: "+expected)
+
+func _native_focus(text: String) -> bool:
+	var page = _page()
+	if not _check(page != null,"Native focus begins on save folio"): return false
+	# Always traverse at least once: pointer focus alone need not paint a ring.
+	for attempt: int in range(page.buttons.size() + 1):
+		await _key(KEY_TAB)
+		var owner = root.gui_get_focus_owner()
+		if owner is Button and owner.text == text:
+			return _check(owner in page.buttons and owner.is_visible_in_tree(),"Native Tab reached visible "+text)
+	return _check(false,"Native Tab could not reach "+text)
+
+func _view(dimensions: Vector2i) -> void:
+	requested_size = dimensions; root.size = dimensions
+	await _frames(5)
+	_check(root.size == dimensions and root.get_visible_rect().size == Vector2(1280,800),"Physical resize preserves logical 1280x800 viewport")
+
+func _both(state_id: String, note: String) -> void:
+	for dimensions: Vector2i in [Vector2i(1280,800),Vector2i(960,600)]:
+		await _view(dimensions)
+		await _capture(state_id,note)
+
+func _fixture(level: int, coins: int):
+	var value = _new_state()
+	value.level = level; value.coins = coins
+	value.map_id = "qingwei"; value.position = Vector2(460,430)
+	var canonical: Dictionary = value.to_dict().duplicate(true)
+	var inspected: Dictionary = model.new().inspect_save_bytes(JSON.stringify({"version":model.SAVE_VERSION,"player":canonical}).to_utf8_buffer())
+	if not _check(inspected.ok and inspected.state.to_dict() == canonical,"Explicit prepared fixture validator round-trip"): return null
+	return inspected.state
+
+func _prepare_live(value, label: String) -> bool:
+	if not _check(value != null and value.get_script() == model,"Preparation uses exact production HeroState"): return false
+	if not await _prepare(value,label): return false
+	fixtures.append({"label":label,"kind":"prepared_legal_state_not_earned_in_this_run","canonical":app.state.to_dict(),"application_files":_file_records()})
+	inputs.append({"section":current_section,"kind":"explicit_fixture_preparation","label":label,"calls":["HeroState.inspect_save_bytes","Main._apply_loaded_state","Main._autosave"]})
+	return true
+
+func _seed(value, slot: int, backup_only: bool = false) -> bool:
+	if not _check(value != null and value.get_script() == model,"Fixture store uses exact production HeroState"): return false
+	var path: String = app.save_slots.store.path_for(slot) + (".bak" if backup_only else "")
+	var leaf: String = "hero_slot_%d.json%s" % [slot,".bak" if backup_only else ""]
+	if not _owned_file(path,leaf,false): return false
+	if backup_only and not _check(not FileAccess.file_exists(path) and not DirAccess.dir_exists_absolute(path),"Backup-only seed starts at absent owned file"): return false
+	var code = value.save_game(path) if backup_only else app.save_slots.store.save_slot(value,slot)
+	var restored = model.new()
+	if not _check(code == OK and restored.load_game(path) == OK and restored.to_dict() == value.to_dict(),"Real production fixture writer reloads complete canonical state"): return false
+	fixtures.append({"label":leaf,"kind":"prepared_legal_fixture_real_HeroState_writer" if backup_only else "prepared_legal_fixture_real_LocalSaveSlots_writer","canonical":value.to_dict(),"path":ProjectSettings.globalize_path(path),"application_files":_file_records()})
+	return true
+
+func _owned_file(path: String, leaf: String, existing: bool) -> bool:
+	var absolute = ProjectSettings.globalize_path(path)
+	return _check(leaf in ["hero_slot_1.json","hero_slot_1.json.bak","hero_slot_2.json","hero_slot_2.json.bak","hero_slot_3.json","hero_slot_3.json.bak"] and absolute == owned_user.path_join(leaf) and _no_links(absolute) and not DirAccess.dir_exists_absolute(absolute) and (FileAccess.file_exists(absolute) if existing else true),"Exact owned nonlink regular fixture target: "+leaf)
+
+func _retain_then_replace(path: String, leaf: String, evidence_name: String, replacement: PackedByteArray, reason: String) -> bool:
+	if not _owned_file(path,leaf,true): return false
+	var original = FileAccess.get_file_as_bytes(path)
+	var retained = owned_root.path_join("results/"+evidence_name+".json")
+	if not _check(not original.is_empty() and evidence_name == evidence_name.get_file() and _no_links(retained) and not FileAccess.file_exists(retained) and not DirAccess.dir_exists_absolute(retained),"Fresh external original-byte retention destination"): return false
+	var file = FileAccess.open(retained,FileAccess.WRITE)
+	if not _check(file != null,"Open original-byte retention evidence"): return false
+	file.store_buffer(original); file.flush(); var retain_error = file.get_error(); file.close()
+	if not _check(retain_error == OK and FileAccess.get_file_as_bytes(retained) == original,"Complete original bytes retained before fixture corruption"): return false
+	if not _owned_file(path,leaf,true) or not _check(FileAccess.get_file_as_bytes(path) == original,"Recheck exact unchanged fixture immediately before replacement"): return false
+	file = FileAccess.open(path,FileAccess.WRITE)
+	if not _check(file != null,"Open exact owned fixture for prepared replacement"): return false
+	file.store_buffer(replacement); file.flush(); var replace_error = file.get_error(); file.close()
+	if not _check(replace_error == OK and FileAccess.get_file_as_bytes(path) == replacement,"Prepared replacement bytes verified"): return false
+	fixtures.append({"label":reason,"kind":"explicit_prepared_file_replacement_not_gameplay","path":ProjectSettings.globalize_path(path),"retained_original":retained,"retained_original_sha256":FileAccess.get_sha256(retained),"retained_original_base64":Marshalls.raw_to_base64(original),"application_files":_file_records()})
+	return true
+
+func _feedback(expected: String) -> void:
+	var page = _page()
+	if not _check(page != null and app.active_modal,"Feedback leaves real folio open"): return
+	_check(page.feedback_band.is_visible_in_tree() and page.feedback.is_visible_in_tree() and expected in page.feedback.text,"Real result appears inline inside still-open folio")
+	_check(expected in app.status_label.text,"Inline result agrees with existing production toast")
+	_check(page.feedback.get_line_count() == page.feedback.get_visible_line_count(),"All inline result lines visible")
+
+func _save_list_and_overwrite() -> void:
+	_section("actual_occupied_overwrite")
+	if not _seed(_fixture(3,137),1) or not _seed(_fixture(2,127),3): return
+	if not _retain_then_replace(app.save_slots.store.path_for(3),"hero_slot_3.json","slot3-original-before-save-list-corruption","{prepared_invalid_save_web33".to_utf8_buffer(),"Unreadable slot3 for save list"): return
+	if not await _prepare_live(_fixture(7,271),"Distinct current journey for genuine occupied slot1 overwrite"): return
+	var old_primary = FileAccess.get_file_as_bytes(app.save_slots.store.path_for(1))
+	var other_files_before = _file_records()
+	other_files_before.erase("hero_slot_1.json")
+	other_files_before.erase("hero_slot_1.json.bak")
+	await _key(KEY_F6)
+	if not _kind("save"): return
+	await _click("写下手记一")
+	if not _kind("confirm_save") or not await _native_focus("确认重写"): return
+	var before = _snapshot("Before real occupied overwrite confirmation")
+	_check(FileAccess.get_file_as_bytes(app.save_slots.store.path_for(1)) == old_primary,"Opening overwrite confirmation does not write")
+	await _both("overwrite-confirm","Occupied slot1, full overwrite consequences, focus reached through real Tab")
+	await _key(KEY_ENTER)
+	if not _kind("save"): return
+	_expect(before,{},"Actual confirmed manual save preserves memory and autosave")
+	var slot: String = app.save_slots.store.path_for(1)
+	var restored = model.new()
+	_check(restored.load_game(slot) == OK and restored.to_dict() == app.state.to_dict(),"Confirmed occupied save reloads exact new journey")
+	_check(FileAccess.get_file_as_bytes(slot) != old_primary and FileAccess.get_file_as_bytes(slot+".bak") == old_primary,"Genuine overwrite changes primary and retains exact preceding primary as backup")
+	_check(app.save_slots.store.describe(1).status == "valid" and app.save_slots.store.describe(2).status == "empty" and app.save_slots.store.describe(3).status == "corrupt","Save list has occupied1, empty2, unreadable3")
+	var other_files_after = _file_records()
+	other_files_after.erase("hero_slot_1.json")
+	other_files_after.erase("hero_slot_1.json.bak")
+	_check(other_files_after == other_files_before,"Successful occupied overwrite changes no other application file")
+	_feedback("手记一已写下。")
+	await _both("save-list-success","Actual successful occupied overwrite; slot2 remains empty and slot3 remains unreadable; inline success")
+
+func _create_collision() -> bool:
+	collision_path = owned_user.path_join("hero_slot_1.json.bak.tmp")
+	if not _check(ProjectSettings.globalize_path(app.save_slots.store.path_for(1)+".bak.tmp") == collision_path and _no_links(collision_path),"Collision is exact owned backup temporary path"): return false
+	if not _check(not FileAccess.file_exists(collision_path) and not DirAccess.dir_exists_absolute(collision_path),"Backup collision never replaces existing data"): return false
+	if not _check(DirAccess.make_dir_absolute(collision_path) == OK,"Create owned empty directory for real backup FileAccess.WRITE failure"): return false
+	collision_owned = true
+	fixtures.append({"label":"occupied valid slot1 backup-temp collision","kind":"prepared_empty_directory_fault_not_fake_writer","path":collision_path,"application_files":_file_records()})
+	return true
+
+func _remove_collision() -> bool:
+	if not collision_owned: return true
+	if not _check(collision_path == owned_user.path_join("hero_slot_1.json.bak.tmp") and _no_links(collision_path),"Cleanup is restricted to exact run-owned nonlink collision"): return false
+	var directory = DirAccess.open(collision_path)
+	if not _check(directory != null,"Owned collision is still directory"): return false
+	directory.include_hidden = true; directory.include_navigational = false
+	if not _check(directory.get_files().is_empty() and directory.get_directories().is_empty(),"Owned collision verified empty immediately before removal"): return false
+	if not _check(DirAccess.remove_absolute(collision_path) == OK,"Remove only verified empty owned collision"): return false
+	collision_owned = false
+	return true
+
+func _occupied_failure() -> void:
+	_section("occupied_backup_write_failure")
+	if not await _prepare_live(_fixture(8,281),"Different legal memory prevents same-content save shortcut"): return
+	var slot: String = app.save_slots.store.path_for(1)
+	var previous = model.new()
+	if not _check(previous.load_game(slot) == OK and previous.to_dict() != app.state.to_dict() and app.save_slots.store.describe_backup(1).status == "valid","Real valid occupied primary differs from live state and has good backup"): return
+	if not _create_collision(): return
+	var before = _snapshot("Before genuine occupied backup write failure")
+	var files_before = _file_records()
+	var primary_bytes = FileAccess.get_file_as_bytes(slot)
+	var backup_bytes = FileAccess.get_file_as_bytes(slot+".bak")
+	await _key(KEY_F6); await _click("写下手记一")
+	if not _kind("confirm_save"): return
+	await _click("确认重写")
+	if not _kind("save"): return
+	_expect(before,{},"Real occupied failed writer preserves complete memory and autosave")
+	_check(_file_records() == files_before and FileAccess.get_file_as_bytes(slot) == primary_bytes and FileAccess.get_file_as_bytes(slot+".bak") == backup_bytes,"Failed backup copy preserves every application file and exact primary/backup bytes")
+	_feedback("手记未能保存，原文件保持不变。错误：")
+	if not await _native_focus("写下手记一"): return
+	await _view(Vector2i(1280,800))
+	await _capture("occupied-backup-write-failure","Actual explicit overwrite fails at occupied backup temporary path; inline error; native keyboard focus")
+	await _key(KEY_ENTER)
+	if not _kind("confirm_save"): return
+	await _key(KEY_1)
+	if not _kind("save"): return
+	_expect(before,{},"Explicit repeated failure preserves complete memory and autosave")
+	_check(_file_records() == files_before and FileAccess.get_file_as_bytes(slot) == primary_bytes and FileAccess.get_file_as_bytes(slot+".bak") == backup_bytes,"Repeated failure preserves exact manual originals")
+	_feedback("手记未能保存，原文件保持不变。错误：")
+	if not await _native_focus("写下手记一"): return
+	await _view(Vector2i(960,600))
+	await _capture("occupied-backup-write-failure","Same real fault after an explicit repeat; full inline error and real Tab focus at compact physical size")
+	if not _remove_collision(): return
+	await _key(KEY_ESCAPE)
+	_check(app.current_screen == "explore" and not app.active_modal,"Explore Esc closes save folio")
+	_check(FileAccess.get_file_as_bytes(slot) == primary_bytes and FileAccess.get_file_as_bytes(slot+".bak") == backup_bytes,"Esc never retries failed manual overwrite")
+	await _to_title()
+
+func _to_title() -> void:
+	if app.active_modal: await _key(KEY_ESCAPE)
+	await _key(KEY_ESCAPE)
+	await _click("返回首页")
+	await _click("保存并离开")
+	_check(app.current_screen == "title" and app.active_modal,"Actual pause exit returns to title")
+
+func _load_states() -> void:
+	_section("title_load_list")
+	var slot1: String = app.save_slots.store.path_for(1)
+	var newer: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(slot1))
+	newer.version = model.SAVE_VERSION + 1
+	if not _retain_then_replace(slot1,"hero_slot_1.json","slot1-original-before-newer-schema",JSON.stringify(newer,"\t").to_utf8_buffer(),"Prepared incompatible newer-version primary, original retained"): return
+	if not _seed(_fixture(4,241),2,true) or not _seed(_fixture(5,251),3) or not _seed(_fixture(6,261),3): return
+	var store = app.save_slots.store
+	_check(store.describe(0).status == "valid" and store.describe(1).status == "incompatible" and store.describe(2).status == "empty" and store.describe_backup(2).status == "valid" and store.describe(3).status == "valid","Title fixture has valid autosave, newer primary, backup-only branch and valid branch")
+	var before = _snapshot("Before title read-only list")
+	var files_before = _file_records()
+	await _click("查阅手记")
+	if not _kind("load"): return
+	await _both("title-load-list","Actual title entry: autosave valid, slot1 newer version, slot2 backup-only, slot3 valid; no invented metadata")
+	await _key(KEY_ESCAPE)
+	_check(_page() != null and app.current_screen == "title","Title Esc preserves existing list behavior; visible help directs Back")
+	await _click("手记二")
+	if not _kind("detail"): return
+	_check(_page().data.rows[0].status == "empty" and _page().data.rows[1].status == "valid","Backup-only slot opens empty primary and valid backup detail")
+	await _click("返回列表")
+	_expect(before,{},"Title list/detail/back are read-only")
+	_check(_file_records() == files_before,"Title browsing preserves every exact application file")
+	_section("corrupt_primary_good_backup_detail")
+	var slot3: String = store.path_for(3)
+	if not _retain_then_replace(slot3,"hero_slot_3.json","slot3-original-before-backup-detail","{prepared_invalid_primary_for_backup_detail".to_utf8_buffer(),"Prepared corrupt slot3 primary; good backup remains untouched"): return
+	var backup_state = model.new()
+	if not _check(backup_state.load_game(slot3+".bak") == OK,"Real good backup reloads before UI"): return
+	await _click("手记三")
+	if not _kind("detail"): return
+	_check(_page().data.rows[0].status == "corrupt" and _page().data.rows[1].status == "valid","Detail renders corrupted primary beside genuine good backup")
+	await _both("corrupt-backup-detail","Actual corrupted primary and independently valid backup; full recovery consequence text")
+	await _click("读取备份")
+	if not _kind("confirm_load"): return
+	_check("手记三的备份" in _page().page_title and "上一份备份" in _page().guidance.text and _page().data.rows[0].title == "上一份备份","Backup confirmation clearly identifies slot and backup source")
+	_check("替换当前内存" in _page().detail_note.text and "更新自动存档" in _page().detail_note.text and "不会因读档而改变" in _page().detail_note.text,"Backup confirmation retains all source and consequence text")
+	if not await _native_focus("确认读取"): return
+	await _both("backup-load-confirm","Full source and memory/autosave/manual-file consequences before real confirmed backup load")
+	var manual_before = _manual_records()
+	await _key(KEY_ENTER)
+	_check(app.current_screen == "explore" and not app.active_modal and app.state.get_script() == model and app.state.to_dict() == backup_state.to_dict(),"Real native confirmation loads backup into exact production HeroState")
+	_saved(backup_state.to_dict(),"Successful backup load updates genuine autosave")
+	_check(_manual_records() == manual_before,"Actual successful backup load leaves every manual primary/backup byte unchanged")
+	await _to_title()
+
+func _manual_records() -> Dictionary:
+	var result = {}
+	var records = _file_records()
+	for key in records:
+		if String(key).begins_with("hero_slot_"): result[key] = records[key]
+	return result
+
+func _failed_title_load() -> void:
+	_section("failed_title_load_non_png")
+	await _click("查阅手记"); await _click("手记二"); await _click("读取备份")
+	if not _kind("confirm_load"): return
+	var path: String = app.save_slots.store.path_for(2)+".bak"
+	if not _retain_then_replace(path,"hero_slot_2.json.bak","slot2-backup-original-before-stale-title-load","{prepared_invalid_backup_after_real_confirmation".to_utf8_buffer(),"Prepared stale backup confirmation fault; retained original before corruption"): return
+	var before = _snapshot("Before actual stale title confirm-load input")
+	var files_before = _file_records()
+	var generation: int = app.modal_generation
+	for attempt: int in range(2):
+		await _click("确认读取")
+		_check(app.current_screen == "title" and app.modal_generation == generation,"Failed load retains title and exact confirmation generation")
+		_expect(before,{},"Failed title load preserves complete state, transients, position and autosave")
+		_check(_file_records() == files_before,"Repeated failed title load never repairs application files")
+		_feedback("这份手记暂时无法读取，当前旅程未改变。错误：")
+	await _key(KEY_ESCAPE)
+	_check(app.current_screen == "title" and app.modal_generation == generation,"Title Escape retains failed confirmation as before")
+	await _click("返回详情")
+	if not _kind("detail"): return
+	await _click("返回列表")
+	if not _kind("load"): return
+	await _click("返回")
+	_check(app.current_screen == "title" and _page() == null,"Explicit Back returns to actual title")
+	_check(_file_records() == files_before,"Failed title back chain does not change application files")
+
+func _capture(state_id: String, note: String) -> void:
+	await _frames(4); await RenderingServer.frame_post_draw
+	if not _check(captures.size() < FRAME_LIMIT and state_id in STATES,"Bounded authorized capture state"): return
+	var page = _page()
+	if not _check(page != null and app.active_modal and page.frame.is_visible_in_tree(),"Capture actual visible save folio"): return
+	var before = _snapshot("Before framebuffer "+state_id)
+	var files_before = _file_records()
+	var image: Image = root.get_texture().get_image()
+	if not _check(image != null and not image.is_empty() and image.get_size() == requested_size and root.size == requested_size and root.get_visible_rect().size == Vector2(1280,800),"Full native framebuffer matches physical size and logical1280"): return
+	var stem = "%02d-%s-%d" % [STATES.find(state_id)+1,state_id,requested_size.x]
+	var path = frames_dir.path_join(stem+".png")
+	if not _check(_no_links(path) and not FileAccess.file_exists(path) and not DirAccess.dir_exists_absolute(path),"Exclusive owned PNG destination"): return
+	if not _check(image.save_png(path) == OK,"Save complete actual framebuffer PNG"): return
+	var bytes = FileAccess.get_file_as_bytes(path)
+	_expect(before,{},"Native capture preserves canonical state and autosave")
+	_check(_file_records() == files_before,"Native capture preserves every application file")
+	var help = page.frame.get_node("SaveKeyboardHelp")
+	_check(help.is_visible_in_tree() and "Tab" in help.text and "Enter" in help.text and help.get_line_count() == help.get_visible_line_count(),"Visible complete keyboard help")
+	for rich in [page.guidance,page.detail_note]:
+		if rich != null:
+			_check(rich.is_visible_in_tree() and rich.get_content_height() <= rich.size.y + 1,"Full folio guidance and consequence text fits without scrolling")
+	var focus = root.gui_get_focus_owner()
+	captures.append({"state_id":state_id,"name":stem,"path":path,"bytes":bytes.size(),"sha256":FileAccess.get_sha256(path),"pixel_dimensions":[image.get_width(),image.get_height()],"requested_window":[requested_size.x,requested_size.y],"actual_window":[root.size.x,root.size.y],"logical_viewport":[root.get_visible_rect().size.x,root.get_visible_rect().size.y],"viewport_final_transform":var_to_str(root.get_final_transform()),"display_server":DisplayServer.get_name(),"capture_source":"RenderingServer.frame_post_draw + complete native root viewport","qualifiers":["native_engine","scripted_Input.parse_input_event","prepared_explicit_fixture","not_manual_playthrough"],"note":note,"section":current_section,"canonical_state":app.state.to_dict(),"autosave_base64":Marshalls.raw_to_base64(_disk()),"application_files":files_before,"frame_logical_rect":_rect(page.frame.get_global_rect()),"frame_pixel_rect":_rect(root.get_final_transform()*page.frame.get_global_rect()),"focus_path":str(focus.get_path()) if focus != null else "","feedback":{"screen":app.current_screen,"active_modal":app.active_modal,"modal_generation":app.modal_generation,"inline_text":page.feedback.text,"inline_visible":page.feedback.is_visible_in_tree(),"toast_text":app.status_label.text,"toast_visible":app.status_label.is_visible_in_tree()},"controls":_controls(app.overlay),"input_count":inputs.size()})
+	boundaries.append({"state_id":state_id,"physical_size":[requested_size.x,requested_size.y],"canonical":app.state.to_dict(),"application_files":files_before})
+	if not _write_native_report("running"):
+		_check(false,"Native progress report cannot be written"); _finish()
+
+func _write_native_report(status: String) -> bool:
+	if not guard_passed or not _no_links(report_path): return false
+	if not failures.is_empty(): status = "fail"
+	var report = {"suite":"save_folio_native_capture","status":status,"historical_evidence_recreated":false,"checks":checks,"failures":failures,"binding":binding,"display_server":DisplayServer.get_name(),"engine_version":Engine.get_version_info(),"captures":captures,"fixtures":fixtures,"inputs":inputs,"preservation_boundaries":boundaries,"checkpoints":checkpoints,"application_files":_file_records(),"limits":["Twelve new PNGs cover six approved states at two actual physical sizes with logical1280x800","Explicit fixture preparation and filesystem faults are not earned gameplay","Native scripted viewport input is not manual OS/browser input or Windows certification","Exact unchanged bytes cannot prove absence of same-content writes","Independent pixel inspection is required; control rectangles alone do not establish readability","No new assets, video, baseline replay, package, source editing or publication","Outer launcher verifies immutable original source/runtime/engine/driver/helper/binding after exit"]}
+	var file = FileAccess.open(report_path,FileAccess.WRITE)
+	if file == null: return false
+	file.store_string(JSON.stringify(report,"\t")); file.flush()
+	var error = file.get_error(); file.close()
+	return error == OK
+
+func _finish() -> void:
+	if finished: return
+	finished = true
+	if collision_owned: _remove_collision()
+	if is_instance_valid(app): app._stop_audio()
+	var report_ok = _write_native_report("pass" if failures.is_empty() else "fail")
+	if is_instance_valid(app): app.free()
+	if not report_ok: quit(2); return
+	if failures.is_empty(): print("PASS: NEW save folio native capture, %d PNGs / %d checks" % [captures.size(),checks])
+	else: push_error("ERROR: save folio native capture failed, %d failures" % failures.size())
+	quit(0 if failures.is_empty() else 1)
+
+func _guard() -> bool:
+	if not super._guard(): return false
+	if OS.get_name() != "Linux": return false
+	if OS.get_environment("HERO_FOLIO_QA_TOKEN").length() != 64: return false
+	if owned_user != owned_root.path_join(USER_SUFFIX): return false
+	if report_path != owned_root.path_join("results/test-result.json"): return false
+	for entry: Array in [["HOME","home"],["XDG_DATA_HOME","data"],["XDG_CONFIG_HOME","config"],["XDG_CACHE_HOME","cache"]]:
+		if OS.get_environment(entry[0]) != owned_root.path_join(entry[1]): return false
+	frames_dir = owned_root.path_join("results/native-frames")
+	if not _no_links(frames_dir) or FileAccess.file_exists(frames_dir) or DirAccess.dir_exists_absolute(frames_dir): return false
+	var binding_path = owned_root.path_join("results/native-binding.json")
+	if OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING") != binding_path or not _no_links(binding_path) or not FileAccess.file_exists(binding_path): return false
+	if FileAccess.get_sha256(binding_path) != OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING_SHA256"): return false
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(binding_path))
+	if not parsed is Dictionary: return false
+	binding = parsed
+	if binding.get("suite") != "save_folio_native_capture": return false
+	if binding.get("source") != ProjectSettings.globalize_path("res://").trim_suffix("/").simplify_path(): return false
+	if binding.get("driver_sha256") != FileAccess.get_sha256(get_script().resource_path): return false
+	if binding.get("helper_sha256") != FileAccess.get_sha256(HELPER_PATH): return false
+	if binding.get("engine_sha256") != FileAccess.get_sha256(OS.get_executable_path()): return false
+	for field: String in ["runtime_sha256"]:
+		if not binding.get(field,"") is String or binding[field].length() != 64: return false
+	for field: String in ["source_commit","source_tree"]:
+		if not binding.get(field,"") is String or binding[field].length() != 40: return false
+	if not binding.get("runtime_entries",0) is int and not binding.get("runtime_entries",0) is float: return false
+	if int(binding.runtime_entries) <= 0: return false
+	# The outer launcher independently pins the final runtime manifest and exact
+	# WIP source tree. This driver never inherits the old recovery runtime hash.
+	return _tree_unlinked(owned_user)
+
+
+func _file_records(path: String = "", relative: String = "") -> Dictionary:
+	var actual = owned_user if path.is_empty() else path
+	var result: Dictionary = {}
+	if not _check(_tree_unlinked(actual),"Application tree remains nonsymlink"): return result
+	var directory = DirAccess.open(actual)
+	if directory == null: return result
+	directory.include_hidden = true; directory.include_navigational = false
+	for leaf: String in directory.get_files():
+		var filename = actual.path_join(leaf)
+		var file = FileAccess.open(filename,FileAccess.READ)
+		result[relative.path_join(leaf)] = {"bytes":file.get_length() if file != null else -1,"sha256":FileAccess.get_sha256(filename)}
+		if file != null: file.close()
+	for leaf: String in directory.get_directories():
+		if relative.is_empty() and leaf in ["shader_cache","logs"]: continue
+		result.merge(_file_records(actual.path_join(leaf),relative.path_join(leaf)))
+	return result
+
+func _rect(rect: Rect2) -> Array:
+	return [rect.position.x,rect.position.y,rect.size.x,rect.size.y]
+
+func _controls(node: Node) -> Array[Dictionary]:
+	var rows: Array[Dictionary] = []
+	if node is Control and node.is_visible_in_tree():
+		var row: Dictionary = {"path":str(node.get_path()),"logical_rect":_rect(node.get_global_rect()),"pixel_rect":_rect(root.get_final_transform()*node.get_global_rect()),"focus":node.has_focus()}
+		if node is Label or node is RichTextLabel or node is Button:
+			row.text = node.text; row.font_size = node.get_theme_font_size("normal_font_size" if node is RichTextLabel else "font_size")
+		if node is RichTextLabel: row.content_height = node.get_content_height(); row.viewport_height = node.size.y; row.scroll_offset = node.get_v_scroll_bar().value
+		if node is Label: row.visible_line_count = node.get_visible_line_count(); row.line_count = node.get_line_count()
+		if node is Button: row.disabled = node.disabled; row.pressed = node.button_pressed
+		if node is ProgressBar: row.value = node.value; row.max_value = node.max_value
+		if node is TextureRect and node.texture is AtlasTexture: row.atlas_region = _rect(node.texture.region); row.stretch_mode = node.stretch_mode
+		rows.append(row)
+	for child in node.get_children(): rows.append_array(_controls(child))
+	return rows

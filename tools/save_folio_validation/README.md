@@ -1,0 +1,11 @@
+# Save folio validation
+
+This is Linux-only isolated tooling for the version33 save/load folio. The guard, private fresh profile, official engine identity, original-source/runtime snapshots, time bounds and4GiB admission/2GiB running free-space floors retain the reviewed recovery/companion contract. No player profile or desktop setup is modified.
+
+Copy this small directory outside the checkout before running it. `isolated_godot.py` binds the384 runtime inputs in `runtime-inputs.json` for import or a tracked relative test script. The source base recorded by a run is not a claim that an uncommitted candidate is an immutable release; its full original-byte snapshots and runtime binding carry the actual identity. Each run requires a new absolute QA root.
+
+Focused test: `tests/save_folio_behavior_test.gd` and its adjacent test-only `save_folio_probe_state.gd`. The probe unconditionally forwards production I/O and counts only the active State, not metadata-preview readers. Exact HeroState is used for fitting/battle identity gates; these sections do not infer write counts from byte equality. Real filesystem faults are owned empty temporary-path directories, never fake errors.
+
+The separate `native_isolated_godot.py` is deliberately unbound. Copy it as `isolated_godot.py` into a new external native stage, copy the guard/manifest there, and copy `native_capture.gd.txt` to a `.gd` driver. An independently reviewed binding must supply the final clean source commit/tree, runtime manifest SHA/digest/count and driver/helper identities before native execution. Unbound or dirty-source execution fails closed. Its existing X11 display must already be authorized; it does not create a display, install software or alter graphics/security settings. Use native timeout210s for the driver's180s watchdog.
+
+Native acceptance requires12 real PNGs: six semantic states at physical1280×800 and960×600, with logical1280×800 recorded. Prepared states, scripted input and Dummy audio are explicit. Python-only mock/static review is not native visual acceptance. Full regression, source/PCK, Windows historical-reader and actual browser gates remain separate. The original hidden-feedback baseline and all failed candidates are retained in their own evidence roots.
