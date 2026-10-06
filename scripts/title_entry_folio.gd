@@ -143,7 +143,7 @@ func _build_action(index: int) -> void:
 	if kind == "home" and has_continue: primary = action_caption == "续写前缘"
 	Folio.skin_button(button, "primary" if primary else "cloth_quiet")
 	button.add_theme_font_size_override("font_size", 21)
-	var number = _label(button, "ShortcutNumber", str(index + 1), 17, Folio.BRASS)
+	var number = _label(button, "ShortcutNumber", str(index + 1), 17, Folio.BONE if primary else Folio.BRASS)
 	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	buttons.append(button)
