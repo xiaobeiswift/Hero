@@ -1,0 +1,187 @@
+{
+  "status": "web31_windows_and_https_rollout_verified_browser_runtime_pending",
+  "public_url": "https://game.codable.cn/",
+  "version": "0.0.31",
+  "web_revision": 1,
+  "source_commit": "b98a468a50ee87f2bfba6645816fe6cafd42135a",
+  "tested_local_counterpart": "cfe9d2c397ea12586668e4ece485b4528374406e",
+  "source_tree": "25ca81a7fcb9e80e9ae761eccf1ca6292758dd5d",
+  "evidence_public_commit": "82f2ee2067638f2b94109d510b981ce8dda961b1",
+  "source_original_files": 1692,
+  "runtime_entries": 382,
+  "runtime_sha256": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+  "save_schema": 16,
+  "accepted_previous_save_versions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "current_save_version": 16,
+  "since14_and_since15_required_fields_remain_strict": true,
+  "party_capacity": 4,
+  "unified_encounter_count": 12,
+  "production_web_transfer_enabled": false,
+  "windows": {
+    "receipt_origin": "Independent authorized Windows executor result read by the supervising release coordinator and relayed to this documentation task. This task did not directly access Windows or the server.",
+    "source_rehearsal_checks": 21584,
+    "exact_pck_checks": 21589,
+    "failures": 0,
+    "partitions": {
+      "PRESERVED": 1471,
+      "UNIFIED": 1247,
+      "EXPLORATION": 349,
+      "CONDITION": 191,
+      "TRANSFER": 363,
+      "CONSIGNEE": 1036,
+      "POLISH": 460,
+      "CAPSTONE": 1179,
+      "FITTING": 12369,
+      "JOURNAL": 2832
+    },
+    "site_and_archive_members": 14,
+    "source_originals_and_runtime_unchanged": true,
+    "source_old_and_new_pcks_unchanged": true,
+    "pck": {
+      "bytes": 77922824,
+      "sha256": "f40b71b61bf0ba4ca4d5be5cd247fabb9a2a6c1da16d054716235b4414700670"
+    },
+    "archive": {
+      "bytes": 87244077,
+      "sha256": "89cec2a813c911a220d325241cd365b8d2ab162588aa818aafcecb657997ba92"
+    },
+    "verification_receipt_sha256": "f8836cc391b49d6d99b0b4b3b88ad9e042eeed8fa6ce2aac9707ea38e04777c3",
+    "historical_and_new_subject_processes": [
+      {
+        "id": "web30_current_producer",
+        "checks": 246,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "web30_complete_old_reader",
+        "checks": 20,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "web30_current_verifier",
+        "checks": 14,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "current_source_schema16_producer",
+        "checks": null,
+        "count_note": "Producer count not separately reported; terminal exit0 was verified",
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "source_schema16_to_complete_old15",
+        "checks": 20,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "genuine_schema15_producer",
+        "checks": null,
+        "count_note": "Producer count not separately reported; terminal exit0 was verified",
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "genuine15_to_complete_old14",
+        "checks": 9,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "web25_old13_reader_current_dependencies",
+        "checks": 11,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      },
+      {
+        "id": "actual_new_pck16_to_complete_old15",
+        "checks": 20,
+        "exit_code": 0,
+        "profile_guard_passed": true
+      }
+    ],
+    "process_count": 9,
+    "successful_guards": 9,
+    "supplemental_evidence_files_retained": 83,
+    "historical_artifact_adaptation": "Four SHA constant substitutions in external copies only, independently derived from exact public source and matched against the child files. All other bytes, size pins, fixtures, assertions and cleanup unchanged. Original cloud-labelled text is retained in raw logs; these results concern separately verified Windows artifacts.",
+    "adaptation_diff_sha256": "c7043a8f4fa0b27b3175a5969c4593d859c679ed72b99af1303339f7feb2796e",
+    "legacy_web25_scope": "Original old13 reader/current-dependency boundary after mounting the old pack; not an isolated complete-old-runtime closure.",
+    "complete_old_runtime_scope": "Web30/29/28 old-reader processes verified project.binary, exact PCK arguments, clean site/cwd and absence of current source shadows. Empty virtual res:// root was accepted only with the measured exact packed/cwd binding.",
+    "actual_new_pck16_subject_sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "actual_old15_positive_control_sha256": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+    "new_pck_to_old15_scope": "Separate from the eight source/historical branches: complete old15 accepts a genuine15 positive control, rejects the actual new-PCK16 subject, and preserves checked state, primary/manual-slot/backup and subject bytes. All20 assertions passed."
+  },
+  "deployment": {
+    "receipt_origin": "Authorized rollout execution and terminal manifest verified by the supervising release coordinator; this documentation task performed no server action.",
+    "atomic_switch_at_utc": "2026-10-06T06:32:21Z",
+    "https_checks_completed_at_utc": "2026-10-06T06:36:11Z",
+    "old_served_artifacts_retired_at_utc": "2026-10-06T06:37:02Z",
+    "receipt_verified_at_utc": "2026-10-06T06:38:52Z",
+    "checks_passed": 36,
+    "checks_total": 36,
+    "full_asset_hash_and_length_checks": 14,
+    "checks_include": [
+      "TLS",
+      "version",
+      "MIME types",
+      "cache headers",
+      "ETag",
+      "directory-browse refusal",
+      "unrelated Git HTTPS status200"
+    ],
+    "unrelated_git_https_status": 200,
+    "retention": "Current Web31 only. The old served Web30 directory and server ZIP were retired after durable recovery was verified and zero readers were confirmed.",
+    "terminal_manifest_sha256": "2eee33d5b955235ec3fa97fa01a5cb721a690c896f0343259a6fa4442c9519c9"
+  },
+  "cloud_validation_records": [
+    "tests/recovery_20261006_full_regression.json",
+    "tests/recovery_20261006_native_run.json",
+    "tests/recovery_20261006_native_pixels.json",
+    "tests/recovery_20261006_native_contrast.json",
+    "tests/recovery_20261006_package_validation.json"
+  ],
+  "artifact_qualification": "Linux and Windows built from the exact same frozen source tree, but their package hashes differ and are recorded separately. No cross-machine byte equality is claimed.",
+  "binding_qualification": "The1692-file source was frozen during runtime validation. The later1697-file evidence-only closure and this subsequent rollout documentation are not represented as the original test input tree.",
+  "history_qualification": "The original unavailable1882-file local closure, its unpublished tests/history and its former package are not restored by this record. Old interruption and helper-stop records remain retained.",
+  "limits": [
+    "The cloud browser displayed Web31 but stopped at WebGL2-unavailable startup before gameplay or save creation. Windows had no supported browser-interaction surface for this check; Windows WebGL capability was not measured. Actual gameplay/audio/IndexedDB reload persistence remain unverified.",
+    "Browser save transfer remains default-off, with no new automatic-backup or durable browser-recovery promise",
+    "The new supplemental folio ancestor guards were Linux-validated; Windows canonical audit/historical gates do not assert that those Linux-specific helpers ran unchanged on Windows",
+    "No new GitHub package or release was published by this documentation checkpoint",
+    "Desktop export smoke maintenance and commercial1.0 acceptance remain separate"
+  ],
+  "browser_attempt": {
+    "receipt_origin": "Supervising coordinator relayed the actual cloud browser observation and a separate Windows capability check.",
+    "cloud_observed_at_utc_minute": "2026-10-06T06:40Z",
+    "version31_visible": true,
+    "cloud_result": "WebGL2 unavailable; startup stopped before gameplay",
+    "cloud_gameplay_started": false,
+    "cloud_save_created": false,
+    "windows_capability_checked_at_utc": "2026-10-06T06:42:41Z",
+    "windows_supported_browser_interaction_available": false,
+    "windows_browser_gameplay_executed": false,
+    "windows_webgl_support_measured": false,
+    "unsupported_gui_or_browser_flag_workaround_used": false,
+    "scope": "A cloud startup limitation was observed. Windows browser graphics capability was not measured; gameplay/audio/IndexedDB reload persistence remain unverified on either route."
+  }
+}

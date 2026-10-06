@@ -1,0 +1,89 @@
+{
+  "status": "ACCEPTED_FOUR_SHA_ONLY_ADAPTATIONS_WITH_ACTUAL_CHILD_HASH_CONFIRMATION",
+  "public_source": "b98a468a50ee87f2bfba6645816fe6cafd42135a",
+  "rows": [
+    {
+      "file": "journal_guidance_old30_pack_probe.gd",
+      "constant": "PACK_SHA",
+      "original_bytes": 7145,
+      "adapted_bytes": 7145,
+      "original_sha256": "ab5a346f1dd41d84307d577136eacfa24228fb8bfb947b1ea3ad08a47245e01e",
+      "expected_adapted_sha256": "90b1080658dacb9ca1da9ffe7b87a3243b3fe11daddf56e20f1247ba7faac597",
+      "old_pck_sha256": "375f03e9fd93c7a799fd0486be2905ec310221b89885bf96d4694902d751d1f6",
+      "windows_pck_sha256": "2d0001652bfc5dc36e3251cbc3c5325382fe35b961c32ad61eee9994e63fa56d",
+      "changed_lines": 1,
+      "reverse_exact": true,
+      "all_other_bytes_unchanged": true,
+      "check_call_lines_preserved": 25
+    },
+    {
+      "file": "weapon_fitting_old15_pack_probe.gd",
+      "constant": "PCK_SHA",
+      "original_bytes": 5043,
+      "adapted_bytes": 5043,
+      "original_sha256": "a982769d468686ef99585360271c25d863b14226273dd00344b4978c33a36c20",
+      "expected_adapted_sha256": "44df85852b464ebc29ca95bb7d411143e8d905090a71fd8cff67f6694d3025a9",
+      "old_pck_sha256": "bdd6c5f2e202a4072e5d3f41024d0ea97e384f0435caedbd7afebebdef74b3c1",
+      "windows_pck_sha256": "2b0ede26a960ce1d0c290a0dd052812d18dfaae09115ad9ab623a7dcfc0ace28",
+      "changed_lines": 1,
+      "reverse_exact": true,
+      "all_other_bytes_unchanged": true,
+      "check_call_lines_preserved": 15
+    },
+    {
+      "file": "capstone_old14_pack_probe.gd",
+      "constant": "SHA",
+      "original_bytes": 2474,
+      "adapted_bytes": 2474,
+      "original_sha256": "f8c3146a5ebb29cc27efd3b1bf1d84d4a297ec8b09ee246c157fffdf27dfd1e1",
+      "expected_adapted_sha256": "1348668deb4cb54d625751130a03a28fae4afbc1b681177a6503f731f853cce8",
+      "old_pck_sha256": "c8e652c0c716ef1c78ae80b1a70a08db97b9395e0ab8be1407e954ed52d46bad",
+      "windows_pck_sha256": "ba9001abba30301315b1325c5cf946a12489801e3002f1b9b07329f04dd44359",
+      "changed_lines": 1,
+      "reverse_exact": true,
+      "all_other_bytes_unchanged": true,
+      "check_call_lines_preserved": 10
+    },
+    {
+      "file": "heting_consignee_web25_reader_test.gd",
+      "constant": "EXPECTED_PCK_SHA",
+      "original_bytes": 3461,
+      "adapted_bytes": 3461,
+      "original_sha256": "1af08286a31499c5369cd911ae1b5d295c211591c1e6607334edc91d681ca344",
+      "expected_adapted_sha256": "40b2e530cf20363401351f8380e955df85d167a99733fd7a3c23525806f71be5",
+      "old_pck_sha256": "1c5d2f6b8f59b1314b179cea2e238c76682b44dbabba15401b03e80d5a738acb",
+      "windows_pck_sha256": "eca90b992079f8e0c3f3b2970162e6f24df67cc0cc55c06d9d53ad0287611178",
+      "changed_lines": 1,
+      "reverse_exact": true,
+      "all_other_bytes_unchanged": true,
+      "check_call_lines_preserved": 12
+    }
+  ],
+  "derived_diff_sha256": "f78b3eb35b1c2a5bc76d9818bae4906a824338209c10d6a7b4a604b3ba6da3db",
+  "child_reported_diff_sha256": "c7043a8f4fa0b27b3175a5969c4593d859c679ed72b99af1303339f7feb2796e",
+  "diff_note": "Diff hashes include header formatting and path labels; compare actual adapted file bytes to these independently derived hashes.",
+  "separate_exact_new_pck_subject_sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+  "new_windows_pck_sha256": "f40b71b61bf0ba4ca4d5be5cd247fabb9a2a6c1da16d054716235b4414700670",
+  "new_windows_zip_sha256": "89cec2a813c911a220d325241cd365b8d2ab162588aa818aafcecb657997ba92",
+  "limits": [
+    "No Windows disk read or execution performed by this reviewer",
+    "Retained Windows artifact identities and provenance were independently verified before execution; this review did not read that filesystem",
+    "This only accepts four constant substitutions, never source/assertion/profile changes",
+    "Web25 preserves its explicitly mixed current-dependency legacy-reader scope",
+    "Separate exact-PCK actual16 subject versus complete-old15 with genuine15 positive control and all20 assertions is mandatory"
+  ],
+  "actual_file_confirmation": {
+    "source": "Supervising coordinator read the independent Windows execution receipt at06:15 UTC and relayed confirmation at06:17 UTC",
+    "all_four_adapted_hashes_and_lengths_match_independent_derivation": true,
+    "original_hashes_and_lengths_match_public_source": true,
+    "actual_child_unified_diff_only_four_constant_lines": true,
+    "child_diff_sha256": "c7043a8f4fa0b27b3175a5969c4593d859c679ed72b99af1303339f7feb2796e",
+    "windows_old_pcks_freshly_matched": true,
+    "web25_bytes": 55724532,
+    "web25_sha256": "eca90b992079f8e0c3f3b2970162e6f24df67cc0cc55c06d9d53ad0287611178",
+    "scope": "This review did not directly access the Windows desktop; actual file confirmation came from the independently verified Windows execution receipt."
+  },
+  "execution_status": "Completed afterward on the authorized Windows executor: all9 terminal processes and9 guards passed; see web_deployment_031.json. This review originally accepted the SHA-only transform before execution.",
+  "record_note": "Publication summary of the independent byte derivation and the parent-relayed actual file confirmation; it does not claim this cloud task read the Windows filesystem.",
+  "original_independent_review_sha256": "3ec1679063b2550882a8caa3b5a8867f1c2aa04f8e7545d0868d134bd5b3adca"
+}
