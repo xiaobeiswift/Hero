@@ -1,5 +1,11 @@
 # Companion folio 0.0.32 development checkpoint
 
+## Verified rollout
+
+Web32 is live after the independent Windows build, all nine historical/new-PCK boundary processes, 36 HTTPS checks and 14 full resource hashes. Runtime pin remains remote 59c055a2 / local e8afec5. See `tests/web_deployment_032.json` for exact Windows hashes and deployment times. Browser gameplay/audio/IndexedDB persistence remain unverified; native/PCK checks do not establish them. Historical pending statements below describe their earlier checkpoint.
+
+## Candidate checkpoint before rollout
+
 This local candidate changes the 同行册 presentation to the existing original cloth-and-paper folio family. It reuses licensed fonts and original portraits/materials, preserves the four actor identities, and keeps story, roster, formation, resource and save callbacks unchanged. The version32 metadata identifies the next candidate; live Web31 remains unchanged.
 
 Current checkpoint:1738 genuine Main/HeroState checks and690 checks across10 actual native frames passed on0378635. Independent review inspected all10PNG and sampled text contrast4.763–14.968:1. Full retained source regression, source rehearsal21584, exact PCK21589 and both packed UI supplements11499/1738 have now passed independently on local e8afec5 / remote GitHub source 59c055a2. Windows/historical processes and browser acceptance remain separate. See the three companion_folio full/package/export-adjudication JSON records. Earlier import/legacy results and preserved failed candidates are bound separately in `tests/companion_folio_checkpoint.json`. No deployment or browser gameplay acceptance is implied.
