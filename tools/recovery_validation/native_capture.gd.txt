@@ -1,0 +1,555 @@
+extends SceneTree
+## NEW native recovery evidence. Prepared fixtures + scripted real viewport input.
+## No game preload, save adapter, source edits, or historical-evidence recreation.
+## Execution is deliberately deferred until independent driver/launcher review.
+
+const SAVE_PATH = "user://hero_save.json"
+const RUNTIME_SHA = "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160"
+const FRAME_LIMIT = 16
+const USER_SUFFIX = "data/godot/app_userdata/Hero · 渡灯录"
+const TRANSIENT_KEYS = [
+	"enemy_name","enemy_hp","enemy_max_hp","enemy_intent","battle_active","battle_kind",
+	"turn","guard","battle_log","skill_cooldown","enemy_base_attack","enemy_strong_attack",
+	"exposed_turns","enemy_weaken_amount","enemy_weaken_strikes","focused_damage",
+	"_companion_attack_count","_trial_art_used","_trial_healing","_trial_guarded_heavy",
+	"party_battle_epoch","party_settlement","_party_pending_token","_party_encounter",
+	"_party_sluice_entry","_party_archive_entry","_party_extra_entry","_party_practice_before",
+	"_party_consignee_identity","_party_capstone_identity","_fitting_comparison_key",
+	"_fitting_comparisons","_fitting_last_result_epoch","receipt_battle_epoch","receipt_settlement",
+]
+var app
+var model
+var owned_root = ""
+var owned_user = ""
+var report_path = ""
+var frames_dir = ""
+var binding: Dictionary = {}
+var checks = 0
+var failures: Array[String] = []
+var captures: Array[Dictionary] = []
+var inputs: Array[Dictionary] = []
+var fixtures: Array[Dictionary] = []
+var boundaries: Array[Dictionary] = []
+var prepared: Dictionary = {}
+var section = "startup"
+var finished = false
+var guard_passed = false
+var requested_size = Vector2i(1280,800)
+
+func _initialize() -> void:
+	_run.call_deferred()
+
+func _run() -> void:
+	if not _guard():
+		push_error("ERROR: native recovery guard rejected startup; no game resources loaded")
+		quit(2)
+		return
+	guard_passed = true
+	create_timer(150.0).timeout.connect(func():
+		if not finished:
+			_check(false,"Native capture exceeded 150-second watchdog")
+			_finish())
+	if not _check(DisplayServer.get_name() != "headless", "Actual native display, never headless"):
+		_finish(); return
+	if not _check(DirAccess.make_dir_absolute(frames_dir)==OK,"Exclusive external frame directory created"):
+		_finish(); return
+	# All production loads occur only after the complete profile guard.
+	model = load("res://scripts/game_state.gd")
+	var scene = load("res://scenes/main.tscn")
+	if not _check(model != null and scene != null,"Dynamically load production resources"):
+		_finish(); return
+	app = scene.instantiate()
+	root.add_child(app)
+	await _frames(3)
+	app._stop_audio()
+	app.audio_on = false # Session-only preparation; no preference persistence.
+	if not _check(app.state.get_script()==model,"Main owns exact genuine HeroState"):
+		_finish(); return
+	await _journal()
+	if not failures.is_empty(): _finish(); return
+	await _fitting()
+	if not failures.is_empty(): _finish(); return
+	await _shen()
+	if not failures.is_empty(): _finish(); return
+	await _inventory()
+	if not failures.is_empty(): _finish(); return
+	await _martial()
+	if not failures.is_empty(): _finish(); return
+	await _workshop()
+	if not failures.is_empty(): _finish(); return
+	await _cultivation()
+	_check(captures.size()==FRAME_LIMIT,"Exactly sixteen new native PNGs captured")
+	_finish()
+
+func _guard() -> bool:
+	owned_root = OS.get_environment("HERO_FOLIO_QA_OWNED_ROOT")
+	owned_user = OS.get_environment("HERO_FOLIO_QA_USER_DIR")
+	report_path = OS.get_environment("HERO_FOLIO_QA_REPORT")
+	var token = OS.get_environment("HERO_FOLIO_QA_TOKEN")
+	if token.length()!=64: return false
+	for path: String in [owned_root,owned_user,report_path]:
+		if not path.is_absolute_path() or path!=path.simplify_path() or path.ends_with("/"): return false
+	if owned_root.get_slice_count("/")<4 or not DirAccess.dir_exists_absolute(owned_root): return false
+	if owned_user!=owned_root.path_join(USER_SUFFIX): return false
+	var project = ProjectSettings.globalize_path("res://").trim_suffix("/").simplify_path()
+	if owned_root==project or owned_root.begins_with(project+"/"): return false
+	if report_path!=owned_root.path_join("results/test-result.json"): return false
+	if report_path.begins_with(owned_user+"/") or report_path.begins_with(project+"/"): return false
+	if OS.get_user_data_dir().simplify_path().trim_suffix("/")!=owned_user: return false
+	if ProjectSettings.globalize_path("user://").simplify_path().trim_suffix("/")!=owned_user: return false
+	for entry: Array in [["HOME","home"],["XDG_DATA_HOME","data"],["XDG_CONFIG_HOME","config"],["XDG_CACHE_HOME","cache"]]:
+		if OS.get_environment(entry[0])!=owned_root.path_join(entry[1]): return false
+	for path: String in [owned_root,owned_user,report_path.get_base_dir()]:
+		if not _no_links(path) or not DirAccess.dir_exists_absolute(path): return false
+	var marker = owned_root.path_join(".hero-folio-qa-owner")
+	if not _no_links(marker) or not FileAccess.file_exists(marker): return false
+	if FileAccess.get_file_as_string(marker)!=token: return false
+	if not _no_links(report_path) or FileAccess.file_exists(report_path) or DirAccess.dir_exists_absolute(report_path): return false
+	frames_dir = owned_root.path_join("results/native-frames")
+	if not _no_links(frames_dir) or FileAccess.file_exists(frames_dir) or DirAccess.dir_exists_absolute(frames_dir): return false
+	var binding_path = owned_root.path_join("results/native-binding.json")
+	if OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING")!=binding_path or not _no_links(binding_path): return false
+	if not FileAccess.file_exists(binding_path): return false
+	if FileAccess.get_sha256(binding_path)!=OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING_SHA256"): return false
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(binding_path))
+	if not parsed is Dictionary: return false
+	binding = parsed
+	if binding.get("runtime_sha256")!=RUNTIME_SHA or binding.get("runtime_entries")!=382: return false
+	if binding.get("source")!=project: return false
+	if binding.get("driver_sha256")!=FileAccess.get_sha256(get_script().resource_path): return false
+	if binding.get("engine_sha256")!=FileAccess.get_sha256(OS.get_executable_path()): return false
+	if not _tree_unlinked(owned_user): return false
+	var directory = DirAccess.open(owned_user)
+	if directory==null: return false
+	directory.include_hidden = true
+	directory.include_navigational = false
+	if not directory.get_files().is_empty(): return false
+	# Python verifies a completely empty user root immediately before launching.
+	# Only the native engine's shader cache can appear before this script starts.
+	# It is separately inventoried, never classified as application/save content.
+	for child: String in directory.get_directories():
+		if child!="shader_cache": return false
+	return true
+
+func _no_links(path: String) -> bool:
+	var cursor = path
+	while cursor!="/" and not cursor.is_empty():
+		var parent = DirAccess.open(cursor.get_base_dir())
+		if parent==null or parent.is_link(cursor.get_file()): return false
+		cursor = cursor.get_base_dir()
+	return true
+
+func _tree_unlinked(path: String) -> bool:
+	if not _no_links(path): return false
+	var directory = DirAccess.open(path)
+	if directory==null: return false
+	directory.include_hidden = true
+	directory.include_navigational = false
+	for leaf: String in directory.get_files():
+		if directory.is_link(leaf): return false
+	for leaf: String in directory.get_directories():
+		if directory.is_link(leaf) or not _tree_unlinked(path.path_join(leaf)): return false
+	return true
+
+func _check(ok: bool, label: String) -> bool:
+	checks += 1
+	if not ok:
+		failures.append(section+": "+label)
+		push_error("ERROR: "+section+": "+label)
+	return ok
+
+func _frames(count: int = 3) -> void:
+	for index: int in count: await process_frame
+
+func _key(code: int) -> void:
+	inputs.append({"kind":"scripted_queued_key","key":OS.get_keycode_string(code),"section":section})
+	for down: bool in [true,false]:
+		var event = InputEventKey.new()
+		event.keycode = code
+		event.physical_keycode = code
+		event.pressed = down
+		Input.parse_input_event(event)
+		Input.flush_buffered_events()
+		await _frames(1)
+	await _frames(2)
+
+func _button(caption: String):
+	for node in app.overlay.find_children("*","Button",true,false):
+		if node.text==caption: return node
+	return null
+
+func _click_caption(caption: String) -> void:
+	await _frames(3) # NPC fitting and control layout may be deferred.
+	await _pointer(_button(caption),caption)
+
+func _pointer(control, label: String) -> void:
+	var generation: int = app.modal_generation
+	await _frames(3)
+	if not _check(is_instance_valid(control) and control is Button,"Pointer target exists: "+label): return
+	if not _check(generation==app.modal_generation and app.overlay.is_ancestor_of(control) and control.is_visible_in_tree() and not control.disabled,"Pointer belongs to settled current page: "+label): return
+	var target_path = str(control.get_path())
+	var point: Vector2 = root.get_final_transform()*control.get_global_rect().get_center()
+	var motion = InputEventMouseMotion.new()
+	motion.position = point
+	motion.global_position = point
+	Input.parse_input_event(motion)
+	Input.flush_buffered_events()
+	await _frames(1)
+	if not _check(is_instance_valid(control) and generation==app.modal_generation and app.overlay.is_ancestor_of(control),"Pointer target remains on current page after motion"): return
+	# Read the rectangle again after motion, before pressing. Never use stale geometry.
+	point = root.get_final_transform()*control.get_global_rect().get_center()
+	if not _check(Rect2(Vector2.ZERO,Vector2(root.size)).has_point(point),"Pointer target is inside actual window"): return
+	for down: bool in [true,false]:
+		var event = InputEventMouseButton.new()
+		event.position = point
+		event.global_position = point
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.pressed = down
+		Input.parse_input_event(event)
+		Input.flush_buffered_events()
+		await _frames(1)
+	inputs.append({"kind":"scripted_queued_pointer","section":section,"label":label,"target_path":target_path,"pixel_position":[point.x,point.y]})
+	await _frames(3)
+
+func _view(dimensions: Vector2i) -> void:
+	requested_size = dimensions
+	root.size = dimensions
+	await _frames(5)
+	_check(root.size==dimensions,"Actual window size equals requested pixels")
+
+func _new_state():
+	var state = model.new()
+	state.reset_game()
+	state.position = Vector2(460,430)
+	return state
+
+func _school_state(completed_deeds: bool = false):
+	var state = _new_state()
+	state.gain_xp(180)
+	state.choose_sect("听潮阁")
+	state.quest_stage = 6
+	state.ending = "守望"
+	state.sect_trial_won = true
+	_check(state.complete_sect_trial(),"Prepared promotion uses genuine model API")
+	if completed_deeds:
+		state.side_stage = 3
+		state.side_choice = "rescue"
+		state.side_reward_claimed = true
+		state.side_clues = 2
+		state.side_found.assign(["boatman","ledger"])
+		state.chapter_two_stage = 4
+		state.chapter_two_ending = "protect_witness"
+		state.archive_clues.assign(["clerk","inscription"])
+		state.seal_sequence.assign([2,0,1])
+	return state
+
+func _prepare(state, label: String) -> bool:
+	var canonical: Dictionary = state.to_dict().duplicate(true)
+	var result: Dictionary = model.new().inspect_save_bytes(JSON.stringify({"version":16,"player":canonical}).to_utf8_buffer())
+	if not _check(result.ok,"Prepared fixture passes unchanged production reader: "+label): return false
+	if not _check(result.state.to_dict()==canonical,"Prepared fixture survives exact canonical round-trip"): return false
+	app._clear_overlay()
+	app.active_modal = false
+	app.state = result.state
+	app._apply_loaded_state("原生画面核验 · 预备合法状态")
+	app._refresh()
+	await _frames(3)
+	app._autosave()
+	if not _check(not app.save_warning and _valid_saved_state(),"Prepared fixture saved through genuine writer"): return false
+	prepared = _snapshot()
+	fixtures.append({"label":label,"kind":"prepared_legal_fixture_not_earned_in_this_run","canonical":prepared.state,"world_position":var_to_str(prepared.position),"not_walked":true,"application_files":_file_records()})
+	inputs.append({"kind":"direct_preparation","section":section,"calls":["HeroState.inspect_save_bytes","Main._apply_loaded_state","Main._autosave"],"label":label})
+	return true
+
+func _file_bytes(path: String = "", relative: String = "") -> Dictionary:
+	var actual = owned_user if path.is_empty() else path
+	var result: Dictionary = {}
+	var directory = DirAccess.open(actual)
+	if not _check(directory!=null and _no_links(actual),"Application directory readable and unlinked"): return result
+	directory.include_hidden = true
+	directory.include_navigational = false
+	for leaf: String in directory.get_files():
+		var filename = actual.path_join(leaf)
+		if not _check(_no_links(filename),"Application file unlinked"): continue
+		result[relative.path_join(leaf)] = FileAccess.get_file_as_bytes(filename)
+	for leaf: String in directory.get_directories():
+		if relative.is_empty() and leaf=="shader_cache": continue
+		result.merge(_file_bytes(actual.path_join(leaf),relative.path_join(leaf)))
+	return result
+
+func _file_records() -> Dictionary:
+	var result: Dictionary = {}
+	for relative: String in _file_bytes():
+		var path = owned_user.path_join(relative)
+		var file = FileAccess.open(path,FileAccess.READ)
+		result[relative] = {"sha256":FileAccess.get_sha256(path),"bytes":file.get_length() if file!=null else -1}
+	return result
+
+func _snapshot() -> Dictionary:
+	var transients: Dictionary = {}
+	for key: String in TRANSIENT_KEYS:
+		var value = app.state.get(key)
+		transients[key] = value.duplicate(true) if value is Array or value is Dictionary else value
+	transients.party_session_identity = app.state.party_session.get_instance_id() if app.state.party_session!=null else 0
+	transients.receipt_session_identity = app.state.receipt_session.get_instance_id() if app.state.receipt_session!=null else 0
+	return {"state":app.state.to_dict().duplicate(true),"transients":transients,"files":_file_bytes(),"position":app.world.player_pos,"map":app.world.map_id}
+
+func _unchanged(label: String) -> void:
+	var now = _snapshot()
+	_check(now.state==prepared.state,label+": complete canonical state preserved")
+	_check(now.transients==prepared.transients,label+": battle/session/transient values preserved")
+	_check(now.position==prepared.position and now.map==prepared.map,label+": position and map preserved")
+	_check(now.files==prepared.files,label+": every application file retains exact bytes")
+	boundaries.append({"label":label,"section":section,"application_files":_file_records(),"canonical":now.state})
+
+func _valid_saved_state() -> bool:
+	if not FileAccess.file_exists(SAVE_PATH): return false
+	var restored = model.new()
+	return restored.load_game()==OK and restored.to_dict()==app.state.to_dict()
+
+func _close() -> void:
+	await _key(KEY_ESCAPE)
+	_check(not app.active_modal,"Escape closes current page through production policy")
+	_unchanged("After ordinary close (same-content saves allowed)")
+	_check(_valid_saved_state(),"Ordinary close retains valid saved prepared state")
+
+func _texts(node: Node) -> String:
+	var result = ""
+	if node is Label or node is RichTextLabel: result = node.text
+	for child in node.get_children(): result += _texts(child)
+	return result
+
+func _journal() -> void:
+	section = "journal"
+	var bundle = JSON.parse_string(FileAccess.get_file_as_string("res://tests/journal_guidance_baseline_inputs.json"))
+	if not _check(bundle is Dictionary and bundle.has("fixtures"),"Retained legal journal inputs available"): return
+	var matched = false
+	for row: Dictionary in bundle.fixtures:
+		if row.label!="preaccept_open_records_release_water": continue
+		var bytes: PackedByteArray = String(row.input_utf8).to_utf8_buffer()
+		if not _check(bytes.size()==int(row.input_bytes) and String(row.input_utf8).sha256_text()==row.input_sha256,"Retained fixture exact bytes/SHA verified"): return
+		var result: Dictionary = model.new().inspect_save_bytes(bytes)
+		if not _check(result.ok,"Retained fixture accepted by genuine reader"): return
+		if not await _prepare(result.state,"retained journal preaccept_open_records_release_water; input SHA "+row.input_sha256): return
+		matched = true
+		break
+	if not _check(matched,"Required retained fixture found"): return
+	await _view(Vector2i(1280,800))
+	await _key(KEY_J)
+	var journal = app.overlay.get_meta("journal_ui",null)
+	if not _check(is_instance_valid(journal) and journal.row_buttons.has("tang_notes"),"Real J folio with known Tang row"): return
+	await _pointer(journal.row_buttons.tang_notes,"Tang journal row")
+	journal = app.overlay.get_meta("journal_ui",null)
+	_check(journal.browse_arc_id=="tang_notes" and app.journal_session.tracked_arc_id.is_empty(),"Tang browsed while automatic guidance retained")
+	_check(app.journal_guidance_snapshot.next_target_id=="mist_rain_gauge" and app.world._quest_target_id()=="mist_rain_gauge","Automatic Qin target remains literal retained expectation")
+	await _capture("01-journal-auto-qin-browsed-tang-1280","JournalFrame","Retained legal input; queued J and pointer browse. Automatic Qin differs from browsed Tang.")
+	await _view(Vector2i(960,600))
+	await _capture("02-journal-auto-qin-browsed-tang-960","JournalFrame","Same journal state, physical compact window; no explicit track action.")
+	await _close()
+
+func _fitting() -> void:
+	section = "fitting"
+	var state = _school_state()
+	if not _check(state.set_weapon_fitting("edge").get("ok",false),"Prepare edge fitting through genuine model API"): return
+	if not await _prepare(state,"Prepared edge-equipped inner disciple; no fitting earned in this run"): return
+	await _view(Vector2i(1280,800))
+	await _key(KEY_B)
+	await _key(KEY_5)
+	var panel = app.overlay.get_meta("weapon_fitting",null)
+	if not _check(is_instance_valid(panel) and panel.candidate=="edge" and app.state.weapon_fitting=="edge","Real workshop entry shows equipped fitting"): return
+	await _capture("03-fitting-equipped-edge-1280","FittingFrame","Prepared equipped edge fitting; queued B then 5 opens production UI.")
+	await _view(Vector2i(960,600))
+	await _key(KEY_3)
+	panel = app.overlay.get_meta("weapon_fitting",null)
+	_check(is_instance_valid(panel) and panel.candidate=="guard" and app.state.weapon_fitting=="edge","Queued 3 previews guard while edge stays equipped")
+	await _capture("04-fitting-preview-guard-960","FittingFrame","Queued candidate preview only; no confirmation, equip, trial, or save suppression.")
+	await _close()
+
+func _shen() -> void:
+	section = "shen_npc"
+	var state = _new_state()
+	state.quest_stage = 3
+	state.position = Vector2(330,330)
+	if not await _prepare(state,"Prepared quest stage 3 beside Shen; unrecruited, not walked here"): return
+	await _view(Vector2i(1280,800))
+	await _frames(3)
+	_check(app.world.nearby_id=="healer","Prepared nearby interaction resolves Shen")
+	await _key(KEY_E)
+	var panel = app.overlay.find_child("DialogueSheet",true,false)
+	if not _check(panel!=null and panel.get_meta("npc_folio",false) and _button("邀请同行")!=null,"Shen production dialog explicitly opts into NPC folio"): return
+	await _capture("05-shen-opt-in-dialog-1280","DialogueSheet","Queued E beside prepared Shen position. Invitation remains unselected.")
+	await _view(Vector2i(960,600))
+	await _capture("06-shen-opt-in-dialog-960","DialogueSheet","Compact NPC dialog; no recruitment/healing option activated.")
+	await _close()
+
+func _inventory() -> void:
+	section = "inventory"
+	if not await _prepare(_new_state(),"Prepared fresh normal inventory"): return
+	await _view(Vector2i(1280,800))
+	await _key(KEY_I)
+	await _capture("07-inventory-normal-1280","InventoryFrame","Normal legal fresh state, queued I; disabled reasons are actual controls.")
+	await _close()
+	var state = _school_state()
+	state.player_name = "江湖夜雨青苇渡灯长风归客山河故人行舟".left(18)
+	state.coins = 300
+	_check(state.buy_equipment(),"Prepared legal sword acquisition API")
+	state.resources = {"iron":3,"timber":2,"cloth":5,"herb":4}
+	if not await _prepare(state,"Prepared legal 18-character name plus owned sword and materials"): return
+	_check(app.state.player_name.length()==18,"Name is actual maximum 18-character canonical value")
+	await _view(Vector2i(960,600))
+	await _key(KEY_I)
+	await _capture("08-inventory-legal-long-name-960","InventoryFrame","Exact legal 18-character name, validated and saved, shown at compact size.")
+	await _close()
+
+func _martial() -> void:
+	section = "martial"
+	var learned = _school_state()
+	learned.sect_merit = 5
+	_check(learned.learn_art("束潮削势") and learned.learn_art("伏汐藏锋"),"Prepare both advanced moves through production learning rules")
+	if not await _prepare(learned,"Prepared all four learned Tingchao moves"): return
+	await _view(Vector2i(1280,800))
+	await _key(KEY_K)
+	_check(app.state.available_arts().size()==4,"All four genuine moves owned")
+	await _capture("09-martial-learned-1280","MartialFolio","All four prepared legal moves learned; queued K; no equip action.")
+	await _close()
+	if not await _prepare(_school_state(),"Prepared inner disciple with two advanced pages unlearned"): return
+	await _view(Vector2i(960,600))
+	await _key(KEY_K)
+	_check(_texts(app.overlay).contains("藏页未习") and app.state.available_arts().size()==2,"Locked advanced rows shown with two owned moves")
+	await _capture("10-martial-locked-960","MartialFolio","Two locked advanced pages use actual disabled controls and requirements.")
+	await _close()
+
+func _workshop() -> void:
+	section = "workshop"
+	var state = _new_state()
+	state.coins = 0
+	if not await _prepare(state,"Prepared zero coins and zero trade materials for buy/sell shortage"): return
+	await _view(Vector2i(1280,800))
+	await _key(KEY_B)
+	await _key(KEY_4)
+	await _click_caption("买入材料")
+	_check(_texts(app.overlay).contains("还需 8 文"),"Buy page displays actual iron shortage")
+	await _capture("11-workshop-buy-shortage-1280","WorkshopFolio","Queued market navigation and pointer Buy; actual zero-coin shortage, no transaction.")
+	await _key(KEY_5)
+	await _click_caption("卖出材料")
+	await _view(Vector2i(960,600))
+	_check(_texts(app.overlay).contains("暂无可售材料"),"Sell page displays actual absent-material reason")
+	await _capture("12-workshop-sell-shortage-960","WorkshopFolio","Queued return and pointer Sell; absent materials, no transaction.")
+	await _close()
+
+func _cultivation() -> void:
+	section = "cultivation"
+	var state = _school_state(true)
+	state.position = Vector2(650,720)
+	if not await _prepare(state,"Prepared legal inner disciple with eligible sluice/archive deeds, no claims"): return
+	await _view(Vector2i(1280,800))
+	await _frames(3)
+	_check(app.world.nearby_id=="mentor","Prepared nearby interaction resolves mentor")
+	await _key(KEY_E)
+	await _click_caption("研习藏页")
+	_check(_button("查看束潮削势")!=null,"Actual cultivation overview is open")
+	await _capture("13-cultivation-overview-1280","CultivationFolio","Queued E and settled pointer to mentor learning; no merit spent.")
+	await _view(Vector2i(960,600))
+	await _capture("14-cultivation-overview-960","CultivationFolio","Same prepared overview at compact physical dimensions.")
+	await _key(KEY_1)
+	_check(_button("研习 · 2考绩")!=null,"Detail discloses genuine two-merit cost")
+	await _capture("15-cultivation-detail-960","CultivationFolio","Queued numeric detail navigation; learning confirmation remains unselected.")
+	await _key(KEY_2)
+	await _click_caption("江湖复命")
+	await _view(Vector2i(1280,800))
+	_check(_button("复命·废闸水令查证")!=null and _button("复命·霜桥原账归处")!=null,"Both genuine eligible deed actions visible")
+	await _capture("16-cultivation-deeds-1280","CultivationFolio","Prepared eligible deeds; pointer opens page; no reward claimed.")
+	await _close()
+
+func _rect(rect: Rect2) -> Array:
+	return [rect.position.x,rect.position.y,rect.size.x,rect.size.y]
+
+func _controls(node: Node) -> Array[Dictionary]:
+	var rows: Array[Dictionary] = []
+	if node is Control and node.is_visible_in_tree():
+		var row: Dictionary = {"path":str(node.get_path()),"logical_rect":_rect(node.get_global_rect()),"pixel_rect":_rect(root.get_final_transform()*node.get_global_rect()),"focus":node.has_focus()}
+		if node is Label or node is RichTextLabel or node is Button: row.text = node.text
+		if node is Button: row.disabled = node.disabled
+		if node is RichTextLabel:
+			row.scroll_value = node.get_v_scroll_bar().value
+			row.scroll_max = node.get_v_scroll_bar().max_value
+			row.scroll_page = node.get_v_scroll_bar().page
+		rows.append(row)
+	for child in node.get_children(): rows.append_array(_controls(child))
+	return rows
+
+func _capture(name: String, frame_name: String, note: String) -> void:
+	await _frames(4)
+	await RenderingServer.frame_post_draw
+	if not _check(captures.size()<FRAME_LIMIT,"Bounded native frame limit"): return
+	var frame = app.overlay.find_child(frame_name,true,false)
+	if not _check(frame is Control and frame.is_visible_in_tree(),"Expected production panel visible: "+frame_name): return
+	_unchanged("Before native framebuffer read: "+name)
+	if not failures.is_empty(): return
+	var image: Image = root.get_texture().get_image()
+	if not _check(image!=null and not image.is_empty(),"Actual root viewport framebuffer available"): return
+	if not _check(image.get_size()==requested_size and root.size==requested_size,"Actual PNG dimensions equal requested physical window"): return
+	var path = frames_dir.path_join(name+".png")
+	if not _check(_no_links(path) and not FileAccess.file_exists(path) and not DirAccess.dir_exists_absolute(path),"Fresh external PNG destination"): return
+	if not _check(image.save_png(path)==OK,"Save complete actual native framebuffer PNG"): return
+	var file = FileAccess.open(path,FileAccess.READ)
+	if not _check(file!=null and file.get_length()>0,"Complete PNG file readable"): return
+	var row: Dictionary = {"name":name,"path":path,"bytes":file.get_length(),"sha256":FileAccess.get_sha256(path),"pixel_dimensions":[image.get_width(),image.get_height()],"requested_window":[requested_size.x,requested_size.y],"actual_window":[root.size.x,root.size.y],"display_server":DisplayServer.get_name(),"capture_source":"RenderingServer.frame_post_draw + root viewport texture; full PNG bytes","qualifiers":["native_engine","scripted_input","prepared_legal_fixture","not_manual","not_earned_journey","new_recovery_evidence"],"note":note,"frame_logical_rect":_rect(frame.get_global_rect()),"frame_pixel_rect":_rect(root.get_final_transform()*frame.get_global_rect()),"canonical_state":app.state.to_dict(),"application_files":_file_records(),"controls":_controls(app.overlay),"input_count":inputs.size(),"zoom":app.view_zoom,"full_resolution":app.view_preferences.full_resolution}
+	file.close()
+	if app.overlay.has_meta("journal_ui"):
+		var journal = app.overlay.get_meta("journal_ui")
+		row.journal = {"browse_arc_id":journal.browse_arc_id,"tracked_arc_id":app.journal_session.tracked_arc_id,"guidance":app.journal_guidance_snapshot.duplicate(true)}
+	if app.overlay.has_meta("weapon_fitting"):
+		var fitting = app.overlay.get_meta("weapon_fitting")
+		row.fitting = {"candidate":fitting.candidate,"installed":app.state.weapon_fitting,"page":fitting.page}
+	captures.append(row)
+	if not _write_report("running"):
+		_check(false,"Native capture progress report failed")
+		_finish()
+
+func _cache_inventory(path: String = "", relative: String = "") -> Dictionary:
+	var actual = owned_user.path_join("shader_cache") if path.is_empty() else path
+	var result: Dictionary = {}
+	if not DirAccess.dir_exists_absolute(actual): return result
+	if not _check(_tree_unlinked(actual),"Engine shader cache remains unlinked"): return result
+	var directory = DirAccess.open(actual)
+	directory.include_hidden = true
+	for leaf: String in directory.get_files():
+		var filename = actual.path_join(leaf)
+		var file = FileAccess.open(filename,FileAccess.READ)
+		result[relative.path_join(leaf)] = {"bytes":file.get_length() if file!=null else -1,"sha256":FileAccess.get_sha256(filename)}
+	for leaf: String in directory.get_directories(): result.merge(_cache_inventory(actual.path_join(leaf),relative.path_join(leaf)))
+	return result
+
+func _write_report(status: String) -> bool:
+	if not guard_passed or not _no_links(report_path): return false
+	var application_files = _file_records()
+	var shader_cache = _cache_inventory()
+	if not failures.is_empty(): status = "fail"
+	var report = {"suite":"new_recovery_folio_native_capture","status":status,"historical_evidence_recreated":false,"checks":checks,"failures":failures,"binding":binding,"display_server":DisplayServer.get_name(),"engine_version":Engine.get_version_info(),"captures":captures,"fixtures":fixtures,"inputs":inputs,"preservation_boundaries":boundaries,"application_files":application_files,"engine_shader_cache_separate":shader_cache,"limits":["Prepared legal fixtures are not progression earned in this run","Queued engine input is scripted; no manual, browser, or OS-pointer interaction","Sixteen bounded samples cover both physical sizes across every family, not every state/size cross-product","Native PNGs require independent pixel inspection; geometry alone is not visual acceptance","Byte equality does not prove absence of same-content production autosave writes","No battle trial, combat correctness, full-story completion, publication, or platform portability certification","Runtime/tool/source integrity must also pass the outer launcher after native process exit"]}
+	var file = FileAccess.open(report_path,FileAccess.WRITE)
+	if file==null:
+		push_error("ERROR: unable to write native capture report")
+		return false
+	file.store_string(JSON.stringify(report,"\t"))
+	file.flush()
+	var error = file.get_error()
+	file.close()
+	if error!=OK:
+		push_error("ERROR: native capture report write failed")
+		return false
+	return true
+
+func _finish() -> void:
+	if finished: return
+	finished = true
+	if is_instance_valid(app):
+		app._stop_audio()
+		if not prepared.is_empty(): _unchanged("Final native view boundary")
+	var report_ok = _write_report("pass" if failures.is_empty() else "fail")
+	if is_instance_valid(app): app.free()
+	if not report_ok:
+		quit(2); return
+	if failures.is_empty(): print("PASS: NEW recovery native capture, %d PNGs / %d checks" % [captures.size(),checks])
+	else: push_error("ERROR: recovery native capture failed, %d failures" % failures.size())
+	quit(0 if failures.is_empty() else 1)
