@@ -1,0 +1,976 @@
+{
+  "record_kind": "source_only_development_checkpoint",
+  "candidate_version": "0.0.35",
+  "source_commit": "e089431e79b52c684ec53e2c4930651e07746fb1",
+  "source_tree": "aad59ee64e6b72b00787d38c77800cb78b691bed",
+  "tracked_originals": 1781,
+  "runtime_entries": 388,
+  "runtime_sha256": "0b208760763beba427b793a0e876e16c77f20e485e289cfaf438a27b1f52f2a5",
+  "records_are_post_test_additions": true,
+  "live_version": "0.0.34-web1",
+  "live_runtime_public_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+  "prior_published_document_commit": "5c940bdebe15963e4f76dfb580721a5812e2a4e8",
+  "scope": "M 江湖舆图 presentation only; no new art, global font/import changes, State/save logic or schema16 changes",
+  "presentation": {
+    "source_files": [
+      "scripts/map_folio.gd",
+      "scripts/map_chart.gd",
+      "scripts/main.gd"
+    ],
+    "page_size": [
+      1240,
+      744
+    ],
+    "chart_local_size": [
+      780,
+      330
+    ],
+    "projection_rect": [
+      40,
+      20,
+      690,
+      270
+    ],
+    "world_size": [
+      1600,
+      1050
+    ],
+    "uniform_chart_scale": "Measured caption height controls the remaining space; production cap 1.36, focused minimum 1.30 unchanged",
+    "caption_chart_gap": {
+      "old": 12,
+      "new": 8,
+      "reason": "Recover four pixels for the longest intact caption after the real 1.293939 scale failure; no text truncation or assertion relaxation"
+    },
+    "paper": "Existing native-density paper sample reflected at alternating tile boundaries after actual repeat bands were observed",
+    "actual_marker_font_size": 14,
+    "folio_text_increment": 2,
+    "per_draw_oversampling": 2.0,
+    "font_scope": "Per draw call only; shared font and global import/project font settings unchanged",
+    "latest_corrections": {
+      "qingwei_board_label_offset_y": -32,
+      "return_village_label_offset_y": -43,
+      "gate_fill_srgb": "304d42",
+      "building_ink_srgb": "071416"
+    },
+    "preserved": [
+      "geographic projection",
+      "terrain/building footprints",
+      "marker world points",
+      "routes and target selection",
+      "full guidance and parking notes",
+      "write-free viewing policy",
+      "sole close action and unfocused keyboard policy",
+      "schema16"
+    ]
+  },
+  "history": [
+    {
+      "evidence_set": "map-folio-import-89fa4dc",
+      "status": "terminal_pass",
+      "source_commit": "89fa4dc2468dad9f00a289169512084ed95752a7",
+      "source_tree": "4a36605481ea0df6fe5df9100db6bc43b6c53a44",
+      "tracked_originals": 1779,
+      "runtime_entries": 387,
+      "runtime_sha256": "0583e16386e3d99f86c2dea0b874bd48b6f414afa1ff9b9a828a68502c3227e3",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "import",
+      "checks": null,
+      "assertion_report_status": null,
+      "assertion_failures": [],
+      "native_frames": 0,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "import",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "115c356a1a53a09b11c481849565866bb4d56369bf194c2cf7323c909967a7b4"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "import.console.log",
+          "sha256": "4108570e4b78245195d649a58e9ddf5725e86d6c79496f711e056f60cad080ff",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "import.engine.log",
+          "sha256": "c6b69689aed7630374ac075fa4b4212f069848a0ccbe1a53e02c6a3d977bddae",
+          "error_lines": 0,
+          "warning_lines": 0
+        }
+      ],
+      "scope": "Protected import only; generated map script/test UIDs retained in the subsequent source commit, without a global font/import setting change"
+    },
+    {
+      "evidence_set": "map-folio-focused-9e9f3f9",
+      "status": "terminal_fail",
+      "source_commit": "9e9f3f9ae8d4e2189918ffe48f974fd6f7e86644",
+      "source_tree": "1ce891b4afad96891e2c1c3968a774a28488ecda",
+      "tracked_originals": 1781,
+      "runtime_entries": 388,
+      "runtime_sha256": "2bcf36112f18bb41861cd80346c152b26f4e3a14f303df4b5f61680bc4f369e3",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "test",
+      "checks": 157,
+      "assertion_report_status": "fail",
+      "assertion_failures": [
+        "map_qingwei-islet: One uniform chart enlargement preserves aspect and projection"
+      ],
+      "native_frames": 0,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "test",
+          "exit_code": 1,
+          "reported_error_lines": 4
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "49862a3f13737d681847d63e187154e5f932fa1b25ae91e3584b48665a8c0db7"
+        },
+        {
+          "file": "test-result.json",
+          "sha256": "aa7903c2c0a11e48562afb22c7e542d218c6b29390e2a78238afa5e4bc4567e1"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.console.log",
+          "sha256": "2caec76a8ad0a57c4709f13560534066dd575ec1f5cb9941e4e501cfd7d5a681",
+          "error_lines": 2,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.engine.log",
+          "sha256": "2caec76a8ad0a57c4709f13560534066dd575ec1f5cb9941e4e501cfd7d5a681",
+          "error_lines": 2,
+          "warning_lines": 0
+        }
+      ],
+      "interpretation": "Recorded 157 checks and one scale failure: actual islet scale 1.293939 was below the retained 1.30 threshold. Assertion was not relaxed."
+    },
+    {
+      "evidence_set": "map-folio-native-9e9f3f9",
+      "status": "terminal_pass",
+      "source_commit": "9e9f3f9ae8d4e2189918ffe48f974fd6f7e86644",
+      "source_tree": "1ce891b4afad96891e2c1c3968a774a28488ecda",
+      "tracked_originals": 1781,
+      "runtime_entries": 388,
+      "runtime_sha256": "2bcf36112f18bb41861cd80346c152b26f4e3a14f303df4b5f61680bc4f369e3",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "native",
+      "checks": 1324,
+      "assertion_report_status": "pass",
+      "assertion_failures": [],
+      "native_frames": 24,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "native",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "377878db6944cbbe75f8681b326d53a4dc92ec1be5d13135af6e7608b43507e7"
+        },
+        {
+          "file": "test-result.json",
+          "sha256": "abbae34d96b3554940398e67b35e16b59d13ddbbfaae9ea7eb85a42dd2d997aa"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "native.console.log",
+          "sha256": "0c688cd8fa36529a4eeb3c4e8bec51dbf629f47e434ae13641921a7f9618bb51",
+          "error_lines": 0,
+          "warning_lines": 1
+        },
+        {
+          "file": "native.engine.log",
+          "sha256": "f708068d6bce61e47751ecc5f18340ad3dc59ae374aa6428c784d9338d6cdf48",
+          "error_lines": 0,
+          "warning_lines": 1
+        }
+      ],
+      "interpretation": "Capture/preservation pass only. Actual native paper bands required a presentation correction; not visual acceptance."
+    },
+    {
+      "evidence_set": "map-folio-focused-2872ad6",
+      "status": "terminal_fail",
+      "source_commit": "2872ad6fa05e86d0cc3f73c64201185e60f0690f",
+      "source_tree": "9163e1af52a71411e5b12863e85a1b78576a8817",
+      "tracked_originals": 1781,
+      "runtime_entries": 388,
+      "runtime_sha256": "e482fcaabfe8ddc74116db1cc4fe29b2417816dd58c8afe17f572a09f00a4002",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "test",
+      "checks": 1594,
+      "assertion_report_status": "pass",
+      "assertion_failures": [],
+      "native_frames": 0,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "reported_error_lines": 26
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "4b0adfa693b8006e2555381c7357da2d3cddc8a1e4629f17b0f5335171463f81"
+        },
+        {
+          "file": "test-result.json",
+          "sha256": "7cf078538582d03c3282226a10bbbcc9d7743c6126c49c95443b9d0af70a8910"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.console.log",
+          "sha256": "68161d4a25a5a99244d404b8f425a4b38572210e9dc85a5457f0b858b2592cd3",
+          "error_lines": 13,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.engine.log",
+          "sha256": "68161d4a25a5a99244d404b8f425a4b38572210e9dc85a5457f0b858b2592cd3",
+          "error_lines": 13,
+          "warning_lines": 0
+        }
+      ],
+      "interpretation": "The assertion report says pass/1594, but 13 freed-lambda errors appear in each of the engine and console logs (26 duplicated launcher error lines). Overall run failed. The prepared native stage was never run."
+    },
+    {
+      "evidence_set": "map-folio-focused-36be57f",
+      "status": "terminal_pass",
+      "source_commit": "36be57f78ee706a5bc74a231e78e9d219ac87c8e",
+      "source_tree": "fbaa792e8be4e4d4f90032b7542c28f28ce6c97b",
+      "tracked_originals": 1781,
+      "runtime_entries": 388,
+      "runtime_sha256": "b7db9f78c1b6c0e293b627371bbb7e396ed259d1533a0fdbb5ebad455a12ce3d",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "test",
+      "checks": 1594,
+      "assertion_report_status": "pass",
+      "assertion_failures": [],
+      "native_frames": 0,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "test",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "99571518d88df5ce21fb689b222f33e0e06f1cbea3c342d1aff6b3944ff50d1f"
+        },
+        {
+          "file": "test-result.json",
+          "sha256": "d5cbb06a1686e182c6cdf7df49915f011a2acc2de67034bea116db2d28266676"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.console.log",
+          "sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "test.engine.log",
+          "sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+          "error_lines": 0,
+          "warning_lines": 0
+        }
+      ]
+    },
+    {
+      "evidence_set": "map-folio-native-36be57f",
+      "status": "terminal_pass",
+      "source_commit": "36be57f78ee706a5bc74a231e78e9d219ac87c8e",
+      "source_tree": "fbaa792e8be4e4d4f90032b7542c28f28ce6c97b",
+      "tracked_originals": 1781,
+      "runtime_entries": 388,
+      "runtime_sha256": "b7db9f78c1b6c0e293b627371bbb7e396ed259d1533a0fdbb5ebad455a12ce3d",
+      "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+      "mode": "native",
+      "checks": 1324,
+      "assertion_report_status": "pass",
+      "assertion_failures": [],
+      "native_frames": 24,
+      "phases": [
+        {
+          "phase": "guard",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        },
+        {
+          "phase": "native",
+          "exit_code": 0,
+          "reported_error_lines": 0
+        }
+      ],
+      "original_files_unchanged": true,
+      "commit_tree_runtime_engine_unchanged": true,
+      "receipts": [
+        {
+          "file": "launcher-result.json",
+          "sha256": "d0697fb0153c1ba649971b9929f567bd3d700cb66f9b2d72a0fb3fb051cb7a61"
+        },
+        {
+          "file": "test-result.json",
+          "sha256": "e7135c54468bf3e4b99e315597d4b8ce080b746163541ef4baf1183425386ba0"
+        }
+      ],
+      "raw_logs": [
+        {
+          "file": "guard.console.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "guard.engine.log",
+          "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+          "error_lines": 0,
+          "warning_lines": 0
+        },
+        {
+          "file": "native.console.log",
+          "sha256": "0c688cd8fa36529a4eeb3c4e8bec51dbf629f47e434ae13641921a7f9618bb51",
+          "error_lines": 0,
+          "warning_lines": 1
+        },
+        {
+          "file": "native.engine.log",
+          "sha256": "f708068d6bce61e47751ecc5f18340ad3dc59ae374aa6428c784d9338d6cdf48",
+          "error_lines": 0,
+          "warning_lines": 1
+        }
+      ],
+      "visual_review": {
+        "status": "blocked",
+        "findings": [
+          "Qingwei 村中告示 card covers upper strokes of the 武 building label.",
+          "Sluice player arrow covers left strokes of 返 in 返回青苇渡.",
+          "Selected pale 故水闸 glyph cores measured 3.499:1 against adjacent dam pixels at both physical sizes."
+        ],
+        "receipts": [
+          {
+            "file": "independent-review.md",
+            "sha256": "9c53fc8e07d91ceac7f03df6bbbd2616d70041fb133344f2daad2d656e955211"
+          },
+          {
+            "file": "pixel-contrast-samples.json",
+            "sha256": "522610aa8c94ee59dd203b31e262620ae477bcd25e4e9b1436a05a3828513d17"
+          }
+        ],
+        "limit": "All 24 retained PNGs were reviewed independently; selected glyph-core contrast does not certify every stroke or general accessibility."
+      }
+    }
+  ],
+  "latest_focused": {
+    "evidence_set": "map-folio-focused-e089431",
+    "status": "terminal_pass",
+    "source_commit": "e089431e79b52c684ec53e2c4930651e07746fb1",
+    "source_tree": "aad59ee64e6b72b00787d38c77800cb78b691bed",
+    "tracked_originals": 1781,
+    "runtime_entries": 388,
+    "runtime_sha256": "0b208760763beba427b793a0e876e16c77f20e485e289cfaf438a27b1f52f2a5",
+    "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "mode": "test",
+    "checks": 1594,
+    "assertion_report_status": "pass",
+    "assertion_failures": [],
+    "native_frames": 0,
+    "phases": [
+      {
+        "phase": "guard",
+        "exit_code": 0,
+        "reported_error_lines": 0
+      },
+      {
+        "phase": "test",
+        "exit_code": 0,
+        "reported_error_lines": 0
+      }
+    ],
+    "original_files_unchanged": true,
+    "commit_tree_runtime_engine_unchanged": true,
+    "receipts": [
+      {
+        "file": "launcher-result.json",
+        "sha256": "967df1528edc306c3fb8e50ed94562bff8a1e8b587e593b6ade523adc5488015"
+      },
+      {
+        "file": "test-result.json",
+        "sha256": "6f99d8fca5727aed2ed899c1df60168826ed4c55282c6d759854d8e2eec0af8a"
+      }
+    ],
+    "raw_logs": [
+      {
+        "file": "guard.console.log",
+        "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+        "error_lines": 0,
+        "warning_lines": 0
+      },
+      {
+        "file": "guard.engine.log",
+        "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+        "error_lines": 0,
+        "warning_lines": 0
+      },
+      {
+        "file": "test.console.log",
+        "sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+        "error_lines": 0,
+        "warning_lines": 0
+      },
+      {
+        "file": "test.engine.log",
+        "sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+        "error_lines": 0,
+        "warning_lines": 0
+      }
+    ],
+    "sections": [
+      "genuine_manual_save_and_backup_fixture",
+      "map_qingwei-mainland",
+      "map_qingwei-islet",
+      "map_sluice",
+      "map_frostbridge-broken",
+      "map_frostbridge-repaired",
+      "map_mistwood-manual",
+      "map_heting-west-meal",
+      "map_heting-east-sealed",
+      "map_heting-west-consignee",
+      "map_heting-east-parking",
+      "every_original_close_once",
+      "same_turn_close_and_stale_layout",
+      "live_full_caption_reflow",
+      "genuine_free_bridge_change_then_reopen",
+      "owner_quit_pending_and_real_battle_guards"
+    ],
+    "environment": "Godot 4.6.3 official, Linux headless; this phase does not provide native pixels",
+    "scope": "Production Main/HeroState/LocalSaveSlots, prepared validated fixtures and scripted Input.parse_input_event; projection, complete captions, shared guidance, routes, input ownership, stale/deferred close and layout, live caption reflow, bridge reopen, and battle/quit guards",
+    "limits": [
+      "Prepared validator-accepted fixtures are not journey-earned progress",
+      "Scripted Input.parse_input_event behavior and transformed geometry are not native pixel acceptance",
+      "No save, Main, model or local-store overrides",
+      "Exact original application bytes cannot prove absence of same-content writes",
+      "Literal projection and map UI checks complement the unchanged 117-case journal consumer suite and loaded-cart route suite",
+      "Exact-PCK acceptance requires an independently bound external runner"
+    ]
+  },
+  "latest_native": {
+    "evidence_set": "map-folio-native-e089431",
+    "status": "terminal_pass",
+    "source_commit": "e089431e79b52c684ec53e2c4930651e07746fb1",
+    "source_tree": "aad59ee64e6b72b00787d38c77800cb78b691bed",
+    "tracked_originals": 1781,
+    "runtime_entries": 388,
+    "runtime_sha256": "0b208760763beba427b793a0e876e16c77f20e485e289cfaf438a27b1f52f2a5",
+    "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "mode": "native",
+    "checks": 1324,
+    "assertion_report_status": "pass",
+    "assertion_failures": [],
+    "native_frames": 24,
+    "phases": [
+      {
+        "phase": "guard",
+        "exit_code": 0,
+        "reported_error_lines": 0
+      },
+      {
+        "phase": "native",
+        "exit_code": 0,
+        "reported_error_lines": 0
+      }
+    ],
+    "original_files_unchanged": true,
+    "commit_tree_runtime_engine_unchanged": true,
+    "receipts": [
+      {
+        "file": "launcher-result.json",
+        "sha256": "a1deba0a3d084b0e343c3538f923e911f6e8798f84ff2f5fb447d5bb46d3ce52"
+      },
+      {
+        "file": "test-result.json",
+        "sha256": "6bb8e5154c96f5dd3a641d9909345d8b18180c2a8dcd7350f945170d166e15d8"
+      }
+    ],
+    "raw_logs": [
+      {
+        "file": "guard.console.log",
+        "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+        "error_lines": 0,
+        "warning_lines": 0
+      },
+      {
+        "file": "guard.engine.log",
+        "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+        "error_lines": 0,
+        "warning_lines": 0
+      },
+      {
+        "file": "native.console.log",
+        "sha256": "0c688cd8fa36529a4eeb3c4e8bec51dbf629f47e434ae13641921a7f9618bb51",
+        "error_lines": 0,
+        "warning_lines": 1
+      },
+      {
+        "file": "native.engine.log",
+        "sha256": "f708068d6bce61e47751ecc5f18340ad3dc59ae374aa6428c784d9338d6cdf48",
+        "error_lines": 0,
+        "warning_lines": 1
+      }
+    ],
+    "visual_review_status": "independent_review_complete_no_remaining_blocking_issue_found",
+    "environment": "Godot 4.6.3 official, native Linux/X11, GL Compatibility, fixed 30fps, Dummy audio",
+    "physical_windows": [
+      [
+        1280,
+        800
+      ],
+      [
+        960,
+        600
+      ]
+    ],
+    "logical_viewport": [
+      1280,
+      800
+    ],
+    "input_scope": "Twelve prepared geography/load fixtures; only actual M/Escape through Input.parse_input_event during capture",
+    "measured_chart_scale_range": [
+      1.306061,
+      1.339394
+    ],
+    "scale_derivation": "Actual report logical chart width / unchanged 780 local units; physical compact scaling is separate"
+  },
+  "latest_independent_pixel_review": {
+    "evidence_set": "map-folio-independent-review-e089431",
+    "status": "independent_review_complete_no_remaining_blocking_issue_found",
+    "source_commit": "e089431e79b52c684ec53e2c4930651e07746fb1",
+    "source_tree": "aad59ee64e6b72b00787d38c77800cb78b691bed",
+    "runtime_entries": 388,
+    "runtime_sha256": "0b208760763beba427b793a0e876e16c77f20e485e289cfaf438a27b1f52f2a5",
+    "pixel_samples_file": "tests/map_folio_pixel_samples.json",
+    "pixel_samples_sha256": "45a0fe875ec041b10c6ec03ed32279fbe018c8f4b8806482b4507e0f78700220",
+    "original_frames_opened": 24,
+    "selected_glyph_core_samples": 48,
+    "selected_contrast_range": [
+      5.126,
+      13.955
+    ],
+    "findings": [
+      "武 and 返回青苇渡 are visibly complete at both retained sizes; no remaining blocking overlap or folio seam found.",
+      "Dam text cores now measure 6.922:1, ordinary building ink 5.212:1, compact 武 5.126–5.169:1.",
+      "North dock, road, pier, waterfront, islet, full guidance, all four loaded-cart legend categories and close control were reviewed in the actual PNGs."
+    ],
+    "representative_samples": [
+      {
+        "image": "05-sluice-local-auto-1280.png",
+        "label": "pale dam label 故水闸",
+        "roi": [
+          740,
+          445,
+          791,
+          465
+        ],
+        "core_xy": [
+          765,
+          448
+        ],
+        "core_rgb": [
+          229,
+          223,
+          196
+        ],
+        "background_xy": [
+          764,
+          448
+        ],
+        "background_rgb": [
+          48,
+          77,
+          66
+        ],
+        "contrast": 6.922
+      },
+      {
+        "image": "06-sluice-local-auto-960.png",
+        "label": "pale dam label 故水闸",
+        "roi": [
+          554,
+          334,
+          595,
+          349
+        ],
+        "core_xy": [
+          574,
+          336
+        ],
+        "core_rgb": [
+          229,
+          223,
+          196
+        ],
+        "background_xy": [
+          573,
+          336
+        ],
+        "background_rgb": [
+          48,
+          77,
+          66
+        ],
+        "contrast": 6.922
+      },
+      {
+        "image": "01-qingwei-mainland-auto-1280.png",
+        "label": "corrected building 武",
+        "roi": [
+          594,
+          478,
+          611,
+          494
+        ],
+        "core_xy": [
+          599,
+          492
+        ],
+        "core_rgb": [
+          7,
+          20,
+          22
+        ],
+        "background_xy": [
+          601,
+          493
+        ],
+        "background_rgb": [
+          105,
+          143,
+          128
+        ],
+        "contrast": 5.212
+      },
+      {
+        "image": "02-qingwei-mainland-auto-960.png",
+        "label": "corrected building 武",
+        "roi": [
+          445,
+          358,
+          459,
+          372
+        ],
+        "core_xy": [
+          447,
+          369
+        ],
+        "core_rgb": [
+          9,
+          22,
+          24
+        ],
+        "background_xy": [
+          448,
+          370
+        ],
+        "background_rgb": [
+          105,
+          143,
+          128
+        ],
+        "contrast": 5.126
+      },
+      {
+        "image": "03-qingwei-islet-return-1280.png",
+        "label": "corrected building 武",
+        "roi": [
+          595,
+          484,
+          615,
+          501
+        ],
+        "core_xy": [
+          606,
+          487
+        ],
+        "core_rgb": [
+          7,
+          20,
+          22
+        ],
+        "background_xy": [
+          604,
+          486
+        ],
+        "background_rgb": [
+          105,
+          143,
+          128
+        ],
+        "contrast": 5.212
+      },
+      {
+        "image": "04-qingwei-islet-return-960.png",
+        "label": "corrected building 武",
+        "roi": [
+          446,
+          362,
+          461,
+          376
+        ],
+        "core_xy": [
+          451,
+          372
+        ],
+        "core_rgb": [
+          8,
+          21,
+          23
+        ],
+        "background_xy": [
+          452,
+          371
+        ],
+        "background_rgb": [
+          105,
+          143,
+          128
+        ],
+        "contrast": 5.169
+      },
+      {
+        "image": "05-sluice-local-auto-1280.png",
+        "label": "corrected return 返回青苇渡",
+        "roi": [
+          336,
+          400,
+          430,
+          418
+        ],
+        "core_xy": [
+          397,
+          400
+        ],
+        "core_rgb": [
+          23,
+          44,
+          46
+        ],
+        "background_xy": [
+          398,
+          401
+        ],
+        "background_rgb": [
+          225,
+          221,
+          190
+        ],
+        "contrast": 10.645
+      },
+      {
+        "image": "06-sluice-local-auto-960.png",
+        "label": "corrected return 返回青苇渡",
+        "roi": [
+          251,
+          300,
+          323,
+          314
+        ],
+        "core_xy": [
+          253,
+          300
+        ],
+        "core_rgb": [
+          23,
+          44,
+          46
+        ],
+        "background_xy": [
+          252,
+          301
+        ],
+        "background_rgb": [
+          225,
+          221,
+          190
+        ],
+        "contrast": 10.645
+      }
+    ],
+    "receipts": [
+      {
+        "file": "independent-review.md",
+        "sha256": "b0e98fade4ace5627507e4b03b074b8022da2bae41f55392c4d1f4b2d468e095"
+      },
+      {
+        "file": "pixel-contrast-samples.json",
+        "sha256": "45a0fe875ec041b10c6ec03ed32279fbe018c8f4b8806482b4507e0f78700220"
+      },
+      {
+        "file": "verification.json",
+        "sha256": "bbedcf4705f92920d7797b8b8e50ccb66cfaedce457c96267effb010ea97d77c"
+      },
+      {
+        "file": "evidence-manifest.json",
+        "sha256": "a640d852746504ef297bdf9b1f72afa8f26d5323210fd419627035937f3911fc"
+      }
+    ],
+    "limits": [
+      "Selected actual glyph cores and nearby background pixels; not every antialiased stroke, arbitrary save, viewport or display configuration.",
+      "Independent pixel review does not claim parent visual sign-off, general accessibility, browser, Windows, audio or full-release acceptance."
+    ]
+  },
+  "pending_gates": [
+    "full source regression",
+    "canonical source/package audit",
+    "fresh exact new PCK and supplements",
+    "independent Windows and historical/new-package boundaries",
+    "fresh release/deployment approval gates"
+  ],
+  "limits": [
+    "Native capture success and focused assertion success are separate from visual acceptance; the groups overlap and are not added.",
+    "Headless run phase, native M capture and renderer records do not establish general accessibility.",
+    "All presented state is prepared; scripted input, fixed 30fps and Dummy audio are not earned manual play.",
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unverified.",
+    "File transfer remains disabled by default; this is not a Web35 deployment or final release.",
+    "Every new release gate needs fresh evidence. The Web34 artifact-specific export timestamp admission does not transfer.",
+    "New documentation and JSON records are not members of the tested 1781-file source tree."
+  ],
+  "selected_source_screenshots": [
+    {
+      "path": "screenshots/map-folio-heting-standard-e089431.png",
+      "native_frame_basename": "21-heting-west-consignee-1280.png",
+      "sha256": "050e0dc12c63c2c4a1db6416e397b400f6e28a0545d41581e937a7162c8eba2e",
+      "bytes": 1009958,
+      "state_id": "heting-west-consignee",
+      "physical_size": [
+        1280,
+        800
+      ]
+    },
+    {
+      "path": "screenshots/map-folio-heting-compact-e089431.png",
+      "native_frame_basename": "22-heting-west-consignee-960.png",
+      "sha256": "28ce836e306d73f92d7f8837f443dcefbdbe1e1aa1f3a8450f2f20a0945ccb97",
+      "bytes": 579622,
+      "state_id": "heting-west-consignee",
+      "physical_size": [
+        960,
+        600
+      ]
+    }
+  ]
+}

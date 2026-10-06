@@ -1,5 +1,7 @@
 extends "res://tests/audit_heting_current_test.gd"
 const Routes=preload("res://scripts/heting_cart_routes.gd")
+func _map_bounds(control:Control,relative:Control)->Rect2:
+	return (relative.get_global_transform().affine_inverse()*control.get_global_transform())*Rect2(Vector2.ZERO,control.size)
 func _run()->void:
 	fixture="user://heting-chart-%d-%d"%[OS.get_process_id(),Time.get_ticks_usec()]
 	_check(DirAccess.make_dir_recursive_absolute(fixture)==OK,"Create isolated map fixture")
@@ -16,7 +18,8 @@ func _run()->void:
 					var page=game.overlay.find_child("DialogueSheet",true,false)
 					var chart=page.find_child("RegionChart",true,false);var close=page.find_child("DialogueChoice1",true,false)
 					_check(chart.heting_bridge==side and chart.heting_cargo==cargo,"Map receives actual current bridge and cargo")
-					_check(Rect2(Vector2.ZERO,page.size).encloses(chart.get_rect()) and not chart.get_rect().intersects(close.get_rect()),"Route chart fits paper without hiding its close action")
+					var chart_bounds=_map_bounds(chart,page);var close_bounds=_map_bounds(close,page)
+					_check(Rect2(Vector2.ZERO,page.size).encloses(chart_bounds) and not chart_bounds.intersects(close_bounds),"Transformed route chart fits paper without hiding its close action")
 					if cargo.is_empty():
 						_check(chart.cart_route.is_empty(),"Walking map does not advertise a cart route")
 					else:

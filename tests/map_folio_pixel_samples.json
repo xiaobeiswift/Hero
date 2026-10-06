@@ -1,0 +1,1397 @@
+{
+  "method": "Unmodified sRGB PNG pixels; manually bounded glyph regions; darkest glyph core (lightest for pale dam/close text), closest modal background pixel in region. Ratios use IEC sRGB relative luminance. Core-only samples do not certify all strokes, whole text readability, accessibility, other display scaling or color management.",
+  "samples": [
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "north road 北岸横街",
+      "roi": [
+        732,
+        343,
+        911,
+        362
+      ],
+      "core_xy": [
+        851,
+        349
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        849,
+        349
+      ],
+      "background_rgb": [
+        200,
+        203,
+        176
+      ],
+      "contrast": 8.791
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "pier 北步栈",
+      "roi": [
+        673,
+        444,
+        720,
+        461
+      ],
+      "core_xy": [
+        714,
+        451
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        706,
+        448
+      ],
+      "background_rgb": [
+        180,
+        161,
+        130
+      ],
+      "contrast": 5.822
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "dock 西浮栈泊靠",
+      "roi": [
+        655,
+        578,
+        742,
+        595
+      ],
+      "core_xy": [
+        693,
+        580
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        694,
+        579
+      ],
+      "background_rgb": [
+        132,
+        167,
+        154
+      ],
+      "contrast": 5.553
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "pier/cart instruction",
+      "roi": [
+        569,
+        601,
+        848,
+        619
+      ],
+      "core_xy": [
+        785,
+        603
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        786,
+        604
+      ],
+      "background_rgb": [
+        132,
+        167,
+        154
+      ],
+      "contrast": 5.553
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "building 交割仓",
+      "roi": [
+        509,
+        349,
+        561,
+        367
+      ],
+      "core_xy": [
+        535,
+        350
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        535,
+        349
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "building 粥棚",
+      "roi": [
+        331,
+        493,
+        366,
+        509
+      ],
+      "core_xy": [
+        351,
+        496
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        352,
+        495
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "marker 中埠粮船",
+      "roi": [
+        575,
+        508,
+        650,
+        526
+      ],
+      "core_xy": [
+        584,
+        509
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        582,
+        509
+      ],
+      "background_rgb": [
+        224,
+        218,
+        187
+      ],
+      "contrast": 10.386
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "target 顾婶·粥棚",
+      "roi": [
+        321,
+        561,
+        413,
+        581
+      ],
+      "core_xy": [
+        342,
+        566
+      ],
+      "core_rgb": [
+        81,
+        57,
+        25
+      ],
+      "background_xy": [
+        341,
+        565
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 7.843
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "legend 所在位置",
+      "roi": [
+        258,
+        648,
+        329,
+        666
+      ],
+      "core_xy": [
+        282,
+        650
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        285,
+        654
+      ],
+      "background_rgb": [
+        241,
+        227,
+        203
+      ],
+      "contrast": 11.552
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "legend 人物/地点",
+      "roi": [
+        398,
+        648,
+        478,
+        666
+      ],
+      "core_xy": [
+        415,
+        651
+      ],
+      "core_rgb": [
+        24,
+        45,
+        47
+      ],
+      "background_xy": [
+        412,
+        651
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.672
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "legend 当前机缘",
+      "roi": [
+        558,
+        648,
+        625,
+        666
+      ],
+      "core_xy": [
+        565,
+        648
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        559,
+        651
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.827
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "legend 可推车路线",
+      "roi": [
+        708,
+        648,
+        787,
+        666
+      ],
+      "core_xy": [
+        719,
+        650
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        723,
+        650
+      ],
+      "background_rgb": [
+        241,
+        227,
+        203
+      ],
+      "contrast": 11.552
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "compass 北",
+      "roi": [
+        1159,
+        277,
+        1176,
+        293
+      ],
+      "core_xy": [
+        1171,
+        290
+      ],
+      "core_rgb": [
+        27,
+        48,
+        49
+      ],
+      "background_xy": [
+        1167,
+        291
+      ],
+      "background_rgb": [
+        243,
+        231,
+        207
+      ],
+      "contrast": 11.325
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "place-title",
+      "roi": [
+        923,
+        259,
+        1136,
+        277
+      ],
+      "core_xy": [
+        926,
+        260
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        940,
+        260
+      ],
+      "background_rgb": [
+        244,
+        232,
+        210
+      ],
+      "contrast": 12.06
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "guidance body",
+      "roi": [
+        175,
+        163,
+        703,
+        184
+      ],
+      "core_xy": [
+        219,
+        164
+      ],
+      "core_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_xy": [
+        220,
+        170
+      ],
+      "background_rgb": [
+        244,
+        232,
+        210
+      ],
+      "contrast": 13.955
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "keyboard footer",
+      "roi": [
+        174,
+        709,
+        459,
+        727
+      ],
+      "core_xy": [
+        212,
+        710
+      ],
+      "core_rgb": [
+        61,
+        52,
+        40
+      ],
+      "background_xy": [
+        211,
+        713
+      ],
+      "background_rgb": [
+        241,
+        227,
+        203
+      ],
+      "contrast": 9.644
+    },
+    {
+      "image": "17-heting-west-ordinary-1280.png",
+      "label": "close button",
+      "roi": [
+        1051,
+        710,
+        1135,
+        731
+      ],
+      "core_xy": [
+        1102,
+        711
+      ],
+      "core_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_xy": [
+        1101,
+        710
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast": 7.477
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "north road 北岸横街",
+      "roi": [
+        549,
+        257,
+        683,
+        272
+      ],
+      "core_xy": [
+        568,
+        259
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        568,
+        257
+      ],
+      "background_rgb": [
+        200,
+        203,
+        176
+      ],
+      "contrast": 8.791
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "pier 北步栈",
+      "roi": [
+        505,
+        333,
+        540,
+        346
+      ],
+      "core_xy": [
+        514,
+        343
+      ],
+      "core_rgb": [
+        28,
+        46,
+        48
+      ],
+      "background_xy": [
+        514,
+        345
+      ],
+      "background_rgb": [
+        180,
+        161,
+        130
+      ],
+      "contrast": 5.638
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "dock 西浮栈泊靠",
+      "roi": [
+        491,
+        434,
+        556,
+        446
+      ],
+      "core_xy": [
+        512,
+        440
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        511,
+        439
+      ],
+      "background_rgb": [
+        132,
+        167,
+        154
+      ],
+      "contrast": 5.553
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "pier/cart instruction",
+      "roi": [
+        427,
+        451,
+        636,
+        464
+      ],
+      "core_xy": [
+        502,
+        452
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        503,
+        452
+      ],
+      "background_rgb": [
+        132,
+        167,
+        154
+      ],
+      "contrast": 5.553
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "building 交割仓",
+      "roi": [
+        382,
+        262,
+        421,
+        275
+      ],
+      "core_xy": [
+        410,
+        267
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        411,
+        267
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "building 粥棚",
+      "roi": [
+        248,
+        370,
+        274,
+        382
+      ],
+      "core_xy": [
+        272,
+        370
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        273,
+        370
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "marker 中埠粮船",
+      "roi": [
+        431,
+        381,
+        488,
+        394
+      ],
+      "core_xy": [
+        438,
+        381
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        439,
+        381
+      ],
+      "background_rgb": [
+        224,
+        218,
+        187
+      ],
+      "contrast": 10.386
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "target 顾婶·粥棚",
+      "roi": [
+        241,
+        421,
+        310,
+        436
+      ],
+      "core_xy": [
+        285,
+        425
+      ],
+      "core_rgb": [
+        81,
+        57,
+        25
+      ],
+      "background_xy": [
+        285,
+        426
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 7.843
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "legend 所在位置",
+      "roi": [
+        194,
+        486,
+        247,
+        500
+      ],
+      "core_xy": [
+        210,
+        490
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        207,
+        493
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.827
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "legend 人物/地点",
+      "roi": [
+        298,
+        486,
+        358,
+        500
+      ],
+      "core_xy": [
+        311,
+        488
+      ],
+      "core_rgb": [
+        24,
+        45,
+        47
+      ],
+      "background_xy": [
+        307,
+        490
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.672
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "legend 当前机缘",
+      "roi": [
+        418,
+        486,
+        469,
+        500
+      ],
+      "core_xy": [
+        424,
+        486
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        422,
+        491
+      ],
+      "background_rgb": [
+        243,
+        231,
+        208
+      ],
+      "contrast": 11.943
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "legend 可推车路线",
+      "roi": [
+        531,
+        486,
+        590,
+        500
+      ],
+      "core_xy": [
+        547,
+        489
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        546,
+        494
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.827
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "compass 北",
+      "roi": [
+        869,
+        208,
+        882,
+        220
+      ],
+      "core_xy": [
+        880,
+        215
+      ],
+      "core_rgb": [
+        26,
+        47,
+        48
+      ],
+      "background_xy": [
+        879,
+        214
+      ],
+      "background_rgb": [
+        242,
+        230,
+        206
+      ],
+      "contrast": 11.375
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "place-title",
+      "roi": [
+        692,
+        194,
+        852,
+        208
+      ],
+      "core_xy": [
+        817,
+        197
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        813,
+        200
+      ],
+      "background_rgb": [
+        244,
+        232,
+        210
+      ],
+      "contrast": 12.06
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "guidance body",
+      "roi": [
+        131,
+        122,
+        527,
+        138
+      ],
+      "core_xy": [
+        389,
+        127
+      ],
+      "core_rgb": [
+        24,
+        38,
+        40
+      ],
+      "background_xy": [
+        388,
+        130
+      ],
+      "background_rgb": [
+        244,
+        232,
+        210
+      ],
+      "contrast": 12.861
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "keyboard footer",
+      "roi": [
+        130,
+        532,
+        344,
+        545
+      ],
+      "core_xy": [
+        342,
+        541
+      ],
+      "core_rgb": [
+        80,
+        70,
+        57
+      ],
+      "background_xy": [
+        338,
+        537
+      ],
+      "background_rgb": [
+        241,
+        227,
+        203
+      ],
+      "contrast": 7.288
+    },
+    {
+      "image": "18-heting-west-ordinary-960.png",
+      "label": "close button",
+      "roi": [
+        788,
+        532,
+        851,
+        548
+      ],
+      "core_xy": [
+        808,
+        535
+      ],
+      "core_rgb": [
+        231,
+        216,
+        200
+      ],
+      "background_xy": [
+        807,
+        536
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "contrast": 6.474
+    },
+    {
+      "image": "03-qingwei-islet-return-1280.png",
+      "label": "dense marker 村中告示",
+      "roi": [
+        607,
+        408,
+        679,
+        425
+      ],
+      "core_xy": [
+        621,
+        408
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        619,
+        408
+      ],
+      "background_rgb": [
+        227,
+        222,
+        192
+      ],
+      "contrast": 10.776
+    },
+    {
+      "image": "04-qingwei-islet-return-960.png",
+      "label": "dense marker 村中告示",
+      "roi": [
+        455,
+        306,
+        510,
+        320
+      ],
+      "core_xy": [
+        470,
+        307
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        467,
+        312
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 10.645
+    },
+    {
+      "image": "03-qingwei-islet-return-1280.png",
+      "label": "islet 苇心小洲",
+      "roi": [
+        1052,
+        549,
+        1127,
+        569
+      ],
+      "core_xy": [
+        1086,
+        558
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        1084,
+        558
+      ],
+      "background_rgb": [
+        220,
+        218,
+        189
+      ],
+      "contrast": 10.31
+    },
+    {
+      "image": "04-qingwei-islet-return-960.png",
+      "label": "islet 苇心小洲",
+      "roi": [
+        788,
+        411,
+        846,
+        426
+      ],
+      "core_xy": [
+        823,
+        412
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        821,
+        414
+      ],
+      "background_rgb": [
+        220,
+        218,
+        189
+      ],
+      "contrast": 10.31
+    },
+    {
+      "image": "05-sluice-local-auto-1280.png",
+      "label": "pale dam label 故水闸",
+      "roi": [
+        740,
+        445,
+        791,
+        465
+      ],
+      "core_xy": [
+        765,
+        448
+      ],
+      "core_rgb": [
+        229,
+        223,
+        196
+      ],
+      "background_xy": [
+        764,
+        448
+      ],
+      "background_rgb": [
+        48,
+        77,
+        66
+      ],
+      "contrast": 6.922
+    },
+    {
+      "image": "06-sluice-local-auto-960.png",
+      "label": "pale dam label 故水闸",
+      "roi": [
+        554,
+        334,
+        595,
+        349
+      ],
+      "core_xy": [
+        574,
+        336
+      ],
+      "core_rgb": [
+        229,
+        223,
+        196
+      ],
+      "background_xy": [
+        573,
+        336
+      ],
+      "background_rgb": [
+        48,
+        77,
+        66
+      ],
+      "contrast": 6.922
+    },
+    {
+      "image": "01-qingwei-mainland-auto-1280.png",
+      "label": "corrected building 武",
+      "roi": [
+        594,
+        478,
+        611,
+        494
+      ],
+      "core_xy": [
+        599,
+        492
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        601,
+        493
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "02-qingwei-mainland-auto-960.png",
+      "label": "corrected building 武",
+      "roi": [
+        445,
+        358,
+        459,
+        372
+      ],
+      "core_xy": [
+        447,
+        369
+      ],
+      "core_rgb": [
+        9,
+        22,
+        24
+      ],
+      "background_xy": [
+        448,
+        370
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.126
+    },
+    {
+      "image": "03-qingwei-islet-return-1280.png",
+      "label": "corrected building 武",
+      "roi": [
+        595,
+        484,
+        615,
+        501
+      ],
+      "core_xy": [
+        606,
+        487
+      ],
+      "core_rgb": [
+        7,
+        20,
+        22
+      ],
+      "background_xy": [
+        604,
+        486
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.212
+    },
+    {
+      "image": "04-qingwei-islet-return-960.png",
+      "label": "corrected building 武",
+      "roi": [
+        446,
+        362,
+        461,
+        376
+      ],
+      "core_xy": [
+        451,
+        372
+      ],
+      "core_rgb": [
+        8,
+        21,
+        23
+      ],
+      "background_xy": [
+        452,
+        371
+      ],
+      "background_rgb": [
+        105,
+        143,
+        128
+      ],
+      "contrast": 5.169
+    },
+    {
+      "image": "05-sluice-local-auto-1280.png",
+      "label": "corrected return 返回青苇渡",
+      "roi": [
+        336,
+        400,
+        430,
+        418
+      ],
+      "core_xy": [
+        397,
+        400
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        398,
+        401
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 10.645
+    },
+    {
+      "image": "06-sluice-local-auto-960.png",
+      "label": "corrected return 返回青苇渡",
+      "roi": [
+        251,
+        300,
+        323,
+        314
+      ],
+      "core_xy": [
+        253,
+        300
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        252,
+        301
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 10.645
+    },
+    {
+      "image": "21-heting-west-consignee-1280.png",
+      "label": "north dock 北仓提货位",
+      "roi": [
+        586,
+        380,
+        678,
+        400
+      ],
+      "core_xy": [
+        645,
+        382
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        647,
+        381
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 10.645
+    },
+    {
+      "image": "22-heting-west-consignee-960.png",
+      "label": "north dock 北仓提货位",
+      "roi": [
+        438,
+        285,
+        509,
+        301
+      ],
+      "core_xy": [
+        447,
+        285
+      ],
+      "core_rgb": [
+        23,
+        44,
+        46
+      ],
+      "background_xy": [
+        448,
+        285
+      ],
+      "background_rgb": [
+        225,
+        221,
+        190
+      ],
+      "contrast": 10.645
+    }
+  ]
+}

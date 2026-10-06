@@ -1,0 +1,105 @@
+{
+  "evidence_set": "map-folio-baseline-staging",
+  "status": "terminal_pass",
+  "source_commit": "3f453747629f15ff568f21c8573de88e1b3e3374",
+  "source_tree": "52cd2d48aeca2e0c40b907bd5f80753adcf523d1",
+  "tracked_originals": 1777,
+  "runtime_entries": 386,
+  "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+  "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "mode": "native",
+  "checks": 1324,
+  "assertion_report_status": "pass",
+  "assertion_failures": [],
+  "native_frames": 24,
+  "phases": [
+    {
+      "phase": "guard",
+      "exit_code": 0,
+      "reported_error_lines": 0
+    },
+    {
+      "phase": "native",
+      "exit_code": 0,
+      "reported_error_lines": 0
+    }
+  ],
+  "original_files_unchanged": true,
+  "commit_tree_runtime_engine_unchanged": true,
+  "receipts": [
+    {
+      "file": "launcher-result.json",
+      "sha256": "97a61bd25fcfa1b74e158a55b7dd04c29403b4506fee13b0030f892373cc29e6"
+    },
+    {
+      "file": "test-result.json",
+      "sha256": "fbd346acc1ee22e9a4805851aa2773cc1cbbc9b637c3b179012dae319c6ba414"
+    }
+  ],
+  "raw_logs": [
+    {
+      "file": "guard.console.log",
+      "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+      "error_lines": 0,
+      "warning_lines": 0
+    },
+    {
+      "file": "guard.engine.log",
+      "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+      "error_lines": 0,
+      "warning_lines": 0
+    },
+    {
+      "file": "native.console.log",
+      "sha256": "175e44a08f251adfd7cc6ac3db1a0a9aafaed2d258007a91b7afe286c3acca62",
+      "error_lines": 0,
+      "warning_lines": 1
+    },
+    {
+      "file": "native.engine.log",
+      "sha256": "40da4b3bebfd1b9145e35b382db18f8d59f9fc5761c7e0e53a2a7514fd7a23cb",
+      "error_lines": 0,
+      "warning_lines": 1
+    }
+  ],
+  "record_kind": "retained_native_baseline_not_web35_acceptance",
+  "live_version_at_checkpoint": "0.0.34-web1",
+  "live_runtime_public_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+  "physical_windows": [
+    [
+      1280,
+      800
+    ],
+    [
+      960,
+      600
+    ]
+  ],
+  "logical_viewport": [
+    1280,
+    800
+  ],
+  "fixtures": [
+    "qingwei-mainland-auto",
+    "qingwei-islet-return",
+    "sluice-local-auto",
+    "frostbridge-broken",
+    "frostbridge-repaired-crossregion",
+    "mistwood-manual-crossregion",
+    "heting-west-empty",
+    "heting-east-empty",
+    "heting-west-ordinary",
+    "heting-east-ordinary",
+    "heting-west-consignee",
+    "heting-east-consignee-parking"
+  ],
+  "input_scope": "Actual M/Escape events through Input.parse_input_event; prepared synthetic state; no journey-changing actions during capture",
+  "environment": "Godot 4.6.3 official, native Linux/X11, GL Compatibility, fixed 30fps, Dummy audio",
+  "preservation_scope": "Production Main, reader and writer; canonical state, stored/physical position split, transient state and retained application bytes checked",
+  "limits": [
+    "Fixture milestones and transient tracking are prepared, not player-earned progress.",
+    "Identical save bytes do not prove absence of same-content writes.",
+    "Native capture and renderer assertions are not browser, Windows, audio, persistence, general accessibility or manual-play acceptance.",
+    "Baseline files and report remain bound to 3f453747; their success does not transfer to a new candidate."
+  ]
+}

@@ -575,10 +575,10 @@ func _geometry() -> void:
 		_fixture(0,24)
 		# Labeled existing opt-in path only; never invokes transfer or a browser API.
 		app.browser_mode = true; app.web_save_transfer_enabled = true; app._show_title()
-		app.browser_build_revision = "34"; app._show_title()
+		app.browser_build_revision = "35"; app._show_title()
 		await _geometry_sample("home-existing-transfer-opt-in",dimensions)
 		var browser_version = _page().find_child("BuildVersion",true,false)
-		_check(browser_version is Label and browser_version.text == "0.0.34 · Web 34" and browser_version.text == app._version_caption(),"Full actual Web34 version caption appears in measured geometry at "+str(dimensions))
+		_check(browser_version is Label and browser_version.text == "0.0.35 · Web 35" and browser_version.text == app._version_caption(),"Full actual Web35 version caption appears in measured geometry at "+str(dimensions))
 		_check(_buttons().size() == 4 and _button("导入 / 导出手记") != null,"Existing optional fourth action stays reachable")
 		app.web_save_transfer_enabled = false; app.browser_mode = false
 		app.browser_build_revision = original_browser_revision
@@ -593,7 +593,7 @@ func _geometry() -> void:
 		var warning_page = _page()
 		_check(probe.load_attempts[-1].error == ERR_FILE_UNRECOGNIZED and app.save_warning,"Real unsupported read preserves existing warning latch")
 		_check(warning_page.feedback.text == "存档版本不受支持，请使用兼容的新版本。  ⚠ "+BROWSER_RETRY_NOTICE and warning_page.feedback.text == app.status_label.text,"Full original longest browser error and retry suffix appear verbatim")
-		_check(warning_page.find_child("BuildVersion",true,false).text == "0.0.34 · Web 1","Prepared longest-error browser revision is explicit")
+		_check(warning_page.find_child("BuildVersion",true,false).text == "0.0.35 · Web 1","Prepared longest-error browser revision is explicit")
 		await _geometry_sample("home-browser-error-with-existing-warning",dimensions)
 		# Keep the ordinary three-action error case above. This separate sample
 		# combines the existing optional fourth row with the same real longest error.
