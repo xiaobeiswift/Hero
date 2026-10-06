@@ -1,0 +1,53 @@
+{
+  "decision": "ACCEPT_FOUR_EXTERNAL_SHA_ONLY_WINDOWS_PROBE_ADAPTATIONS",
+  "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368",
+  "journal_current32_probe": {
+    "decision": "ACCEPT_EXACT_SHA_ONLY_WINDOWS_PROBE_ADAPTATION",
+    "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368",
+    "source_tree": "4e57e57bd6002683cb4c4ac018240497b3e028ea",
+    "path": "tests/journal_guidance_old30_pack_probe.gd",
+    "original_bytes": 7145,
+    "original_sha256": "f64d5e1ab1733910887eeb8e35bcd2a61af244de6feef526b09176a394f7d7cf",
+    "adapted_bytes": 7145,
+    "adapted_sha256": "5884bbe17cff728cfdc336b969365bbad5d1696f0736b064699c30dbb6011c9e",
+    "single_constant_swap": true,
+    "reverse_exact": true,
+    "all_other_bytes_including_assertions_and_current32_version_unchanged": true,
+    "source32_version_line": [
+      "\tcheck(version == (\"0.0.30\" if mode == \"old\" else \"0.0.32\"), \"Loaded project version matches the requested runtime\")"
+    ],
+    "old_windows_pck_sha256": "2d0001652bfc5dc36e3251cbc3c5325382fe35b961c32ad61eee9994e63fa56d",
+    "scope": "Independent byte derivation only; actual Windows bytes/oldPCK identities supplied by coordinator; does not claim historical runtime execution"
+  },
+  "other_three_probes": [
+    {
+      "file": "weapon_fitting_old15_pack_probe.gd",
+      "bytes": 5043,
+      "source_sha256": "a982769d468686ef99585360271c25d863b14226273dd00344b4978c33a36c20",
+      "windows_adapted_sha256": "44df85852b464ebc29ca95bb7d411143e8d905090a71fd8cff67f6694d3025a9",
+      "source_unchanged_from_previous_verified_Web31": true,
+      "single_SHA_swap_and_reverse_exact": true
+    },
+    {
+      "file": "capstone_old14_pack_probe.gd",
+      "bytes": 2474,
+      "source_sha256": "f8c3146a5ebb29cc27efd3b1bf1d84d4a297ec8b09ee246c157fffdf27dfd1e1",
+      "windows_adapted_sha256": "1348668deb4cb54d625751130a03a28fae4afbc1b681177a6503f731f853cce8",
+      "source_unchanged_from_previous_verified_Web31": true,
+      "single_SHA_swap_and_reverse_exact": true
+    },
+    {
+      "file": "heting_consignee_web25_reader_test.gd",
+      "bytes": 3461,
+      "source_sha256": "1af08286a31499c5369cd911ae1b5d295c211591c1e6607334edc91d681ca344",
+      "windows_adapted_sha256": "40b2e530cf20363401351f8380e955df85d167a99733fd7a3c23525806f71be5",
+      "source_unchanged_from_previous_verified_Web31": true,
+      "single_SHA_swap_and_reverse_exact": true
+    }
+  ],
+  "proof": "Each external adaptation replaces exactly one retained-PCK SHA constant and reverses to the exact current Git blob; all other bytes/assertions are preserved",
+  "execution": "Subsequent Windows9processes/9guards passed as recorded in web_deployment_032.json; byte derivation and execution evidence remain distinguished",
+  "execution_report_sha256": "93a7a7b569b9de30abbd0794a017b08a844ae39b5316e8d9509c0c3e7a2fc843",
+  "web25_scope": "Old13 reader with current dependencies; not a complete-old-runtime test",
+  "no_source_runtime_edits": true
+}

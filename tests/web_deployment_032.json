@@ -1,0 +1,102 @@
+{
+  "status": "live_verified",
+  "version": "0.0.32",
+  "web_revision": 1,
+  "site": "https://game.codable.cn/",
+  "remote_runtime_commit": "59c055a211647e32612474c0ebd5b6dab189b368",
+  "runtime_closure_commit_local": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "evidence_closure_remote": "9bd74c58add6644af8d2e8c81a58fe2f39135975",
+  "windows": {
+    "status": "passed_independent_windows_run_coordinator_reported",
+    "completed_utc": "2026-10-06T09:38:28Z",
+    "coordinator_read_utc": "2026-10-06T09:39:00Z",
+    "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368",
+    "source_tree": "4e57e57bd6002683cb4c4ac018240497b3e028ea",
+    "source_paths": 1718,
+    "runtime_entries": 382,
+    "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+    "project_version": "0.0.32",
+    "source_rehearsal_checks": 21584,
+    "exact_pck_checks": 21589,
+    "site_members": 14,
+    "zip": {
+      "bytes": 87247350,
+      "sha256": "e1b439f9b0d458bd2e64a0f63b991470e34f3c14223584c4b6d6183ad379f04e"
+    },
+    "pck": {
+      "bytes": 77925896,
+      "sha256": "a593bf63a7bd1169f2d95d446fa816bc6bc9ae797769042ea656f2455acdf545"
+    },
+    "supplemental_processes": 9,
+    "supplemental_guards": 9,
+    "all_supplemental_exit_codes": 0,
+    "reported_checks": {
+      "web30_current_producer": 246,
+      "complete_web30_reader": 20,
+      "web30_current_verifier": 14,
+      "source16_complete_old15": 20,
+      "actual15_complete_old14": 9,
+      "web25_old13_reader_current_dependencies": 11,
+      "actual_new_pck16_complete_old15": 20
+    },
+    "unreported_producer_assertion_counts": [
+      "source16_fixture_producer",
+      "actual15_fixture_producer"
+    ],
+    "actual_new_pck16_subject": {
+      "bytes": 1872,
+      "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+    },
+    "report_sha256": "93a7a7b569b9de30abbd0794a017b08a844ae39b5316e8d9509c0c3e7a2fc843",
+    "retained_supplemental_evidence_files": 83,
+    "scope": "Independent Windows build and headless native PCK/old-reader execution, not a desktop distributable or browser end-to-end run",
+    "evidence_attribution": "Execution outcome and retained Windows artifact identities provided by deployment coordinator; cloud probe derivations verified separately"
+  },
+  "rollout": {
+    "atomic_switch_utc": "2026-10-06T09:45:24.950137Z",
+    "coordinator_verified_utc": "2026-10-06T09:50:14Z",
+    "https_checks_passed": 36,
+    "https_checks_total": 36,
+    "complete_site_members_verified": 14,
+    "checks": [
+      "full SHA256 and length of all14 members",
+      "expected MIME types",
+      "TLS",
+      "version identity",
+      "cache behavior",
+      "directory browsing unavailable",
+      "Git link HTTP200"
+    ],
+    "matches_exact_windows_zip_and_pck": true,
+    "old_web31_served_directory_and_server_zip_retired_utc": "2026-10-06T09:49:06.860932Z",
+    "retirement_preconditions": "Complete Web31 recovery reverified and zero readers checked twice",
+    "retained": [
+      "source history",
+      "formal recovery copies",
+      "test records",
+      "save data",
+      "operation evidence"
+    ],
+    "configuration_and_security_unchanged": true,
+    "final_manifest_sha256": "03ad1821d02752c4a1b7c2c7fcb66781de58b6abda45c22ac480e1cf7b54e475",
+    "no_github_packaged_release": true,
+    "attribution": "Final verified deployment receipts supplied by coordinator from existing authorized Windows/server workflow; this source-record task did not operate the server"
+  },
+  "game_invariants": {
+    "save_schema": 16,
+    "older_save_readers": "1–15 accepted with existing migration rules; writer16 one-way boundary to older writers retained",
+    "party_capacity": 4,
+    "automatic_combat_unchanged": true,
+    "story_rewards_resources_unchanged": true,
+    "manual_save_transfer_default_off": true
+  },
+  "limitations": [
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unverified",
+    "Earlier cloud browser startup stopped at WebGL2 unavailable; Windows browser graphics capability was not measured",
+    "Native Linux prepared screenshots and headless PCK/HTTPS checks do not substitute for browser end-to-end validation",
+    "Web25 supplemental process remains old13-reader/current-dependency scope, not complete old runtime",
+    "Original Linux export timestamp guard failure and one-artifact adjudication remain preserved; independently built Windows artifact is separately identified",
+    "Does not restore the unavailable original1882-file local closure or claim commercial1.0 completion"
+  ]
+}
