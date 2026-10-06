@@ -1,0 +1,116 @@
+{
+  "status": "FOCUSED_BEHAVIOR_PASSED_NATIVE_FULL_PACKAGE_PENDING",
+  "version": "0.0.33",
+  "tested_source_base_commit": "0f3f54b6559d52a1b6d5039083990f8b80182305",
+  "tested_source_kind": "Uncommitted candidate bound by full tracked-before/after maps and exact runtime digest; later documentation/tooling additions are not retroactively claimed as tested",
+  "runtime_entries": 384,
+  "runtime_sha256": "e32fdcd9ad29b81d33b11aeda51ebee47365c041f80ad0838c8b9c173267edb5",
+  "tracked_originals_during_run": 1729,
+  "changed_originals_during_run": [],
+  "checks": 449,
+  "sections": [
+    {
+      "checks": 98,
+      "failures": 0,
+      "name": "title_cancellation_and_choice_order",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 53,
+      "failures": 0,
+      "name": "keyboard_fallback_native_focus_and_exact_writes",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 26,
+      "failures": 0,
+      "name": "pointer_press_cancel_release_and_stale_pages",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 98,
+      "failures": 0,
+      "name": "corrupt_newer_and_backup_only_metadata",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 51,
+      "failures": 0,
+      "name": "genuine_write_failure_and_title_inline_feedback",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 33,
+      "failures": 0,
+      "name": "successful_load_genuine_autosave_failure_and_f5_recovery",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 14,
+      "failures": 0,
+      "name": "exploration_close_counts_and_transfer_provenance",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 17,
+      "failures": 0,
+      "name": "desktop_window_close_genuine_failure_cancel_and_retry",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 40,
+      "failures": 0,
+      "name": "exact_state_fitting_exit_readonly_browse",
+      "state_mode": "exact_production_state"
+    },
+    {
+      "checks": 14,
+      "failures": 0,
+      "name": "quit_pending_and_actual_battle_gates",
+      "state_mode": "exact_production_state"
+    }
+  ],
+  "result_sha256": "6bd5eee7b4cd6d54a3f9e4d0398e1e0dd0b5512a92abf277c0a16928ec24969e",
+  "launcher_receipt_sha256": "d7419265097a50bd97872fea9919ac8e50319e56df949dd4132eeb7363fb05bf",
+  "driver_sha256": "9e4591cf70099da1f0a927c9befef0221d8c4dc5bca2ab0fd1a8d5c193435b91",
+  "probe_sha256": "eb92b0aa313b938e235714f7d91cdc1239503465ca5e0a8f72c79b15816b5234",
+  "baseline_checks": 137,
+  "static_review_sha256": "0cf3d854939336b15f9ee2c53e3ba4b4c3a5fe779aad2a1d114139e48a536698",
+  "failed_candidates": [
+    {
+      "checks": 103,
+      "runtime_prefix": "b718e97b",
+      "finding": "Autosave detail guidance incorrectly mentioned previous backup; corrected display text"
+    },
+    {
+      "checks": 127,
+      "runtime_prefix": "e1a0d95d",
+      "finding": "Focused Enter/Space reached first-choice fallback; fixed only current-folio focused-button route. Cascading missing-node test error now guarded"
+    },
+    {
+      "checks": 156,
+      "runtime_prefix": "d6f29e40",
+      "finding": "First Tab did not enter action focus; explicit intentional first-Tab entry added"
+    }
+  ],
+  "narrow_behavior_strengthening": [
+    "Rendered title list/detail choices now have generation guards, matching existing exploration behavior",
+    "Native folio callback also rejects quit_pending, including Back that could otherwise close and autosave",
+    "Focused native buttons bypass only the legacy first-choice Enter/Space fallback; no-focus and other pages keep existing behavior",
+    "First intentional Tab enters the action chain without initial automatic focus or activation"
+  ],
+  "persistence_boundary": "Store/model/schema unchanged. A valid primary can rotate into backup before a later primary write fails; no promise that every backup byte is unchanged for every failure. Empty-primary and occupied-backup-copy failures preserve their tested boundaries.",
+  "limits": [
+    "Prepared legal fixtures are not progression earned in this run",
+    "Queued input and headless geometry do not certify native pixels",
+    "The State observation subclass unconditionally delegates real writer/reader; exact production State is used for fitting/battle",
+    "Reader attempt counts cover the active State only; metadata preview models perform separate production reads",
+    "Fitting and battle evidence includes complete state/bytes but the retained probe does not count exact-State writer calls",
+    "Transfer provenance fixture tests existing close suppression without enabling transport or claiming transfer end-to-end",
+    "Desktop failure/cancellation use real Main; successful desktop termination remains covered by retained window-close tests",
+    "Source and actual PCK require separately bound executions; twelve native PNGs require independent pixel review",
+    "No redesigned native frame, full regression or new PCK acceptance is claimed at this source checkpoint",
+    "Metadata version assertions and reproducible validation tools were prepared after the focused run; runtime and focused driver remain separately hash-bound"
+  ],
+  "independent_terminal_review_sha256": "bfac9bcea9beff85658eedf7ba4a774c8001c4ea966c08f311eda3b03ab3e994"
+}

@@ -1,0 +1,84 @@
+{
+  "status": "BASELINE_HIDDEN_FEEDBACK_REPRODUCED_BEFORE_RUNTIME_EDITS",
+  "source_commit": "0f3f54b6559d52a1b6d5039083990f8b80182305",
+  "source_tree": "df78e04c6db5891537c463b14ee8b087bc349781",
+  "remote_equivalent": "c03d9e847fc984749ebe6d2f008f0090f21e5718",
+  "version": "0.0.32",
+  "tracked_originals": 1723,
+  "runtime_entries": 382,
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "focused_checks": 137,
+  "native_pngs": 3,
+  "launcher_success": true,
+  "source_changes": [],
+  "result_sha256": "13c5aa369d56495b9c9d1d575a6d57b01f6538caa6125bc1497215490a803497",
+  "cases": [
+    {
+      "name": "01-manual-save-success-1280",
+      "png_bytes": 644208,
+      "png_sha256": "0b09e1fd844f5b0023128d0671b6cf9fdc60c544ab0779d5a89fa994a618d218",
+      "pixels": [
+        1280,
+        800
+      ],
+      "feedback": {
+        "active_modal": true,
+        "modal_generation": 4,
+        "screen": "explore",
+        "status_text": "手记一已写下。",
+        "status_visible_in_tree": false,
+        "toast_time": 6.7,
+        "toast_wash_visible": false,
+        "toast_wash_visible_in_tree": false
+      }
+    },
+    {
+      "name": "02-manual-save-blocked-1280",
+      "png_bytes": 644118,
+      "png_sha256": "ee28cbc77a813fc717f764a1494dac1fc7633e1b5b000b4c237a877a7cb336be",
+      "pixels": [
+        1280,
+        800
+      ],
+      "feedback": {
+        "active_modal": true,
+        "modal_generation": 5,
+        "screen": "explore",
+        "status_text": "手记未能保存，原文件保持不变。错误：12",
+        "status_visible_in_tree": false,
+        "toast_time": 6.7,
+        "toast_wash_visible": false,
+        "toast_wash_visible_in_tree": false
+      }
+    },
+    {
+      "name": "03-title-load-corrupt-1280",
+      "png_bytes": 1099045,
+      "png_sha256": "45bfed17b06bdc0f9f1fed05a66b1b231dc02cac99986c3bff0d2f1207644e32",
+      "pixels": [
+        1280,
+        800
+      ],
+      "feedback": {
+        "active_modal": true,
+        "modal_generation": 12,
+        "screen": "title",
+        "status_text": "这份手记暂时无法读取，当前旅程未改变。错误：16",
+        "status_visible_in_tree": false,
+        "toast_time": 6.7,
+        "toast_wash_visible": false,
+        "toast_wash_visible_in_tree": false
+      }
+    }
+  ],
+  "safety_review_sha256": "dd0063bde9a79973fec295026f172b1473043ff1df11b8ddc06a05c7fb45e240",
+  "limits": [
+    "Three native baseline views from scripted production input; not the redesigned UI acceptance",
+    "Fresh journey used actual title input; owned write-blocking directory and corrupted save are prepared faults",
+    "Original fixture bytes retained before corruption; no player data used",
+    "Does not establish browser gameplay/audio/IndexedDB persistence",
+    "Full original raw evidence and private backup retained outside source"
+  ],
+  "launcher_receipt_sha256": "86206537ba87693e23cd0d27d6773fd7a3bde81e0bc740a7c9f8250b20a33e59",
+  "launcher_tool_sha256": "0fcd05a65797e9bdcee89c9b231d215a17f371c4c0ba38da9fd05a7e493cb48a"
+}
