@@ -28,6 +28,9 @@ var section_failures = 0
 
 const TITLE_NOTICE = "所有保存均为格式16，旧版无法读取；自动存档不额外备份。"
 const NEW_CONSEQUENCES = "继续新旅程将替换当前自动存档，三份手动手记不会删除。\n\n若要接着之前的经历，请选择返回，再点‘续写前缘’。"
+const TITLE_STORY = "你带着一封没有署名的旧信，来到水路尽头的青苇渡。\n今夜，渡口的引航灯没有亮。"
+const TITLE_MOTTO = "江湖未必始于名山大派，也可能始于一盏被人摘走的灯。"
+const BROWSER_RETRY_NOTICE = "自动存档失败，请打开小憩，点击保存当前旅程重试。"
 var geometry_samples: Array[Dictionary] = []
 
 func _initialize() -> void: _run.call_deferred()
@@ -561,6 +564,7 @@ func _geometry() -> void:
 	_begin("true_logical_geometry_and_all_native_focus_targets")
 	app._show_title(); var before = _snapshot("Before title geometry and input-only focus sweep")
 	var original_browser_revision: String = app.browser_build_revision
+	var original_save_warning: bool = app.save_warning
 	for dimensions: Vector2i in [Vector2i(1280,800),Vector2i(1179,737)]:
 		root.content_scale_size = dimensions; root.size = dimensions; await _frames(5)
 		_check(root.get_visible_rect().size == Vector2(dimensions) and root.get_final_transform().is_equal_approx(Transform2D.IDENTITY),"Actual unscaled logical viewport "+str(dimensions))
@@ -578,11 +582,41 @@ func _geometry() -> void:
 		_check(_buttons().size() == 4 and _button("导入 / 导出手记") != null,"Existing optional fourth action stays reachable")
 		app.web_save_transfer_enabled = false; app.browser_mode = false
 		app.browser_build_revision = original_browser_revision
+		# The original _toast suffix is longest in browser mode with an already
+		# latched save failure. Exercise the real reader, without injecting an error.
+		app.browser_mode = true; app.browser_build_revision = "1"; app.save_warning = true
+		_write_owned(SAVE_PATH,JSON.stringify({"version":model.SAVE_VERSION+1,"player":model.new().to_dict()}).to_utf8_buffer())
+		app._show_title(); var warning_before = _snapshot("Browser title with existing save warning before actual unsupported read")
+		await _choose("续写前缘")
+		_unchanged(warning_before,"Browser warning plus actual failed Continue",true,false)
+		_counts(warning_before,0,1,0,"Browser warning plus actual unsupported reader")
+		var warning_page = _page()
+		_check(probe.load_attempts[-1].error == ERR_FILE_UNRECOGNIZED and app.save_warning,"Real unsupported read preserves existing warning latch")
+		_check(warning_page.feedback.text == "存档版本不受支持，请使用兼容的新版本。  ⚠ "+BROWSER_RETRY_NOTICE and warning_page.feedback.text == app.status_label.text,"Full original longest browser error and retry suffix appear verbatim")
+		_check(warning_page.find_child("BuildVersion",true,false).text == "0.0.34 · Web 1","Prepared longest-error browser revision is explicit")
+		await _geometry_sample("home-browser-error-with-existing-warning",dimensions)
+		# Keep the ordinary three-action error case above. This separate sample
+		# combines the existing optional fourth row with the same real longest error.
+		app.web_save_transfer_enabled = true; app._show_title()
+		var four_row_before = _snapshot("Opt-in four-row browser title before actual unsupported read")
+		var four_row_rects: Array = _buttons().map(func(button): return button.get_global_rect())
+		_check(_buttons().size() == 4 and _button("导入 / 导出手记") != null,"Longest-error optional fourth row is visible without invoking transport")
+		await _choose("续写前缘")
+		_unchanged(four_row_before,"Four-row browser warning plus actual failed Continue",true,false)
+		_counts(four_row_before,0,1,0,"Four-row browser actual unsupported reader")
+		_check(_page().feedback.text == "存档版本不受支持，请使用兼容的新版本。  ⚠ "+BROWSER_RETRY_NOTICE and _page().feedback.text == app.status_label.text and app.save_warning,"Four-row case retains complete original browser error and warning latch")
+		_check(_buttons().map(func(button): return button.get_global_rect()) == four_row_rects,"Real longest feedback keeps all four native action locations stable")
+		_check(ProjectSettings.get_setting("hero/features/web_save_transfer_enabled",true) == false,"Optional in-memory fourth-row fixture never changes shipped project default")
+		await _geometry_sample("home-four-row-browser-error-with-existing-warning",dimensions)
+		app.web_save_transfer_enabled = false
+		app.browser_mode = false; app.browser_build_revision = original_browser_revision; app.save_warning = original_save_warning
+		_fixture(0,24)
 	root.content_scale_size = Vector2i(1280,800); root.size = Vector2i(1280,800); app._show_title()
 	_check(_state() == before.state and probe.reset_attempts.size() == before.reset_calls and _writes() == before.writer_calls,"Geometry/focus sweep changes no live branch and invokes no save/reset")
 	_check(_saves(true) == _manual_from_snapshot(before),"Geometry and raw autosave error fixtures preserve every manual byte")
 	_check(not app.web_save_transfer_enabled,"Opt-in fixture is restored to shipped-off state")
-	_check(geometry_samples.size() == 8,"Eight true-logical geometry samples recorded")
+	_check(geometry_samples.size() == 12,"All eight original plus four longest-error true-logical geometry samples recorded")
+	_check(app.save_warning == original_save_warning and app.browser_build_revision == original_browser_revision and not app.browser_mode,"Longest-error fixture restores original warning and browser flags")
 	_end()
 
 func _manual_from_snapshot(value: Dictionary) -> Dictionary:
@@ -598,6 +632,7 @@ func _geometry_sample(label: String, dimensions: Vector2i) -> void:
 	var canvas = Rect2(Vector2.ZERO,Vector2(dimensions))
 	var record: Dictionary = {"case":label,"logical_size":[dimensions.x,dimensions.y],"kind":page.kind,"buttons":[],"rich_text":[],"labels":[]}
 	_check(page.size == Vector2(dimensions),"Title page receives direct logical dimensions")
+	record.typography = _typography_contract(page,canvas)
 	for rich: RichTextLabel in page.find_children("*","RichTextLabel",true,false):
 		if not rich.is_visible_in_tree(): continue
 		var style: StyleBox = rich.get_theme_stylebox("normal")
@@ -641,6 +676,41 @@ func _geometry_sample(label: String, dimensions: Vector2i) -> void:
 	await _key(KEY_TAB); _check(root.gui_get_focus_owner() == buttons[0],"Native title Tab ring wraps")
 	await _key(KEY_TAB,false,true); _check(root.gui_get_focus_owner() == buttons[-1],"Native title Shift-Tab reverses ring")
 	_release_focus(); geometry_samples.append(record)
+
+func _label_envelope(label: Label) -> Rect2:
+	var envelope = Rect2()
+	for index: int in label.text.length():
+		var cell = label.get_character_bounds(index)
+		if cell.has_area(): envelope = cell if not envelope.has_area() else envelope.merge(cell)
+	return label.get_global_transform()*envelope
+
+func _typography_contract(page, canvas: Rect2) -> Dictionary:
+	var cover: Rect2 = page.cover.get_global_rect()
+	var notice: Rect2 = _label_envelope(page.notice)
+	var footer_node: Label = page.find_child("TitleEntryKeyboardHelp",true,false)
+	var footer: Rect2 = _label_envelope(footer_node)
+	_check(page.notice.text == TITLE_NOTICE,"Original one-way save notice remains byte-for-byte unchanged")
+	if page.kind == "home":
+		_check(page.story.get_parsed_text().replace("\n","") == TITLE_STORY.replace("\n",""),"Narrative preserves every original letter and punctuation, allowing inserted linebreaks only")
+		_check(page.motto.text.replace("\n","") == TITLE_MOTTO,"Motto preserves every original letter and punctuation, allowing inserted linebreaks only")
+		_check(page.chapter.get_parsed_text() == "第一章 · 灯火不问归人","Original chapter wording remains exact")
+	else:
+		_check(page.story.get_parsed_text().replace("\n","") == NEW_CONSEQUENCES.replace("\n",""),"Confirmation prose preserves every original letter and punctuation")
+	_check(canvas.encloses(cover),"Actual title cover stays inside logical canvas")
+	_check(cover.encloses(notice) and cover.encloses(footer),"Actual notice and footer advance envelopes stay inside cover")
+	_check(notice.end.y+4.0 <= footer.position.y,"Save notice clears keyboard footer by at least four logical pixels")
+	_check(cover.end.y-footer.end.y >= 14.0,"Keyboard footer advance envelope clears lower cover edge by at least fourteen pixels")
+	var result: Dictionary = {"cover":_rect(cover),"notice_envelope":_rect(notice),"footer_envelope":_rect(footer),"notice_footer_clearance":footer.position.y-notice.end.y,"footer_cover_clearance":cover.end.y-footer.end.y,"feedback_visible":page.feedback_band.is_visible_in_tree()}
+	if page.feedback_band.is_visible_in_tree():
+		var band: Rect2 = page.feedback_band.get_global_rect()
+		var feedback: Rect2 = _label_envelope(page.feedback)
+		_check(band.encloses(feedback) and cover.encloses(band),"Complete native feedback advance envelope fits its band and cover")
+		_check(band.end.y+4.0 <= notice.position.y and not band.intersects(footer),"Actual feedback band clears save notice and keyboard footer")
+		for button: Button in page.buttons:
+			_check(not band.intersects(button.get_global_rect()),"Error feedback does not overlap native actions")
+		_check(page.feedback.get_visible_line_count() == page.feedback.get_line_count() and page.feedback.visible_characters == -1 and page.feedback.visible_ratio == 1.0,"Every line of full current feedback remains enabled")
+		result.merge({"feedback_text":page.feedback.text,"feedback_band":_rect(band),"feedback_envelope":_rect(feedback),"feedback_notice_clearance":notice.position.y-band.end.y})
+	return result
 
 func _rect(value: Rect2) -> Array: return [value.position.x,value.position.y,value.size.x,value.size.y]
 

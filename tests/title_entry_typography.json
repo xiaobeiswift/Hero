@@ -1,0 +1,98 @@
+{
+  "base_source_commit": "21956882cb77856d581f5cc630cc6a7f38187a3e",
+  "runtime_entries": 386,
+  "runtime_sha256": "7485a68bd7bc389199374c33aafaa93fdc34575deca3fa1275e87d19ab687986",
+  "status": "typography_focused_passed_fresh_native_full_package_pending",
+  "changes": [
+    "Higher footer with measured cover clearance",
+    "Presentation-only line breaks preserve narrative/motto letters and punctuation",
+    "Pinned one-way notice text remains byte-identical; measured width wraps its clauses",
+    "Feedback band follows native Label minimum height and keeps existing full browser warning suffix",
+    "Stable denser four-action layout for existing dormant in-memory opt-in test path; shipped feature still false"
+  ],
+  "focused_checks": 1706,
+  "failures": [],
+  "sections": [
+    {
+      "checks": 150,
+      "failures": 0,
+      "name": "empty_and_manual_only_title_availability",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 126,
+      "failures": 0,
+      "name": "confirmation_cancellation_native_keyboard_and_explicit_default",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 74,
+      "failures": 0,
+      "name": "real_pointer_held_replacement_stale_callbacks_and_quit",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 228,
+      "failures": 0,
+      "name": "real_corrupt_future_empty_and_disappeared_autosave_readers",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 30,
+      "failures": 0,
+      "name": "loaded_branch_survives_real_followup_autosave_failure",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 23,
+      "failures": 0,
+      "name": "new_journey_reset_survives_real_autosave_failure",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 43,
+      "failures": 0,
+      "name": "explicit_legacy_autosave_upgrade_and_pending_sect_return",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 26,
+      "failures": 0,
+      "name": "opt_in_scope_version_and_dormant_transfer",
+      "state_mode": "forwarding_observation_subclass"
+    },
+    {
+      "checks": 1001,
+      "failures": 0,
+      "name": "true_logical_geometry_and_all_native_focus_targets",
+      "state_mode": "forwarding_observation_subclass"
+    }
+  ],
+  "geometry_cases": 12,
+  "logical_sizes": [
+    [
+      1280,
+      800
+    ],
+    [
+      1179,
+      737
+    ]
+  ],
+  "geometry_includes": "Eight prior cases plus real unsupported reader and existing full browser warning at both sizes, with both3/4action variants; never invokes transfer",
+  "all_previous_assertions_retained": true,
+  "test_sha256": "ce3abe7b60d3c788f8f4d7ac362737270a275ef76e279abf02fab1fb34e7fc58",
+  "launcher_result_sha256": "01dde926ce0f3c9a28fe2a6b9a0cdf07b8f9bff762c0ff74ea9423ed69b80532",
+  "test_result_sha256": "4b06123b6224e4ee537351e2a2fe762a702b1c6ea70f054b72e89beb92d07240",
+  "independent_review_sha256": "f0f7d5fed098ea5006afed636c37559867c5c7105c5e4bcc3f292257502caa14",
+  "web_pack_python_checks": 22,
+  "unchanged": [
+    "Action order/availability/key semantics and callback guards",
+    "All production reset/load/save handlers",
+    "Model/storage/schema16/resources/roster",
+    "Art source bytes",
+    "LiveWeb33"
+  ],
+  "next": "Fresh final12nativeframe matrix then full source and exact package gates; frozen first6frames staybound2195688",
+  "limits": "Geometry character bounds are advance/line envelopes, not raster ink. Native browser UI flags do not prove browser execution."
+}

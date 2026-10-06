@@ -1,0 +1,149 @@
+{
+  "source_commit": "21956882cb77856d581f5cc630cc6a7f38187a3e",
+  "source_public_commit": "5e36e35bf1a876a2e02c925cdd2abb44bd9797d8",
+  "runtime_entries": 386,
+  "runtime_sha256": "5c8dcd35d4edeb83d28f2fbc857f46bf84b57d6ee2f308a8676bfa161fe453ee",
+  "status": "first_candidate_native_passed_scope_only",
+  "checks": 164,
+  "frames": 6,
+  "failures": [],
+  "launcher_sha256": "0d53e6e103f23a5b0d12853f46949a6e028d961ef4767728acd155f87d195aa0",
+  "result_sha256": "55189a683f27b080ddb977bbd72dd96815778483c7511219c4c6b3ac33eea68f",
+  "captures": [
+    {
+      "name": "01-title-prepared-saves-1280",
+      "state_id": "title-prepared-saves",
+      "bytes": 1518837,
+      "sha256": "01537f4a40e9438be6a6ed2c780cb90c5fff768ba2f2e0256b9ae7e59975e4a4",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    },
+    {
+      "name": "02-title-prepared-saves-960",
+      "state_id": "title-prepared-saves",
+      "bytes": 929306,
+      "sha256": "e454f511b86f916768a6f441ccb34b4ea3062bb88ba993544e933326be60b242",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    },
+    {
+      "name": "03-new-journey-confirm-1280",
+      "state_id": "new-journey-confirm",
+      "bytes": 1547028,
+      "sha256": "763d4261471b8941a028f1eeec7fe2e99f8ace7124fd1a6acf8cc87aadc82889",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    },
+    {
+      "name": "04-new-journey-confirm-960",
+      "state_id": "new-journey-confirm",
+      "bytes": 948328,
+      "sha256": "603de369fd482034310a015c84fd5173cfbac8f4718edddb554bdd685663e4b4",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    },
+    {
+      "name": "05-title-continue-corrupt-1280",
+      "state_id": "title-continue-corrupt",
+      "bytes": 1513374,
+      "sha256": "c6c487463578a1c64e82256c952cc619ffd86eca0705aa71de9d7f8129e6f43b",
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    },
+    {
+      "name": "06-title-continue-corrupt-960",
+      "state_id": "title-continue-corrupt",
+      "bytes": 928840,
+      "sha256": "cf710dc261a052d115a80d239c547cb06acb26d035ccb635cbfabcf43e89e60a",
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "qualifiers": [
+        "actual_native_engine",
+        "scripted_Input.parse_input_event",
+        "explicit_prepared_saves",
+        "not_manual_playthrough",
+        "Web34_candidate",
+        "prepared_browser_ui_caption_Web1_not_WebGL"
+      ]
+    }
+  ],
+  "first_pixel_review": "All text/actions/focus and actual Continue error visible; coordinator requested subsequent footer/clause-wrapping polish",
+  "scope": "Prepared saves, scripted native input, Dummy audio, explicit native browser UI flags/revision1. No destructive confirmation or actual browser/WebGL acceptance. Exact prepared bytes restored; all1763trackedoriginals unchanged",
+  "pending": "Subsequent typography runtime requires fresh native matrix; no later pixel pass inferred"
+}
