@@ -1,0 +1,278 @@
+extends "res://tests/companion_folio_behavior_test.gd"
+## Separate bounded native companion folio evidence. Original recovery16 driver
+## is preserved. Parent launcher owns final source/runtime/engine binding.
+## Shared test helpers contain no game preloads and retain genuine save APIs.
+const FRAME_LIMIT = 10
+const HELPER_PATH = "res://tests/companion_folio_behavior_test.gd"
+const USER_SUFFIX = "data/godot/app_userdata/Hero · 渡灯录"
+var binding: Dictionary = {}
+var frames_dir = ""
+var captures: Array[Dictionary] = []
+var fixtures: Array[Dictionary] = []
+var boundaries: Array[Dictionary] = []
+var requested_size = Vector2i(1280,800)
+
+func _run() -> void:
+	if not _guard():
+		push_error("ERROR: companion folio native guard rejected startup; no game resources loaded")
+		quit(2); return
+	guard_passed = true
+	create_timer(180.0).timeout.connect(func():
+		if not finished:
+			_check(false,"Native companion capture exceeded 180-second watchdog")
+			_finish())
+	if not _check(DisplayServer.get_name() != "headless","Native display required; headless is never capture evidence"): _finish(); return
+	if not _check(DirAccess.make_dir_absolute(frames_dir) == OK,"Create exclusive external native frame directory"): _finish(); return
+	if not await _boot(): _finish(); return
+	await _native_unrecruited()
+	if not failures.is_empty(): _finish(); return
+	await _native_four()
+	if not failures.is_empty(): _finish(); return
+	await _native_mixed()
+	if not failures.is_empty(): _finish(); return
+	await _native_failure()
+	if not failures.is_empty(): _finish(); return
+	await _native_wide()
+	_check(captures.size() == FRAME_LIMIT,"Exactly ten core native PNGs")
+	_finish()
+
+func _guard() -> bool:
+	if not super._guard(): return false
+	if OS.get_name() != "Linux": return false
+	if OS.get_environment("HERO_FOLIO_QA_TOKEN").length() != 64: return false
+	if owned_user != owned_root.path_join(USER_SUFFIX): return false
+	if report_path != owned_root.path_join("results/test-result.json"): return false
+	for entry: Array in [["HOME","home"],["XDG_DATA_HOME","data"],["XDG_CONFIG_HOME","config"],["XDG_CACHE_HOME","cache"]]:
+		if OS.get_environment(entry[0]) != owned_root.path_join(entry[1]): return false
+	frames_dir = owned_root.path_join("results/native-frames")
+	if not _no_links(frames_dir) or FileAccess.file_exists(frames_dir) or DirAccess.dir_exists_absolute(frames_dir): return false
+	var binding_path = owned_root.path_join("results/native-binding.json")
+	if OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING") != binding_path or not _no_links(binding_path) or not FileAccess.file_exists(binding_path): return false
+	if FileAccess.get_sha256(binding_path) != OS.get_environment("HERO_FOLIO_QA_NATIVE_BINDING_SHA256"): return false
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(binding_path))
+	if not parsed is Dictionary: return false
+	binding = parsed
+	if binding.get("suite") != "companion_folio_native_capture": return false
+	if binding.get("source") != ProjectSettings.globalize_path("res://").trim_suffix("/").simplify_path(): return false
+	if binding.get("driver_sha256") != FileAccess.get_sha256(get_script().resource_path): return false
+	if binding.get("helper_sha256") != FileAccess.get_sha256(HELPER_PATH): return false
+	if binding.get("engine_sha256") != FileAccess.get_sha256(OS.get_executable_path()): return false
+	for field: String in ["runtime_sha256"]:
+		if not binding.get(field,"") is String or binding[field].length() != 64: return false
+	for field: String in ["source_commit","source_tree"]:
+		if not binding.get(field,"") is String or binding[field].length() != 40: return false
+	if not binding.get("runtime_entries",0) is int and not binding.get("runtime_entries",0) is float: return false
+	if int(binding.runtime_entries) <= 0: return false
+	# The outer launcher independently pins the final runtime manifest and exact
+	# WIP source tree. This driver never inherits the old recovery runtime hash.
+	return _tree_unlinked(owned_user)
+
+func _view(dimensions: Vector2i) -> void:
+	requested_size = dimensions; root.size = dimensions
+	await _frames(5)
+	_check(root.size == dimensions,"Actual native window equals requested physical pixels")
+
+func _prepared_native(value, label: String) -> bool:
+	if not await _prepare(value,label): return false
+	fixtures.append({"label":label,"kind":"prepared_legal_fixture_not_earned_in_this_run","canonical":app.state.to_dict().duplicate(true),"save_base64":Marshalls.raw_to_base64(_disk()),"application_files":_file_records()})
+	inputs.append({"section":current_section,"kind":"direct_preparation","label":label,"calls":["HeroState.inspect_save_bytes","Main._apply_loaded_state","Main._autosave"]})
+	return true
+
+func _story_roundtrips(direct: bool) -> void:
+	for id: String in ["shen","tang","qin"]:
+		var page = _folio()
+		if not _check(page != null,"Native story begins on actual folio"): return
+		var before = _snapshot("Native story before "+id)
+		await _pointer(page.cells[id].story,"Native "+id+" story info")
+		_check(_folio() == null and app.active_modal,"Native story callback replaced folio")
+		await _key(KEY_1)
+		page = _folio()
+		if not _check(page != null,"Native story back restored folio"): return
+		_check(page.return_button.text == ("继续赶路" if direct else "返回行囊"),"Native story retained correct entry origin")
+		_expect(before,{},"Native story is read-only "+id)
+
+func _native_unrecruited() -> void:
+	_section("unrecruited")
+	if not await _prepared_native(_new_state(),"Unrecruited, only the hero exists"): return
+	await _view(Vector2i(1280,800))
+	var page = await _open(false)
+	if page == null: return
+	for id: String in ["shen","tang","qin"]:
+		var cell: Dictionary = page.cells[id]
+		_check(cell.empty.visible and cell.hint.visible and cell.portrait.texture == null and not cell.portrait.visible and not cell.hp.visible and not cell.qi.visible and not cell.actions.visible and cell.toggle.disabled,"Native unrecruited row never exposes actor data: "+id)
+	await _capture("01-unrecruited-1280","Actual I then5 inventory origin; safe return focus; no recruitment")
+	await _view(Vector2i(960,600))
+	await _capture("02-unrecruited-960","Same unrecruited state at real 960x600 framebuffer")
+	await _return_origin(false)
+
+func _native_four() -> void:
+	_section("four-selected")
+	var value = _all_state()
+	# All four selected; use genuine rest only while constructing the fixture,
+	# before its accepted baseline, so this image reads as the full team.
+	value.heal_rest()
+	if not await _prepared_native(value,"Four selected; prepared full resources"): return
+	await _view(Vector2i(1280,800))
+	var page = await _open(true)
+	if page == null: return
+	_values(page)
+	await _story_roundtrips(true)
+	await _capture("03-four-selected-1280","Actual HUD entry plus all three native story/back detours retaining exploration origin")
+	await _view(Vector2i(960,600))
+	await _capture("04-four-selected-960","All four genuine actors remain selected at compact physical dimensions")
+	await _return_origin(true)
+
+func _native_mixed() -> void:
+	_section("mixed-order-bench-downed")
+	var value = _all_state()
+	if not _check(value.set_party_roster(["hero","qin","shen"]),"Prepared reordered mixed membership accepted"): return
+	if not await _prepared_native(value,"Mixed roster hero/Qin/Shen; Tang benched; Shen downed; independent low HP/Qi"): return
+	await _view(Vector2i(1280,800))
+	var page = await _open(false)
+	if page == null: return
+	await _story_roundtrips(false)
+	page = _folio(); _values(page)
+	# Restore native initial focus, then actual Tab/Shift-Tab/arrow traversal.
+	await _key(KEY_TAB); await _key(KEY_TAB,true); await _key(KEY_RIGHT)
+	_check(page.cells.shen.story.has_focus(),"Native focus is visibly on Shen story beside downed member")
+	await _capture("05-mixed-order-bench-downed-1280","Prepared mixed order, fixed display slots, actual native keyboard focus and inventory-origin story returns")
+	await _view(Vector2i(960,600))
+	await _capture("06-mixed-order-bench-downed-960","Same real low/zero values and native focus at compact physical dimensions")
+	await _return_origin(false)
+
+func _native_failure() -> void:
+	_section("real-save-failure")
+	if not await _prepared_native(_all_state(),"Before actual failed save; all four selected, independent resource damage"): return
+	await _view(Vector2i(1280,800))
+	var page = await _open(true)
+	if page == null or not _create_collision(): return
+	var before = _snapshot("Native old disk before deliberate failed selection")
+	await _pointer(page.cells.tang.toggle,"Actual Tang bench; genuine FileAccess fails against owned empty temporary-file directory")
+	_expect(before,{"party_roster":["hero","shen","qin"]},"Native real write failure preserves one accepted selection and old bytes")
+	_check(app.save_warning and page.retry_button.visible,"Actual pending save error in native UI")
+	var failed = _snapshot("Native failed-state raw save proof")
+	# Reach retry via the real focus chain; no programmatic grab_focus for capture.
+	for attempt in range(12):
+		if page.retry_button.has_focus(): break
+		await _key(KEY_TAB)
+	_check(page.retry_button.has_focus(),"Visible retry reached through native Tab")
+	await _capture("07-real-save-failure-1280","Real writer failure after accepted Tang bench; old disk bytes retained; focused retry")
+	await _pointer(page.retry_button,"Actual explicit repeat failure")
+	_expect(failed,{},"Native explicit repeated failed save cannot replay membership or heal")
+	await _view(Vector2i(960,600))
+	# Pointer focus need not paint the keyboard focus ring. Re-enter through
+	# actual native Tab traversal after the failed pointer retry and resize.
+	await _key(KEY_TAB); await _key(KEY_TAB,true)
+	_check(page.retry_button.has_focus(),"Compact retry reached again through native Tab after pointer failure")
+	await _capture("08-real-save-failure-960","Real repeated failure, longest existing modal retry message, keyboard focus restored through native Tab")
+	if not _remove_collision(): return
+	await _pointer(page.retry_button,"Actual successful retry after verified empty collision removal")
+	_expect(failed,{},"Native retry persists exact accepted roster and resources",true)
+	_check(page.return_button.has_focus() and not page.retry_button.visible,"Native retry success restores visible return focus")
+	# F5 is independently proven against another genuine failed formation save.
+	if not _create_collision(): return
+	before = _snapshot("Native before failed formation")
+	await _pointer(page.formation_buttons["护后"],"Actual formation save fails")
+	_expect(before,{"formation":"护后"},"Native accepted formation only")
+	failed = _snapshot("Native formation awaits F5")
+	await _key(KEY_F5); _expect(failed,{},"Native F5 repeated failure preserves old bytes")
+	if not _remove_collision(): return
+	await _key(KEY_F5); _expect(failed,{},"Native F5 persists exact accepted state",true)
+	await _return_origin(true)
+	var expected: Dictionary = app.state.to_dict().duplicate(true)
+	var bytes = _disk(); app.state.coins -= 1
+	_check(_disk() == bytes and app.state.to_dict() != expected,"Native reload sentinel affects memory alone")
+	await _key(KEY_F9)
+	_check(app.state.to_dict() == expected,"Native Main F9 reload restores actual roster/formation/resources")
+	_saved(expected,"Native real retry reload")
+
+func _native_wide() -> void:
+	_section("legal-long-name-wide")
+	if not await _prepared_native(_all_state(true),"Legal 18-character name, hero9998/9999 HP98/99 Qi and maximum-level companion widths"): return
+	await _view(Vector2i(1280,800))
+	var page = await _open(false)
+	if page == null: return
+	_check(app.state.player_name.length() == 18,"Name is actual maximum legal 18characters")
+	_values(page)
+	await _capture("09-legal-long-name-wide-1280","Unmodified production validator accepted every wide value and full18-character name")
+	await _view(Vector2i(960,600))
+	await _capture("10-legal-long-name-wide-960","Maximum legal name and real wide resources at physical960x600; complete text required")
+	await _return_origin(false)
+
+func _file_records(path: String = "", relative: String = "") -> Dictionary:
+	var actual = owned_user if path.is_empty() else path
+	var result: Dictionary = {}
+	if not _check(_tree_unlinked(actual),"Application tree remains nonsymlink"): return result
+	var directory = DirAccess.open(actual)
+	if directory == null: return result
+	directory.include_hidden = true; directory.include_navigational = false
+	for leaf: String in directory.get_files():
+		var filename = actual.path_join(leaf)
+		var file = FileAccess.open(filename,FileAccess.READ)
+		result[relative.path_join(leaf)] = {"bytes":file.get_length() if file != null else -1,"sha256":FileAccess.get_sha256(filename)}
+		if file != null: file.close()
+	for leaf: String in directory.get_directories():
+		if relative.is_empty() and leaf in ["shader_cache","logs"]: continue
+		result.merge(_file_records(actual.path_join(leaf),relative.path_join(leaf)))
+	return result
+
+func _rect(rect: Rect2) -> Array:
+	return [rect.position.x,rect.position.y,rect.size.x,rect.size.y]
+
+func _controls(node: Node) -> Array[Dictionary]:
+	var rows: Array[Dictionary] = []
+	if node is Control and node.is_visible_in_tree():
+		var row: Dictionary = {"path":str(node.get_path()),"logical_rect":_rect(node.get_global_rect()),"pixel_rect":_rect(root.get_final_transform()*node.get_global_rect()),"focus":node.has_focus()}
+		if node is Label or node is RichTextLabel or node is Button:
+			row.text = node.text; row.font_size = node.get_theme_font_size("font_size")
+		if node is Label: row.visible_line_count = node.get_visible_line_count(); row.line_count = node.get_line_count()
+		if node is Button: row.disabled = node.disabled; row.pressed = node.button_pressed
+		if node is ProgressBar: row.value = node.value; row.max_value = node.max_value
+		if node is TextureRect and node.texture is AtlasTexture: row.atlas_region = _rect(node.texture.region); row.stretch_mode = node.stretch_mode
+		rows.append(row)
+	for child in node.get_children(): rows.append_array(_controls(child))
+	return rows
+
+func _capture(stem: String, note: String) -> void:
+	await _frames(4); await RenderingServer.frame_post_draw
+	if not _check(captures.size() < FRAME_LIMIT,"Bounded10-frame native limit"): return
+	var page = _folio()
+	if not _check(page != null and page.frame.name == "PartyRosterFrame" and page.frame.is_visible_in_tree(),"Actual production folio visible for capture"): return
+	var before = _snapshot("Before framebuffer "+stem)
+	var image: Image = root.get_texture().get_image()
+	if not _check(image != null and not image.is_empty() and image.get_size() == requested_size and root.size == requested_size,"Actual framebuffer PNG matches physical request"): return
+	var path = frames_dir.path_join(stem+".png")
+	if not _check(_no_links(path) and not FileAccess.file_exists(path) and not DirAccess.dir_exists_absolute(path),"Fresh owned PNG destination"): return
+	if not _check(image.save_png(path) == OK,"Persist complete actual native framebuffer PNG"): return
+	var file = FileAccess.open(path,FileAccess.READ)
+	var byte_count: int = file.get_length() if file != null else -1
+	if file != null: file.close()
+	_check(byte_count > 0,"Native PNG has complete readable bytes")
+	_expect(before,{},"Framebuffer capture itself preserves state and save bytes")
+	captures.append({"name":stem,"path":path,"bytes":byte_count,"sha256":FileAccess.get_sha256(path),"pixel_dimensions":[image.get_width(),image.get_height()],"requested_window":[requested_size.x,requested_size.y],"actual_window":[root.size.x,root.size.y],"logical_viewport":[root.get_visible_rect().size.x,root.get_visible_rect().size.y],"viewport_final_transform":var_to_str(root.get_final_transform()),"display_server":DisplayServer.get_name(),"capture_source":"RenderingServer.frame_post_draw + root viewport texture; complete PNG bytes","qualifiers":["native_engine","scripted_input","prepared_legal_fixture","not_manual","not_earned_journey"],"fixture":current_section,"note":note,"canonical_state":app.state.to_dict(),"raw_save_base64":Marshalls.raw_to_base64(_disk()),"application_files":_file_records(),"frame_logical_rect":_rect(page.frame.get_global_rect()),"frame_pixel_rect":_rect(root.get_final_transform()*page.frame.get_global_rect()),"controls":_controls(app.overlay),"input_count":inputs.size(),"zoom":app.view_zoom,"full_resolution":app.view_preferences.full_resolution})
+	boundaries.append({"label":stem,"canonical":app.state.to_dict(),"application_files":_file_records()})
+	if not _write_native_report("running"):
+		_check(false,"Native progress report cannot be written")
+		_finish()
+
+func _write_native_report(status: String) -> bool:
+	if not guard_passed or not _no_links(report_path): return false
+	if not failures.is_empty(): status = "fail"
+	var report = {"suite":"companion_folio_native_capture","status":status,"historical_evidence_recreated":false,"checks":checks,"failures":failures,"binding":binding,"display_server":DisplayServer.get_name(),"engine_version":Engine.get_version_info(),"captures":captures,"fixtures":fixtures,"inputs":inputs,"preservation_boundaries":boundaries,"checkpoints":checkpoints,"application_files":_file_records(),"engine_shader_cache_separate":_file_records(owned_user.path_join("shader_cache"),"shader_cache") if DirAccess.dir_exists_absolute(owned_user.path_join("shader_cache")) else {},"limits":["Prepared legal fixtures are not progression earned in this run","Scripted native viewport input is not manual OS/browser interaction","Ten PNGs are five prepared states at two actual physical sizes","Native pixels require independent visual review; rectangles are insufficient","Exact unchanged save bytes do not prove no same-content autosave writes","This Linux driver and launcher are not Windows portability certification","No new assets, video, original evidence replacement, package or publication","Outer launcher must verify exact source/runtime/engine/driver/helper hashes after exit"]}
+	var file = FileAccess.open(report_path,FileAccess.WRITE)
+	if file == null: push_error("ERROR: native companion report cannot be opened"); return false
+	file.store_string(JSON.stringify(report,"\t")); file.flush()
+	var error = file.get_error(); file.close()
+	return error == OK
+
+func _finish() -> void:
+	if finished: return
+	finished = true
+	if collision_owned: _remove_collision()
+	if is_instance_valid(app): app._stop_audio()
+	var report_ok = _write_native_report("pass" if failures.is_empty() else "fail")
+	if is_instance_valid(app): app.free()
+	if not report_ok: quit(2); return
+	if failures.is_empty(): print("PASS: NEW companion folio native capture, %d PNGs / %d checks" % [captures.size(),checks])
+	else: push_error("ERROR: companion folio native capture failed, %d failures" % failures.size())
+	quit(0 if failures.is_empty() else 1)
