@@ -94,8 +94,21 @@ class JournalPackAuditTests(unittest.TestCase):
         for literal in ('工册已传给学徒','原稿与水令一同留存','先鸣渡船钟','✓ 把照护约','苇心残碑已拓录','留刻度，不留渡价'):
             self.assertIn(literal,driver)
         self.assertIn('JOURNAL LEGACY COVERAGE LEDGER',driver)
-        self.assertIn('page.size.y==720 and chart.size==Vector2(780,330) and chart.position.y==255',driver)
-        self.assertIn('paper.encloses(caption.get_rect())',driver)
+        for literal in ('_check(_map_folio_geometry(page,chart,caption,close)',
+                        'page.size != Vector2(1240,744)', 'paper_bounds != Rect2(126,14,1096,712)',
+                        'chart.size != Vector2(780,330)', 'chart.MAP_RECT != Rect2(40,20,690,270)',
+                        'chart.WORLD_SIZE != Vector2(1600,1050)', 'chart._point(pair[0]) != pair[1]',
+                        'is_equal_approx(chart.scale.x,chart.scale.y)', 'chart.scale.x < 1.3',
+                        'chart.scale.x > 1.36', 'paper_bounds.encloses(rectangle)',
+                        'page.get_global_transform().affine_inverse()*control.get_global_transform()',
+                        'caption.text != game.journal_guidance_caption(game.journal_guidance_snapshot)',
+                        'caption.get_visible_line_count() != caption.get_line_count()',
+                        'chart_bounds.position.y < caption_bounds.end.y + 8.0 - .001',
+                        'chart_bounds.end.y > close_bounds.position.y - 12.0 + .001',
+                        'not _map_folio_bounds(chart,page).intersects(_map_folio_bounds(close,page))'):
+            self.assertIn(literal,driver)
+        self.assertNotIn('page.size.y==720',driver)
+        self.assertNotIn('chart.position.y==255',driver)
         self.assertIn('Audit forced host replacement',driver)
         self.assertIn('panel._pending_generation == pending.pending',driver)
         self.assertIn('protected and not game.overlay.get_meta("save_transfer",false)',driver)
