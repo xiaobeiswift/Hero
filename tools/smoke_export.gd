@@ -1351,13 +1351,42 @@ func _test_clear_visibility_pack()->void:
 		var page=game.overlay.find_child("DialogueSheet",true,false);var chart=game.overlay.find_child("RegionChart",true,false);var close=game.overlay.find_child("DialogueChoice1",true,false)
 		_check(page!=null and chart!=null and close!=null,"Packed regional chart and close control retained")
 		if page!=null and chart!=null and close!=null:
-			# M-only old570 page -> exact720 caption page; chart remains780x330.
+			# Web35 keeps the local projection and verifies the actual enlarged folio bounds.
 			var caption = game.overlay.find_child("MapGuidanceCaption",true,false)
-			var paper: Rect2 = Rect2(Vector2.ZERO,page.size)
-			_check(page.size.y==720 and chart.size==Vector2(780,330) and chart.position.y==255 and paper.encloses(chart.get_rect()) and paper.encloses(close.get_rect()) and caption != null and caption.visible and not caption.text.is_empty() and paper.encloses(caption.get_rect()) and not caption.get_rect().intersects(chart.get_rect()) and not caption.get_rect().intersects(close.get_rect()),"Packed chart fits its full paper page")
-			_check(not chart.get_rect().intersects(close.get_rect()) and chart.map_id==region,"Packed regional chart leaves close control visible")
+			_check(_map_folio_geometry(page,chart,caption,close),"Packed chart fits its full paper page")
+			_check(not _map_folio_bounds(chart,page).intersects(_map_folio_bounds(close,page)) and chart.map_id==region,"Packed regional chart leaves close control visible")
 		await _key(KEY_1);_check(not game.active_modal,"Packed numbered map dismissal works")
 	game._new_game()
+
+func _map_folio_bounds(control: Control, page: Control) -> Rect2:
+	return (page.get_global_transform().affine_inverse()*control.get_global_transform())*Rect2(Vector2.ZERO,control.size)
+
+func _map_folio_geometry(page, chart, caption, close) -> bool:
+	if not page is Control or not chart is Control or not caption is Label or not close is Button: return false
+	var paper = page.find_child("MapAtlasPaper",true,false)
+	var heading = page.find_child("DialogueTitle",true,false)
+	if not paper is Control or not heading is Label: return false
+	if chart.get_script() != load("res://scripts/map_chart.gd"): return false
+	var paper_bounds: Rect2 = _map_folio_bounds(paper,page)
+	var chart_bounds: Rect2 = _map_folio_bounds(chart,page)
+	var caption_bounds: Rect2 = _map_folio_bounds(caption,page)
+	var close_bounds: Rect2 = _map_folio_bounds(close,page)
+	var heading_bounds: Rect2 = _map_folio_bounds(heading,page)
+	if page.size != Vector2(1240,744) or not page.get_meta("map_folio",false): return false
+	if not Rect2(Vector2.ZERO,game.overlay.size).encloses(_map_folio_bounds(page,game.overlay)): return false
+	if paper_bounds != Rect2(126,14,1096,712): return false
+	if chart.size != Vector2(780,330) or chart.CHART_SIZE != Vector2(780,330) or chart.MAP_RECT != Rect2(40,20,690,270) or chart.WORLD_SIZE != Vector2(1600,1050): return false
+	for pair: Array in [[Vector2.ZERO,Vector2(40,20)],[Vector2(800,525),Vector2(385,155)],[Vector2(1600,1050),Vector2(730,290)]]:
+		if chart._point(pair[0]) != pair[1]: return false
+	if not chart.scale.is_finite() or not is_equal_approx(chart.scale.x,chart.scale.y) or chart.scale.x < 1.3 or chart.scale.x > 1.36: return false
+	if not chart.folio_presentation or chart.mouse_filter != Control.MOUSE_FILTER_IGNORE or chart.focus_mode != Control.FOCUS_NONE: return false
+	if not caption.is_visible_in_tree() or caption.text.is_empty() or caption.text != game.journal_guidance_caption(game.journal_guidance_snapshot): return false
+	if caption.clip_text or caption.visible_characters != -1 or caption.max_lines_visible != -1 or caption.get_visible_line_count() != caption.get_line_count(): return false
+	if not close.is_visible_in_tree() or close.disabled or close.size.y < 38: return false
+	for rectangle: Rect2 in [chart_bounds,caption_bounds,close_bounds,heading_bounds]:
+		if not paper_bounds.encloses(rectangle): return false
+	if chart_bounds.position.y < caption_bounds.end.y + 8.0 - .001 or chart_bounds.end.y > close_bounds.position.y - 12.0 + .001: return false
+	return not chart_bounds.intersects(caption_bounds) and not chart_bounds.intersects(close_bounds) and not chart_bounds.intersects(heading_bounds) and not caption_bounds.intersects(close_bounds) and not caption_bounds.intersects(heading_bounds)
 
 func _test_tang_combat_pack()->void:
 	var art=load("res://scripts/painted_battle_tang.gd")
@@ -5282,8 +5311,10 @@ func _test_fitting_pack() -> void:
 # 5. Learned lightness/lore -> actual earned History; unchanged two lore literals.
 # 6. Capstone record -> actual earned History; unchanged title/read-only/disk gates.
 # View entry only changes for (2,4–6); (1,3) have exact frozen-model mappings.
-# 7. Map570 page -> exact720 caption page, same780x330 chart/region/close/
-#    numbered dismissal; original four page checks retain containment plus caption.
+# 7. Map570 -> journal720 caption page -> Web35 folio1240x744. The same
+#    780x330 local chart and literal projection now enlarge uniformly. Original
+#    four checks retain transformed paper containment, full guidance, close
+#    separation, correct region and numbered dismissal; no partition removed.
 # 8. Old M-replaces-transfer shortcut -> prove J/M protection, then actual generic
 #    FORCED HOST replacement; original picker invalidation and all-file invariants.
 # All nine prior partition counts remain pinned.
