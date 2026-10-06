@@ -1,0 +1,60 @@
+{
+  "source_commit": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+  "source_tree": "4e57e57bd6002683cb4c4ac018240497b3e028ea",
+  "tracked_files": 1718,
+  "runtime_entries": 382,
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "status": "all_three_packed_gates_passed_and_independently_accepted",
+  "source_rehearsal_checks": 21584,
+  "source_rehearsal_report_sha256": "253c6750b69f9da9bd486952d9518ed5e943613c96221a9d066e933bcc03bb77",
+  "phases": [
+    {
+      "phase": "exact",
+      "checks": 21589,
+      "result_sha256": "cec4550100e949eeff994e6e3fb98237bb1e88f5aac077c125f3fc28f7231b0b",
+      "pck_sha256": "234c40d27b1cb58d666f49f8bf58550769e60582b8a3955717faf861c214db2c",
+      "all_commands_exit0": true,
+      "source_before_after_equal": true
+    },
+    {
+      "phase": "folio",
+      "checks": 11499,
+      "result_sha256": "a56b5077e12703e3bac3b6cb16758802456a92b0ea0b285a3a94150711eb66e8",
+      "pck_sha256": "234c40d27b1cb58d666f49f8bf58550769e60582b8a3955717faf861c214db2c",
+      "all_commands_exit0": true,
+      "source_before_after_equal": true
+    },
+    {
+      "phase": "companion",
+      "checks": 1738,
+      "result_sha256": "7ec8be374671dc2702c48775825ff91966f68262721ff0c5fb8ce05fe234cb74",
+      "pck_sha256": "234c40d27b1cb58d666f49f8bf58550769e60582b8a3955717faf861c214db2c",
+      "all_commands_exit0": true,
+      "source_before_after_equal": true
+    }
+  ],
+  "pck_bytes": 77925896,
+  "pck_sha256": "234c40d27b1cb58d666f49f8bf58550769e60582b8a3955717faf861c214db2c",
+  "zip_bytes": 87248329,
+  "zip_sha256": "9aa57732137742fccafa32b9e217ab6d09fdead78d8b8db0dcdd3071ea14fc7f",
+  "site_archive_members": 14,
+  "source_manifest_sha256": "4101287be883e5489af8665f2226596fdbcc64fcea6f681c7e2e0f50455e255d",
+  "packed16_subject": {
+    "bytes": 1872,
+    "schema": 16,
+    "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "produced_by_this_exact_pck": true,
+    "complete_old15_process_pending": true
+  },
+  "independent_acceptance_sha256": "db753b21997bdb6f397400cf981fea2ad8fc4ec359e434834a0431c4f9fb603e",
+  "namespace": "Each phase uses exact --main-pack PCK, --path SITE, cwd SITE; measured globalized res root empty; exported project.binary exists; no physical/source-only namespace shadows",
+  "export_guard": "Original export outer receipt remains failed for parent-directory timestamps; one-artifact independently reviewed adjudication admits unchanged bytes only. See companion_folio_export_adjudication.json",
+  "limits": [
+    "Linux editor executing Web PCK, not browser execution or Windows build acceptance",
+    "Eight historical PCK processes and separate actual-new-PCK16 versus complete-old15 process remain Windows gates",
+    "Original packaged old13/14/15 source readers use current dependencies; complete old runtime proofs are separate",
+    "No GitHub package/release or server deployment performed; live Web31 stays unchanged",
+    "Default-off save transfer remains disabled; actual browser graphics/audio/IndexedDB persistence are unverified"
+  ],
+  "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368"
+}

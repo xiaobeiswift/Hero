@@ -1,0 +1,43 @@
+{
+  "decision": "ACCEPT_UNCHANGED_ARTIFACT_FOR_ISOLATED_PCK_VALIDATION_ONLY",
+  "source_commit": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+  "source_tree": "4e57e57bd6002683cb4c4ac018240497b3e028ea",
+  "tracked_files": 1718,
+  "runtime_entries": 382,
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "original_receipt_success": false,
+  "original_receipt_sha256": "66e06f389af8bf6925967805c43d48e2ed2b345fca6bfeebfbb649e65820b373",
+  "independent_review_sha256": "bfaab763ef93b81f01c4e3462d2beee49253d293a04144df8fee946a16b45215",
+  "accepted_exception": {
+    "path_role": "canonical export USER parent directory",
+    "allowed_fields": [
+      "mtime_ns",
+      "ctime_ns"
+    ],
+    "fixed_fields": [
+      "device",
+      "inode",
+      "uid",
+      "gid",
+      "mode"
+    ],
+    "objectdb_snapshots": "same empty caller-owned nonsymlink child, all identities and timestamps unchanged",
+    "matching_reproduction": "Pinned official Godot editor on minimal no-game project emitted CREATE/OPEN/CLOSE_WRITE/DELETE for user://.recovery_mode_lock, with same parent-only timestamp signature",
+    "evidence_limit": "The original export was not under inotify; this is a matching vendor cause, not retrospective event capture"
+  },
+  "pck_sha256": "234c40d27b1cb58d666f49f8bf58550769e60582b8a3955717faf861c214db2c",
+  "zip_sha256": "9aa57732137742fccafa32b9e217ab6d09fdead78d8b8db0dcdd3071ea14fc7f",
+  "zip_bytes": 87248329,
+  "source_rehearsal_checks": 21584,
+  "site_members": 14,
+  "limits": [
+    "Exactly these existing unchanged bytes only; no re-export",
+    "Original failed guard receipt remains failed and retained",
+    "Full-source/native/source-rehearsal passes are separately bound",
+    "No packed runtime, browser, Windows or deployment acceptance yet"
+  ],
+  "adjudication_record_sha256": "caacfac4321084e593b93b7108dcdf2281f21ece3fae4c820c0f35c8960b14fe",
+  "note": "Subsequent exact/recovery/companion packed gates passed; original export receipt still remains failed. This document is an explicit exception record, not a rewritten receipt.",
+  "record_scope": "Historical one-artifact admission decision with subsequent outcome note; quoted admission limits describe the pre-PCK stage",
+  "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368"
+}

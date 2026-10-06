@@ -1,0 +1,35 @@
+{
+  "source_commit": "e8afec5c408d10b55b8ab9624a4d318aaaa2e124",
+  "source_tree": "4e57e57bd6002683cb4c4ac018240497b3e028ea",
+  "tracked_files": 1718,
+  "runtime_entries": 382,
+  "runtime_sha256": "c35006fcd330352b9f81e8e72ee3d436f587eeefbdf6c3e4ecfabc43566dacd1",
+  "status": "passed_and_independently_accepted",
+  "terminal_sha256": "3e5a0705a558b17ca08bc7e6175a72f8a24f6e24f589fa231fe201d19a5624de",
+  "retained_script_executions": 183,
+  "retained_editor_imports": 1,
+  "retained_numeric_engine_records": 184,
+  "retained_profile_guards": 8,
+  "python_groups": [
+    8,
+    8,
+    10,
+    6,
+    61
+  ],
+  "node_mock_checks": 53,
+  "new_companion_checks": 1738,
+  "recovery_folio_checks": 11499,
+  "all_three_phases_success": true,
+  "changed_tracked_files": [],
+  "engine_and_runtime_unchanged": true,
+  "supervisor_cleanup": "No forced or remaining owned children; all three phases exit0 with no stop reason",
+  "independent_review_sha256": "13d2a20ebbfe51559886e9c27f114fff511ef5522d9cd78ba0318c4d3ebc968e",
+  "limitations": [
+    "Counts have overlapping scope and are not summed into a unique assertion total",
+    "Eight historical PCK processes were not run in this Linux full suite; retained inputs remain Windows work",
+    "No browser graphics, audio or persistence acceptance from headless source tests",
+    "Existing asset import caches reused and inventoried; userdata profiles freshly owned and isolated"
+  ],
+  "remote_source_commit": "59c055a211647e32612474c0ebd5b6dab189b368"
+}
