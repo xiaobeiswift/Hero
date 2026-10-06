@@ -1,0 +1,148 @@
+{
+  "version": "0.0.34",
+  "recorded_utc": "2026-10-06T20:50:27.076271+00:00",
+  "record_timing": "Added after the frozen tests; these new JSON/doc records are not part of the tested 1,772-file tree. Earlier pending/failure snapshots remain unchanged.",
+  "evidence_location_note": "Archive-relative evidence identities refer to retained evidence, not repository links. Private paths and storage identifiers are omitted.",
+  "status": "full_regression_and_source_audit_independently_accepted",
+  "binding": {
+    "local_source_commit": "a072f813fcdfffbdf0a9c0e0c7d747c711fb1dd8",
+    "published_source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "source_tree": "da78b33d2e64bfba7206d2691d1360cfe8e96ad4",
+    "tracked_originals": 1772,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+    "version": "0.0.34",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false
+  },
+  "full_regression": {
+    "retained_engine_calls": 184,
+    "retained_script_executions": 183,
+    "editor_imports": 1,
+    "python_checks": 93,
+    "python_groups": [
+      8,
+      8,
+      10,
+      6,
+      61
+    ],
+    "node_mocked_dom_checks": 53,
+    "supplements": {
+      "reconstructed": {
+        "suite": "current_folio_behavior_new_validation",
+        "status": "pass",
+        "checks": 11499,
+        "failures": [],
+        "sections": 6,
+        "geometry_samples": 0
+      },
+      "companion": {
+        "suite": "companion_folio_behavior",
+        "status": "pass",
+        "checks": 1738,
+        "failures": [],
+        "sections": 6,
+        "geometry_samples": 0
+      },
+      "save": {
+        "suite": "save_folio_behavior",
+        "status": "pass",
+        "checks": 449,
+        "failures": [],
+        "sections": 10,
+        "geometry_samples": 0
+      },
+      "save_geometry": {
+        "suite": "save_folio_direct_logical_geometry",
+        "status": "pass",
+        "checks": 1380,
+        "failures": [],
+        "sections": 0,
+        "geometry_samples": 18
+      },
+      "title": {
+        "suite": "title_entry_behavior",
+        "status": "pass",
+        "checks": 1706,
+        "failures": [],
+        "sections": 9,
+        "geometry_samples": 12
+      }
+    },
+    "all_six_phases_exit_code": 0,
+    "source_runtime_engine_unchanged": true,
+    "full_sealed_evidence_leaves": 848,
+    "evidence": [
+      {
+        "archive_relative_identity": "qa-title-entry-full-a072f81-01/results/terminal-report.json",
+        "sha256": "393d03aa60c57bf380e8573647503111be722f8e73a66dd047827aced7afd9e8"
+      },
+      {
+        "archive_relative_identity": "qa-title-entry-full-a072f81-01/results/full-evidence-sha256.json",
+        "sha256": "d9028e98b539ef76931358bc98edcd712c2d8c362772bab1fa7149165d677437"
+      },
+      {
+        "archive_relative_identity": "title-entry-full-a072f81-independent-terminal-review/TERMINAL-REVIEW.json",
+        "sha256": "65de3ee3faacea206e56b9be0b2c0ef74e8b6454a93a085821282cd9ca3e14b6"
+      }
+    ]
+  },
+  "source_audit": {
+    "checks": 21584,
+    "partition_counts": {
+      "PRESERVED_COVERAGE": 1471,
+      "UNIFIED_COVERAGE": 1247,
+      "EXPLORATION_COVERAGE": 349,
+      "CONDITION_COVERAGE": 191,
+      "TRANSFER_COVERAGE": 363,
+      "CONSIGNEE_COVERAGE": 1036,
+      "POLISH_COVERAGE": 460,
+      "CAPSTONE_COVERAGE": 1179,
+      "FITTING_COVERAGE": 12369,
+      "JOURNAL_COVERAGE": 2832
+    },
+    "accepted_evidence_leaves": 936,
+    "export_dependency_leaves": 77,
+    "evidence": [
+      {
+        "archive_relative_identity": "title-entry-source-audit-a072f81/source-rehearsal-01/results/package-result.json",
+        "sha256": "513de594922bc90b7faf343030d9608457ff1556a02d3752675198e79db6f62c"
+      },
+      {
+        "archive_relative_identity": "title-entry-source-a072f81-independent-terminal-review/SOURCE-TERMINAL-REVIEW.json",
+        "sha256": "30f93b51dc8e8ad6fee96ee80ef39503d9e4c59e1c71fab6e26c7fecbeaffa40"
+      },
+      {
+        "archive_relative_identity": "title-entry-source-a072f81-independent-terminal-review/SOURCE-EVIDENCE-SHA256.json",
+        "sha256": "4bd6aca856cc896827f4788dab41660463743ae52d357c694845db27642a7ba6"
+      }
+    ]
+  },
+  "native_and_focused_provenance": {
+    "native_record": "tests/title_entry_native_18eaf61.json",
+    "native_local_commit": "18eaf61457303db769f4e1df5bf70daa23cd382e",
+    "native_tracked_originals": 1766,
+    "native_pngs": 12,
+    "native_checks": 329,
+    "focused_record": "tests/title_entry_pre_full_checkpoint.json",
+    "focused_checks": 1706,
+    "focused_binding": "One-line ink correction staged on f11ebc3; not a clean a072f81 or 18eaf61 whole-tree run.",
+    "same_386_runtime_digest": true,
+    "bounded_pixel_record": "tests/title_entry_final_review.json",
+    "bounded_pixel_samples": 28,
+    "pixel_scope": "Representative raster samples only; no global accessibility certification or browser proof."
+  },
+  "windows_and_historical_boundaries": "Separately reported in tests/title_entry_windows_validation.json; the Linux source/full runs omitted eight optional historical PCK processes.",
+  "invariants": [
+    "Original title action conditions/order, text and art retained",
+    "No gameplay, schema, resource, save-model or production-save behavior changes in this closure",
+    "Manual saves/backups retained and transfer remains default-off"
+  ],
+  "limits": [
+    "Prepared-state, scripted-input and fixed-step checks have bounded scope; no naturally earned full journey or physical desktop-close acceptance.",
+    "Node VM and mocked DOM/FileReader checks are engine-free transport tests, not real browser integration.",
+    "Actual browser gameplay, audio and IndexedDB persistence after refresh remain unaccepted.",
+    "Counts cover different, overlapping scopes and must not be added into a unique gameplay assertion total."
+  ]
+}

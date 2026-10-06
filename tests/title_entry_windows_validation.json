@@ -1,0 +1,67 @@
+{
+  "version": "0.0.34",
+  "recorded_utc": "2026-10-06T20:59:32.909810+00:00",
+  "record_timing": "Added after the frozen tests; these new JSON/doc records are not part of the tested 1,772-file tree. Earlier pending/failure snapshots remain unchanged.",
+  "evidence_location_note": "Archive-relative evidence identities refer to retained evidence, not repository links. Private paths and storage identifiers are omitted.",
+  "status": "independent_windows_candidate_pass_and_parent_verified_rollout",
+  "binding": {
+    "local_source_commit": "a072f813fcdfffbdf0a9c0e0c7d747c711fb1dd8",
+    "published_source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "source_tree": "da78b33d2e64bfba7206d2691d1360cfe8e96ad4",
+    "tracked_originals": 1772,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+    "version": "0.0.34",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false
+  },
+  "evidence_origin": "Project lead received the parent report from the existing authorized Windows task. This cloud documentation stage did not execute Windows tests or directly read or rehash Windows files.",
+  "reported_to_lead_utc": "2026-10-06T18:24:48Z",
+  "child_completed_utc": "2026-10-06T18:23:21Z",
+  "source_checks": 21584,
+  "exact_PCK_checks": 21589,
+  "site_members": 14,
+  "boundary_processes": 9,
+  "boundary_guards": 9,
+  "all_boundary_exit_codes": 0,
+  "reported_boundary_counts": {
+    "web30_current_producer": 246,
+    "web30_complete_old_reader": 20,
+    "web30_current_verifier": 14,
+    "source16_complete_old15": 20,
+    "true15_complete_old14": 9,
+    "web25_old13_script_current_dependencies": 11,
+    "actual_new_pck16_complete_old15": 20
+  },
+  "unreported_producer_counts": "Not inferred",
+  "web25_scope": "Old schema13 reader script with current dependencies; not a complete old-runtime closure.",
+  "actual_new_PCK16_complete_old15_checks": 20,
+  "SHA_probe_adaptations": "Four exact SHA constant substitutions reported verified; original source unchanged.",
+  "windows_artifact": {
+    "pck": {
+      "bytes": 77951904,
+      "sha256": "4706adf27346e7ce1e91901af2c013dfd99043281d493b6007d67eb9d77c1c45"
+    },
+    "zip": {
+      "bytes": 87274623,
+      "sha256": "0c5907d5b37e155fe22851ff80eeb7a6e807aae2bbf30e2b470d0905c3fa7d74"
+    }
+  },
+  "windows_verification_sha256": "90cf40189c76e83fa395edc72eedc1397d14befa248ab023c8b0ad622c46eac1",
+  "parent_receipt": {
+    "archive_relative_identity": "title-entry-windows-candidate-034-parent-receipt.json",
+    "sha256": "747ef211f9fdcb58f23b3ad658e2bfe9efaa4bbc4111f4f474d020f575f2377d"
+  },
+  "cloud_rehashed_Windows_files": false,
+  "linux_artifact_is_distinct": true,
+  "deployment_accepted": true,
+  "historical_receipt_note": "The parent receipt retains the cloud gates pending at its 18:24 report time; later cloud outcomes are recorded separately without rewriting it.",
+  "limits": [
+    "Windows artifact hashes differ from the Linux build; each result remains tied to its own exact artifact.",
+    "Actual browser gameplay, audio and IndexedDB persistence after refresh remain unaccepted.",
+    "Windows execution provenance remains separate from the parent-verified deployment record; this is not a desktop release."
+  ],
+  "rollout_status": "Web34 atomic switch at 20:50:36.208424 UTC; parent verified live deployment at 20:55:52 UTC.",
+  "verified_as_of_utc": "2026-10-06T20:55:52Z",
+  "deployment_record": "tests/web_deployment_034.json"
+}

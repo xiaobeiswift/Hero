@@ -1,0 +1,114 @@
+{
+  "version": "0.0.34",
+  "recorded_utc": "2026-10-06T20:50:27.076271+00:00",
+  "record_timing": "Added after the frozen tests; these new JSON/doc records are not part of the tested 1,772-file tree. Earlier pending/failure snapshots remain unchanged.",
+  "evidence_location_note": "Archive-relative evidence identities refer to retained evidence, not repository links. Private paths and storage identifiers are omitted.",
+  "status": "strict_export_failed_exact_existing_artifact_admitted_for_isolated_tests_only",
+  "binding": {
+    "local_source_commit": "a072f813fcdfffbdf0a9c0e0c7d747c711fb1dd8",
+    "published_source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "source_tree": "da78b33d2e64bfba7206d2691d1360cfe8e96ad4",
+    "tracked_originals": 1772,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+    "version": "0.0.34",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false
+  },
+  "export": {
+    "canonical_export_invocations": 1,
+    "exporter_supervisor_exit_code": 0,
+    "outer_wrapper_exit_code": 1,
+    "strict_success": false,
+    "failure": "Export metadata identity or contents changed",
+    "raw_failed_receipt": {
+      "archive_relative_identity": "title-entry-export-a072f81/export-once-01/results/export-receipt.json",
+      "sha256": "21871ba3de22cd215ffbf2b5063e4cdf3929d174947b3d14b15ff0994977f7f0"
+    }
+  },
+  "exact_metadata_delta": {
+    "user_directory": {
+      "mtime_ns": {
+        "before": 1791297064737170290,
+        "after": 1791316585834592810
+      },
+      "ctime_ns": {
+        "before": 1791297064737170290,
+        "after": 1791316585834592810
+      }
+    }
+  },
+  "preservation": {
+    "other_USER_metadata_and_ObjectDB_metadata_unchanged": true,
+    "USER_final_inventory_only_empty_ObjectDB": true,
+    "tracked_originals_rehashed": 1772,
+    "runtime_entries_rehashed": 386,
+    "source_evidence_leaves_rehashed": 936,
+    "admission_dependencies_rehashed": 77,
+    "site_and_zip_members_rehashed": 14,
+    "each_decompressed_zip_member_verified": true
+  },
+  "fresh_observer": {
+    "event_count": 156,
+    "duration_seconds_monotonic": 300.002254065,
+    "export_wrapper_bracket_seconds_monotonic": 20.030737014,
+    "two_exact_directory_watches": true,
+    "final_queue_drained": true,
+    "overflow_or_watch_invalidation": false,
+    "mutation_related_events": {
+      "entry": ".recovery_mode_lock",
+      "kinds": [
+        "CREATE",
+        "CLOSE_WRITE",
+        "DELETE"
+      ]
+    },
+    "ObjectDB_modification_related_events": 0,
+    "writer_pid_proved": false,
+    "interpretation": "CLOSE_WRITE records closure of a write-open descriptor, not proof that bytes were written. Events are consistent with the USER timestamp change but do not identify its writer process.",
+    "result_sha256": "db269918ba70e0be441a2e80726353106401242f03643be36d58c28d56472100",
+    "raw_sha256": "e828c0f75cc28c7c864efaf289858e6f0ffb6e14f4a84237f706986f42c7a6a0",
+    "bracket_verification_sha256": "3094a1fa54348f92c19881596d56231eb047a65c3cb032de2f752849c9399c20"
+  },
+  "linux_artifact": {
+    "pck": {
+      "bytes": 77951904,
+      "sha256": "5b22c46eef3533a277056159669d1864396a8bfec6af885454f3cb62bf04b2a6"
+    },
+    "zip": {
+      "bytes": 87274642,
+      "sha256": "9a8dfa3090781ad52e4ab55940a14e01f3101d197b0fb6d70d213d5c2774ee7d"
+    },
+    "site_members": 14
+  },
+  "admission": {
+    "scope": "Only the exact existing Linux PCK and ZIP, solely the recorded USER mtime/ctime delta, for fresh isolated exact-PCK and four UI supplements.",
+    "fresh_independent_assessment": {
+      "archive_relative_identity": "title-entry-web34-fresh-artifact-independent-review/FINAL-ARTIFACT-ASSESSMENT.json",
+      "sha256": "4f64aaebc67067df305ead49e8fca07c4440c952a1d98932a24603d28e495f14"
+    },
+    "exact_artifact_decision": {
+      "archive_relative_identity": "title-entry-web34-exact-artifact-admission.json",
+      "sha256": "f267d4721f3651d36fb8ab7eff47a48fbc9977b262db2fa76d3b45d8683d44c7"
+    },
+    "inherits_Web33_exception": false,
+    "general_metadata_exception": false,
+    "reexport_authorized_by_this_decision": false,
+    "deployment_authorized_by_this_decision": false
+  },
+  "tooling_controls": {
+    "author_engine_free_controls": 225,
+    "independent_engine_free_controls": 83,
+    "prior_attempts": "Two expected-message mismatches after correct fail-closed rejection retained; no game failures inferred from these helper expectations.",
+    "counting": "Helper controls are not gameplay assertions.",
+    "exact_stage_review": {
+      "archive_relative_identity": "title-entry-package-a072f81-independent-review/FINAL-EXACT-STAGE-REVIEW.json",
+      "sha256": "a712e95d3ae610194b33aa68aef7a82e8fbfd925900ee89073ef623b7a87b72e"
+    }
+  },
+  "limits": [
+    "The original strict failure remains false and unchanged. No claim that all metadata was unchanged.",
+    "No writer PID causation, player-profile preservation or global filesystem claim.",
+    "This adjudication does not constitute gameplay or deployment acceptance."
+  ]
+}

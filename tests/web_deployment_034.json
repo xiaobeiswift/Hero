@@ -1,0 +1,87 @@
+{
+  "version": "0.0.34-web1",
+  "status": "live_verified_from_parent_deployment_receipt",
+  "recorded_utc": "2026-10-06T20:59:32.909810+00:00",
+  "verified_as_of_utc": "2026-10-06T20:55:52Z",
+  "source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+  "source_tree": "da78b33d2e64bfba7206d2691d1360cfe8e96ad4",
+  "runtime_entries": 386,
+  "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+  "game_version": "0.0.34",
+  "save_schema": 16,
+  "file_transfer_enabled_by_default": false,
+  "provenance": "Project lead relayed the parent-verified Windows rollout outcome. This cloud documentation stage did not itself access the server or rehash Windows files.",
+  "rollout": {
+    "atomic_switch_utc": "2026-10-06T20:50:36.208424Z",
+    "parent_verified_utc": "2026-10-06T20:55:52Z",
+    "prior_live_version": "0.0.33-web1",
+    "deployed_artifact_platform": "Windows",
+    "source_record": "tests/title_entry_windows_validation.json",
+    "admitted_utc_minute": "2026-10-06T20:45Z",
+    "admission_time_precision": "Reported to the minute; exact seconds were not supplied."
+  },
+  "windows_artifact": {
+    "pck": {
+      "bytes": 77951904,
+      "sha256": "4706adf27346e7ce1e91901af2c013dfd99043281d493b6007d67eb9d77c1c45"
+    },
+    "zip": {
+      "bytes": 87274623,
+      "sha256": "0c5907d5b37e155fe22851ff80eeb7a6e807aae2bbf30e2b470d0905c3fa7d74"
+    }
+  },
+  "windows_verification_sha256": "90cf40189c76e83fa395edc72eedc1397d14befa248ab023c8b0ad622c46eac1",
+  "https_verification": {
+    "checks_passed": 36,
+    "checks_total": 36,
+    "complete_members_verified": 14,
+    "verified_against": "Exact Windows package identified above",
+    "member_SHA256_length_and_MIME_verified": true,
+    "TLS_version_cache_ETag_no_browse_checks_passed": true,
+    "source_repository_link_HTTP_status": 200,
+    "verification_does_not_change_repository_visibility": true
+  },
+  "final_server_manifest": {
+    "filename": "0.0.34-web1.manifest.json",
+    "sha256": "3ba1a8049e799c17cb0d285009049749457dad9965237c77fdea5120cb369a2a",
+    "provenance": "Identity reported in the parent-verified deployment outcome; server operations paths omitted."
+  },
+  "old_served_copy_retirement": {
+    "version": "0.0.33-web1",
+    "completed_utc": "2026-10-06T20:54:21Z",
+    "scope": [
+      "Old served directory",
+      "Old server ZIP"
+    ],
+    "complete_durable_recovery_verified_first": true,
+    "zero_reader_checks_before_retirement": 2,
+    "retained": [
+      "Formal recovery artifacts",
+      "Source history",
+      "Manifests",
+      "Operations records",
+      "Test records",
+      "Save data"
+    ]
+  },
+  "unchanged": {
+    "configuration_and_security_settings": true,
+    "gameplay_resources_save_model_and_schema": true,
+    "no_new_GitHub_package_or_release_asset": true
+  },
+  "linux_gate_provenance": {
+    "record": "tests/title_entry_package_validation.json",
+    "final_PCK_review_sha256": "432df5af5061a79b5a037eda35d80b523e0c7b3a4a7712e86351f4ff4cb3e116",
+    "strict_export_success": false,
+    "outer_export_wrapper_exit_code": 1,
+    "adjudication_record": "tests/title_entry_export_adjudication.json",
+    "scope": "The earlier Linux timestamp-only decision admitted only its exact existing artifact for isolated testing. Windows rollout was separately authorized and verified."
+  },
+  "limits": [
+    "Native prepared-state screenshots, exact-PCK tests and HTTPS/member verification establish distinct scopes; none substitutes for browser gameplay acceptance.",
+    "Actual browser gameplay, audio and IndexedDB persistence after refresh remain unverified.",
+    "Earlier native/focused evidence keeps its original commit binding; no new native capture is claimed.",
+    "Counts from overlapping suites and different verification types must not be summed into a unique gameplay assertion total."
+  ],
+  "record_timing": "This post-test deployment record and the accompanying documentation are not part of the frozen 1,772-file tested tree. Earlier pending/failure records remain unchanged."
+}

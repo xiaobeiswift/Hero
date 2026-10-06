@@ -1,0 +1,267 @@
+{
+  "version": "0.0.34",
+  "recorded_utc": "2026-10-06T20:59:32.909810+00:00",
+  "record_timing": "Added after the frozen tests; these new JSON/doc records are not part of the tested 1,772-file tree. Earlier pending/failure snapshots remain unchanged.",
+  "evidence_location_note": "Archive-relative evidence identities refer to retained evidence, not repository links. Private paths and storage identifiers are omitted.",
+  "status": "five_fresh_exact_PCK_phases_independently_accepted_case_only",
+  "binding": {
+    "local_source_commit": "a072f813fcdfffbdf0a9c0e0c7d747c711fb1dd8",
+    "published_source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "source_tree": "da78b33d2e64bfba7206d2691d1360cfe8e96ad4",
+    "tracked_originals": 1772,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+    "version": "0.0.34",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false
+  },
+  "linux_artifact": {
+    "pck": {
+      "bytes": 77951904,
+      "sha256": "5b22c46eef3533a277056159669d1864396a8bfec6af885454f3cb62bf04b2a6"
+    },
+    "zip": {
+      "bytes": 87274642,
+      "sha256": "9a8dfa3090781ad52e4ab55940a14e01f3101d197b0fb6d70d213d5c2774ee7d"
+    },
+    "site_members": 14
+  },
+  "strict_export_success": false,
+  "export_adjudication_record": "tests/title_entry_export_adjudication.json",
+  "pipeline_completed_utc": "2026-10-06T20:39:29.688629+00:00",
+  "pipeline_evidence": {
+    "archive_relative_identity": "title-entry-pck-a072f81-pipeline.json",
+    "sha256": "afb38788d9736322faefe9efd70dd5a611afce642d070844a754e0b0145079f9"
+  },
+  "exact_stage": {
+    "manifest_entries": 49,
+    "manifest_sha256": "52483a860eafd5955fb1899230b34fe1f7916661001c1bf96fec83a8b51d08ee",
+    "pre_execution_independent_review": {
+      "archive_relative_identity": "title-entry-package-a072f81-independent-review/FINAL-EXACT-STAGE-REVIEW.json",
+      "sha256": "a712e95d3ae610194b33aa68aef7a82e8fbfd925900ee89073ef623b7a87b72e"
+    },
+    "pre_execution_review_is_not_terminal_acceptance": true
+  },
+  "phases": [
+    {
+      "phase": "exact",
+      "checks": 21589,
+      "success": true,
+      "version_guard_and_test_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_originals_unchanged": 1772,
+      "evidence": [
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/exact-01/results/package-result.json",
+          "sha256": "b1b4fbc4eb6ae6d7b0c6a9d4bab42529e4c704edaacb2a3ee04020ed7ad00b53"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/exact-01/logs/exact.console.log",
+          "sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/exact-01/logs/exact.engine.log",
+          "sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802"
+        }
+      ]
+    },
+    {
+      "phase": "folio",
+      "checks": 11499,
+      "success": true,
+      "version_guard_and_test_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_originals_unchanged": 1772,
+      "evidence": [
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/folio-01/results/package-result.json",
+          "sha256": "aa51762c0f52c55991562e72e493332021ba9cfa2ac72c7cd934473cc1c1d6db"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/folio-01/logs/folio.console.log",
+          "sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/folio-01/logs/folio.engine.log",
+          "sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/folio-01/results/test-result.json",
+          "sha256": "cf17819e2c1020c2a6cbf9795330d0ff1edf17ed8443cc8fc443c2f51e8681ee"
+        }
+      ],
+      "sections": 6,
+      "geometry_samples": 0
+    },
+    {
+      "phase": "companion",
+      "checks": 1738,
+      "success": true,
+      "version_guard_and_test_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_originals_unchanged": 1772,
+      "evidence": [
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/companion-01/results/package-result.json",
+          "sha256": "91299650eaeb3014e2e6a1983fbf91b0ebaba8fcdf9197116edcf4176a414a6d"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/companion-01/logs/companion.console.log",
+          "sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/companion-01/logs/companion.engine.log",
+          "sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/companion-01/results/test-result.json",
+          "sha256": "8fc2d20187dd8dc560304e3e599795cc8868b449b8294e7116b3da6f792e0ee3"
+        }
+      ],
+      "sections": 6,
+      "geometry_samples": 0
+    },
+    {
+      "phase": "save",
+      "checks": 449,
+      "success": true,
+      "version_guard_and_test_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_originals_unchanged": 1772,
+      "evidence": [
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/save-01/results/package-result.json",
+          "sha256": "d46b5dd46c5690580affc286a5d81c9572f687b51fe5d93af6632ec22d548f9f"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/save-01/logs/save.console.log",
+          "sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/save-01/logs/save.engine.log",
+          "sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/save-01/results/test-result.json",
+          "sha256": "3fab7510910f7e3a0d90d309a0c5b34a85b7330c3f604efff145b174173afdcb"
+        }
+      ],
+      "sections": 10,
+      "geometry_samples": 0
+    },
+    {
+      "phase": "title",
+      "checks": 1706,
+      "success": true,
+      "version_guard_and_test_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "source_originals_unchanged": 1772,
+      "evidence": [
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/title-01/results/package-result.json",
+          "sha256": "9f1c3782816fc661506cf6a5eb101f117b487bc537506e80afc9c7b25c32779e"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/title-01/logs/title.console.log",
+          "sha256": "d7192c6690047a5ac9661064e21f78beb25b3fccb77234ede3b9d5e5ded80a93"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/title-01/logs/title.engine.log",
+          "sha256": "d7192c6690047a5ac9661064e21f78beb25b3fccb77234ede3b9d5e5ded80a93"
+        },
+        {
+          "archive_relative_identity": "title-entry-package-a072f81-pck01/title-01/results/test-result.json",
+          "sha256": "c0154d93a980ae12e917cef1a3ee55713e995f06d9de024fae16f96f7f57f36a"
+        }
+      ],
+      "sections": 9,
+      "geometry_samples": 12
+    }
+  ],
+  "new_actual_schema16_subject": {
+    "bytes_each": 1872,
+    "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "source_and_packed_bytes_equal": true,
+    "evidence": [
+      {
+        "archive_relative_identity": "title-entry-source-audit-a072f81/source-rehearsal-01/results/CURRENT16-SUBJECT.json",
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      },
+      {
+        "archive_relative_identity": "title-entry-package-a072f81-pck01/exact-01/results/CURRENT16-SUBJECT.json",
+        "sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e"
+      }
+    ]
+  },
+  "final_independent_PCK_review": {
+    "status": "PASS_ALL_FIVE_ACTUAL_CLOUD_PCK_GATES_EXACT_CASE_ONLY",
+    "blocking_findings": [],
+    "review": {
+      "archive_relative_identity": "title-entry-pck-a072f81-independent-final-review/FINAL-PCK-REVIEW.json",
+      "sha256": "432df5af5061a79b5a037eda35d80b523e0c7b3a4a7712e86351f4ff4cb3e116"
+    },
+    "packed_UI_review": {
+      "archive_relative_identity": "title-entry-pck-a072f81-independent-final-review/ui/ACTUAL-UI-REVIEW.json",
+      "sha256": "33f8bf91f815588c7b75c5631dc87b982efb412013608d77cc70ca15dbd3be03"
+    },
+    "raw_evidence_manifest": {
+      "archive_relative_identity": "title-entry-pck-a072f81-independent-final-review/ACTUAL-PCK-EVIDENCE-SHA256.json",
+      "sha256": "bad31b726dd41d7857ec2c8e8d8eb18b82e726255f17737191149e1687ee8eb8"
+    },
+    "raw_evidence_leaves": 61,
+    "all_actual_raw_logs_guards_exact_commands_and_owned_profiles_verified": true,
+    "actual_main_pack_and_site_namespace_verified": true,
+    "physical_source_shadow_absent": true,
+    "PCK_namespace_entries": 346,
+    "all_PCK_payload_MD5_verified": true,
+    "case_required_fresh_tests_satisfied": true,
+    "strict_export_success_remains": false,
+    "outer_export_wrapper_exit_remains": 1
+  },
+  "live_at_checkpoint": {
+    "version": "0.0.34-web1",
+    "published_runtime_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "record": "tests/web_deployment_034.json",
+    "status": "verified_from_parent_deployment_receipt",
+    "verified_utc": "2026-10-06T20:55:52Z"
+  },
+  "rollout_admitted": true,
+  "limits": [
+    "Prepared-state, scripted-input and fixed-step checks have bounded scope; no naturally earned full journey or physical desktop-close acceptance.",
+    "Node VM and mocked DOM/FileReader checks are engine-free transport tests, not real browser integration.",
+    "Actual browser gameplay, audio and IndexedDB persistence after refresh remain unaccepted.",
+    "Counts cover different, overlapping scopes and must not be added into a unique gameplay assertion total.",
+    "No new native capture at a072f81; the earlier native evidence retains its original commit binding.",
+    "These Linux PCK phases do not run the historical Windows processes; see the separate Windows-provenance record.",
+    "Active observation-State counters have their recorded scope; exact-State counters may be null. Unchanged save bytes alone do not prove zero same-content write syscalls.",
+    "The Linux actual-new16 subject was tested against a frozen15 source reader with current packed dependencies; complete-old15 runtime acceptance is a separate Windows result."
+  ],
+  "rollout": {
+    "status": "Windows_Web34_deployment_verified",
+    "provenance": "Parent-verified rollout outcome relayed by the project lead; this documentation stage did not directly access the server.",
+    "source_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "Windows_pck_sha256": "4706adf27346e7ce1e91901af2c013dfd99043281d493b6007d67eb9d77c1c45",
+    "Windows_zip_sha256": "0c5907d5b37e155fe22851ff80eeb7a6e807aae2bbf30e2b470d0905c3fa7d74",
+    "atomic_switch_utc": "2026-10-06T20:50:36.208424Z",
+    "verified_utc": "2026-10-06T20:55:52Z",
+    "record": "tests/web_deployment_034.json",
+    "admitted_utc_minute": "2026-10-06T20:45Z",
+    "admission_time_precision": "Reported to the minute; exact seconds were not supplied."
+  },
+  "verified_as_of_utc": "2026-10-06T20:55:52Z"
+}
