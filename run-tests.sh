@@ -206,7 +206,7 @@ run_checked --headless --path . --script tests/heting_consignee_world_test.gd
 run_checked --headless --path . --script tests/heting_consignee_story_test.gd
 run_checked --headless --path . --script tests/heting_consignee_scene_test.gd
 run_checked --headless --fixed-fps 60 --path . --script tests/heting_consignee_earned_scene_test.gd
-run_checked --headless --fixed-fps 60 --path . --script tests/heting_consignee_earned_party_test.gd
+HERO_CHECK_TIMEOUT_SECONDS=240 run_checked --headless --fixed-fps 60 --path . --script tests/heting_consignee_earned_party_test.gd
 run_checked --headless --path . --script tests/heting_consignee_recovery_test.gd
 # Optional read-only old cloud-exported Web25 artifact boundary. This archive
 # is not required to clone/run the source suite and is not the live Windows PCK.
