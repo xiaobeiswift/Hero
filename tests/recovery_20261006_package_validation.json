@@ -1,0 +1,215 @@
+{
+  "tested_local_commit": "cfe9d2c397ea12586668e4ece485b4528374406e",
+  "verified_public_counterpart": "b98a468a50ee87f2bfba6645816fe6cafd42135a",
+  "tested_tree": "25ca81a7fcb9e80e9ae761eccf1ca6292758dd5d",
+  "tracked_files_during_execution": 1692,
+  "runtime_entries": 382,
+  "runtime_bytes": 101360748,
+  "runtime_sha256": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "record_scope": "Post-execution summary; these documentation files did not exist in the tested 1692-file tree. Raw receipt hashes bind the retained originals, not this summary.",
+  "status": "passed_current_source_and_exact_web_pck_with_documented_editor_metadata_adjudication",
+  "web_identity": {
+    "game_version": "0.0.31",
+    "web_revision": 1,
+    "caption": "0.0.31 · Web 1"
+  },
+  "source_rehearsal": {
+    "checks": 21584,
+    "pending_true_package_assertions": 5,
+    "receipt_sha256": "c6a14027ef124bb82b0c74182fd56235e20f8a4304db812ecee40c0bd6a6ec94",
+    "console_sha256": "0b54259126339d5983ece2b1cb2dd9bb27849a78d7b1414f49081a0221e41eb7"
+  },
+  "exact_pck": {
+    "checks": 21589,
+    "receipt_sha256": "26fb7db7bd8adc26f5995bd228b349dffd6664e34b555a40db9f7826629ea221",
+    "console_sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802",
+    "source_manifest_sha256": "baeb702c39f531f92ef973ac1fc3113d6cc7d0d0c572e478effa270df1b243ed",
+    "partitions": {
+      "Preserved noncombat": 1471,
+      "Schema13 unified automatic": 1247,
+      "Ordered exploration party": 349,
+      "Exploration companion condition": 191,
+      "Empty-slot save transfer": 363,
+      "Schema14 consignee chapter": 1036,
+      "Heting paint-only polish": 460,
+      "Schema15 capstone chapter": 1179,
+      "Schema16 equipment fitting": 12369,
+      "Schema16 journal guidance": 2832
+    },
+    "guard": "Fresh owned user directory before Main; measured empty virtual resource root, physical cwd exactly site, pinned --main-pack, project.binary, no source-only namespaces or physical source shadows"
+  },
+  "supplemental_packed_folio": {
+    "checks": 11499,
+    "sections": [
+      "inventory",
+      "martial",
+      "workshop",
+      "cultivation",
+      "real_save_failure_retry",
+      "battle_gate"
+    ],
+    "checkpoints": 470,
+    "receipt_sha256": "a8287170feb0eedec0a6f905c256fc484713a865df50a86a64b25ffad29c781b",
+    "result_sha256": "e9f519c59d73d1f38436d958a842f74c233bb6481e5595e0209978b7e2f8e2a3",
+    "console_sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b",
+    "assertions": "All original behavior functions and _check assertions unchanged; external byte-identical UI test helper and reviewed pre-Main packed-path guards only"
+  },
+  "sequence03_exit": 0,
+  "build_report_sha256": "32ce58da645467aed5aa1fde426f5e98e2cb61d77cef7c18027bf6cdccada626",
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "3c57e4373d84859a1ea5fc5ae0cf041a4e246cfe909efa389dc57d558fc2fd16",
+      "bytes": 10797
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "b3b3e5c0ff38d1adff666f8c4025cb8b7e14f628074ac1c21e1066def481fa51",
+      "bytes": 21998
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "a2b2004f220ea8ff20eb07024df12e05bf23d6eb569124bf211569999e722896",
+      "bytes": 11864
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "cc01e762e4a5e777b948a8e7b01d72a5ac896d9b9f624f600488b068a536b132",
+      "bytes": 77922824
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "archive": {
+    "file": "recovery-cfe9d2c-web31-qa01.zip",
+    "bytes": 87244936,
+    "sha256": "43d6a588250cdcbfa14de664d8d7249b72a88d327c653e373cc016e30351eb9b"
+  },
+  "site_member_count": 14,
+  "pck": {
+    "sha256": "cc01e762e4a5e777b948a8e7b01d72a5ac896d9b9f624f600488b068a536b132",
+    "bytes": 77922824
+  },
+  "wasm": {
+    "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+    "bytes": 37700666
+  },
+  "runtime_source_manifest_sha256": "baeb702c39f531f92ef973ac1fc3113d6cc7d0d0c572e478effa270df1b243ed",
+  "exporter_sha256": "bd708be5604634c4e7cdb04efaeb3a933c5b5163ece5a50e501582c313067c5a",
+  "audit_sha256": "669b3c69528eefe1ca5a08c4a4c61306714c02e0bf0ac87fcc4993c2d68618fb",
+  "smoke_sha256": "ee6b50b7ff87d59cf13ea2703d5ba7f662bf43ee1c5e0f447520791700efa325",
+  "v2_entry_sha256": "91cbf184cb659788c11b4258adb6d1e14081944344fba5e96c58fee6b73875b2",
+  "v2_inputs_sha256": "45a9e75de93dea4cc0ec3b8d0ce74b06a02d9164f360158ec42f41a002edd426",
+  "v2_adapter_sha256": {
+    "adapters/recovery_folio_behavior_packed.gd": "1e82ac5013aad4d4fd37653d8b98364733c4c8c73810af96171ac63f54f7c8a2",
+    "adapters/isolated_godot.py": "609dce30939291dfab1804cf9fd308def5cd05d46e40e75b240b229cd0b78c26",
+    "adapters/unified_ui_test_driver.gd": "dbc2bee6b0f95ad21d49f1883e9f995cab261a05f45d56ae7bf9a97b05b5d41a",
+    "adapters/profile_guard.gd": "6353971531429941760ae0ee77d441af40c89d48f8524883e350917efa495d96"
+  },
+  "original_audit_input_sha256": {
+    "tools/smoke_export.gd": "ee6b50b7ff87d59cf13ea2703d5ba7f662bf43ee1c5e0f447520791700efa325",
+    "tools/audit_web_export.py": "669b3c69528eefe1ca5a08c4a4c61306714c02e0bf0ac87fcc4993c2d68618fb",
+    "tools/run_godot_check.py": "cff12672a20925f1d0a4500fe57cacf7c20437927c39bc95aa47444f575be586",
+    "tests/fixtures/v019_game_state.gd.txt": "e20c24c3cf7ac0cfc83f4a3ab453cad6f9e8c61e116f13d12b22576bd4d1b0a5",
+    "tests/fixtures/v020_game_state.gd.txt": "fbd0cef61329356ba3f7fd17bf2fa861ddd149d4d565916711685e0c4c5aac30",
+    "tests/fixtures/v017_game_state.gd.txt": "fd5d6da903a8d24a16ecd5774642c2e5e2bc792a084807734ba6caa95f972f4f",
+    "tests/fixtures/v022_game_state.gd.txt": "7872904b27c52b2fe038b6f355a371ca8e9f90d1054c3be24a5dd912bea8a02a",
+    "tests/fixtures/v025_game_state.gd.txt": "4e052447cb4dbfed20ee3fd22f23261aef043ad7791a457e1e737fe8faa1176d",
+    "tests/fixtures/v028_game_state.gd.txt": "160fe884cd9e80966cf94493020cb2a9454957e54bc7c0def72754bc95e03fd5",
+    "tests/fixtures/v028_game_state.provenance.json": "85176eefce72748bc14b7caba5796622a42ac415883109205e379313c6e2d992",
+    "tests/fixtures/capstone/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "tests/fixtures/capstone/schema_14_provenance.json": "91c576ec2e3b85eb71936834427db60796d346a99bd6753689bbd4867429ffb1",
+    "tests/fixtures/v029_game_state.gd.txt": "6a23204d1558b9f2e15ef4150f2c818fb200415fddad00fc35e1e3d99761a159",
+    "tests/fixtures/weapon_fitting/schema_14_default.json": "4ec2f5ecdcd966f5e49a23bff1c0507381cb2bbae563e150c1b5af9ecf98eec2",
+    "tests/fixtures/weapon_fitting/schema_15_default.json": "decba7dffc7af4906c3e3166e1b32ac9765329434869a3dcd0bf86f3653e17d6",
+    "tests/fixtures/weapon_fitting/provenance.json": "14912385256444e441350c79e2fd2435af7898ef604cafa0216ed40a3960b292",
+    "tests/fixtures/weapon_fitting/legacy_automatic.gd.txt": "e1184548085af19dc0142fd01c25fe667b2be7e661bee50c03fd821899fb1c42",
+    "tests/capstone_package_fixture_producer.gd": "ab5fb90361cccdce12ac8c968d6786fa83b235d412d9454db611745080a8b35a",
+    "tests/journal_guidance_frozen_oracle.json": "38cb8469799e8169201c06e203cd219901e3d06c159c09998ffc2e577ff0c443",
+    "tests/fixtures/legacy_saves/provenance.json": "9087fd567f3fa6953ad040025e084b054f535927042f9c8b868318bbab140a46",
+    "tests/fixtures/legacy_saves/schema_01_default.json": "4c8548dd904f7e4f1f54ca6b91ff58aaabb3b943d7603d76db0a7f4a4321094f",
+    "tests/fixtures/legacy_saves/schema_02_default.json": "a209156dc51fb8325313bcd543b72634b623c7a3f422048891f4b985a0cef3c2",
+    "tests/fixtures/legacy_saves/schema_03_default.json": "934e2cc3e47d88d3989d0cb57eddc6f5f91998a1cc024bfb7016a3a9ed97009d",
+    "tests/fixtures/legacy_saves/schema_04_default.json": "21d9bb529d283eec7d5b9adbdef494b13a445d28134f06e5b3e3ebb456bcc9c2",
+    "tests/fixtures/legacy_saves/schema_05_default.json": "e68dcb998e11303b82797bbdc3dec61a0c029ff99d9941907b4c747922577810",
+    "tests/fixtures/legacy_saves/schema_06_default.json": "3f3403041e2337af4a174b28f3f4d02c173bb5326854449d87b137f23ba20b3d",
+    "tests/fixtures/legacy_saves/schema_07_default.json": "2a8dfca5b31c2d2bf137123edf4c6d0aac0b4f565f82f3e8f053254cecb60ef8",
+    "tests/fixtures/legacy_saves/schema_08_default.json": "385cdbd3afb705ab2115fb8f388b85573cc4253614abefeab38bf04df047917c",
+    "tests/fixtures/legacy_saves/schema_09_default.json": "4217d00776c6d34e7d3ffd6c22ff6525ee6f382ecf01f2b9b082f89ce8937090",
+    "tests/fixtures/legacy_saves/schema_10_default.json": "e445441894495a7e933bd1b2599936547dee1f45bb0a7982320df10ae3451895",
+    "tests/fixtures/legacy_saves/schema_11_default.json": "4bb259573ec678d08f3dce08f399e738de3a8dca7988479b243dfe34dcf5ab00",
+    "tests/fixtures/legacy_saves/schema_12_default.json": "c1749120d50d0c106f0148ed4201bc5f7cead0f91b262366c10c72a488c86404",
+    "tests/fixtures/legacy_saves/schema_13_default.json": "bd31fe837ed80ddc00f425c0a19e9c8980d7f769bc75b58dc665789b6f6e30cc"
+  },
+  "stopped_attempts": {
+    "sequence01": {
+      "exit": 1,
+      "source_rehearsal_passed": true,
+      "canonical_exporter_exit": 0,
+      "guard_receipt_sha256": "0f3966877715f279a5ae9ebd07e2af652db1cfeea0c1fc346950ff686415098b",
+      "reason": "Post-export guard only allowed logs; Godot created an empty objectdb_snapshots directory",
+      "independent_reproduction_sha256": "8870c4845844273c9295a4bdf888c0e37a40d1ea31ce2c364884697907bbddb4",
+      "adjudication_sha256": "f53a5c8e8e76e5b2fad10ba85151bbf4506b7ea74c5a549dbfec35fe031b3557",
+      "scope": "Only that caller-owned nonsymlink empty profiler directory accepted; no files/saves or runtime changes; failed receipt retained; no re-export"
+    },
+    "sequence02": {
+      "exit": 1,
+      "exact_guard_exit": 2,
+      "exact_gameplay_checks_executed": 0,
+      "folio_started": false,
+      "receipt_sha256": "81195ec8da2988e36c0c5014af71125415e7eef7dfc34e4a5244e085df60c41f",
+      "reason": "The guard incorrectly equated virtual res:// with a physical directory; pinned engine measurements proved empty packed root and correct physical cwd",
+      "review_sha256": "44fabb86835ff34bfb61073fed81ab4b97eeb614d3831ea958ac555a468d502e",
+      "correction": "External guards now require the exact measured empty root and declared/canonical physical cwd; source-shadow and all original behavioral assertions retained"
+    }
+  },
+  "independent_final": {
+    "checks": 64,
+    "all_passed": true,
+    "receipt_sha256": "7efe97bf4a04913ac8c91f90a6c594ace82de30c4589278b91802ab558527965"
+  },
+  "limits": [
+    "Exact Web PCK was loaded by native Linux Godot, not by a browser",
+    "Native16-frame review is separate; no audible playback, Windows runtime or browser graphics/audio/IndexedDB acceptance",
+    "Eight optional historical branch processes and the fresh exact-PCK schema16 subject versus complete old15 remain pending independently",
+    "New Linux-validated folio guard ancestor traversal is not Windows-ready; do not invoke it unchanged on Windows",
+    "Manual save transfer remains default-off; schema16 and capacity4 unchanged",
+    "No deployment, GitHub packaged archive, prerelease or commercial1.0 acceptance"
+  ]
+}

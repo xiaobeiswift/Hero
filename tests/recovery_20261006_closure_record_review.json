@@ -1,0 +1,370 @@
+{
+  "time_utc": "2026-10-06T05:57:48.315631+00:00",
+  "disposition": "ACCEPTED_FOR_EVIDENCE_ONLY_COMMIT",
+  "check_count": 83,
+  "all_passed": true,
+  "checks": [
+    {
+      "name": "six_expected_staging_files",
+      "pass": true
+    },
+    {
+      "name": "all_three_summaries_bind_same_tested_source",
+      "pass": true
+    },
+    {
+      "name": "all_three_explicitly_postdate_tested_tree",
+      "pass": true
+    },
+    {
+      "name": "full_terminal_receipt",
+      "pass": true
+    },
+    {
+      "name": "full_terminal_actual_exit0",
+      "pass": true
+    },
+    {
+      "name": "full_two_clean_terminal_phases",
+      "pass": true
+    },
+    {
+      "name": "all184_numeric_records_bound",
+      "pass": true,
+      "detail": "Compared the documented $QA/$SOURCE display normalization to the hash-bound actual original_arguments; all184 match."
+    },
+    {
+      "name": "all184_raw_success_clean",
+      "pass": true
+    },
+    {
+      "name": "183script_one_import_scope",
+      "pass": true
+    },
+    {
+      "name": "eight_retained_guards",
+      "pass": true
+    },
+    {
+      "name": "python93_no_skip_in_five_actual_summaries",
+      "pass": true
+    },
+    {
+      "name": "node53_mocks_actual",
+      "pass": true
+    },
+    {
+      "name": "reconstructed11499_six_sections",
+      "pass": true
+    },
+    {
+      "name": "reconstructed_launcher",
+      "pass": true
+    },
+    {
+      "name": "reconstructed_result",
+      "pass": true
+    },
+    {
+      "name": "full_tracked_before_sha256",
+      "pass": true
+    },
+    {
+      "name": "full_tracked_after_sha256",
+      "pass": true
+    },
+    {
+      "name": "full_generated_before_sha256",
+      "pass": true
+    },
+    {
+      "name": "full_generated_after_sha256",
+      "pass": true
+    },
+    {
+      "name": "full_before_after_fields",
+      "pass": true
+    },
+    {
+      "name": "raw_aggregate_hash",
+      "pass": true
+    },
+    {
+      "name": "aggregate_nested_shape_not_extra_process",
+      "pass": true
+    },
+    {
+      "name": "interrupted_A_observation",
+      "pass": true
+    },
+    {
+      "name": "interrupted_A_process_observation",
+      "pass": true
+    },
+    {
+      "name": "interrupted_A_not_pass_or_known_cause",
+      "pass": true
+    },
+    {
+      "name": "optional8_exact_counts",
+      "pass": true
+    },
+    {
+      "name": "full_staging_bindings",
+      "pass": true
+    },
+    {
+      "name": "source_rehearsal_exact_count",
+      "pass": true
+    },
+    {
+      "name": "source_receipt",
+      "pass": true
+    },
+    {
+      "name": "source_console",
+      "pass": true
+    },
+    {
+      "name": "exact_receipt",
+      "pass": true
+    },
+    {
+      "name": "exact_console",
+      "pass": true
+    },
+    {
+      "name": "folio_receipt",
+      "pass": true
+    },
+    {
+      "name": "folio_console",
+      "pass": true
+    },
+    {
+      "name": "exact_count_and_partitions",
+      "pass": true
+    },
+    {
+      "name": "packed_folio_count_sections_checkpoints",
+      "pass": true
+    },
+    {
+      "name": "packed_folio_raw_result",
+      "pass": true
+    },
+    {
+      "name": "sequence03_exit",
+      "pass": true
+    },
+    {
+      "name": "build_report",
+      "pass": true
+    },
+    {
+      "name": "all_site_metadata_archive_and_identity",
+      "pass": true
+    },
+    {
+      "name": "runtime_source_manifest_sha256",
+      "pass": true
+    },
+    {
+      "name": "exporter_sha256",
+      "pass": true
+    },
+    {
+      "name": "audit_sha256",
+      "pass": true
+    },
+    {
+      "name": "smoke_sha256",
+      "pass": true
+    },
+    {
+      "name": "v2_entry_sha256",
+      "pass": true
+    },
+    {
+      "name": "v2_inputs_sha256",
+      "pass": true
+    },
+    {
+      "name": "all_adapter_and_audit_inputs_exact",
+      "pass": true
+    },
+    {
+      "name": "sequence01_original_failure_preserved",
+      "pass": true
+    },
+    {
+      "name": "sequence01_receipt",
+      "pass": true
+    },
+    {
+      "name": "sequence01_independent_review",
+      "pass": true
+    },
+    {
+      "name": "sequence01_narrow_adjudication",
+      "pass": true
+    },
+    {
+      "name": "sequence02_failure_before_gameplay",
+      "pass": true
+    },
+    {
+      "name": "sequence02_receipt",
+      "pass": true
+    },
+    {
+      "name": "sequence02_review",
+      "pass": true
+    },
+    {
+      "name": "package_final_review",
+      "pass": true
+    },
+    {
+      "name": "package_final_review_count",
+      "pass": true
+    },
+    {
+      "name": "review_summary_first_export_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_count_first_export_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_sequence02_failure_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_count_sequence02_failure_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_v2_correction_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_count_v2_correction_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_final_review",
+      "pass": true
+    },
+    {
+      "name": "review_summary_count_final_review",
+      "pass": true
+    },
+    {
+      "name": "empty_root_diagnostic",
+      "pass": true
+    },
+    {
+      "name": "folio_root_diagnostic",
+      "pass": true
+    },
+    {
+      "name": "external_adapter_diff_byte_exact",
+      "pass": true
+    },
+    {
+      "name": "earlier_native16_994_40_separate_evidence",
+      "pass": true
+    },
+    {
+      "name": "separate_private_backup_receipts_exist",
+      "pass": true
+    },
+    {
+      "name": "historical_readme_body_unchanged",
+      "pass": true
+    },
+    {
+      "name": "docs_distinguish_lost1882_and_post_test_docs",
+      "pass": true
+    },
+    {
+      "name": "docs_preserve_all_three_failure_histories",
+      "pass": true
+    },
+    {
+      "name": "docs_separate_optional8_and_new_subject_old15",
+      "pass": true
+    },
+    {
+      "name": "docs_windows_guard_limit_explicit",
+      "pass": true
+    },
+    {
+      "name": "docs_browser_and_no_deployment_limits",
+      "pass": true
+    },
+    {
+      "name": "overlapping_counts_not_summed",
+      "pass": true
+    },
+    {
+      "name": "native_record_reference_three_explicit_files",
+      "pass": true
+    },
+    {
+      "name": "source_clean_frozen1692",
+      "pass": true
+    },
+    {
+      "name": "display_path_normalization_explicit",
+      "pass": true
+    },
+    {
+      "name": "only_disclosed_full_summary_notation_added",
+      "pass": true
+    },
+    {
+      "name": "other_five_staged_files_unchanged",
+      "pass": true
+    },
+    {
+      "name": "all_three_native_reference_names_explicit",
+      "pass": true
+    },
+    {
+      "name": "source_still_unchanged_after_review",
+      "pass": true
+    }
+  ],
+  "staging_sha256": {
+    "README.md": "253c5cea0ea1ee0fd3df02dffbf74195e2ea162b109ffeb5dc9cd8b2a0dde037",
+    "RECOVERY_20261006.md": "379d38cd3c2010bd633da1e38d3af6b334e97e970a569803a2cee6176515e436",
+    "recovery_20261006_full_regression.json": "14082fb5091236816ac06087efa807c2562984fbf7f3f618fc992fcc3ac1cfa5",
+    "recovery_20261006_package_adapters.diff": "3774526ae99c4079164278ea298f4c84165c8bd47ad64b98c7334405cf105d45",
+    "recovery_20261006_package_review.json": "79d2960bae09faa5f4cf1fb93ab80d2b85078cff82d60d49bd10095a42bdb1cd",
+    "recovery_20261006_package_validation.json": "9b6b585fcfe9de21c12ae686f4a5cabced884dfb27d6300b0778c4c6477598d2"
+  },
+  "source_identity": [
+    "cfe9d2c397ea12586668e4ece485b4528374406e",
+    "25ca81a7fcb9e80e9ae761eccf1ca6292758dd5d"
+  ],
+  "source_unchanged": true,
+  "initial_review_sha256": "8fb5532e9e9a468c2d6c3a53b5f5dfd251f48e1997be451eed96255f4a7c9b2a",
+  "corrections_resolved": [
+    "Replaced ambiguous native-run/pixels/contrast shorthand with the three actual filenames",
+    "Documented the display-only $QA/$SOURCE argument notation; all184 engine record hashes and expanded argv match raw results"
+  ],
+  "scope": "Evidence-only documentation review. No engines, export, source edits or publication performed.",
+  "accepted_claims": [
+    "Retained full B:183 scripts+1import, eight guards,93 Python tests and53 mocked DOM checks; reconstructed11499",
+    "Source rehearsal21584, exact PCK21589/all10 partitions, packedfolio11499/all6 sections",
+    "A incomplete without established cause; sequence01/02 failures and the narrow metadata adjudication preserved",
+    "Original source frozen1692/runtime382; these new records postdate that tree",
+    "Lost original1882 closure not recovered; current candidate not the old artifact or deployed release",
+    "Eight optional historical branch processes plus separate new exact-PCK16 subject versus complete old15 remain pending",
+    "Linux ancestor guards not Windows-ready; browser/audio/IndexedDB/Windows and publication acceptance remain separate"
+  ],
+  "publication_scope": "Copy exactly these six reviewed documentation/record files plus regenerated checksums into the new evidence-only commit. Record the later commit separately; do not imply its added documentation files were in the earlier tested tree."
+}

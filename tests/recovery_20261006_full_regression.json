@@ -1,0 +1,2353 @@
+{
+  "tested_local_commit": "cfe9d2c397ea12586668e4ece485b4528374406e",
+  "verified_public_counterpart": "b98a468a50ee87f2bfba6645816fe6cafd42135a",
+  "tested_tree": "25ca81a7fcb9e80e9ae761eccf1ca6292758dd5d",
+  "tracked_files_during_execution": 1692,
+  "runtime_entries": 382,
+  "runtime_bytes": 101360748,
+  "runtime_sha256": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "record_scope": "Post-execution summary; these documentation files did not exist in the tested 1692-file tree. Raw receipt hashes bind the retained originals, not this summary.",
+  "status": "passed_retained_default_suite_and_new_folio_supplement",
+  "terminal_sha256": "853b091842ebf4052352c884967a10cd320c5de62a8cd517dfd66820976b77f4",
+  "terminal_exit": 0,
+  "retained_script_executions": 183,
+  "editor_imports": 1,
+  "retained_profile_guards": 8,
+  "numeric_engine_records": [
+    {
+      "record": "engine-15124.json",
+      "sha256": "45bd89800c46bfd0fec9e4c0280b7b3104c261f2f0688b0026315f882cc706a5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--editor",
+        "--import",
+        "--quit"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-15397.json",
+      "sha256": "74875ee6fe06275809cfc420c068c009f3e10cf7a34f6e2980ba61ce2b93bc8f",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/journal-model/focused/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/journal_guidance_model_test.gd",
+        "--",
+        "$QA/journal-model/focused/result.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-15431.json",
+      "sha256": "5f890a3f2197348956b928340e4b568589eb4b67be9290141b94bf3c7047ea6c",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/journal-model/independent/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/journal_guidance_independent_test.gd",
+        "--",
+        "$QA/journal-model/independent/result.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-15537.json",
+      "sha256": "93a26c4dabe97e152be9256d0dbc08d00e21ae529eeb5526e0c6edaf261edd59",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/journal-ui/functional/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/journal_guidance_ui_test.gd",
+        "--",
+        "--output=$QA/journal-ui/functional/result.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-15593.json",
+      "sha256": "572e34ac893f037a209ed983219abe73d36b502acbaeae14925e4dd16d89ab2e",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/journal-ui/safety/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/journal_guidance_scene_independent_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16001.json",
+      "sha256": "1296a8d687d5e299efca72321f0312fa08da88fbbef548ab4f86b7bb134062ac",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16020.json",
+      "sha256": "a593fe2cf59243089544c85ccc56e30720078f82f7186c3345ce955c39b5dfe5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16039.json",
+      "sha256": "49afaac4903fb434377194ce2bb250f03b85d73066a70503fb36548a24619b85",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_read_consumers_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16071.json",
+      "sha256": "f5baed4b48105ddc0f7bb7dd855802bc7c5c7455b1d1a057bd6511b2e8305fc6",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_history_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16090.json",
+      "sha256": "6d031d7368f965b6b604317b2d9382db1ad698c93cb5ec9b3684cc16e7189210",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_schema_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16111.json",
+      "sha256": "7da9e752610c027520d2e7716082e0b49fb4e8dc347159d06b9818a278452b29",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_trial_model_test.gd",
+        "--",
+        "--legacy-model=$QA/fitting-legacy-automatic.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16149.json",
+      "sha256": "86a315b2c0e733c26d076930adc518d03c2580734ee80ae7683f9afc76cdde18",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_trial_metrics_test.gd",
+        "--",
+        "--numerical-entry=$SOURCE/tests/fixtures/weapon_fitting/pressure_entry_reference.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16172.json",
+      "sha256": "23048277d5e643baf027ca32ff304f5f5f479c1082c2a53b0949aebaea693597",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/fitting-ui/functional/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16281.json",
+      "sha256": "cae10fe6bb8586c67b23300347ea86d6cdd9d86d99352a6827a61271b1eb895c",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/fitting-ui/safety/engine.log",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_ui_independent_test.gd",
+        "--",
+        "--output=$QA/fitting-ui/safety/result.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-16971.json",
+      "sha256": "4fae7eadbbe99e1e1cccebc3e456c9186549f511de9ba377d3a364f9831a302a",
+      "arguments": [
+        "--headless",
+        "--log-file",
+        "$QA/fitting-ui/earned/engine.log",
+        "--audio-driver",
+        "Dummy",
+        "--fixed-fps",
+        "60",
+        "--path",
+        ".",
+        "--script",
+        "tests/weapon_fitting_earned_scene_test.gd",
+        "--",
+        "--output=$QA/fitting-ui/earned/result.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17566.json",
+      "sha256": "d2755a32b96cb7eb89de3de28cd22e99cb7f53d0834a5fcb2a4c5b14395a4e0b",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/report_json_writer_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17585.json",
+      "sha256": "a348fb3df66b511625241b5eddc85829e5af70117ab774317e078a45a96936a9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17692.json",
+      "sha256": "71d9fa9f8b40fbc7bc44bf128fe45119ee21f3c3b0e5ba540603248f6b7369e5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_schema_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17715.json",
+      "sha256": "84507be56a9ab019272ad5df87648840eca4419f3d631edb15f554303fd74510",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17780.json",
+      "sha256": "60f29be1f97a1b8e6e4347018823d354db63b22742908790af34a360c2125922",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_combat_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-17799.json",
+      "sha256": "c2f105d058dab622fb25fbf4a5d2a1bbd228bccbec0fbb38e7a9c2b3ab657fbe",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_balance_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18134.json",
+      "sha256": "fb26462ed1fba937c6389b650692d41237eaff3824426c3b359085e3cecd8386",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_model_presentation_boundary_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18154.json",
+      "sha256": "fdd65ff99d2825144854881146d03487dff890c79388604e1943f475183f14f3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_schema_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18173.json",
+      "sha256": "309e6dfa9e9b12e1e43592656103510b5a4793395fbbc60c7b893a09be806f9e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18242.json",
+      "sha256": "c23f6a395a3ed18c20c34c2a4924f93ce59b960de96ef7e5e0596813a479e900",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_earned_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18287.json",
+      "sha256": "0ff98f6031a8096852bca83e0aa1db80667d744ecf512fa2bf4108dd20842d8d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_recovery_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18321.json",
+      "sha256": "23966f00dcd8cd5e2a2e71f652c253caa2fedb76223c8cd49bd760ab785922c7",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_party_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18460.json",
+      "sha256": "09a54f4e1b71cad871d577e0987c83208e84d55ea31f83cb067176a6ff9cb8dd",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_boundary_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18492.json",
+      "sha256": "e27b936594871823e9ce1c61dae3e1a666592bb7dfda352ffd4b25fdfe7190a9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_liang_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18511.json",
+      "sha256": "e43479784b093aaea26960e5b6f461cfd3b58a353ad8dfc5a8aad2dbcfa4479e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_liang_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18720.json",
+      "sha256": "9e33d5a9a8c8200eda190b843bc9ba323f851b848ff861acee7ab6579470f761",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_liang_portrait_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18739.json",
+      "sha256": "fdb147d6079dae321545686d7849d4cd21814ebea871dac067afb2ae19a02f02",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_navigation_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18758.json",
+      "sha256": "2c40f3a84a9fa3b63b52172da2208d2fb7881c42fd214dda1cbad4a79483163c",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_world_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18777.json",
+      "sha256": "9c32bac84ec33dc846707a5990a295fa1585b7bb8a973dbbdbb282f5f0ba10a5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_world_render_consumers_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18796.json",
+      "sha256": "48ab1d01d291a333a1cfe58a0d22b9841a2f340a5c054fa2247c51383cbcb7f8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_navigation_main_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18849.json",
+      "sha256": "9d2bb22013b883e1ea50281b26c7a530067ff2d8773e293f3cc3114d48fb6d8c",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_story_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-18929.json",
+      "sha256": "d261062e62f4fd6be3b2b1399a45f8912839f9a8c5eebe91378f3c0d64bf6426",
+      "arguments": [
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_earned_scene_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20189.json",
+      "sha256": "c853d1c8feb6544920a97f5f3dd7cbc4f56b64abe998633a019d6d727f526da0",
+      "arguments": [
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        ".",
+        "--script",
+        "tests/capstone_independent_scene_interruptions_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20305.json",
+      "sha256": "0cc0627d0aa812521864fb540f28bc4c2a1733f9088606340e0318620ea3dab8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20324.json",
+      "sha256": "d36e91bada0d134d4eb4a51ac488eabe3a78490ec03482d93141eab392a58ada",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_schema_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20343.json",
+      "sha256": "5350a04bcffaa1a184b00aa23ac6e9329d6c7bdb65852a947b6236415bc32325",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20375.json",
+      "sha256": "6ef2a37ea530b2b9aef996e0803887efd42f4c12de06409907c9c48493540ba4",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_combat_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20394.json",
+      "sha256": "057032db2aaa1cf00dc1be752b4312aa96e77b11387084f7f4903221cb01e94d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_balance_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20452.json",
+      "sha256": "c8b351ae7feee985288b3dd8b46dcd66dc0545c899e22d8d4c298e688d751557",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_minimal_solo_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20491.json",
+      "sha256": "b2ab47e9fb7ca2cb8c106f75d0e7cd767172f841fbc78aa98b13e10ade9ccf64",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_adversarial_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20510.json",
+      "sha256": "0a5e3c74bb16de7edd34f7a6d7e729b8ed30a66e7b595894fa189fa62912b7de",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_duhui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20529.json",
+      "sha256": "9fdba2ed5f24582bada812a2b5fd8ee9564813c8135a856802e821f2e514d8e3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20587.json",
+      "sha256": "23a9672cdd02ad469663d57cad40077528d63da16251a4a548dceba70a16a05d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_route_label_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20606.json",
+      "sha256": "248070cf4e54ec44c8b2c7e0e961f5a304166c9280b60567f0e8c844c99e50c6",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/warehouse_backdrop_polish_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20625.json",
+      "sha256": "ea82421082f558945a3f80f849f68703a1a23f9562a1fda04dddb8766e6904f0",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_geometry_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20768.json",
+      "sha256": "51135fa094d99387260a84c171190d978550d2c79c59b56e2523bd21df7336de",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_world_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20800.json",
+      "sha256": "e8bf85a590de5d6b6ac652c9a6648b0c027d3cf22fa599d426897cb02cae6486",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_story_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20819.json",
+      "sha256": "fd4a56185a6ef059cab5ff630adaeda805e150010c0f35a9bc60ecd4a2e0a1b9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_scene_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20925.json",
+      "sha256": "c91f7e3d988997def6708e77285937926335ee7a3dbe59550bbe2c75c74f7b0b",
+      "arguments": [
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_earned_scene_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-20984.json",
+      "sha256": "1ec0bc095cfee12d741e67aa2cb14b8593835c31907a32e2a3774d36e8c3ced5",
+      "arguments": [
+        "--headless",
+        "--fixed-fps",
+        "60",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_earned_party_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21077.json",
+      "sha256": "ff0999b82c40c74f25fd0972545f0403ac5b9e15862be52df773a7023f8f94f6",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_consignee_recovery_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21096.json",
+      "sha256": "b5aa88dc9dabc506662d54d4c7ea51b3d7a36d80ab87c626b626b959d1c4ea9b",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/local_save_transfer_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21115.json",
+      "sha256": "14cc7dec63b263a92501ed05a8c5404ae4bc8e260d3f0937d4e9f371cf032b61",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/save_transfer_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21134.json",
+      "sha256": "3c4db745ef61a86da76e2783098d86c9bf95fe2de76e69edcb04ce3ef3c4ff3f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/save_transfer_independent_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21153.json",
+      "sha256": "143a512d8c97f60f1c61defc15e1d4feec3bf57b3e0bd5982f0698709c145fb9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/save_transfer_independent_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21212.json",
+      "sha256": "d32221ef615dec038d190d3939f0f5ced2238287fa8e2feba0278bfd3bf554b2",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/browser_save_transfer_adapter_independent_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21240.json",
+      "sha256": "745832343ceb526b48f9f133cc36a610a882d192df35f4a2e07cbddb8881fdef",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/companion_condition_display_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21263.json",
+      "sha256": "df151ad0da5a973dba1ddc3d68b3006f3a7396a2bbfdecd55af1e276c102ea91",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/companion_condition_independent_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21299.json",
+      "sha256": "29ac141b2b7a721927d4a30166cddab1ba3f2ae7496f43ea95ee040ebc8b5c06",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_trail_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21318.json",
+      "sha256": "8031a1ee7d1557bc03eac3059e5c3c321aa4d236a14388bab8a0a3870a124a36",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_adversarial_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21337.json",
+      "sha256": "230240439d897044df69feeb48876429ea3330b2b101baf189d675b23d417d41",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_source_collision_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21356.json",
+      "sha256": "629510c9a4c23780ca8382899d9b7bc22e05956ed9fbc2cd1df680042bcd7590",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_world_integration_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21388.json",
+      "sha256": "0ca8df13b1c006c332198c0afd219705359e461cdbbd68ec1a38d608e948b6c3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_independent_review_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21410.json",
+      "sha256": "f59c3950762167d07b18f8f2b7ab28d7a545145ebae076bbcb674c982f0d27b9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/exploration_party_render_consumers_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21429.json",
+      "sha256": "7c1b8f10be4eb7401a95877637025b01ff6af1fc69cabe965a8afcfbc03d6333",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_qin_walk_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21448.json",
+      "sha256": "6e8c440936d67ed7dbb6d9e9987ac246be0cf6d16ff5c6fd289d5659a468b800",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/automatic_party_combat_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21467.json",
+      "sha256": "8e595c7fd713311421c3bd0da31ea7b0fa12a2afba3a9ead56be7fabed3d43fa",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/automatic_party_battle_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21486.json",
+      "sha256": "043cce4453d71ea66a6a2b7d6a4f1ebb54d4f828a2d9c8dbbdca0fdc2e8348c6",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_battle_backdrop_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21505.json",
+      "sha256": "87c31ade49e16e4121268a8df0511187c391c78b66476568f58de21b95317afc",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/unified_encounter_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21524.json",
+      "sha256": "814ef4b2c4248bc03fd9e954b10e44f9cc5b28c722e294129004fbd8d4b6567f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/unified_combat_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21543.json",
+      "sha256": "3d8917d80321c84cefb9108f950ab289ae3f3c6ec4fa9fed7a6974f2726bae23",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/unified_practice_lifecycle_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21562.json",
+      "sha256": "478c901e1a67e24a2b27a7bf3ec98c393c14fa9c0f194c6abf84fe7559bd3d53",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/unified_terminal_close_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21594.json",
+      "sha256": "53734b0c1da6222f220878bc401ee6b272c3d9fa40c4f2e682d76433419d841b",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/automatic_combat_balance_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21613.json",
+      "sha256": "bfd9bc618a3389f2cdae1eb3c186ee69cc4f5a2693236a09735e59e9e7dd47ac",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/automatic_trial_balance_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21632.json",
+      "sha256": "167f7570017e296674d351058972d8303858c8c7f93d9b1663accd4b3a3f2fb3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/category_status_badges_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21651.json",
+      "sha256": "544d64d71a01c4efaf935dccf12db265cf227687f59beb93418659cdf998774d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/combat_skill_catalog_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21670.json",
+      "sha256": "6833d52ed6a3ad64214a3965c3c0fe72ebb1c685ebd69dcf1653d1619a06e5d4",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/combat_learning_schema_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21689.json",
+      "sha256": "4ddf28bee5b3edb5c27d37e46f964c4a2b0a07e40d1c99b399f29ee23ff2731b",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/combat_learning_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21708.json",
+      "sha256": "d84d89130f2df6f4c6229fc62c86db5e038a8f03bbd5abb36f3b7eaa4f4529fd",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21727.json",
+      "sha256": "2a097b8246122cad047f4e1a5305bb55ffd5ec2bc8aae12c743333b8f755bec5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_combat_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21759.json",
+      "sha256": "3da9a67aaeaa60994d688585353917245b471ab657361ddf7c69e9e94a7bf2b1",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_roster_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21778.json",
+      "sha256": "28e7496baf4cb9d7027eeeb6f631bfcd0a6c99c6f0ff01df06bfb3b47174da72",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_state_integration_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21797.json",
+      "sha256": "718be6b05254b2052faab79e76a9d3d78dd06eb315852ae92f64a4a5dbeab466",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_sluice_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21816.json",
+      "sha256": "ca8ce9a631d35e5720842198df0f9755e4ae1fb9a00ed1aaa9d435adf11a67d6",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_sluice_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21835.json",
+      "sha256": "1ae916a35f6da2a2cdae05414b447dff56951a740772a97bb1609b55449d52a1",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_archive_state_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21854.json",
+      "sha256": "99c9ce646b4242ece12ae3f856f0e4fd6d7ceb88ae57ef6dc5a0d66691027edb",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_two_person_formation_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21876.json",
+      "sha256": "bdc6cf52b35268185a104641bfbdbf089014099d1d0893b1ba1c8cc467579d92",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_sluice_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21908.json",
+      "sha256": "7a4377ac2090844f021b7ce48a4ea86b549b1bea8339014f34122f768eaca3d0",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_battle_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21948.json",
+      "sha256": "77aa491f3fcee21f224c6a0525993e8c81b83dae8cd8e59bad24adef82ab0455",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/party_roster_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21969.json",
+      "sha256": "79ad5bbaaf1a1d5ecc1645bf59ba44f17495c804c3860d3159aa4ebeab558a3a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/qin_companion_scene_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-21992.json",
+      "sha256": "06231d358af451d8baa27b1fd8f8c1f420c1c7a04e2908bc5a617ac245e440de",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_party_model_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22011.json",
+      "sha256": "fc023f91457e880d8d9ddbf8a96ce027b70b4584cc2990672245a5372c1fa242",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/courtyard_exercise_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22030.json",
+      "sha256": "0a57fba56ed26dd6b7793b050c87265b81e585cc5aaaca87abfe741b203c6c9c",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_receipt_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22049.json",
+      "sha256": "40e9b56c95762c137cee1e824d66f26bc2be14620d6c0bd2a63ef48a5efdd8c3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_receipt_combat_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22074.json",
+      "sha256": "47a3d2468331d8cb03793a4747d06090d2224cd8ec2129489d917cb399f824e4",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_receipt_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22104.json",
+      "sha256": "83241401b9e3224c4b69163f7a7e14a04ec4fbd024214a6bf9756069ea79343f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/formation_layout_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22123.json",
+      "sha256": "4e65aa58cccef577155a93b868d4ee0d6edf2d43e2c2a05d5d21adc0d39459cb",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/formation_motion_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22143.json",
+      "sha256": "44b82ec8ca6ab4c0197fc6b11c06b5d702ccdadb411124c60dd875e85e40eea7",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/opening_duel_formation_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22162.json",
+      "sha256": "0da77ca585acf5c3b54840eeddfcfbad5bf0135c67f82348047dfea67570bdb8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_receipt_story_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22181.json",
+      "sha256": "1967cc01c3445f9177db1a09c5e74dbe7d93b85088e72f901e5a5ef85a2f64f5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/courtyard_rig_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22200.json",
+      "sha256": "2f2f5f0c2d3aad89f66b9fd1ddb09d91e32b62dbda3e8d2b273e0d4945f2598a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/courtyard_practice_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22219.json",
+      "sha256": "446f8a6f479bc2265f84d1aef8bfa8ba7d1b6623dfadb5509e361810dbea5b4d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/browser_runtime_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22239.json",
+      "sha256": "6315422a07b6318fee87bd78ddda8f59acaf5beaea01009eed59943adf49dab8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_progression_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22274.json",
+      "sha256": "4390518f390838dcbbed1264311cffa4a71dbb8fc53aa3074ce458bf9c52e292",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_second_region_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22310.json",
+      "sha256": "b9690bebfd4e54444bfb8c38130575c11ca4f7e894253162f3ec8c06e550970e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/economy_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22329.json",
+      "sha256": "1e1dfa5ad1328a7cc291cf1405360e49d68a73d02dd88635c3b19a9e3e7747b2",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/workshop_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22348.json",
+      "sha256": "8f2a8742f5fc9c2e6a3297af935d16a2b0d219812d521abc695d9135ae98001f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/chapter_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22367.json",
+      "sha256": "3ae46cf2d52e45c561bf23fb4a3b27380ac782c591db818a134f16b11dd3b68d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/frostbridge_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22386.json",
+      "sha256": "29e25ea6fd93572b670e9753a9bd0f49f24b5875d56044cb45a7802e3f9259d5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/save_version_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22405.json",
+      "sha256": "a0c73c7224a931014c9a306dfbeb9e8256f8f4766dbd3ee6f05bd32a21c9f39b",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/sect_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22424.json",
+      "sha256": "29f9bdde25e5c19338068a8ed71ae41c44f970dfea86da0d6f2a1b56bcdc7483",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/sect_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22456.json",
+      "sha256": "549779d4fd15a721d87c83d0bceb2f4a72b4db82e8cc4d6f7ec93417386c6816",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_companion_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22475.json",
+      "sha256": "59570a0bb9b4ba9e2860a259216abdacf52fa6c1a80060138bb70eba7a545089",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_companion_increment_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22494.json",
+      "sha256": "32b2134d0363d8995469771f96c47bea0f1a32c88913db6b3560e09cb0b2db2c",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/full_journey_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22513.json",
+      "sha256": "650b171a0187a074bc2eee7461236c56a5fb9e62f51fd3abde7bdbbe3083b94d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/advanced_balance_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22532.json",
+      "sha256": "7b9ae3ced3870f5e82787919d877033257781c9505ad9c2fee8338d2ccda291f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/advanced_martial_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22551.json",
+      "sha256": "c9a6cb7f821a26c64f54444e92f27980f5445ab68ed5d34b175f1ac0d348dd02",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/advanced_martial_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22583.json",
+      "sha256": "0e6cdeb5b32135dfd83a3ee6c0e51ecb587dd9b0c41885ee8150cd9ddbc46752",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/mistwood_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22602.json",
+      "sha256": "db08a7ff88ea62e8a7056eb9fadf35fae6e6fdc014f96ed5a0ef51fe891488f9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/mistwood_geometry_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22621.json",
+      "sha256": "8c4d95e5d7054c8435fc47907d925250ffebc8b2cebfff8619d3a143339ad0ac",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/mistwood_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22640.json",
+      "sha256": "80639d0818a729a9b9fd4a6518c92bb603ca4da45f3b48003267c0c7f2d3d650",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/local_save_slots_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22659.json",
+      "sha256": "389b6b1488f1b2e14029089d1b746a0b77e14a49d7ca9ce14df0e02fd89eed7f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/save_slots_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22691.json",
+      "sha256": "23e2ef664aed6e64d3b61d7cac1a3f4cb47760453ad7688b5d173d869126fc97",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_manual_save_ui_test.gd",
+        "--",
+        "--exercise-stale-callback-replay"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22710.json",
+      "sha256": "37bd7f7839f6e6e1e66a9473d09f0f866a85ac192947332388c7addf4f3ff2be",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/portrait_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22729.json",
+      "sha256": "c6a68ce8cb4ea22cbb1d56ca32d3f556e30251bcd5ee88622a38c3fa76614880",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/shen_care_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22748.json",
+      "sha256": "8195f2c791ff2ce5948f8c1464b1ce53155a28c8debed47be1d951970a7076f8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/shen_care_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22772.json",
+      "sha256": "b41a2e25550b265b8c56ad0d6d2176f528509c94bef65de99409fcc295566d01",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/lightness_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22791.json",
+      "sha256": "001f7b9a21232dabfd56f59c605b17744e5cf4523a7c6389889ae9ee0e576ebe",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_shen_care_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22811.json",
+      "sha256": "b103a88dc1904fa2e0afb40a3d311719f888bd5e8e3dafaeec76f65b2dc77dd2",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/lightness_ui_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22830.json",
+      "sha256": "80d44adf88358be2e5cdb9ac414b584506234f6c0bd771e94bfed8c05293454e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_lightness_geometry_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22849.json",
+      "sha256": "326e285154668747b8ebedc4da5a03b35e23782dfffc06c3a924872020f50168",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_rules_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22868.json",
+      "sha256": "b80711d0839915b6ee2170bfea6c9bc3d944484a589bc1b055eae09e838e0d47",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_geometry_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22887.json",
+      "sha256": "1631742eb2ea791a4e90fedf933b8cef194bdff7f3cc60ee68b5fb9d776ff942",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_material_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22906.json",
+      "sha256": "11069d797b5c644e97fac32e4c64f3c13a85c3af4e3307a14b08dddbe94b04e4",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/world_material_tiles_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22925.json",
+      "sha256": "f372f6d79ccd2324be6278003373e7ae69fa46e6785b57ab192a90e0cbde3d4e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_machinery_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22944.json",
+      "sha256": "ce62d66de73951d8c841dbc85977071174552be69925e9acb09efbf1da826373",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_worksites_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22963.json",
+      "sha256": "72f04e6a7028fc15564bfb48858dd891444f4e21e181f3abb803778bff7088ec",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_world_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-22982.json",
+      "sha256": "23bba7b229fdd90d8b6e1e3570d15e05770d627b64b246e5e124d732553a805e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_heting_scene_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23047.json",
+      "sha256": "8535253f865b1f95b6f1c387b76adb59d9cfc0b59983f300301d0adc3da1c921",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audit_heting_current_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23100.json",
+      "sha256": "81f23d68741bfbd902d91728fed55e977de976368852b02f3e3665ba112d2d9e",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/environment_visual_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23119.json",
+      "sha256": "a2fb8ff365655398c236f72b17eb28e852217b40516e81e51084b869a0101302",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/battle_choreography_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23138.json",
+      "sha256": "a0d789bf5e7f65e050e6f270320651b46e423aef0a8a6dae1112cbcd42ec5740",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_traveler_asset_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23157.json",
+      "sha256": "1a4f5bc83f84495d02dd23ddb8a8a92bc01a8987a922faf63307fd8497e95527",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/render_visibility_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23189.json",
+      "sha256": "8a854b6152b3915ad2e576f8fb9a9d5aaf8fbc2c78343b1aa6fc8c301a1114c8",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_cast_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23208.json",
+      "sha256": "3346cbd8368f3bb52fb0511ca5747360ae46b2bf1ca34a6fb44144fe86d72f0d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/hud_layout_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23227.json",
+      "sha256": "5a45d970050a02c819307f1f17cfeced034cef30875e8550766a2f7702816942",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/hud_navigation_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23247.json",
+      "sha256": "12c97dcccdbd94cebe65661490bf3a31129f13c803d3e085ea78a426d253f05a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/screenshot_feedback_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23266.json",
+      "sha256": "2001a833a6c569f30815f0bc0c2bf30f3ab22306feda325a1a3eea53da5eb87a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_shen_walk_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23285.json",
+      "sha256": "349382242acc8d8815529b14caf0c7e880fa84374eee121e1d1a2e8e664cef6f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/inventory_layout_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23305.json",
+      "sha256": "b77a46296a54b4318d9cc41a36ec06f10b0105b2734c87f83e191b99144288fa",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_battle_hero_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23324.json",
+      "sha256": "80a08e64d468850c2c7aa19633760acdfcbfa29312aec5c8fce7fcde19333d11",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_battle_integration_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23343.json",
+      "sha256": "bd87700dac7937b8d883d08cde4ff2e91f1c9e810ccfa518463cbd9a493be994",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_rival_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23362.json",
+      "sha256": "e94304249da1b4a376ca7e422c7295c8b683a2e699a449bfaa5135a5a2bccf44",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/ferry_backdrop_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23381.json",
+      "sha256": "2d35dda43b2cf08e56723b91db6a382f45d3c9c92f65f577d8e2ed67aa086c23",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/pause_menu_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23413.json",
+      "sha256": "e39dbd80d61837ed4557d71e5f0bc4e42b03bb10593735bb651ddcdd26eabde3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/companion_feedback_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23432.json",
+      "sha256": "1b027ccddc23fead4103f9fc0989f6489830c67e9f690857186dd964bcf4d0b5",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_shen_combat_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23451.json",
+      "sha256": "920543d944ebac4cd4434b6371e514be25663920f1a3ddafafb9c1fddcbad88a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/water_material_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23470.json",
+      "sha256": "dcca4de17964f67af9381edcbf67944818c3f1dbadbfddb023332fa472d5ea7d",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/ferry_props_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23489.json",
+      "sha256": "8bacc5e8ee315956ff29952f14fc78f8a68a54ca196913efde533554d07cedf4",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/view_zoom_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23512.json",
+      "sha256": "edfbb59db18df2070d65be5daed610107fa9d2038b760fc6b2e05b8b2f9ef334",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/village_civilians_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23531.json",
+      "sha256": "9dda83e8a04a760d34c9ae14756837b7684c4be370ffcc066743ff725a15b8ce",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/noticeboard_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23550.json",
+      "sha256": "e6241cfb45f2ec363650e4b089d47432a8a87290c2789953735cb9e75926fcc2",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/camp_shelter_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23569.json",
+      "sha256": "b7f1d5402595f78a68b4d10259f71277f47d6e57a69ffc43c1e8d85b1eba6c12",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_bamboo_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23588.json",
+      "sha256": "820a8a1d24aa02c5710b5d4a9c57d3be1a5103442c15c1d97f0f6c3d806bffd3",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/tea_table_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23607.json",
+      "sha256": "b650e6c6b8e3d860d67be9e234faa6a1f4674ee48e7b29472c0712544d8ab477",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/lantern_post_art_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23671.json",
+      "sha256": "bd8376c4c53f38d696600314a7827d2f92d7154a5c67a3acef9d1312e3bac8bf",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/dialogue_sheet_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23690.json",
+      "sha256": "add74bfe2e315955a53ed9aa511caa9c5670dd9761d5e1ce8b0e86f61ce6a28f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/painted_tang_walk_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23709.json",
+      "sha256": "2a0f69e6f8bea7dc757d40c22fd856105fc6b684af53b04566e0e9367608d3ee",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/view_detail_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23728.json",
+      "sha256": "9e9fe12b41692e15a301f5652f769441c8e04c1c15765140b010e3418a716204",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/building_visibility_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23747.json",
+      "sha256": "d2f6c8aae3bfd8e0fb2b6ef99ab0851292b98d74fdb699dc04504acb04ea572a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/navigation_visibility_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23766.json",
+      "sha256": "7ab337abe2502d67742462ff11385efcb499640aa78c5bc86e583b93d1fa216a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/map_layout_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23798.json",
+      "sha256": "5071ea39acf5e80a9a5a0b2067046ad430a53ea82cb46cd602ada1d43b363869",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/martial_folio_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23836.json",
+      "sha256": "805a9b304df3134b52febbb29fd485dd52574b3abe235c47958db85bb4ba7c5f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/audio_preferences_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23855.json",
+      "sha256": "e25861674e4a5baa8e013d60746509ddc007e0264a36922dcf111514de781fc9",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/interaction_verbs_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23874.json",
+      "sha256": "6233635b817ef0c2a4687d37d5d8839f67b39e4ee15a18bd250ac3637317107f",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/window_close_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23893.json",
+      "sha256": "2869c0c9da337998a2392ae356fbfd9bc979b0feae9d583a588903874feac74a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_notice_timing_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23912.json",
+      "sha256": "7089587cb5dd61ecb7a04ae8f89649a2fe173a48ad7a0bb8cd02ef650fcb3e5a",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_interaction_hints_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23931.json",
+      "sha256": "e1f17e3fe59f319c69ca61d7e7215430039f9b977bc2525280e0562b9c2ea285",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_cart_routes_test.gd"
+      ],
+      "exit_code": 0
+    },
+    {
+      "record": "engine-23951.json",
+      "sha256": "ec7a06fd867610546f8c69bc4fd804b006d3b689882d9b89cf1768b555154164",
+      "arguments": [
+        "--headless",
+        "--path",
+        ".",
+        "--script",
+        "tests/heting_cart_map_test.gd"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "python_unittest_counts": [
+    8,
+    8,
+    10,
+    6,
+    61
+  ],
+  "python_unittest_total": 93,
+  "python_unittest_status": "All five invocations returned ordinary OK, with no skips observed",
+  "node_mock_checks": 53,
+  "node_scope": "DOM/FileReader mocks, not a real browser",
+  "reconstructed": {
+    "checks": 11499,
+    "failures": 0,
+    "sections": [
+      "inventory",
+      "martial",
+      "workshop",
+      "cultivation",
+      "real_save_failure_retry",
+      "battle_gate"
+    ],
+    "launcher_sha256": "1e9b85929262e85a8087f349afb6d7086483e2efc608b5baee9ac8d798e668a8",
+    "result_sha256": "e9e63b85ad04a64fb9081423db830a328159fdab806b451755636c16459e4bb2"
+  },
+  "before_after": {
+    "tracked_before_sha256": "290d54c76d427ae81e96e081568b697158430d5e1c4ca465f1045dda85190050",
+    "tracked_after_sha256": "290d54c76d427ae81e96e081568b697158430d5e1c4ca465f1045dda85190050",
+    "tracked_values_equal": true,
+    "changed_tracked_files": [],
+    "runtime_before": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+    "runtime_after": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+    "engine_unchanged": true,
+    "markers_before": {
+      "_sc_": null,
+      "._sc_": null
+    },
+    "markers_after": {
+      "_sc_": null,
+      "._sc_": null
+    },
+    "generated_before_sha256": "5d6afe1f042e2919e19f14fd2d8932af1471c7a4345898c0ecca26c0484ddeb7",
+    "generated_after_sha256": "5d6afe1f042e2919e19f14fd2d8932af1471c7a4345898c0ecca26c0484ddeb7"
+  },
+  "raw_aggregate_note": {
+    "sha256": "b4b0b6621129f8e9a15472cd140a3d7b152d649330b5cf6b5700c9ab466ba802",
+    "shape": "184 individual dictionaries plus one nested copy of their earlier aggregate, caused by the final filename glob including engine-results.json itself",
+    "resolution": "Original summary preserved. Exactly184 numeric engine-PID.json records and their command multiset independently match the frozen inventory. No extra process is counted and no test coverage is waived."
+  },
+  "interrupted_A": {
+    "status": "incomplete; no terminal receipt or cause established",
+    "completed_engine_successes": 12,
+    "unfinished_engine_records": 1,
+    "observation_sha256": "5a1be7ba14dd380e52b9f304f114cf596327331938565d057434ec02cecc8426",
+    "process_observation_sha256": "8f09544e4be972eb256675223dc943fd3d5981e8c25dfd8e5a3cdb66590c9333",
+    "preserved": true,
+    "carried_forward_as_pass": false
+  },
+  "omitted_optional_processes": {
+    "HERO_WEB30_PCK": 3,
+    "HERO_WEB29_PCK": 2,
+    "HERO_WEB28_PCK": 2,
+    "HERO_WEB25_PCK": 1
+  },
+  "historical_scope": "Eight optional branch processes were not run. Web30/29/28 include separate complete old-runtime stages; Web25 is the original mixed-dependency old reader boundary. These are not eight isolated old-runtime processes.",
+  "staging_sha256": {
+    "engine_entry.py": "8778311cae071d3755c254ad0489e64ab7296e652c4e47723e8f50900f25a16d",
+    "owned_process.py": "f063818cf923d74aef8820e0015d156ad3aa42da205ddf446fb947315a8481ec",
+    "run_full_regression.py": "6061c36787f1dca29af7165b374b2340c6620bb2c394e2178ccb9e3b13c72ca7",
+    "suite-inventory.json": "a25becd5a991a769d1f4b1525697137b646e00128d36879f22124cdde88e006d"
+  },
+  "limits": [
+    "Not the lost original1882-file closure or its old test evidence",
+    "New folio source/PCK helpers are Linux-validated; Windows path/root guards require separate review",
+    "No new package/browser/audio/Windows acceptance follows from the source suite itself",
+    "Prepared native pixels are separately recorded in recovery_20261006_native_run.json, recovery_20261006_native_pixels.json, and recovery_20261006_native_contrast.json."
+  ],
+  "argument_path_notation": {
+    "$SOURCE": "Display placeholder for the frozen cfe9d2c source checkout; original absolute argv remains in the hash-bound raw record",
+    "$QA": "Display placeholder for the retained full-B owned QA root; original absolute argv remains in the hash-bound raw record",
+    "comparison": "Expanding these two display placeholders reproduces every original_arguments array exactly; the placeholders were not passed literally to Godot."
+  }
+}

@@ -1,0 +1,102 @@
+--- canonical/tools/recovery_validation/isolated_godot.py
++++ external/isolated_godot.py
+@@ -18,7 +18,7 @@
+ ENGINE = Path('/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64')
+ ENGINE_SHA = 'f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3'
+ RUNTIME_SHA = '05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160'
+-USER_SUFFIX = 'data/godot/app_userdata/Hero · 渡灯录'
++USER_SUFFIX = 'web-smoke-data/godot/app_userdata/Hero · 渡灯录'
+ 
+ 
+ def require(ok, message):
+@@ -54,7 +54,7 @@
+     absolute_unlinked(root).mkdir(mode=0o700)  # Exclusive: never reuse an existing profile.
+     require(root.stat().st_uid == os.getuid() and stat.S_IMODE(root.stat().st_mode) == 0o700, 'QA root is not private and caller-owned')
+     env = os.environ.copy()
+-    for key, leaf in [('HOME', 'home'), ('XDG_DATA_HOME', 'data'), ('XDG_CONFIG_HOME', 'config'), ('XDG_CACHE_HOME', 'cache')]:
++    for key, leaf in [('HOME', 'home'), ('XDG_DATA_HOME', 'web-smoke-data'), ('XDG_CONFIG_HOME', 'config'), ('XDG_CACHE_HOME', 'cache')]:
+         (root / leaf).mkdir(mode=0o700)
+         env[key] = str(root / leaf)
+     for leaf in ('logs', 'results'):
+--- canonical/tools/recovery_validation/profile_guard.gd
++++ external/profile_guard.gd
+@@ -16,7 +16,7 @@
+ 
+ func _initialize() -> void:
+ 	var root := OS.get_environment("HERO_FOLIO_QA_OWNED_ROOT")
+-	var expected := root.path_join("data/godot/app_userdata/Hero · 渡灯录")
++	var expected := root.path_join("web-smoke-data/godot/app_userdata/Hero · 渡灯录")
+ 	var token := OS.get_environment("HERO_FOLIO_QA_TOKEN")
+ 	if not root.is_absolute_path() or root.simplify_path() != root or not _unlinked(expected):
+ 		_refuse("invalid or linked QA path")
+@@ -28,7 +28,7 @@
+ 	if token.length() != 64 or not _unlinked(root.path_join(".hero-folio-qa-owner")) or FileAccess.get_file_as_string(root.path_join(".hero-folio-qa-owner")) != token:
+ 		_refuse("owned-root token mismatch")
+ 		return
+-	for entry in [["HOME", "home"], ["XDG_DATA_HOME", "data"], ["XDG_CONFIG_HOME", "config"], ["XDG_CACHE_HOME", "cache"]]:
++	for entry in [["HOME", "home"], ["XDG_DATA_HOME", "web-smoke-data"], ["XDG_CONFIG_HOME", "config"], ["XDG_CACHE_HOME", "cache"]]:
+ 		if OS.get_environment(entry[0]) != root.path_join(entry[1]):
+ 			_refuse("profile environment mismatch")
+ 			return
+@@ -49,5 +49,24 @@
+ 	if not first.is_empty():
+ 		_refuse("user data directory is not empty")
+ 		return
++	if OS.get_environment("HERO_PACKAGE_EXACT_PCK") == "1":
++		var expected_res := OS.get_environment("HERO_PACKAGE_SITE")
++		var actual_res := ProjectSettings.globalize_path("res://")
++		var physical := DirAccess.open(".")
++		if not expected_res.is_absolute_path() or expected_res != expected_res.simplify_path() or not _unlinked(expected_res):
++			_refuse("invalid declared packed site"); return
++		# Measured on pinned Godot 4.6.3: --main-pack leaves resource_path empty.
++		if not actual_res.is_empty() or physical == null or physical.get_current_dir().trim_suffix("/") != expected_res:
++			_refuse("packed resource root or physical site differs from measured binding"); return
++		if not FileAccess.file_exists("res://project.binary") or FileAccess.file_exists("res://project.godot"):
++			_refuse("exported binary project required, without source project"); return
++		for excluded: String in ["tests", "tools", "screenshots", "builds"]:
++			if DirAccess.dir_exists_absolute("res://" + excluded):
++				_refuse("source-only namespace present: " + excluded); return
++		for resource: String in ["res://scenes/main.tscn", "res://scripts/main.gd", "res://scripts/game_state.gd"]:
++			if not ResourceLoader.exists(resource):
++				_refuse("packed runtime resource absent: " + resource); return
++		print("HERO_PACKAGE_NAMESPACE_BINDING " + JSON.stringify({"globalized_resource_root":actual_res,"physical_current_directory":physical.get_current_dir().trim_suffix("/"),"declared_site":expected_res}))
++		print("HERO_PACKAGE_NAMESPACE_OK")
+ 	print("HERO_PROFILE_GUARD_OK")
+ 	quit(0)
+--- canonical/tests/recovery_folio_behavior_test.gd
++++ external/recovery_folio_behavior_packed.gd
+@@ -53,7 +53,7 @@
+ 	# Loading Main initializes a genuine HeroState only AFTER guard success.
+ 	model = load("res://scripts/game_state.gd")
+ 	var scene = load("res://scenes/main.tscn")
+-	battle_driver = load("res://tests/unified_ui_test_driver.gd")
++	battle_driver = load(OS.get_environment("HERO_FOLIO_QA_HELPER"))
+ 	if not _check(model != null and scene != null and battle_driver != null, "Dynamic game resources load"):
+ 		_finish(); return
+ 	app = scene.instantiate()
+@@ -80,6 +80,11 @@
+ 	_finish()
+ 
+ func _guard() -> bool:
++	# External test-only helper; production Main/State still load from the PCK.
++	var helper_path := OS.get_environment("HERO_FOLIO_QA_HELPER")
++	if not helper_path.is_absolute_path() or helper_path != helper_path.simplify_path() or not _no_links(helper_path): return false
++	if FileAccess.get_sha256(helper_path) != "dbc2bee6b0f95ad21d49f1883e9f995cab261a05f45d56ae7bf9a97b05b5d41a": return false
++	if not FileAccess.file_exists("res://project.binary") or DirAccess.dir_exists_absolute("res://tests"): return false
+ 	owned_root = OS.get_environment("HERO_FOLIO_QA_OWNED_ROOT")
+ 	owned_user = OS.get_environment("HERO_FOLIO_QA_USER_DIR")
+ 	report_path = OS.get_environment("HERO_FOLIO_QA_REPORT")
+@@ -92,7 +97,12 @@
+ 	if owned_root.get_slice_count("/") < 4 or not DirAccess.dir_exists_absolute(owned_root): return false
+ 	if not owned_user.begins_with(owned_root+"/"): return false
+ 	if not report_path.begins_with(owned_root+"/") or report_path.begins_with(owned_user+"/"): return false
+-	var project = ProjectSettings.globalize_path("res://").trim_suffix("/").simplify_path()
++	# Packed resource_path is empty; filesystem containment uses the bound site.
++	var project = OS.get_environment("HERO_PACKAGE_SITE")
++	var physical = DirAccess.open(".")
++	if not ProjectSettings.globalize_path("res://").is_empty(): return false
++	if not project.is_absolute_path() or project != project.simplify_path() or not _no_links(project): return false
++	if physical == null or physical.get_current_dir().trim_suffix("/") != project: return false
+ 	if report_path.begins_with(project+"/"): return false
+ 	if OS.get_user_data_dir().simplify_path() != owned_user: return false
+ 	if ProjectSettings.globalize_path("user://").trim_suffix("/").simplify_path() != owned_user: return false

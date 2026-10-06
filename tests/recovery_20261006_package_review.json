@@ -1,0 +1,43 @@
+{
+  "status": "independent_recovery_package_review_passed_with_preserved_failures",
+  "tested_source": {
+    "tested_local_commit": "cfe9d2c397ea12586668e4ece485b4528374406e",
+    "verified_public_counterpart": "b98a468a50ee87f2bfba6645816fe6cafd42135a",
+    "tested_tree": "25ca81a7fcb9e80e9ae761eccf1ca6292758dd5d",
+    "tracked_files_during_execution": 1692,
+    "runtime_entries": 382,
+    "runtime_bytes": 101360748,
+    "runtime_sha256": "05cfd092753a8d6de3b0c88e6bf25b211c8e8ca934cfcc4a0bd4307dc2aa2160",
+    "engine": "4.6.3.stable.official.7d41c59c4",
+    "engine_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+    "record_scope": "Post-execution summary; these documentation files did not exist in the tested 1692-file tree. Raw receipt hashes bind the retained originals, not this summary."
+  },
+  "first_export_review": {
+    "checks": 48,
+    "sha256": "8870c4845844273c9295a4bdf888c0e37a40d1ea31ce2c364884697907bbddb4",
+    "official_engine_reference": "https://docs.godotengine.org/en/stable/tutorials/scripting/debug/objectdb_profiler.html"
+  },
+  "sequence02_failure_review": {
+    "checks": 23,
+    "sha256": "44fabb86835ff34bfb61073fed81ab4b97eeb614d3831ea958ac555a468d502e"
+  },
+  "v2_correction_review": {
+    "checks": 57,
+    "sha256": "c90008b8e5408c13a574d86df851d2023c832200f76ca9eb1caa048cba2da957",
+    "empty_root_diagnostic_sha256": "5dc76550e0520c23d131ce3a9a8bc847ff8fda4a59209a1bc855186e8a887eea",
+    "folio_root_diagnostic_sha256": "8b5e7478e200427090b39f0bfbf1279202f780c17a7a7cb0429e888b053714f8"
+  },
+  "final_review": {
+    "checks": 64,
+    "all_passed": true,
+    "sha256": "7efe97bf4a04913ac8c91f90a6c594ace82de30c4589278b91802ab558527965"
+  },
+  "limitations": [
+    "Exact Web PCK was loaded by native Linux Godot, not by a browser",
+    "Native16-frame review is separate; no audible playback, Windows runtime or browser graphics/audio/IndexedDB acceptance",
+    "Eight optional historical branch processes and the fresh exact-PCK schema16 subject versus complete old15 remain pending independently",
+    "New Linux-validated folio guard ancestor traversal is not Windows-ready; do not invoke it unchanged on Windows",
+    "Manual save transfer remains default-off; schema16 and capacity4 unchanged",
+    "No deployment, GitHub packaged archive, prerelease or commercial1.0 acceptance"
+  ]
+}
