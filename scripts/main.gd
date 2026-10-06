@@ -12,6 +12,7 @@ const WorldScene = preload("res://scripts/world.gd")
 const BattleArt = preload("res://scripts/opening_duel_formation_art.gd")
 const Portraits=preload("res://scripts/character_portraits.gd")
 const SaveSlotsUI=preload("res://scripts/save_slots_ui.gd")
+const SaveFolio=preload("res://scripts/save_folio.gd")
 const HetingStory=preload("res://scripts/heting_story.gd")
 const ReceiptStory=preload("res://scripts/heting_receipt_story.gd")
 const ConsigneeStory=preload("res://scripts/heting_consignee_story.gd")
@@ -459,6 +460,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		if overlay.get_meta("inventory",false):
 			if event.physical_keycode==KEY_K:_show_martials();get_viewport().set_input_as_handled();return
 			if event.physical_keycode==KEY_B:workshop.show();get_viewport().set_input_as_handled();return
+		if event.physical_keycode in [KEY_ENTER,KEY_SPACE]:
+			var save_folio = overlay.get_node_or_null("SaveFolioPage")
+			var focused = get_viewport().gui_get_focus_owner()
+			if save_folio != null and focused is Button and save_folio.is_ancestor_of(focused):
+				return # Let the focused native button finish once, without first-choice fallback on press.
 		var choice = -1
 		if event.physical_keycode in [KEY_ENTER,KEY_SPACE]: choice = 0
 		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_5: choice = event.physical_keycode-KEY_1
@@ -592,7 +598,7 @@ func _close_modal() -> void:
 func _npc_dialogue(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false) -> void:
 	_modal(title,subtitle,body,options,wide,false,true)
 
-func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false, npc_folio: bool = false) -> void:
+func _modal(title: String, subtitle: String, body: String, options: Array = [], wide: bool = false, paper: bool = false, npc_folio: bool = false, save_folio_data: Dictionary = {}) -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -602,6 +608,9 @@ func _modal(title: String, subtitle: String, body: String, options: Array = [], 
 	veil.color = Color(0.01,0.06,0.08,0.62)
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.add_child(veil)
+	if not save_folio_data.is_empty():
+		SaveFolio.build(self,title,subtitle,body,options,save_folio_data)
+		return
 	if current_screen!="title" or paper:
 		DialogueSheet.build(self,title,subtitle,body,options,wide,npc_folio)
 		return
