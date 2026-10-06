@@ -1,5 +1,9 @@
 # 桌面导出与验收
 
+## 2026-10-06 · Web32 同行册候选通过 Linux 源码与 Web PCK 检查
+
+固定运行源码为 GitHub 远端 `59c055a2`／本地 `e8afec5`。完整源码回归、源码演练 21,584、实际 Web PCK 21,589 及两个实际包补充 11,499／1,738 均通过；导出时间戳检查的原失败回执与单包例外保留，详见[包记录](tests/companion_folio_package_validation.json)。Windows 构建和完整旧程序边界仍待独立验证。本阶段不声称桌面发行包或实际浏览器已验收，线上仍为 Web31。
+
 ## 2026-10-06 · Web31 已上线，桌面整包另行验收
 
 Web31 的独立 Windows 构建、21,589 项实际 Web PCK 检查、九个历史／新包存档边界进程及 HTTPS 上线核验均已通过，详见[上线记录](tests/web_deployment_031.json)。这里的 Windows 验证指 Windows 上构建并用原生引擎审计 Web PCK，不是新 Windows 桌面发行包。
