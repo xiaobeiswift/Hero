@@ -1427,7 +1427,7 @@ func _test_close_guard_pack() -> void:
 
 func _current_prerequisites() -> bool:
 	var previous: int = failures
-	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.34", "Title entry V34 project version is required")
+	_check(ProjectSettings.get_setting("application/config/version", "") == "0.0.35", "Title entry V35 project version is required")
 	var model = load("res://scripts/game_state.gd")
 	_check(model != null and model.SAVE_VERSION == 16, "V31 keeps actual writer schema16 without a migration")
 	for module in ["heting_region", "heting_story", "heting_machinery_art", "heting_worksites_art", "world_material_tiles", "heting_cart_routes"]:
@@ -2334,7 +2334,7 @@ func _test_unified_pack() -> void:
 	var rules = load("res://scripts/automatic_party_combat.gd"); var encounters = load("res://scripts/unified_encounter_rules.gd")
 	_check(rules.SUPPORTED_ENCOUNTERS == ["story","training","sect_trial","courtyard_practice","sluice_scout","sluice_boss","archive_boss","mist_scout","mist_keeper","heting_receipt", "heting_consignee", "capstone_authorizer"] and rules.SUPPORTED_ENCOUNTERS == encounters.IDS, "Packed all12 normal encounters share one explicit automatic catalog")
 	game._show_title(); var title = game.overlay.find_child("BuildVersion",true,false)
-	_check(title != null and title.text=="0.0.34", "Packed actual title retains entry folio0.0.34 identity")
+	_check(title != null and title.text=="0.0.35", "Packed actual title retains entry folio0.0.35 identity")
 	for kind: String in encounters.IDS.slice(0,10): await _test_unified_entry(kind)
 	for count: int in range(1,5): await _test_unified_round(count)
 	await _test_unified_learning()
