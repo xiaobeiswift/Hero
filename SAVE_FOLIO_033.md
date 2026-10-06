@@ -14,4 +14,12 @@ Remaining gates: twelve actual native frames across six states and two physical 
 
 The first frozen candidate `cfbb902` (remote `c02af30e`) subsequently passed12 actual native frames and492 checks, with independent pixel review at1280×800 and960×600. Its raw Label control rectangles are oversized and are not strict containment proof; the actual glyphs, complete consequences, feedback and focus were separately inspected. Actual cinnabar unreadable-state samples measured7.11:1 /5.64:1.
 
-A following presentation-only refinement moves each existing shortcut number inside its own button. Captions, option order and callbacks are unchanged. The fresh focused rerun passed449 checks on runtime9d29b995; its own new12-frame native run and full/package gates are still pending. The earlier pixel acceptance is not transferred to those later bytes.
+A following presentation-only refinement moves each existing shortcut number inside its own button. Captions, option order and callbacks are unchanged. The fresh focused rerun passed449 checks on runtime9d29b995; its own subsequent12-frame native run passed492 checks with independent pixel/contrast review, while full/package gates remain pending. The earlier pixel acceptance is not transferred to those later bytes.
+
+## Direct compact confirmation correction
+
+The5180220 native review covers physical1280×800 and960×600 with logical1280×800. A separate true logical1179×737 diagnostic found overwrite prose204px high in a199.325px viewport. Its first attempt also contained an unsupported focus-metric API call; all failed evidence is retained and is not called a pass.
+
+Confirmation prose now uses the available space above the unchanged action row. A corrected fresh diagnostic passed1,380 checks across18 page/size samples: content204 fits230px at1280 and217.088px at1179, without hidden continuation. The unchanged449-check save/input/failure suite also passed on runtimef490c445. Protected official import generated the geometry test UID with no original-file changes.
+
+These are exact logical layout measurements. Label character envelopes are not raster ink bounds; earlier PNG acceptance stays bound to its earlier runtime. Fresh native pixels on this correction, full regression and exact package/platform gates remain pending. See `tests/save_folio_compact_geometry.json`.
