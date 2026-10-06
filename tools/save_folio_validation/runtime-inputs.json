@@ -1,8 +1,8 @@
 {
-  "scope": "Local first-Tab entry and quit-pending guard on native save-folio callbacks; baseline storage semantics unchanged",
+  "scope": "One existing shortcut numeral positioned inside its button with matching action ink; callbacks unchanged",
   "base_commit": "0f3f54b6559d52a1b6d5039083990f8b80182305",
   "runtime_entries": 384,
-  "runtime_digest": "e32fdcd9ad29b81d33b11aeda51ebee47365c041f80ad0838c8b9c173267edb5",
+  "runtime_digest": "9d29b9957781541c820065d287bc0962b9bb4c2cfb61cc64fb4ca0fd6cc4c421",
   "runtime_sha256": {
     "assets/chime.wav": "784ab944d34e31f0fe52f74ba8cc7d09957b2d0f6957a08b73949bd615ae3ca2",
     "assets/chime.wav.import": "5863bb7a04280b2085247c737d7e8f2a7f6a6eb41e4dfecbb402d80aa875dcc3",
@@ -347,7 +347,7 @@
     "scripts/qingwei_water_material.gd.uid": "616756921c382e9102efa07a1c59654541d31ea280bc10bac82dd10b4156c4bd",
     "scripts/reed_islet.gd": "f48c623bf116710f9d2150a7984e10f94467ceac7cd59aa862a575d83622572c",
     "scripts/reed_islet.gd.uid": "c88906c6332aa438a70df391fbcb0a597426a30b7490ab744dc7572bd96701fd",
-    "scripts/save_folio.gd": "41cf05ed8ad0084847b3ef735ed49fce8e3d6d96c3155d3afc0de00509bde30e",
+    "scripts/save_folio.gd": "7cc68983c8a91dad9d96937e04b4fd5fde1f64bc17bdbdc3840a2c600a075323",
     "scripts/save_folio.gd.uid": "2bda366bee47542c2cc258d57cbb4b5a7cf64699f0c8a070b0f7bdeda712c211",
     "scripts/save_slots_ui.gd": "07fac5e820ec501b8ec5bbfd23f03fa65576bacc3a58bf086ae8b7dfeedf289c",
     "scripts/save_slots_ui.gd.uid": "deb04fb36ae287fc35df083943772822f39e44a0dbc08dc6a287b884d434e040",

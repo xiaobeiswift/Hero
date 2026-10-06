@@ -18,9 +18,9 @@ import time
 ENGINE = Path('/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64')
 ENGINE_SHA = 'f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3'
 # Parent binds these only after freezing the candidate runtime. Never use historical evidence.
-RUNTIME_SHA = 'e32fdcd9ad29b81d33b11aeda51ebee47365c041f80ad0838c8b9c173267edb5'
+RUNTIME_SHA = '9d29b9957781541c820065d287bc0962b9bb4c2cfb61cc64fb4ca0fd6cc4c421'
 RUNTIME_INPUTS = Path(__file__).absolute().with_name('runtime-inputs.json')
-RUNTIME_INPUTS_SHA = '23349b47a4d8b6778ea049b0a734567d207d11386d390664adc224a8fcdddcaf'
+RUNTIME_INPUTS_SHA = 'c67f21cf5a0e1f3fecefa9cf88a5c4e1e11cd77da58f11f98c26f6e9abeb6a6e'
 NATIVE_HELPER = 'tests/companion_folio_behavior_test.gd'
 USER_SUFFIX = 'data/godot/app_userdata/Hero · 渡灯录'
 
