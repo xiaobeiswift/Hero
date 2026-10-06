@@ -41,7 +41,7 @@ func _init() -> void:
 	var script = load("res://scripts/game_state.gd")
 	var state = script.new()
 	var version: String = String(ProjectSettings.get_setting("application/config/version", ""))
-	check(version == ("0.0.30" if mode == "old" else "0.0.33"), "Loaded project version matches the requested runtime")
+	check(version == ("0.0.30" if mode == "old" else "0.0.34"), "Loaded project version matches the requested runtime")
 	var source_sha: String = FileAccess.get_sha256("res://scripts/game_state.gd") if FileAccess.file_exists("res://scripts/game_state.gd") else ""
 	if source_sha.is_empty(): source_sha = "compiled source text unavailable; bound by exact complete PCK"
 	print("JOURNAL_GUIDANCE_COMPAT_RESOURCE mode=%s version=%s script=%s source=%s" % [mode, version, script.resource_path, source_sha])

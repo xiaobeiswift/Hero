@@ -1,0 +1,132 @@
+{
+  "version": "0.0.34",
+  "status": "focused_source_passed_native_full_package_pending",
+  "base_commit": "b57a2952f55b89f91f2e56103ee7b3417b197a06",
+  "base_public_commit": "0b021dd0103228a1dda144d6865cfc3dc5437052",
+  "runtime_entries": 386,
+  "runtime_sha256": "5c8dcd35d4edeb83d28f2fbc857f46bf84b57d6ee2f308a8676bfa161fe453ee",
+  "scope": "Homepage and new-journey confirmation only; original art/text/options; inline existing failed Continue message; scoped native focus and callback guards",
+  "baseline": {
+    "source_commit": "b57a2952f55b89f91f2e56103ee7b3417b197a06",
+    "native_checks": 128,
+    "native_frames": 5,
+    "findings": [
+      "Existing title hides actual failed-Continue toast",
+      "Existing title buttons have FOCUS_NONE and Tab leaves no focus"
+    ],
+    "failed_first_run_preserved": "External snapshot raw_to_base64(empty) emitted engine errors; source/runtime unchanged; all raw results and five pixels retained",
+    "correction": "External report-only snapshot override returns empty base64 string for empty bytes; no assertion or runtime change",
+    "accepted_launcher_sha256": "4fa896870a36b2524f91a0b8b2673132f67eda96a2e8e14d9c6aab072e365170",
+    "accepted_result_sha256": "ba43010d2f79b2badedfc8e70b85f304b3753b1da9a4d494741e9273f793297b",
+    "review_sha256": "c7a3cf84f784bcafdc88ab5b1679e47536fadfe10beba9c53604c18c2fac8d42",
+    "limits": "Prepared owned saves, scripted native input, physical1280/960, logical1280, Dummy audio; no browser or manual playthrough"
+  },
+  "import": {
+    "success": true,
+    "source_runtime_entries_before_generated_uids": 385,
+    "runtime_sha256": "05c1a942ae79d95749d531886a1eeae242020793a37e587ddc9625d7074e5ba8",
+    "source_originals_unchanged": true
+  },
+  "focused": {
+    "success": true,
+    "checks": 1223,
+    "failures": 0,
+    "sections": [
+      {
+        "checks": 150,
+        "failures": 0,
+        "name": "empty_and_manual_only_title_availability",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 126,
+        "failures": 0,
+        "name": "confirmation_cancellation_native_keyboard_and_explicit_default",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 74,
+        "failures": 0,
+        "name": "real_pointer_held_replacement_stale_callbacks_and_quit",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 228,
+        "failures": 0,
+        "name": "real_corrupt_future_empty_and_disappeared_autosave_readers",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 30,
+        "failures": 0,
+        "name": "loaded_branch_survives_real_followup_autosave_failure",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 23,
+        "failures": 0,
+        "name": "new_journey_reset_survives_real_autosave_failure",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 43,
+        "failures": 0,
+        "name": "explicit_legacy_autosave_upgrade_and_pending_sect_return",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 26,
+        "failures": 0,
+        "name": "opt_in_scope_version_and_dormant_transfer",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 518,
+        "failures": 0,
+        "name": "true_logical_geometry_and_all_native_focus_targets",
+        "state_mode": "forwarding_observation_subclass"
+      }
+    ],
+    "logical_geometry_cases": 8,
+    "logical_sizes": [
+      [
+        1280,
+        800
+      ],
+      [
+        1179,
+        737
+      ]
+    ],
+    "long_browser_caption": "0.0.34 · Web 34",
+    "test_sha256": "cbf6d70cb37880cff7ee6a9288b476af39b908ec36834f8bc00e5c82ef3d5e83",
+    "fixture_sha256": "ae99233ad3786c6315d0e16e974effa2d780c5ccb7f6235fea20ff7fca91e9f4",
+    "launcher_result_sha256": "43235c080e225f21a44487d7ad1b6b9351f8eb1c0593c77567a55c72a6f05d0a",
+    "test_result_sha256": "1d7236244b21a26ccc107453b35820ca44cbbd5569febf4687fef73e67e54a60",
+    "failed_prior_run_preserved": {
+      "checks": 1181,
+      "failures": 14,
+      "scope": "Geometry only; story87px exceeded81px and fourth action overlap. Existing8behavior sections passed separately",
+      "correction": "Full text remains unchanged; native story sizing/action spacing fixed; all154 previous assertion lines retained while adding focused echo/held-key and Web caption coverage"
+    },
+    "scope": "Real Main/store with forwarding State observation subclass; actual production file reads/writes and owned fault fixtures. Eight behavior sections plus direct logical geometry; not native pixel acceptance"
+  },
+  "invariants": [
+    "No save schema/model/store changes",
+    "Continue remains file-existence based, including corrupt autosave",
+    "Manual-only data does not add new-journey confirmation",
+    "Existing action order and explicit unfocused Enter/Space/digits/title-Escape behavior retained",
+    "No automatic focus or invocation on open; Tab focuses actual native buttons",
+    "Successful Continue retains existing autosave and failure warning",
+    "Manual primary/backup data preserved by new-journey flow",
+    "Default-off transfer unchanged"
+  ],
+  "pending": [
+    "New native candidate visual matrix and sampled contrast",
+    "Full source regression and canonical source audit",
+    "Exact new PCK and all relevant supplemental gates",
+    "Independent Windows historical boundaries and any rollout"
+  ],
+  "live_runtime_remains": "82073338ccc28fc42bcc4526126806569f6be768",
+  "live_version": "0.0.33-web1"
+}
