@@ -223,7 +223,12 @@ func _layout_detail(right: float, paper_width: float, scale_factor: float) -> vo
 func _layout_confirmation(right: float, paper_width: float, scale_factor: float) -> void:
 	for index: int in rows.size():
 		_layout_row(rows[index], Rect2(right, 158 * scale_factor, paper_width, 119 * scale_factor), false)
-	if detail_note != null: _rect(detail_note, Rect2(right, (294 if not rows.is_empty() else 164) * scale_factor, paper_width, 210 * scale_factor))
+	if detail_note != null:
+		var text_top: float = (294 if not rows.is_empty() else 164) * scale_factor
+		# Font sizes stay readable at narrower logical widths. Use the available
+		# space above the actions instead of shrinking a fixed text viewport.
+		var text_height: float = maxf(0, 548 * scale_factor - text_top - 24)
+		_rect(detail_note, Rect2(right, text_top, paper_width, text_height))
 	var action_width: float = (paper_width - 54) * .5
 	for index: int in buttons.size():
 		_place_action(index, Rect2(right + (paper_width - action_width if index == 0 else 0), 548 * scale_factor, action_width, 46))
