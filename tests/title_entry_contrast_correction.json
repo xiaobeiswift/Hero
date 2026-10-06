@@ -1,0 +1,259 @@
+{
+  "base_source_commit": "f11ebc33250bae4774e3d55cb8698e8244c545d3",
+  "status": "primary_digit_ink_corrected_fresh_raster_pending",
+  "runtime_entries": 386,
+  "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+  "change": "One renderer line: primary shortcut numeral uses existing BONE color; other numeral roles retain BRASS. Layout, text, actions, fonts and persistence unchanged",
+  "previous_native": {
+    "source": "f11ebc33250bae4774e3d55cb8698e8244c545d3",
+    "frames": 12,
+    "checks": 329,
+    "failures": 0,
+    "pixel_scope": "All layouts and full warning text visible; sampled primary digits failed4.5:1 threshold",
+    "result_sha256": "8e2217f371f41176cc1178df373de471a117c2a04874584be6684b779421282a",
+    "launcher_sha256": "c7e57df2507fd34fc5a742d6f4df068f1ca129da8e7c4e00126aaec5a8296a72"
+  },
+  "retained_contrast_finding": {
+    "sha256": "e1f25fae0575fa12b51b8bf7f8c3402539b8607f360664b3f2f072d72930f42f",
+    "method": "Same representative foreground-core/adjacent median-background method as review-07-raster-contrast-samples.json; actual pixels, no inferred CSS/source-color ratio",
+    "samples": [
+      {
+        "frame": "03-title-prepared-saves-1280.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          121,
+          428,
+          137,
+          447
+        ],
+        "background_roi": [
+          150,
+          428,
+          180,
+          447
+        ],
+        "foreground_coordinate": [
+          130,
+          430
+        ],
+        "foreground_rgb": [
+          181,
+          160,
+          120
+        ],
+        "background_coordinate": [
+          150,
+          428
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.554,
+        "frame_sha256": "559584dbc8adafe9163df402c2c860c6594107d135b60930c19dd7f4c6876305"
+      },
+      {
+        "frame": "04-title-prepared-saves-960.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          90.75,
+          321.0,
+          102.75,
+          335.25
+        ],
+        "background_roi": [
+          112.5,
+          321.0,
+          135.0,
+          335.25
+        ],
+        "foreground_coordinate": [
+          98,
+          324
+        ],
+        "foreground_rgb": [
+          175,
+          148,
+          111
+        ],
+        "background_coordinate": [
+          112,
+          321
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.134,
+        "frame_sha256": "a2066e5ac8b0a0860ce61dd709e26e656ea27b940837e5fdc7e4a4972cf757d1"
+      },
+      {
+        "frame": "07-new-journey-confirm-1280.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          121,
+          467,
+          137,
+          486
+        ],
+        "background_roi": [
+          150,
+          467,
+          180,
+          486
+        ],
+        "foreground_coordinate": [
+          126,
+          480
+        ],
+        "foreground_rgb": [
+          181,
+          160,
+          120
+        ],
+        "background_coordinate": [
+          150,
+          467
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.554,
+        "frame_sha256": "fb4de6cec04c19c9571acc9cd6285e59f4e53ea4b300e98ea015f36fcc32aec3"
+      },
+      {
+        "frame": "08-new-journey-confirm-960.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          90.75,
+          350.25,
+          102.75,
+          364.5
+        ],
+        "background_roi": [
+          112.5,
+          350.25,
+          135.0,
+          364.5
+        ],
+        "foreground_coordinate": [
+          96,
+          351
+        ],
+        "foreground_rgb": [
+          177,
+          153,
+          115
+        ],
+        "background_coordinate": [
+          112,
+          350
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.3,
+        "frame_sha256": "afdf428a524c2d6c8ebe9f4be9e9ba35fe2e6ddf6e93775a378a27507425b19a"
+      },
+      {
+        "frame": "01-title-empty-1280.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          121,
+          368,
+          137,
+          387
+        ],
+        "background_roi": [
+          150,
+          368,
+          180,
+          387
+        ],
+        "foreground_coordinate": [
+          126,
+          381
+        ],
+        "foreground_rgb": [
+          181,
+          160,
+          120
+        ],
+        "background_coordinate": [
+          150,
+          368
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.554,
+        "frame_sha256": "3e9c06f49a41b21301f592c85d43ef00c4c98e66b00446a1fc8c89003d66e245"
+      },
+      {
+        "frame": "02-title-empty-960.png",
+        "role": "primary_shortcut_digit",
+        "foreground_roi": [
+          90.75,
+          276.0,
+          102.75,
+          290.25
+        ],
+        "background_roi": [
+          112.5,
+          276.0,
+          135.0,
+          290.25
+        ],
+        "foreground_coordinate": [
+          96,
+          277
+        ],
+        "foreground_rgb": [
+          176,
+          151,
+          113
+        ],
+        "background_coordinate": [
+          112,
+          276
+        ],
+        "background_rgb": [
+          125,
+          48,
+          40
+        ],
+        "ratio": 3.23,
+        "frame_sha256": "dbd9d0d1d2fefe06c5a016584624ceca5bcfa3b4f391f202d150d6120900c715"
+      }
+    ],
+    "limits": [
+      "Representative raster samples, not exhaustive or global certification",
+      "Some compact glyph cores are antialiased; these values reflect actual captured cores"
+    ]
+  },
+  "fresh_focused": {
+    "checks": 1706,
+    "failures": 0,
+    "sections": 9,
+    "logical_geometry_cases": 12,
+    "test_body_unchanged": true,
+    "test_sha256": "ce3abe7b60d3c788f8f4d7ac362737270a275ef76e279abf02fab1fb34e7fc58",
+    "launcher_sha256": "dc4302b09316969632cdf9538732762edf3d68ebc09479a111301c70bac782c6",
+    "result_sha256": "86131d79f5270515cbd26b1ae9176025e54b368f209db6ecb078cd4c49e95cf9",
+    "originals_unchanged": true
+  },
+  "pending": [
+    "Same twelve native frames with final exact runtime",
+    "Actual corrected raster contrast samples",
+    "Complete full/source/PCK/Windows gates"
+  ],
+  "live_version": "0.0.33-web1"
+}

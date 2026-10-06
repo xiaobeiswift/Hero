@@ -1,0 +1,332 @@
+{
+  "version": "0.0.34",
+  "status": "focused_native_and_bounded_pixel_review_accepted_before_full_gates",
+  "checkpoint_utc": "2026-10-06T17:04:51.226887+00:00",
+  "candidate": {
+    "local_source_commit": "18eaf61457303db769f4e1df5bf70daa23cd382e",
+    "source_tree": "b28a1056025411293cc8ca78bdd2f34092f4821c",
+    "tracked_originals": 1766,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79",
+    "remote_publication_status_at_checkpoint": "not_yet_published",
+    "previous_local_commit": "f11ebc33250bae4774e3d55cb8698e8244c545d3",
+    "previous_published_commit": "c4244ee9c0076b7eaf5fbe07c6d78a81a8b5a91e"
+  },
+  "live": {
+    "version": "0.0.33-web1",
+    "published_runtime_commit": "82073338ccc28fc42bcc4526126806569f6be768",
+    "record": "tests/web_deployment_033.json"
+  },
+  "scope": "Homepage and new-journey confirmation only; original art/text/options; visible existing failed-Continue message; scoped native focus and stale/detached/exiting callback guards.",
+  "focused04": {
+    "checks": 1706,
+    "failures": 0,
+    "sections": [
+      {
+        "checks": 150,
+        "failures": 0,
+        "name": "empty_and_manual_only_title_availability",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 126,
+        "failures": 0,
+        "name": "confirmation_cancellation_native_keyboard_and_explicit_default",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 74,
+        "failures": 0,
+        "name": "real_pointer_held_replacement_stale_callbacks_and_quit",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 228,
+        "failures": 0,
+        "name": "real_corrupt_future_empty_and_disappeared_autosave_readers",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 30,
+        "failures": 0,
+        "name": "loaded_branch_survives_real_followup_autosave_failure",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 23,
+        "failures": 0,
+        "name": "new_journey_reset_survives_real_autosave_failure",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 43,
+        "failures": 0,
+        "name": "explicit_legacy_autosave_upgrade_and_pending_sect_return",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 26,
+        "failures": 0,
+        "name": "opt_in_scope_version_and_dormant_transfer",
+        "state_mode": "forwarding_observation_subclass"
+      },
+      {
+        "checks": 1001,
+        "failures": 0,
+        "name": "true_logical_geometry_and_all_native_focus_targets",
+        "state_mode": "forwarding_observation_subclass"
+      }
+    ],
+    "logical_geometry_cases": 12,
+    "logical_sizes": [
+      [
+        1280,
+        800
+      ],
+      [
+        1179,
+        737
+      ]
+    ],
+    "geometry_cases": [
+      {
+        "case": "home-maximum-default",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "confirm-new",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "home-real-error",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "home-existing-transfer-opt-in",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "home-browser-error-with-existing-warning",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "home-four-row-browser-error-with-existing-warning",
+        "logical_size": [
+          1280,
+          800
+        ]
+      },
+      {
+        "case": "home-maximum-default",
+        "logical_size": [
+          1179,
+          737
+        ]
+      },
+      {
+        "case": "confirm-new",
+        "logical_size": [
+          1179,
+          737
+        ]
+      },
+      {
+        "case": "home-real-error",
+        "logical_size": [
+          1179,
+          737
+        ]
+      },
+      {
+        "case": "home-existing-transfer-opt-in",
+        "logical_size": [
+          1179,
+          737
+        ]
+      },
+      {
+        "case": "home-browser-error-with-existing-warning",
+        "logical_size": [
+          1179,
+          737
+        ]
+      },
+      {
+        "case": "home-four-row-browser-error-with-existing-warning",
+        "logical_size": [
+          1179,
+          737
+        ]
+      }
+    ],
+    "recorded_head": "f11ebc33250bae4774e3d55cb8698e8244c545d3",
+    "recorded_tree": "de023fb16bd950e6a65bae68482139e82e2a3c4c",
+    "recorded_status": [
+      "M  scripts/title_entry_folio.gd"
+    ],
+    "tracked_originals_unchanged": 1765,
+    "binding_note": "This run tested the staged one-line primary-ink correction before commit 18eaf61 and before its later JSON record. Its 386 runtime bytes match clean 18eaf61; it was not a clean 18eaf61 whole-tree run.",
+    "test_driver_sha256": "ce3abe7b60d3c788f8f4d7ac362737270a275ef76e279abf02fab1fb34e7fc58",
+    "fixture_sha256": "ae99233ad3786c6315d0e16e974effa2d780c5ccb7f6235fea20ff7fca91e9f4",
+    "driver_fixture_and_assertions_unchanged_from_focused03": true,
+    "scope": "Real Main/store with forwarding observation State; real production reads/writes and isolated owned fault fixtures. Geometry envelopes are not raster ink.",
+    "evidence": [
+      {
+        "archive_relative_identity": "qa-title-entry-focused04/results/launcher-result.json",
+        "sha256": "dc4302b09316969632cdf9538732762edf3d68ebc09479a111301c70bac782c6"
+      },
+      {
+        "archive_relative_identity": "qa-title-entry-focused04/results/test-result.json",
+        "sha256": "86131d79f5270515cbd26b1ae9176025e54b368f209db6ecb078cd4c49e95cf9"
+      },
+      {
+        "archive_relative_identity": "qa-title-entry-focused04/results/tracked-before.json",
+        "sha256": "a6fcf0f29c63392f4c214ad92f7e7cb290390c2e11a63eaeaa66b4a4c6eb65f6"
+      },
+      {
+        "archive_relative_identity": "qa-title-entry-focused04/results/tracked-after.json",
+        "sha256": "a6fcf0f29c63392f4c214ad92f7e7cb290390c2e11a63eaeaa66b4a4c6eb65f6"
+      },
+      {
+        "archive_relative_identity": "title-entry-independent-review/review-10-primary-ink-focused-acceptance.json",
+        "sha256": "e1503d504dc1eb4b99be736cb1e70722bf759aa7b0826d7111f20402f9d1b639"
+      }
+    ],
+    "section_checks_subtotal": 1701,
+    "boot_checks_outside_sections": 5,
+    "count_reconciliation": "Nine section subtotals total 1,701; five existing _boot checks outside the sections make the unchanged suite total 1,706."
+  },
+  "final_native": {
+    "record": "tests/title_entry_native_18eaf61.json",
+    "checks": 329,
+    "failures": 0,
+    "actual_pngs": 12,
+    "clean_local_source_commit": "18eaf61457303db769f4e1df5bf70daa23cd382e",
+    "tracked_originals_unchanged": 1766
+  },
+  "final_bounded_pixel_review": {
+    "record": "tests/title_entry_final_review.json",
+    "samples": 28,
+    "ratio_range": [
+      6.209,
+      15.486
+    ],
+    "primary_digit_ratio_range": [
+      6.288,
+      7.477
+    ],
+    "global_accessibility_claim": false
+  },
+  "invariants": [
+    "No save schema/model/store changes",
+    "Continue remains file-existence based, including corrupt autosave",
+    "Manual-only data does not add new-journey confirmation",
+    "Existing action order and explicit unfocused Enter/Space/digits/title-Escape behavior retained",
+    "No automatic focus or invocation on open; Tab focuses actual native buttons",
+    "Successful Continue retains existing autosave and failure warning",
+    "Manual primary/backup data preserved by new-journey flow",
+    "Default-off transfer unchanged",
+    "Original art, narrative characters/punctuation, full format-16 warning, action conditions/order, production handlers and gameplay resources retained. Presentation line breaks changed.",
+    "Existing successful-load autosave and in-memory state/warning behavior on real save failure retained."
+  ],
+  "retained_history": [
+    {
+      "stage": "baseline",
+      "local_commit": "b57a2952f55b89f91f2e56103ee7b3417b197a06",
+      "actual_pngs": 5,
+      "checks": 128,
+      "result": "Actual failed Continue feedback hidden by old homepage; old buttons FOCUS_NONE. Initial qa01 empty-base64 reporting failure retained; corrected report-only qa02 accepted.",
+      "record": "tests/title_entry_checkpoint.json"
+    },
+    {
+      "stage": "focused01",
+      "checks": 1181,
+      "failures": 14,
+      "result": "Geometry failures retained; behavior sections separately passed.",
+      "record": "tests/title_entry_checkpoint.json"
+    },
+    {
+      "stage": "focused02",
+      "checks": 1223,
+      "failures": 0,
+      "result": "Corrected geometry with original assertions retained.",
+      "record": "tests/title_entry_checkpoint.json"
+    },
+    {
+      "stage": "first_candidate_native",
+      "local_commit": "21956882cb77856d581f5cc630cc6a7f38187a3e",
+      "actual_pngs": 6,
+      "checks": 164,
+      "failures": 0,
+      "record": "tests/title_entry_native_2195688.json"
+    },
+    {
+      "stage": "f11_typography",
+      "focused_checks": 1706,
+      "native_checks": 329,
+      "actual_pngs": 12,
+      "result": "Layout/behavior passed; representative primary shortcut pixels failed contrast, 3.134–3.554:1. Prior successful layout checks did not certify these pixels.",
+      "records": [
+        "tests/title_entry_typography.json",
+        "tests/title_entry_contrast_correction.json"
+      ]
+    },
+    {
+      "stage": "one_line_primary_ink_correction",
+      "focused_checks": 1706,
+      "native_checks": 329,
+      "actual_pngs": 12,
+      "result": "Same focused assertions and final recapture passed; bounded actual raster review accepted.",
+      "records": [
+        "tests/title_entry_native_18eaf61.json",
+        "tests/title_entry_final_review.json"
+      ]
+    }
+  ],
+  "not_run_for_this_checkpoint": [
+    "Current-candidate complete regression",
+    "Current-candidate canonical source package audit",
+    "Exact new export/PCK and supplemental package gates",
+    "Independent current-candidate Windows and historical-reader runs"
+  ],
+  "helper_preparation_limit": "The separately reported 86 engine-free helper test methods validate preparation tooling only; they are not game assertions, engine passes or full/source/PCK/Windows results.",
+  "still_unaccepted": [
+    "Actual browser game",
+    "Sound",
+    "IndexedDB persistence after refresh",
+    "Web34 rollout"
+  ],
+  "counting_rule": "Focused checks, native checks, geometry cases, raster samples and helper test methods are different, overlapping scopes; do not add them into a unique game-check total.",
+  "record_timing": "This is a test-after-the-fact pre-full checkpoint. New documentation/JSON changes create a later whole-tree identity and do not retroactively belong to the 1,766-file native snapshot. Historical raw receipts and earlier JSON records remain unchanged.",
+  "evidence_location_note": "Archive-relative identities name retained evidence separately from repository links; no private host, user path, credentials or Library identifiers are required.",
+  "gate_preparation_review": {
+    "status": "blocked_before_execution_pending_tools_only_corrections",
+    "independent_review_sha256": "501e0c64c35ad118e5dead3086e78c0480f5afd6d59bda012bdbf1c3af2baac9",
+    "supplied_engine_free_tests_passed": 86,
+    "does_not_admit_engine_execution": true,
+    "findings": [
+      "Retained and older supplemental raw log admission incomplete",
+      "Full terminal omits two supplemental count checks",
+      "Observer subtree watch coverage incomplete",
+      "Final event queue drain missing",
+      "Observer raw evidence/path/identity cross-validation incomplete",
+      "Reviewed tracked input manifest not pinned through export"
+    ],
+    "repair_scope": "New separate tooling stage, old stage and negative reproductions preserved. No runtime change or Web34 full/export run. Prior raw receipts and one-artifact decisions remain historical."
+  }
+}

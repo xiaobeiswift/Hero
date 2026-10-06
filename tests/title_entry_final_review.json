@@ -1,0 +1,1217 @@
+{
+  "version": "0.0.34",
+  "status": "accepted_source_focused_geometry_native_pixels_and_bounded_raster_samples",
+  "acceptance_utc": "2026-10-06T17:04:51.226887+00:00",
+  "binding": {
+    "local_source_commit": "18eaf61457303db769f4e1df5bf70daa23cd382e",
+    "source_tree": "b28a1056025411293cc8ca78bdd2f34092f4821c",
+    "tracked_originals": 1766,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79"
+  },
+  "native_record": "tests/title_entry_native_18eaf61.json",
+  "evidence": [
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-10-primary-ink-focused-acceptance.json",
+      "sha256": "e1503d504dc1eb4b99be736cb1e70722bf759aa7b0826d7111f20402f9d1b639"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-11-final-raster-samples.json",
+      "sha256": "f4605fa9efb9ddbb097445fac20d85fbe2cdb157eb40bfa36a61a43067535e97"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-12-final-acceptance.json",
+      "sha256": "b9b3633653faf9c9c6133c1c45d2520cadda3a90d3a02b9cb5929877dbb7c1ef"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/sample_final_native.py",
+      "sha256": "a42bdea0c8db39ca62167e5c5ffdadd157c661551c5fdfe58f3f3fbd493044af"
+    }
+  ],
+  "evidence_location_note": "Identities refer to retained validation archives; this is a later public-safe summary, not a rewritten raw receipt.",
+  "method": "Twenty-eight bounded representative actual raster pairs. Foreground is nearest intended ink guidance color in a personally inspected glyph/stroke ROI. Background is an actual pixel nearest median RGB in a separate adjacent ROI. Linear sRGB luminance uses the 0.04045 threshold and 0.2126/0.7152/0.0722 coefficients; contrast is (lighter+0.05)/(darker+0.05). Files are read without modifying pixels.",
+  "sample_count": 28,
+  "sample_ratio_range": [
+    6.209,
+    15.486
+  ],
+  "primary_shortcut_sample_count": 6,
+  "primary_shortcut_ratio_range": [
+    6.288,
+    7.477
+  ],
+  "return_focus_samples": [
+    15.486,
+    15.486
+  ],
+  "sample_frame_hashes": "Resolve each frame by matching name plus .png in tests/title_entry_native_18eaf61.json; the unchanged raw sample artifact also carries each hash.",
+  "samples": [
+    {
+      "role": "home_heading",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        103,
+        86,
+        291,
+        144
+      ],
+      "background_roi": [
+        305,
+        96,
+        340,
+        130
+      ],
+      "foreground_coordinate": [
+        110,
+        87
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        310,
+        96
+      ],
+      "background_rgb": [
+        8,
+        20,
+        25
+      ],
+      "ratio": 15.463
+    },
+    {
+      "role": "home_story",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        103,
+        255,
+        326,
+        327
+      ],
+      "background_roi": [
+        343,
+        255,
+        377,
+        275
+      ],
+      "foreground_coordinate": [
+        124,
+        256
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        364,
+        255
+      ],
+      "background_rgb": [
+        8,
+        20,
+        23
+      ],
+      "ratio": 15.486
+    },
+    {
+      "role": "save_notice",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        103,
+        640,
+        389,
+        684
+      ],
+      "background_roi": [
+        402,
+        643,
+        440,
+        680
+      ],
+      "foreground_coordinate": [
+        143,
+        640
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        423,
+        643
+      ],
+      "background_rgb": [
+        8,
+        20,
+        24
+      ],
+      "ratio": 15.475
+    },
+    {
+      "role": "keyboard_help",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        103,
+        705,
+        390,
+        722
+      ],
+      "background_roi": [
+        414,
+        703,
+        443,
+        723
+      ],
+      "foreground_coordinate": [
+        138,
+        706
+      ],
+      "foreground_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_coordinate": [
+        425,
+        703
+      ],
+      "background_rgb": [
+        8,
+        20,
+        24
+      ],
+      "ratio": 7.355
+    },
+    {
+      "role": "motto",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        654,
+        640,
+        960,
+        698
+      ],
+      "background_roi": [
+        635,
+        640,
+        649,
+        664
+      ],
+      "foreground_coordinate": [
+        691,
+        640
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        643,
+        656
+      ],
+      "background_rgb": [
+        57,
+        73,
+        77
+      ],
+      "ratio": 7.782
+    },
+    {
+      "role": "primary_button_text",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        266,
+        425,
+        353,
+        448
+      ],
+      "background_roi": [
+        365,
+        422,
+        402,
+        449
+      ],
+      "foreground_coordinate": [
+        271,
+        426
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        365,
+        422
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 7.477
+    },
+    {
+      "role": "confirmation_body",
+      "frame": "07-new-journey-confirm-1280.png",
+      "foreground_roi": [
+        109,
+        240,
+        508,
+        379
+      ],
+      "background_roi": [
+        476,
+        296,
+        510,
+        319
+      ],
+      "foreground_coordinate": [
+        122,
+        241
+      ],
+      "foreground_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_coordinate": [
+        479,
+        298
+      ],
+      "background_rgb": [
+        241,
+        227,
+        201
+      ],
+      "ratio": 13.352
+    },
+    {
+      "role": "long_error_text",
+      "frame": "11-title-continue-future-warning-1280.png",
+      "foreground_roi": [
+        111,
+        535,
+        501,
+        579
+      ],
+      "background_roi": [
+        119,
+        580,
+        480,
+        584
+      ],
+      "foreground_coordinate": [
+        159,
+        536
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        119,
+        580
+      ],
+      "background_rgb": [
+        37,
+        48,
+        54
+      ],
+      "ratio": 11.184
+    },
+    {
+      "role": "return_focus_ring",
+      "frame": "07-new-journey-confirm-1280.png",
+      "foreground_roi": [
+        140,
+        503,
+        202,
+        508
+      ],
+      "background_roi": [
+        143,
+        510,
+        201,
+        519
+      ],
+      "foreground_coordinate": [
+        140,
+        504
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        154,
+        510
+      ],
+      "background_rgb": [
+        8,
+        20,
+        23
+      ],
+      "ratio": 15.486
+    },
+    {
+      "role": "home_heading",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        77.25,
+        64.5,
+        218.25,
+        108.0
+      ],
+      "background_roi": [
+        228.75,
+        72.0,
+        255.0,
+        97.5
+      ],
+      "foreground_coordinate": [
+        84,
+        66
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        229,
+        73
+      ],
+      "background_rgb": [
+        8,
+        21,
+        25
+      ],
+      "ratio": 15.365
+    },
+    {
+      "role": "home_story",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        77.25,
+        191.25,
+        244.5,
+        245.25
+      ],
+      "background_roi": [
+        257.25,
+        191.25,
+        282.75,
+        206.25
+      ],
+      "foreground_coordinate": [
+        221,
+        237
+      ],
+      "foreground_rgb": [
+        236,
+        228,
+        212
+      ],
+      "background_coordinate": [
+        273,
+        191
+      ],
+      "background_rgb": [
+        8,
+        20,
+        23
+      ],
+      "ratio": 14.798
+    },
+    {
+      "role": "save_notice",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        77.25,
+        480.0,
+        291.75,
+        513.0
+      ],
+      "background_roi": [
+        301.5,
+        482.25,
+        330.0,
+        510.0
+      ],
+      "foreground_coordinate": [
+        109,
+        487
+      ],
+      "foreground_rgb": [
+        235,
+        227,
+        211
+      ],
+      "background_coordinate": [
+        318,
+        482
+      ],
+      "background_rgb": [
+        8,
+        20,
+        24
+      ],
+      "ratio": 14.65
+    },
+    {
+      "role": "keyboard_help",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        77.25,
+        528.75,
+        292.5,
+        541.5
+      ],
+      "background_roi": [
+        310.5,
+        527.25,
+        332.25,
+        542.25
+      ],
+      "foreground_coordinate": [
+        201,
+        534
+      ],
+      "foreground_rgb": [
+        164,
+        147,
+        111
+      ],
+      "background_coordinate": [
+        318,
+        527
+      ],
+      "background_rgb": [
+        8,
+        20,
+        25
+      ],
+      "ratio": 6.209
+    },
+    {
+      "role": "motto",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        490.5,
+        480.0,
+        720.0,
+        523.5
+      ],
+      "background_roi": [
+        476.25,
+        480.0,
+        486.75,
+        498.0
+      ],
+      "foreground_coordinate": [
+        494,
+        520
+      ],
+      "foreground_rgb": [
+        240,
+        232,
+        215
+      ],
+      "background_coordinate": [
+        483,
+        482
+      ],
+      "background_rgb": [
+        56,
+        73,
+        77
+      ],
+      "ratio": 7.732
+    },
+    {
+      "role": "primary_button_text",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        199.5,
+        318.75,
+        264.75,
+        336.0
+      ],
+      "background_roi": [
+        273.75,
+        316.5,
+        301.5,
+        336.75
+      ],
+      "foreground_coordinate": [
+        220,
+        325
+      ],
+      "foreground_rgb": [
+        231,
+        217,
+        201
+      ],
+      "background_coordinate": [
+        273,
+        316
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 6.522
+    },
+    {
+      "role": "confirmation_body",
+      "frame": "08-new-journey-confirm-960.png",
+      "foreground_roi": [
+        81.75,
+        180.0,
+        381.0,
+        284.25
+      ],
+      "background_roi": [
+        357.0,
+        222.0,
+        382.5,
+        239.25
+      ],
+      "foreground_coordinate": [
+        89,
+        204
+      ],
+      "foreground_rgb": [
+        16,
+        31,
+        34
+      ],
+      "background_coordinate": [
+        357,
+        222
+      ],
+      "background_rgb": [
+        241,
+        227,
+        202
+      ],
+      "ratio": 13.359
+    },
+    {
+      "role": "long_error_text",
+      "frame": "12-title-continue-future-warning-960.png",
+      "foreground_roi": [
+        83.25,
+        401.25,
+        375.75,
+        434.25
+      ],
+      "background_roi": [
+        89.25,
+        435.0,
+        360.0,
+        438.0
+      ],
+      "foreground_coordinate": [
+        257,
+        430
+      ],
+      "foreground_rgb": [
+        235,
+        227,
+        211
+      ],
+      "background_coordinate": [
+        93,
+        435
+      ],
+      "background_rgb": [
+        37,
+        48,
+        54
+      ],
+      "ratio": 10.588
+    },
+    {
+      "role": "return_focus_ring",
+      "frame": "08-new-journey-confirm-960.png",
+      "foreground_roi": [
+        105.0,
+        377.25,
+        151.5,
+        381.0
+      ],
+      "background_roi": [
+        107.25,
+        382.5,
+        150.75,
+        389.25
+      ],
+      "foreground_coordinate": [
+        105,
+        378
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        109,
+        382
+      ],
+      "background_rgb": [
+        8,
+        20,
+        23
+      ],
+      "ratio": 15.486
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        121,
+        428,
+        137,
+        447
+      ],
+      "background_roi": [
+        150,
+        428,
+        180,
+        447
+      ],
+      "foreground_coordinate": [
+        130,
+        430
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        150,
+        428
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 7.477
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        90.75,
+        321.0,
+        102.75,
+        335.25
+      ],
+      "background_roi": [
+        112.5,
+        321.0,
+        135.0,
+        335.25
+      ],
+      "foreground_coordinate": [
+        98,
+        324
+      ],
+      "foreground_rgb": [
+        228,
+        213,
+        197
+      ],
+      "background_coordinate": [
+        112,
+        321
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 6.288
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "07-new-journey-confirm-1280.png",
+      "foreground_roi": [
+        121,
+        467,
+        137,
+        486
+      ],
+      "background_roi": [
+        150,
+        467,
+        180,
+        486
+      ],
+      "foreground_coordinate": [
+        126,
+        480
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        150,
+        467
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 7.477
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "08-new-journey-confirm-960.png",
+      "foreground_roi": [
+        90.75,
+        350.25,
+        102.75,
+        364.5
+      ],
+      "background_roi": [
+        112.5,
+        350.25,
+        135.0,
+        364.5
+      ],
+      "foreground_coordinate": [
+        96,
+        351
+      ],
+      "foreground_rgb": [
+        234,
+        222,
+        205
+      ],
+      "background_coordinate": [
+        112,
+        350
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 6.807
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "01-title-empty-1280.png",
+      "foreground_roi": [
+        121,
+        368,
+        137,
+        387
+      ],
+      "background_roi": [
+        150,
+        368,
+        180,
+        387
+      ],
+      "foreground_coordinate": [
+        126,
+        381
+      ],
+      "foreground_rgb": [
+        241,
+        233,
+        216
+      ],
+      "background_coordinate": [
+        150,
+        368
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 7.477
+    },
+    {
+      "role": "primary_shortcut_digit",
+      "frame": "02-title-empty-960.png",
+      "foreground_roi": [
+        90.75,
+        276.0,
+        102.75,
+        290.25
+      ],
+      "background_roi": [
+        112.5,
+        276.0,
+        135.0,
+        290.25
+      ],
+      "foreground_coordinate": [
+        96,
+        277
+      ],
+      "foreground_rgb": [
+        232,
+        218,
+        202
+      ],
+      "background_coordinate": [
+        112,
+        276
+      ],
+      "background_rgb": [
+        125,
+        48,
+        40
+      ],
+      "ratio": 6.585
+    },
+    {
+      "role": "cloth_shortcut_1",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        121,
+        368,
+        137,
+        387
+      ],
+      "background_roi": [
+        150,
+        368,
+        180,
+        387
+      ],
+      "foreground_coordinate": [
+        126,
+        381
+      ],
+      "foreground_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_coordinate": [
+        161,
+        369
+      ],
+      "background_rgb": [
+        8,
+        20,
+        24
+      ],
+      "ratio": 7.355
+    },
+    {
+      "role": "cloth_shortcut_3",
+      "frame": "03-title-prepared-saves-1280.png",
+      "foreground_roi": [
+        121,
+        488,
+        137,
+        507
+      ],
+      "background_roi": [
+        150,
+        488,
+        180,
+        507
+      ],
+      "foreground_coordinate": [
+        130,
+        490
+      ],
+      "foreground_rgb": [
+        181,
+        160,
+        120
+      ],
+      "background_coordinate": [
+        174,
+        489
+      ],
+      "background_rgb": [
+        8,
+        19,
+        22
+      ],
+      "ratio": 7.412
+    },
+    {
+      "role": "cloth_shortcut_1",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        90.75,
+        276.0,
+        102.75,
+        290.25
+      ],
+      "background_roi": [
+        112.5,
+        276.0,
+        135.0,
+        290.25
+      ],
+      "foreground_coordinate": [
+        96,
+        277
+      ],
+      "foreground_rgb": [
+        167,
+        149,
+        112
+      ],
+      "background_coordinate": [
+        112,
+        276
+      ],
+      "background_rgb": [
+        8,
+        20,
+        24
+      ],
+      "ratio": 6.387
+    },
+    {
+      "role": "cloth_shortcut_3",
+      "frame": "04-title-prepared-saves-960.png",
+      "foreground_roi": [
+        90.75,
+        366.0,
+        102.75,
+        380.25
+      ],
+      "background_roi": [
+        112.5,
+        366.0,
+        135.0,
+        380.25
+      ],
+      "foreground_coordinate": [
+        98,
+        373
+      ],
+      "foreground_rgb": [
+        166,
+        148,
+        111
+      ],
+      "background_coordinate": [
+        131,
+        366
+      ],
+      "background_rgb": [
+        8,
+        20,
+        23
+      ],
+      "ratio": 6.312
+    }
+  ],
+  "correction": {
+    "previous_local_commit": "f11ebc33250bae4774e3d55cb8698e8244c545d3",
+    "previous_published_commit": "c4244ee9c0076b7eaf5fbe07c6d78a81a8b5a91e",
+    "previous_primary_digit_sample_range": [
+      3.134,
+      3.554
+    ],
+    "change": "One renderer line selects existing BONE ink for the primary shortcut numeral; other numeral roles retain BRASS.",
+    "same_focused_driver_checks": 1706,
+    "same_focused_driver_failures": 0,
+    "pixel_comparison": [
+      {
+        "frame": "01-title-empty-1280.png",
+        "previous_sha256": "3e9c06f49a41b21301f592c85d43ef00c4c98e66b00446a1fc8c89003d66e245",
+        "final_sha256": "0c89ad9609d8d02c49214f54caddafb4c38c8bed84060b148c9d41fb89ca9608",
+        "difference_bounds": [
+          125,
+          369,
+          133,
+          382
+        ],
+        "changed_pixels": 42
+      },
+      {
+        "frame": "02-title-empty-960.png",
+        "previous_sha256": "dbd9d0d1d2fefe06c5a016584624ceca5bcfa3b4f391f202d150d6120900c715",
+        "final_sha256": "5a1300c54d4db054d9b8089b000a234316fb0d261e4ff01a93a0ac5dd574f5f1",
+        "difference_bounds": [
+          94,
+          276,
+          100,
+          287
+        ],
+        "changed_pixels": 36
+      },
+      {
+        "frame": "03-title-prepared-saves-1280.png",
+        "previous_sha256": "559584dbc8adafe9163df402c2c860c6594107d135b60930c19dd7f4c6876305",
+        "final_sha256": "5409d5273ae812f0cdd0a580ba994ae8254e6aad1d83999069916e252a6dccb2",
+        "difference_bounds": [
+          124,
+          429,
+          133,
+          442
+        ],
+        "changed_pixels": 63
+      },
+      {
+        "frame": "04-title-prepared-saves-960.png",
+        "previous_sha256": "a2066e5ac8b0a0860ce61dd709e26e656ea27b940837e5fdc7e4a4972cf757d1",
+        "final_sha256": "68747230b1c744cc94ea31a64ddb1fb38199decdb4922eaee70124b31c03ec0d",
+        "difference_bounds": [
+          93,
+          321,
+          100,
+          332
+        ],
+        "changed_pixels": 52
+      },
+      {
+        "frame": "05-title-manual-backup-only-1280.png",
+        "previous_sha256": "6e19de447ab8af7a90fa810b3389d2ad896eccaab55a935b7e882a6c94df99b9",
+        "final_sha256": "cb5d13029356ae92a34bbeeca15af8f2255d4ce2477a5c754d73ee684a62f40a",
+        "difference_bounds": [
+          125,
+          369,
+          133,
+          382
+        ],
+        "changed_pixels": 42
+      },
+      {
+        "frame": "06-title-manual-backup-only-960.png",
+        "previous_sha256": "736e35c1b6b4372cd1f9c29f7250e5d618ba04c445ab7d67aa15a8a69453d6f0",
+        "final_sha256": "9b033c4082b582cce1e3bb3588cdc7d2bd2f05dd8eb84832a01a695e6378bbdd",
+        "difference_bounds": [
+          94,
+          276,
+          100,
+          287
+        ],
+        "changed_pixels": 36
+      },
+      {
+        "frame": "07-new-journey-confirm-1280.png",
+        "previous_sha256": "fb4de6cec04c19c9571acc9cd6285e59f4e53ea4b300e98ea015f36fcc32aec3",
+        "final_sha256": "ac4194c6a321ab7f69792bf2d81c5a6676fbc2520b159c3602450db24a2a5d83",
+        "difference_bounds": [
+          125,
+          468,
+          133,
+          481
+        ],
+        "changed_pixels": 42
+      },
+      {
+        "frame": "08-new-journey-confirm-960.png",
+        "previous_sha256": "afdf428a524c2d6c8ebe9f4be9e9ba35fe2e6ddf6e93775a378a27507425b19a",
+        "final_sha256": "4dad0797b1066eafb1db07f56f73261da875d9927460a0f60013201190531a56",
+        "difference_bounds": [
+          94,
+          350,
+          100,
+          361
+        ],
+        "changed_pixels": 36
+      },
+      {
+        "frame": "09-title-continue-corrupt-1280.png",
+        "previous_sha256": "dc59acf542b6b1dbeb68050e7ab73dc7204ef53117ca08fc605277a94e150d1e",
+        "final_sha256": "5817860f142706729438919d1aca870bcc3370ff81219ced075bc94501640ee1",
+        "difference_bounds": [
+          124,
+          428,
+          133,
+          441
+        ],
+        "changed_pixels": 63
+      },
+      {
+        "frame": "10-title-continue-corrupt-960.png",
+        "previous_sha256": "2fb701989dbd2ae6c13bbe31ecfe3594b858727ab2bc0ff84c3d8d10b732d917",
+        "final_sha256": "63073cbae0945ca702b02a9643612dac561675e0388eb52748136d50c5692c6a",
+        "difference_bounds": [
+          93,
+          320,
+          100,
+          331
+        ],
+        "changed_pixels": 50
+      },
+      {
+        "frame": "11-title-continue-future-warning-1280.png",
+        "previous_sha256": "c2f795059e4dd1182f75aaba06e9f6613deb1a4de6a8dddff11aada53dbf5d3f",
+        "final_sha256": "027082e523e07d0478d5608ec55d018d4a93ce999dab470371db346b0e426e25",
+        "difference_bounds": [
+          124,
+          428,
+          133,
+          441
+        ],
+        "changed_pixels": 63
+      },
+      {
+        "frame": "12-title-continue-future-warning-960.png",
+        "previous_sha256": "5f967dd6acd13bbd0b66a5ce6e98661d59a2e5562083960a2a97a7d234b5c8fb",
+        "final_sha256": "7da0d7186761117aea4696301ee4da32b6184b941799e8ae1ba9b7f9ca563d5d",
+        "difference_bounds": [
+          93,
+          320,
+          100,
+          331
+        ],
+        "changed_pixels": 50
+      }
+    ],
+    "comparison_scope": "All 12 frames differ only within primary numeral glyphs, 36–63 pixels each; all other captured pixels are identical."
+  },
+  "retained_prior_findings": [
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-02-first-run-findings.json",
+      "sha256": "f02e9d8b8bb11a4b6300172b9074b286111f785ec2e50dfdc8df05199bd05e2c"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-08-primary-digit-contrast-finding.json",
+      "sha256": "e1f25fae0575fa12b51b8bf7f8c3402539b8607f360664b3f2f072d72930f42f"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-09-typography-native-findings.json",
+      "sha256": "d433837cb76a34be3e00a5f204b6968c4d9a586667451080ba4eb5b7473ddffb"
+    }
+  ],
+  "limits": [
+    "Samples are not the minimum contrast across every glyph, textured background, antialiased edge, possible state, or device.",
+    "Foreground core selection excludes most low-coverage antialiased edge pixels. Compact samples use actual compact rendered values.",
+    "Background regions are representative; they are not an exhaustive lightest/darkest search.",
+    "Native focus sample is the safe Return border against adjacent cloth; primary button text and numeral samples do not certify focus contrast.",
+    "No global WCAG/accessibility, actual browser, or Windows acceptance is implied."
+  ],
+  "unresolved_source_or_captured_pixel_findings": [],
+  "pending_at_checkpoint": [
+    "Complete current-candidate regression and source audit",
+    "Exact export/PCK and supplements",
+    "Independent Windows and historical-reader boundaries",
+    "Actual browser game, sound and IndexedDB refresh persistence",
+    "Remote publication identity and deployment checks"
+  ]
+}

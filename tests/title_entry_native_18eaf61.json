@@ -1,0 +1,296 @@
+{
+  "version": "0.0.34",
+  "status": "final_candidate_native_matrix_passed_scope_only",
+  "acceptance_utc": "2026-10-06T17:04:51.226887+00:00",
+  "binding": {
+    "local_source_commit": "18eaf61457303db769f4e1df5bf70daa23cd382e",
+    "source_tree": "b28a1056025411293cc8ca78bdd2f34092f4821c",
+    "tracked_originals": 1766,
+    "runtime_entries": 386,
+    "runtime_sha256": "0ba30b820ec98d30e4e4e66d98c187d2b978308c31feb4f040498d1a95dd7b79"
+  },
+  "engine": {
+    "version": "4.6.3-stable (official)",
+    "platform": "Linux/X11",
+    "renderer": "gl_compatibility",
+    "audio_driver": "Dummy",
+    "sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3"
+  },
+  "checks": 329,
+  "failures": 0,
+  "frame_count": 12,
+  "captures": [
+    {
+      "name": "01-title-empty-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/01-title-empty-1280.png",
+      "sha256": "0c89ad9609d8d02c49214f54caddafb4c38c8bed84060b148c9d41fb89ca9608",
+      "bytes": 1517249,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-empty",
+      "focus_target": null
+    },
+    {
+      "name": "02-title-empty-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/02-title-empty-960.png",
+      "sha256": "5a1300c54d4db054d9b8089b000a234316fb0d261e4ff01a93a0ac5dd574f5f1",
+      "bytes": 928070,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-empty",
+      "focus_target": null
+    },
+    {
+      "name": "03-title-prepared-saves-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/03-title-prepared-saves-1280.png",
+      "sha256": "5409d5273ae812f0cdd0a580ba994ae8254e6aad1d83999069916e252a6dccb2",
+      "bytes": 1525702,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-prepared-saves",
+      "focus_target": null
+    },
+    {
+      "name": "04-title-prepared-saves-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/04-title-prepared-saves-960.png",
+      "sha256": "68747230b1c744cc94ea31a64ddb1fb38199decdb4922eaee70124b31c03ec0d",
+      "bytes": 934542,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-prepared-saves",
+      "focus_target": null
+    },
+    {
+      "name": "05-title-manual-backup-only-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/05-title-manual-backup-only-1280.png",
+      "sha256": "cb5d13029356ae92a34bbeeca15af8f2255d4ce2477a5c754d73ee684a62f40a",
+      "bytes": 1520679,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-manual-backup-only",
+      "focus_target": null
+    },
+    {
+      "name": "06-title-manual-backup-only-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/06-title-manual-backup-only-960.png",
+      "sha256": "9b033c4082b582cce1e3bb3588cdc7d2bd2f05dd8eb84832a01a695e6378bbdd",
+      "bytes": 930947,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-manual-backup-only",
+      "focus_target": null
+    },
+    {
+      "name": "07-new-journey-confirm-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/07-new-journey-confirm-1280.png",
+      "sha256": "ac4194c6a321ab7f69792bf2d81c5a6676fbc2520b159c3602450db24a2a5d83",
+      "bytes": 1549320,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "new-journey-confirm",
+      "focus_target": "TitleEntryChoice2"
+    },
+    {
+      "name": "08-new-journey-confirm-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/08-new-journey-confirm-960.png",
+      "sha256": "4dad0797b1066eafb1db07f56f73261da875d9927460a0f60013201190531a56",
+      "bytes": 949997,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "new-journey-confirm",
+      "focus_target": "TitleEntryChoice2"
+    },
+    {
+      "name": "09-title-continue-corrupt-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/09-title-continue-corrupt-1280.png",
+      "sha256": "5817860f142706729438919d1aca870bcc3370ff81219ced075bc94501640ee1",
+      "bytes": 1520197,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-continue-corrupt",
+      "focus_target": "TitleEntryChoice2"
+    },
+    {
+      "name": "10-title-continue-corrupt-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/10-title-continue-corrupt-960.png",
+      "sha256": "63073cbae0945ca702b02a9643612dac561675e0388eb52748136d50c5692c6a",
+      "bytes": 934077,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-continue-corrupt",
+      "focus_target": "TitleEntryChoice2"
+    },
+    {
+      "name": "11-title-continue-future-warning-1280",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/11-title-continue-future-warning-1280.png",
+      "sha256": "027082e523e07d0478d5608ec55d018d4a93ce999dab470371db346b0e426e25",
+      "bytes": 1529814,
+      "pixel_dimensions": [
+        1280,
+        800
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-continue-future-warning",
+      "focus_target": "TitleEntryChoice2"
+    },
+    {
+      "name": "12-title-continue-future-warning-960",
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-frames/12-title-continue-future-warning-960.png",
+      "sha256": "7da0d7186761117aea4696301ee4da32b6184b941799e8ae1ba9b7f9ca563d5d",
+      "bytes": 943568,
+      "pixel_dimensions": [
+        960,
+        600
+      ],
+      "logical_viewport": [
+        1280.0,
+        800.0
+      ],
+      "state_id": "title-continue-future-warning",
+      "focus_target": "TitleEntryChoice2"
+    }
+  ],
+  "evidence": [
+    {
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/launcher-result.json",
+      "sha256": "f9d5db1e39b590da9135d0998ee3b743d7f56c645f30d96105e8d35b04c9119f"
+    },
+    {
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/test-result.json",
+      "sha256": "2c8568e4b9d9bcff0533dc13fee7b91c4dc0482cd473789fdd667a1aef11c8d4"
+    },
+    {
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/native-binding.json",
+      "sha256": "66de04ff6ff1e92c8f436d643e8d69bbb757c7a26c6bfa53a5b94d60998d834a"
+    },
+    {
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/tracked-before.json",
+      "sha256": "7f4611b62109dc58c93524c8c58029dda518ed65c5621da7c3bf5f59f1843235"
+    },
+    {
+      "archive_relative_identity": "qa-title-entry-native-18eaf61-01/results/tracked-after.json",
+      "sha256": "7f4611b62109dc58c93524c8c58029dda518ed65c5621da7c3bf5f59f1843235"
+    },
+    {
+      "archive_relative_identity": "title-entry-independent-review/review-12-final-acceptance.json",
+      "sha256": "b9b3633653faf9c9c6133c1c45d2520cadda3a90d3a02b9cb5929877dbb7c1ef"
+    }
+  ],
+  "evidence_location_note": "Archive-relative identities name retained validation artifacts, not files claimed to be present in this repository. Raw receipts remain unchanged.",
+  "preservation": {
+    "source_commit_and_tree_unchanged": true,
+    "tracked_originals_unchanged": 1766,
+    "runtime_inputs_and_engine_unchanged": true,
+    "exact_owned_prepared_save_bytes_retained_and_restored": {
+      "hero_save.json": {
+        "bytes": 1873,
+        "sha256": "d59ce36adda356adbbe1b27f68cdb0e60b67548b2eec22960903f1c30f62bea4"
+      },
+      "hero_slot_1.json": {
+        "bytes": 1873,
+        "sha256": "d59ce36adda356adbbe1b27f68cdb0e60b67548b2eec22960903f1c30f62bea4"
+      }
+    },
+    "limits": "Identical save bytes do not prove absence of same-content writes; this native matrix never activates destructive new-journey confirmation."
+  },
+  "independent_pixel_review": {
+    "all_12_final_pngs_inspected": true,
+    "unresolved_captured_pixel_findings": [],
+    "readability": "Full introduction, motto, format-16 notice, confirmation, actual corrupt/unsupported read errors and full existing warning suffix remain visible in captured states.",
+    "safe_return_focus_visible": true,
+    "contrast_record": "tests/title_entry_final_review.json"
+  },
+  "limits": [
+    "Actual native framebuffer captures with scripted Input.parse_input_event, not manual gameplay, Windows or browser execution.",
+    "Physical sizes 1280x800 and 960x600 both use logical viewport 1280x800; separate focused geometry uses logical 1280x800 and 1179x737.",
+    "Prepared legal saves and explicit native browser-mode/revision-1 caption flags; no WebGL, browser API, sound or IndexedDB persistence acceptance.",
+    "Unsupported-version read is genuine; its existing browser warning latch is explicitly prepared and does not prove a native save-write failure.",
+    "Manual-backup-only uses reversible moves of owned prepared fixtures. Focused production-forwarding tests separately cover destructive confirmation and real write failures.",
+    "Optional fourth-action long-warning cases are focused geometry coverage, not additional native screenshots.",
+    "No full regression, source audit, exact PCK, historical-reader, Windows or deployment acceptance is implied."
+  ],
+  "live_version_at_checkpoint": "0.0.33-web1",
+  "selected_repository_images": [
+    {
+      "path": "screenshots/folio-title-home-034-native.png",
+      "source_frame": "03-title-prepared-saves-1280.png",
+      "bytes": 1525702,
+      "sha256": "5409d5273ae812f0cdd0a580ba994ae8254e6aad1d83999069916e252a6dccb2"
+    },
+    {
+      "path": "screenshots/folio-title-confirm-034-native.png",
+      "source_frame": "07-new-journey-confirm-1280.png",
+      "bytes": 1549320,
+      "sha256": "ac4194c6a321ab7f69792bf2d81c5a6676fbc2520b159c3602450db24a2a5d83"
+    },
+    {
+      "path": "screenshots/folio-title-warning-034-compact-native.png",
+      "source_frame": "12-title-continue-future-warning-960.png",
+      "bytes": 943568,
+      "sha256": "7da0d7186761117aea4696301ee4da32b6184b941799e8ae1ba9b7f9ca563d5d"
+    }
+  ]
+}
