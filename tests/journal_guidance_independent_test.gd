@@ -19,7 +19,7 @@ const HISTORICAL_PATH="res://tests/historical/journal_guidance_phase1_independen
 const HISTORICAL_SHA="37bc5246571ef605518628e879fe7afc12b36a2865ca028b9d938f900415dfd8"
 const HISTORICAL_GUIDANCE_RULES_SHA="3994c26adf336ccb1de9c7c6f204f23033e95a04e7e6d79d4ef19e700acd86a9"
 # Only successful-local route_note presentation differs from phase1 rules.
-const MODEL_BINDINGS={"game_state.gd":"7bea790067170ebd5cf300ed00daefdaa00c27bfc3e3e86e2179019af4fca46a","journal_objective_rules.gd":"3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c","journal_guidance_rules.gd":"ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb","journal_guidance_session.gd":"eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba"}
+const MODEL_BINDINGS={"game_state.gd":"b2bd0fd1dcb071e730d85b34f2c0ccf9c0dcee3f2449ac1c581566e8f1310202","journal_objective_rules.gd":"3d2494af416392356976a0cd4a756c82a090f52069c1f300ea246b6edbb5402c","journal_guidance_rules.gd":"ff2ae85131409ede43f8bc1b1dd1c33ff507cef2e2a9db14bccd6453418e81cb","journal_guidance_session.gd":"eface8edcbe70c9757c3f48091761b8acd39b16e2ebb11aa5173ed936d619fba"}
 var frozen_rows:Dictionary={}
 var reviewed_differences:Dictionary={}
 var corpus_checks:int=0
