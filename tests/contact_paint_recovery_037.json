@@ -1,0 +1,38 @@
+{
+  "record_kind": "byte_verified_recovery_scope_after_environment_replacement",
+  "version": "0.0.37",
+  "public_source_commit": "5dc9c77377ca6f54d11e9e4f5b66fcc5d37f29de",
+  "source_tree": "c3b31c580ef7420b606eefb8aeae1a6b4625250c",
+  "source_files": 1794,
+  "runtime_entries": 388,
+  "runtime_sha256": "34439abfa732f2d3c8f887ac4d2346bfce8a532b65f7b39180e4a4f3b47e8f47",
+  "restored_archive_files": 2622,
+  "reassessment_leaves": 1868,
+  "source_export_leaves": 1981,
+  "official_template_paths": 4,
+  "all_restored_map_bytes_verified": true,
+  "source_recovery": {
+    "archive_relative_id": "interruption-evidence/recovered-public-source-verification.json",
+    "bytes": 472,
+    "sha256": "f382d7d1fd4c3b6f75b78bfdf412e330ae7ea12e7b57919b14b2043247e0d07e"
+  },
+  "independent_reuse": {
+    "archive_relative_id": "interruption-evidence/independent-restored-evidence-reuse-281f7eb.json",
+    "bytes": 5062,
+    "sha256": "c7ff078b14e694431b2d062255c020b1c358f6fa39b85412d738337785f34a48"
+  },
+  "historical_local_commit_object_recreated": false,
+  "unavailable_prior_export": {
+    "PCK_sha256": "3879c7ea1def48b91a352bedd659c28360741555a27ac3983fd1ab79c51d3a86",
+    "ZIP_sha256": "2e52580f6f5ff86cde77dd686c70f7d7e2f516e086702cb561e88d800d0c7989",
+    "raw_bytes_unavailable": true,
+    "used_for_validation": false
+  },
+  "recovery_action": "Restored exact accepted evidence and public tree; performed one new guarded import and necessary fresh export with new observation. No repeated full/source engine suite and no reconstruction of unavailable raw logs.",
+  "new_candidate_PCK_sha256": "6d14ab807cebac45a5592c33aa7e838079115bf15a27a6b13cec7e1a633f08a8",
+  "new_candidate_ZIP_sha256": "f0e94f0413b4a3137ce66cc0c6e6797761276bc550e36fc167b5befd0691313c",
+  "historical_failures_preserved_where_backed_up": true,
+  "unavailable_evidence_explicit": true,
+  "private_durable_backups_verified": true,
+  "scope": "No historical local Git object, lost export bytes, old host identity, complete historical-runtime boundary or browser pass is inferred."
+}
