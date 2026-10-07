@@ -1,6 +1,6 @@
 {
   "milestone": "Web36 combat command and presented-result clarity",
-  "status": "initial development candidate; Godot/native/full/package validation pending",
+  "status": "Initial candidate1964b086 passed native/focused review; compact zero-resource polish awaits fresh native matrix and full/package gates",
   "live_version": "0.0.35-web1",
   "live_runtime_public_commit": "fcbdd9dec7bf7df816be8fa135c6e4b395669967",
   "baseline": {
@@ -56,5 +56,22 @@
     "exact_new_PCK": "pending",
     "windows": "pending",
     "browser_gameplay_audio_IndexedDB": "unverified"
-  }
+  },
+  "initial_candidate_validation": {
+    "source_commit": "1964b0868ab6ed52d8357222225b07e1160cbd60",
+    "source_tree": "e98626d09491909ed15bb7d8d814bdf5c8a51b66",
+    "runtime_count": 388,
+    "runtime_sha256": "652757cace0d61e9542a98a39d72a0fadc0acc80efcfb100126f7874c2442a93",
+    "native_checks": 335,
+    "native_failures": 0,
+    "raw_frames": 6,
+    "unified_ui_checks": 607,
+    "unified_ui_failures": 0,
+    "status_geometry_checks": 805,
+    "status_geometry_failures": 0,
+    "independent_acceptance_sha256": "e91b73f426e28dd4a25550fb8335e75fc5310d6ab8b6b4fcd9c6a3386ccfd9db",
+    "before_after_battle_facts_equal": true,
+    "limits": "Prepared native fixture, deterministic production clock and methods; not earned/manual/realtime/browser acceptance"
+  },
+  "next_refinement": "Hide only qi/medicine amount0 from compact summary; full events/details/log and damage0 remain intact"
 }

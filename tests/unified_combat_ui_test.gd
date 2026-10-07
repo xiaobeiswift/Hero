@@ -305,6 +305,7 @@ func _combat_readback_facts()->void:
 	check(not damage.is_empty() and int(damage.amount)==actual_loss and actual_loss>0 and readback.result_text.contains("气血−%d"%actual_loss),"Contact readback matches presented actual HP loss")
 	check(readback.latest_completed.is_empty() and readback.status=="presenting","Contact result is not marked completed before accepted finish")
 	_finish(panel);var completed:Dictionary=panel.commands.context.combat_readback.duplicate(true)
+	check(completed.result_text.contains("真气+0") and not completed.summary.contains("真气+0") and _readback_event(completed,"qi").get("amount",-1)==0 and " · ".join(panel.logs).contains("真气+0"),"Compact result omits only capped zero resource clutter while full presented facts and log retain it")
 	check(completed.status=="completed" and completed.latest_completed.action==completed.action and completed.latest_completed.events==completed.events,"Only accepted finish records the detached completed action and result")
 	panel.commands.context.combat_readback.action.name="caller edit"
 	panel.commands.context.combat_readback.events[0].amount=9999
