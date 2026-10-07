@@ -1,0 +1,49 @@
+{
+  "record_kind": "independent_live_deployment_receipt_summary",
+  "version": "0.0.36-web1",
+  "status": "live_deployment_verified_browser_gameplay_pending",
+  "provenance": "Independent Windows deployment verification receipt; this source record summarizes verified supplied results without claiming a new deployment execution.",
+  "runtime_source_commit": "47afef57af7ed6a28304520b6479e1133cda0a54",
+  "tested_local_commit": "844870a8ebc05eb67abbab34f982e776dfa1768e",
+  "tested_tree": "87fdaaeb9319e7b5842ec5976a4cb95a728b6017",
+  "validation_docs_public_commit": "e31561e5dd59244c10f2246b665190b642927717",
+  "runtime_entries": 388,
+  "runtime_sha256": "a1a8ef681003767efadb9c3353011f9e7cdcbf1c933b569ddd623a8443ef1023",
+  "atomic_switch_utc": "2026-10-07T08:11:52.938056Z",
+  "https_verified_utc": "2026-10-07T08:14:59.050276Z",
+  "https_checks": {
+    "passed": 36,
+    "total": 36,
+    "full_resource_members": 14,
+    "git_service_status": 200
+  },
+  "served_windows_zip": {
+    "bytes": 87288866,
+    "sha256": "cccfe3051a65f1b31f22a9865931554e7b72abe0e4e222dea93ce82629c697db"
+  },
+  "served_windows_pck": {
+    "bytes": 77965476,
+    "sha256": "de213b0400e8eb4974957247e2c1cb4c1e514ee80f14917b8f39d039a96cda8a"
+  },
+  "server_manifest_sha256": "264a32a7603243a69df378ed7a5cb8740308e59a89bdb88aba4e2a89a1c875d0",
+  "previous_live_release": {
+    "version": "0.0.35-web1",
+    "retired_utc": "2026-10-07T08:15:25.142504Z",
+    "complete_recovery_copy_verified": true,
+    "zero_reader_checks": 2
+  },
+  "validation_record": "combat_presentation_validation_036.json",
+  "preserved_exceptions": [
+    "Original full terminal remains false; separately accepted exact-source complete composition preserves all original receipts and exact406 semantic-trace decision",
+    "Linux strict export remains false/exit1; timestamp-only admission covered only its already-produced exact artifact tests",
+    "Windows served artifact identity remains separate from Linux validation artifact"
+  ],
+  "save_schema": 16,
+  "file_transfer_enabled_by_default": false,
+  "limits": [
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unverified",
+    "Native previews used prepared states, scripted inputs and fixed steps",
+    "No new GitHub packaged archive/release is created by this documentation checkpoint"
+  ],
+  "record_prepared_utc": "2026-10-07T08:22:02.093056+00:00"
+}
