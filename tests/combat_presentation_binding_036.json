@@ -1,0 +1,169 @@
+{
+  "record_kind": "public_sanitized_independent_binding_summary",
+  "source_commit": "844870a8ebc05eb67abbab34f982e776dfa1768e",
+  "published_source_commit": "47afef57af7ed6a28304520b6479e1133cda0a54",
+  "source_tree": "87fdaaeb9319e7b5842ec5976a4cb95a728b6017",
+  "runtime_sha256": "a1a8ef681003767efadb9c3353011f9e7cdcbf1c933b569ddd623a8443ef1023",
+  "tracked_files": 1790,
+  "runtime_entries": 388,
+  "independent_acceptance": {
+    "archive_relative_id": "combat-pck-final-independent-acceptance-844870a.json",
+    "bytes": 11295,
+    "sha256": "95387b4e41d77de3cbd8dfe9a4094794ef8926f0d8b50e555a9ff464111f56f0"
+  },
+  "independent_evidence_map": {
+    "archive_relative_id": "combat-pck-final-independent-evidence-844870a.json",
+    "bytes": 608779,
+    "sha256": "8d6fa6e411a86a339499171c7ae9ab002889a8848e2feb03aa46b579cb5f974e"
+  },
+  "sealed_leaves": 2590,
+  "phase_results": {
+    "exact": {
+      "checks": 21589,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/exact-01/results/package-result.json",
+        "sha256": "f824fc9c8384c6733ea758a61e8b233ee86ebc143597dfae12608546d057c1c9"
+      },
+      "console_sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802",
+      "engine_sha256": "4b80e486fad33fce9f9573eed950d1e2a74ab24f5022f92515efacca4f748802",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "folio": {
+      "checks": 11499,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/folio-01/results/package-result.json",
+        "sha256": "fd07de8822827a442ba2a2b686ef6f19cd0c6d61f3cbf9f842404da5b2c4e165"
+      },
+      "console_sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b",
+      "engine_sha256": "e000a13a52a9a1827ead841ce07193792b0ce7fa352630ffb1c83f22447adf2b",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "companion": {
+      "checks": 1738,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/companion-01/results/package-result.json",
+        "sha256": "e81e16d89319bdad0d5a002e6a2047f7703e59d9d83b087809d282c389fb42fd"
+      },
+      "console_sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b",
+      "engine_sha256": "4f89be6904cfa9ba3397c1a10375f9b2189694f24d075a0dddb1edd522f5637b",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "save": {
+      "checks": 449,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/save-01/results/package-result.json",
+        "sha256": "ba01a5c74c9ee9456e94a13565ee525400f94702a78605fbbe5355f7405d7d0d"
+      },
+      "console_sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714",
+      "engine_sha256": "93874aa68409bac14a13d32620b127ab4c001fd5043354ac23e703135872b714",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "title": {
+      "checks": 1706,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/title-01/results/package-result.json",
+        "sha256": "a5e6158936a7197a4b135c45a9cc8aa04953f703bee4038fc524ad8026509554"
+      },
+      "console_sha256": "d7192c6690047a5ac9661064e21f78beb25b3fccb77234ede3b9d5e5ded80a93",
+      "engine_sha256": "d7192c6690047a5ac9661064e21f78beb25b3fccb77234ede3b9d5e5ded80a93",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "map": {
+      "checks": 1594,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/map-01/results/package-result.json",
+        "sha256": "edfde5487c1ace824be0e079a0077accedb9f39ec3f12fd88ace9eb4bc7142c0"
+      },
+      "console_sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+      "engine_sha256": "c18d0d9d06341f94967951515b5e6922eb488624f87de0d4b9900d22965043f5",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    },
+    "unified": {
+      "checks": 608,
+      "outer_exit_code": 0,
+      "report": {
+        "archive_relative_id": "combat-presentation-package-844870a-pck01/unified-01/results/package-result.json",
+        "sha256": "f8d6cc92e01d05e1f458d3883d29bf9be88a351fc5d04f986b84595b603c602c"
+      },
+      "console_sha256": "e222ae22736943c954e77b58a9e8fbdc0dd433004748ca8c327136ed51ab4675",
+      "engine_sha256": "e222ae22736943c954e77b58a9e8fbdc0dd433004748ca8c327136ed51ab4675",
+      "exact_profile_namespace_and_argv_verified": true,
+      "tracked_before_after_exact": true
+    }
+  },
+  "site_files": {
+    "ASSET_LICENSES.md": {
+      "sha256": "3c57e4373d84859a1ea5fc5ae0cf041a4e246cfe909efa389dc57d558fc2fd16",
+      "bytes": 10797
+    },
+    "WEB_EXPORT.md": {
+      "sha256": "89a5b97a87ac2adc47d06c9bf27bae04c4f5df5fbb4fab71416f264b1a82b9d5",
+      "bytes": 34565
+    },
+    "index.apple-touch-icon.png": {
+      "sha256": "ee82a9c9dfc4a357802476679d9a88d3fbcf83ca525e96cdd3127fee9166a846",
+      "bytes": 13219
+    },
+    "index.audio.position.worklet.js": {
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8",
+      "bytes": 2973
+    },
+    "index.audio.worklet.js": {
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3",
+      "bytes": 7298
+    },
+    "index.html": {
+      "sha256": "21252076582de15f55de365dd21d50efd471017c8048b5a38e8e43176db99ef3",
+      "bytes": 11864
+    },
+    "index.icon.png": {
+      "sha256": "8186eaffc6c3b2721b595f85a570d14398a036818773c8f77b3d8c892124ed51",
+      "bytes": 6110
+    },
+    "index.js": {
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981",
+      "bytes": 315759
+    },
+    "index.pck": {
+      "sha256": "ae88717e947cf9a33a538acc029ff69c5cae63f78411008a246a419f099bbcbf",
+      "bytes": 77965476
+    },
+    "index.png": {
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e",
+      "bytes": 21443
+    },
+    "index.wasm": {
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6",
+      "bytes": 37700666
+    },
+    "licenses/FONT-LICENSE.txt": {
+      "sha256": "849f4ea9c214fa4ac3593b770c699f387534b11ce671264c1b10d85bdcb5997b",
+      "bytes": 14712
+    },
+    "licenses/GODOT-LICENSE.txt": {
+      "sha256": "a0acc151e87517ee3411acce58ce99e17f636921b37c158f38f0b5acafd10da2",
+      "bytes": 1150
+    },
+    "licenses/GODOT-THIRD-PARTY-NOTICES.txt": {
+      "sha256": "596c11f747b92e35b008ff5d44646abd3e35a7f65f386d6cc68078bb9658914a",
+      "bytes": 93474
+    }
+  },
+  "original_full_success": false,
+  "single_run_full_pass": false,
+  "strict_export_success": false,
+  "strict_export_exit_code": 1,
+  "scope": "Exact tested runtime and retained source/artifact evidence; later documentation tree is separate. No browser or deployment acceptance."
+}

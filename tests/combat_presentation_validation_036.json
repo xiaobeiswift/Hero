@@ -1,0 +1,317 @@
+{
+  "record_kind": "post_test_validation_closure_accepted_exact_PCK_rollout_pending",
+  "version": "0.0.36",
+  "record_prepared_utc": "2026-10-07T07:51:27.166069+00:00",
+  "record_timing": "Post-test documentation outside the frozen 1,790-file tested tree. Runtime build identity remains public commit 47afef57, equivalent to local commit 844870a; earlier pending and failed records retain their original scope.",
+  "evidence_location_note": "Archive-relative identifiers refer to preserved project evidence, not repository links. Private infrastructure paths and Library storage identifiers are omitted.",
+  "binding": {
+    "local_source_commit": "844870a8ebc05eb67abbab34f982e776dfa1768e",
+    "published_source_commit": "47afef57af7ed6a28304520b6479e1133cda0a54",
+    "source_tree": "87fdaaeb9319e7b5842ec5976a4cb95a728b6017",
+    "tracked_originals": 1790,
+    "runtime_entries": 388,
+    "runtime_sha256": "a1a8ef681003767efadb9c3353011f9e7cdcbf1c933b569ddd623a8443ef1023",
+    "source_manifest_sha256": "95ed966cac21581c0459f11d2e95e6744bfb96872c53866a390166703838f004",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false
+  },
+  "milestone_scope": [
+    "Separate command-selected actor from currently acting actor",
+    "Display already accepted action and actual presented target",
+    "Persist latest meaningful presented outcome without forecasting pending events",
+    "Suppress only zero Qi/medicine in short summary; full facts/log retain them and zero damage remains",
+    "Preserve four actors, three fixed skill slots, automatic basics, combat timing/model, resources and saves"
+  ],
+  "native": {
+    "source_commit": "844870a8ebc05eb67abbab34f982e776dfa1768e",
+    "frames": 16,
+    "checks": 1215,
+    "focused_unified_checks": 608,
+    "focused_badge_checks": 805,
+    "sampled_contrast": {
+      "samples": 18,
+      "min_ratio": 5.055,
+      "max_ratio": 13.311,
+      "selected_secondary_label_standard": 8.361,
+      "selected_secondary_label_compact": 7.148,
+      "scope": "Bounded actual pixel samples, not exhaustive accessibility or browser acceptance"
+    },
+    "acceptance": {
+      "archive_relative_id": "combat-presentation-matrix-independent-review/acceptance-844870a.json",
+      "sha256": "fa28ca88cc442c4a6c23fd8c61fc1fb99b4dadf356855becce5ac901de51e961",
+      "bytes": 24462
+    },
+    "limits": [
+      "Prepared deterministic production-renderer native fixtures",
+      "Scripted inputs and fixed steps; isolated synthetic save paths and intercepted close",
+      "No earned/manual gameplay, frame-rate, audio or browser claim",
+      "User preview delivery does not imply user visual acceptance"
+    ]
+  },
+  "retained_failures": [
+    {
+      "stage": "8302 native first attempt",
+      "outcome": "1094 checks/14 frames before helper timing assertion; raw failure preserved",
+      "change": "Only external driver awaited the input frame before releasing focus; first14 retry pixels identical; no runtime/assertion change"
+    },
+    {
+      "stage": "8302 contrast",
+      "outcome": "Selected caption4.228 standard/3.732 compact failed4.5 gate",
+      "change": "Final844 changes only selected label ink plus checksums; final16 frames and actual samples rechecked"
+    },
+    {
+      "stage": "original full QA01",
+      "outcome": "success=false; title helper refused before engine on stale external test hash; map not reached",
+      "change": "Only nested title metadata and dependent pins corrected; title1706/map1594 run once in fresh profiles",
+      "original_report": {
+        "archive_relative_id": "qa-combat-presentation-full-844870a-01/results/terminal-report.json",
+        "sha256": "a3f5799771bc4f32f80425425a8fe691b63f8791b0160ec4a476a685831ecdba",
+        "bytes": 8390
+      }
+    },
+    {
+      "stage": "journal raw trace matcher",
+      "outcome": "Original401 matcher rejects current406 trace",
+      "change": "Exact original401 semantic prefix plus exactlyfive appended source-bounded Escape events; all mandatory cases/checks/bindings preserved; no generic tolerance"
+    },
+    {
+      "stage": "strict Linux export",
+      "outcome": "success=false,wrapper exit1; only USER directory mtime/ctime changed",
+      "change": "Fresh complete observation and independent review; recorded maintainer decision admits only this existing exact artifact to isolated tests, without relabeling raw failure or inferring writer PID"
+    }
+  ],
+  "complete_composition": {
+    "accepted": true,
+    "single_run_full_pass": false,
+    "original_full_success": false,
+    "retained_engine_invocations": 184,
+    "python_checks": 93,
+    "simulated_DOM_checks": 53,
+    "supplements": {
+      "reconstructed": 11499,
+      "companion": 1738,
+      "save": 449,
+      "save_geometry": 1380,
+      "title": 1706,
+      "map": 1594
+    },
+    "evidence_leaves": 2015,
+    "controls": 36,
+    "consumer_negative_controls": 4,
+    "report": {
+      "archive_relative_id": "combat-presentation-composition-844870a-preparation/results/terminal-report.json",
+      "sha256": "5cf8c0b0e06c676d70c81f6b4dc9fc501388fb8810318a237bb614763ac6221c",
+      "bytes": 486937
+    },
+    "seal": {
+      "archive_relative_id": "combat-presentation-composition-844870a-preparation/results/full-evidence-sha256.json",
+      "sha256": "49daa2f9434fe5324e2f139d3748d7349de9cba889549baa09e0cce5102f65f4",
+      "bytes": 484031
+    },
+    "review": {
+      "archive_relative_id": "combat-composition-independent-review-844870a.json",
+      "sha256": "0464b5ac7c1886d996ec3555c75239403416c85455e1cf224b289e896377bb12",
+      "bytes": 1966
+    },
+    "journal_trace": {
+      "checks": 2813,
+      "prefix_entries": 401,
+      "additional_escape_events": 5,
+      "total_entries": 406,
+      "semantic_sha256": "32d7505a00470bbca793c383f4c90015b08cc9bdb0ba81fc9133350b0cefe44e"
+    }
+  },
+  "linux_normal_source": {
+    "checks": 21584,
+    "success": true,
+    "receipt": {
+      "archive_relative_id": "combat-presentation-source-844870a-composed/source-rehearsal-01/results/package-result.json",
+      "sha256": "5fbbb752a6d7adfd2c1a3f2936048a2fbd665cf690b206c727763c014d5d4b8a",
+      "bytes": 10195
+    },
+    "independent_acceptance": {
+      "archive_relative_id": "combat-source-acceptance-844870a.json",
+      "sha256": "e975a28ae022b683052ea0c715fdb1a7c04634eac251e0d80ac181c6c6dd6981",
+      "bytes": 1637
+    }
+  },
+  "linux_export": {
+    "strict_success": false,
+    "wrapper_exit_code": 1,
+    "underlying_export_exit_code": 0,
+    "receipt": {
+      "archive_relative_id": "combat-presentation-export-844870a-composed/export-once-01/results/export-receipt.json",
+      "sha256": "ce72699ed2afab5a70c11667768c706ad3602d61c93885cdaf9b2129431639c3",
+      "bytes": 997169
+    },
+    "observer_seconds": 300,
+    "events": 145,
+    "bracket_seconds": 34.002327,
+    "only_mutations": "CREATE and DELETE .recovery_mode_lock; only USER mtime/ctime differ; no PID causation claim",
+    "site_members": 14,
+    "source_runtime_engine_templates_and_contents_unchanged": true,
+    "assessment": {
+      "archive_relative_id": "combat-export-fresh-artifact-assessment-844870a.json",
+      "sha256": "f53e4b68652a1fb51d28d28ab346af403ca34b435a6feb598103e7528cb6da02",
+      "bytes": 7942
+    },
+    "test_only_admission": {
+      "archive_relative_id": "combat-exact-artifact-test-admission-844870a.json",
+      "sha256": "c3a5da7ebbda09a987ad269775b02035de27ef7e4a6a63e653f091d96e24e8c9",
+      "bytes": 2552
+    },
+    "pck": {
+      "bytes": 77965476,
+      "sha256": "ae88717e947cf9a33a538acc029ff69c5cae63f78411008a246a419f099bbcbf"
+    },
+    "zip": {
+      "file": "combat-presentation-844870a-web36-qa01.zip",
+      "bytes": 87290864,
+      "sha256": "44e2a33075d650d58691eb8ba5d474e87e2eb4e4a16c8a0a9b7a4e8c54ffe156"
+    }
+  },
+  "linux_exact_PCK": {
+    "execution_complete": true,
+    "independent_final_acceptance": {
+      "archive_relative_id": "combat-pck-final-independent-acceptance-844870a.json",
+      "bytes": 11295,
+      "sha256": "95387b4e41d77de3cbd8dfe9a4094794ef8926f0d8b50e555a9ff464111f56f0"
+    },
+    "phases": [
+      {
+        "phase": "exact",
+        "checks": 21589,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/exact-01/results/package-result.json",
+          "sha256": "f824fc9c8384c6733ea758a61e8b233ee86ebc143597dfae12608546d057c1c9",
+          "bytes": 13309
+        }
+      },
+      {
+        "phase": "folio",
+        "checks": 11499,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/folio-01/results/package-result.json",
+          "sha256": "fd07de8822827a442ba2a2b686ef6f19cd0c6d61f3cbf9f842404da5b2c4e165",
+          "bytes": 11509
+        }
+      },
+      {
+        "phase": "companion",
+        "checks": 1738,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/companion-01/results/package-result.json",
+          "sha256": "e81e16d89319bdad0d5a002e6a2047f7703e59d9d83b087809d282c389fb42fd",
+          "bytes": 11533
+        }
+      },
+      {
+        "phase": "save",
+        "checks": 449,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/save-01/results/package-result.json",
+          "sha256": "ba01a5c74c9ee9456e94a13565ee525400f94702a78605fbbe5355f7405d7d0d",
+          "bytes": 11497
+        }
+      },
+      {
+        "phase": "title",
+        "checks": 1706,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/title-01/results/package-result.json",
+          "sha256": "a5e6158936a7197a4b135c45a9cc8aa04953f703bee4038fc524ad8026509554",
+          "bytes": 11505
+        }
+      },
+      {
+        "phase": "map",
+        "checks": 1594,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/map-01/results/package-result.json",
+          "sha256": "edfde5487c1ace824be0e079a0077accedb9f39ec3f12fd88ace9eb4bc7142c0",
+          "bytes": 11582
+        }
+      },
+      {
+        "phase": "unified",
+        "checks": 608,
+        "success": true,
+        "outer_exit_code": 0,
+        "receipt": {
+          "archive_relative_id": "combat-presentation-package-844870a-pck01/unified-01/results/package-result.json",
+          "sha256": "f8d6cc92e01d05e1f458d3883d29bf9be88a351fc5d04f986b84595b603c602c",
+          "bytes": 12253
+        }
+      }
+    ],
+    "negative_admission_controls": 25,
+    "fresh_profiles": true,
+    "actual_PCK_no_source_shadow": true,
+    "final_evidence_map": {
+      "archive_relative_id": "combat-pck-final-independent-evidence-844870a.json",
+      "bytes": 608779,
+      "sha256": "8d6fa6e411a86a339499171c7ae9ab002889a8848e2feb03aa46b579cb5f974e"
+    },
+    "evidence_leaves": 2590,
+    "recorded_Godot_commands": 21,
+    "completed_utc": "2026-10-07T07:49:04Z",
+    "aggregate": {
+      "archive_relative_id": "combat-pck-completion-844870a.json",
+      "bytes": 19185,
+      "sha256": "e011cdfdd0a07f6f7df6fa3d6abf6caf18ff5f1b45168cb5989a76265d6dcab4"
+    }
+  },
+  "independent_windows_candidate": {
+    "provenance": "Independent Windows execution record verified against its exact public source and platform artifact hashes; execution is separate from the Linux validation.",
+    "completed_utc": "2026-10-07T05:48:24Z",
+    "public_source_commit": "47afef57af7ed6a28304520b6479e1133cda0a54",
+    "local_tree_equivalent": "844870a8ebc05eb67abbab34f982e776dfa1768e",
+    "version": "0.0.36-web1",
+    "canonical_source_checks": 21584,
+    "exact_PCK_checks": 21589,
+    "site_members": 14,
+    "historical_and_actual_subject_processes_passed": 9,
+    "guards_passed": 9,
+    "supplemental_evidence_files": 83,
+    "zip": {
+      "bytes": 87288866,
+      "sha256": "cccfe3051a65f1b31f22a9865931554e7b72abe0e4e222dea93ce82629c697db"
+    },
+    "pck": {
+      "bytes": 77965476,
+      "sha256": "de213b0400e8eb4974957247e2c1cb4c1e514ee80f14917b8f39d039a96cda8a"
+    },
+    "verification_report_sha256": "b503c7376e5e18e614e9ea6ccb0640470eef43634c3a86ea61b237f5778fd63a",
+    "final_receipt_sha256": "02b45e7cae86d2093016dcdfa6382d92ec8d403769ee07cc1a1e21d00b577d40",
+    "deployment": "not deployed in this frozen verification record",
+    "limits": [
+      "Windows package hashes separate from separately validated Linux artifact",
+      "No browser gameplay/audio/IndexedDB acceptance",
+      "Web25 branch retains old13script/currentdependencies scope"
+    ]
+  },
+  "rollout": {
+    "deployed": false,
+    "live_version": "0.0.35-web1"
+  },
+  "limits": [
+    "Real browser gameplay, audio and IndexedDB refresh persistence unverified",
+    "Web25 old-reader branch retains old13 script/current-dependencies mixed scope, not a complete old13 runtime",
+    "Historical complete-pack processes executed separately on Windows; platform artifact hashes are distinct",
+    "No GitHub package/release or server action performed by this source checkpoint"
+  ],
+  "status": "native_complete_composition_normal_source_and_seven_phase_Linux_PCK_independently_accepted_with_preserved_failures",
+  "evidence_snapshot_utc": "2026-10-07T07:56:36.026771+00:00"
+}
