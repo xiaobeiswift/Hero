@@ -160,6 +160,7 @@ func _run()->void:
 	await _save_close()
 	await _real_close_decisions()
 	await _presented_queue_facts()
+	await _combat_readback_facts()
 	await _practice_persistence()
 	await _viewport_input_matrix()
 	_legacy_route_guard()
@@ -176,6 +177,7 @@ func _queue_and_pause()->void:
 	check(s.party_battle_snapshot().selected_actor_id=="qin","Actual selector chooses Qin")
 	await _key(KEY_1)
 	check(panel.pending_action=="art:qin_shoudu" and s.party_battle_snapshot().paused,"Ally skill opens safe paused target flow")
+	check(panel.commands.context.selected_actor_id=="qin" and panel.commands.snapshot.selected_actor_id=="qin","Pending ally-choice owner retains its existing context meaning")
 	var qi_before=_actor(s.party_battle_snapshot(),"qin").qi
 	await _click(panel.unit_plates.hero)
 	check(_actor(s.party_battle_snapshot(),"qin").categories.martial.queued and _actor(s.party_battle_snapshot(),"qin").qi==qi_before,"Queue exact ally without early cost")
@@ -258,13 +260,126 @@ func _presented_queue_facts()->void:
 	var tx=panel.pending;var art_id=tx.action_id
 	check(_actor(panel.commands.snapshot,"hero").qi==_actor(tx.before,"hero").qi,"HUD cost does not appear before payment beat")
 	check(_actor(panel.commands.snapshot,"hero").cooldowns[art_id]==_actor(tx.before,"hero").cooldowns[art_id],"HUD cooldown does not reveal after snapshot before action beat")
+	check(panel.commands.context.combat_readback.action.is_empty() and panel.commands.context.combat_readback.result_text.is_empty(),"Accepted skill readback reveals no unpresented action or cost")
 	panel.select_actor("tang");panel.commands.request_slot("tang",2)
 	check(_actor(panel.commands.snapshot,"tang").categories.lightness.queued and panel.commands.snapshot.selected_actor_id=="tang","Future selection/queue is live during presented action")
 	check(_actor(panel.commands.snapshot,"hero").qi==_actor(tx.before,"hero").qi,"Queue refresh preserves presented resource rails")
 	panel.art._process(.03);panel.refresh()
 	check(_actor(panel.commands.snapshot,"hero").cooldowns[art_id]>0 and _actor(panel.commands.snapshot,"hero").qi==_actor(tx.before,"hero").qi,"Cooldown appears on actual action beat, payment still awaits its beat")
+	check(panel.commands.context.combat_readback.action.action_id==art_id and panel.commands.context.combat_readback.events.is_empty(),"Action beat publishes the actual skill without its future result")
 	panel.art._process(.1);panel.refresh()
 	check(_actor(panel.commands.snapshot,"hero").qi==_actor(tx.after,"hero").qi,"Payment beat displays exact cost")
+	var paid:Dictionary=_readback_event(panel.commands.context.combat_readback,"qi")
+	check(not paid.is_empty() and paid.amount==int(_actor(tx.after,"hero").qi)-int(_actor(tx.before,"hero").qi) and _readback_event(panel.commands.context.combat_readback,"damage").is_empty(),"Readback reports paid Qi only after payment, before any contact damage")
+	check(" · ".join(panel.logs).contains("真气%+d"%int(paid.get("amount",0))),"Full battle log retains the actually presented Qi amount")
+	_finish(panel);panel.leave();_finish(panel);await process_frame
+
+func _readback_event(readback:Dictionary,kind:String)->Dictionary:
+	for event:Dictionary in readback.get("events",[]):
+		if event.type==kind:return event
+	return {}
+
+func _combat_readback_facts()->void:
+	_setup("heting_receipt",4)
+	check(app._start_unified_battle("heting_receipt"),"Readback fact fixture enters actual controller")
+	var panel=app.overlay.get_meta("party_battle");panel.set_process(false);panel.art.set_process(false)
+	check(panel.commands.context.combat_readback.status=="ready" and panel.commands.context.combat_readback.latest_completed.is_empty(),"New panel starts without previous battle readback")
+	var original_target:String=String(s.party_battle_snapshot().selected_target_id)
+	var queue_serial:int=s.party_session._queue_serial;var journal_before:bool=panel.commands.journal_open
+	panel.request_command("qin","art:qin_shoudu");panel.commands.readback_button.grab_focus()
+	check(panel.pending_actor=="qin" and root.gui_get_focus_owner()==panel.commands.readback_button and panel.commands.readback_button.tooltip_text.contains("Enter仍确认队友目标"),"Focused readback truthfully explains Enter ownership during Qin ally targeting")
+	await _key(KEY_ENTER)
+	check(_actor(s.party_battle_snapshot(),"qin").categories.martial.queued and s.party_session._queue_serial==queue_serial+1 and s.party_session._queues.qin.size()==1 and panel.pending_action.is_empty(),"Actual Enter on focused readback confirms exactly one pending Qin ally queue")
+	check(panel.commands.journal_open==journal_before,"Target-confirmation Enter does not also toggle the battle journal")
+	panel.cancel_skill("qin","martial");root.gui_release_focus();panel.select_target(original_target)
+	panel.select_actor("qin");panel._process(.5)
+	var tx:Dictionary=panel.pending.duplicate(true)
+	var readback:Dictionary=panel.commands.context.combat_readback
+	check(readback.command_actor_id=="qin" and panel.commands.snapshot.selected_actor_id=="qin" and panel.commands.context.selected_actor_id=="" and readback.action.is_empty(),"Live Qin command selection stays separate from unpresented automatic hero action and ally targeting")
+	panel.art._process(.03);readback=panel.commands.context.combat_readback
+	check(readback.action.source_id=="hero" and readback.action.name=="自动平击" and readback.action.target_id==tx.target_id and readback.command_actor_id=="qin","Accepted source, action and actual target appear only on their action event")
+	check(readback.events.is_empty() and readback.result_text.is_empty() and readback.latest_completed.is_empty(),"Windup does not fabricate a result from accepted after-state")
+	panel.art._process(.34);readback=panel.commands.context.combat_readback
+	var damage:Dictionary=_readback_event(readback,"damage")
+	var actual_loss:int=int(panel._unit(tx.before,tx.target_id).hp)-int(panel._unit(panel.art.display_snapshot,tx.target_id).hp)
+	check(not damage.is_empty() and int(damage.amount)==actual_loss and actual_loss>0 and readback.result_text.contains("气血−%d"%actual_loss),"Contact readback matches presented actual HP loss")
+	check(readback.latest_completed.is_empty() and readback.status=="presenting","Contact result is not marked completed before accepted finish")
+	_finish(panel);var completed:Dictionary=panel.commands.context.combat_readback.duplicate(true)
+	check(completed.status=="completed" and completed.latest_completed.action==completed.action and completed.latest_completed.events==completed.events,"Only accepted finish records the detached completed action and result")
+	panel.commands.context.combat_readback.action.name="caller edit"
+	panel.commands.context.combat_readback.events[0].amount=9999
+	panel.commands.context.combat_readback.latest_completed.action.name="caller edit"
+	panel.commands.context.combat_readback.latest_completed.events[0].amount=9999
+	panel.refresh()
+	check(panel.commands.context.combat_readback==completed and panel.pending.is_empty(),"HUD readback nested dictionaries cannot mutate controller presentation facts")
+	var canonical:Dictionary=s.to_dict();var log_before:Array=panel.logs.duplicate()
+	panel._event(tx.events[0]);panel._finished()
+	check(panel.commands.context.combat_readback==completed and s.to_dict()==canonical and panel.logs==log_before,"Repeated or late event/finish after completion changes neither readback nor model/log")
+	panel._process(.5);readback=panel.commands.context.combat_readback
+	check(readback.status=="presenting" and readback.action.is_empty() and readback.events.is_empty() and readback.result_text.is_empty() and readback.latest_completed==completed.latest_completed,"Next windup preserves only the clearly separate latest completed result")
+	panel.art._process(.03);readback=panel.commands.context.combat_readback
+	check(readback.action.source_id=="shen" and readback.result_text.is_empty() and readback.latest_completed==completed.latest_completed,"Next action identity does not borrow the previous result")
+	var stale_readback:Dictionary=panel._combat_readback(s.party_battle_snapshot());canonical=s.to_dict();log_before=panel.logs.duplicate()
+	app.modal_generation+=1;panel._event(tx.events[1]);panel._finished()
+	check(panel._combat_readback(s.party_battle_snapshot())==stale_readback and s.to_dict()==canonical and panel.logs==log_before,"Invalidated panel rejects stale event and finish callbacks during a newer presentation")
+	app.modal_generation-=1
+	_finish(panel);completed=panel.commands.context.combat_readback.latest_completed.duplicate(true)
+	# Prepare the acknowledged passive boundary, then let the actual model
+	# advance its round and the renderer emit both bookkeeping events.
+	var transition_round:int=int(s.party_battle_snapshot().round)
+	for actor:Dictionary in s.party_session._actors:actor.basic_round=transition_round;actor.acted=true
+	s.party_session._enemy_cursor=s.party_session._intents.size()
+	panel._process(.5)
+	check(panel.pending.action_id=="round_end" and int(s.party_battle_snapshot().round)==transition_round+1,"Actual model accepts a passive transaction and advances the round")
+	panel.art._process(.09);readback=panel.commands.context.combat_readback
+	check(readback.action.is_empty() and readback.result_lines.is_empty() and not _readback_event(readback,"round_end").is_empty() and not _readback_event(readback,"round_start").is_empty(),"Passive round transition presents bookkeeping facts without fabricating an action/result")
+	check(readback.latest_completed==completed,"Pending passive round transition retains the latest meaningful completed result")
+	_finish(panel);readback=panel.commands.context.combat_readback
+	check(readback.status=="completed" and readback.latest_completed==completed and readback.action.is_empty() and readback.result_text.is_empty(),"Accepted passive completion preserves the exact prior meaningful readback")
+	panel._process(.5)
+	check(panel.commands.context.combat_readback.latest_completed==completed,"Next round windup still exposes the prior completed result")
+	_finish(panel);panel.leave();_finish(panel);await process_frame
+
+	_setup("heting_receipt",2);s.hp-=3;s.medicine=maxi(1,s.medicine)
+	check(app._start_unified_battle("heting_receipt"),"Readback capped-heal and cancellation fixture enters")
+	panel=app.overlay.get_meta("party_battle");panel.set_process(false);panel.art.set_process(false)
+	check(panel.commands.context.combat_readback.action.is_empty() and panel.commands.context.combat_readback.latest_completed.is_empty(),"Readback resets when a new controller opens")
+	panel.request_command("shen","art:shen_xumai");panel.select_target("hero")
+	panel.select_actor("hero");panel.request_command("hero","item")
+	check(not panel.pending.is_empty() and panel.pending.action_id=="item","Real medicine action is accepted at the safe boundary")
+	panel.art._process(.11);readback=panel.commands.context.combat_readback
+	check(_readback_event(readback,"medicine").get("amount",0)==-1 and _readback_event(readback,"heal").is_empty() and readback.result_text.contains("药品-1"),"Medicine expenditure is presented separately before its healing contact")
+	check(" · ".join(panel.logs).contains("用药，药品-1") and readback.summary=="药品-1","Paid medicine remains in full log and compact readback before contact")
+	panel.art._process(.26);readback=panel.commands.context.combat_readback
+	check(_readback_event(readback,"heal").get("amount",0)==3 and readback.result_text.contains("气血+3"),"Capped medicine readback reports3 actual healed HP, not nominal45")
+	check(readback.summary.begins_with(readback.action.target_name+"气血+3") and readback.result_text.begins_with("药品-1"),"Compact readback prioritizes actual healing while full facts retain presentation order")
+	_finish(panel);panel._process(.5);_finish(panel)
+	var before_cancel:Dictionary=panel.commands.context.combat_readback.latest_completed.duplicate(true)
+	panel._process(.5)
+	check(panel.pending.action_id=="art:shen_xumai" and panel.commands.context.combat_readback.action.is_empty(),"Invalidated queued heal begins a passive cancellation without invented action")
+	panel.art._process(.05);readback=panel.commands.context.combat_readback
+	check(readback.action.is_empty() and not _readback_event(readback,"queue_cancel").is_empty() and _readback_event(readback,"qi").is_empty() and _readback_event(readback,"heal").is_empty(),"Cancelled full-health queued heal reports cancellation without cost or healing")
+	_finish(panel)
+	check(panel.commands.context.combat_readback.latest_completed.action.is_empty() and panel.commands.context.combat_readback.latest_completed.result_text.contains("取消"),"Completed queue cancellation remains truthful without a fabricated accepted action")
+	check(panel.commands.context.combat_readback.latest_completed!=before_cancel and not _readback_event(panel.commands.context.combat_readback.latest_completed,"queue_cancel").is_empty(),"Meaningful passive cancellation replaces the earlier completed action result")
+	panel.leave();_finish(panel);await process_frame
+
+	_setup("heting_receipt",2);s.set_formation("护后")
+	check(app._start_unified_battle("heting_receipt"),"Readback actual-fallback and absorption fixture enters")
+	panel=app.overlay.get_meta("party_battle");panel.set_process(false);panel.art.set_process(false)
+	# Prepared model boundary: publish the surviving bracer's fallback order,
+	# then down its announced target before execution. No synthetic UI events.
+	s.party_session._enemies[0].hp=0;s.party_session._plan_intents();s.party_session._actors[0].hp=0
+	s.party_session._actors[1].defense=0;s.party_session._actors[1].status.next_hit_reduction=3;s.party_session._actors[1].status.barrier=100
+	panel.art.set_snapshot(s.party_battle_snapshot());panel.refresh();panel._process(.5);_finish(panel);panel._process(.5)
+	tx=panel.pending.duplicate(true)
+	check(tx.source_id=="bracer" and tx.target_id=="shen" and tx.events[0].announced_target_id=="hero","Fixture exercises genuine fallback from announced hero to living Shen")
+	panel.art._process(.03);readback=panel.commands.context.combat_readback
+	check(readback.action.target_id=="shen" and readback.action.target_name==panel._unit(panel.art.display_snapshot,"shen").name and not readback.action.has("damage") and readback.result_text.is_empty(),"Readback uses actual emitted fallback target and never raw announced damage")
+	panel.art._process(.34);readback=panel.commands.context.combat_readback
+	check(_readback_event(readback,"damage").get("amount",-1)==0 and _readback_event(readback,"lightness_absorb").get("amount",0)==3 and _readback_event(readback,"barrier_absorb").get("amount",0)>0,"Presented lightness plus barrier fully absorb the actual incoming attack")
+	check(readback.result_text.contains("气血未损（0）") and readback.result_text.contains("护势吸收") and readback.result_text.contains("轻功卸去3") and _readback_event(readback,"heal").is_empty(),"Zero loss and both absorption effects are explicit, without invented healing")
+	check(readback.summary.begins_with(readback.action.target_name+"气血未损（0）"),"Compact readback prioritizes observed zero HP loss over absorption details")
 	_finish(panel);panel.leave();_finish(panel);await process_frame
 
 func _practice_persistence()->void:

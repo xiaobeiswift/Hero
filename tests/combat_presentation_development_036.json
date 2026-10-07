@@ -1,0 +1,60 @@
+{
+  "milestone": "Web36 combat command and presented-result clarity",
+  "status": "initial development candidate; Godot/native/full/package validation pending",
+  "live_version": "0.0.35-web1",
+  "live_runtime_public_commit": "fcbdd9dec7bf7df816be8fa135c6e4b395669967",
+  "baseline": {
+    "source_commit": "08c968a2f2216aafe76518e253d214f3e8d818bb",
+    "source_tree": "61df0ca5e9c19a7a744125473c8daff65f97b3ae",
+    "public_docs_commit": "97884fbdfcace86e7e7fa52473a25e7d0be9ca43",
+    "runtime_count": 388,
+    "runtime_sha256": "c31a1179a98ff37dbbd76ec3143d394736420c7112542ff8d128eedc0f2130c5",
+    "native_checks": 335,
+    "native_failures": 0,
+    "frames": 6,
+    "states": [
+      "planning",
+      "hero-contact",
+      "completed-action"
+    ],
+    "actual_windows": [
+      [
+        1280,
+        800
+      ],
+      [
+        1179,
+        737
+      ]
+    ],
+    "raw_framebuffers": [
+      [
+        1280,
+        800
+      ],
+      [
+        1179,
+        736
+      ]
+    ],
+    "independent_acceptance_sha256": "23de09ef0b785467024b32d0fd87275539c2c1ac82195d3a1555c2d1f1659305",
+    "limits": "Prepared four-person receipt fixture, production methods with deterministic existing renderer steps, genuine isolated checkpoint; not earned/manual/realtime/audio/browser/Windows acceptance"
+  },
+  "changes": [
+    "Same four command groups and three fixed slots, with distinct command and acting labels",
+    "Original folio cloth/paper/brass materials at native texture density",
+    "Accepted source/action/actual-target display and persistent previous result from emitted events only",
+    "Full event details remain accessible in battle log and readback tooltip",
+    "Current version metadata36; historical fixtures and schema16 unchanged"
+  ],
+  "validation": {
+    "metadata_python_tests": 69,
+    "metadata_failures": 0,
+    "godot_candidate": "pending",
+    "native_candidate": "pending",
+    "full_source": "pending",
+    "exact_new_PCK": "pending",
+    "windows": "pending",
+    "browser_gameplay_audio_IndexedDB": "unverified"
+  }
+}
