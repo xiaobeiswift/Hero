@@ -1,0 +1,8 @@
+{
+  "purpose": "Pinned pre-rehearsal controller for semantic parity, loaded explicitly; not game runtime or historical PCK acceptance",
+  "source_public_commit": "5dc9c77377ca6f54d11e9e4f5b66fcc5d37f29de",
+  "source_path": "scripts/automatic_party_combat.gd",
+  "original_sha256": "4a0869cd675db68393c5dbff08ce19be5dd1a4cca032963e339fb703decb7fe7",
+  "only_adaptation": "First line class_name AutomaticPartyCombat renamed AutomaticPartyCombatWeb37Parity to avoid the current registered class; reversing that exact line must reproduce the original SHA256",
+  "adapted_sha256": "be04093a9e66179d6d89084c7f625249c68e2ec1077bb29b549e8ab79947d843"
+}
