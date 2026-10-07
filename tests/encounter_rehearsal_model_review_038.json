@@ -1,0 +1,67 @@
+{
+  "decision": "ACCEPTED_SOURCE_MODEL_ISOLATION",
+  "reviewer": "review_rehearsal_safety_contract",
+  "method": "Independent read-only source and completed evidence inspection; no engine rerun",
+  "checks": 7817,
+  "failures": 0,
+  "virtual_trace_count": 17,
+  "virtual_outcomes": [
+    "defeat",
+    "flee",
+    "win"
+  ],
+  "parity_trace_count": 50,
+  "complete_exact_parity_combinations": true,
+  "all_parity_traces_executed": true,
+  "current_sources_match_tested_proof": {
+    "scripts/automatic_party_combat.gd": true,
+    "scripts/game_state.gd": true,
+    "scripts/encounter_rehearsal_rules.gd": true,
+    "tests/encounter_rehearsal_model_test.gd": true
+  },
+  "adapted_legacy_matches": true,
+  "original_legacy_reconstructs": true,
+  "launcher_success": true,
+  "launcher_phases_clean": true,
+  "runtime_input_manifest_matches": true,
+  "engine_unchanged": true,
+  "runtime_389_unchanged": true,
+  "tracked_originals_unchanged": true,
+  "model01_failed_receipt_retained": true,
+  "logs": {
+    "guard.engine.log": {
+      "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+      "error_lines": [],
+      "pass_lines": []
+    },
+    "guard.console.log": {
+      "sha256": "a9737ee19bd300fe6ab930280845c136cec9af0069456c2bbfc99a5fb9ef0081",
+      "error_lines": [],
+      "pass_lines": []
+    },
+    "test.engine.log": {
+      "sha256": "5347289801b59541da2f66d7c32a4868eb1f09adce2c02ceb875ac0b6ff4b5a9",
+      "error_lines": [],
+      "pass_lines": [
+        "PASS: 7817 earned encounter rehearsal checks; 17 virtual traces; 50 original parity traces"
+      ]
+    },
+    "test.console.log": {
+      "sha256": "5347289801b59541da2f66d7c32a4868eb1f09adce2c02ceb875ac0b6ff4b5a9",
+      "error_lines": [],
+      "pass_lines": [
+        "PASS: 7817 earned encounter rehearsal checks; 17 virtual traces; 50 original parity traces"
+      ]
+    }
+  },
+  "evidence_sha256": {
+    "model-02/results/model-result.json": "99fd68a7c1a5c5f7b0f0a51a391d64a67d9ad14ae065d1a3334e28707b57129a",
+    "model-02/results/launcher-result.json": "7e277966b11d7639a8bffe72b6f97557ed11c08d4159ce66aba4b65c5699cae8",
+    "model02-source-inputs.json": "7b346b6586cd5452ec0e44624bd535f2534bafaf1de1a52ebe03ed6e6ab7fbc4"
+  },
+  "limits": [
+    "Accepts the tested source model isolation, earned unlocks, current configuration identity, virtual metrics/history, and pinned original-controller parity only",
+    "Does not accept scene/UI lifecycle or pixels, exported Web PCK, deployment, browser behavior or broader regression",
+    "Windows/macOS platform acceptance is deferred before 1.0; this is not a desktop acceptance gate"
+  ]
+}

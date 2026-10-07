@@ -1,0 +1,31 @@
+{
+  "status": "source_model_accepted_only",
+  "checks": 7817,
+  "failures": 0,
+  "virtual_traces": 17,
+  "original_controller_parity_traces": 50,
+  "scope": "Earned-only detached virtual settlement/resources and source-controller semantic parity. Scene/UI/native/full Web package and deployment pending. No Windows/macOS platform gate before1.0.",
+  "first_attempt": {
+    "accepted": false,
+    "reason": "External legacy controller class-name collision caused parser errors and zero parity traces; terminal PASS alone rejected by guarded launcher",
+    "checks_reached": 5152,
+    "virtual_traces": 17,
+    "parity_traces": 0,
+    "receipt_sha256": "369c51cd54de07c96e6aeeb690006f1273f69b3df07db733ed46dd62d4f6d495",
+    "raw_log_sha256": "6ecb90c28984b329ea3a27a9848590f1eac660682574d12f758fa452efeb9cf9"
+  },
+  "accepted_attempt": {
+    "launcher_sha256": "7e277966b11d7639a8bffe72b6f97557ed11c08d4159ce66aba4b65c5699cae8",
+    "result_sha256": "99fd68a7c1a5c5f7b0f0a51a391d64a67d9ad14ae065d1a3334e28707b57129a",
+    "source_proof_sha256": "7b346b6586cd5452ec0e44624bd535f2534bafaf1de1a52ebe03ed6e6ab7fbc4",
+    "review_sha256": "21000c19e56a066e1a5d8cf4c0170cb1b2b0936785ae0adf930f91d9af027587",
+    "runtime_count_at_test": 389,
+    "runtime_digest_at_test": "ba72f00aac090c36f5ace978079f25c51e4be116dbf6718c8d97faad54e64c94",
+    "source_unchanged": true,
+    "engine_and_guard_clean": true
+  },
+  "fixture_scope": "Original12 × solo/four × basics/queued plus two ordinary-fitting source traces; not complete historical PCK reader acceptance",
+  "schema": 16,
+  "transfer_enabled": false,
+  "ui_integrated": false
+}

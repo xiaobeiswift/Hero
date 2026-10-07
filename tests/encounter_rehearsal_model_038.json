@@ -1,0 +1,968 @@
+{
+	"checks": 7817,
+	"failures": 0,
+	"original_parity": [
+		{
+			"label": "story/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 5,
+			"transcript_sha256": "50f19cb941ca54eace5b5f677f9506047b846c05340723323abb2ebb31a505f4"
+		},
+		{
+			"label": "story/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 3,
+			"transcript_sha256": "764e82d94085981349883ab841e39cf0c1683772dde38cdec73a671fd3457c40"
+		},
+		{
+			"label": "training/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 3,
+			"transcript_sha256": "27747a4426e3579357ae68dd165e1e290f23d3e9225196b31dacc8f625aa3585"
+		},
+		{
+			"label": "training/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 1,
+			"transcript_sha256": "865770f94212804dd8a316d0b03997b0b83a8c0054123f2e1e3b773a5d6e4f66"
+		},
+		{
+			"label": "sect_trial/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 11,
+			"transcript_sha256": "f0bf4bd4135521181610efec7e4f284c0a763216a9b40f3fc3b89ad110253584"
+		},
+		{
+			"label": "sect_trial/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 8,
+			"transcript_sha256": "73ee53a721ef5b16b8203e801010432e49e681443753a94149e3c210b176b676"
+		},
+		{
+			"label": "courtyard_practice/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 20,
+			"transcript_sha256": "543c4b9faab206919525eb34b5252d06f3532bb73edf4b4367314e7949c61872"
+		},
+		{
+			"label": "courtyard_practice/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 7,
+			"transcript_sha256": "ceb054db1efecd5f845ecfad2476f341a25262ab8d2d5193edd1e20dae2a81c8"
+		},
+		{
+			"label": "sluice_scout/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 5,
+			"transcript_sha256": "55af076fcb93d9317bd9b525abd054368f64a2f4c984de62e8d7f2d44afb7a24"
+		},
+		{
+			"label": "sluice_scout/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 1,
+			"transcript_sha256": "8327b9429e99c8189e46369ad46dcaa09758b9a490b4ac09d261081de9b20058"
+		},
+		{
+			"label": "sluice_boss/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 9,
+			"transcript_sha256": "4575e95a3d84ff2ae529b105e8dec740bcc1e726500e49d6bc51ca40c8c87f1a"
+		},
+		{
+			"label": "sluice_boss/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 5,
+			"transcript_sha256": "83942fdba4fed46c2716e38968f546de917ebc64f5a974f1e6343a2016b7420b"
+		},
+		{
+			"label": "archive_boss/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 11,
+			"transcript_sha256": "1d5d60cae2eb5854e0570b51a6f6c27315256520464bee1316b5f8d98909893b"
+		},
+		{
+			"label": "archive_boss/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 11,
+			"transcript_sha256": "09a0ddf6c2deeb854d264a9dc614fc7ae91f27a8ca31ab837e0a7a2ba8ea64f2"
+		},
+		{
+			"label": "mist_scout/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 9,
+			"transcript_sha256": "415ff53bd70fefb35b99a68c17813a040e76d231837448816e0791c21c3b092f"
+		},
+		{
+			"label": "mist_scout/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 5,
+			"transcript_sha256": "6e459ad8366ee55db36d69c556214bddf91c0589e7bf0a8ac98ee9a602deb7f8"
+		},
+		{
+			"label": "mist_keeper/1",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 19,
+			"transcript_sha256": "80e4a65c162cd2fbeb97aef25cde173950b0f22ada752303ba8929c6fbfec3f1"
+		},
+		{
+			"label": "mist_keeper/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 16,
+			"transcript_sha256": "40df0ce9f50d04243a7985bf67ef715d5d3a96de52525cab940732165b03de04"
+		},
+		{
+			"label": "heting_receipt/1",
+			"outcome": "defeat",
+			"policy": false,
+			"transactions": 26,
+			"transcript_sha256": "5a8da8507897c7f576b528782b3c8d16dc6f07604996482815d492c63ebe2fc1"
+		},
+		{
+			"label": "heting_receipt/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 13,
+			"transcript_sha256": "0d16512f44119299723a6983090bf2464f95a4fe88589c5ce673c3a2d48e3483"
+		},
+		{
+			"label": "heting_consignee/1",
+			"outcome": "defeat",
+			"policy": false,
+			"transactions": 21,
+			"transcript_sha256": "55c38d1fda791776dc4fbe33eea3fd25f875c67d9dba1204cd595ae7a5ac5d36"
+		},
+		{
+			"label": "heting_consignee/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 28,
+			"transcript_sha256": "78635c5e58424c948fe396dc2d5fd6206ac6fa8e05eadfc05d851cd395c9b4a3"
+		},
+		{
+			"label": "capstone_authorizer/1",
+			"outcome": "defeat",
+			"policy": false,
+			"transactions": 16,
+			"transcript_sha256": "66d64ffff7fabeed7f8500c7cfeac6973cf85e155d70c40c6d463d31b742159b"
+		},
+		{
+			"label": "capstone_authorizer/1",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 40,
+			"transcript_sha256": "6b3a67830f07216f5ce684f736e2c3b880dee276b63b564db15a4a06c2607d08"
+		},
+		{
+			"label": "ordinary borrowed plain",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 7,
+			"transcript_sha256": "ceb054db1efecd5f845ecfad2476f341a25262ab8d2d5193edd1e20dae2a81c8"
+		},
+		{
+			"label": "story/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 4,
+			"transcript_sha256": "8ac29fafc25b8d37f213587b81de72d4669820d55cfc938169f7e7717a20555c"
+		},
+		{
+			"label": "story/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 3,
+			"transcript_sha256": "9eed89f4dee1a02bbbbbcd9c197a89bc787e27cf2e0cd317879620436a12168d"
+		},
+		{
+			"label": "training/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 3,
+			"transcript_sha256": "a8b837b133a9d408ad7e21eac605e3d13408de363ba12cb107c61fd465b4158b"
+		},
+		{
+			"label": "training/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 1,
+			"transcript_sha256": "270a60efbf1f5393b934996ceb0c433911817db41d8964590b3a9c63e04388f2"
+		},
+		{
+			"label": "sect_trial/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 16,
+			"transcript_sha256": "e0c15415003205facdefe08aee19392e7aa9bb720f896761b49276151c7ee9a3"
+		},
+		{
+			"label": "sect_trial/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 17,
+			"transcript_sha256": "39160ecaaefe24503e7ae7a014283a7af2a54e591c369a51423c7a805a7a86ff"
+		},
+		{
+			"label": "courtyard_practice/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 14,
+			"transcript_sha256": "46dd20a2d23dbbde8c2ef51d271a6bea11b1eea8ccddc6ef61c59c0bae8cbdac"
+		},
+		{
+			"label": "courtyard_practice/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 8,
+			"transcript_sha256": "8768f19df4e0f3b22f547baf69f514cb31e0ad883e41c1a2a11ca4cb073b799e"
+		},
+		{
+			"label": "sluice_scout/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 4,
+			"transcript_sha256": "fa39ebae2c16984322f00f5083a73caa0c5e0eaed2854b8a965063170228d41c"
+		},
+		{
+			"label": "sluice_scout/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 1,
+			"transcript_sha256": "33d4dcfd868577f28e150b5f6679704ed4e4b0f49149f9e3d8d6734d7026b1e8"
+		},
+		{
+			"label": "sluice_boss/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 7,
+			"transcript_sha256": "298f650abc2197543ba64c3910b27075d3b41beac3f81a7278086362d46e55ca"
+		},
+		{
+			"label": "sluice_boss/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 5,
+			"transcript_sha256": "ca0404c572a00e23823817cbef499c485d9f8c7614181e541dfc212ddd7b28af"
+		},
+		{
+			"label": "archive_boss/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 9,
+			"transcript_sha256": "d81165f58a412ea46a01170c70b53bce50a2298b3893ec19b7d39904742edb90"
+		},
+		{
+			"label": "archive_boss/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 9,
+			"transcript_sha256": "3851f21ad746a420d16bed1386c5394c4ab85bc1a9675a350518953d994df359"
+		},
+		{
+			"label": "mist_scout/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 7,
+			"transcript_sha256": "59b64a14b82ba4be1f632e7be343db5d4746999c2098fe7fa722e92b328edc74"
+		},
+		{
+			"label": "mist_scout/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 5,
+			"transcript_sha256": "6dcccd1651641d6f1592e787f2e941bc6c1155c6786c2baa309959184cefb7a8"
+		},
+		{
+			"label": "mist_keeper/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 16,
+			"transcript_sha256": "1acbdae9ae06b7a61592377ed5a54b5ec63cf5496c7fc990709d8711a97aff2b"
+		},
+		{
+			"label": "mist_keeper/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 20,
+			"transcript_sha256": "3789114e619c2d01e5614a3508b8322fec60a434153ddd62891963e4f837487c"
+		},
+		{
+			"label": "heting_receipt/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 27,
+			"transcript_sha256": "5e5a807aac39f901f32023c2704fc809a06dbaad26125bf8901d749433db3f9c"
+		},
+		{
+			"label": "heting_receipt/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 16,
+			"transcript_sha256": "1de9ae9b1f25c688edf684bcc1fad3d7fcd088b11f617fdca576406aa426da92"
+		},
+		{
+			"label": "heting_consignee/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 24,
+			"transcript_sha256": "857b8db706b2c4923ec894dad22dfe1e8c6edb282f7cf42de47b2931aae81cbc"
+		},
+		{
+			"label": "heting_consignee/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 23,
+			"transcript_sha256": "d28f2f0da27aea870e540b9bdaceaefe5395a70941f901b35b784d65c9501b86"
+		},
+		{
+			"label": "capstone_authorizer/4",
+			"outcome": "win",
+			"policy": false,
+			"transactions": 31,
+			"transcript_sha256": "001f4a5096b8a725a75b01aabe5a3691e82eac69a2c4a55389bd286579a8af66"
+		},
+		{
+			"label": "capstone_authorizer/4",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 37,
+			"transcript_sha256": "220799023b84aabc042448e6e0d734c3adb2c18d1cb2de6468c6b1855b591240"
+		},
+		{
+			"label": "ordinary borrowed plain",
+			"outcome": "win",
+			"policy": true,
+			"transactions": 8,
+			"transcript_sha256": "8768f19df4e0f3b22f547baf69f514cb31e0ad883e41c1a2a11ca4cb073b799e"
+		}
+	],
+	"rows": [
+		{
+			"actors": 1,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 21,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 6,
+				"enemy_attacks_executed": 14,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 7,
+				"total_actual_hp_lost": 160
+			},
+			"policy": "idle"
+		},
+		{
+			"actors": 1,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 28,
+				"actual_hp_lost_by_actor": {
+					"hero": 117
+				},
+				"completed_rounds": 7,
+				"enemy_attacks_executed": 13,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 75,
+							"qi": 4
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 8,
+				"total_actual_hp_lost": 117
+			},
+			"policy": "queued"
+		},
+		{
+			"actors": 1,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 24,
+				"actual_hp_lost_by_actor": {
+					"hero": 11,
+					"qin": 44,
+					"shen": 28,
+					"tang": 1
+				},
+				"completed_rounds": 4,
+				"enemy_attacks_executed": 6,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 149,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 116,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 94,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 138,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 5,
+				"total_actual_hp_lost": 84
+			},
+			"policy": "idle"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 23,
+				"actual_hp_lost_by_actor": {
+					"hero": 1,
+					"qin": 27,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 2,
+				"enemy_attacks_executed": 2,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 159,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 5
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 5
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 5
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 3,
+				"total_actual_hp_lost": 28
+			},
+			"policy": "queued"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 1,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 16,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 7,
+				"enemy_attacks_executed": 8,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 8,
+				"total_actual_hp_lost": 160
+			},
+			"policy": "idle"
+		},
+		{
+			"actors": 1,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 40,
+				"actual_hp_lost_by_actor": {
+					"hero": 197
+				},
+				"completed_rounds": 13,
+				"enemy_attacks_executed": 13,
+				"medicine_used": 2,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 107,
+							"qi": 4
+						}
+					},
+					"medicine": 1,
+					"medicine_heal": 40
+				},
+				"terminal_round": 14,
+				"total_actual_hp_lost": 197
+			},
+			"policy": "queued"
+		},
+		{
+			"actors": 1,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 4,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 31,
+				"actual_hp_lost_by_actor": {
+					"hero": 54,
+					"qin": 36,
+					"shen": 18,
+					"tang": 1
+				},
+				"completed_rounds": 6,
+				"enemy_attacks_executed": 6,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 106,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 124,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 104,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 138,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 7,
+				"total_actual_hp_lost": 109
+			},
+			"policy": "idle"
+		},
+		{
+			"actors": 4,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 36,
+				"actual_hp_lost_by_actor": {
+					"hero": 21,
+					"qin": 0,
+					"shen": 18,
+					"tang": 0
+				},
+				"completed_rounds": 5,
+				"enemy_attacks_executed": 5,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 155,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 5
+						},
+						"shen": {
+							"hp": 104,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 4
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 6,
+				"total_actual_hp_lost": 39
+			},
+			"policy": "queued"
+		},
+		{
+			"actors": 4,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 1,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 12,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 5,
+				"enemy_attacks_executed": 6,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 6,
+				"total_actual_hp_lost": 160
+			},
+			"policy": "idle"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		},
+		{
+			"actors": 4,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"policy": "flee"
+		}
+	],
+	"scope": "Source model/earned State isolation/metrics/original12 parity only; scene, rendered UI, exported pack and browser are separate."
+}
