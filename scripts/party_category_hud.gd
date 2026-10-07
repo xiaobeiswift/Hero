@@ -391,10 +391,10 @@ func _cluster(actor:Dictionary,rect:Rect2)->void:
 		draw_colored_polygon(PackedVector2Array([rect.position+Vector2(5,13),rect.position+Vector2(10,17),rect.position+Vector2(5,21)]),Color("a2d8d5"))
 	if hover_key=="actor::"+id or focus_key=="actor::"+id:draw_rect(Rect2(rect.position+Vector2(7,5),Vector2(61,161)),Folio.BONE,false,2)
 	draw_line(Vector2(rect.end.x+6,rect.position.y+10),Vector2(rect.end.x+6,rect.end.y-8),Color(.71,.63,.47,.38),1,true)
-	_fit_text(String(actor.get("name","")),rect.position+Vector2(13,23),60,15,IVORY if not dead else MUTED)
+	_fit_text(String(actor.get("name","")),rect.position+Vector2(13,23),60,15,Folio.BONE if active else (IVORY if not dead else MUTED))
 	if active:_text("指令",rect.position+Vector2(77,22),11,Folio.BONE)
 	if acting:_text("出招中",rect.position+Vector2(117,22),11,Color("a2d8d5"))
-	_text(basic_caption(actor),rect.position+Vector2(rect.size.x-13,23),11,GOLD if acting else MUTED,false,true)
+	_text(basic_caption(actor),rect.position+Vector2(rect.size.x-13,23),11,Folio.BONE if active else (GOLD if acting else MUTED),false,true)
 	if portraits.has(id):draw_texture_rect(portraits[id],Rect2(rect.position+Vector2(11,35),Vector2(54,77)),false,Color(.5,.5,.5) if dead else Color.WHITE)
 	var badges=_status_badges(actor)
 	for i in range(badges.size()):
