@@ -1,0 +1,564 @@
+{
+  "record_kind": "post_test_validation_closure_accepted_exact_PCK_rollout_pending",
+  "version": "0.0.35",
+  "evidence_snapshot_utc": "2026-10-07T04:14:55.839773Z",
+  "status": "source_reassessment_and_exact_six_phase_Linux_PCK_independently_accepted_no_rollout",
+  "record_timing": "Post-test documentation record outside the frozen 1787-file tested tree. Runtime build identity remains source checkpoint fcbdd9dec7bf7df816be8fa135c6e4b395669967, mapped to local tested commit 8f3db579324dd266fe77534feb111ff159f1c04e. Earlier pending and failed records retain their original scope.",
+  "evidence_location_note": "Archive-relative identities locate retained validation evidence; they are not repository links. Private infrastructure paths and storage identifiers are omitted.",
+  "binding": {
+    "local_source_commit": "8f3db579324dd266fe77534feb111ff159f1c04e",
+    "published_source_commit": "fcbdd9dec7bf7df816be8fa135c6e4b395669967",
+    "source_tree": "38b8b99bda0ae1c4e34b3cfbe773bb543626155f",
+    "tracked_originals": 1787,
+    "runtime_entries": 388,
+    "runtime_sha256": "c31a1179a98ff37dbbd76ec3143d394736420c7112542ff8d128eedc0f2130c5",
+    "source_manifest_sha256": "bdcc796d33f30344f2b38c528079a4f10b04dcfd2a8994758abb84d46f610256",
+    "save_schema": 16,
+    "file_transfer_enabled_by_default": false,
+    "published_scope": "Source checkpoint only; no new GitHub release or package asset",
+    "publication_evidence": {
+      "archive_relative_identity": "publication-8f3db57/verified-remote-mapping.json",
+      "sha256": "98a04e61242e6769434f00459221373b89837cc1001a4b255ceaa5216cc0648d"
+    }
+  },
+  "milestone_scope": "M 江湖舆图 folio presentation, enlarged readable chart and complete shared guidance; original assets reused. Preserve routing, projection, geography, targets, complete parking notes, input ownership and write-free viewing. No mechanics, save behavior or schema16 change.",
+  "original_native_and_pixel_binding": {
+    "source_commit": "e089431e79b52c684ec53e2c4930651e07746fb1",
+    "source_tree": "aad59ee64e6b72b00787d38c77800cb78b691bed",
+    "tracked_originals": 1781,
+    "runtime_entries": 388,
+    "runtime_sha256": "0b208760763beba427b793a0e876e16c77f20e485e289cfaf438a27b1f52f2a5",
+    "focused_checks": 1594,
+    "native_checks": 1324,
+    "native_frames": 24,
+    "fixtures": 12,
+    "physical_windows": [
+      [
+        1280,
+        800
+      ],
+      [
+        960,
+        600
+      ]
+    ],
+    "logical_viewport": [
+      1280,
+      800
+    ],
+    "environment": "Godot 4.6.3 official, Linux/X11, fixed 30fps, Dummy audio; prepared states and scripted M/Escape inputs",
+    "representative_glyph_core_samples": 48,
+    "representative_contrast_range": [
+      5.126,
+      13.955
+    ],
+    "focused_result_sha256": "6f99d8fca5727aed2ed899c1df60168826ed4c55282c6d759854d8e2eec0af8a",
+    "focused_launcher_sha256": "967df1528edc306c3fb8e50ed94562bff8a1e8b587e593b6ade523adc5488015",
+    "native_result_sha256": "6bb8e5154c96f5dd3a641d9909345d8b18180c2a8dcd7350f945170d166e15d8",
+    "native_launcher_sha256": "a1deba0a3d084b0e343c3538f923e911f6e8798f84ff2f5fb447d5bb46d3ce52",
+    "independent_pixel_review_sha256": "b0e98fade4ace5627507e4b03b074b8022da2bae41f55392c4d1f4b2d468e095",
+    "pixel_samples_sha256": "45a0fe875ec041b10c6ec03ed32279fbe018c8f4b8806482b4507e0f78700220",
+    "existing_records": [
+      "tests/map_folio_checkpoint.json",
+      "tests/map_folio_pixel_samples.json"
+    ],
+    "new_capture_at_final_candidate": false,
+    "runtime_difference": "Game/UI scripts and assets remain identical to e089; the declared runtime-input digest changes only for the two macOS version fields in export_presets.cfg, from 0.0.34 to 0.0.35. Audit tools and records have separate source changes.",
+    "limits": "Representative actual glyph cores and nearby backgrounds only; no claim for every stroke, state, device, global accessibility, actual browser gameplay or Windows pixels."
+  },
+  "retained_validation_failures": [
+    {
+      "source_public_commit": "fb5a625bdc52aa0380c359b8c1aea249c7834d04",
+      "status": "failed_before_gameplay",
+      "checks": 38,
+      "failures": 1,
+      "reason": "Stale smoke version assertion expected 0.0.34 on a 0.0.35 source candidate.",
+      "windows_receipt_sha256": "439ff204cc03796917dcf37b2b9ac9c71262b4502fb3a4d51b7fb76b21525763",
+      "export_PCK_and_boundaries_run": false
+    },
+    {
+      "source_public_commit": "7ac546eed4fa7559542aa4c6561fa596d44622cf",
+      "status": "failed_canonical_source",
+      "checks": 21584,
+      "failures": 4,
+      "reason": "Retained fixed 720/255 map geometry assertions were stale after the folio layout change.",
+      "windows_receipt_sha256": "446d1795fed1ff9a2182ae7d6f3207293f4f9036477b977df56811af9800c2cb",
+      "export_PCK_and_boundaries_run": false
+    },
+    {
+      "local_source_commit": "f0fc1132de2b5a1a71ed49b0844953aab41491d7",
+      "status": "failed_full_regression",
+      "passed_retained_engine_calls": 170,
+      "required_retained_engine_calls": 184,
+      "reason": "The Python macOS export metadata validator found version 0.0.34 while project version was 0.0.35.",
+      "remaining_14_engine_calls_and_later_tests_completed": false,
+      "full_pass": false,
+      "evidence": {
+        "archive_relative_identity": "qa-map-folio-full-f0fc113-01/results/terminal-report.json",
+        "sha256": "caf0358ffb68a60b6215bae6d8fcb29edc9291a94c2934ba32f6c0fcdd2a6d76"
+      }
+    },
+    {
+      "local_source_commit": "8f3db579324dd266fe77534feb111ff159f1c04e",
+      "status": "interrupted_without_terminal_aggregate",
+      "archive_relative_identity": "qa-map-folio-full-8f3db57-01",
+      "successful_engine_receipts": 135,
+      "started_incomplete_engine_receipts": 1,
+      "required_retained_engine_calls": 184,
+      "full_pass": false,
+      "cause": "Undetermined; no terminal aggregate and no remaining validation process were established",
+      "resume_supported": false,
+      "backup": {
+        "version": 13,
+        "bytes": 16572585,
+        "sha256": "61dcc3d61f3a22de3af55a19cdef4176d4a40c04f62f6fad546f59ddb0676b43"
+      }
+    }
+  ],
+  "composition": {
+    "status": "retired_unused",
+    "executed": false,
+    "old_failed_full_and_later_short_checks_composed_into_pass": false
+  },
+  "final_version_matrix": {
+    "status": "static_review_pass",
+    "code_config_paths": 465,
+    "scope": "Current source/build/audit identities checked separately from deliberate negative fixtures and historical evidence; two remaining current macOS metadata values corrected.",
+    "evidence": {
+      "archive_relative_identity": "publication-8f3db57/version-matrix-review.json",
+      "sha256": "b623448c8c377f9c7ec2822477b5f2251409007f1804416ace10e1e2ae1cde82"
+    },
+    "desktop_package_validation": "Deferred; this is a Web candidate and not desktop package acceptance."
+  },
+  "diagnostic_preflight": {
+    "status": "pass_diagnostic_only",
+    "python_checks": 93,
+    "node_mocked_DOM_checks": 53,
+    "canonical_source_checks": 21584,
+    "commands": 9,
+    "all_command_exit_codes_zero": true,
+    "forced_or_remaining_children": false,
+    "source_runtime_and_engine_unchanged": true,
+    "full_regression_pass": false,
+    "release_export_or_PCK_admission": false,
+    "schema16_subject_sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "evidence": [
+      {
+        "archive_relative_identity": "qa-map-folio-final-preflight-8f3db57-01/results/diagnostic-preflight.json",
+        "sha256": "3fa1e00620016361b9e99a05fd9f9d9b56be8a2c8544075ed732c09de7981a5a"
+      },
+      {
+        "archive_relative_identity": "qa-map-folio-final-preflight-8f3db57-01/results/diagnostic-evidence-sha256.json",
+        "sha256": "a9574411f4b36cdc818076ceeea1fea3eee58fa79a1c1838ab68b9ff4d5cf707"
+      }
+    ]
+  },
+  "linux_full_regression": {
+    "status": "original_strict_aggregate_failed_separate_immutable_reassessment_independently_accepted",
+    "success": false,
+    "completed_utc": "2026-10-07T02:30:38.031786Z",
+    "report_sha256": "7152385d5db52417eb5155075866f9748321db78b96a35d20fbf39b16987fce8",
+    "independent_acceptance_sha256": null,
+    "required_retained_engine_calls": 184,
+    "expected_python_checks": 93,
+    "expected_node_mocked_DOM_checks": 53,
+    "actual_retained_engine_calls": 184,
+    "actual_python_checks": 93,
+    "actual_node_mocked_DOM_checks": 53,
+    "supplements": {
+      "reconstructed": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "71a139d4844ef64f30f31b4540b94b9598400a0b3e94f767aa15ad85b761a040",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 11499,
+        "actual_checks": 11499,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/reconstructed/results/test-result.json",
+          "sha256": "71a139d4844ef64f30f31b4540b94b9598400a0b3e94f767aa15ad85b761a040"
+        }
+      },
+      "companion": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "d96ba00c19e23ee544a0965c8d95da22ca36919b5099ae13ec0ecb6f7a04e52f",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 1738,
+        "actual_checks": 1738,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/companion/results/test-result.json",
+          "sha256": "d96ba00c19e23ee544a0965c8d95da22ca36919b5099ae13ec0ecb6f7a04e52f"
+        }
+      },
+      "save": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "757e3352b7728b4a042d3ed99be354a0dbc04227a971be55e11eb030f206bc92",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 449,
+        "actual_checks": 449,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/save/results/test-result.json",
+          "sha256": "757e3352b7728b4a042d3ed99be354a0dbc04227a971be55e11eb030f206bc92"
+        }
+      },
+      "save_geometry": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "7b1ca56bb96c7aeb6a35a11be1f32c04f5ccd54b273db24605cdaf0a17037dfd",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 1380,
+        "actual_checks": 1380,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/save_geometry/results/test-result.json",
+          "sha256": "7b1ca56bb96c7aeb6a35a11be1f32c04f5ccd54b273db24605cdaf0a17037dfd"
+        }
+      },
+      "title": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "8276075b6fc87b47525c4a1baf4a9f0238940ae4a65baf02babcb3f6ae3974ed",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 1706,
+        "actual_checks": 1706,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/title/results/test-result.json",
+          "sha256": "8276075b6fc87b47525c4a1baf4a9f0238940ae4a65baf02babcb3f6ae3974ed"
+        }
+      },
+      "map": {
+        "status": "verified_in_accepted_immutable_evidence_reassessment",
+        "success": true,
+        "completed_utc": null,
+        "report_sha256": "28edf859a21b82ca21c70bfeb9590ef780c07162a7355f9319f895f10917c64d",
+        "independent_acceptance_sha256": null,
+        "expected_checks": 1594,
+        "actual_checks": 1594,
+        "evidence": {
+          "archive_relative_identity": "qa-map-folio-full-8f3db57-02/map/results/test-result.json",
+          "sha256": "28edf859a21b82ca21c70bfeb9590ef780c07162a7355f9319f895f10917c64d"
+        }
+      }
+    },
+    "requirement": "Keep original failed terminal and exit1 intact; source-linked gates use the separately identified accepted immutable-evidence reassessment",
+    "qa_identity": "qa-map-folio-full-8f3db57-02",
+    "started_utc": "2026-10-07T01:32:27.583565Z",
+    "prior_QA01_admission_sha256": "6719a9648d46f6350c87b9df4167011d62da670e308437a8b23685a9711147be",
+    "recovery_review_sha256": "797c79faac20aaec8e9f3e7000c035d5e58ca0af2661b47ef654881532dd4fd4",
+    "launch_context": "Fresh complete QA02 using the original full runner, source and assertions",
+    "integrity_failure": "Original journal safety expected2813, observed2811; independent source accounting confirms142 mandatory session_progress checks plus0/2optional cleanup and the same401semantic trace",
+    "reassessment": {
+      "status": "independently_accepted",
+      "original_failed_terminal_preserved": true,
+      "diagnosis_sha256": "1b28b224035fb1a8e54f8972d50f64cb933a1fad2c35c4d4e36eb31fe1e82ef2",
+      "no_engine_rerun": true,
+      "no_runtime_or_test_change": true,
+      "report_sha256": "fa2c3f7dc745eaaaf8a7222bd6ba98b158190f9cdb0c3c1355820b7a51bb0f4e",
+      "seal_sha256": "63f2d46cf137db00a76b9b96c89a286f7100a6c71de23cbbc05095346333df4c",
+      "seal_members": 963,
+      "independent_acceptance_sha256": "c2d7329f6b45c2db401cb67dbfb03014fd6094acd996ed41609912539a490b84",
+      "author_negative_controls": 38,
+      "additional_independent_negative_controls": 8,
+      "success": true,
+      "mandatory_session_progress_checks": 142,
+      "optional_cleanup_checks_allowed": [
+        0,
+        2
+      ],
+      "actual_optional_cleanup_checks": 0,
+      "semantic_trace_records": 401,
+      "original_report": {
+        "archive_relative_identity": "qa-map-folio-full-8f3db57-02/results/terminal-report.json",
+        "sha256": "7152385d5db52417eb5155075866f9748321db78b96a35d20fbf39b16987fce8"
+      },
+      "report": {
+        "archive_relative_identity": "map-folio-count-reassessment-preparation/results/terminal-report.json",
+        "sha256": "fa2c3f7dc745eaaaf8a7222bd6ba98b158190f9cdb0c3c1355820b7a51bb0f4e"
+      },
+      "seal": {
+        "archive_relative_identity": "map-folio-count-reassessment-preparation/results/full-evidence-sha256.json",
+        "sha256": "63f2d46cf137db00a76b9b96c89a286f7100a6c71de23cbbc05095346333df4c"
+      }
+    },
+    "original_terminal_remains_failed": true,
+    "complete_evidence_accepted": true,
+    "original_exit_code": 1,
+    "success_field_scope": "Original strict aggregate only; the separately identified reassessment is accepted below"
+  },
+  "linux_normal_full_linked_source_audit": {
+    "status": "passed_and_independently_accepted",
+    "success": true,
+    "completed_utc": "2026-10-07T03:00:00Z",
+    "report_sha256": "4598b8ca6a6a4f1617f1e51f532eee9a52b07cd08e8e0763940b59241886902f",
+    "independent_acceptance_sha256": "f351daac10e4eab3882f92b74da18fca0d60d4f00fe133f049574e27ccfecd17",
+    "expected_checks": 21584,
+    "actual_checks": 21584,
+    "binding_requirement": "Before this run, bind the reviewed external map oracle and fixture adapter identities and hashes in the actual source stage; preserve those exact referenced bytes through export and exact-PCK validation.",
+    "diagnostic_preflight_substitutes_for_this_gate": false,
+    "exit_code": 0,
+    "report": {
+      "archive_relative_identity": "map-folio-source-8f3db57-reassessed/source-rehearsal-01/results/package-result.json",
+      "sha256": "4598b8ca6a6a4f1617f1e51f532eee9a52b07cd08e8e0763940b59241886902f"
+    },
+    "independent_review": {
+      "archive_relative_identity": "map-folio-source-reassessed-final-admission/ACTUAL-SOURCE-ADMISSION.json",
+      "sha256": "f351daac10e4eab3882f92b74da18fca0d60d4f00fe133f049574e27ccfecd17"
+    }
+  },
+  "linux_export": {
+    "status": "exporter_exit0_strict_wrapper_failed_separate_exact_artifact_test_only_admission",
+    "success": false,
+    "completed_utc": "2026-10-07T03:17:44Z",
+    "report_sha256": "6c2d8c1897cef9bf4ca67368b26291adaecb6c543e5d88448e4027e91770dc09",
+    "independent_acceptance_sha256": null,
+    "strict_export_success": false,
+    "wrapper_exit_code": 1,
+    "observer_evidence_sha256": "c1fb7ef8b66dc02bec3ad0243d0e4cc9232df3e018242a0ffdeb91c02e56a8e0",
+    "pck": {
+      "bytes": 77958228,
+      "sha256": "468741d6d6029515644dba159099b53a4c65fb13bb115823d09cd68ce979081b"
+    },
+    "zip": {
+      "bytes": 87282147,
+      "sha256": "cbcfcaa40d958a78ac0282ac243c4f7398668802bb05b6f20edd89e978015ef1"
+    },
+    "site_members": 14,
+    "requirement": "Only the exact immutable PCK/ZIP below received new isolated-test admission. No re-export, deployment, generic guard relaxation or inherited prior exception.",
+    "static_preparation_is_execution_admission": false,
+    "independent_failed_export_review_sha256": "9af190fe65ede6dd5c9d0500766d33d2abebf5529c566a0df82ae9a00398e6a2",
+    "exporter_exit_code": 0,
+    "report": {
+      "archive_relative_identity": "map-folio-export-8f3db57-reassessed/export-once-01/results/export-receipt.json",
+      "sha256": "6c2d8c1897cef9bf4ca67368b26291adaecb6c543e5d88448e4027e91770dc09"
+    },
+    "independent_failed_export_review": {
+      "archive_relative_identity": "map-folio-export-reassessed-failed-independent-review/FAILED-EXPORT-REVIEW.json",
+      "sha256": "9af190fe65ede6dd5c9d0500766d33d2abebf5529c566a0df82ae9a00398e6a2"
+    },
+    "strict_failure": "USER directory mtime/ctime changed; original strict receipt remains false/exit1",
+    "observed_scope": {
+      "preserved_evidence_members": 1153,
+      "events": 145,
+      "complete_queue_and_drain_verified": true,
+      "both_clock_bracket_coverage_verified": true,
+      "wrapper_bracket_seconds": 19.583738404,
+      "finish_seconds_after_observer_start": 62.119891923,
+      "requested_window_seconds": 300,
+      "only_observed_mutation_entry": ".recovery_mode_lock",
+      "mutation_sequence": [
+        "CREATE",
+        "OPEN",
+        "CLOSE_WRITE",
+        "DELETE"
+      ],
+      "fixed_USER_identity_unchanged": true,
+      "ObjectDB_metadata_identical": true,
+      "timestamps": "Queue-read timestamps, not kernel event timestamps",
+      "actor_PID_or_content_causation_established": false
+    },
+    "exact_artifact_test_admission": {
+      "record": {
+        "archive_relative_identity": "map-folio-exact-artifact-test-admission.json",
+        "sha256": "4463d384da169bd942265e9b97200e19974572555feddb38b8dbaf68dff6c438"
+      },
+      "decision_received_utc": "2026-10-07T03:24:38Z",
+      "scope": "Isolated exact PCK21589 and required folio/companion/save/title/map supplements only",
+      "deployment_admitted": false,
+      "reexport_admitted": false,
+      "generic_guard_relaxation": false,
+      "prior_exceptions_inherited": false
+    }
+  },
+  "linux_exact_PCK": {
+    "status": "execution_pass_and_final_independent_acceptance_under_fresh_exact_artifact_only_scope",
+    "success": true,
+    "completed_utc": "2026-10-07T03:44:11Z",
+    "report_sha256": "b63ec16f06f8ce92e917f32bdbd546009d66a3e55ba0b2205320b04e933f84a7",
+    "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+    "expected_checks": 21589,
+    "actual_checks": 21589,
+    "artifact_sha256": "468741d6d6029515644dba159099b53a4c65fb13bb115823d09cd68ce979081b",
+    "site_members": 14,
+    "packed_supplements": {
+      "reconstructed": {
+        "status": "execution_pass_and_final_independently_accepted",
+        "success": true,
+        "completed_utc": "2026-10-07T03:45:38Z",
+        "report_sha256": "818a72f23b51f29f8eb0eadc656deb0e2dffdaa00767a033f68ad13330f670b8",
+        "report": {
+          "archive_relative_identity": "map-folio-package-8f3db57-pck01/folio-01/results/package-result.json",
+          "sha256": "818a72f23b51f29f8eb0eadc656deb0e2dffdaa00767a033f68ad13330f670b8"
+        },
+        "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+        "expected_checks": 11499,
+        "actual_checks": 11499,
+        "exit_code": 0,
+        "all_recorded_commands_exit0": true,
+        "all_recorded_command_error_lists_empty": true
+      },
+      "companion": {
+        "status": "execution_pass_and_final_independently_accepted",
+        "success": true,
+        "completed_utc": "2026-10-07T03:46:20Z",
+        "report_sha256": "ea55a9c80e8a64562340333dd02e884f015460860705f311e329f94f9efdc89b",
+        "report": {
+          "archive_relative_identity": "map-folio-package-8f3db57-pck01/companion-01/results/package-result.json",
+          "sha256": "ea55a9c80e8a64562340333dd02e884f015460860705f311e329f94f9efdc89b"
+        },
+        "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+        "expected_checks": 1738,
+        "actual_checks": 1738,
+        "exit_code": 0,
+        "all_recorded_commands_exit0": true,
+        "all_recorded_command_error_lists_empty": true
+      },
+      "save": {
+        "status": "execution_pass_and_final_independently_accepted",
+        "success": true,
+        "completed_utc": "2026-10-07T03:46:47Z",
+        "report_sha256": "e83e3b8906c266e24e47408570684d0080a43b354fdfc623ee35f87832172cbb",
+        "report": {
+          "archive_relative_identity": "map-folio-package-8f3db57-pck01/save-01/results/package-result.json",
+          "sha256": "e83e3b8906c266e24e47408570684d0080a43b354fdfc623ee35f87832172cbb"
+        },
+        "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+        "expected_checks": 449,
+        "actual_checks": 449,
+        "exit_code": 0,
+        "all_recorded_commands_exit0": true,
+        "all_recorded_command_error_lists_empty": true
+      },
+      "title": {
+        "status": "execution_pass_and_final_independently_accepted",
+        "success": true,
+        "completed_utc": "2026-10-07T03:47:18Z",
+        "report_sha256": "78d86fc3a432da41d21af7d040f0d090d089d1e2676620f76f6bf73fcc1404e6",
+        "report": {
+          "archive_relative_identity": "map-folio-package-8f3db57-pck01/title-01/results/package-result.json",
+          "sha256": "78d86fc3a432da41d21af7d040f0d090d089d1e2676620f76f6bf73fcc1404e6"
+        },
+        "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+        "expected_checks": 1706,
+        "actual_checks": 1706,
+        "exit_code": 0,
+        "all_recorded_commands_exit0": true,
+        "all_recorded_command_error_lists_empty": true
+      },
+      "map": {
+        "status": "execution_pass_and_final_independently_accepted",
+        "success": true,
+        "completed_utc": "2026-10-07T03:47:53Z",
+        "report_sha256": "b8f60cd3abf749f12e5fdcaec580afc2703fc9c81bc28f9519ad21307350b418",
+        "report": {
+          "archive_relative_identity": "map-folio-package-8f3db57-pck01/map-01/results/package-result.json",
+          "sha256": "b8f60cd3abf749f12e5fdcaec580afc2703fc9c81bc28f9519ad21307350b418"
+        },
+        "independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+        "expected_checks": 1594,
+        "actual_checks": 1594,
+        "exit_code": 0,
+        "all_recorded_commands_exit0": true,
+        "all_recorded_command_error_lists_empty": true
+      }
+    },
+    "actual_schema16_subject_sha256": "ccbc5b9d78b2fd00719f6cabe9440518f575c805e8132f956a3c0535d6278e9e",
+    "source_and_PCK_subject_bytes_equal": true,
+    "requirement": "Accepted only for the exact immutable PCK/ZIP and separately documented timestamp scope; preserve original aggregate/export failures. Deployment and re-export are not admitted by this review.",
+    "report": {
+      "archive_relative_identity": "map-folio-package-8f3db57-pck01/exact-01/results/package-result.json",
+      "sha256": "b63ec16f06f8ce92e917f32bdbd546009d66a3e55ba0b2205320b04e933f84a7"
+    },
+    "exit_code": 0,
+    "all_recorded_commands_exit0": true,
+    "all_recorded_command_error_lists_empty": true,
+    "all_six_phases_completed_utc": "2026-10-07T03:47:53Z",
+    "final_independent_acceptance_status": "accepted_exact_artifact_only_not_deployment_or_reexport",
+    "final_independent_acceptance_sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5",
+    "historical_complete_PCK_processes": "Not executed in these six Linux phases; separate Windows coverage is recorded below",
+    "independent_acceptance_completed_utc": "2026-10-07T04:09:21.124346+00:00",
+    "independent_review": {
+      "archive_relative_identity": "map-folio-pck01-final-independent-review/FINAL-GATE-RESULT.json",
+      "sha256": "8528ff69dc26ec8147a72ca49bb0ba5eaa1aac891b3c12512faae85b2c178ff5"
+    },
+    "final_evidence": {
+      "archive_relative_identity": "map-folio-pck01-final-independent-review/FINAL-PCK-EVIDENCE-SHA256.json",
+      "sha256": "b57848282e02b0f6fe2f178579def47e9999182a343cd9314f769c9cae8d43af"
+    },
+    "final_evidence_members": 1305,
+    "map_sections": 16,
+    "accepted_scope": {
+      "all_six_real_phase_exits_zero": true,
+      "exact_commands_and_raw_streams_verified": true,
+      "six_unique_owned_profiles_verified": true,
+      "packed_namespace_and_no_source_shadows_verified": true,
+      "source_artifact_full_observer_closures_rehashed": {
+        "preserved_failed_export": 1153,
+        "accepted_source": 1068,
+        "source_export_admission": 94,
+        "full_reassessment": 963,
+        "site_and_archive_members": 14
+      },
+      "original_failed_receipts_preserved": true,
+      "timestamp_exception_limited_to_exact_artifact": true,
+      "prior_exception_inherited": false,
+      "deployment_admitted": false,
+      "reexport_admitted": false
+    }
+  },
+  "independent_windows_candidate": {
+    "status": "independently_reported_candidate_pass_no_deployment",
+    "source_public_commit": "fcbdd9dec7bf7df816be8fa135c6e4b395669967",
+    "completed_utc": "2026-10-07T00:06:52Z",
+    "source_checks": 21584,
+    "exact_PCK_checks": 21589,
+    "coverage_markers": 10,
+    "site_members": 14,
+    "historical_and_actual_subject_processes": 9,
+    "guards": 9,
+    "supplemental_evidence_files": 83,
+    "web25_scope": "Old schema13 reader script with current dependencies; 11 mixed-scope checks, not a complete old13 runtime closure.",
+    "actual_new_PCK_old15_boundary": "Reported passed against the actual new Windows PCK subject; not a Linux PCK result.",
+    "pck": {
+      "bytes": 77958228,
+      "sha256": "0f1b1ebc5753a49e21026fae9e84dd1e2cbf2d447001c0310e21f31f2c921834"
+    },
+    "zip": {
+      "bytes": 87282199,
+      "sha256": "93abcf5e0c2ba8c245343449c6ad73a53d0f2bada30a9fb35a6be0580a2eaf66"
+    },
+    "verification_sha256": "65211f66448c9a2c5ada05801a44afcf7cb0fa999422aae06415fdf8fb72b4b8",
+    "final_receipt_sha256": "eaa96063a54ea497805f1903d06721d0d7bec3878be8e4de45298d5183f084f1",
+    "provenance": "Windows data comes from independent execution records and verification receipts; the Linux workspace did not directly read or rehash Windows files.",
+    "cloud_rehashed_Windows_files": false,
+    "linux_artifact_is_distinct": true
+  },
+  "rollout": {
+    "status": "not_deployed_Web34_remains_live",
+    "success": null,
+    "completed_utc": null,
+    "report_sha256": null,
+    "independent_acceptance_sha256": null,
+    "admission": null,
+    "deployed_artifact_sha256": null,
+    "atomic_switch_utc": null,
+    "HTTPS_verification": null,
+    "live_version": "0.0.34-web1",
+    "live_runtime_public_commit": "2193e703054ffdedd2235003fb0be611ee85ebef",
+    "existing_live_record": "tests/web_deployment_034.json",
+    "requirement": "After all required fresh validation and exact-artifact acceptance, record any deployment separately with actual artifact, switch time and HTTPS/member verification. No new GitHub release/package is created by this source record."
+  },
+  "limits": [
+    "Execution passes and final independent acceptance are separate. Overlapping groups must not be summed.",
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unaccepted.",
+    "Prepared-state scripted native checks do not establish naturally earned manual play.",
+    "Unchanged save bytes alone do not prove absence of same-content writes.",
+    "Historical failures and original native/source/artifact bindings remain intact.",
+    "No complete older 1882-file history restoration is claimed."
+  ],
+  "record_prepared_utc": "2026-10-07T00:25:50.187866+00:00"
+}
