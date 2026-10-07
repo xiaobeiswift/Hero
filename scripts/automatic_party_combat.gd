@@ -8,6 +8,7 @@ const Consignee = preload("res://scripts/heting_consignee_combat_data.gd")
 const Capstone = preload("res://scripts/volume_one_capstone_combat_data.gd")
 const Sects = preload("res://scripts/sect_rules.gd")
 const FittingTrials = preload("res://scripts/weapon_fitting_trial_rules.gd")
+const Rehearsals = preload("res://scripts/encounter_rehearsal_rules.gd")
 const CATEGORIES: Array[String] = ["martial", "internal", "lightness"]
 const ENCOUNTER_IDS: Array[String] = ["story", "training", "sect_trial", "courtyard_practice", "sluice_scout", "sluice_boss", "archive_boss", "mist_scout", "mist_keeper", "heting_receipt", "heting_consignee", "capstone_authorizer"]
 const SUPPORTED_ENCOUNTERS: Array[String] = ENCOUNTER_IDS
@@ -23,6 +24,10 @@ var _queues: Dictionary = {}
 var _queue_serial: int = 0
 var _consignee_entry: Dictionary = {}
 var _capstone_entry: Dictionary = {}
+var _resource_policy: String = "real"
+var _rehearsal_metadata: Dictionary = {}
+var _rehearsal_metrics: Dictionary = {}
+var _rehearsal_recorded_tokens: Dictionary = {}
 var _fitting_metadata: Dictionary = {}
 var _fitting_metrics: Dictionary = {}
 var _fitting_recorded_tokens: Dictionary = {}
@@ -30,15 +35,20 @@ var _trial: Dictionary = {"art_used": false, "healing": 0, "guarded_heavy": fals
 
 
 func configure(team: Dictionary, encounter_id: String = "story") -> bool:
+	return _configure(team, encounter_id, "real")
+
+
+func _configure(team: Dictionary, encounter_id: String, policy: String) -> bool:
 	# Practice legitimately owns 40-point medicine; all other validation remains
 	# shared with the detached actor catalog, and no input object is retained.
 	if _configured or not ENCOUNTER_IDS.has(encounter_id):
 		return false
 	var validation: Dictionary = team.duplicate(true)
-	if encounter_id == "courtyard_practice" and validation.get("medicine_heal") == 40:
+	if (encounter_id == "courtyard_practice" or policy == Rehearsals.POLICY) and validation.get("medicine_heal") == 40:
 		validation.medicine_heal = 45
 	if not _valid_team(validation):
 		return false
+	_resource_policy = policy
 	_global_epoch += 1
 	_epoch = _global_epoch
 	for source: Dictionary in team.actors:
@@ -137,6 +147,49 @@ func configure_fitting_practice(source_state, fitting_id: String, profile_id: St
 		"remaining_resources": _fitting_resources()}
 	_plan_intents()
 	return true
+
+
+## This is a detached virtual configuration, never a real-story battle entry.
+func configure_encounter_rehearsal(source_state, encounter_id: Variant) -> bool:
+	if _configured: return false
+	var prepared: Dictionary = Rehearsals.build(source_state, encounter_id)
+	if not prepared.ok: return false
+	if not _configure(prepared.team, encounter_id, Rehearsals.POLICY): return false
+	_rehearsal_metadata = prepared.metadata
+	var losses: Dictionary = {}
+	for actor: Dictionary in _actors: losses[actor.id] = 0
+	_rehearsal_metrics = {"actual_hp_lost_by_actor": losses, "total_actual_hp_lost": 0,
+		"medicine_used": 0, "enemy_attacks_executed": 0, "completed_rounds": 0,
+		"terminal_round": 0, "outcome": "", "accepted_transactions": 0,
+		"remaining_resources": _fitting_resources()}
+	return true
+
+
+func rehearsal_metadata() -> Dictionary:
+	return Catalog.immutable(_rehearsal_metadata)
+
+
+func rehearsal_snapshot() -> Dictionary:
+	if _rehearsal_metadata.is_empty(): return Catalog.immutable({})
+	return Catalog.immutable({"metadata": _rehearsal_metadata, "metrics": _rehearsal_metrics})
+
+
+func _record_rehearsal_transaction(tx: Dictionary, enemy_attack_executed: bool) -> void:
+	if _rehearsal_metadata.is_empty() or not tx.get("accepted", false): return
+	var token: int = int(tx.token)
+	if token != _pending_token or int(tx.epoch) != _epoch or _rehearsal_recorded_tokens.has(token): return
+	_rehearsal_recorded_tokens[token] = true
+	for prior: Dictionary in tx.before.actors:
+		var loss: int = maxi(0, int(prior.hp) - int(_actor(prior.id).hp))
+		_rehearsal_metrics.actual_hp_lost_by_actor[prior.id] += loss
+		_rehearsal_metrics.total_actual_hp_lost += loss
+	_rehearsal_metrics.medicine_used += maxi(0, int(tx.before.medicine) - _medicine)
+	_rehearsal_metrics.enemy_attacks_executed += int(enemy_attack_executed)
+	_rehearsal_metrics.completed_rounds += maxi(0, _round - int(tx.before.round))
+	_rehearsal_metrics.accepted_transactions += 1
+	_rehearsal_metrics.outcome = _outcome
+	_rehearsal_metrics.terminal_round = _round if not _active else 0
+	_rehearsal_metrics.remaining_resources = _fitting_resources()
 
 
 func fitting_trial_metadata() -> Dictionary:
@@ -248,6 +301,9 @@ func snapshot() -> Dictionary:
 		view.capstone_provenance = _capstone_entry
 	if not _fitting_metadata.is_empty():
 		view.fitting_trial = fitting_trial_snapshot()
+	if _resource_policy == Rehearsals.POLICY:
+		view.resource_policy = _resource_policy
+		view.encounter_rehearsal = rehearsal_snapshot()
 	return Catalog.immutable(view)
 
 
@@ -434,6 +490,7 @@ func _end_transaction(tx: Dictionary, events: Array[Dictionary], enemy_attack_ex
 		_actor_id = _selected_actor
 	tx.events = events
 	_record_fitting_transaction(tx, enemy_attack_executed)
+	_record_rehearsal_transaction(tx, enemy_attack_executed)
 	tx.after = snapshot()
 	return Catalog.immutable(tx)
 
@@ -500,7 +557,7 @@ func _perform_skill(actor: Dictionary, target: Dictionary, action: Dictionary, e
 	if int(effects.get("next_hit_reduction", 0)) > 0:
 		actor.status.next_hit_reduction = maxi(int(actor.status.next_hit_reduction), int(effects.next_hit_reduction))
 		_event(events, actor.id, actor.id, "lightness_grant", int(actor.status.next_hit_reduction), {"remaining": actor.status.next_hit_reduction})
-	if actor.id == "hero" and action.category == "martial" and _encounter != "courtyard_practice":
+	if actor.id == "hero" and action.category == "martial" and _encounter != "courtyard_practice" and _resource_policy != Rehearsals.POLICY:
 		var previous: int = int(actor.art_uses.get(actor.equipped_art, 0))
 		actor.art_uses[actor.equipped_art] = mini(9999, previous + 1)
 		actor.art_rank = Catalog.rank_for_uses(int(actor.art_uses[actor.equipped_art]))

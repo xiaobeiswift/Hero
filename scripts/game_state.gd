@@ -28,6 +28,7 @@ const Economy = preload("res://scripts/economy_rules.gd")
 const Arts = preload("res://scripts/martial_catalog.gd")
 const Advanced = preload("res://scripts/advanced_martial_rules.gd")
 const Fittings = preload("res://scripts/weapon_fitting_rules.gd")
+const Rehearsals = preload("res://scripts/encounter_rehearsal_rules.gd")
 
 var player_name: String = "无名客"
 var level: int = 1
@@ -72,6 +73,12 @@ var _party_sluice_entry: Dictionary = {}
 var _party_archive_entry: Dictionary = {}
 var _party_extra_entry: Dictionary = {}
 var _party_practice_before: Dictionary = {}
+var _party_resource_policy: String = "real"
+var _party_rehearsal_identity: Dictionary = {}
+var _rehearsal_comparison_key: String = ""
+var _rehearsal_comparisons: Array[Dictionary] = []
+var _rehearsal_last_result_epoch: int = -1
+var _rehearsal_comparison_encounter: String = ""
 var _fitting_comparison_key: String = ""
 var _fitting_comparisons: Array[Dictionary] = []
 var _fitting_last_result_epoch: int = -1
@@ -206,6 +213,7 @@ func reset_game() -> void:
 	learned_arts.clear()
 	claimed_deeds.clear()
 	_reset_fitting_comparisons()
+	_reset_rehearsal_comparisons()
 	_clear_battle()
 
 
@@ -851,6 +859,7 @@ func load_game(path: String = SAVE_PATH) -> Error:
 		return inspected.error
 	_copy_persistent_from(inspected.state)
 	_reset_fitting_comparisons()
+	_reset_rehearsal_comparisons()
 	_clear_battle()
 	return OK
 
@@ -1108,6 +1117,8 @@ func _clear_battle() -> void:
 	_party_archive_entry = {}
 	_party_extra_entry = {}
 	_party_practice_before = {}
+	_party_resource_policy = "real"
+	_party_rehearsal_identity = {}
 	_party_consignee_identity = {}
 	_party_capstone_identity = {}
 	receipt_battle_epoch+=1
@@ -1493,6 +1504,117 @@ func start_fitting_practice(candidate: Variant, profile: Variant = "ordinary") -
 	return true
 
 
+## Earned choices contain no locked identities, descriptions or enemy stats.
+func rehearsal_options() -> Dictionary:
+	return Rehearsals.options(self)
+
+
+func rehearsal_preview(encounter_id: Variant) -> Dictionary:
+	var prepared: Dictionary = Rehearsals.build(self, encounter_id)
+	return PartyCatalog.immutable({"ok": prepared.ok, "reason": prepared.reason, "metadata": prepared.metadata})
+
+
+## Scene controller additionally proves the actual courtyard object/proximity.
+## No original encounter entry, temporary quest mutation or rollback occurs.
+func start_encounter_rehearsal(encounter_id: Variant) -> bool:
+	var before: Dictionary = to_dict().duplicate(true)
+	var model = PartyCombat.new()
+	if not model.configure_encounter_rehearsal(self, encounter_id): return false
+	if not _same_save_value(to_dict(), before): return false
+	var metadata: Dictionary = model.rehearsal_metadata()
+	if metadata.is_empty(): return false
+	if _rehearsal_comparison_key != String(metadata.comparison_key):
+		_rehearsal_comparisons.clear()
+		_rehearsal_comparison_key = String(metadata.comparison_key)
+	_rehearsal_comparison_encounter = encounter_id
+	_clear_battle()
+	party_session = model
+	_party_encounter = encounter_id
+	_party_resource_policy = Rehearsals.POLICY
+	_party_rehearsal_identity = {"persistent": before, "host_epoch": party_battle_epoch,
+		"epoch": model.snapshot().epoch, "session_id": model.get_instance_id(),
+		"encounter_id": encounter_id, "resource_policy": Rehearsals.POLICY, "metadata": metadata}
+	battle_kind = encounter_id
+	battle_active = true
+	return true
+
+
+func rehearsal_comparison_snapshot() -> Dictionary:
+	# Do not display earlier runs as comparable after an outside battle setup edit.
+	if not battle_active and _party_pending_token < 0 and not _rehearsal_comparison_key.is_empty():
+		var current: Dictionary = Rehearsals.build(self, _rehearsal_comparison_encounter)
+		if not current.ok or String(current.metadata.comparison_key) != _rehearsal_comparison_key:
+			return PartyCatalog.immutable({"comparison_key": "", "results": []})
+	return PartyCatalog.immutable({"comparison_key": _rehearsal_comparison_key, "results": _rehearsal_comparisons})
+
+
+func _reset_rehearsal_comparisons() -> void:
+	_rehearsal_comparison_key = ""
+	_rehearsal_comparison_encounter = ""
+	_rehearsal_comparisons.clear()
+	_rehearsal_last_result_epoch = -1
+
+
+func _is_encounter_rehearsal_session() -> bool:
+	return _party_resource_policy == Rehearsals.POLICY or not _party_rehearsal_identity.is_empty() or (party_session != null and party_session.snapshot().get("resource_policy", "") == Rehearsals.POLICY)
+
+
+func _valid_rehearsal_terminal(snapshot: Dictionary) -> bool:
+	if _party_rehearsal_identity.is_empty() or party_session == null: return false
+	var identity: Dictionary = _party_rehearsal_identity
+	if _party_resource_policy != Rehearsals.POLICY or snapshot.get("resource_policy", "") != Rehearsals.POLICY: return false
+	if identity.resource_policy != Rehearsals.POLICY or identity.session_id != party_session.get_instance_id(): return false
+	if party_battle_epoch != identity.host_epoch or snapshot.get("epoch") != identity.epoch: return false
+	if _party_encounter != identity.encounter_id or battle_kind != identity.encounter_id or snapshot.get("encounter_id") != identity.encounter_id: return false
+	if snapshot.get("active", true) or not snapshot.get("locked", false) or not snapshot.get("outcome", "") in ["win", "defeat", "flee"]: return false
+	if snapshot.get("pending_token", -1) != _party_pending_token or _party_pending_token < 0: return false
+	if snapshot != party_session.snapshot() or party_session.rehearsal_metadata() != identity.metadata: return false
+	if snapshot.get("formation") != identity.metadata.team.formation: return false
+	if not snapshot.get("medicine") is int or int(snapshot.medicine) < 0 or int(snapshot.medicine) > Rehearsals.MEDICINE_CHARGES: return false
+	if snapshot.get("medicine_heal") != Rehearsals.MEDICINE_HEAL: return false
+	var living_enemies: int = 0
+	var living_actors: int = 0
+	var specs: Array = identity.metadata.enemy_specs
+	if snapshot.enemies.size() != specs.size() or snapshot.actors.size() != identity.metadata.team.actors.size(): return false
+	for index: int in specs.size():
+		var enemy: Dictionary = snapshot.enemies[index]
+		var spec: Dictionary = specs[index]
+		for key: String in ["id", "name", "attack", "heavy_attack"]:
+			if enemy.get(key) != spec.get(key): return false
+		if enemy.get("team") != "enemy" or enemy.get("max_hp") != spec.hp: return false
+		if not enemy.get("hp") is int or int(enemy.hp) < 0 or int(enemy.hp) > int(spec.hp): return false
+		if int(enemy.hp) > 0: living_enemies += 1
+	for index: int in snapshot.actors.size():
+		var actor: Dictionary = snapshot.actors[index]
+		var original: Dictionary = identity.metadata.team.actors[index]
+		for key: String in ["id", "name", "max_hp", "max_qi", "attack", "defense", "sect", "equipment", "armor", "equipped_art", "art_uses", "care_defense_bonus", "care_healing_bonus"]:
+			if actor.get(key) != original.get(key): return false
+		for key: String in ["internal_unlocked", "lightness_unlocked", "recruited"]:
+			if actor.get(key, false) != original.get(key, false): return false
+		if actor.get("art_rank") != original.get("art_rank"): return false
+		for key: String in ["hp", "qi"]:
+			if not actor.get(key) is int or int(actor[key]) < 0 or int(actor[key]) > int(original["max_" + key]): return false
+		if int(actor.hp) > 0: living_actors += 1
+	if snapshot.outcome == "win" and (living_enemies != 0 or living_actors == 0): return false
+	if snapshot.outcome == "defeat" and living_actors != 0: return false
+	if snapshot.outcome == "flee" and living_actors == 0: return false
+	var provenance_key: String = "consignee_provenance" if identity.encounter_id == "heting_consignee" else "capstone_provenance"
+	if snapshot.get(provenance_key) != identity.metadata.enemy_provenance: return false
+	if not _same_save_value(to_dict(), identity.persistent): return false
+	return _stage_save_data(to_dict(), SAVE_VERSION).ok
+
+
+func _record_rehearsal_comparison() -> void:
+	if _party_resource_policy != Rehearsals.POLICY or party_session == null or _rehearsal_last_result_epoch == party_battle_epoch: return
+	if battle_active or _party_pending_token >= 0 or party_settlement.get("resource_policy", "") != Rehearsals.POLICY: return
+	var result: Dictionary = party_session.rehearsal_snapshot()
+	if result.is_empty() or result.metrics.outcome != party_settlement.get("outcome", ""): return
+	if String(result.metadata.comparison_key) != _rehearsal_comparison_key or not result.metrics.outcome in ["win", "defeat", "flee"]: return
+	_rehearsal_comparisons.append(result.duplicate(true))
+	while _rehearsal_comparisons.size() > 2: _rehearsal_comparisons.pop_front()
+	_rehearsal_last_result_epoch = party_battle_epoch
+
+
 func fitting_comparison_snapshot() -> Dictionary:
 	return PartyCatalog.immutable({"comparison_key": _fitting_comparison_key, "results": _fitting_comparisons})
 
@@ -1567,7 +1689,7 @@ func _accept_party_transaction(tx: Dictionary) -> Dictionary:
 	decorated.epoch = party_battle_epoch
 	if not tx.get("accepted", false): return PartyCatalog.immutable(decorated)
 	_party_pending_token = int(tx.token)
-	if _party_encounter == "courtyard_practice": return PartyCatalog.immutable(decorated)
+	if _party_encounter == "courtyard_practice" or _is_encounter_rehearsal_session(): return PartyCatalog.immutable(decorated)
 	medicine = int(tx.after.medicine)
 	for actor: Dictionary in tx.after.actors:
 		if actor.id == "hero":
@@ -1601,12 +1723,21 @@ func finish_party_presentation(epoch: int, token: int) -> Dictionary:
 	skill_cooldown = 0
 	party_settlement = PartyCatalog.immutable(staged.settlement)
 	_record_fitting_comparison()
+	_record_rehearsal_comparison()
 	return PartyCatalog.immutable({"ok": true, "accepted": true, "settled": true,
 		"reason": "", "epoch": epoch, "token": token, "outcome": snapshot.outcome,
 		"settlement": party_settlement, "snapshot": party_battle_snapshot()})
 
 
 func _party_terminal_plan(snapshot: Dictionary) -> Dictionary:
+	if _is_encounter_rehearsal_session():
+		if not _valid_rehearsal_terminal(snapshot):
+			return {"ok": false, "reason": "复演凭据或真实旅程已改变，拒绝结算。"}
+		return {"ok": true, "state": _detached_persistent_state(), "settlement": {
+			"outcome": snapshot.outcome, "encounter_id": _party_encounter,
+			"resource_policy": Rehearsals.POLICY, "practice": true, "rehearsal": true,
+			"awarded": false, "reward_xp": 0, "coin_change": 0,
+			"map_id": map_id, "position": position, "resources": party_resource_snapshot()}}
 	if (_party_encounter == "capstone_authorizer" or not _party_capstone_identity.is_empty()) and not _valid_capstone_terminal(snapshot):
 		return {"ok": false, "reason": "截令交锋的凭据、进度或已消耗资源已经改变。"}
 	if _party_encounter == "heting_consignee" and not _valid_consignee_terminal(snapshot):
