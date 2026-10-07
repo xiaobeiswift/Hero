@@ -1,0 +1,340 @@
+{
+	"cases": [
+		{
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"outcome": "flee"
+		},
+		{
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 20,
+				"actual_hp_lost_by_actor": {
+					"hero": 1,
+					"qin": 44,
+					"shen": 8,
+					"tang": 1
+				},
+				"completed_rounds": 3,
+				"enemy_attacks_executed": 5,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 159,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 116,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 114,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 138,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 4,
+				"total_actual_hp_lost": 54
+			},
+			"outcome": "win"
+		},
+		{
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 12,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 3,
+				"enemy_attacks_executed": 8,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 4,
+				"total_actual_hp_lost": 160
+			},
+			"outcome": "defeat"
+		},
+		{
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"outcome": "flee"
+		},
+		{
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 21,
+				"actual_hp_lost_by_actor": {
+					"hero": 1,
+					"qin": 35,
+					"shen": 18,
+					"tang": 1
+				},
+				"completed_rounds": 4,
+				"enemy_attacks_executed": 4,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 159,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 125,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 104,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 138,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 5,
+				"total_actual_hp_lost": 55
+			},
+			"outcome": "win"
+		},
+		{
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 12,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 5,
+				"enemy_attacks_executed": 6,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 6,
+				"total_actual_hp_lost": 160
+			},
+			"outcome": "defeat"
+		},
+		{
+			"case": "accepted_terminal_close",
+			"discard_confirmed": false,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 20,
+				"actual_hp_lost_by_actor": {
+					"hero": 1,
+					"qin": 44,
+					"shen": 8,
+					"tang": 1
+				},
+				"completed_rounds": 3,
+				"enemy_attacks_executed": 5,
+				"medicine_used": 0,
+				"outcome": "win",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 159,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 116,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 114,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 138,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 4,
+				"total_actual_hp_lost": 54
+			},
+			"outcome": "win",
+			"same_terminal_retry": true
+		},
+		{
+			"case": "accepted_terminal_close",
+			"discard_confirmed": false,
+			"encounter": "capstone_authorizer",
+			"metrics": {
+				"accepted_transactions": 12,
+				"actual_hp_lost_by_actor": {
+					"hero": 160
+				},
+				"completed_rounds": 5,
+				"enemy_attacks_executed": 6,
+				"medicine_used": 0,
+				"outcome": "defeat",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 0,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 6,
+				"total_actual_hp_lost": 160
+			},
+			"outcome": "defeat",
+			"same_terminal_retry": false
+		},
+		{
+			"case": "accepted_terminal_close",
+			"discard_confirmed": true,
+			"encounter": "heting_consignee",
+			"metrics": {
+				"accepted_transactions": 1,
+				"actual_hp_lost_by_actor": {
+					"hero": 0,
+					"qin": 0,
+					"shen": 0,
+					"tang": 0
+				},
+				"completed_rounds": 0,
+				"enemy_attacks_executed": 0,
+				"medicine_used": 0,
+				"outcome": "flee",
+				"remaining_resources": {
+					"actors": {
+						"hero": {
+							"hp": 160,
+							"qi": 6
+						},
+						"qin": {
+							"hp": 160,
+							"qi": 6
+						},
+						"shen": {
+							"hp": 122,
+							"qi": 6
+						},
+						"tang": {
+							"hp": 139,
+							"qi": 6
+						}
+					},
+					"medicine": 3,
+					"medicine_heal": 40
+				},
+				"terminal_round": 1,
+				"total_actual_hp_lost": 0
+			},
+			"outcome": "flee",
+			"same_terminal_retry": false
+		}
+	],
+	"checks": 1030,
+	"failures": 0,
+	"scope": "headless source UI/lifecycle; no native pixel or package claim"
+}
