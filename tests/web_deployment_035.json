@@ -1,0 +1,68 @@
+{
+  "record_kind": "post_test_independently_reported_web_rollout",
+  "version": "0.0.35-web1",
+  "status": "deployed_and_HTTPS_verified_independently_reported",
+  "provenance": {
+    "source": "Independent deployment receipt",
+    "verification_scope": "Recorded deployment facts supplied by the independent deployment executor; this documentation step did not rerun deployment checks or directly read and rehash the server or Windows files.",
+    "direct_server_or_Windows_rehash_by_this_record": false
+  },
+  "runtime_binding": {
+    "source_checkpoint": "fcbdd9dec7bf7df816be8fa135c6e4b395669967",
+    "tested_local_commit": "8f3db579324dd266fe77534feb111ff159f1c04e",
+    "tested_source_tree": "38b8b99bda0ae1c4e34b3cfbe773bb543626155f",
+    "tested_original_files": 1787,
+    "runtime_input_entries": 388,
+    "runtime_sha256": "c31a1179a98ff37dbbd76ec3143d394736420c7112542ff8d128eedc0f2130c5"
+  },
+  "deployed_artifact": {
+    "build_platform": "Windows",
+    "zip": {
+      "bytes": 87282199,
+      "sha256": "93abcf5e0c2ba8c245343449c6ad73a53d0f2bada30a9fb35a6be0580a2eaf66"
+    },
+    "pck": {
+      "bytes": 77958228,
+      "sha256": "0f1b1ebc5753a49e21026fae9e84dd1e2cbf2d447001c0310e21f31f2c921834"
+    }
+  },
+  "atomic_switch_utc": "2026-10-07T04:18:06.950656Z",
+  "HTTPS_verification": {
+    "completed_utc": "2026-10-07T04:21:10.955337Z",
+    "passed_checks": 36,
+    "total_checks": 36,
+    "full_resources_verified": 14,
+    "Gitea_HTTP_status": 200
+  },
+  "previous_release_retirement": {
+    "version": "0.0.34-web1",
+    "completed_utc": "2026-10-07T04:21:43.988883Z",
+    "verified_recovery_before_retirement": true,
+    "zero_reader_checks_before_retirement": 2
+  },
+  "final_server_manifest_sha256": "75ea7c4af5c7b46a3311aa56f8c18fa54cbba2b0f5db9d10fc6ec0618e571778",
+  "prior_validation_record": {
+    "file": "tests/map_folio_validation_035.json",
+    "local_documentation_commit": "6729040f02f1e0b867f848c7973b26acf854091d",
+    "published_documentation_commit": "4a3c33f5a4255d39ea2ed42705f6bb4d9445664f",
+    "unchanged": true,
+    "scope": "Its pending-deployment fields describe the earlier freeze-time checkpoint; this separate record supplies the later reported rollout outcome. Neither documentation commit changes the runtime build pin or belongs to the frozen1787-file tested tree."
+  },
+  "preserved_validation_scope": {
+    "Linux_and_Windows_artifacts_distinct": true,
+    "deployed_Linux_candidate": false,
+    "original_QA02_aggregate_success": false,
+    "original_QA02_process_exit_code": 1,
+    "original_strict_Linux_export_success": false,
+    "original_strict_Linux_export_wrapper_exit_code": 1,
+    "separate_accepted_QA02_reassessment_preserved": true,
+    "fresh_Linux_exact_artifact_test_only_admission_preserved": true,
+    "Linux_test_only_admission_is_deployment_permission": false,
+    "native_pixels_remain_bound_to": "e089431e79b52c684ec53e2c4930651e07746fb1"
+  },
+  "limits": [
+    "Actual browser gameplay, audio and IndexedDB refresh persistence remain unaccepted.",
+    "No final-runtime-pin fresh pixel capture is claimed.",
+    "The deployment receipt is recorded without adding unreported checks or expanding prior exception scope."
+  ]
+}
