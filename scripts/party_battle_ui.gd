@@ -447,6 +447,8 @@ func _readback_summary() -> String:
 	# contact HP facts (even zero) must not be hidden behind preparatory costs.
 	var groups: Array = [[], [], [], []]
 	for event: Dictionary in _readback_events:
+		# Keep capped zero resource facts in the full record, but not the compact line.
+		if event.type in ["qi", "medicine"] and int(event.get("amount",0)) == 0: continue
 		var line: String = _readback_result_line(event)
 		if line.is_empty(): continue
 		var priority: int = 2
