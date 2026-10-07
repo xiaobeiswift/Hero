@@ -5,6 +5,7 @@ signal actor_requested(actor_id:String)
 signal command_requested(actor_id:String,action_id:String)
 signal cancel_queue_requested(actor_id:String,category:String)
 signal pause_requested(paused:bool)
+const Folio=preload("res://scripts/folio_theme.gd")
 const FONT=preload("res://assets/fonts/NotoSansSC.otf")
 const COMMAND_ATLAS=preload("res://assets/ui/martial_commands_painted_atlas.png")
 const CATEGORY_ATLAS=preload("res://assets/ui/internal_lightness_painted_atlas.png")
@@ -43,6 +44,7 @@ var focus_key:String=""
 var journal_open:bool=false
 var pause_button:Button
 var journal_button:Button
+var readback_button:Button
 var journal_text:RichTextLabel
 var _style_cache:Dictionary={}
 var revision:int=0
@@ -65,6 +67,10 @@ func _ready()->void:
 	pause_button=_button(Rect2(372,27,96,50));pause_button.pressed.connect(_request_pause)
 	pause_button.mouse_entered.connect(_hover.bind("pause"));pause_button.mouse_exited.connect(_hover.bind(""))
 	pause_button.focus_entered.connect(_focus.bind("pause"));pause_button.focus_exited.connect(_focus.bind(""))
+	readback_button=_button(Rect2(487,20,306,65))
+	readback_button.pressed.connect(_toggle_journal)
+	readback_button.mouse_entered.connect(_hover.bind("readback"));readback_button.mouse_exited.connect(_hover.bind(""))
+	readback_button.focus_entered.connect(_focus.bind("readback"));readback_button.focus_exited.connect(_focus.bind(""))
 	journal_button=_button(Rect2(1135,744,118,48))
 	journal_button.pressed.connect(_toggle_journal)
 	journal_button.mouse_entered.connect(_hover.bind("journal"));journal_button.mouse_exited.connect(_hover.bind(""))
@@ -232,8 +238,12 @@ func _sync_controls()->void:
 		_signature=signature
 		if buttons.has(keep_focus):buttons[keep_focus].grab_focus()
 		elif keep_focus.begins_with("actor::") and actor_buttons.has(keep_focus.trim_prefix("actor::")):actor_buttons[keep_focus.trim_prefix("actor::")].grab_focus()
+	for id:String in actor_buttons:
+		var actor:Dictionary=_actor(id)
+		actor_buttons[id].tooltip_text="%s · 气血%d/%d · 真气%d/%d\n点击安排此人的技能；出招中标记属于正在演出的角色"%[actor.get("name",""),int(actor.get("hp",0)),int(actor.get("max_hp",0)),int(actor.get("qi",0)),int(actor.get("max_qi",0))]
 	for key:String in buttons:
 		buttons[key].mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND if _reason_for_key(key).is_empty() else Control.CURSOR_ARROW
+	readback_button.tooltip_text=readback_text()+("\n点击查看完整战报；Enter仍确认队友目标" if not String(context.get("selected_action_id","")).is_empty() else "\n点击或Enter打开完整战报")
 	var logs=snapshot.get("log",[])
 	journal_text.text="\n".join(logs) if logs is Array else String(logs)
 	pause_button.tooltip_text="当前出招收束后暂停" if bool(snapshot.get("pause_requested",false)) and not bool(snapshot.get("paused",false)) else ("继续自动交锋" if bool(snapshot.get("paused",false)) else "在当前出招收束后暂停；暂停时仍可安排技能")
@@ -282,9 +292,13 @@ func _sync_journal()->void:
 func _draw()->void:
 	if snapshot.is_empty():return
 	_gradient(Rect2(0,0,1280,140),Color(.015,.02,.025,.82),Color(.015,.02,.025,0))
-	_gradient(Rect2(0,582,1280,218),Color(.015,.02,.025,0),Color(.01,.018,.02,.98))
+	_gradient(Rect2(0,596,1280,204),Color(.015,.02,.025,0),Color(.01,.018,.02,.98))
+	_material(Rect2(18,612,1242,184),"textile_sample")
+	draw_rect(Rect2(18,612,1242,184),Color(.025,.055,.065,.58))
+	draw_line(Vector2(18,613),Vector2(1260,613),Folio.BRASS,1.2,true)
+	draw_line(Vector2(18,796),Vector2(1260,796),Folio.BRASS.darkened(.35),1,true)
 	_text(String(context.get("location","")),Vector2(35,34),12,MUTED)
-	_ink_text(String(context.get("title","交锋")),Vector2(35,65),24,IVORY)
+	draw_string(Folio.HEADING_FONT,Vector2(35,65),String(context.get("title","交锋")),HORIZONTAL_ALIGNMENT_LEFT,-1,26,Folio.BONE)
 	_header()
 	var pause_rect=Rect2(372,27,96,50)
 	_frame(pause_rect,Color("211f1a"),hover_key=="pause" or focus_key=="pause" or bool(snapshot.get("paused",false)))
@@ -310,27 +324,76 @@ func notice_geometry(message:String)->Rect2:
 	var height=FONT.get_multiline_string_size(message,HORIZONTAL_ALIGNMENT_LEFT,width-36,14,-1).y+26
 	return Rect2(1254-width,103,width,height)
 
+func _visible_readback()->Dictionary:
+	var data:Dictionary=context.get("combat_readback",{})
+	var action:Dictionary=data.get("action",{})
+	var result=String(data.get("result_text",""))
+	var latest:Dictionary=data.get("latest_completed",{})
+	var use_latest=not latest.is_empty() and (String(data.get("status",""))!="presenting" or (action.is_empty() and result.is_empty()))
+	var view:Dictionary=latest if use_latest else data
+	var visible_action:Dictionary=view.get("action",{})
+	var events:Array=view.get("events",[])
+	var displayed_round=int(visible_action.get("round",snapshot.get("round",1)))
+	if visible_action.is_empty() and not events.is_empty():displayed_round=int(events[0].get("round",displayed_round))
+	return {"action":visible_action,"result":String(view.get("result_text","")),"summary":String(view.get("summary",view.get("result_text",""))),"latest":use_latest,"round":displayed_round}
+
+func readback_text()->String:
+	var data:Dictionary=context.get("combat_readback",{})
+	var view=_visible_readback();var action:Dictionary=view.action;var result:String=view.result
+	var prefix="上次结算" if view.latest else "本次已呈现"
+	if action.is_empty():
+		if not result.is_empty():return prefix+"："+result
+		return "正在安排："+String(data.get("command_actor_name",_actor(String(snapshot.get("selected_actor_id",""))).get("name","")))+"\n所选目标："+String(data.get("command_target_name","尚未选择"))
+	return "%s：%s · %s\n实际目标：%s%s"%[prefix,action.get("source_name",""),action.get("name",""),action.get("target_name","无需目标"),("\n"+result) if not result.is_empty() else ("\n已收招；完整经过见战报" if view.latest else "\n效果尚未呈现")]
+
+func _fit_text(value:String,at:Vector2,width:float,font_size:int,color:Color)->void:
+	var rendered=value
+	while rendered.length()>1 and FONT.get_string_size(rendered,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:
+		rendered=rendered.left(rendered.length()-2)+"…" if rendered.ends_with("…") else rendered.left(rendered.length()-1)+"…"
+	draw_string(FONT,at,rendered,HORIZONTAL_ALIGNMENT_LEFT,width,font_size,color)
+
 func _header()->void:
-	var rect=Rect2(487,20,306,65);_frame(rect,Color("211f1a"),false)
-	_ink_text("回合",Vector2(506,52),18,Color("c6b993"))
-	_ink_text("%02d"%int(snapshot.get("round",1)),Vector2(566,57),31,GOLD)
-	var label=String(context.get("phase_label",""))
-	if label.is_empty():
-		var phase="planning" if bool(snapshot.get("paused",false)) else String(snapshot.get("phase","automatic"))
-		label={"planning":"已暂停","automatic":"自动交锋","manual":"施展技能","ally":"自动交锋","allies":"我方行动","player":"我方行动","enemy":"敌方行动","enemies":"敌方行动","resolve":"收招结算","finished":"交锋结束","ended":"交锋结束"}.get(phase,"交锋")
-	_ink_text(label,Vector2(624,49),16,IVORY)
-	var current=_unit(_acting_id())
-	var second=String(current.get("name","")) if not current.is_empty() else ("可安排技能" if bool(snapshot.get("paused",false)) else "每人每轮普攻一次")
-	_text(second,Vector2(624,69),12,GOLD)
+	var rect=Rect2(487,20,306,65)
+	_material(rect,"paper_sample");draw_rect(rect,Color(.93,.89,.8,.58))
+	draw_rect(rect,Folio.BRASS,false,1.0)
+	if hover_key=="readback" or focus_key=="readback":draw_rect(rect.grow(-3),Folio.INK,false,2)
+	var data:Dictionary=context.get("combat_readback",{})
+	var view=_visible_readback();var action:Dictionary=view.action;var result:String=view.summary
+	var phase=String(context.get("phase_label","已暂停" if snapshot.get("paused",false) else "自动交锋"))
+	if view.latest:phase="上次结算"
+	_text("第%02d回合 · %s"%[int(view.round),phase],Vector2(499,37),11,Folio.SECONDARY_INK)
+	_text("战报 ›",Vector2(781,37),10,Folio.SECONDARY_INK,false,true)
+	if action.is_empty() and not result.is_empty():
+		_fit_text("排招变化",Vector2(499,57),282,14,Folio.INK)
+		_fit_text(result,Vector2(499,75),282,12,Folio.SECONDARY_INK)
+	elif action.is_empty():
+		_fit_text("正在安排："+String(data.get("command_actor_name",_actor(String(snapshot.get("selected_actor_id",""))).get("name",""))),Vector2(499,57),282,14,Folio.INK)
+		_fit_text("所选目标："+String(data.get("command_target_name",_unit(String(snapshot.get("selected_target_id",""))).get("name","尚未选择"))),Vector2(499,75),282,12,Folio.SECONDARY_INK)
+	else:
+		_fit_text(String(action.get("source_name",""))+" · "+String(action.get("name","")),Vector2(499,57),282,14,Folio.INK)
+		var second="→ "+String(action.get("target_name","无需目标"))
+		if not result.is_empty():second+=" · "+result.trim_prefix(String(action.get("target_name","")))
+		else:second+=" · 已收招" if view.latest else " · 效果未至"
+		_fit_text(second,Vector2(499,75),282,12,Folio.SECONDARY_INK)
 
 func _cluster(actor:Dictionary,rect:Rect2)->void:
 	var id=String(actor.id)
 	var active:bool=id==String(snapshot.get("selected_actor_id",""))
 	var acting:bool=_commands_locked() and id==_acting_id()
 	var dead:bool=bool(actor.get("incapacitated",false)) or int(actor.get("hp",0))<=0
-	if active or acting:_box(rect.grow(3),Color(.4,.28,.10,.14),Color(.87,.7,.38,.58),1)
-	_frame(rect,Color(.085,.08,.065,.88),active or acting or hover_key=="actor::"+id or focus_key=="actor::"+id)
-	_ink_text(String(actor.get("name","")),rect.position+Vector2(13,23),15,IVORY if not dead else MUTED)
+	# Selection controls future commands; acting is the renderer's current actor.
+	# Different labels and shapes keep those facts distinct even without color.
+	if active:
+		draw_rect(Rect2(rect.position,Vector2(rect.size.x,30)),Color("6c2c27"))
+		draw_line(rect.position+Vector2(0,30),rect.position+Vector2(rect.size.x,30),Folio.BRASS,1,true)
+	if acting:
+		draw_rect(Rect2(rect.position+Vector2(1,33),Vector2(3,137)),Color("9bcaca"))
+		draw_colored_polygon(PackedVector2Array([rect.position+Vector2(5,13),rect.position+Vector2(10,17),rect.position+Vector2(5,21)]),Color("a2d8d5"))
+	if hover_key=="actor::"+id or focus_key=="actor::"+id:draw_rect(Rect2(rect.position+Vector2(7,5),Vector2(61,161)),Folio.BONE,false,2)
+	draw_line(Vector2(rect.end.x+6,rect.position.y+10),Vector2(rect.end.x+6,rect.end.y-8),Color(.71,.63,.47,.38),1,true)
+	_fit_text(String(actor.get("name","")),rect.position+Vector2(13,23),60,15,IVORY if not dead else MUTED)
+	if active:_text("指令",rect.position+Vector2(77,22),11,Folio.BONE)
+	if acting:_text("出招中",rect.position+Vector2(117,22),11,Color("a2d8d5"))
 	_text(basic_caption(actor),rect.position+Vector2(rect.size.x-13,23),11,GOLD if acting else MUTED,false,true)
 	if portraits.has(id):draw_texture_rect(portraits[id],Rect2(rect.position+Vector2(11,35),Vector2(54,77)),false,Color(.5,.5,.5) if dead else Color.WHITE)
 	var badges=_status_badges(actor)
@@ -372,7 +435,7 @@ func _slot(actor:Dictionary,action:Dictionary)->void:
 		_ink_text(String(action.get("empty_label","未习得" if action.get("learned",true)==false else "尚无招式")),rect.get_center()+Vector2(0,8),12,MUTED,true)
 	elif queued:
 		_box(Rect2(rect.position+Vector2(5,rect.size.y-22),Vector2(rect.size.x-10,17)),Color("29321e"),Color("a89455"),1)
-		_ink_text(queued_caption(actor,category),Vector2(rect.get_center().x,rect.end.y-9),10,Color("e1dbaa"),true)
+		_ink_text(queued_caption(actor,category),Vector2(rect.get_center().x,rect.end.y-9),11,Color("e1dbaa"),true)
 	elif not available:
 		if int(actor.get("hp",0))<=0 or bool(actor.get("incapacitated",false)) or not String(context.get("input_block_reason","")).is_empty():
 			draw_rect(rect.grow(-5),Color(0,0,0,.42))
@@ -383,12 +446,16 @@ func _slot(actor:Dictionary,action:Dictionary)->void:
 			_ink_text("回合",Vector2(rect.get_center().x,rect.end.y-9),9,IVORY,true)
 		else:
 			draw_rect(Rect2(rect.position+Vector2(5,rect.size.y-23),Vector2(rect.size.x-10,18)),Color(.12,.06,.02,.93))
-			var status="真气不足" if reason.contains("真气") else ("无可治疗目标" if reason.contains("治疗") and reason.contains("目标") else ("无目标" if reason.contains("目标") else "不可用"))
+			var status="真气不足" if reason.contains("真气") else ("无治疗目标" if reason.contains("治疗") and reason.contains("目标") else ("无目标" if reason.contains("目标") else "不可用"))
 			_ink_text(status,Vector2(rect.get_center().x,rect.end.y-10),10,Color("d5aa7b"),true)
 	var name=String(action.get("name","")) if not empty else ""
 	var name_size=13
 	while name_size>10 and FONT.get_string_size(name,HORIZONTAL_ALIGNMENT_LEFT,-1,name_size).x>rect.size.x+4:name_size-=1
-	_ink_text(name,Vector2(rect.get_center().x,752),name_size,IVORY if available or queued else MUTED,true)
+	_ink_text(name,Vector2(rect.get_center().x,747 if queued else 752),name_size,IVORY if available or queued else MUTED,true)
+	if queued:
+		var target_id=String(_category_state(actor,category).get("target_id",action.get("queued_target_id","")))
+		var target_name=String(_unit(target_id).get("name",""))
+		if not target_name.is_empty():_fit_text("→ "+target_name,Vector2(rect.position.x+1,763),rect.size.x-2,10,Color("e1dbaa"))
 
 func _qi(actor:Dictionary,at:Vector2,available_width:float)->void:
 	var maximum=maxi(1,int(actor.get("max_qi",1)));var qi=int(actor.get("qi",0))
@@ -490,16 +557,29 @@ func _tooltip(key:String)->void:
 		draw_multiline_string(FONT,origin+Vector2(17,y),line.text,HORIZONTAL_ALIGNMENT_LEFT,320,int(line.size),-1,line.color)
 		y+=float(line.height)+8
 
+func _material(rect:Rect2,region_name:String)->void:
+	# Sample at native pixel density; never enlarge a small texture patch.
+	var region:Rect2=Folio.ATLAS_REGIONS[region_name]
+	var y=0.0
+	while y<rect.size.y:
+		var x=0.0
+		while x<rect.size.x:
+			var extent=Vector2(minf(region.size.x,rect.size.x-x),minf(region.size.y,rect.size.y-y))
+			draw_texture_rect_region(Folio.BACKING,Rect2(rect.position+Vector2(x,y),extent),Rect2(region.position,extent))
+			x+=region.size.x
+		y+=region.size.y
+
 func _frame(rect:Rect2,fill:Color,highlight:bool)->void:
-	var light=Color("ecd194") if highlight else Color("8f7d5d")
-	_box(rect.grow(2),Color(0,0,0,.6),Color("070a0b"),1);_box(rect,fill,Color("4f483a"),1)
-	draw_line(rect.position+Vector2(2,2),Vector2(rect.end.x-2,rect.position.y+2),light,1.7,true)
-	draw_line(rect.position+Vector2(2,2),Vector2(rect.position.x+2,rect.end.y-2),Color(light,.6),1.6,true)
-	draw_line(Vector2(rect.position.x+2,rect.end.y-2),rect.end-Vector2(2,2),Color("332b21"),2.5,true)
-	draw_line(Vector2(rect.end.x-2,rect.position.y+2),rect.end-Vector2(2,2),Color("332b21"),2.5,true)
-	for corner in [rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y)]:
-		var dir=Vector2(1 if corner.x==rect.position.x else -1,1 if corner.y==rect.position.y else -1)
-		draw_polyline(PackedVector2Array([corner+Vector2(0,9*dir.y),corner,corner+Vector2(9*dir.x,0)]),light,1.8,true)
+	var edge=Folio.BONE if highlight else Folio.BRASS.darkened(.25)
+	draw_rect(rect.grow(1),Color(.01,.025,.03,.75))
+	draw_rect(rect,fill);draw_rect(rect,edge,false,1.0)
+	if highlight:
+		draw_rect(rect.grow(-3),Color(edge,.75),false,1.0)
+	for corner:Vector2 in [rect.position,rect.end]:
+		var direction=1.0 if corner==rect.position else -1.0
+		draw_line(corner,corner+Vector2(7*direction,0),edge,1.4,true)
+		draw_line(corner,corner+Vector2(0,7*direction),edge,1.4,true)
+
 func _box(rect:Rect2,color:Color,border:Color,radius:int)->void:
 	var key=color.to_html()+border.to_html()+str(radius)
 	if not _style_cache.has(key):

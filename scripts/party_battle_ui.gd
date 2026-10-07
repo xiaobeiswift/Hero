@@ -25,6 +25,12 @@ var manual_paused: bool = false
 var _boundary_wait: float = .35
 var _host_notice: String = ""
 var fitting_metadata: Dictionary = {}
+# Presentation-only facts, scoped to this panel. Never read an accepted
+# transaction's after snapshot or unplayed events to populate the readback.
+var _readback_action: Dictionary = {}
+var _readback_events: Array[Dictionary] = []
+var _readback_lines: Array[String] = []
+var _readback_latest_completed: Dictionary = {}
 
 class UnitPlate extends Button:
 	const FONT = preload("res://assets/fonts/NotoSansSC.otf")
@@ -195,6 +201,7 @@ func refresh() -> void:
 		"acting_unit_id": art.acting_unit_id if art.is_presenting() else "",
 		"phase_label": {"windup":"起招", "contact":"交锋", "return":"收招", "settle":"收束"}.get(art.presentation_phase, "已暂停" if live.get("paused",false) else "自动交锋"),
 		"selected_actor_id":pending_actor, "selected_action_id": pending_action, "target_prompt": prompt,
+		"combat_readback": _combat_readback(live),
 		"notice": "Q/E选队员 · 1武学/2内功/3轻功 · 4用药 · 5退避 · P暂停 · Tab换目标" if prompt.is_empty() else ""
 	})
 	_sync_plates()
@@ -344,6 +351,7 @@ func _accept(action_id: String, target: String = "") -> void:
 
 func _present(tx: Dictionary) -> void:
 	pending = tx; notice = ""; _phase_key = ""
+	_readback_action = {}; _readback_events.clear(); _readback_lines.clear()
 	if not art.present(tx):
 		notice = "演出未能开始，已接受的行动仍保留；请勿刷新或关闭网页。"; refresh(); return
 	refresh()
@@ -358,10 +366,13 @@ func _event(event: Dictionary) -> void:
 	var facts = art.display_snapshot
 	var source = String(_unit(facts, event.source_id).get("name", event.source_id))
 	var target = String(_unit(facts, event.target_id).get("name", event.target_id))
+	_record_readback(event, source, target)
 	var line = ""
 	match event.type:
 		"damage": line = "%s → %s：%d伤害" % [source, target, event.amount]
 		"heal": line = "%s为%s恢复%d气血" % [source, target, event.amount]
+		"qi": line = "%s真气%+d" % [target, int(event.amount)]
+		"medicine": line = "%s用药，药品%+d" % [source, int(event.amount)]
 		"barrier_grant": line = "%s为%s架起%d护势" % [source, target, event.amount]
 		"barrier_absorb": line = "%s护势吸收%d伤害" % [target, event.amount]
 		"barrier_expire": line = "%s护势收束" % target
@@ -379,10 +390,89 @@ func _event(event: Dictionary) -> void:
 		if logs.size() > 60: logs.pop_front()
 	refresh()
 
+func _combat_readback(live: Dictionary) -> Dictionary:
+	var actor_id: String = String(live.get("selected_actor_id", ""))
+	var target_id: String = String(live.get("selected_target_id", ""))
+	return {
+		"command_actor_id": actor_id, "command_actor_name": String(_unit(live, actor_id).get("name", "")),
+		"command_target_id": target_id, "command_target_name": String(_unit(live, target_id).get("name", "")),
+		"status": "presenting" if not pending.is_empty() else ("completed" if not _readback_latest_completed.is_empty() else "ready"),
+		"action": _readback_action.duplicate(true), "events": _readback_events.duplicate(true),
+		"result_lines": _readback_lines.duplicate(), "result_text": " · ".join(_readback_lines),
+		"summary": _readback_summary(),
+		"latest_completed": _readback_latest_completed.duplicate(true)
+	}
+
+func _record_readback(event: Dictionary, source: String, target: String) -> void:
+	if event.type == "action":
+		# In particular, enemy action.damage is an announced raw amount, not
+		# damage suffered. Only the later damage event may supply that number.
+		_readback_action = {
+			"source_id": String(event.source_id), "source_name": source,
+			"target_id": String(event.target_id), "target_name": target,
+			"action_id": String(event.get("action_id", "")), "name": String(event.get("name", "")),
+			"category": String(event.get("category", "")), "round": int(event.get("round", 0))
+		}
+		_readback_events.clear(); _readback_lines.clear()
+		return
+	var fact: Dictionary = event.duplicate(true)
+	fact.source_name = source; fact.target_name = target
+	_readback_events.append(fact)
+	var line: String = _readback_result_line(fact)
+	if not line.is_empty(): _readback_lines.append(line)
+
+func _readback_result_line(event: Dictionary) -> String:
+	var target: String = String(event.get("target_name", ""))
+	var line: String = ""
+	match String(event.type):
+		"damage": line = "%s气血−%d" % [target, int(event.amount)] if int(event.amount) > 0 else "%s气血未损（0）" % target
+		"heal": line = "%s气血+%d" % [target, int(event.amount)]
+		"qi": line = "%s真气%+d" % [target, int(event.amount)]
+		"medicine": line = "药品%+d" % int(event.amount)
+		"barrier_grant": line = "%s护势+%d" % [target, int(event.amount)]
+		"barrier_absorb": line = "护势吸收%d" % int(event.amount)
+		"lightness_grant": line = "%s卸力%d" % [target, int(event.amount)]
+		"lightness_absorb": line = "轻功卸去%d" % int(event.amount)
+		"guard": line = "%s守势已起" % target
+		"protect": line = "护伴已生效" if bool(event.get("effective", false)) else "护伴目标已倒下"
+		"focus": line = "%s蓄锋%d" % [target, int(event.amount)]
+		"weaken": line = "%s卸劲%d·%d击" % [target, int(event.amount), int(event.get("strikes", 0))]
+		"down": line = "%s倒下" % target
+		"queue_cancel": line = String(event.get("reason", "排定技能已取消，未扣真气"))
+		"outcome": line = String({"win":"交锋获胜", "defeat":"交锋失利", "flee":"已退避"}.get(event.get("outcome", ""), "交锋已结束"))
+	return line
+
+func _readback_summary() -> String:
+	# Compact display priority differs from the full chronological readback:
+	# contact HP facts (even zero) must not be hidden behind preparatory costs.
+	var groups: Array = [[], [], [], []]
+	for event: Dictionary in _readback_events:
+		var line: String = _readback_result_line(event)
+		if line.is_empty(): continue
+		var priority: int = 2
+		if event.type in ["damage", "heal"]: priority = 0
+		elif event.type in ["barrier_absorb", "lightness_absorb"]: priority = 1
+		elif event.type in ["qi", "medicine"]: priority = 3
+		groups[priority].append(line)
+	var lines: Array[String] = []
+	for group: Array in groups:
+		for line: String in group:
+			lines.append(line)
+			if lines.size() == 2: return " · ".join(lines)
+	return " · ".join(lines)
+
 func _finished() -> void:
 	if not valid() or pending.is_empty(): return
 	var result = host.state.finish_party_presentation(int(pending.epoch), int(pending.token))
 	if not result.get("accepted", false): notice = String(result.get("reason", "本次结算尚未完成。")); refresh(); return
+	# A bookkeeping-only round transition has no player-facing result to
+	# replace the last completed action. Passive cancellation still does.
+	if not _readback_action.is_empty() or not _readback_lines.is_empty():
+		_readback_latest_completed = {
+			"action": _readback_action.duplicate(true), "events": _readback_events.duplicate(true),
+			"result_lines": _readback_lines.duplicate(), "result_text": " · ".join(_readback_lines),
+			"summary": _readback_summary()
+		}
 	pending = {}; _boundary_wait = .16
 	if result.get("settled", false): _return_to_world(result.settlement); return
 	art.set_snapshot(host.state.party_battle_snapshot())
