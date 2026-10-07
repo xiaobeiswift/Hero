@@ -22,6 +22,7 @@ const CapstoneStory=preload("res://scripts/volume_one_capstone_story.gd")
 const CapstoneNavigation=preload("res://scripts/volume_one_capstone_navigation.gd")
 const ReceiptUI=preload("res://scripts/heting_receipt_ui.gd")
 const PartyUI=preload("res://scripts/party_battle_ui.gd")
+const EncounterRehearsal=preload("res://scripts/encounter_rehearsal_ui.gd")
 const PartyRosterUI=preload("res://scripts/party_roster_ui.gd")
 const MistwoodStory=preload("res://scripts/mistwood_story.gd")
 const AdvancedMartialUI=preload("res://scripts/advanced_martial_ui.gd")
@@ -126,6 +127,8 @@ var quit_pending = false
 var _fitting_position_hold: Dictionary = {}
 # Journal/map browsing owns an independent, nonserialized position hold.
 var _journal_position_hold: Dictionary = {}
+# The earned-rehearsal loop never reconciles a real stored position by browsing.
+var _rehearsal_position_hold: Dictionary = {}
 var journal_session = JournalSession.new()
 var journal_view = JournalView.new()
 var journal_guidance_snapshot: Dictionary = {}
@@ -314,7 +317,8 @@ func _process(delta: float) -> void:
 	_sync_journal_guidance()
 	var fitting_sync: bool = _fitting_position_sync_allowed()
 	var journal_sync: bool = _journal_position_sync_allowed()
-	if fitting_sync and journal_sync:state.position = world.player_pos
+	var rehearsal_sync: bool = _rehearsal_position_sync_allowed()
+	if fitting_sync and journal_sync and rehearsal_sync:state.position = world.player_pos
 	var near_action: String = world.interaction_verb(world.nearby_id) if world.map_id=="heting" or state.capstone_stage>0 else ""
 	var near_key: String = world.nearby_id+"|"+world.nearby_name+"|"+near_action
 	if near_key != last_near:
@@ -352,6 +356,30 @@ func _fitting_position_sync_allowed() -> bool:
 		_fitting_position_hold.clear();return true
 	return false
 
+func _begin_rehearsal_position_hold() -> void:
+	if not _rehearsal_position_hold.is_empty():
+		var hold: Dictionary = _rehearsal_position_hold
+		if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:
+			_rehearsal_position_hold.clear()
+	if _rehearsal_position_hold.is_empty():
+		_rehearsal_position_hold = {"state":state,"world":world,"state_map":state.map_id,"world_map":world.map_id,"stored":state.position,"anchor":world.player_pos}
+
+func _rehearsal_position_sync_allowed() -> bool:
+	if _rehearsal_position_hold.is_empty():return true
+	var hold: Dictionary = _rehearsal_position_hold
+	if hold.state != state or hold.world != world or hold.state_map != state.map_id or hold.world_map != world.map_id or hold.stored != state.position:
+		_rehearsal_position_hold.clear();return true
+	var rehearsal_context: bool = overlay.has_meta("encounter_rehearsal") or overlay.get_meta("rehearsal_origin",false)
+	if overlay.has_meta("party_battle"):
+		var controller = overlay.get_meta("party_battle")
+		rehearsal_context = rehearsal_context or (is_instance_valid(controller) and not controller.rehearsal_metadata.is_empty())
+	if rehearsal_context:
+		hold.anchor = world.player_pos
+		return false
+	if world.player_pos != hold.anchor:
+		_rehearsal_position_hold.clear();return true
+	return false
+
 func _begin_journal_position_hold() -> void:
 	if not _journal_position_hold.is_empty():
 		var hold: Dictionary = _journal_position_hold
@@ -382,7 +410,7 @@ func _reset_journal_session() -> void:
 func _can_open_journal() -> bool:
 	if current_screen != "explore" or quit_pending or not is_instance_valid(state) or not is_instance_valid(world):return false
 	if state.battle_active or state._party_gate() or state._party_pending_token >= 0:return false
-	for owner: String in ["weapon_fitting","party_roster","party_roster_direct_info","receipt_battle","party_battle","courtyard_practice","save_transfer","fitting_workshop_readonly","fitting_exit_readonly"]:
+	for owner: String in ["encounter_rehearsal","weapon_fitting","party_roster","party_roster_direct_info","receipt_battle","party_battle","courtyard_practice","save_transfer","fitting_workshop_readonly","fitting_exit_readonly"]:
 		if overlay.has_meta(owner):return false
 	return true
 
@@ -432,6 +460,7 @@ func journal_guidance_caption(value: Dictionary) -> String:
 func _sync_position_for_explicit_save() -> void:
 	_fitting_position_hold.clear()
 	_journal_position_hold.clear()
+	_rehearsal_position_hold.clear()
 	state.position=world.player_pos
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -441,6 +470,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_capture_screenshot()
 		return
 	if current_screen in ["receipt_battle","party_battle"]:return # The real group controller owns its keys and exit.
+	if overlay.has_meta("encounter_rehearsal"):return # Native folio focus owns this read-only loop.
 	if overlay.has_meta("weapon_fitting"):return # Fitting controller and native focus own all page input.
 	if overlay.has_meta("journal_ui"):return # Dedicated folio/native focus owns all journal keys.
 	if overlay.has_meta("party_roster"):
@@ -561,6 +591,10 @@ func _toast(text: String, is_save_notice: bool = false, duration: float = 7.0) -
 
 func _clear_overlay() -> void:
 	if current_screen=="party_battle":return
+	if overlay.has_meta("encounter_rehearsal"):
+		var old_rehearsal = overlay.get_meta("encounter_rehearsal")
+		if is_instance_valid(old_rehearsal):old_rehearsal.invalidate_callbacks()
+		overlay.remove_meta("encounter_rehearsal")
 	if overlay.has_meta("journal_ui"):
 		var old_journal = overlay.get_meta("journal_ui")
 		if is_instance_valid(old_journal) and old_journal.has_method("invalidate_callbacks"):old_journal.invalidate_callbacks()
@@ -574,6 +608,7 @@ func _clear_overlay() -> void:
 	if overlay.has_meta("party_roster_direct_info"):overlay.remove_meta("party_roster_direct_info")
 	if overlay.has_meta("receipt_battle"):overlay.remove_meta("receipt_battle")
 	if overlay.has_meta("courtyard_practice"):overlay.remove_meta("courtyard_practice")
+	if overlay.has_meta("rehearsal_origin"):overlay.remove_meta("rehearsal_origin")
 	if overlay.has_meta("inventory"):overlay.remove_meta("inventory")
 	if overlay.has_meta("weapon_fitting"):overlay.remove_meta("weapon_fitting")
 	if overlay.has_meta("fitting_exit_readonly"):overlay.remove_meta("fitting_exit_readonly")
@@ -588,9 +623,10 @@ func _close_modal() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
 	if current_screen=="title":
 		_show_title();return
-	if overlay.has_meta("journal_ui") or overlay.get_meta("journal_map",false):modal_autosave_on_close=false
+	if overlay.has_meta("journal_ui") or overlay.get_meta("journal_map",false) or overlay.has_meta("encounter_rehearsal"):modal_autosave_on_close=false
 	if not _fitting_position_hold.is_empty():_fitting_position_hold.anchor=world.player_pos
 	if not _journal_position_hold.is_empty():_journal_position_hold.anchor=world.player_pos
+	if not _rehearsal_position_hold.is_empty():_rehearsal_position_hold.anchor=world.player_pos
 	var save_on_close=modal_autosave_on_close
 	modal_autosave_on_close=true
 	modal_generation+=1
@@ -704,6 +740,7 @@ func _show_pause()->void:
 
 func _show_title() -> void:
 	if current_screen in ["receipt_battle","party_battle"]:return
+	_rehearsal_position_hold.clear()
 	_fitting_position_hold.clear()
 	_journal_position_hold.clear()
 	journal_session.invalidate_callbacks()
@@ -723,6 +760,7 @@ func _request_new_game() -> void:
 
 func _new_game() -> void:
 	if current_screen=="party_battle":return
+	_rehearsal_position_hold.clear()
 	_fitting_position_hold.clear()
 	state.reset_game()
 	_reset_journal_session()
@@ -821,8 +859,14 @@ func _start_party_battle(kind:String)->bool:
 	return _start_unified_battle(kind)
 
 func _practice_dialogue() -> void:
-	_modal("南庭演练", "全队试招 / 虚拟资源", "演练使用与你相同的出战队伍与自动交锋规则。每位存活队员每轮自动普攻一次；可安排主动武学、内功、轻功。\n\n演练气血与真气充盈，另备三份虚拟疗伤药，每份恢复40气血。胜负、退开与重试都不改变真实资源、熟练度或剧情，也不发奖励。", [["开始演练", _unified_entry.bind("courtyard_practice", modal_generation+1)], ["先行离开", _close_modal], ["借用配件试招", _open_fitting.bind("courtyard", modal_generation+1)]], true)
+	if EncounterRehearsal.courtyard_ready(self):_begin_rehearsal_position_hold()
+	_modal("南庭演练", "全队试招 / 虚拟资源", "演练使用与你相同的出战队伍与自动交锋规则。每位存活队员每轮自动普攻一次；可安排主动武学、内功、轻功。\n\n演练气血与真气充盈，另备三份虚拟疗伤药，每份恢复40气血。胜负、退开与重试都不改变真实资源、熟练度或剧情，也不发奖励。", [["开始演练", _unified_entry.bind("courtyard_practice", modal_generation+1)], ["先行离开", _close_modal], ["借用配件试招", _open_fitting.bind("courtyard", modal_generation+1)], ["旧战复演", _open_encounter_rehearsal.bind(modal_generation+1)]], true)
 	modal_autosave_on_close = false
+	overlay.set_meta("rehearsal_origin",true)
+
+func _open_encounter_rehearsal(generation:int=-1)->void:
+	if generation>=0 and (not active_modal or modal_generation!=generation):return
+	EncounterRehearsal.open(self)
 
 func _open_fitting(origin:String="workshop",generation:int=-1)->void:
 	if generation>=0 and (not active_modal or modal_generation!=generation):return
@@ -1185,7 +1229,7 @@ func _notification(what:int) -> void:
 			return
 		# A desktop close must keep the same write-failure protection as the
 		# in-game exit. Do not mark quit_pending until a save or discard succeeds.
-		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode,not _fitting_position_hold.is_empty())
+		if current_screen=="explore":PauseMenu.save_and_leave(self,browser_mode,not _fitting_position_hold.is_empty() or not _rehearsal_position_hold.is_empty())
 		else:_quit_cleanly(false)
 
 func _start_receipt_battle()->bool:
