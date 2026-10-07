@@ -666,10 +666,39 @@ func _draw_effects() -> void:
 				var tip: Vector2 = origin.lerp(target,_ease(.16,CONTACT_AT,t))
 				var direction: Vector2 = (target-origin).normalized()
 				for offset: float in [-3,0,3]: draw_line(tip-direction*28+Vector2(0,offset),tip+Vector2(0,offset),Color("d8e9bd"),1.7,true)
+			# Only a damage fact already shown may paint an HP-loss contact.
+			# Absorbed zero damage keeps its existing barrier/lightness treatment.
+			var dealt_damage: bool = false
+			for fact: Dictionary in _floats:
+				var event: Dictionary = fact.event
+				if float(fact.at) >= float(segment.start) and event.type == "damage" and event.source_id == segment.source_id and event.target_id == segment.target_id and int(event.amount) > 0:
+					dealt_damage = true; break
 			var impact: float = _pulse(CONTACT_AT-.03,CONTACT_AT+.02,.58,t)
-			if impact > 0:
-				draw_arc(target,21+12*(1-impact),-.8,2.3,20,Color(.98,.83,.57,impact),2,true)
-				for offset: float in [-1,0,1]: draw_line(target+Vector2(-22,20+offset*6),target+Vector2(24,-16+offset*6),Color(.95,.88,.66,impact*.65),2,true)
+			if dealt_damage and t >= CONTACT_AT and impact > 0:
+				# At contact the live blade tip equals the target. Keep the preceding
+				# approach from the original strike anchor at home, without clock edits.
+				var source_id: String = String(segment.source_id)
+				var origin: Vector2 = actor_home(source_id) + _weapon_offset(source_id)
+				if is_practice_rig(source_id): origin = rig_weapon_anchor(source_id)
+				elif source_id == "shen": origin = blade_tip(source_id)
+				var direction: Vector2 = (target-origin).normalized()
+				if direction.length_squared() < .001: direction = Vector2.RIGHT if _is_ally(source_id) else Vector2.LEFT
+				var side: Vector2 = Vector2(-direction.y,direction.x)
+				var ink: PackedVector2Array = PackedVector2Array()
+				for point: Vector2 in [Vector2(-57,1),Vector2(-31,-4),Vector2(-8,-7),Vector2(16,0),Vector2(-13,6),Vector2(-37,4)]:
+					ink.append(target + direction*point.x + side*point.y)
+				draw_colored_polygon(ink,Color(.055,.085,.085,impact*.72))
+				var ivory: PackedVector2Array = PackedVector2Array()
+				for point: Vector2 in [Vector2(-48,0),Vector2(-22,-2.5),Vector2(-6,-3.6),Vector2(12,0),Vector2(-11,2.5),Vector2(-31,2)]:
+					ivory.append(target + direction*point.x + side*point.y)
+				draw_colored_polygon(ivory,Color(.98,.95,.83,impact*.94))
+				if String(segment.category) == "martial":
+					var rim: PackedVector2Array = PackedVector2Array([target-direction*38-side*3,target-direction*8-side*7,target+direction*15])
+					draw_polyline(rim,Color(.83,.74,.51,impact*.48),1.2,true)
+				var drift: float = 5.0*(1.0-impact)
+				for flank: float in [-1,1]:
+					var fleck: Vector2 = target + direction*(18+drift) + side*flank*(7+drift)
+					draw_line(fleck,fleck+direction*7+side*flank*5,Color(.98,.95,.83,impact*.78),1.6,true)
 		if _has_event(segment,"barrier_grant") or _has_event(segment,"barrier_absorb"):
 			for event: Dictionary in segment.events:
 				if event.type not in ["barrier_grant","barrier_absorb"]: continue
