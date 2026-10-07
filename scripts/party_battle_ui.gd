@@ -25,6 +25,8 @@ var manual_paused: bool = false
 var _boundary_wait: float = .35
 var _host_notice: String = ""
 var fitting_metadata: Dictionary = {}
+var rehearsal_metadata: Dictionary = {}
+var _returned: bool = false
 # Presentation-only facts, scoped to this panel. Never read an accepted
 # transaction's after snapshot or unplayed events to populate the readback.
 var _readback_action: Dictionary = {}
@@ -85,6 +87,13 @@ static func open_fitting(owner, controller, candidate: String, profile: String) 
 	if not owner.state.start_fitting_practice(candidate, profile): return null
 	return _attach_started(owner, "courtyard_practice")
 
+static func open_rehearsal(owner, controller, id: String) -> Control:
+	if not is_instance_valid(controller) or controller.get_script() == null or controller.get_script().resource_path != "res://scripts/encounter_rehearsal_ui.gd": return null
+	if controller.host != owner or not controller.entry_ready(id) or not owner.EncounterRehearsal.courtyard_ready(owner): return null
+	if not owner.state.start_encounter_rehearsal(id): return null
+	controller.starting = true
+	return _attach_started(owner, id)
+
 static func _attach_started(owner, kind: String) -> Control:
 	owner.modal_generation += 1
 	owner._clear_overlay()
@@ -97,6 +106,7 @@ static func _attach_started(owner, kind: String) -> Control:
 	panel.host = owner; panel.generation = owner.modal_generation
 	panel.epoch = owner.state.party_battle_epoch; panel.session = owner.state.party_session; panel.encounter = kind
 	panel.fitting_metadata = panel.session.fitting_trial_metadata()
+	panel.rehearsal_metadata = panel.session.rehearsal_metadata()
 	owner.overlay.set_meta("party_battle", panel)
 	owner.overlay.add_child(panel)
 	panel.build()
@@ -104,7 +114,7 @@ static func _attach_started(owner, kind: String) -> Control:
 	return panel
 
 func valid() -> bool:
-	return is_instance_valid(host) and is_inside_tree() and not host.quit_pending and host.active_modal \
+	return not _returned and is_instance_valid(host) and is_inside_tree() and not host.quit_pending and host.active_modal \
 		and host.current_screen == "party_battle" and host.modal_generation == generation \
 		and host.state.party_battle_epoch == epoch and host.state.party_session == session \
 		and host.overlay.get_meta("party_battle", null) == self
@@ -139,6 +149,13 @@ func build() -> void:
 		badge.autowrap_mode = TextServer.AUTOWRAP_OFF; badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		# _label initially inherits16px font before applying12px; reset its
 		# size after theme minimum recomputation, rather than retain24px height.
+		badge.size = Vector2(1216,20)
+	if not rehearsal_metadata.is_empty():
+		var backing = host._panel(self,Rect2(20,0,1240,20),Color("132d2d"),Color("8d855e"))
+		backing.name = "RehearsalBattleBadgeBacking"; backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var badge = host._label(self,"旧战复演 · %s  |  当前队伍与功夫 · 演练满气血 / 满真气 · 3份40点药  |  真实旅程不变 · 无奖励" % rehearsal_metadata.name,Rect2(32,0,1216,20),12,host.GOLD)
+		badge.name = "RehearsalBattleBadge"; badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		badge.autowrap_mode = TextServer.AUTOWRAP_OFF; badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER; badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		badge.size = Vector2(1216,20)
 	refresh()
 
@@ -191,11 +208,11 @@ func refresh() -> void:
 		var actor = _unit(snapshot, pending_actor)
 		var action = _action(actor, pending_action)
 		prompt = "%s · %s：选择队友（点击人物，或Tab换人后Enter确认；Esc取消）" % [actor.get("name", ""), action.get("name", "")]
-	if close_pending: prompt = "本次出招收束后退开并保存；保存失败仍会留在游戏。"
+	if close_pending: prompt = "本次出招收束后退开，只保存真实旅程；保存失败仍会留在游戏。" if not rehearsal_metadata.is_empty() else "本次出招收束后退开并保存；保存失败仍会留在游戏。"
 	if host.save_warning: prompt = host._save_retry_message()
 	elif host.browser_mode and not host.browser_storage_available: prompt = (prompt+"\n" if not prompt.is_empty() else "")+host._browser_storage_message()
 	commands.set_snapshot(snapshot, {
-		"title": ("普通木人试配" if fitting_metadata.profile_id == "ordinary" else "高压木人试配") if not fitting_metadata.is_empty() else ENCOUNTER_TITLES.get(encounter, "交锋"),
+		"title": ("普通木人试配" if fitting_metadata.profile_id == "ordinary" else "高压木人试配") if not fitting_metadata.is_empty() else (("复演 · " + ENCOUNTER_TITLES.get(encounter, "交锋")) if not rehearsal_metadata.is_empty() else ENCOUNTER_TITLES.get(encounter, "交锋")),
 		"input_block_reason": "正在收招退避并保存。" if close_pending else "",
 		"location": String(ENCOUNTER_LOCATIONS.get(encounter, ""))+" · "+(String(snapshot.get("formation", "")) if snapshot.actors.size()>1 else "独行"),
 		"acting_unit_id": art.acting_unit_id if art.is_presenting() else "",
@@ -495,6 +512,16 @@ func request_application_close() -> void:
 func _return_to_world(result: Dictionary) -> void:
 	if not valid() or not pending.is_empty() or host.state.battle_active: return
 	var owner = host; var close_after = close_pending; var kind = encounter
+	if not rehearsal_metadata.is_empty():
+		# Resource isolation is already enforced by HeroState/model. This branch
+		# only routes virtual completion before every real story/save/world effect.
+		if not result.get("rehearsal", false) or result.get("resource_policy", "") != "encounter_rehearsal": return
+		_returned = true
+		owner.current_screen = "explore"; owner.modal_autosave_on_close = false
+		owner._close_modal()
+		if close_after: Pause.save_and_leave(owner, owner.browser_mode, true)
+		else: owner.EncounterRehearsal.open(owner, kind, "results")
+		return
 	if not fitting_metadata.is_empty():
 		# Borrowed practice never synchronizes a stale real position or teleports
 		# on virtual defeat. Only explicit save-and-exit may save real location.
