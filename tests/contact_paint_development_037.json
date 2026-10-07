@@ -1,0 +1,45 @@
+{
+  "version": "0.0.37",
+  "status": "local_development_checkpoint_after_baseline_pending_compile_native_and_full_gates",
+  "scope": "One production damage-contact draw block plus current release metadata; no new assets, state, timings, model, target, resource, save or queue changes",
+  "baseline": {
+    "source_commit": "028543b00693fb21ffe004151bc3102809281491",
+    "source_tree": "b247d32c6d16307255237d14059e769bb9cf9864",
+    "native_checks": 1215,
+    "native_frames": 16,
+    "launcher_receipt_sha256": "eb4b867c652871f8a0632f9502387e26e6e50b63770c40635bb8944f18377968",
+    "scope": "Prepared native fixtures and fixed steps; actual BEFORE images, no browser claim"
+  },
+  "paint": {
+    "source_file": "scripts/party_battle_art.gd",
+    "before_sha256": "3a8ef7f74466e8ec0ce82ed1da79309efee22bf176546ccee8e820057decacb9",
+    "candidate_sha256": "69e6421ef2efe8dc7f85b44d995315a4771d8c795ed56f5cab5f30d949b592f4",
+    "only_function": "_draw_effects damage-contact block",
+    "fact_gate": "Already emitted positive damage float matching current segment, source and target; t >= CONTACT_AT",
+    "preserved": [
+      "Shen and practice-rig projectiles",
+      "heal/barrier/lightness branches",
+      "motion/pose/measured anchors",
+      "event application/order and token acknowledgement",
+      "state/resources/saves"
+    ],
+    "style": "Directional tapered ink and ivory, two small flecks, subtle martial-only rim; no damage-amount scaling or critical-hit claim"
+  },
+  "version_metadata_replacements": {
+    "project.godot": 1,
+    "export_presets.cfg": 2,
+    "tools/smoke_export.gd": 3,
+    "tests/test_web_pack_audit.py": 2,
+    "tests/title_entry_behavior_test.gd": 2,
+    "tests/journal_guidance_old30_pack_probe.gd": 1
+  },
+  "pending": [
+    "Godot parse and existing focused tests",
+    "Actual matched AFTER native pixels and independent visual review",
+    "Explicit pre-contact and absorbed-zero paint absence",
+    "Complete regression and fresh exact package/Windows gates"
+  ],
+  "live_version": "0.0.36-web1",
+  "live_runtime_public_commit": "47afef57af7ed6a28304520b6479e1133cda0a54",
+  "record_prepared_utc": "2026-10-07T08:42:45.350559+00:00"
+}
